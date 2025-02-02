@@ -1,0 +1,1 @@
+/Applications/Xcode 16.2.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib/libPreviewsJITStubExecutor.a
