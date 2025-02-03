@@ -6,6 +6,20 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		22291CB72D5011DC00F2FEBE /* VGSL in Frameworks */ = {isa = PBXBuildFile; productRef = 22291CB62D5011DC00F2FEBE /* VGSL */; };
+		22291CB92D5011DC00F2FEBE /* VGSLFundamentals in Frameworks */ = {isa = PBXBuildFile; productRef = 22291CB82D5011DC00F2FEBE /* VGSLFundamentals */; };
+		22291CBB2D5011DC00F2FEBE /* VGSLNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = 22291CBA2D5011DC00F2FEBE /* VGSLNetworking */; };
+		22291CBD2D5011DC00F2FEBE /* VGSLUI in Frameworks */ = {isa = PBXBuildFile; productRef = 22291CBC2D5011DC00F2FEBE /* VGSLUI */; };
+		22291CBF2D50120100F2FEBE /* BasePublic in Frameworks */ = {isa = PBXBuildFile; productRef = 22291CBE2D50120100F2FEBE /* BasePublic */; };
+		22291CC12D50120100F2FEBE /* BaseTinyPublic in Frameworks */ = {isa = PBXBuildFile; productRef = 22291CC02D50120100F2FEBE /* BaseTinyPublic */; };
+		22291CC32D50120100F2FEBE /* BaseUIPublic in Frameworks */ = {isa = PBXBuildFile; productRef = 22291CC22D50120100F2FEBE /* BaseUIPublic */; };
+		22291CC52D50120100F2FEBE /* CommonCorePublic in Frameworks */ = {isa = PBXBuildFile; productRef = 22291CC42D50120100F2FEBE /* CommonCorePublic */; };
+		22291CC72D50120100F2FEBE /* NetworkingPublic in Frameworks */ = {isa = PBXBuildFile; productRef = 22291CC62D50120100F2FEBE /* NetworkingPublic */; };
+		22291CC92D50120100F2FEBE /* VGSL_Fundamentals in Frameworks */ = {isa = PBXBuildFile; productRef = 22291CC82D50120100F2FEBE /* VGSL_Fundamentals */; };
+		22291CCB2D50120100F2FEBE /* VGSL_Fundamentals_Tiny in Frameworks */ = {isa = PBXBuildFile; productRef = 22291CCA2D50120100F2FEBE /* VGSL_Fundamentals_Tiny */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		22291C992D50106800F2FEBE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +66,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22291CBD2D5011DC00F2FEBE /* VGSLUI in Frameworks */,
+				22291CCB2D50120100F2FEBE /* VGSL_Fundamentals_Tiny in Frameworks */,
+				22291CC52D50120100F2FEBE /* CommonCorePublic in Frameworks */,
+				22291CB92D5011DC00F2FEBE /* VGSLFundamentals in Frameworks */,
+				22291CC32D50120100F2FEBE /* BaseUIPublic in Frameworks */,
+				22291CBF2D50120100F2FEBE /* BasePublic in Frameworks */,
+				22291CBB2D5011DC00F2FEBE /* VGSLNetworking in Frameworks */,
+				22291CC92D50120100F2FEBE /* VGSL_Fundamentals in Frameworks */,
+				22291CC12D50120100F2FEBE /* BaseTinyPublic in Frameworks */,
+				22291CB72D5011DC00F2FEBE /* VGSL in Frameworks */,
+				22291CC72D50120100F2FEBE /* NetworkingPublic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +137,17 @@
 			);
 			name = Rewind;
 			packageProductDependencies = (
+				22291CB62D5011DC00F2FEBE /* VGSL */,
+				22291CB82D5011DC00F2FEBE /* VGSLFundamentals */,
+				22291CBA2D5011DC00F2FEBE /* VGSLNetworking */,
+				22291CBC2D5011DC00F2FEBE /* VGSLUI */,
+				22291CBE2D50120100F2FEBE /* BasePublic */,
+				22291CC02D50120100F2FEBE /* BaseTinyPublic */,
+				22291CC22D50120100F2FEBE /* BaseUIPublic */,
+				22291CC42D50120100F2FEBE /* CommonCorePublic */,
+				22291CC62D50120100F2FEBE /* NetworkingPublic */,
+				22291CC82D50120100F2FEBE /* VGSL_Fundamentals */,
+				22291CCA2D50120100F2FEBE /* VGSL_Fundamentals_Tiny */,
 			);
 			productName = Rewind;
 			productReference = 22291C882D50106600F2FEBE /* Rewind.app */;
@@ -195,6 +231,9 @@
 			);
 			mainGroup = 22291C7F2D50106600F2FEBE;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				22291CB52D5011DC00F2FEBE /* XCRemoteSwiftPackageReference "vgsl" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 22291C892D50106600F2FEBE /* Products */;
 			projectDirPath = "";
@@ -558,6 +597,75 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		22291CB52D5011DC00F2FEBE /* XCRemoteSwiftPackageReference "vgsl" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/yandex/vgsl.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.18.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		22291CB62D5011DC00F2FEBE /* VGSL */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 22291CB52D5011DC00F2FEBE /* XCRemoteSwiftPackageReference "vgsl" */;
+			productName = VGSL;
+		};
+		22291CB82D5011DC00F2FEBE /* VGSLFundamentals */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 22291CB52D5011DC00F2FEBE /* XCRemoteSwiftPackageReference "vgsl" */;
+			productName = VGSLFundamentals;
+		};
+		22291CBA2D5011DC00F2FEBE /* VGSLNetworking */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 22291CB52D5011DC00F2FEBE /* XCRemoteSwiftPackageReference "vgsl" */;
+			productName = VGSLNetworking;
+		};
+		22291CBC2D5011DC00F2FEBE /* VGSLUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 22291CB52D5011DC00F2FEBE /* XCRemoteSwiftPackageReference "vgsl" */;
+			productName = VGSLUI;
+		};
+		22291CBE2D50120100F2FEBE /* BasePublic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 22291CB52D5011DC00F2FEBE /* XCRemoteSwiftPackageReference "vgsl" */;
+			productName = BasePublic;
+		};
+		22291CC02D50120100F2FEBE /* BaseTinyPublic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 22291CB52D5011DC00F2FEBE /* XCRemoteSwiftPackageReference "vgsl" */;
+			productName = BaseTinyPublic;
+		};
+		22291CC22D50120100F2FEBE /* BaseUIPublic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 22291CB52D5011DC00F2FEBE /* XCRemoteSwiftPackageReference "vgsl" */;
+			productName = BaseUIPublic;
+		};
+		22291CC42D50120100F2FEBE /* CommonCorePublic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 22291CB52D5011DC00F2FEBE /* XCRemoteSwiftPackageReference "vgsl" */;
+			productName = CommonCorePublic;
+		};
+		22291CC62D50120100F2FEBE /* NetworkingPublic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 22291CB52D5011DC00F2FEBE /* XCRemoteSwiftPackageReference "vgsl" */;
+			productName = NetworkingPublic;
+		};
+		22291CC82D50120100F2FEBE /* VGSL_Fundamentals */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 22291CB52D5011DC00F2FEBE /* XCRemoteSwiftPackageReference "vgsl" */;
+			productName = VGSL_Fundamentals;
+		};
+		22291CCA2D50120100F2FEBE /* VGSL_Fundamentals_Tiny */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 22291CB52D5011DC00F2FEBE /* XCRemoteSwiftPackageReference "vgsl" */;
+			productName = VGSL_Fundamentals_Tiny;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 22291C802D50106600F2FEBE /* Project object */;
 }

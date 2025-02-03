@@ -1,0 +1,4 @@
+module VGSLUI {
+header "VGSLUI-Swift.h"
+export *
+}

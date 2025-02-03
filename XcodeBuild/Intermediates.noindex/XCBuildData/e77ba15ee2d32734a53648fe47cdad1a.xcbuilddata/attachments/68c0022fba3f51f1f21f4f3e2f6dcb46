@@ -1,0 +1,4 @@
+module CommonCorePublic {
+header "CommonCorePublic-Swift.h"
+export *
+}

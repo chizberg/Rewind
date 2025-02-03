@@ -1,0 +1,4 @@
+module VGSL_Fundamentals {
+header "VGSL_Fundamentals-Swift.h"
+export *
+}

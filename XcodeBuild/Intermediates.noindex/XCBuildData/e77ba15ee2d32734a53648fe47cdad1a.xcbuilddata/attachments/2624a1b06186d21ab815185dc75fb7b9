@@ -1,0 +1,18 @@
+{
+  "" : {
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSL_Fundamentals_Tiny.build/Objects-normal/arm64/VGSL_Fundamentals_Tiny-master.dia",
+    "emit-module-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSL_Fundamentals_Tiny.build/Objects-normal/arm64/VGSL_Fundamentals_Tiny-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSL_Fundamentals_Tiny.build/Objects-normal/arm64/VGSL_Fundamentals_Tiny-master-emit-module.dia",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSL_Fundamentals_Tiny.build/Objects-normal/arm64/VGSL_Fundamentals_Tiny-master.swiftdeps"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/CompatibilityShims/VGSL_Fundamentals_Tiny/Exports.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSL_Fundamentals_Tiny.build/Objects-normal/arm64/Exports.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSL_Fundamentals_Tiny.build/Objects-normal/arm64/Exports.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSL_Fundamentals_Tiny.build/Objects-normal/arm64/Exports.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSL_Fundamentals_Tiny.build/Objects-normal/arm64/Exports.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSL_Fundamentals_Tiny.build/Objects-normal/arm64/Exports.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSL_Fundamentals_Tiny.build/Objects-normal/arm64/Exports.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSL_Fundamentals_Tiny.build/Objects-normal/arm64/Exports.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSL_Fundamentals_Tiny.build/Objects-normal/arm64/Exports~partial.swiftmodule"
+  }
+}

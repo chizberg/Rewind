@@ -1,0 +1,1038 @@
+{
+  "" : {
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/VGSLFundamentals-master.dia",
+    "emit-module-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/VGSLFundamentals-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/VGSLFundamentals-master-emit-module.dia",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/VGSLFundamentals-master.swiftdeps"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/Action.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Action.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Action.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Action.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Action.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Action.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Action.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Action.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Action~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/Archivable.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Archivable.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Archivable.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Archivable.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Archivable.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Archivable.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Archivable.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Archivable.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Archivable~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/ArrayBuilder.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ArrayBuilder.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ArrayBuilder.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ArrayBuilder.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ArrayBuilder.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ArrayBuilder.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ArrayBuilder.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ArrayBuilder.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ArrayBuilder~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/ArrayExtensions.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ArrayExtensions.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ArrayExtensions.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ArrayExtensions.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ArrayExtensions.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ArrayExtensions.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ArrayExtensions.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ArrayExtensions.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ArrayExtensions~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/CFCasting.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CFCasting.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CFCasting.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CFCasting.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CFCasting.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CFCasting.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CFCasting.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CFCasting.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CFCasting~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/Clamp.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Clamp.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Clamp.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Clamp.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Clamp.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Clamp.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Clamp.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Clamp.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Clamp~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/CollectionExtensions.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CollectionExtensions.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CollectionExtensions.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CollectionExtensions.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CollectionExtensions.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CollectionExtensions.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CollectionExtensions.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CollectionExtensions.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CollectionExtensions~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/Combine.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Combine.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Combine.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Combine.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Combine.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Combine.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Combine.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Combine.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Combine~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/Completions/CompletionAccumulating.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CompletionAccumulating.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CompletionAccumulating.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CompletionAccumulating.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CompletionAccumulating.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CompletionAccumulating.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CompletionAccumulating.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CompletionAccumulating.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CompletionAccumulating~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/Completions/CompletionAccumulator.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CompletionAccumulator.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CompletionAccumulator.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CompletionAccumulator.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CompletionAccumulator.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CompletionAccumulator.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CompletionAccumulator.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CompletionAccumulator.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CompletionAccumulator~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/DictionaryExtensions.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/DictionaryExtensions.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/DictionaryExtensions.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/DictionaryExtensions.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/DictionaryExtensions.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/DictionaryExtensions.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/DictionaryExtensions.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/DictionaryExtensions.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/DictionaryExtensions~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/EqualByReference.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/EqualByReference.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/EqualByReference.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/EqualByReference.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/EqualByReference.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/EqualByReference.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/EqualByReference.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/EqualByReference.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/EqualByReference~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/FloatingPointComparison.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/FloatingPointComparison.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/FloatingPointComparison.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/FloatingPointComparison.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/FloatingPointComparison.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/FloatingPointComparison.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/FloatingPointComparison.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/FloatingPointComparison.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/FloatingPointComparison~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/Functions.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Functions.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Functions.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Functions.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Functions.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Functions.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Functions.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Functions.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Functions~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/IndexSetExtensions.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/IndexSetExtensions.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/IndexSetExtensions.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/IndexSetExtensions.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/IndexSetExtensions.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/IndexSetExtensions.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/IndexSetExtensions.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/IndexSetExtensions.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/IndexSetExtensions~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/InvalidArgumentError.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/InvalidArgumentError.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/InvalidArgumentError.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/InvalidArgumentError.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/InvalidArgumentError.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/InvalidArgumentError.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/InvalidArgumentError.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/InvalidArgumentError.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/InvalidArgumentError~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/JSONObject.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/JSONObject.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/JSONObject.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/JSONObject.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/JSONObject.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/JSONObject.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/JSONObject.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/JSONObject.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/JSONObject~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/LoginWithSourcePerformer.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LoginWithSourcePerformer.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LoginWithSourcePerformer.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LoginWithSourcePerformer.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LoginWithSourcePerformer.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LoginWithSourcePerformer.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LoginWithSourcePerformer.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LoginWithSourcePerformer.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LoginWithSourcePerformer~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/Memoization.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Memoization.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Memoization.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Memoization.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Memoization.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Memoization.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Memoization.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Memoization.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Memoization~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/Modifier.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Modifier.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Modifier.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Modifier.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Modifier.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Modifier.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Modifier.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Modifier.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Modifier~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/NSKeyedArchiver+Legacy.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NSKeyedArchiver+Legacy.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NSKeyedArchiver+Legacy.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NSKeyedArchiver+Legacy.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NSKeyedArchiver+Legacy.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NSKeyedArchiver+Legacy.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NSKeyedArchiver+Legacy.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NSKeyedArchiver+Legacy.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NSKeyedArchiver+Legacy~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/NSKeyedUnarchiver+Legacy.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NSKeyedUnarchiver+Legacy.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NSKeyedUnarchiver+Legacy.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NSKeyedUnarchiver+Legacy.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NSKeyedUnarchiver+Legacy.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NSKeyedUnarchiver+Legacy.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NSKeyedUnarchiver+Legacy.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NSKeyedUnarchiver+Legacy.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NSKeyedUnarchiver+Legacy~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/NSTimerExtensions.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NSTimerExtensions.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NSTimerExtensions.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NSTimerExtensions.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NSTimerExtensions.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NSTimerExtensions.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NSTimerExtensions.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NSTimerExtensions.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NSTimerExtensions~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/OAuthToken.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OAuthToken.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OAuthToken.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OAuthToken.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OAuthToken.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OAuthToken.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OAuthToken.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OAuthToken.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OAuthToken~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/OSInfo.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OSInfo.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OSInfo.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OSInfo.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OSInfo.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OSInfo.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OSInfo.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OSInfo.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OSInfo~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/OSVersion.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OSVersion.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OSVersion.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OSVersion.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OSVersion.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OSVersion.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OSVersion.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OSVersion.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OSVersion~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/ObjectsReusability.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ObjectsReusability.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ObjectsReusability.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ObjectsReusability.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ObjectsReusability.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ObjectsReusability.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ObjectsReusability.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ObjectsReusability.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ObjectsReusability~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/OptionalExtensions.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OptionalExtensions.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OptionalExtensions.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OptionalExtensions.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OptionalExtensions.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OptionalExtensions.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OptionalExtensions.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OptionalExtensions.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OptionalExtensions~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/PersistentStorage.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/PersistentStorage.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/PersistentStorage.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/PersistentStorage.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/PersistentStorage.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/PersistentStorage.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/PersistentStorage.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/PersistentStorage.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/PersistentStorage~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/Property+Storage.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Property+Storage.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Property+Storage.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Property+Storage.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Property+Storage.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Property+Storage.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Property+Storage.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Property+Storage.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Property+Storage~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/Radix.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Radix.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Radix.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Radix.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Radix.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Radix.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Radix.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Radix.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Radix~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/RangeExtensions.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/RangeExtensions.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/RangeExtensions.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/RangeExtensions.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/RangeExtensions.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/RangeExtensions.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/RangeExtensions.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/RangeExtensions.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/RangeExtensions~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/Resetting.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Resetting.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Resetting.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Resetting.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Resetting.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Resetting.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Resetting.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Resetting.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Resetting~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/ResultExtensions.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ResultExtensions.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ResultExtensions.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ResultExtensions.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ResultExtensions.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ResultExtensions.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ResultExtensions.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ResultExtensions.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ResultExtensions~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/SequenceExtensions.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SequenceExtensions.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SequenceExtensions.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SequenceExtensions.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SequenceExtensions.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SequenceExtensions.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SequenceExtensions.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SequenceExtensions.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SequenceExtensions~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/SetExtensions.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SetExtensions.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SetExtensions.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SetExtensions.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SetExtensions.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SetExtensions.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SetExtensions.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SetExtensions.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SetExtensions~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/StringExtensions+Foundation.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/StringExtensions+Foundation.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/StringExtensions+Foundation.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/StringExtensions+Foundation.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/StringExtensions+Foundation.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/StringExtensions+Foundation.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/StringExtensions+Foundation.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/StringExtensions+Foundation.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/StringExtensions+Foundation~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/StringExtensions.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/StringExtensions.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/StringExtensions.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/StringExtensions.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/StringExtensions.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/StringExtensions.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/StringExtensions.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/StringExtensions.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/StringExtensions~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/Tagged.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Tagged.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Tagged.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Tagged.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Tagged.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Tagged.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Tagged.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Tagged.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Tagged~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/Time.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Time.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Time.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Time.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Time.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Time.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Time.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Time.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Time~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/TupleExtensions.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/TupleExtensions.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/TupleExtensions.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/TupleExtensions.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/TupleExtensions.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/TupleExtensions.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/TupleExtensions.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/TupleExtensions.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/TupleExtensions~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/UnsignedIntegerExtenstions.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/UnsignedIntegerExtenstions.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/UnsignedIntegerExtenstions.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/UnsignedIntegerExtenstions.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/UnsignedIntegerExtenstions.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/UnsignedIntegerExtenstions.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/UnsignedIntegerExtenstions.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/UnsignedIntegerExtenstions.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/UnsignedIntegerExtenstions~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/UrlOpener.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/UrlOpener.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/UrlOpener.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/UrlOpener.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/UrlOpener.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/UrlOpener.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/UrlOpener.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/UrlOpener.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/UrlOpener~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/WeakCollection.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/WeakCollection.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/WeakCollection.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/WeakCollection.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/WeakCollection.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/WeakCollection.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/WeakCollection.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/WeakCollection.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/WeakCollection~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/Zip3.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Zip3.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Zip3.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Zip3.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Zip3.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Zip3.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Zip3.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Zip3.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Zip3~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/cache/Cache.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Cache.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Cache.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Cache.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Cache.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Cache.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Cache.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Cache.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Cache~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/cache/CacheContent.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheContent.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheContent.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheContent.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheContent.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheContent.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheContent.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheContent.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheContent~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/cache/CacheFactory.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheFactory.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheFactory.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheFactory.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheFactory.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheFactory.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheFactory.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheFactory.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheFactory~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/cache/CacheKey.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheKey.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheKey.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheKey.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheKey.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheKey.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheKey.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheKey.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheKey~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/cache/CacheRecord.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheRecord.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheRecord.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheRecord.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheRecord.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheRecord.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheRecord.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheRecord.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheRecord~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/cache/CacheStorage.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheStorage.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheStorage.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheStorage.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheStorage.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheStorage.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheStorage.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheStorage.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/CacheStorage~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/cache/DiskCache.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/DiskCache.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/DiskCache.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/DiskCache.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/DiskCache.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/DiskCache.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/DiskCache.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/DiskCache.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/DiskCache~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/cache/LRUCacheStorage.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LRUCacheStorage.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LRUCacheStorage.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LRUCacheStorage.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LRUCacheStorage.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LRUCacheStorage.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LRUCacheStorage.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LRUCacheStorage.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LRUCacheStorage~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/cache/LRUMemoization.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LRUMemoization.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LRUMemoization.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LRUMemoization.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LRUMemoization.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LRUMemoization.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LRUMemoization.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LRUMemoization.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LRUMemoization~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/cache/LinkedListOrderedDictionary.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LinkedListOrderedDictionary.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LinkedListOrderedDictionary.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LinkedListOrderedDictionary.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LinkedListOrderedDictionary.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LinkedListOrderedDictionary.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LinkedListOrderedDictionary.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LinkedListOrderedDictionary.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LinkedListOrderedDictionary~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/cache/OrderedDictionary.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OrderedDictionary.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OrderedDictionary.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OrderedDictionary.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OrderedDictionary.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OrderedDictionary.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OrderedDictionary.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OrderedDictionary.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OrderedDictionary~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/cache/ParameterizedDiskCache.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ParameterizedDiskCache.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ParameterizedDiskCache.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ParameterizedDiskCache.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ParameterizedDiskCache.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ParameterizedDiskCache.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ParameterizedDiskCache.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ParameterizedDiskCache.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ParameterizedDiskCache~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/cache/SafeDecodable.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SafeDecodable.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SafeDecodable.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SafeDecodable.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SafeDecodable.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SafeDecodable.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SafeDecodable.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SafeDecodable.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SafeDecodable~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/cache/SizedItem.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SizedItem.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SizedItem.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SizedItem.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SizedItem.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SizedItem.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SizedItem.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SizedItem.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SizedItem~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/concurrency/AllocatedUnfairLock.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/AllocatedUnfairLock.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/AllocatedUnfairLock.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/AllocatedUnfairLock.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/AllocatedUnfairLock.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/AllocatedUnfairLock.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/AllocatedUnfairLock.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/AllocatedUnfairLock.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/AllocatedUnfairLock~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/concurrency/Atomic.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Atomic.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Atomic.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Atomic.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Atomic.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Atomic.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Atomic.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Atomic.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Atomic~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/concurrency/GCD.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/GCD.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/GCD.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/GCD.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/GCD.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/GCD.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/GCD.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/GCD.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/GCD~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/concurrency/RWLock.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/RWLock.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/RWLock.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/RWLock.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/RWLock.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/RWLock.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/RWLock.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/RWLock.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/RWLock~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/concurrency/ThreadExtensions.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ThreadExtensions.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ThreadExtensions.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ThreadExtensions.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ThreadExtensions.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ThreadExtensions.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ThreadExtensions.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ThreadExtensions.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ThreadExtensions~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/concurrency/operations/AsyncOperation.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/AsyncOperation.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/AsyncOperation.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/AsyncOperation.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/AsyncOperation.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/AsyncOperation.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/AsyncOperation.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/AsyncOperation.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/AsyncOperation~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/concurrency/operations/MainQueue.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/MainQueue.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/MainQueue.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/MainQueue.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/MainQueue.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/MainQueue.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/MainQueue.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/MainQueue.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/MainQueue~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/concurrency/operations/OperationQueue.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OperationQueue.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OperationQueue.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OperationQueue.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OperationQueue.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OperationQueue.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OperationQueue.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OperationQueue.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/OperationQueue~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/extensions/EncodableExtensions.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/EncodableExtensions.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/EncodableExtensions.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/EncodableExtensions.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/EncodableExtensions.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/EncodableExtensions.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/EncodableExtensions.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/EncodableExtensions.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/EncodableExtensions~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/extensions/HTTPURLResponse+Extensions.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/HTTPURLResponse+Extensions.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/HTTPURLResponse+Extensions.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/HTTPURLResponse+Extensions.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/HTTPURLResponse+Extensions.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/HTTPURLResponse+Extensions.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/HTTPURLResponse+Extensions.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/HTTPURLResponse+Extensions.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/HTTPURLResponse+Extensions~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/extensions/LazyExtensions.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LazyExtensions.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LazyExtensions.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LazyExtensions.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LazyExtensions.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LazyExtensions.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LazyExtensions.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LazyExtensions.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LazyExtensions~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/extensions/NSArrayExtensions.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NSArrayExtensions.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NSArrayExtensions.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NSArrayExtensions.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NSArrayExtensions.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NSArrayExtensions.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NSArrayExtensions.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NSArrayExtensions.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NSArrayExtensions~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/extensions/NotificationCenter+Signal.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NotificationCenter+Signal.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NotificationCenter+Signal.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NotificationCenter+Signal.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NotificationCenter+Signal.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NotificationCenter+Signal.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NotificationCenter+Signal.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NotificationCenter+Signal.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NotificationCenter+Signal~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/extensions/URLExtensions.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/URLExtensions.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/URLExtensions.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/URLExtensions.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/URLExtensions.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/URLExtensions.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/URLExtensions.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/URLExtensions.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/URLExtensions~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/networking/LocalResourceURLProviding.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LocalResourceURLProviding.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LocalResourceURLProviding.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LocalResourceURLProviding.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LocalResourceURLProviding.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LocalResourceURLProviding.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LocalResourceURLProviding.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LocalResourceURLProviding.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/LocalResourceURLProviding~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/networking/URLResourceRequesting.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/URLResourceRequesting.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/URLResourceRequesting.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/URLResourceRequesting.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/URLResourceRequesting.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/URLResourceRequesting.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/URLResourceRequesting.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/URLResourceRequesting.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/URLResourceRequesting~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/nonempty/NonEmpty+Array.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NonEmpty+Array.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NonEmpty+Array.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NonEmpty+Array.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NonEmpty+Array.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NonEmpty+Array.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NonEmpty+Array.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NonEmpty+Array.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NonEmpty+Array~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/nonempty/NonEmpty+Set.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NonEmpty+Set.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NonEmpty+Set.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NonEmpty+Set.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NonEmpty+Set.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NonEmpty+Set.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NonEmpty+Set.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NonEmpty+Set.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NonEmpty+Set~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/nonempty/NonEmpty+String.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NonEmpty+String.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NonEmpty+String.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NonEmpty+String.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NonEmpty+String.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NonEmpty+String.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NonEmpty+String.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NonEmpty+String.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NonEmpty+String~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/nonempty/NonEmpty.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NonEmpty.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NonEmpty.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NonEmpty.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NonEmpty.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NonEmpty.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NonEmpty.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NonEmpty.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/NonEmpty~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/os/FileManaging.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/FileManaging.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/FileManaging.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/FileManaging.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/FileManaging.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/FileManaging.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/FileManaging.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/FileManaging.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/FileManaging~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/reactive/Cancellable.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Cancellable.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Cancellable.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Cancellable.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Cancellable.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Cancellable.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Cancellable.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Cancellable.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Cancellable~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/reactive/DebugInfo.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/DebugInfo.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/DebugInfo.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/DebugInfo.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/DebugInfo.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/DebugInfo.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/DebugInfo.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/DebugInfo.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/DebugInfo~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/reactive/Lazy.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Lazy.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Lazy.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Lazy.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Lazy.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Lazy.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Lazy.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Lazy.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Lazy~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/reactive/Property.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Property.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Property.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Property.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Property.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Property.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Property.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Property.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Property~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/reactive/Result.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Result.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Result.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Result.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Result.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Result.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Result.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Result.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Result~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/reactive/Signal+CombineLatest.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Signal+CombineLatest.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Signal+CombineLatest.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Signal+CombineLatest.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Signal+CombineLatest.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Signal+CombineLatest.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Signal+CombineLatest.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Signal+CombineLatest.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Signal+CombineLatest~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/reactive/Signal.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Signal.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Signal.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Signal.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Signal.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Signal.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Signal.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Signal.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Signal~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/reactive/SignalPipe.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SignalPipe.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SignalPipe.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SignalPipe.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SignalPipe.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SignalPipe.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SignalPipe.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SignalPipe.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SignalPipe~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/reactive/Variable.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Variable.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Variable.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Variable.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Variable.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Variable.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Variable.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Variable.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Variable~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/reactive/disposable/AutodisposePool.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/AutodisposePool.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/AutodisposePool.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/AutodisposePool.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/AutodisposePool.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/AutodisposePool.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/AutodisposePool.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/AutodisposePool.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/AutodisposePool~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/reactive/disposable/Disposable.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Disposable.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Disposable.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Disposable.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Disposable.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Disposable.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Disposable.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Disposable.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Disposable~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/reactive/observing/ObservableProperty.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ObservableProperty.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ObservableProperty.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ObservableProperty.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ObservableProperty.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ObservableProperty.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ObservableProperty.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ObservableProperty.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ObservableProperty~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/reactive/observing/ObservableVariable.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ObservableVariable.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ObservableVariable.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ObservableVariable.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ObservableVariable.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ObservableVariable.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ObservableVariable.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ObservableVariable.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ObservableVariable~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/reactive/observing/ObservableVariableConnection.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ObservableVariableConnection.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ObservableVariableConnection.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ObservableVariableConnection.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ObservableVariableConnection.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ObservableVariableConnection.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ObservableVariableConnection.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ObservableVariableConnection.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/ObservableVariableConnection~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/reactive/observing/Observer.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Observer.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Observer.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Observer.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Observer.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Observer.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Observer.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Observer.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Observer~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/reactive/promises/Either.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Either.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Either.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Either.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Either.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Either.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Either.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Either.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Either~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/reactive/promises/Future.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Future.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Future.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Future.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Future.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Future.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Future.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Future.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Future~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/reactive/promises/Promise.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Promise.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Promise.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Promise.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Promise.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Promise.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Promise.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Promise.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/Promise~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/storage/KeyValueDirectStoringSupporting.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/KeyValueDirectStoringSupporting.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/KeyValueDirectStoringSupporting.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/KeyValueDirectStoringSupporting.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/KeyValueDirectStoringSupporting.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/KeyValueDirectStoringSupporting.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/KeyValueDirectStoringSupporting.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/KeyValueDirectStoringSupporting.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/KeyValueDirectStoringSupporting~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/storage/KeyValueStorage.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/KeyValueStorage.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/KeyValueStorage.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/KeyValueStorage.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/KeyValueStorage.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/KeyValueStorage.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/KeyValueStorage.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/KeyValueStorage.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/KeyValueStorage~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/storage/SettingProperty.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SettingProperty.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SettingProperty.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SettingProperty.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SettingProperty.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SettingProperty.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SettingProperty.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SettingProperty.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SettingProperty~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/storage/SingleValueCoder.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SingleValueCoder.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SingleValueCoder.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SingleValueCoder.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SingleValueCoder.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SingleValueCoder.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SingleValueCoder.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SingleValueCoder.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/SingleValueCoder~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLFundamentals/weakify.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/weakify.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/weakify.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/weakify.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/weakify.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/weakify.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/weakify.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/weakify.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLFundamentals.build/Objects-normal/arm64/weakify~partial.swiftmodule"
+  }
+}

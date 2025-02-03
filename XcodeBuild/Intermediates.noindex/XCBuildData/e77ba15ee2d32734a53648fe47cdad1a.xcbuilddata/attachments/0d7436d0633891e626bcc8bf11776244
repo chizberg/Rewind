@@ -1,0 +1,458 @@
+{
+  "" : {
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/VGSLNetworking-master.dia",
+    "emit-module-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/VGSLNetworking-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/VGSLNetworking-master-emit-module.dia",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/VGSLNetworking-master.swiftdeps"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/APIRequest.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/APIRequest.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/APIRequest.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/APIRequest.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/APIRequest.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/APIRequest.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/APIRequest.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/APIRequest.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/APIRequest~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/APIRequestObserving.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/APIRequestObserving.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/APIRequestObserving.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/APIRequestObserving.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/APIRequestObserving.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/APIRequestObserving.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/APIRequestObserving.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/APIRequestObserving.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/APIRequestObserving~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/ActiveRequestsTracker.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ActiveRequestsTracker.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ActiveRequestsTracker.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ActiveRequestsTracker.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ActiveRequestsTracker.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ActiveRequestsTracker.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ActiveRequestsTracker.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ActiveRequestsTracker.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ActiveRequestsTracker~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/AsyncResourceRequester.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/AsyncResourceRequester.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/AsyncResourceRequester.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/AsyncResourceRequester.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/AsyncResourceRequester.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/AsyncResourceRequester.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/AsyncResourceRequester.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/AsyncResourceRequester.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/AsyncResourceRequester~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/AuthChallengeHandler.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/AuthChallengeHandler.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/AuthChallengeHandler.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/AuthChallengeHandler.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/AuthChallengeHandler.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/AuthChallengeHandler.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/AuthChallengeHandler.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/AuthChallengeHandler.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/AuthChallengeHandler~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/CachedURLResourceRequester.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/CachedURLResourceRequester.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/CachedURLResourceRequester.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/CachedURLResourceRequester.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/CachedURLResourceRequester.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/CachedURLResourceRequester.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/CachedURLResourceRequester.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/CachedURLResourceRequester.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/CachedURLResourceRequester~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/ChallengeHandling.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ChallengeHandling.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ChallengeHandling.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ChallengeHandling.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ChallengeHandling.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ChallengeHandling.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ChallengeHandling.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ChallengeHandling.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ChallengeHandling~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/DataExtensions.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/DataExtensions.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/DataExtensions.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/DataExtensions.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/DataExtensions.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/DataExtensions.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/DataExtensions.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/DataExtensions.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/DataExtensions~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/HTTPCode.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/HTTPCode.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/HTTPCode.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/HTTPCode.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/HTTPCode.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/HTTPCode.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/HTTPCode.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/HTTPCode.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/HTTPCode~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/HTTPErrors.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/HTTPErrors.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/HTTPErrors.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/HTTPErrors.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/HTTPErrors.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/HTTPErrors.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/HTTPErrors.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/HTTPErrors.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/HTTPErrors~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/HTTPHeaders.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/HTTPHeaders.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/HTTPHeaders.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/HTTPHeaders.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/HTTPHeaders.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/HTTPHeaders.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/HTTPHeaders.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/HTTPHeaders.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/HTTPHeaders~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/ImageHolderFactory.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ImageHolderFactory.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ImageHolderFactory.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ImageHolderFactory.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ImageHolderFactory.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ImageHolderFactory.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ImageHolderFactory.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ImageHolderFactory.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ImageHolderFactory~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/LocalImageProviding.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/LocalImageProviding.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/LocalImageProviding.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/LocalImageProviding.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/LocalImageProviding.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/LocalImageProviding.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/LocalImageProviding.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/LocalImageProviding.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/LocalImageProviding~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/NSErrorExtensions.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NSErrorExtensions.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NSErrorExtensions.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NSErrorExtensions.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NSErrorExtensions.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NSErrorExtensions.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NSErrorExtensions.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NSErrorExtensions.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NSErrorExtensions~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/NetworkActivityIndicatorController.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkActivityIndicatorController.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkActivityIndicatorController.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkActivityIndicatorController.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkActivityIndicatorController.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkActivityIndicatorController.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkActivityIndicatorController.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkActivityIndicatorController.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkActivityIndicatorController~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/NetworkActivityOperation.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkActivityOperation.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkActivityOperation.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkActivityOperation.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkActivityOperation.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkActivityOperation.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkActivityOperation.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkActivityOperation.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkActivityOperation~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/NetworkActivityOperationLifecycleDelegate.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkActivityOperationLifecycleDelegate.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkActivityOperationLifecycleDelegate.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkActivityOperationLifecycleDelegate.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkActivityOperationLifecycleDelegate.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkActivityOperationLifecycleDelegate.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkActivityOperationLifecycleDelegate.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkActivityOperationLifecycleDelegate.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkActivityOperationLifecycleDelegate~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/NetworkOperationServer.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkOperationServer.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkOperationServer.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkOperationServer.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkOperationServer.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkOperationServer.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkOperationServer.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkOperationServer.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkOperationServer~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/NetworkSessionMetrics.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkSessionMetrics.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkSessionMetrics.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkSessionMetrics.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkSessionMetrics.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkSessionMetrics.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkSessionMetrics.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkSessionMetrics.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkSessionMetrics~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/NetworkURLResourceRequester.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkURLResourceRequester.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkURLResourceRequester.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkURLResourceRequester.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkURLResourceRequester.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkURLResourceRequester.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkURLResourceRequester.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkURLResourceRequester.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkURLResourceRequester~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/RemoteImageHolder.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/RemoteImageHolder.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/RemoteImageHolder.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/RemoteImageHolder.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/RemoteImageHolder.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/RemoteImageHolder.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/RemoteImageHolder.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/RemoteImageHolder.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/RemoteImageHolder~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/Resource.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/Resource.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/Resource.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/Resource.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/Resource.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/Resource.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/Resource.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/Resource.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/Resource~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/Retrying/DateHTTPExtensions.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/DateHTTPExtensions.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/DateHTTPExtensions.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/DateHTTPExtensions.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/DateHTTPExtensions.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/DateHTTPExtensions.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/DateHTTPExtensions.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/DateHTTPExtensions.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/DateHTTPExtensions~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/Retrying/HTTPRetryAfterHeader.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/HTTPRetryAfterHeader.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/HTTPRetryAfterHeader.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/HTTPRetryAfterHeader.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/HTTPRetryAfterHeader.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/HTTPRetryAfterHeader.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/HTTPRetryAfterHeader.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/HTTPRetryAfterHeader.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/HTTPRetryAfterHeader~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/Retrying/NetworkErrorHandlingPolicy.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkErrorHandlingPolicy.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkErrorHandlingPolicy.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkErrorHandlingPolicy.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkErrorHandlingPolicy.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkErrorHandlingPolicy.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkErrorHandlingPolicy.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkErrorHandlingPolicy.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkErrorHandlingPolicy~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/Retrying/NetworkErrorHandlingStrategy.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkErrorHandlingStrategy.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkErrorHandlingStrategy.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkErrorHandlingStrategy.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkErrorHandlingStrategy.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkErrorHandlingStrategy.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkErrorHandlingStrategy.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkErrorHandlingStrategy.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkErrorHandlingStrategy~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/Retrying/NetworkErrorHandlingStrategyDelegate.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkErrorHandlingStrategyDelegate.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkErrorHandlingStrategyDelegate.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkErrorHandlingStrategyDelegate.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkErrorHandlingStrategyDelegate.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkErrorHandlingStrategyDelegate.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkErrorHandlingStrategyDelegate.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkErrorHandlingStrategyDelegate.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkErrorHandlingStrategyDelegate~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/Retrying/NetworkErrorType.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkErrorType.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkErrorType.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkErrorType.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkErrorType.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkErrorType.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkErrorType.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkErrorType.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkErrorType~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/Retrying/NetworkReachabilityObserving.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkReachabilityObserving.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkReachabilityObserving.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkReachabilityObserving.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkReachabilityObserving.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkReachabilityObserving.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkReachabilityObserving.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkReachabilityObserving.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkReachabilityObserving~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/Retrying/NetworkRetryIntervalSource.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkRetryIntervalSource.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkRetryIntervalSource.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkRetryIntervalSource.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkRetryIntervalSource.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkRetryIntervalSource.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkRetryIntervalSource.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkRetryIntervalSource.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkRetryIntervalSource~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/Retrying/NetworkRetryStrategy.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkRetryStrategy.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkRetryStrategy.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkRetryStrategy.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkRetryStrategy.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkRetryStrategy.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkRetryStrategy.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkRetryStrategy.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkRetryStrategy~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/Retrying/NetworkRetryStrategyExtensions.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkRetryStrategyExtensions.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkRetryStrategyExtensions.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkRetryStrategyExtensions.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkRetryStrategyExtensions.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkRetryStrategyExtensions.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkRetryStrategyExtensions.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkRetryStrategyExtensions.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/NetworkRetryStrategyExtensions~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/Retrying/RetryingNetworkTask.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/RetryingNetworkTask.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/RetryingNetworkTask.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/RetryingNetworkTask.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/RetryingNetworkTask.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/RetryingNetworkTask.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/RetryingNetworkTask.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/RetryingNetworkTask.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/RetryingNetworkTask~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/Retrying/RetryingTimeout.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/RetryingTimeout.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/RetryingTimeout.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/RetryingTimeout.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/RetryingTimeout.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/RetryingTimeout.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/RetryingTimeout.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/RetryingTimeout.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/RetryingTimeout~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/Retrying/RetryingURLRequestPerformer.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/RetryingURLRequestPerformer.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/RetryingURLRequestPerformer.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/RetryingURLRequestPerformer.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/RetryingURLRequestPerformer.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/RetryingURLRequestPerformer.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/RetryingURLRequestPerformer.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/RetryingURLRequestPerformer.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/RetryingURLRequestPerformer~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/Retrying/ReusableNetworkErrorHandlingStrategy.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ReusableNetworkErrorHandlingStrategy.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ReusableNetworkErrorHandlingStrategy.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ReusableNetworkErrorHandlingStrategy.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ReusableNetworkErrorHandlingStrategy.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ReusableNetworkErrorHandlingStrategy.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ReusableNetworkErrorHandlingStrategy.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ReusableNetworkErrorHandlingStrategy.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ReusableNetworkErrorHandlingStrategy~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/Retrying/ReusableNetworkRetryStrategy.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ReusableNetworkRetryStrategy.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ReusableNetworkRetryStrategy.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ReusableNetworkRetryStrategy.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ReusableNetworkRetryStrategy.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ReusableNetworkRetryStrategy.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ReusableNetworkRetryStrategy.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ReusableNetworkRetryStrategy.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/ReusableNetworkRetryStrategy~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/Retrying/URLResponseExtensions.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLResponseExtensions.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLResponseExtensions.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLResponseExtensions.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLResponseExtensions.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLResponseExtensions.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLResponseExtensions.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLResponseExtensions.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLResponseExtensions~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/TimeTracking.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/TimeTracking.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/TimeTracking.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/TimeTracking.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/TimeTracking.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/TimeTracking.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/TimeTracking.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/TimeTracking.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/TimeTracking~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/URLRequestPerformer.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLRequestPerformer.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLRequestPerformer.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLRequestPerformer.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLRequestPerformer.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLRequestPerformer.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLRequestPerformer.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLRequestPerformer.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLRequestPerformer~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/URLRequestPerforming.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLRequestPerforming.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLRequestPerforming.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLRequestPerforming.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLRequestPerforming.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLRequestPerforming.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLRequestPerforming.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLRequestPerforming.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLRequestPerforming~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/URLSessionDelegateImpl.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLSessionDelegateImpl.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLSessionDelegateImpl.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLSessionDelegateImpl.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLSessionDelegateImpl.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLSessionDelegateImpl.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLSessionDelegateImpl.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLSessionDelegateImpl.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLSessionDelegateImpl~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/URLSessionTaskMetricsExtensions.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLSessionTaskMetricsExtensions.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLSessionTaskMetricsExtensions.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLSessionTaskMetricsExtensions.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLSessionTaskMetricsExtensions.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLSessionTaskMetricsExtensions.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLSessionTaskMetricsExtensions.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLSessionTaskMetricsExtensions.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLSessionTaskMetricsExtensions~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/URLTransform.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLTransform.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLTransform.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLTransform.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLTransform.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLTransform.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLTransform.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLTransform.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/URLTransform~partial.swiftmodule"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/VGSLNetworking/iOS.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/iOS.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/iOS.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/iOS.dia",
+    "index-unit-output-path" : "/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/iOS.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/iOS.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/iOS.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/iOS.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Debug-iphonesimulator/VGSLNetworking.build/Objects-normal/arm64/iOS~partial.swiftmodule"
+  }
+}

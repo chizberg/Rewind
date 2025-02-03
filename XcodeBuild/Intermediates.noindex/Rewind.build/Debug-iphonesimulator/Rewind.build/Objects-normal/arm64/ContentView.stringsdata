@@ -6,8 +6,8 @@
         "comment": "",
         "key": "Hello, world!",
         "location": {
-          "startingColumn": 18,
-          "startingLine": 16
+          "startingColumn": 12,
+          "startingLine": 20
         }
       }
     ]

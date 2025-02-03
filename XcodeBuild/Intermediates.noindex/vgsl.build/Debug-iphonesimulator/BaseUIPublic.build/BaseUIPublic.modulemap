@@ -1,0 +1,4 @@
+module BaseUIPublic {
+header "BaseUIPublic-Swift.h"
+export *
+}
