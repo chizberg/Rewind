@@ -7,38 +7,43 @@
 
 import Foundation
 
-final actor AnnotationUpdater {
+struct AnnotationLoader {
   private let requestPerformer: RequestPerformer
-  private var clusters: Set<Model.Cluster>
-  private var images: Set<Model.Image>
 
-  init(requestPerformer: RequestPerformer) {
+  init(
+    requestPerformer: RequestPerformer
+  ) {
     self.requestPerformer = requestPerformer
-    clusters = []
-    images = []
   }
 
-//  func loadNewAnnotations(
-//    region: Region,
-//    yearRange: ClosedRange<Int>
-//  ) async -> [Annotation] {
-//    let requestPerformer.perform(
-//      request: .byBounds(
-//        zoom: region.zoom,
-//        coordinates: region.geoJSONCoordinates,
-//        startAt: Date().timeIntervalSince1970,
-//        yearRange: yearRange
-//      )
-//    )
-//  }
-
-  func clear() {
-    clusters.removeAll()
-    images.removeAll()
+  func loadNewAnnotations(
+    region: Region,
+    yearRange: ClosedRange<Int>,
+    apply: @MainActor @escaping ([Model.Image], [Model.Cluster]) -> Void
+  ) {
+    Task {
+      do {
+        let (images, clusters) = try await load(region: region, yearRange: yearRange)
+        await apply(images, clusters)
+      } catch {
+        // TODO: error handling
+      }
+    }
   }
-}
 
-enum Annotation {
-  case cluster(Model.Cluster)
-  case image(Model.Image)
+  private func load(
+    region: Region,
+    yearRange: ClosedRange<Int>
+  ) async throws -> ([Model.Image], [Model.Cluster]) {
+    let (receivedImages, receivedClusters) = try await requestPerformer.perform(
+      request: .byBounds(
+        zoom: region.zoom,
+        coordinates: region.geoJSONCoordinates,
+        startAt: Date().timeIntervalSince1970,
+        yearRange: yearRange
+      )
+    )
+
+    return (receivedImages.map(Model.Image.init), receivedClusters.map(Model.Cluster.init))
+  }
 }

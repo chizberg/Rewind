@@ -10,14 +10,29 @@ import MapKit
 enum Model {} // namespace only
 
 // https://leafletjs.com/examples/zoom-levels/
-private func zoomFrom(_ delta: Double) -> Int {
+private func zoom(delta: Double) -> Int {
   Int(2 + log2(180 / delta))
+}
+
+private func delta(zoom: Int) -> Double {
+  180 / pow(2, Double(zoom - 2))
 }
 
 extension Region {
   var zoom: Int {
     let delta = min(span.latitudeDelta, span.longitudeDelta)
-    return zoomFrom(delta).clamped(in: minZoom...maxZoom)
+    return Rewind.zoom(delta: delta).clamped(in: minZoom...maxZoom)
+  }
+
+  init(center: Coordinate, zoom: Int) {
+    let delta = delta(zoom: zoom)
+    self.init(
+      center: center,
+      span: MKCoordinateSpan(
+        latitudeDelta: delta,
+        longitudeDelta: delta
+      )
+    )
   }
 }
 

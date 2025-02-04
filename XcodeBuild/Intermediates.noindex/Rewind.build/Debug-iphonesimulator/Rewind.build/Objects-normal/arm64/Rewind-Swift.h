@@ -278,6 +278,9 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 #if __has_warning("-Watimport-in-framework-header")
 #pragma clang diagnostic ignored "-Watimport-in-framework-header"
 #endif
+@import CoreLocation;
+@import MapKit;
+@import ObjectiveC;
 #endif
 
 #endif
@@ -299,6 +302,32 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 #endif
 
 #if defined(__OBJC__)
+
+SWIFT_CLASS("_TtC6Rewind10Annotation")
+@interface Annotation : NSObject <MKAnnotation>
+@property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+
+@class MKMapView;
+@class MKAnnotationView;
+
+SWIFT_CLASS("_TtC6Rewind10MapAdapter")
+@interface MapAdapter : NSObject <MKMapViewDelegate>
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+- (void)mapView:(MKMapView * _Nonnull)mapView regionDidChangeAnimated:(BOOL)animated;
+- (void)mapView:(MKMapView * _Nonnull)mapView didSelectAnnotationView:(MKAnnotationView * _Nonnull)view;
+- (void)mapView:(MKMapView * _Nonnull)mapView didDeselectAnnotationView:(MKAnnotationView * _Nonnull)view;
+@end
+
+
+SWIFT_CLASS("_TtC6Rewind24ThrottledActionPerformer")
+@interface ThrottledActionPerformer : NSObject
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
 
 
 

@@ -27,6 +27,7 @@ extension Network.Request {
     Network.byBounds(zoom: zoom, coordinates: coordinates, startAt: startAt, yearRange: yearRange)
   }
 
+  // TODO: more aestetically pleasing extensions
   static func imageDetails(cid: Int) -> Network.Request<Network.ImageDetails> {
     Network.imageDetails(cid: cid)
   }
@@ -46,8 +47,6 @@ private func makeBaseURLComponents() -> URLComponents {
 private func isLocalWork(zoom: Int) -> Bool {
   zoom >= 17
 }
-
-
 
 private extension Network {
   static func byBounds(
@@ -104,7 +103,6 @@ private extension Network {
       },
       parseResult: { data in
         let raw = try JSONDecoder().decode(RawResponse.self, from: data)
-        print(String(data: data, encoding: .utf8)!)
         return (raw.result.photos ?? [], raw.result.clusters ?? [])
       }
     )

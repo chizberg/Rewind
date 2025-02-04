@@ -12,19 +12,27 @@ import func SwiftUI.__designTimeBoolean
 //
 
 import SwiftUI
+import MapKit
 
 struct ContentView: View {
+  let rawMap: UIView
+  @ObservedVariable
+  var mapState: MapState
+
   var body: some View {
-    VStack {
-      Image(systemName: __designTimeString("#9526_0", fallback: "globe"))
-        .imageScale(.large)
-        .foregroundStyle(.tint)
-      Text(__designTimeString("#9526_1", fallback: "Hello, world!"))
+    ZStack {
+      ViewRepresentable {
+        rawMap
+      }
+      Text("\(mapState.previews.count)")
     }
-    .padding()
   }
 }
 
 #Preview {
-  ContentView()
+  @Previewable @State var graph = AppGraph()
+
+  ContentView(
+    rawMap: graph.mapAdapter.view, mapState: graph.mapState
+  )
 }

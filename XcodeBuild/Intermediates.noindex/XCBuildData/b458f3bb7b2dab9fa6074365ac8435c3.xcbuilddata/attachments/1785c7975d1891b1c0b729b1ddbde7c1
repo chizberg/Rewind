@@ -1,0 +1,22 @@
+/Users/chizberg/Documents/Личные\ проекты/Rewind/Rewind/Model/Data\ Types/Direction.swift
+/Users/chizberg/Documents/Личные\ проекты/Rewind/Rewind/ThrottledActionPerformer.swift
+/Users/chizberg/Documents/Личные\ проекты/Rewind/Rewind/Model/Data\ Types/ImageDate.swift
+/Users/chizberg/Documents/Личные\ проекты/Rewind/Rewind/Model/Data\ Types/ModelCluster.swift
+/Users/chizberg/Documents/Личные\ проекты/Rewind/Rewind/Model/Data\ Types/ModelImage.swift
+/Users/chizberg/Documents/Личные\ проекты/Rewind/Rewind/Model/Reducer.swift
+/Users/chizberg/Documents/Личные\ проекты/Rewind/Rewind/Model/AnnotationUpdater.swift
+/Users/chizberg/Documents/Личные\ проекты/Rewind/Rewind/Model/Annotation.swift
+/Users/chizberg/Documents/Личные\ проекты/Rewind/Rewind/Model/Zoom.swift
+/Users/chizberg/Documents/Личные\ проекты/Rewind/Rewind/Network/Data\ Types/NetworkCluster.swift
+/Users/chizberg/Documents/Личные\ проекты/Rewind/Rewind/Network/Data\ Types/NetworkImage.swift
+/Users/chizberg/Documents/Личные\ проекты/Rewind/Rewind/Network/Data\ Types/NetworkImageDetails.swift
+/Users/chizberg/Documents/Личные\ проекты/Rewind/Rewind/Network/ImageQuality.swift
+/Users/chizberg/Documents/Личные\ проекты/Rewind/Rewind/Model/MapModel.swift
+/Users/chizberg/Documents/Личные\ проекты/Rewind/Rewind/Network/NetworkError.swift
+/Users/chizberg/Documents/Личные\ проекты/Rewind/Rewind/Network/Request.swift
+/Users/chizberg/Documents/Личные\ проекты/Rewind/Rewind/Network/RequestPerformer.swift
+/Users/chizberg/Documents/Личные\ проекты/Rewind/Rewind/Map/MapAdapter.swift
+/Users/chizberg/Documents/Личные\ проекты/Rewind/Rewind/ContentView.swift
+/Users/chizberg/Documents/Личные\ проекты/Rewind/Rewind/Map/MapKit+Extensions.swift
+/Users/chizberg/Documents/Личные\ проекты/Rewind/Rewind/RewindApp.swift
+/Users/chizberg/Documents/Личные\ проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/DerivedSources/GeneratedAssetSymbols.swift

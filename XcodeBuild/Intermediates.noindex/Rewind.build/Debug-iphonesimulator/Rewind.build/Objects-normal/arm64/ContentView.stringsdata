@@ -4,10 +4,10 @@
     "Localizable": [
       {
         "comment": "",
-        "key": "Hello, world!",
+        "key": "%lld",
         "location": {
           "startingColumn": 12,
-          "startingLine": 20
+          "startingLine": 21
         }
       }
     ]
