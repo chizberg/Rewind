@@ -8,6 +8,7 @@
 import MapKit
 import VGSL
 
+// todo: rename, it's not only adapter
 final class MapAdapter: NSObject, MKMapViewDelegate {
   typealias Event = MapAction.External.Map
 
@@ -35,6 +36,8 @@ final class MapAdapter: NSObject, MKMapViewDelegate {
       map.region = initialRegion
       map.delegate = weakSelf
       map.showsUserLocation = true
+      map.register(ImageAnnotationView.self)
+      map.register(ClusterAnnotationView.self)
       return map
     })
     super.init()
@@ -46,7 +49,13 @@ final class MapAdapter: NSObject, MKMapViewDelegate {
   }
 
   func clear() {
-    map.value.removeAnnotations(map.value.annotations.filter { !($0 is MKUserLocation) })
+    let toRemove = map.value.annotations.filter { !($0 is MKUserLocation) }
+    animateRemoval(
+      toRemove.compactMap { map.value.view(for: $0) },
+      completion: { [weak self] _ in
+        self?.map.value.removeAnnotations(toRemove)
+      }
+    )
   }
 
   func set(region: Region, animated: Bool) {
@@ -63,6 +72,27 @@ final class MapAdapter: NSObject, MKMapViewDelegate {
 
   func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
     pipe.send(.annotationDeselected(view.annotation))
+  }
+
+  func mapView(
+    _ mapView: MKMapView,
+    viewFor annotation: any MKAnnotation
+  ) -> MKAnnotationView? {
+    guard let wrapper = annotation as? AnnotationWrapper else { return nil }
+    switch wrapper.value {
+    case .image:
+      return mapView.dequeueReusableAnnotationView(
+        ImageAnnotationView.self
+      )
+    case .cluster:
+      return mapView.dequeueReusableAnnotationView(
+        ClusterAnnotationView.self
+      )
+    }
+  }
+
+  func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
+    animateAddition(views)
   }
 }
 

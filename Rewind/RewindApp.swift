@@ -32,9 +32,13 @@ final class AppGraph {
     weak var weakSelf: AppGraph?
     let mapAdapter = MapAdapter()
     let requestPerformer = RequestPerformer(urlRequestPerformer: URLSession.shared.data)
+    let imageLoader = ImageLoader(requestPerformer: requestPerformer)
     let throttledPerformer = ThrottledActionPerformer()
 
-    let annotationLoader = AnnotationLoader(requestPerformer: requestPerformer)
+    let annotationLoader = AnnotationLoader(
+      requestPerformer: requestPerformer,
+      imageLoader: imageLoader
+    )
     mapModel = makeMapModel(
       addAnnotations: mapAdapter.add(annotations:),
       clearAnnotations: mapAdapter.clear,

@@ -5,7 +5,28 @@
 	<key>colors</key>
 	<array/>
 	<key>images</key>
-	<array/>
+	<array>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/Preview Content/Preview Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACImageNameCat</string>
+			<key>relativePath</key>
+			<string>./cat.imageset</string>
+			<key>swiftSymbol</key>
+			<string>cat</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACImageNameImageAnnotation</string>
+			<key>relativePath</key>
+			<string>./imageAnnotation.imageset</string>
+			<key>swiftSymbol</key>
+			<string>imageAnnotation</string>
+		</dict>
+	</array>
 	<key>symbols</key>
 	<array/>
 </dict>

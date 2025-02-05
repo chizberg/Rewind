@@ -279,6 +279,7 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 #pragma clang diagnostic ignored "-Watimport-in-framework-header"
 #endif
 @import CoreLocation;
+@import Foundation;
 @import MapKit;
 @import ObjectiveC;
 #endif
@@ -303,16 +304,36 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 
 #if defined(__OBJC__)
 
-SWIFT_CLASS("_TtC6Rewind10Annotation")
-@interface Annotation : NSObject <MKAnnotation>
+SWIFT_CLASS("_TtC6Rewind17AnnotationWrapper")
+@interface AnnotationWrapper : NSObject <MKAnnotation>
 @property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
+@class NSString;
+@class NSCoder;
+
+SWIFT_CLASS("_TtC6Rewind21ClusterAnnotationView")
+@interface ClusterAnnotationView : MKAnnotationView
+- (nonnull instancetype)initWithAnnotation:(id <MKAnnotation> _Nullable)annotation reuseIdentifier:(NSString * _Nullable)reuseIdentifier OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)_ OBJC_DESIGNATED_INITIALIZER SWIFT_UNAVAILABLE;
+- (void)prepareForDisplay;
+- (void)layoutSubviews;
+@end
+
+
+SWIFT_CLASS("_TtC6Rewind19ImageAnnotationView")
+@interface ImageAnnotationView : MKAnnotationView
+- (nonnull instancetype)initWithAnnotation:(id <MKAnnotation> _Nullable)annotation reuseIdentifier:(NSString * _Nullable)reuseIdentifier OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)_ OBJC_DESIGNATED_INITIALIZER SWIFT_UNAVAILABLE;
+- (void)prepareForDisplay;
+- (void)layoutSubviews;
+@property (nonatomic, strong) id <MKAnnotation> _Nullable annotation;
+@end
+
 
 @class MKMapView;
-@class MKAnnotationView;
 
 SWIFT_CLASS("_TtC6Rewind10MapAdapter")
 @interface MapAdapter : NSObject <MKMapViewDelegate>
@@ -320,6 +341,8 @@ SWIFT_CLASS("_TtC6Rewind10MapAdapter")
 - (void)mapView:(MKMapView * _Nonnull)mapView regionDidChangeAnimated:(BOOL)animated;
 - (void)mapView:(MKMapView * _Nonnull)mapView didSelectAnnotationView:(MKAnnotationView * _Nonnull)view;
 - (void)mapView:(MKMapView * _Nonnull)mapView didDeselectAnnotationView:(MKAnnotationView * _Nonnull)view;
+- (MKAnnotationView * _Nullable)mapView:(MKMapView * _Nonnull)mapView viewForAnnotation:(id <MKAnnotation> _Nonnull)annotation SWIFT_WARN_UNUSED_RESULT;
+- (void)mapView:(MKMapView * _Nonnull)mapView didAddAnnotationViews:(NSArray<MKAnnotationView *> * _Nonnull)views;
 @end
 
 
@@ -328,6 +351,7 @@ SWIFT_CLASS("_TtC6Rewind24ThrottledActionPerformer")
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
+
 
 
 

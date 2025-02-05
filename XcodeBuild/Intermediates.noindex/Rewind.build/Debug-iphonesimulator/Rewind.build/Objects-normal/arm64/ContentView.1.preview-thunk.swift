@@ -20,11 +20,19 @@ struct ContentView: View {
   var mapState: MapState
 
   var body: some View {
-    ZStack {
+    ZStack(alignment: .bottom) {
       ViewRepresentable {
         rawMap
+      }.ignoresSafeArea()
+
+      ScrollView {
+        HStack {
+          ForEach(mapState.previews) {
+            ThumbnailView(image: $0)
+              .frame(width: __designTimeInteger("#805_0", fallback: 100), height: __designTimeInteger("#805_1", fallback: 100))
+          }
+        }
       }
-      Text("\(mapState.previews.count)")
     }
   }
 }

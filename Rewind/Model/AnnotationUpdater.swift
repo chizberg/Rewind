@@ -9,11 +9,14 @@ import Foundation
 
 struct AnnotationLoader {
   private let requestPerformer: RequestPerformer
+  private let imageLoader: ImageLoader
 
   init(
-    requestPerformer: RequestPerformer
+    requestPerformer: RequestPerformer,
+    imageLoader: ImageLoader
   ) {
     self.requestPerformer = requestPerformer
+    self.imageLoader = imageLoader
   }
 
   func loadNewAnnotations(
@@ -23,7 +26,15 @@ struct AnnotationLoader {
   ) {
     Task {
       do {
-        let (images, clusters) = try await load(region: region, yearRange: yearRange)
+        let (nis, ncs) = try await load(region: region, yearRange: yearRange)
+        let images = nis.map {
+          let loadableImage = imageLoader.makeImage(path: $0.file)
+          return Model.Image($0, image: loadableImage)
+        }
+        let clusters = ncs.map {
+          let loadableImage = imageLoader.makeImage(path: $0.preview.file)
+          return Model.Cluster(nc: $0, image: loadableImage)
+        }
         await apply(images, clusters)
       } catch {
         // TODO: error handling
@@ -34,8 +45,8 @@ struct AnnotationLoader {
   private func load(
     region: Region,
     yearRange: ClosedRange<Int>
-  ) async throws -> ([Model.Image], [Model.Cluster]) {
-    let (receivedImages, receivedClusters) = try await requestPerformer.perform(
+  ) async throws -> ([Network.Image], [Network.Cluster]) {
+    try await requestPerformer.perform(
       request: .byBounds(
         zoom: region.zoom,
         coordinates: region.geoJSONCoordinates,
@@ -43,7 +54,5 @@ struct AnnotationLoader {
         yearRange: yearRange
       )
     )
-
-    return (receivedImages.map(Model.Image.init), receivedClusters.map(Model.Cluster.init))
   }
 }

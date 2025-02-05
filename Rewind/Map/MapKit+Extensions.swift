@@ -14,14 +14,6 @@ enum MapType: CaseIterable {
   case scheme
   case satellite
   case hybrid
-
-  var desc: String {
-    switch self {
-    case .scheme: return "Scheme"
-    case .satellite: return "Satellite"
-    case .hybrid: return "Hybrid"
-    }
-  }
 }
 
 extension Coordinate {

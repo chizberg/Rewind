@@ -5,24 +5,24 @@
 //  Created by Alexey Sherstnev on 02.02.2025.
 //
 
-import Foundation
+import UIKit
 
 extension Model {
   struct Image {
     var cid: Int
-    var file: String
+    var image: LoadableImage
     var title: String
     var dir: Direction?
     var coordinate: Coordinate
     var date: ImageDate
 
-    init(_ ni: Network.Image) {
+    init(_ ni: Network.Image, image: LoadableImage) {
       cid = ni.cid
-      file = ni.file
       title = ni.title
       dir = Direction(ni.dir)
       coordinate = Coordinate(ni.geo)
       date = ImageDate(year: ni.year, year2: ni.year2)
+      self.image = image
     }
   }
 }
@@ -36,3 +36,18 @@ extension Model.Image: Hashable {
     hasher.combine(cid)
   }
 }
+
+extension Model.Image: Identifiable {
+  var id: Int { cid }
+}
+
+#if DEBUG
+extension Model.Image {
+  static let mock = Model.Image(
+    .mock,
+    image: LoadableImage { _ in
+      UIImage(named: "cat")!
+    }
+  )
+}
+#endif

@@ -63,7 +63,7 @@ func makeMapModel(
         case let .map(.regionChanged(region)):
           throttledAction(.internal(.regionChangedThrottled(region)))
         case let .map(.annotationSelected(mkAnn)):
-          guard let ann = mkAnn as? Annotation else { return }
+          guard let ann = mkAnn as? AnnotationWrapper else { return }
           switch ann.value {
           case let .image(image): state.selectedImage = image
           case let .cluster(cluster):
@@ -85,8 +85,8 @@ func makeMapModel(
           state.images.formUnion(imagesSet)
           state.clusters.formUnion(clustersSet)
 
-          let newAnnotations = newImages.map { Annotation(value: .image($0)) }
-            + newClusters.map { Annotation(value: .cluster($0)) }
+          let newAnnotations = newImages.map { AnnotationWrapper(value: .image($0)) }
+            + newClusters.map { AnnotationWrapper(value: .cluster($0)) }
 
           addAnnotations(newAnnotations)
           effect(.internal(.updatePreviews))
@@ -107,7 +107,7 @@ func makeMapModel(
           effect(.internal(.updatePreviews))
         case .updatePreviews:
           state.previews = visibleAnnotations.value.compactMap {
-            guard let ann = $0 as? Annotation else { return nil }
+            guard let ann = $0 as? AnnotationWrapper else { return nil }
             return switch ann.value {
             case let .image(image): image
             case let .cluster(cluster): cluster.preview

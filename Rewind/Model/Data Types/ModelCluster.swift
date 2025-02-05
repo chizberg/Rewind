@@ -13,8 +13,8 @@ extension Model {
     var coordinate: Coordinate
     var count: Int
 
-    init(nc: Network.Cluster) {
-      preview = Model.Image(nc.preview)
+    init(nc: Network.Cluster, image: LoadableImage) {
+      preview = Model.Image(nc.preview, image: image)
       coordinate = Coordinate(nc.geo)
       count = nc.count
     }

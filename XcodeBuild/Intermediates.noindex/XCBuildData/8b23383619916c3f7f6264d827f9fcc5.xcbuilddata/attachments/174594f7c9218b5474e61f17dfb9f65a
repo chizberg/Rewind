@@ -1,0 +1,308 @@
+{
+  "" : {
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/Rewind-master.dia",
+    "emit-module-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/Rewind-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/Rewind-master-emit-module.dia",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/Rewind-master.swiftdeps"
+  },
+  "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/ContentView.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ContentView.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ContentView.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ContentView.dia",
+    "index-unit-output-path" : "/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ContentView.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ContentView.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ContentView.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ContentView.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ContentView~partial.swiftmodule"
+  },
+  "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/Map/AnnotationAnimator.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/AnnotationAnimator.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/AnnotationAnimator.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/AnnotationAnimator.dia",
+    "index-unit-output-path" : "/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/AnnotationAnimator.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/AnnotationAnimator.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/AnnotationAnimator.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/AnnotationAnimator.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/AnnotationAnimator~partial.swiftmodule"
+  },
+  "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/Map/AnnotationViews/ClusterAnnotationView.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ClusterAnnotationView.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ClusterAnnotationView.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ClusterAnnotationView.dia",
+    "index-unit-output-path" : "/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ClusterAnnotationView.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ClusterAnnotationView.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ClusterAnnotationView.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ClusterAnnotationView.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ClusterAnnotationView~partial.swiftmodule"
+  },
+  "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/Map/AnnotationViews/ImageAnnotationView.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ImageAnnotationView.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ImageAnnotationView.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ImageAnnotationView.dia",
+    "index-unit-output-path" : "/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ImageAnnotationView.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ImageAnnotationView.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ImageAnnotationView.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ImageAnnotationView.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ImageAnnotationView~partial.swiftmodule"
+  },
+  "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/Map/AnnotationWrapper.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/AnnotationWrapper.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/AnnotationWrapper.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/AnnotationWrapper.dia",
+    "index-unit-output-path" : "/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/AnnotationWrapper.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/AnnotationWrapper.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/AnnotationWrapper.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/AnnotationWrapper.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/AnnotationWrapper~partial.swiftmodule"
+  },
+  "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/Map/MapAdapter.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/MapAdapter.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/MapAdapter.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/MapAdapter.dia",
+    "index-unit-output-path" : "/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/MapAdapter.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/MapAdapter.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/MapAdapter.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/MapAdapter.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/MapAdapter~partial.swiftmodule"
+  },
+  "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/Map/MapKit+Extensions.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/MapKit+Extensions.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/MapKit+Extensions.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/MapKit+Extensions.dia",
+    "index-unit-output-path" : "/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/MapKit+Extensions.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/MapKit+Extensions.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/MapKit+Extensions.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/MapKit+Extensions.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/MapKit+Extensions~partial.swiftmodule"
+  },
+  "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/Model/AnnotationUpdater.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/AnnotationUpdater.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/AnnotationUpdater.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/AnnotationUpdater.dia",
+    "index-unit-output-path" : "/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/AnnotationUpdater.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/AnnotationUpdater.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/AnnotationUpdater.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/AnnotationUpdater.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/AnnotationUpdater~partial.swiftmodule"
+  },
+  "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/Model/Data Types/Direction.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/Direction.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/Direction.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/Direction.dia",
+    "index-unit-output-path" : "/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/Direction.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/Direction.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/Direction.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/Direction.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/Direction~partial.swiftmodule"
+  },
+  "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/Model/Data Types/ImageDate.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ImageDate.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ImageDate.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ImageDate.dia",
+    "index-unit-output-path" : "/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ImageDate.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ImageDate.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ImageDate.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ImageDate.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ImageDate~partial.swiftmodule"
+  },
+  "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/Model/Data Types/ModelCluster.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ModelCluster.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ModelCluster.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ModelCluster.dia",
+    "index-unit-output-path" : "/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ModelCluster.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ModelCluster.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ModelCluster.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ModelCluster.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ModelCluster~partial.swiftmodule"
+  },
+  "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/Model/Data Types/ModelImage.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ModelImage.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ModelImage.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ModelImage.dia",
+    "index-unit-output-path" : "/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ModelImage.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ModelImage.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ModelImage.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ModelImage.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ModelImage~partial.swiftmodule"
+  },
+  "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/Model/ImageLoader.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ImageLoader.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ImageLoader.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ImageLoader.dia",
+    "index-unit-output-path" : "/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ImageLoader.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ImageLoader.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ImageLoader.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ImageLoader.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ImageLoader~partial.swiftmodule"
+  },
+  "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/Model/MapModel.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/MapModel.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/MapModel.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/MapModel.dia",
+    "index-unit-output-path" : "/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/MapModel.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/MapModel.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/MapModel.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/MapModel.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/MapModel~partial.swiftmodule"
+  },
+  "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/Model/Reducer.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/Reducer.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/Reducer.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/Reducer.dia",
+    "index-unit-output-path" : "/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/Reducer.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/Reducer.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/Reducer.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/Reducer.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/Reducer~partial.swiftmodule"
+  },
+  "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/Model/Zoom.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/Zoom.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/Zoom.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/Zoom.dia",
+    "index-unit-output-path" : "/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/Zoom.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/Zoom.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/Zoom.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/Zoom.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/Zoom~partial.swiftmodule"
+  },
+  "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/Network/Data Types/NetworkCluster.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/NetworkCluster.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/NetworkCluster.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/NetworkCluster.dia",
+    "index-unit-output-path" : "/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/NetworkCluster.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/NetworkCluster.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/NetworkCluster.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/NetworkCluster.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/NetworkCluster~partial.swiftmodule"
+  },
+  "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/Network/Data Types/NetworkImage.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/NetworkImage.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/NetworkImage.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/NetworkImage.dia",
+    "index-unit-output-path" : "/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/NetworkImage.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/NetworkImage.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/NetworkImage.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/NetworkImage.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/NetworkImage~partial.swiftmodule"
+  },
+  "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/Network/Data Types/NetworkImageDetails.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/NetworkImageDetails.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/NetworkImageDetails.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/NetworkImageDetails.dia",
+    "index-unit-output-path" : "/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/NetworkImageDetails.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/NetworkImageDetails.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/NetworkImageDetails.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/NetworkImageDetails.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/NetworkImageDetails~partial.swiftmodule"
+  },
+  "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/Network/ImageQuality.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ImageQuality.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ImageQuality.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ImageQuality.dia",
+    "index-unit-output-path" : "/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ImageQuality.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ImageQuality.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ImageQuality.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ImageQuality.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ImageQuality~partial.swiftmodule"
+  },
+  "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/Network/NetworkError.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/NetworkError.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/NetworkError.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/NetworkError.dia",
+    "index-unit-output-path" : "/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/NetworkError.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/NetworkError.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/NetworkError.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/NetworkError.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/NetworkError~partial.swiftmodule"
+  },
+  "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/Network/Request.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/Request.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/Request.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/Request.dia",
+    "index-unit-output-path" : "/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/Request.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/Request.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/Request.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/Request.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/Request~partial.swiftmodule"
+  },
+  "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/Network/RequestPerformer.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/RequestPerformer.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/RequestPerformer.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/RequestPerformer.dia",
+    "index-unit-output-path" : "/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/RequestPerformer.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/RequestPerformer.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/RequestPerformer.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/RequestPerformer.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/RequestPerformer~partial.swiftmodule"
+  },
+  "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/PastvuColors.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/PastvuColors.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/PastvuColors.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/PastvuColors.dia",
+    "index-unit-output-path" : "/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/PastvuColors.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/PastvuColors.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/PastvuColors.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/PastvuColors.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/PastvuColors~partial.swiftmodule"
+  },
+  "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/RewindApp.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/RewindApp.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/RewindApp.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/RewindApp.dia",
+    "index-unit-output-path" : "/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/RewindApp.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/RewindApp.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/RewindApp.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/RewindApp.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/RewindApp~partial.swiftmodule"
+  },
+  "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/Utils/ObservedVariable.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ObservedVariable.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ObservedVariable.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ObservedVariable.dia",
+    "index-unit-output-path" : "/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ObservedVariable.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ObservedVariable.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ObservedVariable.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ObservedVariable.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ObservedVariable~partial.swiftmodule"
+  },
+  "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/Utils/ThrottledActionPerformer.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ThrottledActionPerformer.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ThrottledActionPerformer.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ThrottledActionPerformer.dia",
+    "index-unit-output-path" : "/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ThrottledActionPerformer.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ThrottledActionPerformer.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ThrottledActionPerformer.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ThrottledActionPerformer.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ThrottledActionPerformer~partial.swiftmodule"
+  },
+  "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/Utils/ViewRepresentable.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ViewRepresentable.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ViewRepresentable.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ViewRepresentable.dia",
+    "index-unit-output-path" : "/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ViewRepresentable.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ViewRepresentable.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ViewRepresentable.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ViewRepresentable.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ViewRepresentable~partial.swiftmodule"
+  },
+  "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/View/ThumbnailView.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ThumbnailView.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ThumbnailView.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ThumbnailView.dia",
+    "index-unit-output-path" : "/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ThumbnailView.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ThumbnailView.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ThumbnailView.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ThumbnailView.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/ThumbnailView~partial.swiftmodule"
+  },
+  "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/GeneratedAssetSymbols.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/GeneratedAssetSymbols.dia",
+    "index-unit-output-path" : "/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/GeneratedAssetSymbols.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftdeps",
+    "swiftmodule" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/Rewind.build/Debug-iphonesimulator/Rewind.build/Objects-normal/arm64/GeneratedAssetSymbols~partial.swiftmodule"
+  }
+}

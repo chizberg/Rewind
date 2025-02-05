@@ -1,16 +1,5 @@
 {
   "source": "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/ContentView.swift",
-  "tables": {
-    "Localizable": [
-      {
-        "comment": "",
-        "key": "%lld",
-        "location": {
-          "startingColumn": 12,
-          "startingLine": 21
-        }
-      }
-    ]
-  },
+  "tables": {},
   "version": 1
 }

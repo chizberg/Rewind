@@ -4,6 +4,10 @@
 <dict>
 	<key>files</key>
 	<dict>
+		<key>Assets.car</key>
+		<data>
+		JJHcLVk6QPQ56Beo6tw0KEvlkdw=
+		</data>
 		<key>Info.plist</key>
 		<data>
 		ETzhJIuLEHzTiqpd+Ra6jL8nNLs=
@@ -14,7 +18,7 @@
 		</data>
 		<key>Rewind.debug.dylib</key>
 		<data>
-		clYl3n7Ol70vSXXXq/CrHgl64Eg=
+		MXVfj5ceItFJyuwj1EXO0npB9lg=
 		</data>
 		<key>__preview.dylib</key>
 		<data>
@@ -23,11 +27,18 @@
 	</dict>
 	<key>files2</key>
 	<dict>
+		<key>Assets.car</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			BoPr+fP2xJdxPz97enoOKLnUgXMv/jUGwFy5zGT+/l8=
+			</data>
+		</dict>
 		<key>Rewind.debug.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			J1u4N6TcjopdFgeURmnBvicOJgQDOVWKXWhcLQiBje4=
+			+ibv/KsR3dZLSQKs6Qd35WT9aS3rA9/ZCit8UTxD/ts=
 			</data>
 		</dict>
 		<key>__preview.dylib</key>
