@@ -38,6 +38,7 @@ final class MapAdapter: NSObject, MKMapViewDelegate {
       map.showsUserLocation = true
       map.register(ImageAnnotationView.self)
       map.register(ClusterAnnotationView.self)
+      map.register(MergedAnnotationView.self)
       return map
     })
     super.init()
@@ -78,17 +79,24 @@ final class MapAdapter: NSObject, MKMapViewDelegate {
     _ mapView: MKMapView,
     viewFor annotation: any MKAnnotation
   ) -> MKAnnotationView? {
-    guard let wrapper = annotation as? AnnotationWrapper else { return nil }
-    switch wrapper.value {
-    case .image:
+    if let wrapper = annotation as? AnnotationWrapper {
+      switch wrapper.value {
+      case .image:
+        return mapView.dequeueReusableAnnotationView(
+          ImageAnnotationView.self
+        )
+      case .cluster:
+        return mapView.dequeueReusableAnnotationView(
+          ClusterAnnotationView.self
+        )
+      }
+    }
+    if let merged = annotation as? MKClusterAnnotation {
       return mapView.dequeueReusableAnnotationView(
-        ImageAnnotationView.self
-      )
-    case .cluster:
-      return mapView.dequeueReusableAnnotationView(
-        ClusterAnnotationView.self
+        MergedAnnotationView.self
       )
     }
+    return nil
   }
 
   func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {

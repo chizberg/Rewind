@@ -30,7 +30,11 @@ final class RequestPerformer {
 
   private func data(for request: URLRequest) async throws -> Data {
     do {
-      let (data, _) = try await urlRequestPerformer(request)
+      let (data, response) = try await urlRequestPerformer(request)
+      if let httpResponse = response as? HTTPURLResponse,
+         !(200..<300).contains(httpResponse.statusCode) {
+        throw NetworkError.invalidCode(httpResponse.statusCode)
+      }
       return data
     } catch {
       throw NetworkError.connectionFailure(error)

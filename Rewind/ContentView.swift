@@ -19,17 +19,41 @@ struct ContentView: View {
         rawMap
       }.ignoresSafeArea()
 
-//      ScrollView {
-//        LazyHStack {
-//          ForEach(mapState.previews) {
-//            ThumbnailView(image: $0)
-//              .frame(width: 100, height: 100)
-//          }
-//        }
-//      }
+      ThumbnailsView(previews: mapState.previews)
     }
   }
 }
+
+private struct ThumbnailsView: View {
+  let previews: [Model.Image]
+  private let leadingEdge = 0
+
+  var body: some View {
+    ScrollViewReader { proxy in
+      ScrollView(.horizontal, showsIndicators: false) {
+        HStack(spacing: 0) {
+          // Empty view to scroll to (including paddings)
+          Color.clear.frame(width: 0, height: 0).id(leadingEdge)
+
+          LazyHStack {
+            ForEach(previews) {
+              ThumbnailView(image: $0, size: thumbnailSize)
+            }
+          }.padding()
+        }
+
+      }
+      .onChange(of: previews) {
+        withAnimation {
+          proxy.scrollTo(leadingEdge, anchor: .leading)
+        }
+      }
+    }.frame(height: thumbnailSize.height)
+      .animation(.spring(), value: previews)
+  }
+}
+
+private let thumbnailSize = CGSize(width: 250, height: 187.5)
 
 #Preview {
   @Previewable @State var graph = AppGraph()

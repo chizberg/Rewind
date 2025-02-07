@@ -9,23 +9,27 @@ import SwiftUI
 
 struct ThumbnailView: View {
   var image: Model.Image
+  var size: CGSize
 
   var body: some View {
     ZStack(alignment: .bottomLeading) {
-//      AsyncImage {
-//        try await image.image.load(quality: .low)
-//      } content: { loaded in
-//        Image(uiImage: loaded)
-//          .resizable()
-//          .aspectRatio(contentMode: .fill)
-//      }
-//      Image(uiImage: UIImage(named: "cat")!)
-//        .resizable()
-//        .aspectRatio(contentMode: .fill)
+      BlurView(style: .systemThinMaterial, radius: radius)
 
+      AsyncImage {
+        try await image.image.load(quality: .medium)
+      } content: { loaded in
+        Image(uiImage: loaded)
+          .resizable()
+          .aspectRatio(contentMode: .fill)
+          .frame(size: size)
+      }
+      
       badge
         .padding(radius - badgeRadius)
-    }.clipShape(RoundedRectangle(cornerRadius: radius))
+    }
+    .frame(size: size)
+    .clipShape(RoundedRectangle(cornerRadius: radius))
+    .transition(.scale)
   }
 
   private var badge: some View {
@@ -45,6 +49,6 @@ private let radius: CGFloat = 15
 
 #if DEBUG
 #Preview {
-  ThumbnailView(image: .mock)
+  ThumbnailView(image: .mock, size: CGSize(width: 200, height: 200))
 }
 #endif

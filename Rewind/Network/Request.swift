@@ -135,7 +135,8 @@ private extension Network {
     Request<UIImage>(
       makeURLRequest: {
         var components = makeBaseURLComponents()
-        components.path = "/_p/\(quality.linkParam)/\(path)"
+        let clearPath = dropUnexpectedQueryItems(from: path)
+        components.path = "/_p/\(quality.linkParam)/\(clearPath)"
         return URLRequest(url: components.url!)
       },
       parseResult: { data in
@@ -147,4 +148,13 @@ private extension Network {
       }
     )
   }
+}
+
+// path contains unexpected query parameters, we have to remove them
+private func dropUnexpectedQueryItems(from path: String) -> String {
+  guard var urlComponents = URLComponents(string: path) else {
+    return path
+  }
+  urlComponents.query = nil
+  return urlComponents.string ?? path
 }

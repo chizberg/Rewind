@@ -33,7 +33,7 @@ final class AppGraph {
     let mapAdapter = MapAdapter()
     let requestPerformer = RequestPerformer(urlRequestPerformer: URLSession.shared.data)
     let imageLoader = ImageLoader(requestPerformer: requestPerformer)
-    let throttledPerformer = ThrottledActionPerformer()
+    let throttler = Throttler()
 
     let annotationLoader = AnnotationLoader(
       requestPerformer: requestPerformer,
@@ -51,10 +51,9 @@ final class AppGraph {
           apply: { weakSelf?.mapModel(.external(.loaded($0, $1))) }
         )
       },
-      throttledAction: { mapAction in
-        throttledPerformer.throttledCall {
-          weakSelf?.mapModel(mapAction)
-        }
+      throttle: { mapAction in
+        // TODO: simplify, no probably no need to pass mapaction itself
+        throttler.throttle(mapAction, perform: { weakSelf?.mapModel($0) })
       }
     )
     self.mapAdapter = mapAdapter

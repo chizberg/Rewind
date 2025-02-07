@@ -10,5 +10,6 @@ import Foundation
 enum NetworkError: Error {
   case invalidURL
   case connectionFailure(Error)
+  case invalidCode(Int)
   case parsingFailure(Error? = nil, desc: String? = nil)
 }

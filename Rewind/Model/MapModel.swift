@@ -32,7 +32,7 @@ enum MapAction {
   }
 
   enum Internal {
-    case regionChangedThrottled(Region)
+    case regionChanged(Region)
     case clearAnnotations
     case updatePreviews
   }
@@ -47,7 +47,7 @@ func makeMapModel(
   visibleAnnotations: Variable<[MKAnnotation]>,
   setRegion: @escaping (Region, _ animated: Bool) -> Void,
   requestAnnotations: @escaping (Region) -> Void,
-  throttledAction: @escaping (MapAction) -> Void
+  throttle: @escaping (MapAction) -> Void
 ) -> MapModel {
   MapModel(
     initial: MapState(
@@ -61,7 +61,7 @@ func makeMapModel(
       case let .external(externalAction):
         switch externalAction {
         case let .map(.regionChanged(region)):
-          throttledAction(.internal(.regionChangedThrottled(region)))
+          throttle(.internal(.regionChanged(region)))
         case let .map(.annotationSelected(mkAnn)):
           guard let ann = mkAnn as? AnnotationWrapper else { return }
           switch ann.value {
@@ -89,24 +89,29 @@ func makeMapModel(
             + newClusters.map { AnnotationWrapper(value: .cluster($0)) }
 
           addAnnotations(newAnnotations)
-          effect(.internal(.updatePreviews))
+          throttle(.internal(.updatePreviews))
         }
       case let .internal(internalAction):
         switch internalAction {
-        case let .regionChangedThrottled(region):
+        case let .regionChanged(region):
           if state.region != .zero, state.region.zoom != region.zoom {
             effect(.internal(.clearAnnotations))
           }
           state.region = region
           requestAnnotations(region)
-          effect(.internal(.updatePreviews))
+          throttle(.internal(.updatePreviews))
         case .clearAnnotations:
           state.images.removeAll()
           state.clusters.removeAll()
           clearAnnotations()
-          effect(.internal(.updatePreviews))
+          throttle(.internal(.updatePreviews))
         case .updatePreviews:
-          state.previews = visibleAnnotations.value.compactMap {
+          state.previews = visibleAnnotations.value.flatMap {
+            if let cluster = $0 as? MKClusterAnnotation {
+              return cluster.memberAnnotations
+            }
+            return [$0]
+          }.prefix(10).compactMap {
             guard let ann = $0 as? AnnotationWrapper else { return nil }
             return switch ann.value {
             case let .image(image): image

@@ -81,6 +81,7 @@ struct LoadableImage {
         let image = try await loadImpl(quality)
         await completion(image)
       } catch {
+        print("chzbrg error \(error)")
         // TODO: error handling
       }
     }
