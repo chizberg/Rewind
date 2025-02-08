@@ -8,7 +8,7 @@
 import Foundation
 
 extension Network {
-  struct Image: Codable {
+  struct Image: Decodable {
     let cid: Int // unique image id
     let file: String // local path to image
     let title: String

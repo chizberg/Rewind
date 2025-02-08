@@ -113,6 +113,14 @@ private extension Network {
       let cid: Int
     }
 
+    struct RawResponse: Decodable {
+      struct Result: Decodable {
+        let photo: ImageDetails
+      }
+
+      let result: Result
+    }
+
     return Request<ImageDetails> (
       makeURLRequest: {
         var components = makeBaseURLComponents()
@@ -126,7 +134,8 @@ private extension Network {
         return URLRequest(url: components.url!)
       },
       parseResult: { data in
-        try JSONDecoder().decode(ImageDetails.self, from: data)
+        let raw = try JSONDecoder().decode(RawResponse.self, from: data)
+        return raw.result.photo
       }
     )
   }

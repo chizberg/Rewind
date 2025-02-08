@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct BlurView: UIViewRepresentable {
-  var style: UIBlurEffect.Style?
+  var style: UIBlurEffect.Style = .systemMaterial
   var animated: Bool = false
   var radius: CGFloat = 0
 
   func makeUIView(context _: Context) -> UIVisualEffectView {
-    let effect = style.flatMap(UIBlurEffect.init(style:))
+    let effect = UIBlurEffect.init(style: style)
     let uiView = UIVisualEffectView(effect: effect)
     uiView.clipsToBounds = true
     return uiView
@@ -23,7 +23,7 @@ struct BlurView: UIViewRepresentable {
     uiView.layer.cornerRadius = radius
 
     UIView.animate(withDuration: animated ? 0.5 : 0) {
-      let effect = style.flatMap(UIBlurEffect.init(style:))
+      let effect = UIBlurEffect.init(style: style)
       uiView.effect = effect
     }
   }
@@ -53,7 +53,7 @@ struct BlurView_Previews: PreviewProvider {
   }
 }
 
-extension UIBlurEffect.Style: CaseIterable {
+extension UIBlurEffect.Style: @retroactive CaseIterable {
   public static var allCases: [UIBlurEffect.Style] = [
     .extraLight,
     .light,

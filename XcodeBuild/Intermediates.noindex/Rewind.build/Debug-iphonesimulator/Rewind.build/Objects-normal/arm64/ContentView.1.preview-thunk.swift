@@ -3,7 +3,7 @@ import func SwiftUI.__designTimeString
 import func SwiftUI.__designTimeInteger
 import func SwiftUI.__designTimeBoolean
 
-#sourceLocation(file: "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/ContentView.swift", line: 1)
+#sourceLocation(file: "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/View/ContentView.swift", line: 1)
 //
 //  ContentView.swift
 //  Rewind
@@ -25,17 +25,41 @@ struct ContentView: View {
         rawMap
       }.ignoresSafeArea()
 
-      ScrollView {
-        HStack {
-          ForEach(mapState.previews) {
-            ThumbnailView(image: $0)
-              .frame(width: __designTimeInteger("#805_0", fallback: 100), height: __designTimeInteger("#805_1", fallback: 100))
-          }
-        }
-      }
+      ThumbnailsView(previews: mapState.previews)
     }
   }
 }
+
+private struct ThumbnailsView: View {
+  let previews: [Model.Image]
+  private let leadingEdge = 0
+
+  var body: some View {
+    ScrollViewReader { proxy in
+      ScrollView(.horizontal, showsIndicators: __designTimeBoolean("#7492_0", fallback: false)) {
+        HStack(spacing: __designTimeInteger("#7492_1", fallback: 0)) {
+          // Empty view to scroll to (including paddings)
+          Color.clear.frame(width: __designTimeInteger("#7492_2", fallback: 0), height: __designTimeInteger("#7492_3", fallback: 0)).id(leadingEdge)
+
+          LazyHStack {
+            ForEach(previews) {
+              ThumbnailView(image: $0, size: thumbnailSize)
+            }
+          }.padding()
+        }
+
+      }
+      .onChange(of: previews) {
+        withAnimation {
+          proxy.scrollTo(leadingEdge, anchor: .leading)
+        }
+      }
+    }.frame(height: thumbnailSize.height)
+      .animation(.spring(), value: previews)
+  }
+}
+
+private let thumbnailSize = CGSize(width: 250, height: 187.5)
 
 #Preview {
   @Previewable @State var graph = AppGraph()

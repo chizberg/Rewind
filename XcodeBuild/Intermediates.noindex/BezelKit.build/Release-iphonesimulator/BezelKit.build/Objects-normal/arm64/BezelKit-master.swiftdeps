@@ -1,0 +1,17 @@
+version: "Apple Swift version 6.0.3 (swiftlang-6.0.3.1.10 clang-1600.0.30.1)"
+options: "091d4a6b6ead5ada0dfb8bef70e2fba01ae36d78c41885ee8372538ee624308e"
+build_start_time: [1739029573, 175626000]
+build_end_time: [1739029576, 141606000]
+inputs:
+  ? "/Users/chizberg/Documents/\u041B\u0438\u0447\u043D\u044B\u0435 \u043F\u0440\u043E\u0435\u043A\u0442\u044B/Rewind/XcodeBuild/Intermediates.noindex/BezelKit.build/Release-iphonesimulator/BezelKit.build/DerivedSources/resource_bundle_accessor.swift"
+  : [1739029573, 17055402]
+  ? "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/BezelKit/Sources/BezelKit/BezelKit+Error.swift"
+  : [1739029413, 543960208]
+  ? "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/BezelKit/Sources/BezelKit/BezelKit+Models.swift"
+  : [1739029413, 544061290]
+  ? "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/BezelKit/Sources/BezelKit/BezelKit.swift"
+  : [1739029413, 544138373]
+  ? "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/BezelKit/Sources/BezelKit/CGFloat+Ext.swift"
+  : [1739029413, 544202456]
+  ? "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/BezelKit/Sources/BezelKit/UIDevice+Ext.swift"
+  : [1739029413, 544487245]

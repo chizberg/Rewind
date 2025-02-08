@@ -8,7 +8,7 @@
 import Foundation
 
 extension Network {
-  struct Cluster: Codable {
+  struct Cluster: Decodable {
     let preview: Network.Image // preview pic
     let geo: [Double] // location, has two values: latitude and longitude
     let count: Int // contained images count

@@ -8,6 +8,34 @@
 		<data>
 		JJHcLVk6QPQ56Beo6tw0KEvlkdw=
 		</data>
+		<key>BezelKit_BezelKit.bundle/Info.plist</key>
+		<data>
+		Lrct2nu+RuWF/y1o5p80zE7PY9k=
+		</data>
+		<key>BezelKit_BezelKit.bundle/_CodeSignature/CodeDirectory</key>
+		<data>
+		Ew804b7kFN/S02jUFiEzzJOOgt4=
+		</data>
+		<key>BezelKit_BezelKit.bundle/_CodeSignature/CodeRequirements</key>
+		<data>
+		OnX22wWFKRSOFN1+obRynMCeyXM=
+		</data>
+		<key>BezelKit_BezelKit.bundle/_CodeSignature/CodeRequirements-1</key>
+		<data>
+		Ssk7JbZ7lZbX2Y0OXp629oVqhKY=
+		</data>
+		<key>BezelKit_BezelKit.bundle/_CodeSignature/CodeResources</key>
+		<data>
+		x1+A3TnGHwmJ80SbUgncMRRF0nU=
+		</data>
+		<key>BezelKit_BezelKit.bundle/_CodeSignature/CodeSignature</key>
+		<data>
+		2jmj7l5rSw0yVb/vlWAYkK/YBwk=
+		</data>
+		<key>BezelKit_BezelKit.bundle/bezel.min.json</key>
+		<data>
+		yZKUMYNo6v9xGkt9N+BszaEl8po=
+		</data>
 		<key>Info.plist</key>
 		<data>
 		ETzhJIuLEHzTiqpd+Ra6jL8nNLs=
@@ -18,7 +46,7 @@
 		</data>
 		<key>Rewind.debug.dylib</key>
 		<data>
-		MXVfj5ceItFJyuwj1EXO0npB9lg=
+		rounC0N7/XbiEdxBAaIBuryjlE4=
 		</data>
 		<key>__preview.dylib</key>
 		<data>
@@ -34,11 +62,60 @@
 			BoPr+fP2xJdxPz97enoOKLnUgXMv/jUGwFy5zGT+/l8=
 			</data>
 		</dict>
+		<key>BezelKit_BezelKit.bundle/Info.plist</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			98g8O76IcjzMSNDxRNYbVSM0fjJSrKc/J1ITRqrkLUs=
+			</data>
+		</dict>
+		<key>BezelKit_BezelKit.bundle/_CodeSignature/CodeDirectory</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			5r29bDnhZ5bhK4Bk4ac8Q2IoX5mBGEg6jzM4f69DY9Y=
+			</data>
+		</dict>
+		<key>BezelKit_BezelKit.bundle/_CodeSignature/CodeRequirements</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			mHkgkE6rZQ51eIwFSqCwUk5qgL/HGqMt+NI3phdD+YY=
+			</data>
+		</dict>
+		<key>BezelKit_BezelKit.bundle/_CodeSignature/CodeRequirements-1</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			R3ZHbVzzo3nDs6l8CX5FqeGWrQSkQzzC/PTP3PONPcs=
+			</data>
+		</dict>
+		<key>BezelKit_BezelKit.bundle/_CodeSignature/CodeResources</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			ZIOMMBXJ/d+KB2frcmVGY7LN9oGsq/rf7Ea03CO4EsA=
+			</data>
+		</dict>
+		<key>BezelKit_BezelKit.bundle/_CodeSignature/CodeSignature</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=
+			</data>
+		</dict>
+		<key>BezelKit_BezelKit.bundle/bezel.min.json</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			3FbI3/k2BFbNdSSug8UC4S+60hLiIFH9u+9UwkrmKDs=
+			</data>
+		</dict>
 		<key>Rewind.debug.dylib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			+ibv/KsR3dZLSQKs6Qd35WT9aS3rA9/ZCit8UTxD/ts=
+			I4ZTEvXV/DFJTkbinuTVqErZApnLyDfh/XtCl9KatME=
 			</data>
 		</dict>
 		<key>__preview.dylib</key>

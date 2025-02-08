@@ -30,9 +30,9 @@ final class ImageLoader {
   }
 
   private func load(path: String, quality: ImageQuality) async throws -> UIImage {
-    if let image = cached(path: path, quality: quality) {
-      return image
-    }
+//    if let image = cached(path: path, quality: quality) {
+//      return image
+//    }
     let image = try await fetch(path: path, quality: quality)
     let key = ImageCacheKey(path: path, quality: quality)
     cache.setObject(image, forKey: key)
@@ -61,29 +61,24 @@ private class ImageCacheKey: AnyObject {
   }
 }
 
-struct LoadableImage {
-  private var loadImpl: (ImageQuality) async throws -> UIImage
+typealias LoadableImage = Remote<ImageQuality, UIImage>
 
-  init(load: @escaping (ImageQuality) async throws -> UIImage) {
-    self.loadImpl = load
-  }
-
-  func load(quality: ImageQuality) async throws -> UIImage {
-    try await loadImpl(quality)
-  }
-
+extension LoadableImage {
   func load(
     quality: ImageQuality,
     completion: @escaping @MainActor (UIImage) -> Void
   ) -> Task<Void, Never> {
-    Task {
-      do {
-        let image = try await loadImpl(quality)
-        await completion(image)
-      } catch {
-        print("chzbrg error \(error)")
-        // TODO: error handling
+    self(quality) { result in
+      switch result {
+      case let .success(image): completion(image)
+      case .failure: break // TODO: error handling
       }
     }
+  }
+}
+
+extension LoadableImage {
+  static let mock = LoadableImage { _ in
+    UIImage(named: "cat")!
   }
 }

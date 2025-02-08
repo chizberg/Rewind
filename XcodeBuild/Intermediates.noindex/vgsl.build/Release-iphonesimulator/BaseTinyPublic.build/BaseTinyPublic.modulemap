@@ -1,0 +1,4 @@
+module BaseTinyPublic {
+header "BaseTinyPublic-Swift.h"
+export *
+}

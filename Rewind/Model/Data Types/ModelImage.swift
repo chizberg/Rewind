@@ -45,9 +45,7 @@ extension Model.Image: Identifiable {
 extension Model.Image {
   static let mock = Model.Image(
     .mock,
-    image: LoadableImage { _ in
-      UIImage(named: "cat")!
-    }
+    image: .mock
   )
 }
 #endif

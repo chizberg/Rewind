@@ -14,9 +14,11 @@ struct RewindApp: App {
 
   var body: some Scene {
     WindowGroup {
-      ContentView(
+      RootView(
         rawMap: graph.mapAdapter.view,
-        mapState: graph.mapState
+        mapState: graph.mapState,
+        imageDetailsFactory: graph.imageDetailsFactory,
+        actionHandler: graph.uiActionHandler
       )
     }
   }
@@ -26,6 +28,8 @@ final class AppGraph {
   let mapModel: MapModel
   let mapAdapter: MapAdapter
   let mapState: ObservedVariable<MapState>
+  let imageDetailsFactory: (Int) -> ImageDetailsModel
+  let uiActionHandler: (MapAction.External.UI) -> Void
   private let disposePool = AutodisposePool()
 
   init() {
@@ -35,7 +39,7 @@ final class AppGraph {
     let imageLoader = ImageLoader(requestPerformer: requestPerformer)
     let throttler = Throttler()
 
-    let annotationLoader = AnnotationLoader(
+    let remotes = RewindRemotes(
       requestPerformer: requestPerformer,
       imageLoader: imageLoader
     )
@@ -45,10 +49,15 @@ final class AppGraph {
       visibleAnnotations: Variable { mapAdapter.visibleAnnotations },
       setRegion: mapAdapter.set(region:animated:),
       requestAnnotations: { region in
-        annotationLoader.loadNewAnnotations(
-          region: region,
-          yearRange: 1900...2000, // TODO
-          apply: { weakSelf?.mapModel(.external(.loaded($0, $1))) }
+        remotes.annotations(
+          (region: region, yearRange: 1900...2000), // TODO
+          completion: { result in
+            switch result {
+            case let .success((images, clusters)):
+              weakSelf?.mapModel(.external(.loaded(images, clusters)))
+            case .failure: break // TODO
+            }
+          }
         )
       },
       throttle: { mapAction in
@@ -58,6 +67,10 @@ final class AppGraph {
     )
     self.mapAdapter = mapAdapter
     self.mapState = mapModel.$state.asObservedVariable()
+    imageDetailsFactory = { cid in
+      makeImageDetailsModel(load: remotes.imageDetails.mapArgs { cid })
+    }
+    uiActionHandler = { weakSelf?.mapModel(.external(.ui($0))) }
     weakSelf = self
 
     mapAdapter.events.addObserver { [weak self] in

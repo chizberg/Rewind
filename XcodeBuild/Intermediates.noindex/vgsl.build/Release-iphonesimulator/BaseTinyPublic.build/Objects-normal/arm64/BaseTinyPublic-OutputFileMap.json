@@ -1,0 +1,15 @@
+{
+  "" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Release-iphonesimulator/BaseTinyPublic.build/Objects-normal/arm64/BaseTinyPublic-master.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Release-iphonesimulator/BaseTinyPublic.build/Objects-normal/arm64/BaseTinyPublic-master.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Release-iphonesimulator/BaseTinyPublic.build/Objects-normal/arm64/BaseTinyPublic-master.dia",
+    "emit-module-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Release-iphonesimulator/BaseTinyPublic.build/Objects-normal/arm64/BaseTinyPublic-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Release-iphonesimulator/BaseTinyPublic.build/Objects-normal/arm64/BaseTinyPublic-master-emit-module.dia",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Release-iphonesimulator/BaseTinyPublic.build/Objects-normal/arm64/BaseTinyPublic-master.swiftdeps"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/CompatibilityShims/BaseTinyPublic/Exports.swift" : {
+    "index-unit-output-path" : "/vgsl.build/Release-iphonesimulator/BaseTinyPublic.build/Objects-normal/arm64/Exports.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Release-iphonesimulator/BaseTinyPublic.build/Objects-normal/arm64/Exports.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Release-iphonesimulator/BaseTinyPublic.build/Objects-normal/arm64/Exports.o"
+  }
+}

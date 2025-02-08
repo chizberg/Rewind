@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2226F2DE2D57B3410042601C /* BezelKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2226F2DD2D57B3410042601C /* BezelKit */; };
 		22291CB72D5011DC00F2FEBE /* VGSL in Frameworks */ = {isa = PBXBuildFile; productRef = 22291CB62D5011DC00F2FEBE /* VGSL */; };
 		22291CB92D5011DC00F2FEBE /* VGSLFundamentals in Frameworks */ = {isa = PBXBuildFile; productRef = 22291CB82D5011DC00F2FEBE /* VGSLFundamentals */; };
 		22291CBB2D5011DC00F2FEBE /* VGSLNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = 22291CBA2D5011DC00F2FEBE /* VGSLNetworking */; };
@@ -72,6 +73,7 @@
 				22291CB92D5011DC00F2FEBE /* VGSLFundamentals in Frameworks */,
 				22291CC32D50120100F2FEBE /* BaseUIPublic in Frameworks */,
 				22291CBF2D50120100F2FEBE /* BasePublic in Frameworks */,
+				2226F2DE2D57B3410042601C /* BezelKit in Frameworks */,
 				22291CBB2D5011DC00F2FEBE /* VGSLNetworking in Frameworks */,
 				22291CC92D50120100F2FEBE /* VGSL_Fundamentals in Frameworks */,
 				22291CC12D50120100F2FEBE /* BaseTinyPublic in Frameworks */,
@@ -148,6 +150,7 @@
 				22291CC62D50120100F2FEBE /* NetworkingPublic */,
 				22291CC82D50120100F2FEBE /* VGSL_Fundamentals */,
 				22291CCA2D50120100F2FEBE /* VGSL_Fundamentals_Tiny */,
+				2226F2DD2D57B3410042601C /* BezelKit */,
 			);
 			productName = Rewind;
 			productReference = 22291C882D50106600F2FEBE /* Rewind.app */;
@@ -233,6 +236,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				22291CB52D5011DC00F2FEBE /* XCRemoteSwiftPackageReference "vgsl" */,
+				2226F2DC2D57B3280042601C /* XCRemoteSwiftPackageReference "BezelKit" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 22291C892D50106600F2FEBE /* Products */;
@@ -599,6 +603,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		2226F2DC2D57B3280042601C /* XCRemoteSwiftPackageReference "BezelKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/markbattistella/BezelKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.2.0;
+			};
+		};
 		22291CB52D5011DC00F2FEBE /* XCRemoteSwiftPackageReference "vgsl" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/yandex/vgsl.git";
@@ -610,6 +622,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		2226F2DD2D57B3410042601C /* BezelKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2226F2DC2D57B3280042601C /* XCRemoteSwiftPackageReference "BezelKit" */;
+			productName = BezelKit;
+		};
 		22291CB62D5011DC00F2FEBE /* VGSL */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 22291CB52D5011DC00F2FEBE /* XCRemoteSwiftPackageReference "vgsl" */;

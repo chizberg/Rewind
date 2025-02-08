@@ -1,0 +1,40 @@
+{
+  "" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/BezelKit.build/Release-iphonesimulator/BezelKit.build/Objects-normal/arm64/BezelKit-master.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/BezelKit.build/Release-iphonesimulator/BezelKit.build/Objects-normal/arm64/BezelKit-master.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/BezelKit.build/Release-iphonesimulator/BezelKit.build/Objects-normal/arm64/BezelKit-master.dia",
+    "emit-module-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/BezelKit.build/Release-iphonesimulator/BezelKit.build/Objects-normal/arm64/BezelKit-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/BezelKit.build/Release-iphonesimulator/BezelKit.build/Objects-normal/arm64/BezelKit-master-emit-module.dia",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/BezelKit.build/Release-iphonesimulator/BezelKit.build/Objects-normal/arm64/BezelKit-master.swiftdeps"
+  },
+  "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/BezelKit.build/Release-iphonesimulator/BezelKit.build/DerivedSources/resource_bundle_accessor.swift" : {
+    "index-unit-output-path" : "/BezelKit.build/Release-iphonesimulator/BezelKit.build/Objects-normal/arm64/resource_bundle_accessor.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/BezelKit.build/Release-iphonesimulator/BezelKit.build/Objects-normal/arm64/resource_bundle_accessor.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/BezelKit.build/Release-iphonesimulator/BezelKit.build/Objects-normal/arm64/resource_bundle_accessor.o"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/BezelKit/Sources/BezelKit/BezelKit+Error.swift" : {
+    "index-unit-output-path" : "/BezelKit.build/Release-iphonesimulator/BezelKit.build/Objects-normal/arm64/BezelKit+Error.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/BezelKit.build/Release-iphonesimulator/BezelKit.build/Objects-normal/arm64/BezelKit+Error.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/BezelKit.build/Release-iphonesimulator/BezelKit.build/Objects-normal/arm64/BezelKit+Error.o"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/BezelKit/Sources/BezelKit/BezelKit+Models.swift" : {
+    "index-unit-output-path" : "/BezelKit.build/Release-iphonesimulator/BezelKit.build/Objects-normal/arm64/BezelKit+Models.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/BezelKit.build/Release-iphonesimulator/BezelKit.build/Objects-normal/arm64/BezelKit+Models.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/BezelKit.build/Release-iphonesimulator/BezelKit.build/Objects-normal/arm64/BezelKit+Models.o"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/BezelKit/Sources/BezelKit/BezelKit.swift" : {
+    "index-unit-output-path" : "/BezelKit.build/Release-iphonesimulator/BezelKit.build/Objects-normal/arm64/BezelKit.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/BezelKit.build/Release-iphonesimulator/BezelKit.build/Objects-normal/arm64/BezelKit.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/BezelKit.build/Release-iphonesimulator/BezelKit.build/Objects-normal/arm64/BezelKit.o"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/BezelKit/Sources/BezelKit/CGFloat+Ext.swift" : {
+    "index-unit-output-path" : "/BezelKit.build/Release-iphonesimulator/BezelKit.build/Objects-normal/arm64/CGFloat+Ext.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/BezelKit.build/Release-iphonesimulator/BezelKit.build/Objects-normal/arm64/CGFloat+Ext.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/BezelKit.build/Release-iphonesimulator/BezelKit.build/Objects-normal/arm64/CGFloat+Ext.o"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/BezelKit/Sources/BezelKit/UIDevice+Ext.swift" : {
+    "index-unit-output-path" : "/BezelKit.build/Release-iphonesimulator/BezelKit.build/Objects-normal/arm64/UIDevice+Ext.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/BezelKit.build/Release-iphonesimulator/BezelKit.build/Objects-normal/arm64/UIDevice+Ext.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/BezelKit.build/Release-iphonesimulator/BezelKit.build/Objects-normal/arm64/UIDevice+Ext.o"
+  }
+}

@@ -11,7 +11,7 @@ import VGSL
 typealias MapModel = Reducer<MapState, MapAction>
 
 struct MapState {
-  var selectedImage: Model.Image?
+  var previewedImage: Model.Image?
   var region: Region
   var previews: [Model.Image]
 
@@ -27,7 +27,13 @@ enum MapAction {
       case annotationDeselected(MKAnnotation?)
     }
 
+    enum UI {
+      case thumbnailSelected(Model.Image)
+      case previewClosed
+    }
+
     case map(Map)
+    case ui(UI)
     case loaded([Model.Image], [Model.Cluster])
   }
 
@@ -56,7 +62,7 @@ func makeMapModel(
       images: [],
       clusters: []
     ),
-    reduce: { state, action, effect in
+    reduce: { state, action, effect, loadEffect in
       switch action {
       case let .external(externalAction):
         switch externalAction {
@@ -65,7 +71,7 @@ func makeMapModel(
         case let .map(.annotationSelected(mkAnn)):
           guard let ann = mkAnn as? AnnotationWrapper else { return }
           switch ann.value {
-          case let .image(image): state.selectedImage = image
+          case let .image(image): state.previewedImage = image
           case let .cluster(cluster):
             setRegion(
               Region(center: cluster.coordinate, zoom: state.region.zoom + 1),
@@ -73,8 +79,11 @@ func makeMapModel(
             )
           }
           break
-        case .map(.annotationDeselected):
-          state.selectedImage = nil
+        case .map(.annotationDeselected): break
+        case let .ui(.thumbnailSelected(image)):
+          state.previewedImage = image
+        case .ui(.previewClosed):
+          state.previewedImage = nil
         case let .loaded(images, clusters):
           let imagesSet = Set(images)
           let clustersSet = Set(clusters)

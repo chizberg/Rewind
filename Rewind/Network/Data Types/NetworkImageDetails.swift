@@ -8,7 +8,7 @@
 import Foundation
 
 extension Network {
-  struct ImageDetails: Codable {
+  struct ImageDetails: Decodable {
     let cid: Int // unique image id
     let file: String // local path to image
     let title: String
@@ -28,7 +28,7 @@ extension Network {
     let user: User // user that uploaded the image
   }
 
-  struct User: Codable {
+  struct User: Decodable {
     let name: String
 
     enum CodingKeys: String, CodingKey {
@@ -36,30 +36,6 @@ extension Network {
     }
   }
 }
-
-// containers for decoding
-extension Network {
-  struct ImageDetailsResponse: Codable {
-    private struct Result: Codable {
-      let photo: ImageDetails
-    }
-
-    private let result: Result
-
-    var imageDetails: ImageDetails {
-      result.photo
-    }
-  }
-}
-
-func extractUsername(from nid: Network.ImageDetails) -> String {
-  guard let watersign = nid.watersignText,
-        watersign.hasPrefix(watersignPrefix)
-  else { return nid.user.name }
-  return String(watersign.dropFirst(watersignPrefix.count))
-}
-
-private let watersignPrefix = "uploaded by "
 
 
 #if DEBUG

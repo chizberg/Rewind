@@ -1,0 +1,4 @@
+module VGSLNetworking {
+header "VGSLNetworking-Swift.h"
+export *
+}

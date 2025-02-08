@@ -13,17 +13,15 @@ struct ThumbnailView: View {
 
   var body: some View {
     ZStack(alignment: .bottomLeading) {
-      BlurView(style: .systemThinMaterial, radius: radius)
-
-      AsyncImage {
-        try await image.image.load(quality: .medium)
-      } content: { loaded in
+      RewindAsyncImage(image.image, .medium) { loaded in
         Image(uiImage: loaded)
           .resizable()
           .aspectRatio(contentMode: .fill)
           .frame(size: size)
+      } placeholder: {
+        BlurView(style: .systemThinMaterial, radius: radius)
       }
-      
+
       badge
         .padding(radius - badgeRadius)
     }

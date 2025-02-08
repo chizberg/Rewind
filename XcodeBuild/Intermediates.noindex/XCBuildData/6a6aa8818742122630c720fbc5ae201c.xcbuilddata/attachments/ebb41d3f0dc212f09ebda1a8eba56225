@@ -1,0 +1,20 @@
+{
+  "" : {
+    "const-values" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Release-iphonesimulator/BaseUIPublic.build/Objects-normal/arm64/BaseUIPublic-master.swiftconstvalues",
+    "dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Release-iphonesimulator/BaseUIPublic.build/Objects-normal/arm64/BaseUIPublic-master.d",
+    "diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Release-iphonesimulator/BaseUIPublic.build/Objects-normal/arm64/BaseUIPublic-master.dia",
+    "emit-module-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Release-iphonesimulator/BaseUIPublic.build/Objects-normal/arm64/BaseUIPublic-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Release-iphonesimulator/BaseUIPublic.build/Objects-normal/arm64/BaseUIPublic-master-emit-module.dia",
+    "swift-dependencies" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Release-iphonesimulator/BaseUIPublic.build/Objects-normal/arm64/BaseUIPublic-master.swiftdeps"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/CompatibilityShims/BaseUIPublic/Exports.swift" : {
+    "index-unit-output-path" : "/vgsl.build/Release-iphonesimulator/BaseUIPublic.build/Objects-normal/arm64/Exports.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Release-iphonesimulator/BaseUIPublic.build/Objects-normal/arm64/Exports.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Release-iphonesimulator/BaseUIPublic.build/Objects-normal/arm64/Exports.o"
+  },
+  "/Users/chizberg/Library/Developer/Xcode/DerivedData/Rewind-csnklnkxuiviipbqogsqlpnicxus/SourcePackages/checkouts/vgsl/CompatibilityShims/BaseUIPublic/ImageHolder.swift" : {
+    "index-unit-output-path" : "/vgsl.build/Release-iphonesimulator/BaseUIPublic.build/Objects-normal/arm64/ImageHolder.o",
+    "llvm-bc" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Release-iphonesimulator/BaseUIPublic.build/Objects-normal/arm64/ImageHolder.bc",
+    "object" : "/Users/chizberg/Documents/Личные проекты/Rewind/XcodeBuild/Intermediates.noindex/vgsl.build/Release-iphonesimulator/BaseUIPublic.build/Objects-normal/arm64/ImageHolder.o"
+  }
+}

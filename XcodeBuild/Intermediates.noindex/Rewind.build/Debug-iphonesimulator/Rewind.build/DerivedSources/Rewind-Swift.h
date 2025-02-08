@@ -348,10 +348,12 @@ SWIFT_CLASS("_TtC6Rewind10MapAdapter")
 @end
 
 
-SWIFT_CLASS("_TtC6Rewind24ThrottledActionPerformer")
-@interface ThrottledActionPerformer : NSObject
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
-+ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+SWIFT_CLASS("_TtC6Rewind20MergedAnnotationView")
+@interface MergedAnnotationView : MKAnnotationView
+- (nonnull instancetype)initWithAnnotation:(id <MKAnnotation> _Nullable)annotation reuseIdentifier:(NSString * _Nullable)reuseIdentifier OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)_ OBJC_DESIGNATED_INITIALIZER SWIFT_UNAVAILABLE;
+- (void)layoutSubviews;
+- (void)prepareForDisplay;
 @end
 
 

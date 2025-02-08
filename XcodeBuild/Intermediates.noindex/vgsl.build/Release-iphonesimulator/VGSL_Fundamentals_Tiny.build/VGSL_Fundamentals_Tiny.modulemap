@@ -1,0 +1,4 @@
+module VGSL_Fundamentals_Tiny {
+header "VGSL_Fundamentals_Tiny-Swift.h"
+export *
+}
