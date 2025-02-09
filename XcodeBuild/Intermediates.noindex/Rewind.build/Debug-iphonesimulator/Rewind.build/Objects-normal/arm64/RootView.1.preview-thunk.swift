@@ -19,7 +19,7 @@ struct RootView: View {
   let rawMap: UIView
   @ObservedVariable
   var mapState: MapState
-  var imageDetailsFactory: (Int) -> ImageDetailsModel
+  var imageDetailsFactory: (Model.Image) -> ImageDetailsModel
   var actionHandler: (MapAction.External.UI) -> Void
   @Namespace
   private var rootView
@@ -39,7 +39,22 @@ struct RootView: View {
         onSelected: {
           actionHandler(.thumbnailSelected($0))
         }
-      )
+      ).background {
+        BlurView(style: .systemUltraThinMaterial)
+          .mask {
+            Rectangle().fill(
+              LinearGradient(
+                stops: [
+                  .init(color: .clear, location: __designTimeInteger("#19445_0", fallback: 0)),
+                  .init(color: .white, location: __designTimeFloat("#19445_1", fallback: 0.5))
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+              )
+            )
+          }
+          .ignoresSafeArea()
+      }
     }.fullScreenCover(
       item: Binding(
         get: { mapState.previewedImage },
@@ -49,7 +64,7 @@ struct RootView: View {
         }
       ),
       content: { previewedImage in
-        let model = imageDetailsFactory(previewedImage.cid)
+        let model = imageDetailsFactory(previewedImage)
         ImageDetailsView(
           model: model,
           state: model.$state.asObservedVariable()
@@ -68,10 +83,10 @@ private struct ThumbnailsView: View {
 
   var body: some View {
     ScrollViewReader { proxy in
-      ScrollView(.horizontal, showsIndicators: __designTimeBoolean("#19445_0", fallback: false)) {
-        HStack(spacing: __designTimeInteger("#19445_1", fallback: 0)) {
+      ScrollView(.horizontal, showsIndicators: __designTimeBoolean("#19445_2", fallback: false)) {
+        HStack(spacing: __designTimeInteger("#19445_3", fallback: 0)) {
           // Empty view to scroll to (including paddings)
-          Color.clear.frame(width: __designTimeInteger("#19445_2", fallback: 0), height: __designTimeInteger("#19445_3", fallback: 0)).id(leadingEdge)
+          Color.clear.frame(width: __designTimeInteger("#19445_4", fallback: 0), height: __designTimeInteger("#19445_5", fallback: 0)).id(leadingEdge)
 
           LazyHStack {
             ForEach(previews) { image in

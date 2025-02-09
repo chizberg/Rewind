@@ -10,9 +10,8 @@ import Foundation
 extension Model {
   struct ImageDetails {
     var cid: Int
-    var image: LoadableImage
     var title: String
-    var dir: Direction?
+    var direction: Direction?
     var coordinate: Coordinate
     var date: ImageDate
 
@@ -23,10 +22,10 @@ extension Model {
 
     var username: String
 
-    init(_ ni: Network.ImageDetails, image: LoadableImage) {
+    init(_ ni: Network.ImageDetails) {
       cid = ni.cid
       title = ni.title
-      dir = Direction(ni.dir)
+      direction = Direction(ni.dir)
       coordinate = Coordinate(ni.geo)
       date = ImageDate(year: ni.year, year2: ni.year2)
       description = ni.desc
@@ -34,7 +33,6 @@ extension Model {
       address = ni.address
       author = ni.author
       username = extractUsername(from: ni)
-      self.image = image
     }
   }
 }

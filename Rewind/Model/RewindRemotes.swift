@@ -38,8 +38,7 @@ extension RewindRemotes {
     }
     imageDetails = Remote { cid in
       let details = try await requestPerformer.perform(request: .imageDetails(cid: cid))
-      let loadableImage = imageLoader.makeImage(path: details.file)
-      return Model.ImageDetails(details, image: loadableImage)
+      return Model.ImageDetails(details)
     }
   }
 }

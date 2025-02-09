@@ -40,7 +40,7 @@ private struct SquishyModifier: ViewModifier {
   func body(content: Content) -> some View {
     content
       .scaleEffect(isPressed ? scale : 1)
-      .simultaneousGesture(_ButtonGesture(
+      .gesture(_ButtonGesture(
         action: action,
         pressing: { pressed in
           withAnimation(

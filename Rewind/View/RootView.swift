@@ -13,7 +13,7 @@ struct RootView: View {
   let rawMap: UIView
   @ObservedVariable
   var mapState: MapState
-  var imageDetailsFactory: (Int) -> ImageDetailsModel
+  var imageDetailsFactory: (Model.Image) -> ImageDetailsModel
   var actionHandler: (MapAction.External.UI) -> Void
   @Namespace
   private var rootView
@@ -43,7 +43,7 @@ struct RootView: View {
         }
       ),
       content: { previewedImage in
-        let model = imageDetailsFactory(previewedImage.cid)
+        let model = imageDetailsFactory(previewedImage)
         ImageDetailsView(
           model: model,
           state: model.$state.asObservedVariable()
@@ -86,6 +86,24 @@ private struct ThumbnailsView: View {
       }
     }.frame(height: thumbnailSize.height)
       .animation(.spring(), value: previews)
+      .background(gradientBlur)
+  }
+
+  private var gradientBlur: some View {
+    BlurView(style: .systemUltraThinMaterial)
+      .mask {
+        Rectangle().fill(
+          LinearGradient(
+            stops: [
+              .init(color: .clear, location: 0),
+              .init(color: .white, location: 0.5)
+            ],
+            startPoint: .top,
+            endPoint: .bottom
+          )
+        )
+      }
+      .ignoresSafeArea()
   }
 }
 

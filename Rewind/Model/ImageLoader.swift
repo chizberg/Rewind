@@ -30,9 +30,9 @@ final class ImageLoader {
   }
 
   private func load(path: String, quality: ImageQuality) async throws -> UIImage {
-//    if let image = cached(path: path, quality: quality) {
-//      return image
-//    }
+    if let image = cached(path: path, quality: quality) {
+      return image
+    }
     let image = try await fetch(path: path, quality: quality)
     let key = ImageCacheKey(path: path, quality: quality)
     cache.setObject(image, forKey: key)

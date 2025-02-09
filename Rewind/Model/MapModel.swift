@@ -50,6 +50,7 @@ enum MapAction {
 func makeMapModel(
   addAnnotations: @escaping ([MKAnnotation]) -> Void,
   clearAnnotations: @escaping () -> Void,
+  deselectAnnotations: @escaping () -> Void,
   visibleAnnotations: Variable<[MKAnnotation]>,
   setRegion: @escaping (Region, _ animated: Bool) -> Void,
   requestAnnotations: @escaping (Region) -> Void,
@@ -84,6 +85,7 @@ func makeMapModel(
           state.previewedImage = image
         case .ui(.previewClosed):
           state.previewedImage = nil
+          deselectAnnotations()
         case let .loaded(images, clusters):
           let imagesSet = Set(images)
           let clustersSet = Set(clusters)
@@ -115,7 +117,7 @@ func makeMapModel(
           clearAnnotations()
           throttle(.internal(.updatePreviews))
         case .updatePreviews:
-          state.previews = visibleAnnotations.value.flatMap {
+          let visible: [Model.Image] = visibleAnnotations.value.flatMap {
             if let cluster = $0 as? MKClusterAnnotation {
               return cluster.memberAnnotations
             }
@@ -127,6 +129,7 @@ func makeMapModel(
             case let .cluster(cluster): cluster.preview
             }
           }
+          state.previews = Array(Set(visible))
         }
       }
     }

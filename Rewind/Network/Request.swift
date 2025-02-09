@@ -141,7 +141,15 @@ private extension Network {
   }
 
   static func image(path: String, quality: ImageQuality) -> Request<UIImage> {
-    Request<UIImage>(
+    // path contains unexpected query parameters, we have to remove them
+    func dropUnexpectedQueryItems(from path: String) -> String {
+      guard var urlComponents = URLComponents(string: path) else {
+        return path
+      }
+      urlComponents.query = nil
+      return urlComponents.string ?? path
+    }
+    return Request<UIImage>(
       makeURLRequest: {
         var components = makeBaseURLComponents()
         let clearPath = dropUnexpectedQueryItems(from: path)
@@ -157,13 +165,4 @@ private extension Network {
       }
     )
   }
-}
-
-// path contains unexpected query parameters, we have to remove them
-private func dropUnexpectedQueryItems(from path: String) -> String {
-  guard var urlComponents = URLComponents(string: path) else {
-    return path
-  }
-  urlComponents.query = nil
-  return urlComponents.string ?? path
 }

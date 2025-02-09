@@ -36,6 +36,7 @@ final class MapAdapter: NSObject, MKMapViewDelegate {
       map.region = initialRegion
       map.delegate = weakSelf
       map.showsUserLocation = true
+      map.isRotateEnabled = false
       map.register(ImageAnnotationView.self)
       map.register(ClusterAnnotationView.self)
       map.register(MergedAnnotationView.self)
@@ -57,6 +58,10 @@ final class MapAdapter: NSObject, MKMapViewDelegate {
         self?.map.value.removeAnnotations(toRemove)
       }
     )
+  }
+
+  func deselectAnnotations() {
+    map.value.selectedAnnotations = []
   }
 
   func set(region: Region, animated: Bool) {
