@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>2GIS</key>
+	<string>2ГИС</string>
+	<key>Apple Maps</key>
+	<string>Apple Карты</string>
+	<key>Favorite</key>
+	<string>Избранное</string>
+	<key>Find route</key>
+	<string>Маршрут</string>
+	<key>Google Maps</key>
+	<string>Google Карты</string>
+	<key>Save image</key>
+	<string>Сохранить</string>
+	<key>Select map app to find route</key>
+	<string>Выберите приложение для построения маршрута</string>
+	<key>Share</key>
+	<string>Поделиться</string>
+	<key>View on Web</key>
+	<string>На сайте</string>
+	<key>Yandex Maps</key>
+	<string>Яндекс Карты</string>
+	<key>address</key>
+	<string>адрес</string>
+	<key>author</key>
+	<string>автор</string>
+	<key>source</key>
+	<string>источник</string>
+	<key>uploaded by</key>
+	<string>загружено</string>
+</dict>
+</plist>

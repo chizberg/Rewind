@@ -1,0 +1,40 @@
+{
+  "source": "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/Model/MapAppLinks.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Apple Maps",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 20
+        }
+      },
+      {
+        "comment": "",
+        "key": "Google Maps",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 21
+        }
+      },
+      {
+        "comment": "",
+        "key": "Yandex Maps",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 22
+        }
+      },
+      {
+        "comment": "",
+        "key": "2GIS",
+        "location": {
+          "startingColumn": 23,
+          "startingLine": 23
+        }
+      }
+    ]
+  },
+  "version": 1
+}

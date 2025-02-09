@@ -7,61 +7,48 @@
 
 import SwiftUI
 
-struct SquishyButton<Label: View>: View {
+struct SquishyButton<Content: View>: View {
+  var scale: CGFloat = 0.9
   var action: () -> Void
-  var label: Label
+  var label: (Bool) -> Content
 
-  init(
-    action: @escaping () -> Void,
-    @ViewBuilder label: () -> Label
-  ) {
-    self.action = action
-    self.label = label()
-  }
-
-  var body: some View {
-    label
-      .modifier(
-        SquishyModifier(
-          scale: 0.9,
-          action: action
-        )
-      )
-  }
-}
-
-private struct SquishyModifier: ViewModifier {
   @State
   private var isPressed = false
 
-  var scale: CGFloat
-  var action: () -> Void
-
-  func body(content: Content) -> some View {
-    content
+  var body: some View {
+    label(isPressed)
       .scaleEffect(isPressed ? scale : 1)
-      .gesture(_ButtonGesture(
-        action: action,
-        pressing: { pressed in
-          withAnimation(
-            .spring(
-              response: 0.3,
-              dampingFraction: 0.5,
-              blendDuration: 0.3
-            )
-          ) {
-            isPressed = pressed
+      .gesture(
+        _ButtonGesture(
+          action: action,
+          pressing: { _ in } // does not react as fast as DragGesture
+        )
+      )
+      .simultaneousGesture(
+        DragGesture(minimumDistance: 0)
+          .onChanged { _ in
+            isPressed = true
           }
-        }
-      ))
+          .onEnded { _ in
+            isPressed = false
+          }
+      )
+      .animation(
+        .spring(
+          response: 0.3,
+          dampingFraction: 0.7,
+          blendDuration: 0.3
+        ),
+        value: isPressed
+      )
   }
 }
 
 #Preview {
   SquishyButton {
     print(UUID().uuidString)
-  } label: {
-    Image(systemName: "play.fill")
+  } label: { pressed in
+    Image(systemName: pressed ? "play.fill" : "play")
       .font(.system(size: 100))
   }
 }

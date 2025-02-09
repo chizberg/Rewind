@@ -1,0 +1,167 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "2GIS" : {
+      "comment" : "map app name",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2ГИС"
+          }
+        }
+      }
+    },
+    "address" : {
+      "comment" : "label for image address",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "адрес"
+          }
+        }
+      }
+    },
+    "Apple Maps" : {
+      "comment" : "map app name",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple Карты"
+          }
+        }
+      }
+    },
+    "author" : {
+      "comment" : "label for image author",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "автор"
+          }
+        }
+      }
+    },
+    "Favorite" : {
+      "comment" : "label for action to add to favorites",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Избранное"
+          }
+        }
+      }
+    },
+    "Find route" : {
+      "comment" : "label for action to build a route to image location",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Маршрут"
+          }
+        }
+      }
+    },
+    "Google Maps" : {
+      "comment" : "map app name",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Google Карты"
+          }
+        }
+      }
+    },
+    "Save image" : {
+      "comment" : "label for action to save image",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сохранить"
+          }
+        }
+      }
+    },
+    "Select map app to find route" : {
+      "comment" : "prompt for menu with list of map apps to find the route to image location",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите приложение для построения маршрута"
+          }
+        }
+      }
+    },
+    "Share" : {
+      "comment" : "label for action to share",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поделиться"
+          }
+        }
+      }
+    },
+    "source" : {
+      "comment" : "label for image source",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "источник"
+          }
+        }
+      }
+    },
+    "uploaded by" : {
+      "comment" : "Is shown right above the nickname of a user that uploaded the image",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "uploaded by"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "загружено"
+          }
+        }
+      }
+    },
+    "View on Web" : {
+      "comment" : "label for action to open the image page on the web",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "На сайте"
+          }
+        }
+      }
+    },
+    "Yandex Maps" : {
+      "comment" : "map app name",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Яндекс Карты"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

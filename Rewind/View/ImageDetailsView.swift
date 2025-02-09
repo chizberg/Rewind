@@ -6,13 +6,15 @@
 //
 
 import SwiftUI
-import VGSL
 
 struct ImageDetailsView: View {
   @State
   var model: ImageDetailsModel
   @State @ObservedVariable
   var state: ImageDetailsState
+
+  @Environment(\.dismiss)
+  var dismiss
 
   init(
     model: ImageDetailsModel,
@@ -23,19 +25,62 @@ struct ImageDetailsView: View {
   }
 
   var body: some View {
-    Group {
+    ZStack {
       if let data = state.data, let image = state.image {
         ImageDetailsViewImpl(
           details: data,
           image: image,
+          isFavorite: state.isFavorite,
           actionHandler: model.callAsFunction
         )
       } else {
         ProgressView()
           .controlSize(.large)
       }
-    }.task {
+
+      ZStack(alignment: .topLeading) {
+        Color.clear
+
+        closeButton
+          .padding()
+      }
+    }
+    .background(Color.secondaryBackground)
+    .task {
       model(.willBePresented)
+    }
+    .sheet(
+      item: Binding(
+        get: { state.shareVC },
+        set: { if $0 == nil { model(.shareSheetDismissed) }}
+      ),
+      content: { vc in
+        ViewControllerRepresentable {
+          vc.value
+        }
+      }
+    )
+    .confirmationDialog(
+      "Select map app to find route", // todo: localization
+      isPresented: Binding(
+        get: { state.mapOptionsPresented },
+        set: { model(.setMapOptionsVisibility($0)) }
+      ),
+      titleVisibility: .visible,
+      actions: {
+        ForEach(MapApp.allCases, id: \.self) { app in
+          Button(app.name, action: { model(.mapAppSelected(app)) })
+        }
+      }
+    )
+  }
+
+  private var closeButton: some View {
+    SquishyButton(action: { dismiss() }) { _ in
+      Image(systemName: "chevron.left")
+        .padding(10)
+        .background(.thinMaterial)
+        .clipShape(Circle())
     }
   }
 }
@@ -43,42 +88,98 @@ struct ImageDetailsView: View {
 private struct ImageDetailsViewImpl: View {
   var details: Model.ImageDetails
   var image: UIImage
+  var isFavorite: Bool
   var actionHandler: (ImageDetailsAction) -> Void
 
   var body: some View {
     ScrollView {
-      LazyVStack(spacing: 10) {
+      LazyVStack(spacing: 0) {
         titleImage
 
-        LazyVStack(alignment: .leading, spacing: 10) {
-          title
+        detailsView.padding()
+          .background(.background)
+          .textSelection(.enabled)
 
-          if let description = details.description {
-            Text(description.makeAttrString())
-              .font(.body)
-          }
+        actions
+          .padding()
+      }
+    }
+  }
 
-          HStack {
-            // todo: localized string
-            LabeledText(label: "uploaded by", value: details.username)
-            Spacer()
-            if let author = details.author {
-              // todo: localized string
-              LabeledText(label: "author", value: author)
-              Spacer()
-            }
-          }
+  private var actions: some View {
+    LazyVGrid(columns: [.init(.adaptive(minimum: 150))]) {
+      ForEach(visibleActions, id: \.self) {
+        makeButton(action: $0)
+      }
+    }
+  }
 
-          if let source = details.source {
-            // todo: localized string
-            LabeledText(label: "source", value: source)
-          }
-          if let address = details.address {
-            // todo: localized string
-            LabeledText(label: "address", value: address)
-          }
-        }.padding(.horizontal)
-      }.textSelection(.enabled)
+  private func makeButton(action: ImageDetailsAction.Button) -> some View {
+    let foreground: Color = switch action {
+    case .favorite: isFavorite ? .red : .primary
+    case .share, .saveImage, .viewOnWeb, .route: .primary
+    }
+    let background: Color = .systemBackground
+    let pressedForeground: Color = switch action {
+    case .favorite: .white
+    case .share, .saveImage, .viewOnWeb, .route: .primary
+    }
+    let pressedBackground: Color = switch action {
+    case .favorite: .red
+    case .share, .saveImage, .viewOnWeb, .route: .secondaryBackground
+    }
+    let title: LocalizedStringKey = switch action {
+    case .favorite: "Favorite"
+    case .share: "Share"
+    case .saveImage: "Save image"
+    case .viewOnWeb: "View on Web"
+    case .route: "Find route"
+    }
+    let iconName: String = switch action {
+    case .favorite: isFavorite ? "heart.fill" : "heart"
+    case .share: "square.and.arrow.up"
+    case .saveImage: "square.and.arrow.down"
+    case .viewOnWeb: "globe.americas.fill"
+    case .route: "map"
+    }
+    return SquishyButton(action: { actionHandler(.button(action)) }) { pressed in
+      HStack {
+        Image(systemName: iconName)
+        Text(title)
+        Spacer()
+      }
+      .foregroundStyle(pressed ? pressedForeground : foreground)
+      .padding(10)
+      .frame(minHeight: 50)
+      .background(pressed ? pressedBackground : background)
+      .cornerRadius(10)
+    }
+  }
+
+  private var detailsView: some View {
+    LazyVStack(alignment: .leading, spacing: 10) {
+      title
+
+      if let description = details.description {
+        Text(description.makeAttrString())
+          .font(.body)
+      }
+
+      HStack {
+        LabeledText(label: "uploaded by", value: details.username)
+        Spacer()
+        if let author = details.author {
+          LabeledText(label: "author", value: author)
+          Spacer()
+        }
+      }
+
+      if let source = details.source {
+        LabeledText(label: "source", value: source)
+      }
+      if let address = details.address {
+        LabeledText(label: "address", value: address)
+      }
     }
   }
 
@@ -108,6 +209,14 @@ private struct ImageDetailsViewImpl: View {
   }
 }
 
+private let visibleActions: [ImageDetailsAction.Button] = [
+  .favorite,
+  .share,
+  .saveImage,
+  .viewOnWeb,
+  .route
+]
+
 private struct DirectionIndicator: View {
   let direction: Direction?
 
@@ -128,7 +237,7 @@ private struct DirectionIndicator: View {
 }
 
 private struct LabeledText: View {
-  var label: String
+  var label: LocalizedStringKey
   var value: String
 
   var body: some View {
@@ -142,44 +251,6 @@ private struct LabeledText: View {
     }
   }
 }
-
-extension String {
-  fileprivate func makeAttrString() -> AttributedString {
-    let nsAttrString = NSAttributedString(html: self) ?? NSAttributedString(string: self)
-    return AttributedString(nsAttrString)
-  }
-}
-
-extension NSAttributedString {
-  fileprivate convenience init?(html: String) {
-    guard let data = html.data(using: .utf8) else { return nil }
-
-    guard let mutableAttrStr = try? NSMutableAttributedString(
-      data: data,
-      options: [
-        .documentType: NSAttributedString.DocumentType.html,
-        .characterEncoding: String.Encoding.utf8.rawValue
-      ],
-      documentAttributes: nil
-    ) else { return nil }
-
-    let fullRange = NSRange(
-      location: 0,
-      length: mutableAttrStr.length
-    )
-
-    mutableAttrStr.removeAttribute(
-      .font,
-      range: fullRange
-    )
-    mutableAttrStr.removeAttribute(
-      .foregroundColor,
-      range: fullRange
-    )
-    self.init(attributedString: mutableAttrStr)
-  }
-}
-
 
 #if DEBUG
 fileprivate func makeImageDetailsView(
@@ -195,7 +266,10 @@ fileprivate func makeImageDetailsView(
   makeImageDetailsView(
     model: makeImageDetailsModel(
       load: Remote { Model.ImageDetails(.mock) },
-      image: .mock
+      image: .mock,
+      coordinate: Model.ImageDetails(.mock).coordinate,
+      canOpenURL: { _ in true },
+      urlOpener: { _ in }
     )
   )
 }

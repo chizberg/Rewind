@@ -13,61 +13,48 @@ import func SwiftUI.__designTimeBoolean
 
 import SwiftUI
 
-struct SquishyButton<Label: View>: View {
+struct SquishyButton<Content: View>: View {
+  var scale: CGFloat = 0.9
   var action: () -> Void
-  var label: Label
+  var label: (Bool) -> Content
 
-  init(
-    action: @escaping () -> Void,
-    @ViewBuilder label: () -> Label
-  ) {
-    self.action = action
-    self.label = label()
-  }
-
-  var body: some View {
-    label
-      .modifier(
-        SquishyModifier(
-          scale: __designTimeFloat("#21226_0", fallback: 0.9),
-          action: action
-        )
-      )
-  }
-}
-
-private struct SquishyModifier: ViewModifier {
   @State
   private var isPressed = false
 
-  var scale: CGFloat
-  var action: () -> Void
-
-  func body(content: Content) -> some View {
-    content
-      .scaleEffect(isPressed ? scale : __designTimeInteger("#21226_1", fallback: 1))
-      .simultaneousGesture(_ButtonGesture(
-        action: action,
-        pressing: { pressed in
-          withAnimation(
-            .spring(
-              response: __designTimeFloat("#21226_2", fallback: 0.3),
-              dampingFraction: __designTimeFloat("#21226_3", fallback: 0.3),
-              blendDuration: __designTimeFloat("#21226_4", fallback: 0.1)
-            )
-          ) {
-            isPressed = pressed
+  var body: some View {
+    label(isPressed)
+      .scaleEffect(isPressed ? scale : __designTimeInteger("#21226_0", fallback: 1))
+      .gesture(
+        _ButtonGesture(
+          action: action,
+          pressing: { _ in } // does not react as fast as DragGesture
+        )
+      )
+      .simultaneousGesture(
+        DragGesture(minimumDistance: __designTimeInteger("#21226_1", fallback: 0))
+          .onChanged { _ in
+            isPressed = __designTimeBoolean("#21226_2", fallback: true)
           }
-        }
-      ))
+          .onEnded { _ in
+            isPressed = __designTimeBoolean("#21226_3", fallback: false)
+          }
+      )
+      .animation(
+        .spring(
+          response: __designTimeFloat("#21226_4", fallback: 0.3),
+          dampingFraction: __designTimeFloat("#21226_5", fallback: 0.7),
+          blendDuration: __designTimeFloat("#21226_6", fallback: 0.3)
+        ),
+        value: isPressed
+      )
   }
 }
 
 #Preview {
   SquishyButton {
     print(UUID().uuidString)
-  } label: {
-    Image(systemName: __designTimeString("#21226_5", fallback: "play.fill"))
-      .font(.system(size: __designTimeInteger("#21226_6", fallback: 100)))
+  } label: { pressed in
+    Image(systemName: pressed ? __designTimeString("#21226_7", fallback: "play.fill") : __designTimeString("#21226_8", fallback: "play"))
+      .font(.system(size: __designTimeInteger("#21226_9", fallback: 100)))
   }
 }

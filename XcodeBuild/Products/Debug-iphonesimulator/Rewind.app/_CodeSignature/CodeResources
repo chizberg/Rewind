@@ -46,12 +46,48 @@
 		</data>
 		<key>Rewind.debug.dylib</key>
 		<data>
-		6zSu9Y1FsLaVTapVz/4eNKyhfrQ=
+		4XLz5+O4/pXebwn3GwwXEIyHxUk=
 		</data>
 		<key>__preview.dylib</key>
 		<data>
 		hKOgKvBdYU387NySVKdIU5XOLAA=
 		</data>
+		<key>en.lproj/InfoPlist.strings</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			3DZpU21D9mJAr1d9y4LwEgBfURY=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>en.lproj/Localizable.strings</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			UPuZL/CYB4KnCZ2opwKdgyO3bW4=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>ru.lproj/InfoPlist.strings</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			C+BSg1x4VA+CHaNbMVNu49Fn3fQ=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>ru.lproj/Localizable.strings</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			RVrnrHS9NMGkHdkVZPjpCUeMOC8=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
 	</dict>
 	<key>files2</key>
 	<dict>
@@ -115,7 +151,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			4qcLeOjjfr1FQwqcaBnn4+vknuWHjUHV7ktGgMjoRGc=
+			EtsPL0zRsF2AdziEaVlBNa5OLwXcC8Dc4zhQFoI3fG8=
 			</data>
 		</dict>
 		<key>__preview.dylib</key>
@@ -124,6 +160,42 @@
 			<data>
 			QBr/TJ0Dlh+lf3R7v+HhLdJL7QOp6EHqdNwF2xqEEdE=
 			</data>
+		</dict>
+		<key>en.lproj/InfoPlist.strings</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			oZB818yTrQHSBdQ7/Ow0Hau2oO9Pf1lWpE+2H19jCF8=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>en.lproj/Localizable.strings</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			Nk78yr13ms/jLzmhSSx8W+3Q9jYuwP7GUfdeOkDv8b4=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>ru.lproj/InfoPlist.strings</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			w9NQcXnv1Xi2IaycgUUAm61bR8nvdkNrVui0A3C+mKM=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>ru.lproj/Localizable.strings</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			M+alBtvqsV+sFli9l1OBw2IFjdUraL9/y+McKrGz0eY=
+			</data>
+			<key>optional</key>
+			<true/>
 		</dict>
 	</dict>
 	<key>rules</key>

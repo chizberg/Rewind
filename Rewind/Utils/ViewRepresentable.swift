@@ -19,11 +19,32 @@ struct ViewRepresentable<V: UIView>: UIViewRepresentable {
     self.updater = updater
   }
 
-  func makeUIView(context: Context) -> V {
+  func makeUIView(context _: Context) -> V {
     factory()
   }
 
-  func updateUIView(_ v: V, context: Context) {
+  func updateUIView(_ v: V, context _: Context) {
+    updater(v)
+  }
+}
+
+struct ViewControllerRepresentable<V: UIViewController>: UIViewControllerRepresentable {
+  private let factory: () -> V
+  private let updater: (V) -> Void
+
+  init(
+    factory: @escaping () -> V,
+    updater: @escaping (V) -> Void = { _ in }
+  ) {
+    self.factory = factory
+    self.updater = updater
+  }
+  
+  func makeUIViewController(context _: Context) -> V {
+    factory()
+  }
+
+  func updateUIViewController(_ v: V, context _: Context) {
     updater(v)
   }
 }

@@ -71,7 +71,10 @@ final class AppGraph {
     imageDetailsFactory = { image in
       makeImageDetailsModel(
         load: remotes.imageDetails.mapArgs { image.cid },
-        image: image.image
+        image: image.image,
+        coordinate: image.coordinate,
+        canOpenURL: { UIApplication.shared.canOpenURL($0) },
+        urlOpener: { UIApplication.shared.open($0) }
       )
     }
     uiActionHandler = { weakSelf?.mapModel(.external(.ui($0))) }

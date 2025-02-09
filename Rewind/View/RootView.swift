@@ -71,7 +71,7 @@ private struct ThumbnailsView: View {
             ForEach(previews) { image in
               SquishyButton {
                 onSelected(image)
-              } label: {
+              } label: { _ in
                 ThumbnailView(image: image, size: thumbnailSize)
                   .matchedTransitionSource(id: image.cid, in: namespace)
               }

@@ -22,7 +22,9 @@ struct RewindApp: App {
     WindowGroup {
       RootView(
         rawMap: graph.mapAdapter.view,
-        mapState: graph.mapState
+        mapState: graph.mapState,
+        imageDetailsFactory: graph.imageDetailsFactory,
+        actionHandler: graph.uiActionHandler
       )
     }
   }
@@ -32,7 +34,8 @@ final class AppGraph {
   let mapModel: MapModel
   let mapAdapter: MapAdapter
   let mapState: ObservedVariable<MapState>
-  let imageDetailsFactory: (Int) -> ImageDetailsModel
+  let imageDetailsFactory: (Model.Image) -> ImageDetailsModel
+  let uiActionHandler: (MapAction.External.UI) -> Void
   private let disposePool = AutodisposePool()
 
   init() {
@@ -47,8 +50,9 @@ final class AppGraph {
       imageLoader: imageLoader
     )
     mapModel = makeMapModel(
-      addAnnotations: mapAdapter.add(annotations:),
+      addAnnotations: mapAdapter.add,
       clearAnnotations: mapAdapter.clear,
+      deselectAnnotations: mapAdapter.deselectAnnotations,
       visibleAnnotations: Variable { mapAdapter.visibleAnnotations },
       setRegion: mapAdapter.set(region:animated:),
       requestAnnotations: { region in
@@ -70,9 +74,14 @@ final class AppGraph {
     )
     self.mapAdapter = mapAdapter
     self.mapState = mapModel.$state.asObservedVariable()
-    imageDetailsFactory = { cid in
-      makeImageDetailsModel(load: remotes.imageDetails.mapArgs { cid })
+    imageDetailsFactory = { image in
+      makeImageDetailsModel(
+        load: remotes.imageDetails.mapArgs { image.cid },
+        image: image.image,
+        urlOpener: { UIApplication.shared.open($0) }
+      )
     }
+    uiActionHandler = { weakSelf?.mapModel(.external(.ui($0))) }
     weakSelf = self
 
     mapAdapter.events.addObserver { [weak self] in

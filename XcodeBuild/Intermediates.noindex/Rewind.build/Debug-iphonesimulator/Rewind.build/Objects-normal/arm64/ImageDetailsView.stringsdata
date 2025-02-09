@@ -1,5 +1,88 @@
 {
   "source": "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/View/ImageDetailsView.swift",
-  "tables": {},
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Select map app to find route",
+        "location": {
+          "startingColumn": 7,
+          "startingLine": 64
+        }
+      },
+      {
+        "comment": "",
+        "key": "Favorite",
+        "location": {
+          "startingColumn": 21,
+          "startingLine": 132
+        }
+      },
+      {
+        "comment": "",
+        "key": "Share",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 133
+        }
+      },
+      {
+        "comment": "",
+        "key": "Save image",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 134
+        }
+      },
+      {
+        "comment": "",
+        "key": "View on Web",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 135
+        }
+      },
+      {
+        "comment": "",
+        "key": "Find route",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 136
+        }
+      },
+      {
+        "comment": "",
+        "key": "source",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 178
+        }
+      },
+      {
+        "comment": "",
+        "key": "address",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 181
+        }
+      },
+      {
+        "comment": "",
+        "key": "uploaded by",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 169
+        }
+      },
+      {
+        "comment": "",
+        "key": "author",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 172
+        }
+      }
+    ]
+  },
   "version": 1
 }
