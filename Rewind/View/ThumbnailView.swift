@@ -19,7 +19,7 @@ struct ThumbnailView: View {
           .aspectRatio(contentMode: .fill)
           .frame(size: size)
       } placeholder: {
-        BlurView(style: .systemThinMaterial, radius: radius)
+        BlurView(style: .regular, radius: radius)
       }
 
       badge

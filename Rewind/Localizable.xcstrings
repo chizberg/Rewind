@@ -78,6 +78,15 @@
         }
       }
     },
+    "Hybrid" : {
+
+    },
+    "Map type" : {
+
+    },
+    "Satellite" : {
+
+    },
     "Save image" : {
       "comment" : "label for action to save image",
       "localizations" : {
@@ -88,6 +97,9 @@
           }
         }
       }
+    },
+    "Scheme" : {
+
     },
     "Select map app to find route" : {
       "comment" : "prompt for menu with list of map apps to find the route to image location",

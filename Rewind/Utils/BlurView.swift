@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct BlurView: UIViewRepresentable {
-  var style: UIBlurEffect.Style = .systemMaterial
+  var style: UIBlurEffect.Style = .regular
   var animated: Bool = false
   var radius: CGFloat = 0
 
@@ -32,7 +32,7 @@ struct BlurView: UIViewRepresentable {
 struct BlurView_Previews: PreviewProvider {
   static var previews: some View {
     ZStack {
-      Image("imageMock")
+      Image("cat")
         .resizable()
         .ignoresSafeArea()
 

@@ -12,7 +12,9 @@ typealias MapModel = Reducer<MapState, MapAction>
 
 struct MapState {
   var previewedImage: Model.Image?
+  var mapType: MapType
   var region: Region
+  var yearRange: ClosedRange<Int>
   var previews: [Model.Image]
 
   var images: Set<Model.Image>
@@ -28,6 +30,8 @@ enum MapAction {
     }
 
     enum UI {
+      case yearRangeChanged(ClosedRange<Int>)
+      case mapTypeSelected(MapType)
       case thumbnailSelected(Model.Image)
       case previewClosed
     }
@@ -39,6 +43,7 @@ enum MapAction {
 
   enum Internal {
     case regionChanged(Region)
+    case loadAnnotations
     case clearAnnotations
     case updatePreviews
   }
@@ -53,12 +58,15 @@ func makeMapModel(
   deselectAnnotations: @escaping () -> Void,
   visibleAnnotations: Variable<[MKAnnotation]>,
   setRegion: @escaping (Region, _ animated: Bool) -> Void,
-  requestAnnotations: @escaping (Region) -> Void,
+  requestAnnotations: @escaping (Region, ClosedRange<Int>) -> Void,
+  applyMapType: @escaping (MapType) -> Void,
   throttle: @escaping (MapAction) -> Void
 ) -> MapModel {
   MapModel(
     initial: MapState(
+      mapType: .standard,
       region: .zero,
+      yearRange: 1826...2000,
       previews: [],
       images: [],
       clusters: []
@@ -86,6 +94,13 @@ func makeMapModel(
         case .ui(.previewClosed):
           state.previewedImage = nil
           deselectAnnotations()
+        case let .ui(.yearRangeChanged(yearRange)):
+          state.yearRange = yearRange
+          effect(.internal(.clearAnnotations))
+          throttle(.internal(.loadAnnotations))
+        case let .ui(.mapTypeSelected(mapType)):
+          state.mapType = mapType
+          applyMapType(mapType)
         case let .loaded(images, clusters):
           let imagesSet = Set(images)
           let clustersSet = Set(clusters)
@@ -109,8 +124,10 @@ func makeMapModel(
             effect(.internal(.clearAnnotations))
           }
           state.region = region
-          requestAnnotations(region)
+          effect(.internal(.loadAnnotations))
           throttle(.internal(.updatePreviews))
+        case .loadAnnotations:
+          requestAnnotations(state.region, state.yearRange)
         case .clearAnnotations:
           state.images.removeAll()
           state.clusters.removeAll()

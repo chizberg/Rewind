@@ -8,6 +8,8 @@
 import MapKit
 import VGSL
 
+typealias MapType = MKMapType
+
 // todo: rename, it's not only adapter
 final class MapAdapter: NSObject, MKMapViewDelegate {
   typealias Event = MapAction.External.Map
@@ -66,6 +68,10 @@ final class MapAdapter: NSObject, MKMapViewDelegate {
 
   func set(region: Region, animated: Bool) {
     map.value.setRegion(region, animated: animated)
+  }
+  
+  func apply(mapType: MapType) {
+    map.value.mapType = mapType
   }
 
   func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {

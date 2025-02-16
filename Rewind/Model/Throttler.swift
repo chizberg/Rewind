@@ -20,6 +20,12 @@ final class Throttler {
         action: { perform(action) },
         delay: 0.15
       )
+    case .internal(.loadAnnotations):
+      throttledCall(
+        id: "loadAnnotations",
+        action: { perform(action) },
+        delay: 0.15
+      )
     case .internal(.updatePreviews):
       throttledCall(
         id: "updatePreviews",
@@ -46,7 +52,7 @@ final class Throttler {
   }
 }
 
-private struct ThrottledActionPerformer {
+private class ThrottledActionPerformer {
   private var delay: Double
   private let action: Action
   private var task: Task<Void, Error>?
@@ -59,15 +65,16 @@ private struct ThrottledActionPerformer {
     self.action = action
   }
 
-  mutating func throttledCall() {
-    task = nil
+  func throttledCall() {
     task?.cancel()
+    task = nil
     task = makeTask()
   }
 
   private func makeTask() -> Task<Void, Error> {
     Task {
       try await Task.sleep(for: .seconds(delay))
+      try Task.checkCancellation()
       await MainActor.run {
         action()
       }

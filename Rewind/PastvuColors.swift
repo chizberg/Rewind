@@ -22,7 +22,7 @@ extension UIColor {
 
 typealias Gradient = [(position: CGFloat, color: RGBAColor)]
 
-private let pastvuGradient: Gradient = [
+let pastvuGradient: Gradient = [
   (0.00, RGBAColor(red: 0, green: 0, blue: 102 / 255.0, alpha: 1)),
   (0.30, RGBAColor(red: 0, green: 0, blue: 171 / 255.0, alpha: 1)),
   (0.36, RGBAColor(red: 57 / 255.0, green: 0, blue: 171 / 255.0, alpha: 1)),
@@ -71,7 +71,7 @@ extension Gradient {
   }
 }
 
-private func lerpParameter<T: FloatingPoint>(of value: T, lowerBound: T, upperBound: T) -> T {
+func lerpParameter<T: FloatingPoint>(of value: T, lowerBound: T, upperBound: T) -> T {
   guard value > lowerBound else { return 0 }
   guard value < upperBound else { return 1 }
   return (value - lowerBound) / (upperBound - lowerBound)

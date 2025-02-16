@@ -23,18 +23,33 @@ struct RootView: View {
       ViewRepresentable {
         rawMap
       }
-      .cornerRadius(CGFloat.deviceBezel)
       .ignoresSafeArea()
+      
+      MapBlurView(thumbnailsEmpty: mapState.previews.isEmpty)
 
-
-      ThumbnailsView(
-        namespace: rootView,
-        previews: mapState.previews,
-        onSelected: {
-          actionHandler(.thumbnailSelected($0))
-        }
-      )
-    }.fullScreenCover(
+      VStack {
+        ExpandableControls(
+          yearRange: Binding(
+            get: { mapState.yearRange },
+            set: { actionHandler(.yearRangeChanged($0)) }
+          ),
+          mapType: Binding(
+            get: { mapState.mapType },
+            set: { actionHandler(.mapTypeSelected($0)) }
+          )
+        ).padding()
+        
+        ThumbnailsView(
+          namespace: rootView,
+          previews: mapState.previews,
+          onSelected: {
+            actionHandler(.thumbnailSelected($0))
+          }
+        )
+      }
+    }
+    .mask(RoundedRectangle(cornerRadius: CGFloat.deviceBezel).ignoresSafeArea())
+    .fullScreenCover(
       item: Binding(
         get: { mapState.previewedImage },
         set: { item in
@@ -86,24 +101,6 @@ private struct ThumbnailsView: View {
       }
     }.frame(height: thumbnailSize.height)
       .animation(.spring(), value: previews)
-      .background(gradientBlur)
-  }
-
-  private var gradientBlur: some View {
-    BlurView(style: .systemUltraThinMaterial)
-      .mask {
-        Rectangle().fill(
-          LinearGradient(
-            stops: [
-              .init(color: .clear, location: 0),
-              .init(color: .white, location: 0.5)
-            ],
-            startPoint: .top,
-            endPoint: .bottom
-          )
-        )
-      }
-      .ignoresSafeArea()
   }
 }
 

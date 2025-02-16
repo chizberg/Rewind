@@ -10,12 +10,6 @@ import MapKit
 typealias Coordinate = CLLocationCoordinate2D
 typealias Region = MKCoordinateRegion
 
-enum MapType: CaseIterable {
-  case scheme
-  case satellite
-  case hybrid
-}
-
 extension Coordinate {
   static let zero = Coordinate(latitude: 0, longitude: 0)
 
@@ -106,22 +100,6 @@ extension MKMapView {
     _ annotationViewType: AnyClass
   ) -> MKAnnotationView? {
     dequeueReusableAnnotationView(withIdentifier: String(describing: annotationViewType))
-  }
-
-  var heading: CGFloat {
-    radians(camera.heading)
-  }
-
-  var pitch: CGFloat {
-    radians(camera.pitch)
-  }
-
-  func setMapType(_ mapType: MapType) {
-    switch mapType {
-    case .scheme: self.mapType = .standard
-    case .satellite: self.mapType = .satellite
-    case .hybrid: self.mapType = .hybrid
-    }
   }
 }
 
