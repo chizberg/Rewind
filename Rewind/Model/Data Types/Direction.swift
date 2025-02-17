@@ -32,15 +32,15 @@ enum Direction: String, Codable, Hashable {
 extension Direction {
   var angle: CGFloat? {
     switch self {
-    case .n: return 0
-    case .e: return .pi / 2
-    case .s: return .pi
-    case .w: return -.pi / 2
-    case .ne: return .pi / 4
-    case .nw: return -.pi / 4
-    case .se: return .pi / 4 * 3
-    case .sw: return -.pi / 4 * 3
-    case .aero: return nil
+    case .n: 0
+    case .e: .pi / 2
+    case .s: .pi
+    case .w: -.pi / 2
+    case .ne: .pi / 4
+    case .nw: -.pi / 4
+    case .se: .pi / 4 * 3
+    case .sw: -.pi / 4 * 3
+    case .aero: nil
     }
   }
 }

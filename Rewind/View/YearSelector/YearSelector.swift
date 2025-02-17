@@ -10,7 +10,7 @@ import SwiftUI
 struct YearSelector: View {
   @Binding
   var yearRange: ClosedRange<Int>
-  
+
   var body: some View {
     ViewRepresentable {
       UIKitYearSelector(yearRange: $yearRange)
@@ -22,7 +22,7 @@ struct YearSelector: View {
 #Preview {
   @Previewable @State
   var yearRange = 1826...2000
-  
+
   YearSelector(
     yearRange: $yearRange
   ).onChange(of: yearRange) {

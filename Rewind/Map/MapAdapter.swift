@@ -1,5 +1,5 @@
 //
-//  MapViewAdapter.swift
+//  MapAdapter.swift
 //  Rewind
 //
 //  Created by Alexey Sherstnev on 03.02.2025.
@@ -10,7 +10,7 @@ import VGSL
 
 typealias MapType = MKMapType
 
-// todo: rename, it's not only adapter
+// TODO: rename, it's not only adapter
 final class MapAdapter: NSObject, MKMapViewDelegate {
   typealias Event = MapAction.External.Map
 
@@ -33,7 +33,7 @@ final class MapAdapter: NSObject, MKMapViewDelegate {
 
   override init() {
     weak var weakSelf: MapAdapter?
-    map = Lazy(getter: { // todo: simplify
+    map = Lazy(getter: { // TODO: simplify
       let map = MKMapView()
       map.region = initialRegion
       map.delegate = weakSelf
@@ -69,20 +69,20 @@ final class MapAdapter: NSObject, MKMapViewDelegate {
   func set(region: Region, animated: Bool) {
     map.value.setRegion(region, animated: animated)
   }
-  
+
   func apply(mapType: MapType) {
     map.value.mapType = mapType
   }
 
-  func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+  func mapView(_ mapView: MKMapView, regionDidChangeAnimated _: Bool) {
     pipe.send(.regionChanged(mapView.region))
   }
 
-  func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+  func mapView(_: MKMapView, didSelect view: MKAnnotationView) {
     pipe.send(.annotationSelected(view.annotation))
   }
 
-  func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+  func mapView(_: MKMapView, didDeselect view: MKAnnotationView) {
     pipe.send(.annotationDeselected(view.annotation))
   }
 
@@ -110,7 +110,7 @@ final class MapAdapter: NSObject, MKMapViewDelegate {
     return nil
   }
 
-  func mapView(_ mapView: MKMapView, didAdd views: [MKAnnotationView]) {
+  func mapView(_: MKMapView, didAdd views: [MKAnnotationView]) {
     animateAddition(views)
   }
 }

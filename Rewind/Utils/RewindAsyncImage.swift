@@ -29,7 +29,7 @@ struct RewindAsyncImage<Content: View, Placeholder: View>: View {
 
   var body: some View {
     Group {
-      if let image = image {
+      if let image {
         content(image)
       } else {
         placeholder

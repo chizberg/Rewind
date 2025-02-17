@@ -48,8 +48,8 @@ private func isLocalWork(zoom: Int) -> Bool {
   zoom >= 17
 }
 
-private extension Network {
-  static func byBounds(
+extension Network {
+  fileprivate static func byBounds(
     zoom: Int,
     coordinates: [[Double]],
     startAt: TimeInterval,
@@ -97,7 +97,7 @@ private extension Network {
         let paramsString = try? String(data: JSONEncoder().encode(rawParams), encoding: .utf8)
         components.queryItems = [
           URLQueryItem(name: "method", value: "photo.getByBounds"),
-          URLQueryItem(name: "params", value: paramsString)
+          URLQueryItem(name: "params", value: paramsString),
         ]
         return URLRequest(url: components.url!)
       },
@@ -108,7 +108,7 @@ private extension Network {
     )
   }
 
-  static func imageDetails(cid: Int) -> Request<ImageDetails> {
+  fileprivate static func imageDetails(cid: Int) -> Request<ImageDetails> {
     struct RawParams: Encodable {
       let cid: Int
     }
@@ -121,7 +121,7 @@ private extension Network {
       let result: Result
     }
 
-    return Request<ImageDetails> (
+    return Request<ImageDetails>(
       makeURLRequest: {
         var components = makeBaseURLComponents()
         components.path = "/api2"
@@ -129,7 +129,7 @@ private extension Network {
         let paramsString = try? String(data: JSONEncoder().encode(rawParams), encoding: .utf8)
         components.queryItems = [
           URLQueryItem(name: "method", value: "photo.giveForPage"),
-          URLQueryItem(name: "params", value: paramsString)
+          URLQueryItem(name: "params", value: paramsString),
         ]
         return URLRequest(url: components.url!)
       },
@@ -140,7 +140,7 @@ private extension Network {
     )
   }
 
-  static func image(path: String, quality: ImageQuality) -> Request<UIImage> {
+  fileprivate static func image(path: String, quality: ImageQuality) -> Request<UIImage> {
     // path contains unexpected query parameters, we have to remove them
     func dropUnexpectedQueryItems(from path: String) -> String {
       guard var urlComponents = URLComponents(string: path) else {

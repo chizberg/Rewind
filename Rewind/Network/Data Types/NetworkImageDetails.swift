@@ -1,5 +1,5 @@
 //
-//  ImageDetails.swift
+//  NetworkImageDetails.swift
 //  Camera Roll
 //
 //  Created by Alexey Sherstnev on 14.01.2023.
@@ -36,7 +36,6 @@ extension Network {
     }
   }
 }
-
 
 #if DEBUG
 extension Network.ImageDetails {

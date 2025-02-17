@@ -26,7 +26,7 @@ extension Model {
       date = ImageDate(year: ni.year, year2: ni.year2)
       self.image = image
     }
-    
+
     init(_ si: Storage.Image, image: LoadableImage) {
       cid = si.cid
       imagePath = si.imagePath

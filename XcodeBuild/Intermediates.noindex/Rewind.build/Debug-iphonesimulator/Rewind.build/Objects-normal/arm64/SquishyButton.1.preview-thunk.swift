@@ -1,9 +1,12 @@
-import func SwiftUI.__designTimeFloat
-import func SwiftUI.__designTimeString
-import func SwiftUI.__designTimeInteger
 import func SwiftUI.__designTimeBoolean
+import func SwiftUI.__designTimeFloat
+import func SwiftUI.__designTimeInteger
+import func SwiftUI.__designTimeString
 
-#sourceLocation(file: "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/Utils/SquishyButton.swift", line: 1)
+#sourceLocation(
+  file: "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/Utils/SquishyButton.swift",
+  line: 1
+)
 //
 //  SquishyButton.swift
 //  Rewind
@@ -54,7 +57,10 @@ struct SquishyButton<Content: View>: View {
   SquishyButton {
     print(UUID().uuidString)
   } label: { pressed in
-    Image(systemName: pressed ? __designTimeString("#21226_7", fallback: "play.fill") : __designTimeString("#21226_8", fallback: "play"))
-      .font(.system(size: __designTimeInteger("#21226_9", fallback: 100)))
+    Image(
+      systemName: pressed ? __designTimeString("#21226_7", fallback: "play.fill") :
+        __designTimeString("#21226_8", fallback: "play")
+    )
+    .font(.system(size: __designTimeInteger("#21226_9", fallback: 100)))
   }
 }

@@ -13,7 +13,7 @@ struct BlurView: UIViewRepresentable {
   var radius: CGFloat = 0
 
   func makeUIView(context _: Context) -> UIVisualEffectView {
-    let effect = UIBlurEffect.init(style: style)
+    let effect = UIBlurEffect(style: style)
     let uiView = UIVisualEffectView(effect: effect)
     uiView.clipsToBounds = true
     return uiView
@@ -23,7 +23,7 @@ struct BlurView: UIViewRepresentable {
     uiView.layer.cornerRadius = radius
 
     UIView.animate(withDuration: animated ? 0.5 : 0) {
-      let effect = UIBlurEffect.init(style: style)
+      let effect = UIBlurEffect(style: style)
       uiView.effect = effect
     }
   }

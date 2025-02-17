@@ -10,9 +10,12 @@ import UIKit
 // TODO: rewrite
 
 // У ThumbView мы будем использовать три поля:
-// value - значение от 0 до 1 - относительное расположение в баре - используем для сравнения разных thumbView между собой
-// x - координата по х относительно superview - используем для того, чтобы перемещать thumb и для того, чтобы получать value из координаты. x мы можем брать в зависимости от ValueSide
-// year - тут его непосредственно нет, он больше фигурирует в YearSelector, но тут он отображается через yearLabel и backgroundColor
+// value - значение от 0 до 1 - относительное расположение в баре - используем для сравнения разных
+// thumbView между собой
+// x - координата по х относительно superview - используем для того, чтобы перемещать thumb и для
+// того, чтобы получать value из координаты. x мы можем брать в зависимости от ValueSide
+// year - тут его непосредственно нет, он больше фигурирует в YearSelector, но тут он отображается
+// через yearLabel и backgroundColor
 final class ThumbView: UIView {
   private enum Style {
     static let cornerRadius: CGFloat = 5
@@ -71,9 +74,9 @@ final class ThumbView: UIView {
   var x: CGFloat {
     get {
       switch valueSide {
-      case .left: return frame.origin.x
-      case .center: return center.x
-      case .right: return frame.origin.x + Style.thumbSize.width
+      case .left: frame.origin.x
+      case .center: center.x
+      case .right: frame.origin.x + Style.thumbSize.width
       }
     }
     set {
@@ -87,8 +90,10 @@ final class ThumbView: UIView {
 }
 
 extension ThumbView {
-  // так как thumb у нас достаточно большой, соответствующее ему значение мы можем брать откуда захотим
-  // поэтому мы можем брать значение с левой границы, с правой границы или из центра (если будет нужно)
+  // так как thumb у нас достаточно большой, соответствующее ему значение мы можем брать откуда
+  // захотим
+  // поэтому мы можем брать значение с левой границы, с правой границы или из центра (если будет
+  // нужно)
   enum ValueSide {
     case left
     case center // сейчас не используется

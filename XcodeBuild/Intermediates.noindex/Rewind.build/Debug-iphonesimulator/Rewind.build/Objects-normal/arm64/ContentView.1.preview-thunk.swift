@@ -1,9 +1,12 @@
-import func SwiftUI.__designTimeFloat
-import func SwiftUI.__designTimeString
-import func SwiftUI.__designTimeInteger
 import func SwiftUI.__designTimeBoolean
+import func SwiftUI.__designTimeFloat
+import func SwiftUI.__designTimeInteger
+import func SwiftUI.__designTimeString
 
-#sourceLocation(file: "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/View/ContentView.swift", line: 1)
+#sourceLocation(
+  file: "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/View/ContentView.swift",
+  line: 1
+)
 //
 //  ContentView.swift
 //  Rewind
@@ -11,8 +14,8 @@ import func SwiftUI.__designTimeBoolean
 //  Created by Alexey Sherstnev on 02.02.2025.
 //
 
-import SwiftUI
 import MapKit
+import SwiftUI
 
 struct ContentView: View {
   let rawMap: UIView
@@ -39,7 +42,10 @@ private struct ThumbnailsView: View {
       ScrollView(.horizontal, showsIndicators: __designTimeBoolean("#7492_0", fallback: false)) {
         HStack(spacing: __designTimeInteger("#7492_1", fallback: 0)) {
           // Empty view to scroll to (including paddings)
-          Color.clear.frame(width: __designTimeInteger("#7492_2", fallback: 0), height: __designTimeInteger("#7492_3", fallback: 0)).id(leadingEdge)
+          Color.clear.frame(
+            width: __designTimeInteger("#7492_2", fallback: 0),
+            height: __designTimeInteger("#7492_3", fallback: 0)
+          ).id(leadingEdge)
 
           LazyHStack {
             ForEach(previews) {
@@ -47,7 +53,6 @@ private struct ThumbnailsView: View {
             }
           }.padding()
         }
-
       }
       .onChange(of: previews) {
         withAnimation {

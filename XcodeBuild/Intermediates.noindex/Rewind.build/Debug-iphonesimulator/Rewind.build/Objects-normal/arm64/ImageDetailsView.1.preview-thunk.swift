@@ -1,9 +1,12 @@
-import func SwiftUI.__designTimeFloat
-import func SwiftUI.__designTimeString
-import func SwiftUI.__designTimeInteger
 import func SwiftUI.__designTimeBoolean
+import func SwiftUI.__designTimeFloat
+import func SwiftUI.__designTimeInteger
+import func SwiftUI.__designTimeString
 
-#sourceLocation(file: "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/View/ImageDetailsView.swift", line: 1)
+#sourceLocation(
+  file: "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/View/ImageDetailsView.swift",
+  line: 1
+)
 //
 //  ImageDetailsView.swift
 //  Rewind
@@ -126,7 +129,7 @@ private struct ImageDetailsViewImpl: View {
     case .route: .green
     case .share, .saveImage, .viewOnWeb: .secondaryBackground
     }
-    // todo: localization
+    // TODO: localization
     let title: String = switch action {
     case .favorite: __designTimeString("#7675_4", fallback: "Favorite")
     case .share: __designTimeString("#7675_5", fallback: "Share")
@@ -135,7 +138,8 @@ private struct ImageDetailsViewImpl: View {
     case .route: __designTimeString("#7675_8", fallback: "Find route")
     }
     let iconName: String = switch action {
-    case .favorite: isFavorite ? __designTimeString("#7675_9", fallback: "heart.fill") : __designTimeString("#7675_10", fallback: "heart")
+    case .favorite: isFavorite ? __designTimeString("#7675_9", fallback: "heart.fill") :
+      __designTimeString("#7675_10", fallback: "heart")
     case .share: __designTimeString("#7675_11", fallback: "square.and.arrow.up")
     case .saveImage: __designTimeString("#7675_12", fallback: "square.and.arrow.down")
     case .viewOnWeb: __designTimeString("#7675_13", fallback: "globe.americas.fill")
@@ -165,22 +169,25 @@ private struct ImageDetailsViewImpl: View {
       }
 
       HStack {
-        // todo: localized string
-        LabeledText(label: __designTimeString("#7675_19", fallback: "uploaded by"), value: details.username)
+        // TODO: localized string
+        LabeledText(
+          label: __designTimeString("#7675_19", fallback: "uploaded by"),
+          value: details.username
+        )
         Spacer()
         if let author = details.author {
-          // todo: localized string
+          // TODO: localized string
           LabeledText(label: __designTimeString("#7675_20", fallback: "author"), value: author)
           Spacer()
         }
       }
 
       if let source = details.source {
-        // todo: localized string
+        // TODO: localized string
         LabeledText(label: __designTimeString("#7675_21", fallback: "source"), value: source)
       }
       if let address = details.address {
-        // todo: localized string
+        // TODO: localized string
         LabeledText(label: __designTimeString("#7675_22", fallback: "address"), value: address)
       }
     }
@@ -191,7 +198,6 @@ private struct ImageDetailsViewImpl: View {
       VStack(alignment: .leading, spacing: __designTimeInteger("#7675_23", fallback: 5)) {
         Text(details.title.makeAttrString())
           .font(.title.bold())
-
 
         HStack(spacing: __designTimeInteger("#7675_24", fallback: 20)) {
           Text(details.date.description)
@@ -217,7 +223,7 @@ private let visibleActions: [ImageDetailsAction.Button] = [
   .share,
   .saveImage,
   .viewOnWeb,
-  .route
+  .route,
 ]
 
 private struct DirectionIndicator: View {
@@ -229,7 +235,10 @@ private struct DirectionIndicator: View {
         .font(.title3.bold().monospaced())
       Image(systemName: __designTimeString("#7675_28", fallback: "arrowtriangle.up.fill"))
         .resizable()
-        .frame(width: __designTimeInteger("#7675_29", fallback: 8), height: __designTimeInteger("#7675_30", fallback: 10))
+        .frame(
+          width: __designTimeInteger("#7675_29", fallback: 8),
+          height: __designTimeInteger("#7675_30", fallback: 10)
+        )
         .rotationEffect(.radians(angle ?? __designTimeInteger("#7675_31", fallback: 0)))
     }
   }
@@ -270,7 +279,7 @@ extension NSAttributedString {
       data: data,
       options: [
         .documentType: NSAttributedString.DocumentType.html,
-        .characterEncoding: String.Encoding.utf8.rawValue
+        .characterEncoding: String.Encoding.utf8.rawValue,
       ],
       documentAttributes: nil
     ) else { return nil }
@@ -291,7 +300,6 @@ extension NSAttributedString {
     self.init(attributedString: mutableAttrStr)
   }
 }
-
 
 #if DEBUG
 fileprivate func makeImageDetailsView(

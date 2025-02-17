@@ -1,5 +1,5 @@
 //
-//  FavouritesStorage.swift
+//  FavoritesStorage.swift
 //  Rewind
 //
 //  Created by Aleksei Sherstnev on 17.2.25..
@@ -11,7 +11,7 @@ final class FavoritesStorage {
   private let impl: Property<[Storage.Image]>
   private let makeLoadableImage: (String) -> LoadableImage
   private var modelImages: [Model.Image]
-  
+
   init(
     storage: KeyValueStorage,
     makeLoadableImage: @escaping (String) -> LoadableImage
@@ -22,7 +22,7 @@ final class FavoritesStorage {
       Model.Image($0, image: makeLoadableImage($0.imagePath))
     }
   }
-  
+
   var property: Property<[Model.Image]> {
     Property(
       getter: { [weak self] in

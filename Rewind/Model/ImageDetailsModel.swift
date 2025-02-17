@@ -94,7 +94,7 @@ func makeImageDetailsModel(
         else { return }
         let itemsToShare = [
           image,
-          "\(data.title), \(data.description ?? "")"
+          "\(data.title), \(data.description ?? "")",
         ]
         loadEffect {
           let vc = await UIActivityViewController(

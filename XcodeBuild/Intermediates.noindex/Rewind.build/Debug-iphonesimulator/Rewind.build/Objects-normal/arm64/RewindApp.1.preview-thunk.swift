@@ -1,9 +1,12 @@
-import func SwiftUI.__designTimeFloat
-import func SwiftUI.__designTimeString
-import func SwiftUI.__designTimeInteger
 import func SwiftUI.__designTimeBoolean
+import func SwiftUI.__designTimeFloat
+import func SwiftUI.__designTimeInteger
+import func SwiftUI.__designTimeString
 
-#sourceLocation(file: "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/RewindApp.swift", line: 1)
+#sourceLocation(
+  file: "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/RewindApp.swift",
+  line: 1
+)
 //
 //  RewindApp.swift
 //  Rewind
@@ -57,12 +60,12 @@ final class AppGraph {
       setRegion: mapAdapter.set(region:animated:),
       requestAnnotations: { region in
         remotes.annotations(
-          (region: region, yearRange: 1900...2000), // TODO
+          (region: region, yearRange: 1900...2000), // TODO:
           completion: { result in
             switch result {
             case let .success((images, clusters)):
               weakSelf?.mapModel(.external(.loaded(images, clusters)))
-            case .failure: break // TODO
+            case .failure: break // TODO:
             }
           }
         )

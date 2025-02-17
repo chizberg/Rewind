@@ -1,5 +1,5 @@
 //
-//  MapExpandableControls.swift
+//  ExpandableControls.swift
 //  Rewind
 //
 //  Created by Aleksei Sherstnev on 16.2.25..
@@ -12,7 +12,7 @@ struct ExpandableControls: View {
   var yearRange: ClosedRange<Int>
   @Binding
   var mapType: MapType
-  
+
   var body: some View {
     ExpandableStack(
       items: [
@@ -34,14 +34,14 @@ struct ExpandableControls: View {
             },
             isExpanded: isExpanded
           )
-        }
+        },
       ]
     )
   }
-  
-  private func expandableItemView<Expanded: View>(
+
+  private func expandableItemView(
     iconName: String,
-    @ViewBuilder expandedContent: @escaping () -> Expanded,
+    @ViewBuilder expandedContent: @escaping () -> some View,
     isExpanded: Binding<Bool>
   ) -> some View {
     ExpandableView(
@@ -57,7 +57,7 @@ struct ExpandableControls: View {
       expanded: { minimize in
         HStack {
           expandedContent()
-          
+
           closeButton(action: minimize)
         }
         .padding(3)
@@ -66,7 +66,7 @@ struct ExpandableControls: View {
       radius: isExpanded.wrappedValue ? 15 : 25
     )
   }
-  
+
   private func closeButton(action: @escaping () -> Void) -> some View {
     Button(action: action) {
       Image(systemName: "xmark")
@@ -79,7 +79,7 @@ struct ExpandableControls: View {
         }
     }.foregroundStyle(iconColor)
   }
-  
+
   private var iconColor: Color {
     .primary.opacity(0.8)
   }
@@ -88,7 +88,7 @@ struct ExpandableControls: View {
 private struct MapTypePicker: View {
   @Binding
   var mapType: MapType
-  
+
   var body: some View {
     Picker("Map type", selection: $mapType) {
       Text("Scheme").tag(MapType.standard)
@@ -98,36 +98,36 @@ private struct MapTypePicker: View {
     .pickerStyle(.segmented)
   }
 }
-                         
+
 private struct ExpandableStack: View {
   struct Item: Identifiable, Equatable {
     typealias ID = String
-    
+
     var id: ID
     var view: (Binding<Bool>) -> AnyView
-    
-    init<Content: View>(
+
+    init(
       id: String,
-      @ViewBuilder content: @escaping (Binding<Bool>) -> Content
+      @ViewBuilder content: @escaping (Binding<Bool>) -> some View
     ) {
       self.id = id
       self.view = { binding in
         AnyView(content(binding))
       }
     }
-    
-    static func == (lhs: Item, rhs: Item) -> Bool {
+
+    static func ==(lhs: Item, rhs: Item) -> Bool {
       lhs.id == rhs.id
     }
   }
-  
+
   var items: [Item]
-  
+
   @Namespace
   private var namespace
   @State
   private var expandedItems = [Item]()
-  
+
   var body: some View {
     VStack(alignment: .leading) {
       // minimized
@@ -138,7 +138,7 @@ private struct ExpandableStack: View {
               .matchedGeometryEffect(id: item.id, in: namespace)
           }
         }
-        
+
         Spacer()
       }
       // expanded
@@ -150,7 +150,7 @@ private struct ExpandableStack: View {
       }
     }.animation(.spring(.init(duration: 0.4)), value: expandedItems)
   }
-  
+
   private func expansionBinding(_ item: Item) -> Binding<Bool> {
     Binding(
       get: { expandedItems.contains(item) },
@@ -176,7 +176,7 @@ private struct ExpandableView<Minimized: View, Expanded: View, Background: View>
   @ViewBuilder
   var background: () -> Background
   var radius: CGFloat
-  
+
   var body: some View {
     VStack {
       if isExpanded {
@@ -194,15 +194,15 @@ private struct ExpandableView<Minimized: View, Expanded: View, Background: View>
 #Preview {
   @Previewable @State
   var yearRange = 1826...2000
-  
+
   @Previewable @State
   var mapType = MapType.standard
-  
+
   ZStack(alignment: .bottom) {
     Image("cat")
       .resizable()
       .ignoresSafeArea()
-    
+
     ExpandableControls(yearRange: $yearRange, mapType: $mapType)
       .padding()
   }
@@ -211,6 +211,6 @@ private struct ExpandableView<Minimized: View, Expanded: View, Background: View>
 #Preview("Picker") {
   @Previewable @State
   var mapType = MapType.standard
-  
+
   MapTypePicker(mapType: $mapType)
 }

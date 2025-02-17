@@ -1,9 +1,12 @@
-import func SwiftUI.__designTimeFloat
-import func SwiftUI.__designTimeString
-import func SwiftUI.__designTimeInteger
 import func SwiftUI.__designTimeBoolean
+import func SwiftUI.__designTimeFloat
+import func SwiftUI.__designTimeInteger
+import func SwiftUI.__designTimeString
 
-#sourceLocation(file: "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/Utils/ViewRepresentable.swift", line: 1)
+#sourceLocation(
+  file: "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/Utils/ViewRepresentable.swift",
+  line: 1
+)
 //
 //  ViewRepresentable.swift
 //  Rewind
@@ -45,7 +48,7 @@ struct ViewControllerRepresentable<V: UIViewController>: UIViewControllerReprese
     self.factory = factory
     self.updater = updater
   }
-  
+
   func makeUIViewController(context _: Context) -> V {
     factory()
   }

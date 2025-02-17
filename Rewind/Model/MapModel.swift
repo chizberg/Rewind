@@ -71,7 +71,7 @@ func makeMapModel(
       images: [],
       clusters: []
     ),
-    reduce: { state, action, effect, loadEffect in
+    reduce: { state, action, effect, _ in
       switch action {
       case let .external(externalAction):
         switch externalAction {
@@ -85,7 +85,7 @@ func makeMapModel(
             case let .cluster(cluster):
               setRegion(
                 Region(center: cluster.coordinate, zoom: state.region.zoom + 1),
-                /*animated:*/ true
+                /* animated: */ true
               )
             }
           } else if let localCluster = mkAnn as? MKClusterAnnotation {
@@ -156,4 +156,3 @@ func makeMapModel(
     }
   )
 }
-

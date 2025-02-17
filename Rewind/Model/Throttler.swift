@@ -1,5 +1,5 @@
 //
-//  ThrottledActionPerformer.swift
+//  Throttler.swift
 //  Rewind
 //
 //  Created by Alexey Sherstnev on 04.02.2025.

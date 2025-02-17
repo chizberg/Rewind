@@ -14,9 +14,9 @@ enum ImageQuality: Int {
 
   var linkParam: String {
     switch self {
-    case .low: return "s"
-    case .medium: return "d"
-    case .high: return "a"
+    case .low: "s"
+    case .medium: "d"
+    case .high: "a"
     }
   }
 }
@@ -26,4 +26,3 @@ extension ImageQuality: Comparable {
     lhs.rawValue < rhs.rawValue
   }
 }
-

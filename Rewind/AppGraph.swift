@@ -50,7 +50,7 @@ final class AppGraph {
             switch result {
             case let .success((images, clusters)):
               weakSelf?.mapModel(.external(.loaded(images, clusters)))
-            case .failure: break // TODO
+            case .failure: break // TODO:
             }
           }
         )

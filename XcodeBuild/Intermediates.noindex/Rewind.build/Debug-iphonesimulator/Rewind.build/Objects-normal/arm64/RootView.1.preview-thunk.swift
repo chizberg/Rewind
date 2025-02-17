@@ -1,9 +1,12 @@
-import func SwiftUI.__designTimeFloat
-import func SwiftUI.__designTimeString
-import func SwiftUI.__designTimeInteger
 import func SwiftUI.__designTimeBoolean
+import func SwiftUI.__designTimeFloat
+import func SwiftUI.__designTimeInteger
+import func SwiftUI.__designTimeString
 
-#sourceLocation(file: "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/View/RootView.swift", line: 1)
+#sourceLocation(
+  file: "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/View/RootView.swift",
+  line: 1
+)
 //
 //  ContentView.swift
 //  Rewind
@@ -11,9 +14,9 @@ import func SwiftUI.__designTimeBoolean
 //  Created by Alexey Sherstnev on 02.02.2025.
 //
 
-import SwiftUI
-import MapKit
 import BezelKit
+import MapKit
+import SwiftUI
 
 struct RootView: View {
   let rawMap: UIView
@@ -32,7 +35,6 @@ struct RootView: View {
       .cornerRadius(CGFloat.deviceBezel)
       .ignoresSafeArea()
 
-
       ThumbnailsView(
         namespace: rootView,
         previews: mapState.previews,
@@ -46,7 +48,7 @@ struct RootView: View {
               LinearGradient(
                 stops: [
                   .init(color: .clear, location: __designTimeInteger("#19445_0", fallback: 0)),
-                  .init(color: .white, location: __designTimeFloat("#19445_1", fallback: 0.5))
+                  .init(color: .white, location: __designTimeFloat("#19445_1", fallback: 0.5)),
                 ],
                 startPoint: .top,
                 endPoint: .bottom
@@ -86,7 +88,10 @@ private struct ThumbnailsView: View {
       ScrollView(.horizontal, showsIndicators: __designTimeBoolean("#19445_2", fallback: false)) {
         HStack(spacing: __designTimeInteger("#19445_3", fallback: 0)) {
           // Empty view to scroll to (including paddings)
-          Color.clear.frame(width: __designTimeInteger("#19445_4", fallback: 0), height: __designTimeInteger("#19445_5", fallback: 0)).id(leadingEdge)
+          Color.clear.frame(
+            width: __designTimeInteger("#19445_4", fallback: 0),
+            height: __designTimeInteger("#19445_5", fallback: 0)
+          ).id(leadingEdge)
 
           LazyHStack {
             ForEach(previews) { image in

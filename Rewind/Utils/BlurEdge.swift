@@ -43,19 +43,19 @@ extension SwiftUI.Alignment {
 extension Edge {
   fileprivate var unitPoint: UnitPoint {
     switch self {
-    case .top: return .top
-    case .leading: return .leading
-    case .bottom: return .bottom
-    case .trailing: return .trailing
+    case .top: .top
+    case .leading: .leading
+    case .bottom: .bottom
+    case .trailing: .trailing
     }
   }
 
   fileprivate var opposite: Edge {
     switch self {
-    case .top: return .bottom
-    case .leading: return .trailing
-    case .bottom: return .top
-    case .trailing: return .leading
+    case .top: .bottom
+    case .leading: .trailing
+    case .bottom: .top
+    case .trailing: .leading
     }
   }
 }
@@ -102,7 +102,7 @@ private struct BlurEdge: ViewModifier {
         .init(color: .clear, location: 0),
         .init(color: .clear, location: opacityStartPoint),
         .init(color: .white, location: opaquePoint),
-        .init(color: .white, location: 1)
+        .init(color: .white, location: 1),
       ],
       startPoint: edge.opposite.unitPoint,
       endPoint: edge.unitPoint

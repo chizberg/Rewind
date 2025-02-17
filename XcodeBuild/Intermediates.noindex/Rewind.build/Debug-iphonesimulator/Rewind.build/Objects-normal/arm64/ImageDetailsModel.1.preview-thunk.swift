@@ -1,9 +1,12 @@
-import func SwiftUI.__designTimeFloat
-import func SwiftUI.__designTimeString
-import func SwiftUI.__designTimeInteger
 import func SwiftUI.__designTimeBoolean
+import func SwiftUI.__designTimeFloat
+import func SwiftUI.__designTimeInteger
+import func SwiftUI.__designTimeString
 
-#sourceLocation(file: "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/Model/ImageDetailsModel.swift", line: 1)
+#sourceLocation(
+  file: "/Users/chizberg/Documents/Личные проекты/Rewind/Rewind/Model/ImageDetailsModel.swift",
+  line: 1
+)
 //
 //  ImageDetailsModel.swift
 //  Rewind
@@ -53,7 +56,7 @@ func makeImageDetailsModel(
       isFavorite: isFavorite.value,
       sharedItems: []
     ),
-    reduce: { state, action, effect, loadEffect in
+    reduce: { state, action, _, loadEffect in
       switch action {
       case .willBePresented:
         loadEffect {
@@ -85,7 +88,7 @@ func makeImageDetailsModel(
         else { return }
         state.sharedItems = [
           "\(data.title), \(data.description ?? __designTimeString("#32627_3", fallback: ""))",
-          image
+          image,
         ]
       case .button(.route): print(__designTimeString("#32627_4", fallback: "chzbrg route"))
       case .shareSheetDismissed:

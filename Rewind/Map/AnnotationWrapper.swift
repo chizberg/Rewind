@@ -1,5 +1,5 @@
 //
-//  Annotation.swift
+//  AnnotationWrapper.swift
 //  Rewind
 //
 //  Created by Alexey Sherstnev on 04.02.2025.
@@ -31,7 +31,7 @@ extension AnnotationWrapper.Value {
   var image: Model.Image? {
     if case let .image(image) = self { image } else { nil }
   }
-  
+
   var cluster: Model.Cluster? {
     if case let .cluster(cluster) = self { cluster } else { nil }
   }

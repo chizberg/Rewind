@@ -1,13 +1,13 @@
 //
-//  ContentView.swift
+//  RootView.swift
 //  Rewind
 //
 //  Created by Alexey Sherstnev on 02.02.2025.
 //
 
-import SwiftUI
-import MapKit
 import BezelKit
+import MapKit
+import SwiftUI
 
 struct RootView: View {
   let rawMap: UIView
@@ -27,7 +27,7 @@ struct RootView: View {
         rawMap
       }
       .ignoresSafeArea()
-      
+
       MapBlurView(thumbnailsEmpty: mapState.previews.isEmpty)
 
       VStack {
@@ -41,7 +41,7 @@ struct RootView: View {
             set: { mapActionHandler(.mapTypeSelected($0)) }
           )
         ).padding()
-        
+
         ThumbnailsView(
           namespace: rootView,
           previews: mapState.previews,

@@ -37,7 +37,7 @@ func makeAppModel(
       favorites: favoritesStorage.value,
       favoritesPresented: false
     ),
-    reduce: { state, action, effect, loadEffect in
+    reduce: { state, action, _, _ in
       switch action {
       case let .addToFavorites(image):
         guard !state.favorites.contains(image) else { return }

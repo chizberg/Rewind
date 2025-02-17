@@ -18,7 +18,6 @@ func animateAddition(
   }, completion: completion)
 }
 
-
 func animateRemoval(
   _ views: [MKAnnotationView],
   completion: @escaping (Bool) -> Void = { _ in }

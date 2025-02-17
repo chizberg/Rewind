@@ -62,7 +62,7 @@ struct ImageDetailsView: View {
       }
     )
     .confirmationDialog(
-      "Select map app to find route", // todo: localization
+      "Select map app to find route", // TODO: localization
       isPresented: Binding(
         get: { state.mapOptionsPresented },
         set: { model(.setMapOptionsVisibility($0)) }
@@ -191,7 +191,6 @@ private struct ImageDetailsViewImpl: View {
         Text(details.title.makeAttrString())
           .font(.title.bold())
 
-
         HStack(spacing: 20) {
           Text(details.date.description)
             .font(.title3.bold())
@@ -216,7 +215,7 @@ private let visibleActions: [ImageDetailsAction.Button] = [
   .share,
   .saveImage,
   .viewOnWeb,
-  .route
+  .route,
 ]
 
 private struct DirectionIndicator: View {

@@ -15,7 +15,7 @@ extension Storage {
     var dir: Direction?
     var coordinate: Coordinate
     var date: ImageDate
-    
+
     init(_ mi: Model.Image) {
       cid = mi.cid
       imagePath = mi.imagePath

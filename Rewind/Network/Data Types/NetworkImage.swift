@@ -1,5 +1,5 @@
 //
-//  Image.swift
+//  NetworkImage.swift
 //  Camera Roll
 //
 //  Created by Alexey Sherstnev on 14.01.2023.

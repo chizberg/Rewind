@@ -39,7 +39,7 @@ struct ViewControllerRepresentable<V: UIViewController>: UIViewControllerReprese
     self.factory = factory
     self.updater = updater
   }
-  
+
   func makeUIViewController(context _: Context) -> V {
     factory()
   }

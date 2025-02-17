@@ -9,12 +9,12 @@ import SwiftUI
 
 struct MapBlurView: View {
   var thumbnailsEmpty: Bool
-  
+
   var body: some View {
-    GeometryReader { proxy in
+    GeometryReader { _ in
       VStack {
         Spacer()
-        
+
         thumbnailsFiller
           .ignoresSafeArea()
           .frame(height: 150)
@@ -24,7 +24,7 @@ struct MapBlurView: View {
     }
     .allowsHitTesting(false)
   }
-  
+
   private var thumbnailsFiller: some View {
     BlurView(style: .regular)
       .mask {
@@ -32,7 +32,7 @@ struct MapBlurView: View {
           LinearGradient(
             stops: [
               .init(color: .clear, location: 0),
-              .init(color: .white, location: 0.6)
+              .init(color: .white, location: 0.6),
             ],
             startPoint: .top,
             endPoint: .bottom
@@ -45,15 +45,13 @@ struct MapBlurView: View {
 #Preview {
   @Previewable @State
   var thumbnailsEmpty = false
-  
+
   ZStack {
     Image("cat").resizable().ignoresSafeArea()
-    
+
     MapBlurView(thumbnailsEmpty: thumbnailsEmpty)
-      .onTapGesture {
-        
-      }
-    
+      .onTapGesture {}
+
     Button {
       thumbnailsEmpty.toggle()
     } label: {

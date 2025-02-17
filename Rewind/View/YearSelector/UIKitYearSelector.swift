@@ -1,14 +1,14 @@
 //
-//  YearSelector.swift
+//  UIKitYearSelector.swift
 //  PhotoPlenka
 //
 //  Created by Алексей Шерстнёв on 07.02.2022.
 //
 
-import UIKit
 import SwiftUI
+import UIKit
 
-//TODO: rewrite
+// TODO: rewrite
 
 final class UIKitYearSelector: UIView {
   private enum Constants {
@@ -16,7 +16,9 @@ final class UIKitYearSelector: UIView {
     static let lineRadius: CGFloat = lineHeight / 2
     static let horizontalLineInset: CGFloat = 33
     static let thumbWidth: CGFloat = 50
-    // так как у нас значения thumbView берутся с границ, то мы возможные значения thumbView.x ограничиваем ещё на половину thumbWidth (изначально у нас thumbView.center.x = horizontalLineInset)
+    // так как у нас значения thumbView берутся с границ, то мы возможные значения thumbView.x
+    // ограничиваем ещё на половину thumbWidth (изначально у нас thumbView.center.x =
+    // horizontalLineInset)
     static let valueInset: CGFloat = horizontalLineInset + thumbWidth / 2
     static let cornerRadius: CGFloat = 13
 

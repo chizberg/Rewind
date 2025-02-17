@@ -44,4 +44,5 @@ private func extractUsername(from nid: Network.ImageDetails) -> String {
   }
   return nid.user.name
 }
+
 private let watersignPrefix = "uploaded by "

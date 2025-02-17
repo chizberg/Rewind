@@ -28,7 +28,7 @@ extension Coordinate {
 
   func isAlmostEqual(to other: Self, e: Double = 0.01) -> Bool {
     latitude.isAlmostEqual(to: other.latitude, e: e)
-    && longitude.isAlmostEqual(to: other.longitude, e: e)
+      && longitude.isAlmostEqual(to: other.longitude, e: e)
   }
 
   // FIXME: chizberg - adjust()
@@ -39,7 +39,7 @@ extension Coordinate: Codable {
     var latitude: Double
     var longitude: Double
   }
-  
+
   public func encode(to encoder: any Encoder) throws {
     var container = encoder.singleValueContainer()
     try container.encode(
