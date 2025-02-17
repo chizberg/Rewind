@@ -122,7 +122,9 @@ final class UIKitYearSelector: UIView {
         height: Constants.lineHeight
       )
     )
-    gradientLayer.frame = line.bounds
+    CATransaction.performWithoutAnimations {
+      gradientLayer.frame = line.bounds
+    }
 
     updateThumbCoordinates()
     updateShadows()

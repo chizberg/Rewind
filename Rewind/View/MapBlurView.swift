@@ -13,10 +13,6 @@ struct MapBlurView: View {
   var body: some View {
     GeometryReader { proxy in
       VStack {
-//        safeAreaFiller
-//          .frame(height: proxy.safeAreaInsets.top)
-//          .ignoresSafeArea()
-        
         Spacer()
         
         thumbnailsFiller
@@ -27,23 +23,6 @@ struct MapBlurView: View {
       }
     }
     .allowsHitTesting(false)
-  }
-  
-  private var safeAreaFiller: some View {
-    BlurView(style: .regular)
-      .mask {
-        Rectangle().fill(
-          LinearGradient(
-            stops: [
-              .init(color: .clear, location: 0),
-              .init(color: .white, location: 0.9),
-              .init(color: .white, location: 1)
-            ],
-            startPoint: .bottom,
-            endPoint: .top
-          )
-        )
-      }
   }
   
   private var thumbnailsFiller: some View {

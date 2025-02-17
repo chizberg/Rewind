@@ -49,11 +49,10 @@ struct ExpandableControls: View {
       minimized: { expand in
         Button(action: expand) {
           Image(systemName: iconName)
-            .font(.title2.bold())
+            .font(.title2.weight(.semibold))
             .padding(10)
-            .background(.black.opacity(0.3))
             .contentShape(Rectangle())
-        }.foregroundStyle(.white)
+        }.foregroundStyle(iconColor)
       },
       expanded: { minimize in
         HStack {
@@ -63,7 +62,7 @@ struct ExpandableControls: View {
         }
         .padding(3)
       },
-      background: { BlurView(style: .regular) },
+      background: { BlurView(style: .systemThickMaterial) },
       radius: isExpanded.wrappedValue ? 15 : 25
     )
   }
@@ -71,13 +70,18 @@ struct ExpandableControls: View {
   private func closeButton(action: @escaping () -> Void) -> some View {
     Button(action: action) {
       Image(systemName: "xmark")
+        .font(.title2)
         .padding()
         .contentShape(Rectangle())
         .background {
           RoundedRectangle(cornerRadius: 12)
-            .fill(Color.systemBackground.opacity(0.3))
+            .fill(Color.systemBackground.opacity(0.5))
         }
-    }
+    }.foregroundStyle(iconColor)
+  }
+  
+  private var iconColor: Color {
+    .primary.opacity(0.8)
   }
 }
 

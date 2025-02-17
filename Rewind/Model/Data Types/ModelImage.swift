@@ -11,6 +11,7 @@ extension Model {
   struct Image {
     var cid: Int
     var image: LoadableImage
+    var imagePath: String // used for persistence
     var title: String
     var dir: Direction?
     var coordinate: Coordinate
@@ -18,10 +19,21 @@ extension Model {
 
     init(_ ni: Network.Image, image: LoadableImage) {
       cid = ni.cid
+      imagePath = ni.file
       title = ni.title
       dir = Direction(ni.dir)
       coordinate = Coordinate(ni.geo)
       date = ImageDate(year: ni.year, year2: ni.year2)
+      self.image = image
+    }
+    
+    init(_ si: Storage.Image, image: LoadableImage) {
+      cid = si.cid
+      imagePath = si.imagePath
+      title = si.title
+      dir = si.dir
+      coordinate = si.coordinate
+      date = si.date
       self.image = image
     }
   }

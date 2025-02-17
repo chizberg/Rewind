@@ -11,7 +11,6 @@ import VGSL
 typealias MapModel = Reducer<MapState, MapAction>
 
 struct MapState {
-  var previewedImage: Model.Image?
   var mapType: MapType
   var region: Region
   var yearRange: ClosedRange<Int>
@@ -33,12 +32,12 @@ enum MapAction {
       case yearRangeChanged(ClosedRange<Int>)
       case mapTypeSelected(MapType)
       case thumbnailSelected(Model.Image)
-      case previewClosed
     }
 
     case map(Map)
     case ui(UI)
     case loaded([Model.Image], [Model.Cluster])
+    case previewClosed
   }
 
   enum Internal {
@@ -60,6 +59,7 @@ func makeMapModel(
   setRegion: @escaping (Region, _ animated: Bool) -> Void,
   requestAnnotations: @escaping (Region, ClosedRange<Int>) -> Void,
   applyMapType: @escaping (MapType) -> Void,
+  performAppAction: @escaping (AppAction) -> Void,
   throttle: @escaping (MapAction) -> Void
 ) -> MapModel {
   MapModel(
@@ -78,22 +78,24 @@ func makeMapModel(
         case let .map(.regionChanged(region)):
           throttle(.internal(.regionChanged(region)))
         case let .map(.annotationSelected(mkAnn)):
-          guard let ann = mkAnn as? AnnotationWrapper else { return }
-          switch ann.value {
-          case let .image(image): state.previewedImage = image
-          case let .cluster(cluster):
-            setRegion(
-              Region(center: cluster.coordinate, zoom: state.region.zoom + 1),
-              /*animated:*/ true
-            )
+          if let ann = mkAnn as? AnnotationWrapper {
+            switch ann.value {
+            case let .image(image):
+              performAppAction(.previewImage(image))
+            case let .cluster(cluster):
+              setRegion(
+                Region(center: cluster.coordinate, zoom: state.region.zoom + 1),
+                /*animated:*/ true
+              )
+            }
+          } else if let localCluster = mkAnn as? MKClusterAnnotation {
+            let images = localCluster.memberAnnotations.compactMap {
+              ($0 as? AnnotationWrapper)?.value.image
+            }
           }
-          break
         case .map(.annotationDeselected): break
         case let .ui(.thumbnailSelected(image)):
-          state.previewedImage = image
-        case .ui(.previewClosed):
-          state.previewedImage = nil
-          deselectAnnotations()
+          performAppAction(.previewImage(image))
         case let .ui(.yearRangeChanged(yearRange)):
           state.yearRange = yearRange
           effect(.internal(.clearAnnotations))
@@ -116,6 +118,8 @@ func makeMapModel(
 
           addAnnotations(newAnnotations)
           throttle(.internal(.updatePreviews))
+        case .previewClosed:
+          deselectAnnotations()
         }
       case let .internal(internalAction):
         switch internalAction {

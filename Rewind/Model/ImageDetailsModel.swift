@@ -43,7 +43,7 @@ func makeImageDetailsModel(
   load: Remote<Void, Model.ImageDetails>,
   image: LoadableImage,
   coordinate: Coordinate,
-  isFavorite: Property<Bool> = removeMe,
+  isFavorite: Property<Bool>,
   canOpenURL: @escaping (URL) -> Bool,
   urlOpener: @escaping (URL) -> Void
 ) -> ImageDetailsModel {
@@ -125,8 +125,3 @@ func makeImageDetailsModel(
     }
   )
 }
-
-var removeMe: Property<Bool> = {
-  var favorite = false
-  return Property(getter: { favorite }, setter: { favorite = $0 })
-}()

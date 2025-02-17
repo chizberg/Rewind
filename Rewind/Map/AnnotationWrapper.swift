@@ -26,3 +26,13 @@ final class AnnotationWrapper: NSObject, MKAnnotation {
     }
   }
 }
+
+extension AnnotationWrapper.Value {
+  var image: Model.Image? {
+    if case let .image(image) = self { image } else { nil }
+  }
+  
+  var cluster: Model.Cluster? {
+    if case let .cluster(cluster) = self { cluster } else { nil }
+  }
+}

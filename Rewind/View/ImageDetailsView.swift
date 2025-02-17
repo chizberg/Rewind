@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import VGSL
 
 struct ImageDetailsView: View {
   @State
@@ -107,7 +108,7 @@ private struct ImageDetailsViewImpl: View {
   }
 
   private var actions: some View {
-    LazyVGrid(columns: [.init(.adaptive(minimum: 150))]) {
+    LazyVGrid(columns: [.init(.adaptive(minimum: 200))]) {
       ForEach(visibleActions, id: \.self) {
         makeButton(action: $0)
       }
@@ -115,16 +116,16 @@ private struct ImageDetailsViewImpl: View {
   }
 
   private func makeButton(action: ImageDetailsAction.Button) -> some View {
-    let foreground: Color = switch action {
+    let foreground: SwiftUI.Color = switch action {
     case .favorite: isFavorite ? .red : .primary
     case .share, .saveImage, .viewOnWeb, .route: .primary
     }
-    let background: Color = .systemBackground
-    let pressedForeground: Color = switch action {
+    let background: SwiftUI.Color = .systemBackground
+    let pressedForeground: SwiftUI.Color = switch action {
     case .favorite: .white
     case .share, .saveImage, .viewOnWeb, .route: .primary
     }
-    let pressedBackground: Color = switch action {
+    let pressedBackground: SwiftUI.Color = switch action {
     case .favorite: .red
     case .share, .saveImage, .viewOnWeb, .route: .secondaryBackground
     }
@@ -146,6 +147,7 @@ private struct ImageDetailsViewImpl: View {
       HStack {
         Image(systemName: iconName)
         Text(title)
+          .lineLimit(1)
         Spacer()
       }
       .foregroundStyle(pressed ? pressedForeground : foreground)
@@ -268,9 +270,15 @@ fileprivate func makeImageDetailsView(
       load: Remote { Model.ImageDetails(.mock) },
       image: .mock,
       coordinate: Model.ImageDetails(.mock).coordinate,
+      isFavorite: previewFavorite,
       canOpenURL: { _ in true },
       urlOpener: { _ in }
     )
   )
 }
+
+private var previewFavorite: Property<Bool> = {
+  var favorite = false
+  return Property(getter: { favorite }, setter: { favorite = $0 })
+}()
 #endif

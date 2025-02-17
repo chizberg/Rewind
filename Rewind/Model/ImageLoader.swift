@@ -11,7 +11,6 @@ import UIKit
 import VGSL
 
 final class ImageLoader {
-  // todo: actor? thread safety?
   private let cache: NSCache<ImageCacheKey, UIImage>
   private let requestPerformer: RequestPerformer
 

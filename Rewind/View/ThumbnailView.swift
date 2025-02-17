@@ -27,6 +27,10 @@ struct ThumbnailView: View {
     }
     .frame(size: size)
     .clipShape(RoundedRectangle(cornerRadius: radius))
+    .overlay {
+      RoundedRectangle(cornerRadius: radius)
+        .strokeBorder(.gray, lineWidth: 1)
+    }
     .transition(.scale)
   }
 

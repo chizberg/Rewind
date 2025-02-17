@@ -16,8 +16,10 @@ struct RewindApp: App {
       RootView(
         rawMap: graph.mapAdapter.view,
         mapState: graph.mapState,
-        imageDetailsFactory: graph.imageDetailsFactory,
-        actionHandler: graph.uiActionHandler
+        mapActionHandler: { graph.mapModel(.external(.ui($0))) },
+        appState: graph.appState,
+        appActionHandler: { graph.appModel($0) },
+        imageDetailsFactory: graph.imageDetailsFactory
       )
     }
   }

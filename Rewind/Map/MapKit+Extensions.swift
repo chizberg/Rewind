@@ -34,6 +34,29 @@ extension Coordinate {
   // FIXME: chizberg - adjust()
 }
 
+extension Coordinate: Codable {
+  private struct CoordinateCodableAdapter: Codable {
+    var latitude: Double
+    var longitude: Double
+  }
+  
+  public func encode(to encoder: any Encoder) throws {
+    var container = encoder.singleValueContainer()
+    try container.encode(
+      CoordinateCodableAdapter(
+        latitude: latitude,
+        longitude: longitude
+      )
+    )
+  }
+
+  public init(from decoder: any Decoder) throws {
+    let container = try decoder.singleValueContainer()
+    let adapter = try container.decode(CoordinateCodableAdapter.self)
+    self.init(latitude: adapter.latitude, longitude: adapter.longitude)
+  }
+}
+
 extension CLLocationCoordinate2D: @retroactive Equatable {
   public static func ==(lhs: Self, rhs: Self) -> Bool {
     lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude

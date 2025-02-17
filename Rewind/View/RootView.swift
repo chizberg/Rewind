@@ -13,8 +13,11 @@ struct RootView: View {
   let rawMap: UIView
   @ObservedVariable
   var mapState: MapState
+  var mapActionHandler: (MapAction.External.UI) -> Void
+  @ObservedVariable
+  var appState: AppState
+  var appActionHandler: (AppAction) -> Void
   var imageDetailsFactory: (Model.Image) -> ImageDetailsModel
-  var actionHandler: (MapAction.External.UI) -> Void
   @Namespace
   private var rootView
 
@@ -31,11 +34,11 @@ struct RootView: View {
         ExpandableControls(
           yearRange: Binding(
             get: { mapState.yearRange },
-            set: { actionHandler(.yearRangeChanged($0)) }
+            set: { mapActionHandler(.yearRangeChanged($0)) }
           ),
           mapType: Binding(
             get: { mapState.mapType },
-            set: { actionHandler(.mapTypeSelected($0)) }
+            set: { mapActionHandler(.mapTypeSelected($0)) }
           )
         ).padding()
         
@@ -43,7 +46,7 @@ struct RootView: View {
           namespace: rootView,
           previews: mapState.previews,
           onSelected: {
-            actionHandler(.thumbnailSelected($0))
+            mapActionHandler(.thumbnailSelected($0))
           }
         )
       }
@@ -51,10 +54,9 @@ struct RootView: View {
     .mask(RoundedRectangle(cornerRadius: CGFloat.deviceBezel).ignoresSafeArea())
     .fullScreenCover(
       item: Binding(
-        get: { mapState.previewedImage },
+        get: { appState.previewedImage },
         set: { item in
-          // TODO: handle other items
-          if item == nil { actionHandler(.previewClosed) }
+          if item == nil { appActionHandler(.imagePreviewClosed) }
         }
       ),
       content: { previewedImage in
@@ -112,7 +114,9 @@ private let thumbnailSize = CGSize(width: 250, height: 187.5)
   RootView(
     rawMap: graph.mapAdapter.view,
     mapState: graph.mapState,
-    imageDetailsFactory: graph.imageDetailsFactory,
-    actionHandler: graph.uiActionHandler
+    mapActionHandler: { graph.mapModel(.external(.ui($0))) },
+    appState: graph.appState,
+    appActionHandler: { graph.appModel($0) },
+    imageDetailsFactory: graph.imageDetailsFactory
   )
 }

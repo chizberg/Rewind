@@ -12,18 +12,26 @@ import VGSL
 
 final class AppGraph {
   let mapModel: MapModel
-  let mapAdapter: MapAdapter
+  let appModel: AppModel
   let mapState: ObservedVariable<MapState>
+  let appState: ObservedVariable<AppState>
+  let mapAdapter: MapAdapter
   let imageDetailsFactory: (Model.Image) -> ImageDetailsModel
-  let uiActionHandler: (MapAction.External.UI) -> Void
   private let disposePool = AutodisposePool()
+  private let favoritesStorage: FavoritesStorage
 
   init() {
     weak var weakSelf: AppGraph?
     let mapAdapter = MapAdapter()
-    let requestPerformer = RequestPerformer(urlRequestPerformer: URLSession.shared.data)
+    let requestPerformer = RequestPerformer(
+      urlRequestPerformer: URLSession.shared.data
+    )
     let imageLoader = ImageLoader(requestPerformer: requestPerformer)
     let throttler = Throttler()
+    let favoritesStorage = FavoritesStorage(
+      storage: UserDefaults.standard,
+      makeLoadableImage: imageLoader.makeImage
+    )
 
     let remotes = RewindRemotes(
       requestPerformer: requestPerformer,
@@ -37,7 +45,7 @@ final class AppGraph {
       setRegion: mapAdapter.set(region:animated:),
       requestAnnotations: { region, yearRange in
         remotes.annotations(
-          (region: region, yearRange: yearRange), // TODO
+          (region: region, yearRange: yearRange),
           completion: { result in
             switch result {
             case let .success((images, clusters)):
@@ -48,23 +56,30 @@ final class AppGraph {
         )
       },
       applyMapType: { mapAdapter.apply(mapType: $0) },
+      performAppAction: { weakSelf?.appModel($0) },
       throttle: { mapAction in
         // TODO: simplify, no probably no need to pass mapaction itself
         throttler.throttle(mapAction, perform: { weakSelf?.mapModel($0) })
       }
     )
+    appModel = makeAppModel(
+      favoritesStorage: favoritesStorage.property,
+      performMapAction: { weakSelf?.mapModel(.external($0)) }
+    )
     self.mapAdapter = mapAdapter
     self.mapState = mapModel.$state.asObservedVariable()
+    self.appState = appModel.$state.asObservedVariable()
+    self.favoritesStorage = favoritesStorage
     imageDetailsFactory = { image in
       makeImageDetailsModel(
         load: remotes.imageDetails.mapArgs { image.cid },
         image: image.image,
         coordinate: image.coordinate,
+        isFavorite: weakSelf?.appModel.isFavorite(image) ?? .constant(false),
         canOpenURL: { UIApplication.shared.canOpenURL($0) },
         urlOpener: { UIApplication.shared.open($0) }
       )
     }
-    uiActionHandler = { weakSelf?.mapModel(.external(.ui($0))) }
     weakSelf = self
 
     mapAdapter.events.addObserver { [weak self] in
@@ -73,3 +88,20 @@ final class AppGraph {
   }
 }
 
+extension AppModel {
+  func isFavorite(_ image: Model.Image) -> Property<Bool> {
+    let isFavorite = Variable {
+      state.favorites.contains { $0.cid == image.cid }
+    }
+    return Property(
+      getter: { isFavorite.value },
+      setter: { newValue in
+        switch (isFavorite.value, newValue) {
+        case (false, true): self(.addToFavorites(image))
+        case (true, false): self(.removeFromFavorites(image))
+        case (true, true), (false, false): break
+        }
+      }
+    )
+  }
+}

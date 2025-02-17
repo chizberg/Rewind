@@ -79,13 +79,37 @@
       }
     },
     "Hybrid" : {
-
+      "comment" : "hybrid map style",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Гибрид"
+          }
+        }
+      }
     },
     "Map type" : {
-
+      "comment" : "map type selector title",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тип карты"
+          }
+        }
+      }
     },
     "Satellite" : {
-
+      "comment" : "satellite map style",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Спутник"
+          }
+        }
+      }
     },
     "Save image" : {
       "comment" : "label for action to save image",
@@ -99,7 +123,15 @@
       }
     },
     "Scheme" : {
-
+      "comment" : "scheme map style",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Схема"
+          }
+        }
+      }
     },
     "Select map app to find route" : {
       "comment" : "prompt for menu with list of map apps to find the route to image location",
