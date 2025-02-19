@@ -89,6 +89,17 @@
         }
       }
     },
+    "Images" : {
+      "comment" : "title of list of annotation cluster's images",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Фотографии"
+          }
+        }
+      }
+    },
     "Map type" : {
       "comment" : "map type selector title",
       "localizations" : {

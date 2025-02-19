@@ -92,6 +92,7 @@ func makeMapModel(
             let images = localCluster.memberAnnotations.compactMap {
               ($0 as? AnnotationWrapper)?.value.image
             }
+            performAppAction(.previewList(images))
           }
         case .map(.annotationDeselected): break
         case let .ui(.thumbnailSelected(image)):

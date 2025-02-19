@@ -63,9 +63,26 @@ struct RootView: View {
         let model = imageDetailsFactory(previewedImage)
         ImageDetailsView(
           model: model,
-          state: model.$state.asObservedVariable()
+          state: model.$state.asObservedVariable(),
+          showCloseButton: true
         )
         .navigationTransition(.zoom(sourceID: previewedImage.cid, in: rootView))
+      }
+    )
+    .unwrappedFullscreenCover(
+      item: Binding(
+        get: { appState.previewedList },
+        set: { item in
+          if item == nil { appActionHandler(.listPreviewClosed) }
+        }
+      ),
+      content: { previewedList in
+        ImageList(
+          title: "Images",
+          images: previewedList,
+          imageDetailsFactory: imageDetailsFactory
+        )
+        .presentationBackground(.clear)
       }
     )
   }

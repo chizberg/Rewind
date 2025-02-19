@@ -37,6 +37,12 @@ extension Model {
   }
 }
 
+#if DEBUG
+extension Model.ImageDetails {
+  static let mock = Model.ImageDetails(.mock)
+}
+#endif // DEBUG
+
 private func extractUsername(from nid: Network.ImageDetails) -> String {
   if let watersign = nid.watersignText,
      watersign.hasPrefix(watersignPrefix) {

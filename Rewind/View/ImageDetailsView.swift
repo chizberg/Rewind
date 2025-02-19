@@ -13,20 +13,25 @@ struct ImageDetailsView: View {
   var model: ImageDetailsModel
   @State @ObservedVariable
   var state: ImageDetailsState
+  var showCloseButton: Bool
 
   @Environment(\.dismiss)
   var dismiss
 
   init(
     model: ImageDetailsModel,
-    state: ObservedVariable<ImageDetailsState>
+    state: ObservedVariable<ImageDetailsState>,
+    showCloseButton: Bool
   ) {
     self.model = model
     _state = State(wrappedValue: state)
+    self.showCloseButton = showCloseButton
   }
 
   var body: some View {
     ZStack {
+      Color.secondaryBackground.ignoresSafeArea()
+
       if let data = state.data, let image = state.image {
         ImageDetailsViewImpl(
           details: data,
@@ -39,14 +44,15 @@ struct ImageDetailsView: View {
           .controlSize(.large)
       }
 
-      ZStack(alignment: .topLeading) {
-        Color.clear
+      if showCloseButton {
+        ZStack(alignment: .topLeading) {
+          Color.clear
 
-        closeButton
-          .padding()
+          closeButton
+            .padding()
+        }
       }
     }
-    .background(Color.secondaryBackground)
     .task {
       model(.willBePresented)
     }
@@ -108,7 +114,7 @@ private struct ImageDetailsViewImpl: View {
   }
 
   private var actions: some View {
-    LazyVGrid(columns: [.init(.adaptive(minimum: 200))]) {
+    LazyVGrid(columns: [.init(.adaptive(minimum: 175))]) {
       ForEach(visibleActions, id: \.self) {
         makeButton(action: $0)
       }
@@ -259,7 +265,8 @@ fileprivate func makeImageDetailsView(
 ) -> ImageDetailsView {
   ImageDetailsView(
     model: model,
-    state: model.$state.asObservedVariable()
+    state: model.$state.asObservedVariable(),
+    showCloseButton: true
   )
 }
 
