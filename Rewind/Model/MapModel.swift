@@ -99,7 +99,7 @@ func makeMapModel(
           performAppAction(.previewImage(image))
         case let .ui(.yearRangeChanged(yearRange)):
           state.yearRange = yearRange
-          effect(.internal(.clearAnnotations))
+          throttle(.internal(.clearAnnotations))
           throttle(.internal(.loadAnnotations))
         case let .ui(.mapTypeSelected(mapType)):
           state.mapType = mapType

@@ -26,6 +26,12 @@ final class Throttler {
         action: { perform(action) },
         delay: 0.15
       )
+    case .internal(.clearAnnotations):
+      throttledCall(
+        id: "clearAnnotations",
+        action: { perform(action) },
+        delay: 0.15
+      )
     case .internal(.updatePreviews):
       throttledCall(
         id: "updatePreviews",
