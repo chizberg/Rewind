@@ -123,7 +123,7 @@ private struct ImageDetailsViewImpl: View {
 
   private func makeButton(action: ImageDetailsAction.Button) -> some View {
     let foreground: SwiftUI.Color = switch action {
-    case .favorite: isFavorite ? .red : .primary
+    case .favorite: isFavorite ? .yellow : .primary
     case .share, .saveImage, .viewOnWeb, .route: .primary
     }
     let background: SwiftUI.Color = .systemBackground
@@ -132,7 +132,7 @@ private struct ImageDetailsViewImpl: View {
     case .share, .saveImage, .viewOnWeb, .route: .primary
     }
     let pressedBackground: SwiftUI.Color = switch action {
-    case .favorite: .red
+    case .favorite: .yellow
     case .share, .saveImage, .viewOnWeb, .route: .secondaryBackground
     }
     let title: LocalizedStringKey = switch action {
@@ -143,7 +143,7 @@ private struct ImageDetailsViewImpl: View {
     case .route: "Find route"
     }
     let iconName: String = switch action {
-    case .favorite: isFavorite ? "heart.fill" : "heart"
+    case .favorite: isFavorite ? "star.fill" : "star"
     case .share: "square.and.arrow.up"
     case .saveImage: "square.and.arrow.down"
     case .viewOnWeb: "globe.americas.fill"

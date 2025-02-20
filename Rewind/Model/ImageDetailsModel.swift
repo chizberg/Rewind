@@ -88,6 +88,7 @@ func makeImageDetailsModel(
           nil,
           nil
         )
+        UINotificationFeedbackGenerator().notificationOccurred(.success)
       case .button(.share):
         guard let data = state.data,
               let image = state.image

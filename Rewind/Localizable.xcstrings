@@ -1,6 +1,17 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "💔" : {
+      "comment" : "emoji for empty favorites list",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "💔"
+          }
+        }
+      }
+    },
     "2GIS" : {
       "comment" : "map app name",
       "localizations" : {
@@ -47,6 +58,17 @@
     },
     "Favorite" : {
       "comment" : "label for action to add to favorites",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Избранное"
+          }
+        }
+      }
+    },
+    "Favorites" : {
+      "comment" : "favorites list title",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -107,6 +129,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Тип карты"
+          }
+        }
+      }
+    },
+    "Nothing here yet" : {
+      "comment" : "prompt on empty favorites list",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тут пока ничего нет :("
           }
         }
       }
@@ -176,6 +209,9 @@
           }
         }
       }
+    },
+    "TBD" : {
+
     },
     "uploaded by" : {
       "comment" : "Is shown right above the nickname of a user that uploaded the image",

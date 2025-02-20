@@ -8,10 +8,12 @@
 import SwiftUI
 import VGSL
 
-struct ImageList: View {
+struct ImageList<EmptyLabel: View>: View {
   var title: LocalizedStringKey
   var images: [Model.Image]
   var imageDetailsFactory: (Model.Image) -> ImageDetailsModel
+  @ViewBuilder
+  var emptyLabel: () -> EmptyLabel
 
   @State
   private var path = NavigationPath()
@@ -24,9 +26,18 @@ struct ImageList: View {
       BlurView().ignoresSafeArea()
 
       NavigationStack(path: $path) {
-        ScrollView {
-          LazyVStack(spacing: 10) {
-            items
+        Group {
+          if !images.isEmpty {
+            ScrollView {
+              LazyVStack(spacing: 10) {
+                items
+              }
+            }
+          } else {
+            ZStack {
+              Color.clear
+              emptyLabel()
+            }
           }
         }
         .navigationTitle(title)
@@ -85,6 +96,25 @@ struct ImageList: View {
         canOpenURL: { _ in false },
         urlOpener: { _ in }
       )
-    }
+    },
+    emptyLabel: { EmptyView() }
+  )
+}
+
+#Preview("empty") {
+  ImageList(
+    title: "Images",
+    images: [],
+    imageDetailsFactory: { image in
+      makeImageDetailsModel(
+        load: Remote { .mock },
+        image: .mock,
+        coordinate: image.coordinate,
+        isFavorite: .constant(true),
+        canOpenURL: { _ in false },
+        urlOpener: { _ in }
+      )
+    },
+    emptyLabel: { Text("nothing here") }
   )
 }

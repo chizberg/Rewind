@@ -42,13 +42,7 @@ struct RootView: View {
           )
         ).padding()
 
-        ThumbnailsView(
-          namespace: rootView,
-          previews: mapState.previews,
-          onSelected: {
-            mapActionHandler(.thumbnailSelected($0))
-          }
-        )
+        horizontalScroll
       }
     }
     .mask(RoundedRectangle(cornerRadius: CGFloat.deviceBezel).ignoresSafeArea())
@@ -69,6 +63,37 @@ struct RootView: View {
         .navigationTransition(.zoom(sourceID: previewedImage.cid, in: rootView))
       }
     )
+    .fullScreenCover(
+      isPresented: Binding(
+        get: { appState.favoritesPresented },
+        set: { if !$0 { appActionHandler(.favoritesClosed) } }
+      ),
+      content: {
+        ImageList(
+          title: "Favorites",
+          images: appState.favorites,
+          imageDetailsFactory: imageDetailsFactory,
+          emptyLabel: { VStack {
+            Text("💔").font(.largeTitle)
+            Text("Nothing here yet")
+          }}
+        )
+        .navigationTransition(.zoom(sourceID: "favorites", in: rootView))
+      }
+    )
+    .fullScreenCover(
+      isPresented: Binding(
+        get: { appState.settingsPresented },
+        set: { if !$0 { appActionHandler(.settingsClosed) } }
+      ),
+      content: {
+        Text("TBD")
+          .font(.largeTitle.bold())
+          .foregroundColor(.white)
+          .navigationTransition(.zoom(sourceID: "settings", in: rootView))
+          .presentationBackground(.red)
+      }
+    )
     .unwrappedFullscreenCover(
       item: Binding(
         get: { appState.previewedList },
@@ -80,11 +105,71 @@ struct RootView: View {
         ImageList(
           title: "Images",
           images: previewedList,
-          imageDetailsFactory: imageDetailsFactory
+          imageDetailsFactory: imageDetailsFactory,
+          emptyLabel: { EmptyView() }
         )
         .presentationBackground(.clear)
       }
     )
+  }
+
+  private var horizontalScroll: some View {
+    AutoscrollingScrollView(scrollOnChangeOf: mapState.previews) {
+      LazyHStack(spacing: 8) {
+        VStack {
+          makeBottomScrollButton(
+            iconName: "star",
+            sourceID: "favorites",
+            tintColor: .yellow
+          ) {
+            appActionHandler(.favoritesButtonTapped)
+          }
+
+          makeBottomScrollButton(
+            iconName: "gearshape",
+            sourceID: "settings",
+            tintColor: nil
+          ) {
+            appActionHandler(.settingsButtonTapped)
+          }
+        }.frame(width: 75)
+
+        ThumbnailsView(
+          namespace: rootView,
+          previews: mapState.previews,
+          onSelected: {
+            mapActionHandler(.thumbnailSelected($0))
+          }
+        )
+      }
+      .padding(.horizontal)
+    }
+    .frame(height: thumbnailSize.height)
+  }
+
+  private func makeBottomScrollButton(
+    iconName: String,
+    sourceID: String,
+    tintColor: Color?,
+    action: @escaping () -> Void
+  ) -> some View {
+    SquishyButton(action: action) { pressed in
+      ZStack {
+        let background: Color = if let tintColor {
+          pressed ? tintColor : .systemBackground
+        } else { .systemBackground }
+        let foreground: Color = if tintColor != nil {
+          pressed ? .white : .primary
+        } else { .primary }
+        background
+
+        Image(systemName: iconName)
+          .font(.title2.bold())
+          .foregroundStyle(foreground)
+      }
+      .cornerRadius(15)
+      .matchedTransitionSource(id: sourceID, in: rootView)
+    }
   }
 }
 
@@ -95,31 +180,50 @@ private struct ThumbnailsView: View {
   private let leadingEdge = 0
 
   var body: some View {
+    LazyHStack {
+      ForEach(previews) { image in
+        SquishyButton {
+          onSelected(image)
+        } label: { _ in
+          ThumbnailView(image: image, size: thumbnailSize)
+            .matchedTransitionSource(id: image.cid, in: namespace)
+        }
+      }
+    }
+    .animation(.spring(), value: previews)
+  }
+}
+
+private struct AutoscrollingScrollView<Value: Equatable, Content: View>: View {
+  var value: Value
+  var content: Content
+
+  private let leadingEdge = 0
+
+  init(
+    scrollOnChangeOf value: Value,
+    @ViewBuilder content: () -> Content
+  ) {
+    self.value = value
+    self.content = content()
+  }
+
+  var body: some View {
     ScrollViewReader { proxy in
       ScrollView(.horizontal, showsIndicators: false) {
         HStack(spacing: 0) {
           // Empty view to scroll to (including paddings)
           Color.clear.frame(width: 0, height: 0).id(leadingEdge)
 
-          LazyHStack {
-            ForEach(previews) { image in
-              SquishyButton {
-                onSelected(image)
-              } label: { _ in
-                ThumbnailView(image: image, size: thumbnailSize)
-                  .matchedTransitionSource(id: image.cid, in: namespace)
-              }
-            }
-          }.padding()
+          content
         }
       }
-      .onChange(of: previews) {
+      .onChange(of: value) {
         withAnimation {
           proxy.scrollTo(leadingEdge, anchor: .leading)
         }
       }
-    }.frame(height: thumbnailSize.height)
-      .animation(.spring(), value: previews)
+    }
   }
 }
 

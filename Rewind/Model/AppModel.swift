@@ -15,6 +15,7 @@ struct AppState {
   var previewedList: [Model.Image]?
   var favorites: [Model.Image]
   var favoritesPresented: Bool
+  var settingsPresented: Bool
 }
 
 enum AppAction {
@@ -24,6 +25,10 @@ enum AppAction {
   case imagePreviewClosed
   case previewList([Model.Image])
   case listPreviewClosed
+  case favoritesButtonTapped
+  case favoritesClosed
+  case settingsButtonTapped
+  case settingsClosed
 }
 
 func makeAppModel(
@@ -35,7 +40,8 @@ func makeAppModel(
       previewedImage: nil,
       previewedList: nil,
       favorites: favoritesStorage.value,
-      favoritesPresented: false
+      favoritesPresented: false,
+      settingsPresented: false
     ),
     reduce: { state, action, _, _ in
       switch action {
@@ -59,6 +65,14 @@ func makeAppModel(
       case .listPreviewClosed:
         state.previewedList = nil
         performMapAction(.previewClosed)
+      case .favoritesButtonTapped:
+        state.favoritesPresented = true
+      case .favoritesClosed:
+        state.favoritesPresented = false
+      case .settingsButtonTapped:
+        state.settingsPresented = true
+      case .settingsClosed:
+        state.settingsPresented = false
       }
     }
   )
