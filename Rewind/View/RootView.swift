@@ -27,6 +27,9 @@ struct RootView: View {
         rawMap
       }
       .ignoresSafeArea()
+      .task { // TODO: move to onboarding
+        mapActionHandler(.mapViewLoaded)
+      }
 
       MapBlurView(thumbnailsEmpty: mapState.previews.isEmpty)
 
@@ -39,7 +42,12 @@ struct RootView: View {
           mapType: Binding(
             get: { mapState.mapType },
             set: { mapActionHandler(.mapTypeSelected($0)) }
-          )
+          ),
+          staticItems: [
+            .init(id: "location", iconName: "location") {
+              mapActionHandler(.locationButtonTapped)
+            },
+          ]
         ).padding()
 
         horizontalScroll
@@ -137,9 +145,7 @@ struct RootView: View {
         ThumbnailsView(
           namespace: rootView,
           previews: mapState.previews,
-          onSelected: {
-            mapActionHandler(.thumbnailSelected($0))
-          }
+          onSelected: { appActionHandler(.previewImage($0)) }
         )
       }
       .padding(.horizontal)
@@ -155,13 +161,17 @@ struct RootView: View {
   ) -> some View {
     SquishyButton(action: action) { pressed in
       ZStack {
-        let background: Color = if let tintColor {
-          pressed ? tintColor : .systemBackground
-        } else { .systemBackground }
+        let colorFill: Color = if let tintColor {
+          pressed ? tintColor : .clear
+        } else { .clear }
+
         let foreground: Color = if tintColor != nil {
           pressed ? .white : .primary
         } else { .primary }
-        background
+
+        BlurView(style: .systemThickMaterial)
+
+        colorFill
 
         Image(systemName: iconName)
           .font(.title2.bold())

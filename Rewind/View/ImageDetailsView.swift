@@ -32,10 +32,10 @@ struct ImageDetailsView: View {
     ZStack {
       Color.secondaryBackground.ignoresSafeArea()
 
-      if let data = state.data, let image = state.image {
+      if let data = state.data {
         ImageDetailsViewImpl(
           details: data,
-          image: image,
+          image: state.image,
           isFavorite: state.isFavorite,
           actionHandler: model.callAsFunction
         )
@@ -94,7 +94,7 @@ struct ImageDetailsView: View {
 
 private struct ImageDetailsViewImpl: View {
   var details: Model.ImageDetails
-  var image: UIImage
+  var image: UIImage?
   var isFavorite: Bool
   var actionHandler: (ImageDetailsAction) -> Void
 
@@ -109,7 +109,7 @@ private struct ImageDetailsViewImpl: View {
 
         actions
           .padding()
-      }
+      }.animation(.default, value: image)
     }
   }
 
@@ -209,10 +209,20 @@ private struct ImageDetailsViewImpl: View {
     }
   }
 
+  @ViewBuilder
   private var titleImage: some View {
-    Image(uiImage: image)
-      .resizable()
-      .aspectRatio(contentMode: .fit)
+    if let image {
+      Image(uiImage: image)
+        .resizable()
+        .aspectRatio(contentMode: .fit)
+    } else {
+      ZStack {
+        BlurView()
+          .aspectRatio(contentMode: .fit)
+        ProgressView()
+          .controlSize(.regular)
+      }
+    }
   }
 }
 

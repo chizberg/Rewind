@@ -49,7 +49,7 @@ struct ImageListCell: View {
     Rectangle()
       .fill(
         .linearGradient(
-          SwiftUI.Gradient(colors: [.clear, .black]),
+          SwiftUI.Gradient(colors: [.clear, .black.opacity(0.5)]),
           startPoint: UnitPoint(x: 0, y: 0),
           endPoint: UnitPoint(x: 0, y: 1)
         )

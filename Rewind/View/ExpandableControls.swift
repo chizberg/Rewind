@@ -8,10 +8,17 @@
 import SwiftUI
 
 struct ExpandableControls: View {
+  struct StaticItem: Identifiable {
+    var id: String
+    var iconName: String
+    var action: () -> Void
+  }
+
   @Binding
   var yearRange: ClosedRange<Int>
   @Binding
   var mapType: MapType
+  var staticItems: [StaticItem]
 
   var body: some View {
     ExpandableStack(
@@ -35,7 +42,17 @@ struct ExpandableControls: View {
             isExpanded: isExpanded
           )
         },
-      ]
+      ],
+      staticContent: {
+        ForEach(staticItems) {
+          minimizedButton(
+            iconName: $0.iconName,
+            action: $0.action
+          ).background {
+            minimizedBackground
+          }.cornerRadius(minimizedRadius)
+        }
+      }
     )
   }
 
@@ -47,12 +64,10 @@ struct ExpandableControls: View {
     ExpandableView(
       isExpanded: isExpanded,
       minimized: { expand in
-        Button(action: expand) {
-          Image(systemName: iconName)
-            .font(.title2.weight(.semibold))
-            .padding(10)
-            .contentShape(Rectangle())
-        }.foregroundStyle(iconColor)
+        minimizedButton(
+          iconName: iconName,
+          action: expand
+        )
       },
       expanded: { minimize in
         HStack {
@@ -62,9 +77,23 @@ struct ExpandableControls: View {
         }
         .padding(3)
       },
-      background: { BlurView(style: .systemThickMaterial) },
-      radius: isExpanded.wrappedValue ? 15 : 25
+      background: { minimizedBackground },
+      radius: isExpanded.wrappedValue ? expandedRadius : minimizedRadius
     )
+  }
+
+  private let minimizedBackground = BlurView(style: .systemThickMaterial)
+
+  private func minimizedButton(
+    iconName: String,
+    action: @escaping () -> Void
+  ) -> some View {
+    Button(action: action) {
+      Image(systemName: iconName)
+        .font(.title2.weight(.semibold))
+        .padding(10)
+        .contentShape(Rectangle())
+    }.foregroundStyle(iconColor)
   }
 
   private func closeButton(action: @escaping () -> Void) -> some View {
@@ -85,6 +114,9 @@ struct ExpandableControls: View {
   }
 }
 
+private let minimizedRadius: CGFloat = 25
+private let expandedRadius: CGFloat = 15
+
 private struct MapTypePicker: View {
   @Binding
   var mapType: MapType
@@ -99,7 +131,7 @@ private struct MapTypePicker: View {
   }
 }
 
-private struct ExpandableStack: View {
+private struct ExpandableStack<StaticContent: View>: View {
   struct Item: Identifiable, Equatable {
     typealias ID = String
 
@@ -121,7 +153,16 @@ private struct ExpandableStack: View {
     }
   }
 
-  var items: [Item]
+  init(
+    items: [Item],
+    @ViewBuilder staticContent: () -> StaticContent
+  ) {
+    self.items = items
+    self.staticContent = staticContent()
+  }
+
+  private var items: [Item]
+  private var staticContent: StaticContent
 
   @Namespace
   private var namespace
@@ -140,6 +181,8 @@ private struct ExpandableStack: View {
         }
 
         Spacer()
+
+        staticContent
       }
       // expanded
       VStack {
@@ -203,8 +246,15 @@ private struct ExpandableView<Minimized: View, Expanded: View, Background: View>
       .resizable()
       .ignoresSafeArea()
 
-    ExpandableControls(yearRange: $yearRange, mapType: $mapType)
-      .padding()
+    ExpandableControls(
+      yearRange: $yearRange,
+      mapType: $mapType,
+      staticItems: [
+        .init(id: "search", iconName: "magnifyingglass", action: {}),
+        .init(id: "location", iconName: "location", action: {}),
+      ]
+    )
+    .padding()
   }
 }
 

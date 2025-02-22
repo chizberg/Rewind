@@ -29,7 +29,7 @@ struct ImageList<EmptyLabel: View>: View {
         Group {
           if !images.isEmpty {
             ScrollView {
-              LazyVStack(spacing: 10) {
+              LazyVGrid(columns: [GridItem(.adaptive(minimum: 300))], spacing: 10) {
                 items
               }
             }

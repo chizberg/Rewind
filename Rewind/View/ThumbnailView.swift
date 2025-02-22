@@ -29,7 +29,7 @@ struct ThumbnailView: View {
     .clipShape(RoundedRectangle(cornerRadius: radius))
     .overlay {
       RoundedRectangle(cornerRadius: radius)
-        .strokeBorder(.gray, lineWidth: 1)
+        .strokeBorder(.white.opacity(0.2), lineWidth: 1)
     }
     .transition(.scale)
   }

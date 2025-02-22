@@ -17,8 +17,10 @@ final class AppGraph {
   let appState: ObservedVariable<AppState>
   let mapAdapter: MapAdapter
   let imageDetailsFactory: (Model.Image) -> ImageDetailsModel
+
   private let disposePool = AutodisposePool()
   private let favoritesStorage: FavoritesStorage
+  private let locationProvider: LocationProvider
 
   init() {
     weak var weakSelf: AppGraph?
@@ -32,6 +34,7 @@ final class AppGraph {
       storage: UserDefaults.standard,
       makeLoadableImage: imageLoader.makeImage
     )
+    let locationProvider = LocationProvider()
 
     let remotes = RewindRemotes(
       requestPerformer: requestPerformer,
@@ -43,20 +46,11 @@ final class AppGraph {
       deselectAnnotations: mapAdapter.deselectAnnotations,
       visibleAnnotations: Variable { mapAdapter.visibleAnnotations },
       setRegion: mapAdapter.set(region:animated:),
-      requestAnnotations: { region, yearRange in
-        remotes.annotations(
-          (region: region, yearRange: yearRange),
-          completion: { result in
-            switch result {
-            case let .success((images, clusters)):
-              weakSelf?.mapModel(.external(.loaded(images, clusters)))
-            case .failure: break // TODO:
-            }
-          }
-        )
-      },
+      setCenter: mapAdapter.set(center:animated:),
+      annotationsRemote: remotes.annotations,
       applyMapType: { mapAdapter.apply(mapType: $0) },
       performAppAction: { weakSelf?.appModel($0) },
+      startLocationUpdating: locationProvider.start,
       throttle: { mapAction in
         // TODO: simplify, no probably no need to pass mapaction itself
         throttler.throttle(mapAction, perform: { weakSelf?.mapModel($0) })
@@ -66,10 +60,6 @@ final class AppGraph {
       favoritesStorage: favoritesStorage.property,
       performMapAction: { weakSelf?.mapModel(.external($0)) }
     )
-    self.mapAdapter = mapAdapter
-    self.mapState = mapModel.$state.asObservedVariable()
-    self.appState = appModel.$state.asObservedVariable()
-    self.favoritesStorage = favoritesStorage
     imageDetailsFactory = { image in
       makeImageDetailsModel(
         load: remotes.imageDetails.mapArgs { image.cid },
@@ -80,10 +70,18 @@ final class AppGraph {
         urlOpener: { UIApplication.shared.open($0) }
       )
     }
+    self.mapAdapter = mapAdapter
+    self.mapState = mapModel.$state.asObservedVariable()
+    self.appState = appModel.$state.asObservedVariable()
+    self.favoritesStorage = favoritesStorage
+    self.locationProvider = locationProvider
     weakSelf = self
 
     mapAdapter.events.addObserver { [weak self] in
       self?.mapModel(.external(.map($0)))
+    }.dispose(in: disposePool)
+    locationProvider.$location.currentAndNewValues.addObserver { [weak self] in
+      self?.mapModel(.external(.locationChanged($0)))
     }.dispose(in: disposePool)
   }
 }

@@ -49,35 +49,32 @@ final class Throttler {
     delay: TimeInterval
   ) {
     if throttlers[id] == nil {
-      throttlers[id] = ThrottledActionPerformer(delay: delay, action: { [weak self] in
-        self?.throttlers[id] = nil
-        action()
-      })
+      throttlers[id] = ThrottledActionPerformer(delay: delay)
     }
-    throttlers[id]?.throttledCall()
+    throttlers[id]?.throttledCall { [weak self] in
+      self?.throttlers[id] = nil
+      action()
+    }
   }
 }
 
 private class ThrottledActionPerformer {
-  private var delay: Double
-  private let action: Action
+  private let delay: Double
   private var task: Task<Void, Error>?
 
   init(
-    delay: Double,
-    action: @escaping Action
+    delay: Double
   ) {
     self.delay = delay
-    self.action = action
   }
 
-  func throttledCall() {
+  func throttledCall(action: @escaping () -> Void) {
     task?.cancel()
     task = nil
-    task = makeTask()
+    task = makeTask(action)
   }
 
-  private func makeTask() -> Task<Void, Error> {
+  private func makeTask(_ action: @escaping () -> Void) -> Task<Void, Error> {
     Task {
       try await Task.sleep(for: .seconds(delay))
       try Task.checkCancellation()

@@ -70,8 +70,16 @@ final class MapAdapter: NSObject, MKMapViewDelegate {
     map.value.setRegion(region, animated: animated)
   }
 
+  func set(center: Coordinate, animated: Bool) {
+    map.value.setCenter(center, animated: animated)
+  }
+
   func apply(mapType: MapType) {
     map.value.mapType = mapType
+  }
+
+  func mapView(_: MKMapView, didAdd views: [MKAnnotationView]) {
+    animateAddition(views)
   }
 
   func mapView(_ mapView: MKMapView, regionDidChangeAnimated _: Bool) {
@@ -102,16 +110,12 @@ final class MapAdapter: NSObject, MKMapViewDelegate {
         )
       }
     }
-    if let merged = annotation as? MKClusterAnnotation {
+    if annotation is MKClusterAnnotation {
       return mapView.dequeueReusableAnnotationView(
         MergedAnnotationView.self
       )
     }
     return nil
-  }
-
-  func mapView(_: MKMapView, didAdd views: [MKAnnotationView]) {
-    animateAddition(views)
   }
 }
 

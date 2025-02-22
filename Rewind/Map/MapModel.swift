@@ -15,6 +15,7 @@ struct MapState {
   var region: Region
   var yearRange: ClosedRange<Int>
   var previews: [Model.Image]
+  var location: CLLocation?
 
   var images: Set<Model.Image>
   var clusters: Set<Model.Cluster>
@@ -29,20 +30,22 @@ enum MapAction {
     }
 
     enum UI {
+      case mapViewLoaded
+      case locationButtonTapped
       case yearRangeChanged(ClosedRange<Int>)
       case mapTypeSelected(MapType)
-      case thumbnailSelected(Model.Image)
     }
 
     case map(Map)
     case ui(UI)
-    case loaded([Model.Image], [Model.Cluster])
     case previewClosed
+    case locationChanged(CLLocation?)
   }
 
   enum Internal {
     case regionChanged(Region)
     case loadAnnotations
+    case loaded([Model.Image], [Model.Cluster])
     case clearAnnotations
     case updatePreviews
   }
@@ -57,9 +60,11 @@ func makeMapModel(
   deselectAnnotations: @escaping () -> Void,
   visibleAnnotations: Variable<[MKAnnotation]>,
   setRegion: @escaping (Region, _ animated: Bool) -> Void,
-  requestAnnotations: @escaping (Region, ClosedRange<Int>) -> Void,
+  setCenter: @escaping (Coordinate, _ animated: Bool) -> Void,
+  annotationsRemote: Remote<(Region, ClosedRange<Int>), ([Model.Image], [Model.Cluster])>,
   applyMapType: @escaping (MapType) -> Void,
   performAppAction: @escaping (AppAction) -> Void,
+  startLocationUpdating: @escaping () -> Void,
   throttle: @escaping (MapAction) -> Void
 ) -> MapModel {
   MapModel(
@@ -68,10 +73,11 @@ func makeMapModel(
       region: .zero,
       yearRange: 1826...2000,
       previews: [],
+      location: nil,
       images: [],
       clusters: []
     ),
-    reduce: { state, action, effect, _ in
+    reduce: { state, action, effect, loadEffect in
       switch action {
       case let .external(externalAction):
         switch externalAction {
@@ -95,8 +101,8 @@ func makeMapModel(
             performAppAction(.previewList(images))
           }
         case .map(.annotationDeselected): break
-        case let .ui(.thumbnailSelected(image)):
-          performAppAction(.previewImage(image))
+        case .ui(.mapViewLoaded):
+          startLocationUpdating()
         case let .ui(.yearRangeChanged(yearRange)):
           state.yearRange = yearRange
           throttle(.internal(.clearAnnotations))
@@ -104,6 +110,33 @@ func makeMapModel(
         case let .ui(.mapTypeSelected(mapType)):
           state.mapType = mapType
           applyMapType(mapType)
+        case .ui(.locationButtonTapped):
+          if let location = state.location {
+            setCenter(location.coordinate, /* animated */ true)
+          } // TODO: do something here
+        case .previewClosed:
+          deselectAnnotations()
+        case let .locationChanged(location):
+          if let location, state.location == nil {
+            setCenter(location.coordinate, /* animated */ false)
+          }
+          state.location = location
+        }
+      case let .internal(internalAction):
+        switch internalAction {
+        case let .regionChanged(region):
+          if state.region != .zero, state.region.zoom != region.zoom {
+            effect(.internal(.clearAnnotations))
+          }
+          state.region = region
+          effect(.internal(.loadAnnotations))
+          throttle(.internal(.updatePreviews))
+        case .loadAnnotations:
+          let params = (state.region, state.yearRange)
+          loadEffect {
+            let (images, clusters) = try await annotationsRemote(params)
+            return .internal(.loaded(images, clusters))
+          }
         case let .loaded(images, clusters):
           let imagesSet = Set(images)
           let clustersSet = Set(clusters)
@@ -119,20 +152,6 @@ func makeMapModel(
 
           addAnnotations(newAnnotations)
           throttle(.internal(.updatePreviews))
-        case .previewClosed:
-          deselectAnnotations()
-        }
-      case let .internal(internalAction):
-        switch internalAction {
-        case let .regionChanged(region):
-          if state.region != .zero, state.region.zoom != region.zoom {
-            effect(.internal(.clearAnnotations))
-          }
-          state.region = region
-          effect(.internal(.loadAnnotations))
-          throttle(.internal(.updatePreviews))
-        case .loadAnnotations:
-          requestAnnotations(state.region, state.yearRange)
         case .clearAnnotations:
           state.images.removeAll()
           state.clusters.removeAll()
