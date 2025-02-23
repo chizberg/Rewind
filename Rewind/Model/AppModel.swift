@@ -12,7 +12,7 @@ typealias AppModel = Reducer<AppState, AppAction>
 
 struct AppState {
   var previewedImage: Model.Image?
-  var previewedList: [Model.Image]?
+  var previewedList: Identified<[Model.Image]>?
   var favorites: [Model.Image]
   var favoritesPresented: Bool
   var settingsPresented: Bool
@@ -61,7 +61,7 @@ func makeAppModel(
         state.previewedImage = nil
         performMapAction(.previewClosed)
       case let .previewList(images):
-        state.previewedList = images
+        state.previewedList = Identified(value: images)
       case .listPreviewClosed:
         state.previewedList = nil
         performMapAction(.previewClosed)

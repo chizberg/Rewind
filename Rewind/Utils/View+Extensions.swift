@@ -29,21 +29,3 @@ extension View {
     readFrame { action($0.size) }
   }
 }
-
-extension View {
-  // system one needs identifiable, this one does not
-  func unwrappedFullscreenCover<Item>(
-    item: Binding<Item?>,
-    @ViewBuilder content: @escaping (Item) -> some View
-  ) -> some View {
-    fullScreenCover(
-      isPresented: Binding(
-        get: { item.wrappedValue != nil },
-        set: { if !$0 { item.wrappedValue = nil } }
-      ),
-      content: {
-        content(item.wrappedValue!)
-      }
-    )
-  }
-}

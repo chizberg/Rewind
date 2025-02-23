@@ -46,7 +46,6 @@ final class AppGraph {
       deselectAnnotations: mapAdapter.deselectAnnotations,
       visibleAnnotations: Variable { mapAdapter.visibleAnnotations },
       setRegion: mapAdapter.set(region:animated:),
-      setCenter: mapAdapter.set(center:animated:),
       annotationsRemote: remotes.annotations,
       applyMapType: { mapAdapter.apply(mapType: $0) },
       performAppAction: { weakSelf?.appModel($0) },

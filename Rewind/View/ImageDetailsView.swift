@@ -15,8 +15,8 @@ struct ImageDetailsView: View {
   var state: ImageDetailsState
   var showCloseButton: Bool
 
-  @Environment(\.dismiss)
-  var dismiss
+  @Namespace
+  private var namespace
 
   init(
     model: ImageDetailsModel,
@@ -37,7 +37,8 @@ struct ImageDetailsView: View {
           details: data,
           image: state.image,
           isFavorite: state.isFavorite,
-          actionHandler: model.callAsFunction
+          actionHandler: model.callAsFunction,
+          namespace: namespace
         )
       } else {
         ProgressView()
@@ -48,7 +49,7 @@ struct ImageDetailsView: View {
         ZStack(alignment: .topLeading) {
           Color.clear
 
-          closeButton
+          BackButton()
             .padding()
         }
       }
@@ -80,23 +81,30 @@ struct ImageDetailsView: View {
         }
       }
     )
-  }
-
-  private var closeButton: some View {
-    SquishyButton(action: { dismiss() }) { _ in
-      Image(systemName: "chevron.left")
-        .padding(10)
-        .background(.thinMaterial)
-        .clipShape(Circle())
-    }
+    .fullScreenCover(
+      item: Binding(
+        get: { state.fullscreenPreview },
+        set: { if $0 == nil { model(.fullscreenPreview(.dismiss)) }}
+      ),
+      content: { identifiedImage in
+        ZoomableImage(
+          image: identifiedImage.value,
+          saveImage: { model(.fullscreenPreview(.saveImage)) }
+        )
+        .navigationTransition(.zoom(sourceID: titleImageID, in: namespace))
+      }
+    )
   }
 }
+
+private let titleImageID = "fullscreenPreview"
 
 private struct ImageDetailsViewImpl: View {
   var details: Model.ImageDetails
   var image: UIImage?
   var isFavorite: Bool
   var actionHandler: (ImageDetailsAction) -> Void
+  var namespace: Namespace.ID
 
   var body: some View {
     ScrollView {
@@ -215,6 +223,8 @@ private struct ImageDetailsViewImpl: View {
       Image(uiImage: image)
         .resizable()
         .aspectRatio(contentMode: .fit)
+        .onTapGesture { actionHandler(.fullscreenPreview(.present)) }
+        .matchedTransitionSource(id: titleImageID, in: namespace)
     } else {
       ZStack {
         BlurView()

@@ -70,10 +70,6 @@ final class MapAdapter: NSObject, MKMapViewDelegate {
     map.value.setRegion(region, animated: animated)
   }
 
-  func set(center: Coordinate, animated: Bool) {
-    map.value.setCenter(center, animated: animated)
-  }
-
   func apply(mapType: MapType) {
     map.value.mapType = mapType
   }
@@ -119,8 +115,14 @@ final class MapAdapter: NSObject, MKMapViewDelegate {
   }
 }
 
-// TODO: get rid of
+// europe and africa
 private let initialRegion = Region(
-  center: Coordinate(latitude: 44.821782, longitude: 20.455564),
-  span: MKCoordinateSpan(latitudeDelta: 0.02, longitudeDelta: 0.02)
+  center: Coordinate(
+    latitude: 15.908556,
+    longitude: 15.796728
+  ),
+  span: MKCoordinateSpan(
+    latitudeDelta: 76.225,
+    longitudeDelta: 76.225
+  )
 )

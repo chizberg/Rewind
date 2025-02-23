@@ -60,7 +60,6 @@ func makeMapModel(
   deselectAnnotations: @escaping () -> Void,
   visibleAnnotations: Variable<[MKAnnotation]>,
   setRegion: @escaping (Region, _ animated: Bool) -> Void,
-  setCenter: @escaping (Coordinate, _ animated: Bool) -> Void,
   annotationsRemote: Remote<(Region, ClosedRange<Int>), ([Model.Image], [Model.Cluster])>,
   applyMapType: @escaping (MapType) -> Void,
   performAppAction: @escaping (AppAction) -> Void,
@@ -112,15 +111,23 @@ func makeMapModel(
           applyMapType(mapType)
         case .ui(.locationButtonTapped):
           if let location = state.location {
-            setCenter(location.coordinate, /* animated */ true)
+            setRegion(
+              Region(center: location.coordinate, zoom: 15),
+              /* animated */ true
+            )
           } // TODO: do something here
         case .previewClosed:
           deselectAnnotations()
         case let .locationChanged(location):
           if let location, state.location == nil {
-            setCenter(location.coordinate, /* animated */ false)
+            setRegion(
+              Region(center: location.coordinate, zoom: 15),
+              /* animated */ false
+            )
           }
-          state.location = location
+          if let location {
+            state.location = location
+          }
         }
       case let .internal(internalAction):
         switch internalAction {

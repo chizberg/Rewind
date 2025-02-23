@@ -17,6 +17,7 @@ struct ImageDetailsState {
   var isFavorite: Bool
   var shareVC: Identified<UIViewController>?
   var mapOptionsPresented: Bool
+  var fullscreenPreview: Identified<UIImage>?
 }
 
 enum ImageDetailsAction {
@@ -32,8 +33,20 @@ enum ImageDetailsAction {
     case route
   }
 
+  enum FullscreenPreview {
+    case present
+    case dismiss
+    case saveImage
+  }
+
+  enum Internal {
+    case saveImage
+    case shareSheetLoaded(UIViewController)
+  }
+
   case button(Button)
-  case shareSheetLoaded(UIViewController)
+  case fullscreenPreview(FullscreenPreview)
+  case `internal`(Internal)
   case shareSheetDismissed
   case setMapOptionsVisibility(Bool)
   case mapAppSelected(MapApp)
@@ -81,14 +94,7 @@ func makeImageDetailsModel(
         state.isFavorite.toggle()
         isFavorite.value = state.isFavorite
       case .button(.saveImage):
-        guard let image = state.image else { return }
-        UIImageWriteToSavedPhotosAlbum(
-          image,
-          nil,
-          nil,
-          nil
-        )
-        UINotificationFeedbackGenerator().notificationOccurred(.success)
+        effect(.internal(.saveImage))
       case .button(.share):
         guard let data = state.data,
               let image = state.image
@@ -102,12 +108,10 @@ func makeImageDetailsModel(
             activityItems: itemsToShare,
             applicationActivities: nil
           )
-          return .shareSheetLoaded(vc)
+          return .internal(.shareSheetLoaded(vc))
         }
       case .button(.route):
         effect(.setMapOptionsVisibility(true))
-      case let .shareSheetLoaded(vc):
-        state.shareVC = Identified(id: UUID(), value: vc)
       case .shareSheetDismissed:
         state.shareVC = nil
       case let .setMapOptionsVisibility(visible):
@@ -122,6 +126,25 @@ func makeImageDetailsModel(
         } else if let downloadLink = app.downloadLink {
           urlOpener(downloadLink)
         }
+      case .fullscreenPreview(.present):
+        if let image = state.image {
+          state.fullscreenPreview = Identified(value: image)
+        }
+      case .fullscreenPreview(.dismiss):
+        state.fullscreenPreview = nil
+      case .fullscreenPreview(.saveImage):
+        effect(.internal(.saveImage))
+      case .internal(.saveImage):
+        guard let image = state.image else { return }
+        UIImageWriteToSavedPhotosAlbum(
+          image,
+          nil,
+          nil,
+          nil
+        )
+        UINotificationFeedbackGenerator().notificationOccurred(.success)
+      case let .internal(.shareSheetLoaded(vc)):
+        state.shareVC = Identified(value: vc)
       }
     }
   )

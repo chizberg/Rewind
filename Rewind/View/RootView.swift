@@ -102,17 +102,17 @@ struct RootView: View {
           .presentationBackground(.red)
       }
     )
-    .unwrappedFullscreenCover(
+    .fullScreenCover(
       item: Binding(
         get: { appState.previewedList },
         set: { item in
           if item == nil { appActionHandler(.listPreviewClosed) }
         }
       ),
-      content: { previewedList in
+      content: { identifiedList in
         ImageList(
           title: "Images",
-          images: previewedList,
+          images: identifiedList.value,
           imageDetailsFactory: imageDetailsFactory,
           emptyLabel: { EmptyView() }
         )
