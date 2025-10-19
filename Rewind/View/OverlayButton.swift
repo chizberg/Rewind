@@ -12,12 +12,13 @@ struct OverlayButton: View {
   var action: () -> Void
 
   var body: some View {
-    SquishyButton(action: action) { _ in
+    Button(action: action) {
       Image(systemName: iconName)
         .padding(10)
         .background(.thinMaterial)
         .clipShape(Circle())
     }
+    .foregroundStyle(.primary)
   }
 }
 

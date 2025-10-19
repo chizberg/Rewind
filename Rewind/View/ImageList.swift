@@ -55,20 +55,23 @@ struct ImageList<EmptyLabel: View>: View {
 
   private var items: some View {
     ForEach(images) { image in
-      SquishyButton {
+      Button {
         path.append(image)
-      } label: { _ in
+      } label: {
         ImageListCell(value: image)
-      }.padding(.horizontal, 16)
+      }
+      .foregroundStyle(.primary)
+      .padding(.horizontal, 16)
     }
   }
 
   private var backButton: some View {
-    SquishyButton {
+    Button {
       dismiss()
-    } label: { _ in
+    } label: {
       Image(systemName: "chevron.left")
-    }.foregroundStyle(.tint)
+    }
+    .foregroundStyle(.primary)
   }
 
   private func makeImageDetails(for image: Model.Image) -> some View {

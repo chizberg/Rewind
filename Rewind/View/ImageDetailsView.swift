@@ -134,15 +134,6 @@ private struct ImageDetailsViewImpl: View {
     case .favorite: isFavorite ? .yellow : .primary
     case .share, .saveImage, .viewOnWeb, .route: .primary
     }
-    let background: SwiftUI.Color = .systemBackground
-    let pressedForeground: SwiftUI.Color = switch action {
-    case .favorite: .white
-    case .share, .saveImage, .viewOnWeb, .route: .primary
-    }
-    let pressedBackground: SwiftUI.Color = switch action {
-    case .favorite: .yellow
-    case .share, .saveImage, .viewOnWeb, .route: .secondaryBackground
-    }
     let title: LocalizedStringKey = switch action {
     case .favorite: "Favorite"
     case .share: "Share"
@@ -157,19 +148,21 @@ private struct ImageDetailsViewImpl: View {
     case .viewOnWeb: "globe.americas.fill"
     case .route: "map"
     }
-    return SquishyButton(action: { actionHandler(.button(action)) }) { pressed in
+    return Button {
+      actionHandler(.button(action))
+    } label: {
       HStack {
         Image(systemName: iconName)
         Text(title)
           .lineLimit(1)
         Spacer()
       }
-      .foregroundStyle(pressed ? pressedForeground : foreground)
       .padding(10)
       .frame(minHeight: 50)
-      .background(pressed ? pressedBackground : background)
-      .cornerRadius(10)
     }
+    .foregroundStyle(foreground)
+    .background(Color.systemBackground)
+    .cornerRadius(10)
   }
 
   private var detailsView: some View {
