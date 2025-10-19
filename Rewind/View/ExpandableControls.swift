@@ -49,8 +49,8 @@ struct ExpandableControls: View {
             iconName: $0.iconName,
             action: $0.action
           ).background {
-            minimizedBackground
-          }.cornerRadius(minimizedRadius)
+            makeBackground(radius: minimizedRadius)
+          }
         }
       }
     )
@@ -77,12 +77,20 @@ struct ExpandableControls: View {
         }
         .padding(3)
       },
-      background: { minimizedBackground },
-      radius: isExpanded.wrappedValue ? expandedRadius : minimizedRadius
+      background: {
+        makeBackground(radius: isExpanded.wrappedValue ? expandedRadius : minimizedRadius)
+      }
     )
   }
 
-  private let minimizedBackground = BlurView(style: .systemThickMaterial)
+  @ViewBuilder
+  private func makeBackground(radius: CGFloat) -> some View {
+    if #available(iOS 26, *) {
+      GlassView(radius: radius)
+    } else {
+      BlurView(style: .systemThickMaterial, radius: radius)
+    }
+  }
 
   private func minimizedButton(
     iconName: String,
@@ -218,7 +226,6 @@ private struct ExpandableView<Minimized: View, Expanded: View, Background: View>
   var expanded: (_ minimize: @escaping () -> Void) -> Expanded
   @ViewBuilder
   var background: () -> Background
-  var radius: CGFloat
 
   var body: some View {
     VStack {
@@ -230,7 +237,6 @@ private struct ExpandableView<Minimized: View, Expanded: View, Background: View>
       }
     }
     .background(background())
-    .clipShape(RoundedRectangle(cornerRadius: radius))
   }
 }
 
