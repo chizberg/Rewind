@@ -22,33 +22,29 @@ struct ImageList<EmptyLabel: View>: View {
   var dismiss
 
   var body: some View {
-    ZStack {
-      BlurView().ignoresSafeArea()
-
-      NavigationStack(path: $path) {
-        Group {
-          if !images.isEmpty {
-            ScrollView {
-              LazyVGrid(columns: [GridItem(.adaptive(minimum: 300))], spacing: 10) {
-                items
-              }
-            }
-          } else {
-            ZStack {
-              Color.clear
-              emptyLabel()
+    NavigationStack(path: $path) {
+      Group {
+        if !images.isEmpty {
+          ScrollView {
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 300))], spacing: 10) {
+              items
             }
           }
-        }
-        .navigationTitle(title)
-        .toolbar {
-          ToolbarItem(placement: .topBarLeading) {
-            backButton
+        } else {
+          ZStack {
+            Color.clear
+            emptyLabel()
           }
         }
-        .navigationDestination(for: Model.Image.self) { image in
-          makeImageDetails(for: image)
+      }
+      .navigationTitle(title)
+      .toolbar {
+        ToolbarItem(placement: .topBarLeading) {
+          backButton
         }
+      }
+      .navigationDestination(for: Model.Image.self) { image in
+        makeImageDetails(for: image)
       }
     }
   }

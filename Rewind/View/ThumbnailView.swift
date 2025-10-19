@@ -19,7 +19,11 @@ struct ThumbnailView: View {
           .aspectRatio(contentMode: .fill)
           .frame(size: size)
       } placeholder: {
-        BlurView(style: .regular, radius: radius)
+        if #available(iOS 26, *) {
+          GlassView(radius: radius)
+        } else {
+          BlurView(style: .regular, radius: radius)
+        }
       }
 
       badge
@@ -31,7 +35,6 @@ struct ThumbnailView: View {
       RoundedRectangle(cornerRadius: radius)
         .strokeBorder(.white.opacity(0.2), lineWidth: 1)
     }
-    .transition(.scale)
   }
 
   private var badge: some View {

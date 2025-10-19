@@ -127,16 +127,14 @@ struct RootView: View {
         VStack {
           makeBottomScrollButton(
             iconName: "star",
-            sourceID: "favorites",
-            tintColor: .yellow
+            sourceID: "favorites"
           ) {
             appActionHandler(.favoritesButtonTapped)
           }
 
           makeBottomScrollButton(
             iconName: "gearshape",
-            sourceID: "settings",
-            tintColor: nil
+            sourceID: "settings"
           ) {
             appActionHandler(.settingsButtonTapped)
           }
@@ -151,21 +149,25 @@ struct RootView: View {
       .padding(.horizontal)
     }
     .frame(height: thumbnailSize.height)
+    .animation(.spring().speed(2), value: mapState.previews)
   }
 
   private func makeBottomScrollButton(
     iconName: String,
     sourceID: String,
-    tintColor: Color?,
     action: @escaping () -> Void
   ) -> some View {
     ZStack {
-      BlurView(style: .systemThickMaterial)
+      let radius: CGFloat = 15
+      if #available(iOS 26, *) {
+        GlassView(radius: radius)
+      } else {
+        BlurView(style: .systemThickMaterial, radius: radius)
+      }
 
       Image(systemName: iconName)
         .font(.title2.bold())
     }
-    .cornerRadius(15)
     .onTapGesture(perform: action)
     .matchedTransitionSource(id: sourceID, in: rootView)
   }
@@ -178,14 +180,12 @@ private struct ThumbnailsView: View {
   private let leadingEdge = 0
 
   var body: some View {
-    LazyHStack {
-      ForEach(previews) { image in
-        ThumbnailView(image: image, size: thumbnailSize)
-          .matchedTransitionSource(id: image.cid, in: namespace)
-          .onTapGesture { onSelected(image) }
-      }
+    ForEach(previews) { image in
+      ThumbnailView(image: image, size: thumbnailSize)
+        .matchedTransitionSource(id: image.cid, in: namespace)
+        .onTapGesture { onSelected(image) }
+        .transition(.scale)
     }
-    .animation(.spring(), value: previews)
   }
 }
 

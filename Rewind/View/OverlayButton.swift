@@ -15,10 +15,20 @@ struct OverlayButton: View {
     Button(action: action) {
       Image(systemName: iconName)
         .padding(10)
-        .background(.thinMaterial)
-        .clipShape(Circle())
+        .circleBlurBackground()
     }
     .foregroundStyle(.primary)
+  }
+}
+
+extension View {
+  @ViewBuilder
+  fileprivate func circleBlurBackground() -> some View {
+    if #available(iOS 26, *) {
+      glassEffect(in: Circle())
+    } else {
+      background(.thinMaterial).clipShape(Circle())
+    }
   }
 }
 
