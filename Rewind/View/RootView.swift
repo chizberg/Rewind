@@ -159,27 +159,15 @@ struct RootView: View {
     tintColor: Color?,
     action: @escaping () -> Void
   ) -> some View {
-    SquishyButton(action: action) { pressed in
-      ZStack {
-        let colorFill: Color = if let tintColor {
-          pressed ? tintColor : .clear
-        } else { .clear }
+    ZStack {
+      BlurView(style: .systemThickMaterial)
 
-        let foreground: Color = if tintColor != nil {
-          pressed ? .white : .primary
-        } else { .primary }
-
-        BlurView(style: .systemThickMaterial)
-
-        colorFill
-
-        Image(systemName: iconName)
-          .font(.title2.bold())
-          .foregroundStyle(foreground)
-      }
-      .cornerRadius(15)
-      .matchedTransitionSource(id: sourceID, in: rootView)
+      Image(systemName: iconName)
+        .font(.title2.bold())
     }
+    .cornerRadius(15)
+    .onTapGesture(perform: action)
+    .matchedTransitionSource(id: sourceID, in: rootView)
   }
 }
 
@@ -192,12 +180,9 @@ private struct ThumbnailsView: View {
   var body: some View {
     LazyHStack {
       ForEach(previews) { image in
-        SquishyButton {
-          onSelected(image)
-        } label: { _ in
-          ThumbnailView(image: image, size: thumbnailSize)
-            .matchedTransitionSource(id: image.cid, in: namespace)
-        }
+        ThumbnailView(image: image, size: thumbnailSize)
+          .matchedTransitionSource(id: image.cid, in: namespace)
+          .onTapGesture { onSelected(image) }
       }
     }
     .animation(.spring(), value: previews)

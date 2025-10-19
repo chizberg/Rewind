@@ -34,7 +34,7 @@ extension Coordinate {
   // FIXME: chizberg - adjust()
 }
 
-extension Coordinate: Codable {
+extension Coordinate: @retroactive Codable {
   private struct CoordinateCodableAdapter: Codable {
     var latitude: Double
     var longitude: Double
