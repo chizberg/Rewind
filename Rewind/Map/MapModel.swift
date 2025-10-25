@@ -63,8 +63,7 @@ func makeMapModel(
   annotationsRemote: Remote<(Region, ClosedRange<Int>), ([Model.Image], [Model.Cluster])>,
   applyMapType: @escaping (MapType) -> Void,
   performAppAction: @escaping (AppAction) -> Void,
-  startLocationUpdating: @escaping () -> Void,
-  throttle: @escaping (MapAction) -> Void
+  startLocationUpdating: @escaping () -> Void
 ) -> MapModel {
   MapModel(
     initial: MapState(
@@ -76,12 +75,14 @@ func makeMapModel(
       images: [],
       clusters: []
     ),
-    reduce: { state, action, effect, loadEffect in
+    reduce: { state, action, enqueueEffect in
       switch action {
       case let .external(externalAction):
         switch externalAction {
         case let .map(.regionChanged(region)):
-          throttle(.internal(.regionChanged(region)))
+          enqueueEffect(.throttled(id: .regionChanged) { anotherAction in
+            await anotherAction(.internal(.regionChanged(region)))
+          })
         case let .map(.annotationSelected(mkAnn)):
           if let ann = mkAnn as? AnnotationWrapper {
             switch ann.value {
@@ -104,8 +105,12 @@ func makeMapModel(
           startLocationUpdating()
         case let .ui(.yearRangeChanged(yearRange)):
           state.yearRange = yearRange
-          throttle(.internal(.clearAnnotations))
-          throttle(.internal(.loadAnnotations))
+          enqueueEffect(.throttled(id: .clearAnnotations) { anotherAction in
+            await anotherAction(.internal(.clearAnnotations))
+          })
+          enqueueEffect(.throttled(id: .loadAnnotations) { anotherAction in
+            await anotherAction(.internal(.loadAnnotations))
+          })
         case let .ui(.mapTypeSelected(mapType)):
           state.mapType = mapType
           applyMapType(mapType)
@@ -133,17 +138,23 @@ func makeMapModel(
         switch internalAction {
         case let .regionChanged(region):
           if state.region != .zero, state.region.zoom != region.zoom {
-            effect(.internal(.clearAnnotations))
+            enqueueEffect(.regular { anotherAction in
+              await anotherAction(.internal(.clearAnnotations))
+            })
           }
           state.region = region
-          effect(.internal(.loadAnnotations))
-          throttle(.internal(.updatePreviews))
+          enqueueEffect(.regular { anotherAction in
+            await anotherAction(.internal(.loadAnnotations))
+          })
+          enqueueEffect(.throttled(id: .updatePreviews) { anotherAction in
+            await anotherAction(.internal(.updatePreviews))
+          })
         case .loadAnnotations:
           let params = (state.region, state.yearRange)
-          loadEffect {
+          enqueueEffect(.regular { anotherAction in
             let (images, clusters) = try await annotationsRemote(params)
-            return .internal(.loaded(images, clusters))
-          }
+            await anotherAction(.internal(.loaded(images, clusters)))
+          })
         case let .loaded(images, clusters):
           let imagesSet = Set(images)
           let clustersSet = Set(clusters)
@@ -158,12 +169,16 @@ func makeMapModel(
             + newClusters.map { AnnotationWrapper(value: .cluster($0)) }
 
           addAnnotations(newAnnotations)
-          throttle(.internal(.updatePreviews))
+          enqueueEffect(.throttled(id: .updatePreviews) { anotherAction in
+            await anotherAction(.internal(.updatePreviews))
+          })
         case .clearAnnotations:
           state.images.removeAll()
           state.clusters.removeAll()
           clearAnnotations()
-          throttle(.internal(.updatePreviews))
+          enqueueEffect(.throttled(id: .updatePreviews) { anotherAction in
+            await anotherAction(.internal(.updatePreviews))
+          })
         case .updatePreviews:
           let visible: [Model.Image] = visibleAnnotations.value.flatMap {
             if let cluster = $0 as? MKClusterAnnotation {
