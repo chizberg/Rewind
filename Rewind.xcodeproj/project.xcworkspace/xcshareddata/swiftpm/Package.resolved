@@ -1,13 +1,13 @@
 {
-  "originHash" : "023c2c691c76710f3a41d522857d4096ca98df0b579c4c31a8d7f2ccf2f495f5",
+  "originHash" : "cfe2904e185af7837d9b084f90a581bb1f4f0686c0b6196be22f4050080871e6",
   "pins" : [
     {
       "identity" : "bezelkit",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/markbattistella/BezelKit",
       "state" : {
-        "revision" : "227b41b77b44463fde8ef851cdc69553ad973a47",
-        "version" : "3.2.0"
+        "revision" : "fc2bdcb9a4a02cfc09b17ce6db028b4b0cdcd75f",
+        "version" : "3.4.0"
       }
     },
     {
@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/yandex/vgsl.git",
       "state" : {
-        "revision" : "3b3b624e9bb8d1606d3128320b2ccd4f5e45aab1",
-        "version" : "6.18.0"
+        "revision" : "3139e0a527859b53f639d88061b7e9d0920beec9",
+        "version" : "6.28.1"
       }
     }
   ],

@@ -68,15 +68,17 @@ func makeImageDetailsModel(
       shareVC: nil,
       mapOptionsPresented: false
     ),
-    reduce: { state, action, effect, loadEffect in
+    reduce: { state, action, enqueueEffect in
       switch action {
       case .willBePresented:
-        loadEffect {
-          try await .dataLoaded(load())
-        }
-        loadEffect {
-          try await .imageLoaded(image(.high))
-        }
+        enqueueEffect(.regular { anotherAction in
+          let data = try await load()
+          await anotherAction(.dataLoaded(data))
+        })
+        enqueueEffect(.regular { anotherAction in
+          let img = try await image(.high)
+          await anotherAction(.imageLoaded(img))
+        })
       case let .dataLoaded(data):
         state.data = data
       case let .imageLoaded(image):
@@ -94,7 +96,9 @@ func makeImageDetailsModel(
         state.isFavorite.toggle()
         isFavorite.value = state.isFavorite
       case .button(.saveImage):
-        effect(.internal(.saveImage))
+        enqueueEffect(.regular { anotherAction in
+          await anotherAction(.internal(.saveImage))
+        })
       case .button(.share):
         guard let data = state.data,
               let image = state.image
@@ -103,15 +107,17 @@ func makeImageDetailsModel(
           image,
           "\(data.title), \(data.description ?? "")",
         ]
-        loadEffect {
+        enqueueEffect(.regular { anotherAction in
           let vc = await UIActivityViewController(
             activityItems: itemsToShare,
             applicationActivities: nil
           )
-          return .internal(.shareSheetLoaded(vc))
-        }
+          await anotherAction(.internal(.shareSheetLoaded(vc)))
+        })
       case .button(.route):
-        effect(.setMapOptionsVisibility(true))
+        enqueueEffect(.regular { anotherAction in
+          await anotherAction(.setMapOptionsVisibility(false))
+        })
       case .shareSheetDismissed:
         state.shareVC = nil
       case let .setMapOptionsVisibility(visible):
@@ -133,7 +139,9 @@ func makeImageDetailsModel(
       case .fullscreenPreview(.dismiss):
         state.fullscreenPreview = nil
       case .fullscreenPreview(.saveImage):
-        effect(.internal(.saveImage))
+        enqueueEffect(.regular { anotherAction in
+          await anotherAction(.internal(.saveImage))
+        })
       case .internal(.saveImage):
         guard let image = state.image else { return }
         UIImageWriteToSavedPhotosAlbum(

@@ -29,7 +29,6 @@ final class AppGraph {
       urlRequestPerformer: URLSession.shared.data
     )
     let imageLoader = ImageLoader(requestPerformer: requestPerformer)
-    let throttler = Throttler()
     let favoritesStorage = FavoritesStorage(
       storage: UserDefaults.standard,
       makeLoadableImage: imageLoader.makeImage
@@ -49,11 +48,7 @@ final class AppGraph {
       annotationsRemote: remotes.annotations,
       applyMapType: { mapAdapter.apply(mapType: $0) },
       performAppAction: { weakSelf?.appModel($0) },
-      startLocationUpdating: locationProvider.start,
-      throttle: { mapAction in
-        // TODO: simplify, no probably no need to pass mapaction itself
-        throttler.throttle(mapAction, perform: { weakSelf?.mapModel($0) })
-      }
+      startLocationUpdating: locationProvider.start
     )
     appModel = makeAppModel(
       favoritesStorage: favoritesStorage.property,
