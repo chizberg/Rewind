@@ -80,6 +80,7 @@ struct ImageList<EmptyLabel: View>: View {
   }
 }
 
+#if DEBUG
 #Preview {
   ImageList(
     title: "Images",
@@ -117,3 +118,4 @@ struct ImageList<EmptyLabel: View>: View {
     emptyLabel: { Text("nothing here") }
   )
 }
+#endif

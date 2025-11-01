@@ -273,7 +273,7 @@ private struct LabeledText: View {
 }
 
 #if DEBUG
-fileprivate func makeImageDetailsView(
+private func makeImageDetailsView(
   model: ImageDetailsModel
 ) -> ImageDetailsView {
   ImageDetailsView(

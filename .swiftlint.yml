@@ -1,0 +1,15 @@
+disabled_rules:
+  - trailing_comma
+  - identifier_name
+  - todo
+  - function_name_whitespace
+  - nesting
+  - type_name
+  - cyclomatic_complexity
+  - function_body_length
+  - function_parameter_count
+  - implicit_optional_initialization
+
+excluded:
+  - XcodeBuild
+  - .build

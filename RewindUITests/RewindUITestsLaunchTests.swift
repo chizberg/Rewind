@@ -8,7 +8,7 @@
 import XCTest
 
 final class RewindUITestsLaunchTests: XCTestCase {
-  override class var runsForEachTargetApplicationUIConfiguration: Bool {
+  override static var runsForEachTargetApplicationUIConfiguration: Bool {
     true
   }
 
