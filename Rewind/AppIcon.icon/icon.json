@@ -1,0 +1,84 @@
+{
+  "fill" : "automatic",
+  "groups" : [
+    {
+      "layers" : [
+        {
+          "image-name" : "rewind 2.png",
+          "name" : "rewind 2"
+        },
+        {
+          "fill" : {
+            "solid" : "display-p3:0.64551,0.20502,0.10746,1.00000"
+          },
+          "image-name" : "pilule 2.png",
+          "name" : "pilule 2"
+        },
+        {
+          "glass" : false,
+          "image-name" : "picture_2.png",
+          "name" : "picture_2",
+          "opacity-specializations" : [
+            {
+              "appearance" : "dark",
+              "value" : 0
+            }
+          ]
+        },
+        {
+          "image-name" : "picture_2_dark.png",
+          "name" : "picture_2_dark",
+          "opacity-specializations" : [
+            {
+              "value" : 0
+            },
+            {
+              "appearance" : "dark",
+              "value" : 1
+            }
+          ]
+        },
+        {
+          "glass" : false,
+          "hidden" : true,
+          "image-name" : "image 2.png",
+          "name" : "image 2"
+        },
+        {
+          "fill" : {
+            "solid" : "extended-srgb:0.38039,0.33333,0.96078,1.00000"
+          },
+          "image-name" : "border 2.png",
+          "name" : "border 2"
+        },
+        {
+          "glass" : false,
+          "image-name" : "Frame 7.png",
+          "name" : "Frame 7",
+          "opacity-specializations" : [
+            {
+              "value" : 0.7
+            },
+            {
+              "appearance" : "dark",
+              "value" : 0.1
+            }
+          ]
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "squares" : [
+      "iOS"
+    ]
+  }
+}
