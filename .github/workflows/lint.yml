@@ -1,0 +1,15 @@
+name: lint
+on: [pull_request]
+jobs:
+  lint:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install SwiftLint
+        run: brew install swiftlint
+      - name: Install SwiftFormat
+        run: brew install swiftformat
+      - name: Run SwiftLint
+        run: swiftlint --strict
+      - name: Run SwiftFormat
+        run: swiftformat . --lint

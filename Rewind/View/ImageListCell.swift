@@ -59,6 +59,8 @@ struct ImageListCell: View {
 
 private let radius: CGFloat = 15
 
+#if DEBUG
 #Preview {
   ImageListCell(value: .mock)
 }
+#endif
