@@ -75,7 +75,8 @@ enum ThrottledActionID: String {
 }
 
 extension Reducer {
-  func bimap<NewState, NewAction>(
+  // This bimap does not work with effects, effects cause the states to go out of sync.
+  func unsafeBimap<NewState, NewAction>(
     state makeNewState: @escaping (State) -> NewState,
     action makeOldAction: @escaping (NewAction) -> Action
   ) -> Reducer<NewState, NewAction> {

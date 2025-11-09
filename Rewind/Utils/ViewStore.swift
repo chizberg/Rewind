@@ -38,6 +38,16 @@ struct ViewStore<State, Action> {
   subscript<T>(dynamicMember keyPath: KeyPath<State, T>) -> T {
     state.wrappedValue[keyPath: keyPath]
   }
+
+  func bimap<NewState, NewAction>(
+    state makeNewState: @escaping (State) -> NewState,
+    action makeOldAction: @escaping (NewAction) -> Action
+  ) -> ViewStore<NewState, NewAction> {
+    ViewStore<NewState, NewAction>(
+      state: state.map(makeNewState),
+      actionPerformer: { self(makeOldAction($0)) }
+    )
+  }
 }
 
 extension Reducer {

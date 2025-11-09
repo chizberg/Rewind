@@ -15,7 +15,7 @@ typealias AppModel = Reducer<AppState, AppAction>
 struct AppState {
   var previewedImage: Identified<ImageDetailsModel>?
   var previewedList: Identified<ImageListModel>?
-  var settingsPresented: Bool
+  var settingsModel: Identified<SettingsModel>?
 }
 
 enum AppAction {
@@ -28,16 +28,19 @@ enum AppAction {
   case settingsClosed
 }
 
+typealias UrlOpener = (URL?) -> Void
+
 func makeAppModel(
   imageDetailsFactory: @escaping (Model.Image) -> ImageDetailsModel,
   performMapAction: @escaping (MapAction.External) -> Void,
-  favoritesModel: FavoritesModel
+  favoritesModel: FavoritesModel,
+  urlOpener: @escaping UrlOpener
 ) -> AppModel {
   AppModel(
     initial: AppState(
       previewedImage: nil,
       previewedList: nil,
-      settingsPresented: false
+      settingsModel: nil
     ),
     reduce: { state, action, _ in
       switch action {
@@ -70,9 +73,11 @@ func makeAppModel(
         state.previewedList = nil
         performMapAction(.previewClosed)
       case .settingsButtonTapped:
-        state.settingsPresented = true
+        state.settingsModel = Identified(value:
+          makeSettingsModel(urlOpener: urlOpener)
+        )
       case .settingsClosed:
-        state.settingsPresented = false
+        state.settingsModel = nil
       }
     }
   )

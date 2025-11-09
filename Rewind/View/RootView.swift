@@ -81,16 +81,15 @@ struct RootView: View {
       }
     )
     .fullScreenCover(
-      isPresented: Binding(
-        get: { appStore.settingsPresented },
-        set: { if !$0 { appStore(.settingsClosed) } }
+      item: Binding(
+        get: { appStore.settingsModel },
+        set: { _ in appStore(.settingsClosed) }
       ),
-      content: {
-        Text("TBD")
-          .font(.largeTitle.bold())
-          .foregroundColor(.white)
-          .navigationTransition(.zoom(sourceID: "settings", in: rootView))
-          .presentationBackground(.red)
+      content: { settingsModel in
+        SettingsView(store: settingsModel.value.viewStore)
+          .navigationTransition(
+            .zoom(sourceID: TransitionSource.settings, in: rootView)
+          )
       }
     )
   }
@@ -101,22 +100,22 @@ struct RootView: View {
         VStack {
           makeBottomScrollButton(
             iconName: "star",
-            sourceID: "favorites button"
+            sourceID: TransitionSource.favoritesButton
           ) {
-            appStore(.favoritesButtonTapped(source: "favorites button"))
+            appStore(.favoritesButtonTapped(source: TransitionSource.favoritesButton))
           }
 
           makeBottomScrollButton(
             iconName: "gearshape",
-            sourceID: "settings"
+            sourceID: TransitionSource.settings
           ) {
             appStore(.settingsButtonTapped)
           }
         }.frame(width: 75)
 
         ThumbnailsView(
+          mapStore: mapStore,
           namespace: rootView,
-          previews: mapStore.previews,
           onSelected: { appStore(.previewImage($0)) }
         )
       }
@@ -147,14 +146,19 @@ struct RootView: View {
   }
 }
 
+private enum TransitionSource {
+  static let settings = "settings"
+  static let favoritesButton = "favorites button"
+}
+
 private struct ThumbnailsView: View {
+  var mapStore: ViewStore<MapState, MapAction.External.UI>
   var namespace: Namespace.ID
-  let previews: [Model.Image]
   let onSelected: (Model.Image) -> Void
   private let leadingEdge = 0
 
   var body: some View {
-    ForEach(previews) { image in
+    ForEach(mapStore.previews) { image in
       ThumbnailView(image: image, size: thumbnailSize)
         .matchedTransitionSource(id: image.cid, in: namespace)
         .onTapGesture { onSelected(image) }
