@@ -11,13 +11,9 @@ import SwiftUI
 
 struct RootView: View {
   let rawMap: UIView
-  @ObservedVariable
-  var mapState: MapState
-  var mapActionHandler: (MapAction.External.UI) -> Void
-  @ObservedVariable
-  var appState: AppState
-  var appActionHandler: (AppAction) -> Void
-  var imageDetailsFactory: (Model.Image) -> ImageDetailsModel
+  let mapStore: ViewStore<MapState, MapAction.External.UI>
+  let appStore: ViewStore<AppState, AppAction>
+
   @Namespace
   private var rootView
 
@@ -28,24 +24,24 @@ struct RootView: View {
       }
       .ignoresSafeArea()
       .task { // TODO: move to onboarding
-        mapActionHandler(.mapViewLoaded)
+        mapStore(.mapViewLoaded)
       }
 
-      MapBlurView(thumbnailsEmpty: mapState.previews.isEmpty)
+      MapBlurView(thumbnailsEmpty: mapStore.previews.isEmpty)
 
       VStack {
         ExpandableControls(
           yearRange: Binding(
-            get: { mapState.yearRange },
-            set: { mapActionHandler(.yearRangeChanged($0)) }
+            get: { mapStore.yearRange },
+            set: { mapStore(.yearRangeChanged($0)) }
           ),
           mapType: Binding(
-            get: { mapState.mapType },
-            set: { mapActionHandler(.mapTypeSelected($0)) }
+            get: { mapStore.mapType },
+            set: { mapStore(.mapTypeSelected($0)) }
           ),
           staticItems: [
             .init(id: "location", iconName: "location") {
-              mapActionHandler(.locationButtonTapped)
+              mapStore(.locationButtonTapped)
             },
           ]
         ).padding()
@@ -55,44 +51,39 @@ struct RootView: View {
     }
     .mask(RoundedRectangle(cornerRadius: CGFloat.deviceBezel).ignoresSafeArea())
     .fullScreenCover(
-      item: Binding(
-        get: { appState.previewedImage },
-        set: { item in
-          if item == nil { appActionHandler(.imagePreviewClosed) }
-        }
+      item: Binding<Identified<ImageDetailsModel>?>(
+        get: { appStore.previewedImage },
+        set: { _ in appStore(.imagePreviewClosed) }
       ),
       content: { previewedImage in
-        let model = imageDetailsFactory(previewedImage)
+        let viewStore = previewedImage.value.viewStore
         ImageDetailsView(
-          model: model,
-          state: model.$state.asObservedVariable(),
+          viewStore: viewStore,
           showCloseButton: true
         )
-        .navigationTransition(.zoom(sourceID: previewedImage.cid, in: rootView))
-      }
-    )
-    .fullScreenCover(
-      isPresented: Binding(
-        get: { appState.favoritesPresented },
-        set: { if !$0 { appActionHandler(.favoritesClosed) } }
-      ),
-      content: {
-        ImageList(
-          title: "Favorites",
-          images: appState.favorites,
-          imageDetailsFactory: imageDetailsFactory,
-          emptyLabel: { VStack {
-            Text("💔").font(.largeTitle)
-            Text("Nothing here yet")
-          }}
+        .navigationTransition(
+          .zoom(
+            sourceID: viewStore.cid, in: rootView
+          )
         )
-        .navigationTransition(.zoom(sourceID: "favorites", in: rootView))
+      }
+    )
+    .fullScreenCover(
+      item: Binding(
+        get: { appStore.previewedList },
+        set: { _ in appStore(.listPreviewClosed) }
+      ),
+      content: { previewedList in
+        let viewStore = previewedList.value.viewStore
+        ImageList(
+          viewStore: viewStore
+        ).navigationTransition(.zoom(sourceID: viewStore.matchedTransitionSourceName, in: rootView))
       }
     )
     .fullScreenCover(
       isPresented: Binding(
-        get: { appState.settingsPresented },
-        set: { if !$0 { appActionHandler(.settingsClosed) } }
+        get: { appStore.settingsPresented },
+        set: { if !$0 { appStore(.settingsClosed) } }
       ),
       content: {
         Text("TBD")
@@ -102,54 +93,37 @@ struct RootView: View {
           .presentationBackground(.red)
       }
     )
-    .fullScreenCover(
-      item: Binding(
-        get: { appState.previewedList },
-        set: { item in
-          if item == nil { appActionHandler(.listPreviewClosed) }
-        }
-      ),
-      content: { identifiedList in
-        ImageList(
-          title: "Images",
-          images: identifiedList.value,
-          imageDetailsFactory: imageDetailsFactory,
-          emptyLabel: { EmptyView() }
-        )
-        .presentationBackground(.clear)
-      }
-    )
   }
 
   private var horizontalScroll: some View {
-    AutoscrollingScrollView(scrollOnChangeOf: mapState.previews) {
+    AutoscrollingScrollView(scrollOnChangeOf: mapStore.previews) {
       LazyHStack(spacing: 8) {
         VStack {
           makeBottomScrollButton(
             iconName: "star",
-            sourceID: "favorites"
+            sourceID: "favorites button"
           ) {
-            appActionHandler(.favoritesButtonTapped)
+            appStore(.favoritesButtonTapped(source: "favorites button"))
           }
 
           makeBottomScrollButton(
             iconName: "gearshape",
             sourceID: "settings"
           ) {
-            appActionHandler(.settingsButtonTapped)
+            appStore(.settingsButtonTapped)
           }
         }.frame(width: 75)
 
         ThumbnailsView(
           namespace: rootView,
-          previews: mapState.previews,
-          onSelected: { appActionHandler(.previewImage($0)) }
+          previews: mapStore.previews,
+          onSelected: { appStore(.previewImage($0)) }
         )
       }
       .padding(.horizontal)
     }
     .frame(height: thumbnailSize.height)
-    .animation(.spring().speed(2), value: mapState.previews)
+    .animation(.spring().speed(2), value: mapStore.previews)
   }
 
   private func makeBottomScrollButton(
@@ -229,10 +203,7 @@ private let thumbnailSize = CGSize(width: 250, height: 187.5)
 
   RootView(
     rawMap: graph.mapAdapter.view,
-    mapState: graph.mapState,
-    mapActionHandler: { graph.mapModel(.external(.ui($0))) },
-    appState: graph.appState,
-    appActionHandler: { graph.appModel($0) },
-    imageDetailsFactory: graph.imageDetailsFactory
+    mapStore: graph.mapStore,
+    appStore: graph.appStore
   )
 }

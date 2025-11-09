@@ -8,7 +8,7 @@
 import SwiftUI
 import VGSL
 
-@propertyWrapper
+@propertyWrapper @dynamicMemberLookup
 @Observable final class ObservedVariable<Value> {
   private(set) var wrappedValue: Value
   private var subscription: Disposable?
@@ -19,6 +19,10 @@ import VGSL
     subscription = ov.newValues.addObserver { [weak self] in
       self?.wrappedValue = $0
     }
+  }
+
+  subscript<T>(dynamicMember keyPath: KeyPath<Value, T>) -> T {
+    wrappedValue[keyPath: keyPath]
   }
 }
 

@@ -27,6 +27,7 @@ struct ImageListCell: View {
       HStack {
         VStack(alignment: .leading) {
           Text(value.title)
+            .multilineTextAlignment(.leading)
             .foregroundColor(.white)
             .font(.title3)
             .bold()

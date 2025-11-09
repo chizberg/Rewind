@@ -14,7 +14,7 @@ struct RewindAsyncImage<Content: View, Placeholder: View>: View {
   var placeholder: Placeholder
 
   init(
-    _ image: LoadableImage,
+    _ image: LoadableUIImage,
     _ quality: ImageQuality,
     @ViewBuilder content: @escaping (UIImage) -> Content,
     @ViewBuilder placeholder: @escaping () -> Placeholder

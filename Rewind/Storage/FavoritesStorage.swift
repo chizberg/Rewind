@@ -9,12 +9,12 @@ import VGSL
 
 final class FavoritesStorage {
   private let impl: Property<[Storage.Image]>
-  private let makeLoadableImage: (String) -> LoadableImage
+  private let makeLoadableImage: (String) -> LoadableUIImage
   private var modelImages: [Model.Image]
 
   init(
     storage: KeyValueStorage,
-    makeLoadableImage: @escaping (String) -> LoadableImage
+    makeLoadableImage: @escaping (String) -> LoadableUIImage
   ) {
     impl = storage.makeCodableField(key: "favorites", default: [])
     self.makeLoadableImage = makeLoadableImage

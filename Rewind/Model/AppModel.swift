@@ -6,69 +6,69 @@
 //
 
 import Foundation
+import SwiftUI
+
 import VGSL
 
 typealias AppModel = Reducer<AppState, AppAction>
 
 struct AppState {
-  var previewedImage: Model.Image?
-  var previewedList: Identified<[Model.Image]>?
-  var favorites: [Model.Image]
-  var favoritesPresented: Bool
+  var previewedImage: Identified<ImageDetailsModel>?
+  var previewedList: Identified<ImageListModel>?
   var settingsPresented: Bool
 }
 
 enum AppAction {
-  case addToFavorites(Model.Image)
-  case removeFromFavorites(Model.Image)
   case previewImage(Model.Image)
   case imagePreviewClosed
-  case previewList([Model.Image])
+  case openImageList([Model.Image], source: String)
   case listPreviewClosed
-  case favoritesButtonTapped
-  case favoritesClosed
   case settingsButtonTapped
+  case favoritesButtonTapped(source: String)
   case settingsClosed
 }
 
 func makeAppModel(
-  favoritesStorage: Property<[Model.Image]>,
-  performMapAction: @escaping (MapAction.External) -> Void
+  imageDetailsFactory: @escaping (Model.Image) -> ImageDetailsModel,
+  performMapAction: @escaping (MapAction.External) -> Void,
+  favoritesModel: FavoritesModel
 ) -> AppModel {
   AppModel(
     initial: AppState(
       previewedImage: nil,
       previewedList: nil,
-      favorites: favoritesStorage.value,
-      favoritesPresented: false,
       settingsPresented: false
     ),
     reduce: { state, action, _ in
       switch action {
-      case let .addToFavorites(image):
-        guard !state.favorites.contains(image) else { return }
-        state.favorites.append(image)
-        favoritesStorage.value = state.favorites
-      case let .removeFromFavorites(image):
-        guard let index = state.favorites.firstIndex(of: image) else {
-          return
-        }
-        state.favorites.remove(at: index)
-        favoritesStorage.value = state.favorites
       case let .previewImage(image):
-        state.previewedImage = image
+        state.previewedImage = Identified(value: imageDetailsFactory(image))
       case .imagePreviewClosed:
         state.previewedImage = nil
         performMapAction(.previewClosed)
-      case let .previewList(images):
-        state.previewedList = Identified(value: images)
+      case let .openImageList(images, source):
+        state.previewedList = Identified(
+          value: makeImageListModel(
+            title: "Images",
+            matchedTransitionSourceName: source,
+            images: images,
+            listUpdates: .empty,
+            imageDetailsFactory: imageDetailsFactory
+          )
+        )
+      case let .favoritesButtonTapped(source):
+        state.previewedList = Identified(
+          value: makeImageListModel(
+            title: "Favorites",
+            matchedTransitionSourceName: source,
+            images: favoritesModel.state,
+            listUpdates: favoritesModel.$state.newValues,
+            imageDetailsFactory: imageDetailsFactory
+          )
+        )
       case .listPreviewClosed:
         state.previewedList = nil
         performMapAction(.previewClosed)
-      case .favoritesButtonTapped:
-        state.favoritesPresented = true
-      case .favoritesClosed:
-        state.favoritesPresented = false
       case .settingsButtonTapped:
         state.settingsPresented = true
       case .settingsClosed:

@@ -9,34 +9,35 @@ import Foundation
 
 import VGSL
 
-struct Reducer<State, ReducerAction> {
+final class Reducer<State, Action> {
   struct Effect {
     var id: String = UUID().uuidString
-    var action: ((ReducerAction) async -> Void) async throws -> Void
+    var action: ((Action) async -> Void) async throws -> Void
   }
 
   @ObservableProperty
   private(set) var state: State
-  private let reduce: Reduce
+  private let reduce: ActionHandler
   @MainActor @Property
   private var effects: [String: Task<Void, Error>]
+  private let disposePool = AutodisposePool()
 
-  typealias Reduce = (
+  typealias ActionHandler = (
     inout State,
-    ReducerAction,
-    _ enqueueEffect: (Effect) -> Void
+    Action,
+    _ enqueueEffect: (Reducer<State, Action>.Effect) -> Void
   ) -> Void
 
   init(
     initial: State,
-    reduce: @escaping Reduce
+    reduce: @escaping ActionHandler
   ) {
     _state = ObservableProperty(initialValue: initial)
     _effects = Property(initialValue: [:])
     self.reduce = reduce
   }
 
-  func callAsFunction(_ action: ReducerAction) {
+  func callAsFunction(_ action: Action) {
     var newEffects = [Effect]()
     reduce(&state, action) { newEffects.append($0) }
     for effect in newEffects {
@@ -52,6 +53,10 @@ struct Reducer<State, ReducerAction> {
         }
       }
     }
+  }
+
+  private func store(disposable: Disposable) {
+    disposable.dispose(in: disposePool)
   }
 }
 
@@ -69,9 +74,35 @@ enum ThrottledActionID: String {
   }
 }
 
+extension Reducer {
+  func bimap<NewState, NewAction>(
+    state makeNewState: @escaping (State) -> NewState,
+    action makeOldAction: @escaping (NewAction) -> Action
+  ) -> Reducer<NewState, NewAction> {
+    Reducer<NewState, NewAction>(
+      initial: makeNewState(state)
+    ) { newState, newAction, _ in
+      let oldAction = makeOldAction(newAction)
+      self(oldAction)
+      newState = makeNewState(self.state)
+    }
+  }
+
+  func adding<Value>(
+    signal: Signal<Value>,
+    makeAction: @escaping (Value) -> Action
+  ) -> Reducer<State, Action> {
+    modified(self) {
+      $0.store(disposable: signal.addObserver { [weak self] in
+        self?(makeAction($0))
+      })
+    }
+  }
+}
+
 extension Reducer.Effect {
   static func regular(
-    action: @escaping ((ReducerAction) async -> Void) async throws -> Void
+    action: @escaping ((Action) async -> Void) async throws -> Void
   ) -> Reducer.Effect {
     Reducer.Effect(
       action: action
@@ -80,7 +111,7 @@ extension Reducer.Effect {
 
   static func throttled(
     id: ThrottledActionID,
-    action: @escaping ((ReducerAction) async -> Void) async throws -> Void
+    action: @escaping ((Action) async -> Void) async throws -> Void
   ) -> Reducer.Effect {
     Reducer.Effect(
       id: id.rawValue,

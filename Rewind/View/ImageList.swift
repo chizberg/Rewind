@@ -8,23 +8,19 @@
 import SwiftUI
 import VGSL
 
-struct ImageList<EmptyLabel: View>: View {
-  var title: LocalizedStringKey
-  var images: [Model.Image]
-  var imageDetailsFactory: (Model.Image) -> ImageDetailsModel
-  @ViewBuilder
-  var emptyLabel: () -> EmptyLabel
-
-  @State
-  private var path = NavigationPath()
+struct ImageList: View {
+  var viewStore: ViewStore<ImageListState, ImageListAction>
 
   @Environment(\.dismiss)
   var dismiss
 
   var body: some View {
-    NavigationStack(path: $path) {
+    NavigationStack(path: Binding(
+      get: { viewStore.imageDetails },
+      set: { _ in viewStore(.dismissImage) }
+    )) {
       Group {
-        if !images.isEmpty {
+        if !viewStore.images.isEmpty {
           ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 300))], spacing: 10) {
               items
@@ -33,26 +29,32 @@ struct ImageList<EmptyLabel: View>: View {
         } else {
           ZStack {
             Color.clear
-            emptyLabel()
+            VStack {
+              Text("💔").font(.largeTitle)
+              Text("Nothing here yet")
+            }
           }
         }
       }
-      .navigationTitle(title)
+      .navigationTitle(viewStore.title)
       .toolbar {
         ToolbarItem(placement: .topBarLeading) {
           backButton
         }
       }
-      .navigationDestination(for: Model.Image.self) { image in
-        makeImageDetails(for: image)
+      .navigationDestination(for: Identified<ImageDetailsModel>.self) { model in
+        ImageDetailsView(
+          viewStore: model.value.viewStore,
+          showCloseButton: false
+        )
       }
     }
   }
 
   private var items: some View {
-    ForEach(images) { image in
+    ForEach(viewStore.images) { image in
       Button {
-        path.append(image)
+        viewStore(.presentImage(image))
       } label: {
         ImageListCell(value: image)
       }
@@ -69,53 +71,46 @@ struct ImageList<EmptyLabel: View>: View {
     }
     .foregroundStyle(.primary)
   }
-
-  private func makeImageDetails(for image: Model.Image) -> some View {
-    let model = imageDetailsFactory(image)
-    return ImageDetailsView(
-      model: model,
-      state: model.$state.asObservedVariable(),
-      showCloseButton: false
-    )
-  }
 }
 
 #if DEBUG
-#Preview {
-  ImageList(
-    title: "Images",
-    images: (0..<10).map { idx in
-      modified(.mock) { $0.cid = idx }
-    },
-    imageDetailsFactory: { image in
-      makeImageDetailsModel(
-        load: Remote { .mock },
-        image: .mock,
-        coordinate: image.coordinate,
-        isFavorite: .constant(true),
-        canOpenURL: { _ in false },
-        urlOpener: { _ in }
-      )
-    },
-    emptyLabel: { EmptyView() }
+private let imageDetailsFactoryMock: (Model.Image) -> ImageDetailsModel = { image in
+  makeImageDetailsModel(
+    modelImage: .mock,
+    load: Remote { .mock },
+    image: .mock,
+    coordinate: image.coordinate,
+    favoriteModel: .mock,
+    canOpenURL: { _ in false },
+    urlOpener: { _ in }
   )
 }
 
-#Preview("empty") {
-  ImageList(
+#Preview {
+  @Previewable @State
+  var store = makeImageListModel(
     title: "Images",
-    images: [],
-    imageDetailsFactory: { image in
-      makeImageDetailsModel(
-        load: Remote { .mock },
-        image: .mock,
-        coordinate: image.coordinate,
-        isFavorite: .constant(true),
-        canOpenURL: { _ in false },
-        urlOpener: { _ in }
-      )
+    matchedTransitionSourceName: "",
+    images: (0..<10).map { idx in
+      modified(.mock) { $0.cid = idx }
     },
-    emptyLabel: { Text("nothing here") }
-  )
+    listUpdates: .empty,
+    imageDetailsFactory: imageDetailsFactoryMock
+  ).viewStore
+
+  ImageList(viewStore: store)
+}
+
+#Preview("empty") {
+  @Previewable @State
+  var store = makeImageListModel(
+    title: "Images",
+    matchedTransitionSourceName: "",
+    images: [],
+    listUpdates: .empty,
+    imageDetailsFactory: imageDetailsFactoryMock
+  ).viewStore
+
+  ImageList(viewStore: store)
 }
 #endif
