@@ -40,7 +40,7 @@ func makeFavoritesModel(
 
 extension FavoritesModel {
   func isFavorite(_ image: Model.Image) -> SingleFavoriteModel {
-    bimap(
+    unsafeBimap(
       state: { $0.contains { $0.cid == image.cid } },
       action: { $0 ? .addToFavorites(image) : .removeFromFavorites(image) }
     )

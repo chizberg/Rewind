@@ -1,6 +1,12 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "" : {
+
+    },
+    "☮️ & ❤️" : {
+
+    },
     "💔" : {
       "comment" : "emoji for empty favorites list",
       "localizations" : {
@@ -19,6 +25,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "2ГИС"
+          }
+        }
+      }
+    },
+    "2025" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2025"
           }
         }
       }
@@ -52,6 +68,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "автор"
+          }
+        }
+      }
+    },
+    "Contact Support" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Связаться с поддержкой"
           }
         }
       }
@@ -122,6 +148,26 @@
         }
       }
     },
+    "Links" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ссылки"
+          }
+        }
+      }
+    },
+    "Made by [@chizberg](https://github.com/chizberg)" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сделано [@chizberg](https://github.com/chizberg)"
+          }
+        }
+      }
+    },
     "Map type" : {
       "comment" : "map type selector title",
       "localizations" : {
@@ -140,6 +186,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Тут пока ничего нет :("
+          }
+        }
+      }
+    },
+    "PastVu rules" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Правила PastVu"
+          }
+        }
+      }
+    },
+    "Rewind" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind"
           }
         }
       }
@@ -188,6 +254,16 @@
         }
       }
     },
+    "Settings" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройки"
+          }
+        }
+      }
+    },
     "Share" : {
       "comment" : "label for action to share",
       "localizations" : {
@@ -209,9 +285,6 @@
           }
         }
       }
-    },
-    "TBD" : {
-
     },
     "uploaded by" : {
       "comment" : "Is shown right above the nickname of a user that uploaded the image",
@@ -238,6 +311,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "На сайте"
+          }
+        }
+      }
+    },
+    "View PastVu website" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открыть сайт PastVu"
+          }
+        }
+      }
+    },
+    "View source code" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открыть исходный код"
+          }
+        }
+      }
+    },
+    "with a little help from [@indie-contributor](https://github.com/indie-contributor) and [@Xelwow](https://github.com/xelwow)" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "с небольшой помощью от [@indie-contributor](https://github.com/indie-contributor) и [@Xelwow](https://github.com/xelwow)"
           }
         }
       }

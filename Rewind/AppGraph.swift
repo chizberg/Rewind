@@ -52,10 +52,11 @@ final class AppGraph {
       startLocationUpdating: locationProvider.start
     )
     mapModelRef = mapModel
-    mapStore = mapModel.bimap(
+    mapStore = mapModel.viewStore.bimap(
       state: { $0 },
       action: { .external(.ui($0)) }
-    ).viewStore
+    )
+    let urlOpener: UrlOpener = { $0.map { UIApplication.shared.open($0) } }
     let imageDetailsFactory = { image in
       makeImageDetailsModel(
         modelImage: image,
@@ -64,13 +65,14 @@ final class AppGraph {
         coordinate: image.coordinate,
         favoriteModel: favoritesModel.isFavorite(image),
         canOpenURL: { UIApplication.shared.canOpenURL($0) },
-        urlOpener: { UIApplication.shared.open($0) }
+        urlOpener: urlOpener
       )
     }
     let appModel = makeAppModel(
       imageDetailsFactory: imageDetailsFactory,
       performMapAction: { mapModelRef?(.external($0)) },
-      favoritesModel: favoritesModel
+      favoritesModel: favoritesModel,
+      urlOpener: urlOpener
     )
     appModelRef = appModel
     appStore = appModel.viewStore
