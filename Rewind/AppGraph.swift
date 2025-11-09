@@ -11,19 +11,15 @@ import UIKit
 import VGSL
 
 final class AppGraph {
-  let mapModel: MapModel
-  let appModel: AppModel
-  let mapState: ObservedVariable<MapState>
-  let appState: ObservedVariable<AppState>
+  let mapStore: ViewStore<MapState, MapAction.External.UI>
+  let appStore: ViewStore<AppState, AppAction>
   let mapAdapter: MapAdapter
-  let imageDetailsFactory: (Model.Image) -> ImageDetailsModel
 
   private let disposePool = AutodisposePool()
   private let favoritesStorage: FavoritesStorage
   private let locationProvider: LocationProvider
 
   init() {
-    weak var weakSelf: AppGraph?
     let mapAdapter = MapAdapter()
     let requestPerformer = RequestPerformer(
       urlRequestPerformer: URLSession.shared.data
@@ -33,13 +29,18 @@ final class AppGraph {
       storage: UserDefaults.standard,
       makeLoadableImage: imageLoader.makeImage
     )
+    let favoritesModel = makeFavoritesModel(
+      storage: favoritesStorage.property
+    )
     let locationProvider = LocationProvider()
 
     let remotes = RewindRemotes(
       requestPerformer: requestPerformer,
       imageLoader: imageLoader
     )
-    mapModel = makeMapModel(
+    weak var mapModelRef: MapModel?
+    weak var appModelRef: AppModel?
+    let mapModel = makeMapModel(
       addAnnotations: mapAdapter.add,
       clearAnnotations: mapAdapter.clear,
       deselectAnnotations: mapAdapter.deselectAnnotations,
@@ -47,53 +48,41 @@ final class AppGraph {
       setRegion: mapAdapter.set(region:animated:),
       annotationsRemote: remotes.annotations,
       applyMapType: { mapAdapter.apply(mapType: $0) },
-      performAppAction: { weakSelf?.appModel($0) },
+      performAppAction: { appModelRef?($0) },
       startLocationUpdating: locationProvider.start
     )
-    appModel = makeAppModel(
-      favoritesStorage: favoritesStorage.property,
-      performMapAction: { weakSelf?.mapModel(.external($0)) }
-    )
-    imageDetailsFactory = { image in
+    mapModelRef = mapModel
+    mapStore = mapModel.bimap(
+      state: { $0 },
+      action: { .external(.ui($0)) }
+    ).viewStore
+    let imageDetailsFactory = { image in
       makeImageDetailsModel(
+        modelImage: image,
         load: remotes.imageDetails.mapArgs { image.cid },
         image: image.image,
         coordinate: image.coordinate,
-        isFavorite: weakSelf?.appModel.isFavorite(image) ?? .constant(false),
+        favoriteModel: favoritesModel.isFavorite(image),
         canOpenURL: { UIApplication.shared.canOpenURL($0) },
         urlOpener: { UIApplication.shared.open($0) }
       )
     }
+    let appModel = makeAppModel(
+      imageDetailsFactory: imageDetailsFactory,
+      performMapAction: { mapModelRef?(.external($0)) },
+      favoritesModel: favoritesModel
+    )
+    appModelRef = appModel
+    appStore = appModel.viewStore
     self.mapAdapter = mapAdapter
-    self.mapState = mapModel.$state.asObservedVariable()
-    self.appState = appModel.$state.asObservedVariable()
     self.favoritesStorage = favoritesStorage
     self.locationProvider = locationProvider
-    weakSelf = self
 
-    mapAdapter.events.addObserver { [weak self] in
-      self?.mapModel(.external(.map($0)))
+    mapAdapter.events.addObserver {
+      mapModelRef?(.external(.map($0)))
     }.dispose(in: disposePool)
-    locationProvider.$location.currentAndNewValues.addObserver { [weak self] in
-      self?.mapModel(.external(.locationChanged($0)))
+    locationProvider.$location.currentAndNewValues.addObserver {
+      mapModelRef?(.external(.locationChanged($0)))
     }.dispose(in: disposePool)
-  }
-}
-
-extension AppModel {
-  func isFavorite(_ image: Model.Image) -> Property<Bool> {
-    let isFavorite = Variable {
-      state.favorites.contains { $0.cid == image.cid }
-    }
-    return Property(
-      getter: { isFavorite.value },
-      setter: { newValue in
-        switch (isFavorite.value, newValue) {
-        case (false, true): self(.addToFavorites(image))
-        case (true, false): self(.removeFromFavorites(image))
-        case (true, true), (false, false): break
-        }
-      }
-    )
   }
 }

@@ -21,8 +21,8 @@ final class ImageLoader {
 
   func makeImage(
     path: String
-  ) -> LoadableImage {
-    LoadableImage { [weak self] quality in
+  ) -> LoadableUIImage {
+    LoadableUIImage { [weak self] quality in
       guard let self else { throw IsDead() }
       return try await load(path: path, quality: quality)
     }
@@ -60,9 +60,9 @@ private class ImageCacheKey: AnyObject {
   }
 }
 
-typealias LoadableImage = Remote<ImageQuality, UIImage>
+typealias LoadableUIImage = Remote<ImageQuality, UIImage>
 
-extension LoadableImage {
+extension LoadableUIImage {
   func load(
     quality: ImageQuality,
     completion: @escaping @MainActor (UIImage) -> Void
@@ -76,8 +76,8 @@ extension LoadableImage {
   }
 }
 
-extension LoadableImage {
-  static let mock = LoadableImage { _ in
+extension LoadableUIImage {
+  static let mock = LoadableUIImage { _ in
     UIImage(named: "cat")!
   }
 }

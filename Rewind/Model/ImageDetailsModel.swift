@@ -12,8 +12,24 @@ import VGSL
 typealias ImageDetailsModel = Reducer<ImageDetailsState, ImageDetailsAction>
 
 struct ImageDetailsState {
-  var data: Model.ImageDetails?
-  var image: UIImage?
+  struct LoadableDetails {
+    // making attributed strings is slow, should be done once in model
+    var description: AttributedString?
+    var source: AttributedString?
+    var address: AttributedString?
+    var author: AttributedString?
+    var username: String
+  }
+
+  // Model.Image fields
+  var date: ImageDate
+  var title: AttributedString
+  var direction: Direction?
+  var cid: Int
+
+  var details: LoadableDetails?
+
+  var uiImage: UIImage?
   var isFavorite: Bool
   var shareVC: Identified<UIViewController>?
   var mapOptionsPresented: Bool
@@ -53,18 +69,23 @@ enum ImageDetailsAction {
 }
 
 func makeImageDetailsModel(
+  modelImage: Model.Image,
   load: Remote<Void, Model.ImageDetails>,
-  image: LoadableImage,
+  image: LoadableUIImage,
   coordinate: Coordinate,
-  isFavorite: Property<Bool>,
+  favoriteModel: SingleFavoriteModel,
   canOpenURL: @escaping (URL) -> Bool,
   urlOpener: @escaping (URL) -> Void
 ) -> ImageDetailsModel {
   Reducer(
     initial: ImageDetailsState(
-      data: nil,
-      image: nil,
-      isFavorite: isFavorite.value,
+      date: modelImage.date,
+      title: modelImage.title.makeAttrString(),
+      direction: modelImage.dir,
+      cid: modelImage.cid,
+      details: nil,
+      uiImage: nil,
+      isFavorite: favoriteModel.state,
       shareVC: nil,
       mapOptionsPresented: false
     ),
@@ -80,36 +101,40 @@ func makeImageDetailsModel(
           await anotherAction(.imageLoaded(img))
         })
       case let .dataLoaded(data):
-        state.data = data
+        state.details = ImageDetailsState.LoadableDetails(
+          description: data.description?.makeAttrString(),
+          source: data.source?.makeAttrString(),
+          address: data.address?.makeAttrString(),
+          author: data.author?.makeAttrString(),
+          username: data.username
+        )
       case let .imageLoaded(image):
-        state.image = image
+        state.uiImage = image
       case .button(.viewOnWeb):
-        guard let data = state.data else { return }
         var components = URLComponents()
         components.scheme = "https"
         components.host = "pastvu.com"
-        components.path = "/\(data.cid)"
+        components.path = "/\(state.cid)"
         if let url = components.url {
           urlOpener(url)
         }
       case .button(.favorite):
         state.isFavorite.toggle()
-        isFavorite.value = state.isFavorite
+        favoriteModel(state.isFavorite)
       case .button(.saveImage):
         enqueueEffect(.regular { anotherAction in
           await anotherAction(.internal(.saveImage))
         })
       case .button(.share):
-        guard let data = state.data,
-              let image = state.image
+        guard let details = state.details,
+              let image = state.uiImage
         else { return }
-        let itemsToShare = [
-          image,
-          "\(data.title), \(data.description ?? "")",
-        ]
-        enqueueEffect(.regular { anotherAction in
+        enqueueEffect(.regular { [title = state.title] anotherAction in
           let vc = await UIActivityViewController(
-            activityItems: itemsToShare,
+            activityItems: [
+              image,
+              "\(title), \(details.description ?? "")",
+            ],
             applicationActivities: nil
           )
           await anotherAction(.internal(.shareSheetLoaded(vc)))
@@ -133,7 +158,7 @@ func makeImageDetailsModel(
           urlOpener(downloadLink)
         }
       case .fullscreenPreview(.present):
-        if let image = state.image {
+        if let image = state.uiImage {
           state.fullscreenPreview = Identified(value: image)
         }
       case .fullscreenPreview(.dismiss):
@@ -143,7 +168,7 @@ func makeImageDetailsModel(
           await anotherAction(.internal(.saveImage))
         })
       case .internal(.saveImage):
-        guard let image = state.image else { return }
+        guard let image = state.uiImage else { return }
         UIImageWriteToSavedPhotosAlbum(
           image,
           nil,

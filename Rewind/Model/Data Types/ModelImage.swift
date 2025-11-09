@@ -10,14 +10,14 @@ import UIKit
 extension Model {
   struct Image {
     var cid: Int
-    var image: LoadableImage
+    var image: LoadableUIImage
     var imagePath: String // used for persistence
     var title: String
     var dir: Direction?
     var coordinate: Coordinate
     var date: ImageDate
 
-    init(_ ni: Network.Image, image: LoadableImage) {
+    init(_ ni: Network.Image, image: LoadableUIImage) {
       cid = ni.cid
       imagePath = ni.file
       title = ni.title
@@ -27,7 +27,7 @@ extension Model {
       self.image = image
     }
 
-    init(_ si: Storage.Image, image: LoadableImage) {
+    init(_ si: Storage.Image, image: LoadableUIImage) {
       cid = si.cid
       imagePath = si.imagePath
       title = si.title
