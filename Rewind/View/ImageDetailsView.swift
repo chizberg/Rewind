@@ -14,83 +14,114 @@ struct ImageDetailsView: View {
 
   @Namespace
   private var namespace
+  @Environment(\.horizontalSizeClass)
+  private var horizontalSizeClass
+
+  private var isSplitView: Bool { horizontalSizeClass == .regular }
 
   var body: some View {
+    content
+      .overlay(alignment: .topLeading) {
+        if showCloseButton {
+          BackButton()
+            .padding()
+        }
+      }
+      .task {
+        viewStore(.willBePresented)
+      }
+      .sheet(
+        item: Binding(
+          get: { viewStore.shareVC },
+          set: { if $0 == nil { viewStore(.shareSheetDismissed) }}
+        ),
+        content: { vc in
+          ViewControllerRepresentable {
+            vc.value
+          }
+        }
+      )
+      .confirmationDialog(
+        "Select map app to find route",
+        isPresented: Binding(
+          get: { viewStore.mapOptionsPresented },
+          set: { viewStore(.setMapOptionsVisibility($0)) }
+        ),
+        titleVisibility: .visible,
+        actions: {
+          ForEach(MapApp.allCases, id: \.self) { app in
+            Button(app.name, action: { viewStore(.mapAppSelected(app)) })
+          }
+        }
+      )
+      .fullScreenCover(
+        item: Binding(
+          get: { viewStore.fullscreenPreview },
+          set: { if $0 == nil { viewStore(.fullscreenPreview(.dismiss)) }}
+        ),
+        content: { identifiedImage in
+          ZoomableImage(
+            image: identifiedImage.value,
+            saveImage: { viewStore(.fullscreenPreview(.saveImage)) }
+          )
+          .navigationTransition(.zoom(sourceID: titleImageID, in: namespace))
+        }
+      )
+  }
+
+  @ViewBuilder
+  private var content: some View {
+    if isSplitView {
+      HStack(spacing: 0) {
+        ZStack {
+          Rectangle().fill(.black).ignoresSafeArea()
+          picture
+        }
+        scroll
+          .frame(width: 325)
+      }
+    } else {
+      scroll
+    }
+  }
+
+  private var scroll: some View {
     ScrollView {
       VStack(spacing: 0) {
-        picture
-          .aspectRatio(contentMode: .fit)
-          .onTapGesture { viewStore(.fullscreenPreview(.present)) }
-          .matchedTransitionSource(id: titleImageID, in: namespace)
+        if !isSplitView {
+          picture
+        }
         textDetails
           .padding()
-          .background(.background)
+          .background {
+            Rectangle().fill(.background).ignoresSafeArea()
+          }
         actionButtons
           .padding()
       }
     }
     .background {
-      Color.secondaryBackground.ignoresSafeArea()
+      Color.secondaryBackground.edgesIgnoringSafeArea(
+        isSplitView ? .bottom : .vertical
+      )
     }
-    .overlay(alignment: .topLeading) {
-      if showCloseButton {
-        BackButton()
-          .padding()
-      }
-    }
-    .task {
-      viewStore(.willBePresented)
-    }
-    .sheet(
-      item: Binding(
-        get: { viewStore.shareVC },
-        set: { if $0 == nil { viewStore(.shareSheetDismissed) }}
-      ),
-      content: { vc in
-        ViewControllerRepresentable {
-          vc.value
-        }
-      }
-    )
-    .confirmationDialog(
-      "Select map app to find route",
-      isPresented: Binding(
-        get: { viewStore.mapOptionsPresented },
-        set: { viewStore(.setMapOptionsVisibility($0)) }
-      ),
-      titleVisibility: .visible,
-      actions: {
-        ForEach(MapApp.allCases, id: \.self) { app in
-          Button(app.name, action: { viewStore(.mapAppSelected(app)) })
-        }
-      }
-    )
-    .fullScreenCover(
-      item: Binding(
-        get: { viewStore.fullscreenPreview },
-        set: { if $0 == nil { viewStore(.fullscreenPreview(.dismiss)) }}
-      ),
-      content: { identifiedImage in
-        ZoomableImage(
-          image: identifiedImage.value,
-          saveImage: { viewStore(.fullscreenPreview(.saveImage)) }
-        )
-        .navigationTransition(.zoom(sourceID: titleImageID, in: namespace))
-      }
-    )
   }
 
-  @ViewBuilder
   private var picture: some View {
-    if let uiImage = viewStore.uiImage {
-      Image(uiImage: uiImage)
-        .resizable()
-    } else {
-      ZStack {
-        Rectangle().fill(.background)
-        ProgressView()
+    Group {
+      if let uiImage = viewStore.uiImage {
+        Image(uiImage: uiImage)
+          .resizable()
+      } else {
+        ZStack {
+          Rectangle().fill(.background)
+          ProgressView()
+        }
       }
     }
+    .aspectRatio(contentMode: .fit)
+    .onTapGesture { viewStore(.fullscreenPreview(.present)) }
+    .matchedTransitionSource(id: titleImageID, in: namespace)
   }
 
   private var textDetails: some View {
@@ -144,12 +175,14 @@ struct ImageDetailsView: View {
     }
   }
 
+  @ViewBuilder
   private func makeButton(action: ImageDetailsAction.Button) -> some View {
+    let isFavorite = viewStore.isFavorite
     Button {
       viewStore(.button(action))
     } label: {
       HStack {
-        Image(systemName: action.iconName(isFavorite: viewStore.isFavorite))
+        Image(systemName: action.iconName(isFavorite: isFavorite))
         Text(action.title)
           .lineLimit(1)
         Spacer()
@@ -157,9 +190,9 @@ struct ImageDetailsView: View {
       .padding(10)
       .frame(minHeight: 50)
     }
-    .foregroundStyle(action.foreground(isFavorite: viewStore.isFavorite))
-    .background(.background)
-    .cornerRadius(10)
+    .foregroundStyle(action.foreground(isFavorite: isFavorite))
+    .background(action.background(isFavorite: isFavorite))
+    .cornerRadius(15)
   }
 
   private var actionButtons: some View {
@@ -218,8 +251,15 @@ private struct LabeledText: View {
 extension ImageDetailsAction.Button {
   fileprivate func foreground(isFavorite: Bool) -> SwiftUI.Color {
     switch self {
-    case .favorite: isFavorite ? .yellow : .primary
+    case .favorite: isFavorite ? .white : .primary
     case .share, .saveImage, .viewOnWeb, .route: .primary
+    }
+  }
+
+  fileprivate func background(isFavorite: Bool) -> SwiftUI.Color {
+    switch self {
+    case .favorite: isFavorite ? .yellow.mix(with: .black, by: 0.1) : .systemBackground
+    case .share, .saveImage, .viewOnWeb, .route: .systemBackground
     }
   }
 
