@@ -27,7 +27,7 @@ enum AppAction {
 
   enum ImageList {
     case presentFavorites(source: String)
-    case present([Model.Image], source: String)
+    case present([Model.Image], source: String, title: LocalizedStringKey)
     case dismiss
   }
 
@@ -86,10 +86,10 @@ func makeAppModel(
               imageDetailsFactory: imageDetailsFactory
             )
           )
-        case let .present(images, source):
+        case let .present(images, source, title):
           state.previewedList = Identified(
             value: makeImageListModel(
-              title: "Images",
+              title: title,
               matchedTransitionSourceName: source,
               images: images,
               listUpdates: .empty,

@@ -72,6 +72,9 @@
         }
       }
     },
+    "Cluster" : {
+
+    },
     "Contact Support" : {
       "localizations" : {
         "ru" : {
@@ -160,6 +163,7 @@
     },
     "Images" : {
       "comment" : "title of list of annotation cluster's images",
+      "extractionState" : "stale",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -212,6 +216,9 @@
       }
     },
     "OK" : {
+
+    },
+    "On the map" : {
 
     },
     "PastVu rules" : {
@@ -371,7 +378,7 @@
         }
       }
     },
-    "with a little help from [@lisa.iso](https://www.instagram.com/l.chizberg), \n[@dmitriitrif](https://github.com/dmitriitrif) and [@Xelwow](https://github.com/xelwow)" : {
+    "with a little help from [@lisa.iso](https://www.instagram.com/l.chizberg),\n[@dmitriitrif](https://github.com/dmitriitrif) and [@Xelwow](https://github.com/xelwow)" : {
 
     },
     "Yandex Maps" : {

@@ -11,7 +11,7 @@ import VGSL
 
 final class Reducer<State, Action> {
   struct Effect {
-    var id: String = UUID().uuidString
+    var id: String
     var action: ((Action) async -> Void) async throws -> Void
   }
 
@@ -103,20 +103,33 @@ extension Reducer {
 
 extension Reducer.Effect {
   static func perform(
+    id: String = UUID().uuidString,
     action: @escaping ((Action) async -> Void) async throws -> Void
   ) -> Reducer.Effect {
     Reducer.Effect(
+      id: id,
       action: action
     )
   }
 
   static func anotherAction(
+    id: String = UUID().uuidString,
     _ action: Action
   ) -> Reducer.Effect {
     Reducer.Effect(
+      id: id,
       action: { performAnotherReducerAction in
         await performAnotherReducerAction(action)
       }
+    )
+  }
+
+  static func cancel(
+    id: String
+  ) -> Reducer.Effect {
+    Reducer.Effect(
+      id: id,
+      action: { _ in }
     )
   }
 

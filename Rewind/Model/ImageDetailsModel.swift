@@ -145,7 +145,7 @@ func makeImageDetailsModel(
           await anotherAction(.internal(.shareSheetLoaded(vc)))
         })
       case .button(.route):
-        enqueueEffect(.anotherAction(.setMapOptionsVisibility(false)))
+        enqueueEffect(.anotherAction(.setMapOptionsVisibility(true)))
       case .shareSheetDismissed:
         state.shareVC = nil
       case let .setMapOptionsVisibility(visible):

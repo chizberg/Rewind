@@ -122,7 +122,8 @@ struct RootView: View {
               appStore(.imageList(
                 .present(
                   mapStore.currentRegionImages,
-                  source: TransitionSource.viewAsListButton
+                  source: TransitionSource.viewAsListButton,
+                  title: "On the map"
                 )
               ))
             }
@@ -157,13 +158,14 @@ struct RootView: View {
     .animation(.spring().speed(2), value: mapStore.previews)
   }
 
+  @ViewBuilder
   private func makeBottomScrollButton(
     iconName: String,
     sourceID: String,
     action: @escaping () -> Void
   ) -> some View {
+    let radius: CGFloat = 20
     ZStack {
-      let radius: CGFloat = 20
       if #available(iOS 26, *) {
         GlassView(radius: radius)
       } else {
@@ -173,6 +175,7 @@ struct RootView: View {
       Image(systemName: iconName)
         .font(.title2.bold())
     }
+    .cornerRadius(radius)
     .onTapGesture(perform: action)
     .matchedTransitionSource(id: sourceID, in: rootView)
   }

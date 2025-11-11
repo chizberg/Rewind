@@ -27,6 +27,7 @@ struct ImageList: View {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 300))], spacing: 10) {
               items
             }
+            .padding(.horizontal, 16)
           }
         } else {
           ZStack {
@@ -38,7 +39,6 @@ struct ImageList: View {
           }
         }
       }
-      .padding(.horizontal, 16)
       .navigationTitle(viewStore.title)
       .toolbar {
         ToolbarItem(placement: .topBarLeading) {
