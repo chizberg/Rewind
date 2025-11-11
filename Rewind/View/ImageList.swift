@@ -12,7 +12,9 @@ struct ImageList: View {
   var viewStore: ViewStore<ImageListState, ImageListAction>
 
   @Environment(\.dismiss)
-  var dismiss
+  private var dismiss
+  @Namespace
+  private var namespace
 
   var body: some View {
     NavigationStack(path: Binding(
@@ -36,6 +38,7 @@ struct ImageList: View {
           }
         }
       }
+      .padding(.horizontal, 16)
       .navigationTitle(viewStore.title)
       .toolbar {
         ToolbarItem(placement: .topBarLeading) {
@@ -43,9 +46,13 @@ struct ImageList: View {
         }
       }
       .navigationDestination(for: Identified<ImageDetailsModel>.self) { model in
+        let viewStore = model.value.viewStore
         ImageDetailsView(
-          viewStore: model.value.viewStore,
+          viewStore: viewStore,
           showCloseButton: false
+        )
+        .navigationTransition(
+          .zoom(sourceID: viewStore.cid, in: namespace)
         )
       }
     }
@@ -59,7 +66,7 @@ struct ImageList: View {
         ImageListCell(value: image)
       }
       .foregroundStyle(.primary)
-      .padding(.horizontal, 16)
+      .matchedTransitionSource(id: image.cid, in: namespace)
     }
   }
 
@@ -74,12 +81,13 @@ struct ImageList: View {
 }
 
 #if DEBUG
-private let imageDetailsFactoryMock: (Model.Image) -> ImageDetailsModel = { image in
+private let imageDetailsFactoryMock: ImageDetailsFactory = { image, source in
   makeImageDetailsModel(
     modelImage: .mock,
     load: Remote { .mock },
     image: .mock,
     coordinate: image.coordinate,
+    openSource: source,
     favoriteModel: .mock,
     canOpenURL: { _ in false },
     urlOpener: { _ in }

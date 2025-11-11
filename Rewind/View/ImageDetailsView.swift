@@ -114,13 +114,18 @@ struct ImageDetailsView: View {
           .resizable()
       } else {
         ZStack {
-          Rectangle().fill(.background)
+          Color.clear
           ProgressView()
+            .scaleEffect(1.5)
         }
       }
     }
     .aspectRatio(contentMode: .fit)
-    .onTapGesture { viewStore(.fullscreenPreview(.present)) }
+    .onTapGesture { showFullscreenPreview() }
+    .gesture(
+      MagnificationGesture(minimumScaleDelta: 1.3)
+        .onChanged { _ in showFullscreenPreview() }
+    )
     .matchedTransitionSource(id: titleImageID, in: namespace)
   }
 
@@ -134,7 +139,7 @@ struct ImageDetailsView: View {
             .font(.body)
         }
 
-        HStack {
+        HStack(alignment: .top) {
           LabeledText(label: "uploaded by", value: AttributedString(details.username))
           Spacer()
           if let author = details.author {
@@ -163,13 +168,13 @@ struct ImageDetailsView: View {
         Text(viewStore.title)
           .font(.title.bold())
 
-        HStack(spacing: 20) {
-          Text(viewStore.date.description)
-            .font(.title3.bold())
+        HStack {
+          ImageDateView(date: viewStore.date)
 
-          DirectionIndicator(direction: viewStore.direction)
+          if let direction = viewStore.direction {
+            DirectionView(date: viewStore.date, direction: direction)
+          }
         }
-        .foregroundStyle(Color(uiColor: UIColor.from(year: viewStore.date.year)))
       }
       Spacer(minLength: 0)
     }
@@ -177,21 +182,25 @@ struct ImageDetailsView: View {
 
   @ViewBuilder
   private func makeButton(action: ImageDetailsAction.Button) -> some View {
-    let isFavorite = viewStore.isFavorite
+    let spec = ButtonSpec(
+      button: action,
+      isFavorite: viewStore.isFavorite,
+      isImageSaved: viewStore.isImageSaved
+    )
     Button {
       viewStore(.button(action))
     } label: {
       HStack {
-        Image(systemName: action.iconName(isFavorite: isFavorite))
-        Text(action.title)
+        Image(systemName: spec.iconName)
+        Text(spec.title)
           .lineLimit(1)
         Spacer()
       }
       .padding(10)
       .frame(minHeight: 50)
     }
-    .foregroundStyle(action.foreground(isFavorite: isFavorite))
-    .background(action.background(isFavorite: isFavorite))
+    .foregroundStyle(spec.foreground)
+    .background(spec.background)
     .cornerRadius(15)
   }
 
@@ -201,6 +210,15 @@ struct ImageDetailsView: View {
         makeButton(action: $0)
       }
     }
+  }
+
+  private func showFullscreenPreview() {
+    guard viewStore.fullscreenPreview == nil,
+          viewStore.uiImage != nil
+    else {
+      return
+    }
+    viewStore(.fullscreenPreview(.present))
   }
 }
 
@@ -212,25 +230,6 @@ private let visibleActions: [ImageDetailsAction.Button] = [
   .viewOnWeb,
   .route,
 ]
-
-private struct DirectionIndicator: View {
-  let direction: Direction?
-
-  var body: some View {
-    HStack(spacing: 5) {
-      Text(direction?.rawValue.uppercased() ?? "")
-        .font(.title3.bold().monospaced())
-      Image(systemName: "arrowtriangle.up.fill")
-        .resizable()
-        .frame(width: 8, height: 10)
-        .rotationEffect(.radians(angle ?? 0))
-    }
-  }
-
-  private var angle: CGFloat? {
-    direction?.angle
-  }
-}
 
 private struct LabeledText: View {
   var label: LocalizedStringKey
@@ -248,38 +247,45 @@ private struct LabeledText: View {
   }
 }
 
-extension ImageDetailsAction.Button {
-  fileprivate func foreground(isFavorite: Bool) -> SwiftUI.Color {
-    switch self {
-    case .favorite: isFavorite ? .white : .primary
-    case .share, .saveImage, .viewOnWeb, .route: .primary
-    }
-  }
+private struct ButtonSpec {
+  var title: LocalizedStringKey
+  var iconName: String
+  var foreground: SwiftUI.Color
+  var background: SwiftUI.Color
 
-  fileprivate func background(isFavorite: Bool) -> SwiftUI.Color {
-    switch self {
-    case .favorite: isFavorite ? .yellow.mix(with: .black, by: 0.1) : .systemBackground
-    case .share, .saveImage, .viewOnWeb, .route: .systemBackground
-    }
-  }
-
-  fileprivate var title: LocalizedStringKey {
-    switch self {
+  init(
+    button: ImageDetailsAction.Button,
+    isFavorite: Bool,
+    isImageSaved: Bool
+  ) {
+    title = switch button {
     case .favorite: "Favorite"
     case .share: "Share"
     case .saveImage: "Save image"
     case .viewOnWeb: "View on Web"
     case .route: "Find route"
     }
-  }
 
-  fileprivate func iconName(isFavorite: Bool) -> String {
-    switch self {
+    iconName = switch button {
     case .favorite: isFavorite ? "star.fill" : "star"
     case .share: "square.and.arrow.up"
-    case .saveImage: "square.and.arrow.down"
+    case .saveImage: isImageSaved
+      ? "square.and.arrow.down.badge.checkmark"
+      : "square.and.arrow.down"
     case .viewOnWeb: "globe.americas.fill"
     case .route: "map"
+    }
+
+    foreground = switch button {
+    case .favorite: isFavorite ? .white : .primary
+    case .saveImage: isImageSaved ? .white : .primary
+    case .share, .viewOnWeb, .route: .primary
+    }
+
+    background = switch button {
+    case .favorite: isFavorite ? .yellow.mix(with: .black, by: 0.1) : .systemBackground
+    case .saveImage: isImageSaved ? .green.mix(with: .black, by: 0.1) : .systemBackground
+    case .share, .viewOnWeb, .route: .systemBackground
     }
   }
 }
@@ -303,6 +309,7 @@ extension SingleFavoriteModel {
     load: Remote { Model.ImageDetails(.mock) },
     image: .mock,
     coordinate: Model.Image.mock.coordinate,
+    openSource: "",
     favoriteModel: .mock,
     canOpenURL: { _ in true },
     urlOpener: { _ in }
@@ -327,6 +334,7 @@ extension SingleFavoriteModel {
       return UIImage(named: "cat")!
     },
     coordinate: Model.Image.mock.coordinate,
+    openSource: "",
     favoriteModel: .mock,
     canOpenURL: { _ in true },
     urlOpener: { _ in }

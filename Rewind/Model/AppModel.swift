@@ -21,7 +21,7 @@ struct AppState {
 
 enum AppAction {
   enum ImageDetails {
-    case present(Model.Image)
+    case present(Model.Image, source: String)
     case dismiss
   }
 
@@ -48,9 +48,10 @@ enum AppAction {
 }
 
 typealias UrlOpener = (URL?) -> Void
+typealias ImageDetailsFactory = (Model.Image, String) -> ImageDetailsModel
 
 func makeAppModel(
-  imageDetailsFactory: @escaping (Model.Image) -> ImageDetailsModel,
+  imageDetailsFactory: @escaping ImageDetailsFactory,
   performMapAction: @escaping (MapAction.External) -> Void,
   favoritesModel: FavoritesModel,
   urlOpener: @escaping UrlOpener
@@ -65,8 +66,10 @@ func makeAppModel(
       switch action {
       case let .imageDetails(detailsAction):
         switch detailsAction {
-        case let .present(image):
-          state.previewedImage = Identified(value: imageDetailsFactory(image))
+        case let .present(image, source):
+          state.previewedImage = Identified(
+            value: imageDetailsFactory(image, source)
+          )
         case .dismiss:
           state.previewedImage = nil
           performMapAction(.previewClosed)

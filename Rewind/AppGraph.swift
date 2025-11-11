@@ -53,12 +53,13 @@ final class AppGraph {
       state: { $0 },
       action: { .external(.ui($0)) }
     )
-    let imageDetailsFactory = { image in
+    let imageDetailsFactory = { image, source in
       makeImageDetailsModel(
         modelImage: image,
         load: remotes.imageDetails.mapArgs { image.cid },
         image: image.image,
         coordinate: image.coordinate,
+        openSource: source,
         favoriteModel: favoritesModel.isFavorite(image),
         canOpenURL: { UIApplication.shared.canOpenURL($0) },
         urlOpener: urlOpener

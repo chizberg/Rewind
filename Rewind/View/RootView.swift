@@ -67,7 +67,7 @@ struct RootView: View {
         )
         .navigationTransition(
           .zoom(
-            sourceID: viewStore.cid, in: rootView
+            sourceID: "\(viewStore.cid) \(viewStore.openSource)", in: rootView
           )
         )
       }
@@ -84,7 +84,7 @@ struct RootView: View {
         ).navigationTransition(.zoom(sourceID: viewStore.matchedTransitionSourceName, in: rootView))
       }
     )
-    .fullScreenCover(
+    .sheet(
       item: Binding(
         get: { appStore.settingsModel },
         set: { _ in appStore(.settings(.dismiss)) }
@@ -116,6 +116,19 @@ struct RootView: View {
           }
 
           makeBottomScrollButton(
+            iconName: "list.bullet",
+            sourceID: TransitionSource.viewAsListButton,
+            action: {
+              appStore(.imageList(
+                .present(
+                  mapStore.currentRegionImages,
+                  source: TransitionSource.viewAsListButton
+                )
+              ))
+            }
+          )
+
+          makeBottomScrollButton(
             iconName: "gearshape",
             sourceID: TransitionSource.settings
           ) {
@@ -126,7 +139,16 @@ struct RootView: View {
         ThumbnailsView(
           mapStore: mapStore,
           namespace: rootView,
-          onSelected: { appStore(.imageDetails(.present($0))) }
+          onSelected: {
+            appStore(
+              .imageDetails(
+                .present(
+                  $0,
+                  source: TransitionSource.thumbnail
+                )
+              )
+            )
+          }
         )
       }
       .padding(.horizontal)
@@ -141,7 +163,7 @@ struct RootView: View {
     action: @escaping () -> Void
   ) -> some View {
     ZStack {
-      let radius: CGFloat = 15
+      let radius: CGFloat = 20
       if #available(iOS 26, *) {
         GlassView(radius: radius)
       } else {
@@ -158,6 +180,8 @@ struct RootView: View {
 
 private enum TransitionSource {
   static let settings = "settings"
+  static let thumbnail = "thumbnail"
+  static let viewAsListButton = "view as list button"
   static let favoritesButton = "favorites button"
 }
 
@@ -170,7 +194,10 @@ private struct ThumbnailsView: View {
   var body: some View {
     ForEach(mapStore.previews) { image in
       ThumbnailView(image: image, size: thumbnailSize)
-        .matchedTransitionSource(id: image.cid, in: namespace)
+        .matchedTransitionSource(
+          id: "\(image.cid) \(TransitionSource.thumbnail)",
+          in: namespace
+        )
         .onTapGesture { onSelected(image) }
         .transition(.scale)
     }

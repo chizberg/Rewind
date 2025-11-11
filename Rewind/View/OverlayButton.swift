@@ -14,7 +14,8 @@ struct OverlayButton: View {
   var body: some View {
     Button(action: action) {
       Image(systemName: iconName)
-        .padding(10)
+        .font(.title3)
+        .padding(12)
         .circleBlurBackground()
     }
     .foregroundStyle(.primary)

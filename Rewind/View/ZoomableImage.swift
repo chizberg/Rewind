@@ -147,7 +147,9 @@ private final class ZoomableImageView: UIScrollView, UIScrollViewDelegate {
   private func calculateMaxScale(image: UIImage) -> CGFloat {
     let widthScale = image.size.width / frame.width
     let heightScale = image.size.height / frame.height
-    return max(widthScale, heightScale)
+    let contentScale = max(widthScale, heightScale)
+    // if content is smaller than screen, should still be zoomable
+    return max(contentScale, 1.2)
   }
 
   private func calculateImageViewSize(image: UIImage) -> CGSize {

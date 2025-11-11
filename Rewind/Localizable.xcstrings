@@ -83,7 +83,15 @@
       }
     },
     "Dismiss" : {
-
+      "comment" : "test alert action name",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Закрыть"
+          }
+        }
+      }
     },
     "Favorite" : {
       "comment" : "label for action to add to favorites",
@@ -119,7 +127,14 @@
       }
     },
     "Go to Settings" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открыть настройки"
+          }
+        }
+      }
     },
     "Google Maps" : {
       "comment" : "map app name",
@@ -356,15 +371,8 @@
         }
       }
     },
-    "with a little help from [@indie-contributor](https://github.com/indie-contributor) and [@Xelwow](https://github.com/xelwow)" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "с небольшой помощью от [@indie-contributor](https://github.com/indie-contributor) и [@Xelwow](https://github.com/xelwow)"
-          }
-        }
-      }
+    "with a little help from [@lisa.iso](https://www.instagram.com/l.chizberg), \n[@dmitriitrif](https://github.com/dmitriitrif) and [@Xelwow](https://github.com/xelwow)" : {
+
     },
     "Yandex Maps" : {
       "comment" : "map app name",

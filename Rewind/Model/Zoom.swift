@@ -11,7 +11,7 @@ enum Model {} // namespace only
 
 // https://leafletjs.com/examples/zoom-levels/
 private func zoom(delta: Double) -> Int {
-  Int(2 + log2(180 / delta))
+  Int((2 + log2(180 / delta)).rounded(.toNearestOrAwayFromZero))
 }
 
 private func delta(zoom: Int) -> Double {

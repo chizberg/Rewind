@@ -41,8 +41,8 @@ struct SettingsView: View {
       Text("Made by [@chizberg](https://github.com/chizberg)")
       Text(
         """
-        with a little help from [@indie-contributor](https://github.com/indie-contributor) \
-        and [@Xelwow](https://github.com/xelwow)
+        with a little help from [@lisa.iso](https://www.instagram.com/l.chizberg),
+        [@dmitriitrif](https://github.com/dmitriitrif) and [@Xelwow](https://github.com/xelwow)
         """
       )
       Text("")
