@@ -46,7 +46,7 @@ private struct ColoredContainer<Content: View>: View {
   var body: some View {
     content()
       .foregroundStyle(Color.white)
-      .padding(radius)
+      .padding(7)
       .background {
         RoundedRectangle(cornerRadius: radius)
           .fill(Color(uiColor: UIColor.from(year: date.year)))
@@ -54,7 +54,7 @@ private struct ColoredContainer<Content: View>: View {
   }
 }
 
-private let radius: CGFloat = 7
+private let radius: CGFloat = 10
 
 #if DEBUG
 private let previewDates = [

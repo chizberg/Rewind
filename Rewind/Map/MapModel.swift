@@ -97,7 +97,11 @@ func makeMapModel(
             let images = localCluster.memberAnnotations.compactMap {
               ($0 as? AnnotationWrapper)?.value.image
             }
-            performAppAction(.imageList(.present(images, source: "local cluster")))
+            performAppAction(
+              .imageList(
+                .present(images, source: "local cluster", title: "Cluster")
+              )
+            )
           }
         case .map(.annotationDeselected): break
         case .ui(.mapViewLoaded):
@@ -155,7 +159,7 @@ func makeMapModel(
           })
         case .loadAnnotations:
           let params = (state.region, state.yearRange)
-          enqueueEffect(.perform { anotherAction in
+          enqueueEffect(.perform(id: EffectID.loadAnnotations) { anotherAction in
             let (images, clusters) = try await annotationsRemote(params)
             await anotherAction(.internal(.loaded(images, clusters)))
           })
@@ -180,6 +184,7 @@ func makeMapModel(
           state.images.removeAll()
           state.clusters.removeAll()
           mapAdapter.clear()
+          enqueueEffect(.cancel(id: EffectID.loadAnnotations))
           enqueueEffect(.throttled(id: .updatePreviews) { anotherAction in
             await anotherAction(.internal(.updatePreviews))
           })
@@ -202,6 +207,10 @@ func makeMapModel(
       }
     }
   )
+}
+
+private enum EffectID {
+  static let loadAnnotations = "load_annotations"
 }
 
 extension AlertModel {

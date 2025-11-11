@@ -41,19 +41,6 @@ struct ImageDetailsView: View {
           }
         }
       )
-      .confirmationDialog(
-        "Select map app to find route",
-        isPresented: Binding(
-          get: { viewStore.mapOptionsPresented },
-          set: { viewStore(.setMapOptionsVisibility($0)) }
-        ),
-        titleVisibility: .visible,
-        actions: {
-          ForEach(MapApp.allCases, id: \.self) { app in
-            Button(app.name, action: { viewStore(.mapAppSelected(app)) })
-          }
-        }
-      )
       .fullScreenCover(
         item: Binding(
           get: { viewStore.fullscreenPreview },
@@ -202,6 +189,21 @@ struct ImageDetailsView: View {
     .foregroundStyle(spec.foreground)
     .background(spec.background)
     .cornerRadius(15)
+    .if(action == .route) {
+      $0.confirmationDialog(
+        "Select map app to find route",
+        isPresented: Binding(
+          get: { viewStore.mapOptionsPresented },
+          set: { viewStore(.setMapOptionsVisibility($0)) }
+        ),
+        titleVisibility: .visible,
+        actions: {
+          ForEach(MapApp.allCases, id: \.self) { app in
+            Button(app.name, action: { viewStore(.mapAppSelected(app)) })
+          }
+        }
+      )
+    }
   }
 
   private var actionButtons: some View {

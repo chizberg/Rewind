@@ -28,4 +28,25 @@ extension View {
   ) -> some View {
     readFrame { action($0.size) }
   }
+
+  @ViewBuilder
+  func `if`(
+    _ condition: Bool,
+    transform: (Self) -> some View,
+    else elseTransform: (Self) -> some View
+  ) -> some View {
+    if condition {
+      transform(self)
+    } else {
+      elseTransform(self)
+    }
+  }
+
+  @ViewBuilder
+  func `if`(
+    _ condition: Bool,
+    transform: (Self) -> some View
+  ) -> some View {
+    self.if(condition, transform: transform, else: { $0 })
+  }
 }
