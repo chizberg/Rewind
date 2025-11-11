@@ -40,7 +40,11 @@ struct RootView: View {
             set: { mapStore(.mapTypeSelected($0)) }
           ),
           staticItems: [
-            .init(id: "location", iconName: "location") {
+            .init(
+              id: "location",
+              iconName: mapStore.locationState.isAccessGranted
+                ? "location" : "location.slash"
+            ) {
               mapStore(.locationButtonTapped)
             },
           ]
@@ -53,7 +57,7 @@ struct RootView: View {
     .fullScreenCover(
       item: Binding<Identified<ImageDetailsModel>?>(
         get: { appStore.previewedImage },
-        set: { _ in appStore(.imagePreviewClosed) }
+        set: { _ in appStore(.imageDetails(.dismiss)) }
       ),
       content: { previewedImage in
         let viewStore = previewedImage.value.viewStore
@@ -71,7 +75,7 @@ struct RootView: View {
     .fullScreenCover(
       item: Binding(
         get: { appStore.previewedList },
-        set: { _ in appStore(.listPreviewClosed) }
+        set: { _ in appStore(.imageList(.dismiss)) }
       ),
       content: { previewedList in
         let viewStore = previewedList.value.viewStore
@@ -83,7 +87,7 @@ struct RootView: View {
     .fullScreenCover(
       item: Binding(
         get: { appStore.settingsModel },
-        set: { _ in appStore(.settingsClosed) }
+        set: { _ in appStore(.settings(.dismiss)) }
       ),
       content: { settingsModel in
         SettingsView(store: settingsModel.value.viewStore)
@@ -91,6 +95,12 @@ struct RootView: View {
             .zoom(sourceID: TransitionSource.settings, in: rootView)
           )
       }
+    )
+    .alert(
+      Binding(
+        get: { appStore.alertModel },
+        set: { _ in appStore(.alert(.dismiss)) }
+      )
     )
   }
 
@@ -102,21 +112,21 @@ struct RootView: View {
             iconName: "star",
             sourceID: TransitionSource.favoritesButton
           ) {
-            appStore(.favoritesButtonTapped(source: TransitionSource.favoritesButton))
+            appStore(.imageList(.presentFavorites(source: TransitionSource.favoritesButton)))
           }
 
           makeBottomScrollButton(
             iconName: "gearshape",
             sourceID: TransitionSource.settings
           ) {
-            appStore(.settingsButtonTapped)
+            appStore(.settings(.present))
           }
         }.frame(width: 75)
 
         ThumbnailsView(
           mapStore: mapStore,
           namespace: rootView,
-          onSelected: { appStore(.previewImage($0)) }
+          onSelected: { appStore(.imageDetails(.present($0))) }
         )
       }
       .padding(.horizontal)

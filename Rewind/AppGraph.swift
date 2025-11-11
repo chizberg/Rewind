@@ -17,7 +17,6 @@ final class AppGraph {
 
   private let disposePool = AutodisposePool()
   private let favoritesStorage: FavoritesStorage
-  private let locationProvider: LocationProvider
 
   init() {
     let mapAdapter = MapAdapter()
@@ -25,38 +24,35 @@ final class AppGraph {
       urlRequestPerformer: URLSession.shared.data
     )
     let imageLoader = ImageLoader(requestPerformer: requestPerformer)
+    let storage: KeyValueStorage = UserDefaults.standard
     let favoritesStorage = FavoritesStorage(
-      storage: UserDefaults.standard,
+      storage: storage,
       makeLoadableImage: imageLoader.makeImage
     )
     let favoritesModel = makeFavoritesModel(
       storage: favoritesStorage.property
     )
-    let locationProvider = LocationProvider()
-
+    let locationModel = makeLocationModel()
     let remotes = RewindRemotes(
       requestPerformer: requestPerformer,
       imageLoader: imageLoader
     )
     weak var mapModelRef: MapModel?
     weak var appModelRef: AppModel?
+    let urlOpener: UrlOpener = { $0.map { UIApplication.shared.open($0) } }
     let mapModel = makeMapModel(
-      addAnnotations: mapAdapter.add,
-      clearAnnotations: mapAdapter.clear,
-      deselectAnnotations: mapAdapter.deselectAnnotations,
-      visibleAnnotations: Variable { mapAdapter.visibleAnnotations },
-      setRegion: mapAdapter.set(region:animated:),
+      mapAdapter: mapAdapter,
       annotationsRemote: remotes.annotations,
       applyMapType: { mapAdapter.apply(mapType: $0) },
       performAppAction: { appModelRef?($0) },
-      startLocationUpdating: locationProvider.start
+      locationModel: locationModel,
+      urlOpener: urlOpener
     )
     mapModelRef = mapModel
     mapStore = mapModel.viewStore.bimap(
       state: { $0 },
       action: { .external(.ui($0)) }
     )
-    let urlOpener: UrlOpener = { $0.map { UIApplication.shared.open($0) } }
     let imageDetailsFactory = { image in
       makeImageDetailsModel(
         modelImage: image,
@@ -78,13 +74,12 @@ final class AppGraph {
     appStore = appModel.viewStore
     self.mapAdapter = mapAdapter
     self.favoritesStorage = favoritesStorage
-    self.locationProvider = locationProvider
 
     mapAdapter.events.addObserver {
       mapModelRef?(.external(.map($0)))
     }.dispose(in: disposePool)
-    locationProvider.$location.currentAndNewValues.addObserver {
-      mapModelRef?(.external(.locationChanged($0)))
+    locationModel.$state.currentAndNewValues.addObserver {
+      mapModelRef?(.external(.newLocationState($0)))
     }.dispose(in: disposePool)
   }
 }
