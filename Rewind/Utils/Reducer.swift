@@ -102,11 +102,21 @@ extension Reducer {
 }
 
 extension Reducer.Effect {
-  static func regular(
+  static func perform(
     action: @escaping ((Action) async -> Void) async throws -> Void
   ) -> Reducer.Effect {
     Reducer.Effect(
       action: action
+    )
+  }
+
+  static func anotherAction(
+    _ action: Action
+  ) -> Reducer.Effect {
+    Reducer.Effect(
+      action: { performAnotherReducerAction in
+        await performAnotherReducerAction(action)
+      }
     )
   }
 

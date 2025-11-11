@@ -8,31 +8,93 @@
 import CoreLocation
 import VGSL
 
-final class LocationProvider: NSObject, CLLocationManagerDelegate {
-  @ObservableProperty
-  private(set) var location: CLLocation? = nil
-  private let manager: CLLocationManager
+typealias LocationModel = Reducer<LocationState, LocationAction>
 
-  override init() {
-    manager = CLLocationManager()
-    super.init()
+struct LocationState {
+  var location: CLLocation?
+  var errorMessage: String?
+  var isAccessGranted: Bool
+}
 
-    manager.delegate = self
-    manager.desiredAccuracy = kCLLocationAccuracyBest
-    manager.distanceFilter = kCLHeadingFilterNone
+enum LocationAction {
+  enum LocationEvent {
+    case didUpdateLocations([CLLocation])
+    case didFailWithError(CLError.Code)
+    case didChangeAuthorizationStatus(CLAuthorizationStatus)
   }
 
-  func start() {
-    manager.requestWhenInUseAuthorization()
-    manager.startUpdatingLocation()
+  case requestAccess
+  case tryStartUpdatingLocation
+  case locationEvent(LocationEvent)
+}
+
+func makeLocationModel() -> LocationModel {
+  let manager = CLLocationManager()
+  let delegate = LocationDelegate()
+
+  manager.delegate = delegate
+  manager.desiredAccuracy = kCLLocationAccuracyBest
+  manager.distanceFilter = kCLHeadingFilterNone
+
+  return Reducer(
+    initial: LocationState(
+      location: nil,
+      isAccessGranted: false
+    ),
+    reduce: { state, action, enqueueEffect in
+      switch action {
+      case .requestAccess:
+        manager.requestWhenInUseAuthorization()
+      case .tryStartUpdatingLocation:
+        guard state.isAccessGranted else { return }
+        manager.startUpdatingLocation()
+      case let .locationEvent(event):
+        switch event {
+        case let .didUpdateLocations(locations):
+          state.location = locations.last
+        case let .didFailWithError(errorCode):
+          state.errorMessage = String(describing: errorCode)
+        case let .didChangeAuthorizationStatus(status):
+          state.isAccessGranted = status.isAuthorized
+          if state.isAccessGranted {
+            enqueueEffect(.anotherAction(.tryStartUpdatingLocation))
+          }
+        }
+      }
+    }
+  ).adding(signal: delegate.signal.retaining(object: delegate)) { .locationEvent($0) }
+}
+
+private final class LocationDelegate: NSObject, CLLocationManagerDelegate {
+  private let pipe = SignalPipe<LocationAction.LocationEvent>()
+
+  var signal: Signal<LocationAction.LocationEvent> {
+    pipe.signal
   }
 
   func locationManager(_: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-    location = locations.last
+    pipe.send(.didUpdateLocations(locations))
   }
 
   func locationManager(_: CLLocationManager, didFailWithError error: Error) {
-    print("Location manager failed with error: \(error)") // TODO: error handling
-    location = nil
+    guard let clError = error as? CLError else {
+      assertionFailure("Unexpected error type: \(error)")
+      return
+    }
+    pipe.send(.didFailWithError(clError.code))
+  }
+
+  func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+    pipe.send(.didChangeAuthorizationStatus(manager.authorizationStatus))
+  }
+}
+
+extension CLAuthorizationStatus {
+  fileprivate var isAuthorized: Bool {
+    switch self {
+    case .authorizedAlways, .authorizedWhenInUse: true
+    case .denied, .notDetermined, .restricted: fallthrough
+    @unknown default: false
+    }
   }
 }

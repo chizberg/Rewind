@@ -92,11 +92,11 @@ func makeImageDetailsModel(
     reduce: { state, action, enqueueEffect in
       switch action {
       case .willBePresented:
-        enqueueEffect(.regular { anotherAction in
+        enqueueEffect(.perform { anotherAction in
           let data = try await load()
           await anotherAction(.dataLoaded(data))
         })
-        enqueueEffect(.regular { anotherAction in
+        enqueueEffect(.perform { anotherAction in
           let img = try await image(.high)
           await anotherAction(.imageLoaded(img))
         })
@@ -122,14 +122,12 @@ func makeImageDetailsModel(
         state.isFavorite.toggle()
         favoriteModel(state.isFavorite)
       case .button(.saveImage):
-        enqueueEffect(.regular { anotherAction in
-          await anotherAction(.internal(.saveImage))
-        })
+        enqueueEffect(.anotherAction(.internal(.saveImage)))
       case .button(.share):
         guard let details = state.details,
               let image = state.uiImage
         else { return }
-        enqueueEffect(.regular { [title = state.title] anotherAction in
+        enqueueEffect(.perform { [title = state.title] anotherAction in
           let vc = await UIActivityViewController(
             activityItems: [
               image,
@@ -140,9 +138,7 @@ func makeImageDetailsModel(
           await anotherAction(.internal(.shareSheetLoaded(vc)))
         })
       case .button(.route):
-        enqueueEffect(.regular { anotherAction in
-          await anotherAction(.setMapOptionsVisibility(false))
-        })
+        enqueueEffect(.anotherAction(.setMapOptionsVisibility(false)))
       case .shareSheetDismissed:
         state.shareVC = nil
       case let .setMapOptionsVisibility(visible):
@@ -164,9 +160,7 @@ func makeImageDetailsModel(
       case .fullscreenPreview(.dismiss):
         state.fullscreenPreview = nil
       case .fullscreenPreview(.saveImage):
-        enqueueEffect(.regular { anotherAction in
-          await anotherAction(.internal(.saveImage))
-        })
+        enqueueEffect(.anotherAction(.internal(.saveImage)))
       case .internal(.saveImage):
         guard let image = state.uiImage else { return }
         UIImageWriteToSavedPhotosAlbum(
