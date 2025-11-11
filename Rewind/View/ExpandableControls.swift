@@ -25,7 +25,7 @@ struct ExpandableControls: View {
       items: [
         .init(id: "year selector") { isExpanded in
           expandableItemView(
-            iconName: "clock",
+            iconName: "calendar.badge.clock",
             expandedContent: {
               YearSelector(yearRange: $yearRange)
             },

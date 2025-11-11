@@ -14,6 +14,7 @@ struct MapState {
   var mapType: MapType
   var region: Region
   var yearRange: ClosedRange<Int>
+  var currentRegionImages: [Model.Image]
   var previews: [Model.Image]
   var locationState: LocationState
 
@@ -67,6 +68,7 @@ func makeMapModel(
       mapType: .standard,
       region: .zero,
       yearRange: 1826...2000,
+      currentRegionImages: [],
       previews: [],
       locationState: locationModel.state,
       images: [],
@@ -84,7 +86,7 @@ func makeMapModel(
           if let ann = mkAnn as? AnnotationWrapper {
             switch ann.value {
             case let .image(image):
-              performAppAction(.imageDetails(.present(image)))
+              performAppAction(.imageDetails(.present(image, source: "annotation")))
             case let .cluster(cluster):
               mapAdapter.set(
                 region: Region(center: cluster.coordinate, zoom: state.region.zoom + 1),
@@ -187,14 +189,15 @@ func makeMapModel(
               return cluster.memberAnnotations
             }
             return [$0]
-          }.prefix(10).compactMap {
+          }.compactMap {
             guard let ann = $0 as? AnnotationWrapper else { return nil }
             return switch ann.value {
             case let .image(image): image
             case let .cluster(cluster): cluster.preview
             }
           }
-          state.previews = Array(Set(visible))
+          state.currentRegionImages = Array(Set(visible))
+          state.previews = Array(state.currentRegionImages.prefix(10))
         }
       }
     }

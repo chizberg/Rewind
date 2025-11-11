@@ -63,16 +63,6 @@
 			path = Rewind;
 			sourceTree = "<group>";
 		};
-		22291C9B2D50106800F2FEBE /* RewindTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = RewindTests;
-			sourceTree = "<group>";
-		};
-		22291CA52D50106800F2FEBE /* RewindUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = RewindUITests;
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,8 +106,6 @@
 			isa = PBXGroup;
 			children = (
 				22291C8A2D50106600F2FEBE /* Rewind */,
-				22291C9B2D50106800F2FEBE /* RewindTests */,
-				22291CA52D50106800F2FEBE /* RewindUITests */,
 				22291C892D50106600F2FEBE /* Products */,
 			);
 			sourceTree = "<group>";
@@ -182,9 +170,6 @@
 			dependencies = (
 				22291C9A2D50106800F2FEBE /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				22291C9B2D50106800F2FEBE /* RewindTests */,
-			);
 			name = RewindTests;
 			packageProductDependencies = (
 			);
@@ -204,9 +189,6 @@
 			);
 			dependencies = (
 				22291CA42D50106800F2FEBE /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				22291CA52D50106800F2FEBE /* RewindUITests */,
 			);
 			name = RewindUITests;
 			packageProductDependencies = (

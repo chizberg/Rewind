@@ -30,7 +30,7 @@ func makeImageListModel(
   matchedTransitionSourceName: String,
   images: [Model.Image],
   listUpdates: Signal<[Model.Image]>,
-  imageDetailsFactory: @escaping (Model.Image) -> ImageDetailsModel
+  imageDetailsFactory: @escaping ImageDetailsFactory
 ) -> ImageListModel {
   ImageListModel(
     initial: ImageListState(
@@ -40,9 +40,10 @@ func makeImageListModel(
       imageDetails: []
     ),
     reduce: { state, action, _ in
+      print(action)
       switch action {
       case let .presentImage(image):
-        state.imageDetails = [Identified(value: imageDetailsFactory(image))]
+        state.imageDetails = [Identified(value: imageDetailsFactory(image, "image_list"))]
       case .dismissImage:
         state.imageDetails = []
       case let .updateImages(images):

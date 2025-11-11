@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import VGSL
 
 struct ThumbnailView: View {
   var image: Model.Image
@@ -26,34 +27,35 @@ struct ThumbnailView: View {
         }
       }
 
-      badge
-        .padding(radius - badgeRadius)
+      ImageDateView(date: image.date)
+        .padding(radius - ImageDateView.cardRadius)
     }
     .frame(size: size)
     .clipShape(RoundedRectangle(cornerRadius: radius))
+    .contentShape(Rectangle())
     .overlay {
       RoundedRectangle(cornerRadius: radius)
         .strokeBorder(.white.opacity(0.2), lineWidth: 1)
     }
   }
-
-  private var badge: some View {
-    Text(image.date.description)
-      .foregroundStyle(Color.white)
-      .bold()
-      .padding(badgeRadius)
-      .background {
-        RoundedRectangle(cornerRadius: badgeRadius)
-          .fill(Color(uiColor: UIColor.from(year: image.date.year)))
-      }
-  }
 }
 
-private let badgeRadius: CGFloat = 7
-private let radius: CGFloat = 15
+private let radius: CGFloat = 20
 
 #if DEBUG
-#Preview {
+#Preview("single cat") {
   ThumbnailView(image: .mock, size: CGSize(width: 200, height: 200))
+}
+
+#Preview("panorama touch test") {
+  ThumbnailView(
+    image: modified(.mock) {
+      $0.image = .panorama
+    },
+    size: CGSize(width: 200, height: 200)
+  )
+  .onTapGesture {
+    print("foo")
+  }
 }
 #endif

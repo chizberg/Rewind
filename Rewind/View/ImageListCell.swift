@@ -25,17 +25,15 @@ struct ImageListCell: View {
       .aspectRatio(4 / 3, contentMode: .fit)
 
       HStack {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 5) {
           Text(value.title)
+            .lineLimit(2)
             .multilineTextAlignment(.leading)
             .foregroundColor(.white)
             .font(.title3)
             .bold()
 
-          Text(value.date.description)
-            .foregroundColor(Color(uiColor: .from(year: value.date.year)))
-            .bold()
-            .brightness(0.3)
+          ImageDateView(date: value.date)
         }
 
         Spacer(minLength: 0)

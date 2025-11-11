@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Direction: String, Codable, Hashable {
+enum Direction: String, Codable, Hashable, CaseIterable {
   case n
   case e
   case s

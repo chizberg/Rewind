@@ -76,8 +76,14 @@ extension LoadableUIImage {
   }
 }
 
+#if DEBUG
 extension LoadableUIImage {
   static let mock = LoadableUIImage { _ in
     UIImage(named: "cat")!
   }
+
+  static let panorama = LoadableUIImage { _ in
+    UIImage(named: "panorama")!
+  }
 }
+#endif

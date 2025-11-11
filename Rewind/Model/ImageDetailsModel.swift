@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Photos
 import UIKit
 import VGSL
 
@@ -30,6 +31,8 @@ struct ImageDetailsState {
   var details: LoadableDetails?
 
   var uiImage: UIImage?
+  var isImageSaved: Bool
+  var openSource: String
   var isFavorite: Bool
   var shareVC: Identified<UIViewController>?
   var mapOptionsPresented: Bool
@@ -57,6 +60,7 @@ enum ImageDetailsAction {
 
   enum Internal {
     case saveImage
+    case imageSaved
     case shareSheetLoaded(UIViewController)
   }
 
@@ -73,6 +77,7 @@ func makeImageDetailsModel(
   load: Remote<Void, Model.ImageDetails>,
   image: LoadableUIImage,
   coordinate: Coordinate,
+  openSource: String,
   favoriteModel: SingleFavoriteModel,
   canOpenURL: @escaping (URL) -> Bool,
   urlOpener: @escaping (URL) -> Void
@@ -85,6 +90,8 @@ func makeImageDetailsModel(
       cid: modelImage.cid,
       details: nil,
       uiImage: nil,
+      isImageSaved: false,
+      openSource: openSource,
       isFavorite: favoriteModel.state,
       shareVC: nil,
       mapOptionsPresented: false
@@ -163,13 +170,16 @@ func makeImageDetailsModel(
         enqueueEffect(.anotherAction(.internal(.saveImage)))
       case .internal(.saveImage):
         guard let image = state.uiImage else { return }
-        UIImageWriteToSavedPhotosAlbum(
-          image,
-          nil,
-          nil,
-          nil
-        )
+        enqueueEffect(.perform { anotherAction in
+          let library = PHPhotoLibrary.shared()
+          try await library.performChanges {
+            PHAssetChangeRequest.creationRequestForAsset(from: image)
+          }
+          await anotherAction(.internal(.imageSaved))
+        })
+      case .internal(.imageSaved):
         UINotificationFeedbackGenerator().notificationOccurred(.success)
+        state.isImageSaved = true
       case let .internal(.shareSheetLoaded(vc)):
         state.shareVC = Identified(value: vc)
       }
