@@ -111,21 +111,6 @@ extension Region {
   }
 }
 
-extension MKMapView {
-  func register(_ annotationViewType: AnyClass) {
-    register(
-      annotationViewType,
-      forAnnotationViewWithReuseIdentifier: String(describing: annotationViewType)
-    )
-  }
-
-  func dequeueReusableAnnotationView(
-    _ annotationViewType: AnyClass
-  ) -> MKAnnotationView? {
-    dequeueReusableAnnotationView(withIdentifier: String(describing: annotationViewType))
-  }
-}
-
 extension MKMapRect {
   var area: Double {
     width * height

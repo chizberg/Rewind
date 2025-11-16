@@ -87,7 +87,6 @@
     },
     "Dismiss" : {
       "comment" : "test alert action name",
-      "extractionState" : "stale",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -233,6 +232,9 @@
       }
     },
     "Please try again later" : {
+
+    },
+    "Print value" : {
 
     },
     "Rewind" : {

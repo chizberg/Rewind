@@ -14,7 +14,7 @@ private func zoom(delta: Double) -> Int {
   Int((2 + log2(180 / delta)).rounded(.toNearestOrAwayFromZero))
 }
 
-private func delta(zoom: Int) -> Double {
+func delta(zoom: Int) -> Double {
   180 / pow(2, Double(zoom - 2))
 }
 

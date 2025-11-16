@@ -39,9 +39,22 @@ final class MapAdapter: NSObject, MKMapViewDelegate {
       map.delegate = weakSelf
       map.showsUserLocation = true
       map.isRotateEnabled = false
-      map.register(ImageAnnotationView.self)
-      map.register(ClusterAnnotationView.self)
-      map.register(MergedAnnotationView.self)
+      map.register(
+        ImageAnnotationView.self,
+        forAnnotationViewWithReuseIdentifier: ReuseIdentifier.image
+      )
+      map.register(
+        ClusterAnnotationView.self,
+        forAnnotationViewWithReuseIdentifier: ReuseIdentifier.cluster
+      )
+      map.register(
+        MergedAnnotationView.self,
+        forAnnotationViewWithReuseIdentifier: ReuseIdentifier.localCluster
+      )
+      map.register(
+        MergedAnnotationView.self,
+        forAnnotationViewWithReuseIdentifier: ReuseIdentifier.mkCluster
+      )
       return map
     })
     super.init()
@@ -52,14 +65,17 @@ final class MapAdapter: NSObject, MKMapViewDelegate {
     map.value.addAnnotations(annotations)
   }
 
-  func clear() {
-    let toRemove = map.value.annotations.filter { !($0 is MKUserLocation) }
+  func remove(annotations: [MKAnnotation]) {
     animateRemoval(
-      toRemove.compactMap { map.value.view(for: $0) },
+      annotations.compactMap { map.value.view(for: $0) },
       completion: { [weak self] _ in
-        self?.map.value.removeAnnotations(toRemove)
+        self?.map.value.removeAnnotations(annotations)
       }
     )
+  }
+
+  func clear() {
+    remove(annotations: map.value.annotations.filter { !($0 is MKUserLocation) })
   }
 
   func deselectAnnotations() {
@@ -72,6 +88,10 @@ final class MapAdapter: NSObject, MKMapViewDelegate {
 
   func apply(mapType: MapType) {
     map.value.mapType = mapType
+  }
+
+  func annotations(in rect: MKMapRect) -> [MKAnnotation] {
+    map.value.annotations(in: rect).compactMap { $0 as? MKAnnotation }
   }
 
   func mapView(_: MKMapView, didAdd views: [MKAnnotationView]) {
@@ -98,21 +118,32 @@ final class MapAdapter: NSObject, MKMapViewDelegate {
       switch wrapper.value {
       case .image:
         return mapView.dequeueReusableAnnotationView(
-          ImageAnnotationView.self
+          withIdentifier: ReuseIdentifier.image
         )
       case .cluster:
         return mapView.dequeueReusableAnnotationView(
-          ClusterAnnotationView.self
+          withIdentifier: ReuseIdentifier.cluster
+        )
+      case .localCluster:
+        return mapView.dequeueReusableAnnotationView(
+          withIdentifier: ReuseIdentifier.localCluster
         )
       }
     }
     if annotation is MKClusterAnnotation {
       return mapView.dequeueReusableAnnotationView(
-        MergedAnnotationView.self
+        withIdentifier: ReuseIdentifier.mkCluster
       )
     }
     return nil
   }
+}
+
+private enum ReuseIdentifier {
+  static let image = "image"
+  static let cluster = "cluster"
+  static let localCluster = "localCluster"
+  static let mkCluster = "mkCluster"
 }
 
 // europe and africa

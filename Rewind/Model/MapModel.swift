@@ -11,6 +11,7 @@ import VGSL
 typealias MapModel = Reducer<MapState, MapAction>
 
 struct MapState {
+  typealias ClusteredImages = [ClusteringCell: Either<Set<Model.Image>, Model.LocalCluster>]
   var mapType: MapType
   var region: Region
   var yearRange: ClosedRange<Int>
@@ -18,8 +19,8 @@ struct MapState {
   var previews: [Model.Image]
   var locationState: LocationState
 
-  var images: Set<Model.Image>
-  var clusters: Set<Model.Cluster>
+  fileprivate var clusters: Set<Model.Cluster>
+  fileprivate var clusteredImages: ClusteredImages
 }
 
 enum MapAction {
@@ -71,8 +72,8 @@ func makeMapModel(
       currentRegionImages: [],
       previews: [],
       locationState: locationModel.state,
-      images: [],
-      clusters: []
+      clusters: [],
+      clusteredImages: [:]
     ),
     reduce: { state, action, enqueueEffect in
       switch action {
@@ -83,6 +84,7 @@ func makeMapModel(
             await anotherAction(.internal(.regionChanged(region)))
           })
         case let .map(.annotationSelected(mkAnn)):
+          var listToPresent: [Model.Image] = []
           if let ann = mkAnn as? AnnotationWrapper {
             switch ann.value {
             case let .image(image):
@@ -92,14 +94,22 @@ func makeMapModel(
                 region: Region(center: cluster.coordinate, zoom: state.region.zoom + 1),
                 animated: true
               )
+            case let .localCluster(localCluster):
+              listToPresent = localCluster.images
             }
-          } else if let localCluster = mkAnn as? MKClusterAnnotation {
-            let images = localCluster.memberAnnotations.compactMap {
-              ($0 as? AnnotationWrapper)?.value.image
+          } else if let mkCluster = mkAnn as? MKClusterAnnotation {
+            listToPresent = mkCluster.memberAnnotations.compactMap { ann in
+              if let wrapper = ann as? AnnotationWrapper,
+                 case let .image(image) = wrapper.value {
+                return image
+              }
+              return nil
             }
+          }
+          if !listToPresent.isEmpty {
             performAppAction(
               .imageList(
-                .present(images, source: "local cluster", title: "Cluster")
+                .present(listToPresent, source: "local cluster", title: "Cluster")
               )
             )
           }
@@ -164,24 +174,35 @@ func makeMapModel(
             await anotherAction(.internal(.loaded(images, clusters)))
           })
         case let .loaded(images, clusters):
-          let imagesSet = Set(images)
           let clustersSet = Set(clusters)
-
-          let newImages = imagesSet.subtracting(state.images)
           let newClusters = clustersSet.subtracting(state.clusters)
-
-          state.images.formUnion(imagesSet)
           state.clusters.formUnion(clustersSet)
+          let newClusterAnnotations = newClusters.map {
+            AnnotationWrapper(value: .cluster($0))
+          }
 
-          let newAnnotations = newImages.map { AnnotationWrapper(value: .image($0)) }
-            + newClusters.map { AnnotationWrapper(value: .cluster($0)) }
+          let groupedImages = groupImages(
+            images: images,
+            zoom: state.region.zoom
+          )
+          let patches = makePatches(
+            newImages: groupedImages,
+            current: state.clusteredImages
+          )
 
-          mapAdapter.add(annotations: newAnnotations)
+          let (clusteredImagesToAdd, clusteredImagesToRemove) = applyPatches(
+            patches,
+            clusteredImages: &state.clusteredImages,
+            annotationsInRect: { mapAdapter.annotations(in: $0) }
+          )
+
+          mapAdapter.remove(annotations: clusteredImagesToRemove)
+          mapAdapter.add(annotations: clusteredImagesToAdd + newClusterAnnotations)
           enqueueEffect(.throttled(id: .updatePreviews) { anotherAction in
             await anotherAction(.internal(.updatePreviews))
           })
         case .clearAnnotations:
-          state.images.removeAll()
+          state.clusteredImages.removeAll()
           state.clusters.removeAll()
           mapAdapter.clear()
           enqueueEffect(.cancel(id: EffectID.loadAnnotations))
@@ -189,19 +210,21 @@ func makeMapModel(
             await anotherAction(.internal(.updatePreviews))
           })
         case .updatePreviews:
-          let visible: [Model.Image] = mapAdapter.visibleAnnotations.flatMap {
+          let annotations = mapAdapter.visibleAnnotations.flatMap {
             if let cluster = $0 as? MKClusterAnnotation {
               return cluster.memberAnnotations
             }
             return [$0]
-          }.compactMap {
-            guard let ann = $0 as? AnnotationWrapper else { return nil }
-            return switch ann.value {
-            case let .image(image): image
-            case let .cluster(cluster): cluster.preview
+          }
+          let modelValues = annotations.flatMap { (ann: MKAnnotation) -> [Model.Image] in
+            guard let wrapper = ann as? AnnotationWrapper else { return [] }
+            return switch wrapper.value {
+            case let .image(image): [image]
+            case let .cluster(cluster): [cluster.preview]
+            case let .localCluster(localCluster): Array(localCluster.images)
             }
           }
-          state.currentRegionImages = Array(Set(visible))
+          state.currentRegionImages = Array(Set(modelValues))
           state.previews = Array(state.currentRegionImages.prefix(10))
         }
       }
