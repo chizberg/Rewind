@@ -1,5 +1,5 @@
 //
-//  LocationProvider.swift
+//  LocationModel.swift
 //  Rewind
 //
 //  Created by Aleksei Sherstnev on 22.2.25..

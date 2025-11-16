@@ -8,8 +8,6 @@
 import MapKit
 import VGSL
 
-// when multiple annotations are nearby, they are merged into a local cluster
-// don't mix it with Model.Cluster, that thing is for network clusters
 final class MergedAnnotationView: MKAnnotationView {
   private let label = UILabel()
 
@@ -47,14 +45,28 @@ final class MergedAnnotationView: MKAnnotationView {
 
   override func prepareForDisplay() {
     super.prepareForDisplay()
-    guard let cluster = annotation as? MKClusterAnnotation,
-          let wrappers = cluster.memberAnnotations as? [AnnotationWrapper],
-          case let .image(firstPhoto) = wrappers.first?.value,
-          wrappers.count > 0
-    else { return }
-    label.text = "\(wrappers.count)"
-    backgroundColor = UIColor.from(year: firstPhoto.date.year)
+    guard let (year, count) = makeYearAndCount() else {
+      assertionFailure("unable to extract year and count")
+      return
+    }
+    label.text = "\(count)"
+    backgroundColor = UIColor.from(year: year)
     setNeedsLayout()
+  }
+
+  private func makeYearAndCount() -> (year: Int, count: Int)? {
+    if let mkCluster = annotation as? MKClusterAnnotation,
+       let wrappers = mkCluster.memberAnnotations as? [AnnotationWrapper],
+       case let .image(firstImage) = wrappers.first?.value {
+      (year: firstImage.date.year, count: wrappers.count)
+    } else
+    if let wrapper = annotation as? AnnotationWrapper,
+       case let .localCluster(cluster) = wrapper.value,
+       let first = cluster.images.first {
+      (year: first.date.year, count: cluster.images.count)
+    } else {
+      nil
+    }
   }
 }
 

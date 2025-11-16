@@ -26,7 +26,7 @@ func makeSettingsModel(
     reduce: { _, action, _ in
       switch action {
       case .contactSupport:
-        urlOpener(URL(string: "mailto:rewindApp@gmail.com")) // TODO: properURL
+        urlOpener(URL(string: "mailto:a.chizberg@proton.me"))
       case .openRepo:
         urlOpener(URL(string: "https://github.com/chizberg/Rewind"))
       case .openPastVu:
