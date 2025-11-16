@@ -13,10 +13,10 @@ import VGSL
 typealias AppModel = Reducer<AppState, AppAction>
 
 struct AppState {
-  var previewedImage: Identified<ImageDetailsModel>?
-  var previewedList: Identified<ImageListModel>?
-  var settingsModel: Identified<SettingsModel>?
-  var alertModel: Identified<AlertModel>?
+  var previewedImage: Identified<ImageDetailsModel.Store>?
+  var previewedList: Identified<ImageListModel.Store>?
+  var settingsStore: Identified<SettingsModel.Store>?
+  var alertModel: Identified<AlertParams>?
 }
 
 enum AppAction {
@@ -37,7 +37,7 @@ enum AppAction {
   }
 
   enum Alert {
-    case present(AlertModel)
+    case present(AlertParams)
     case dismiss
   }
 
@@ -60,7 +60,7 @@ func makeAppModel(
     initial: AppState(
       previewedImage: nil,
       previewedList: nil,
-      settingsModel: nil
+      settingsStore: nil
     ),
     reduce: { state, action, _ in
       switch action {
@@ -68,7 +68,7 @@ func makeAppModel(
         switch detailsAction {
         case let .present(image, source):
           state.previewedImage = Identified(
-            value: imageDetailsFactory(image, source)
+            value: imageDetailsFactory(image, source).viewStore
           )
         case .dismiss:
           state.previewedImage = nil
@@ -84,7 +84,7 @@ func makeAppModel(
               images: favoritesModel.state,
               listUpdates: favoritesModel.$state.newValues,
               imageDetailsFactory: imageDetailsFactory
-            )
+            ).viewStore
           )
         case let .present(images, source, title):
           state.previewedList = Identified(
@@ -94,7 +94,7 @@ func makeAppModel(
               images: images,
               listUpdates: .empty,
               imageDetailsFactory: imageDetailsFactory
-            )
+            ).viewStore
           )
         case .dismiss:
           state.previewedList = nil
@@ -103,11 +103,11 @@ func makeAppModel(
       case let .settings(settingsAction):
         switch settingsAction {
         case .present:
-          state.settingsModel = Identified(value:
-            makeSettingsModel(urlOpener: urlOpener)
+          state.settingsStore = Identified(value:
+            makeSettingsModel(urlOpener: urlOpener).viewStore
           )
         case .dismiss:
-          state.settingsModel = nil
+          state.settingsStore = nil
         }
       case let .alert(alertAction):
         switch alertAction {

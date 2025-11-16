@@ -14,8 +14,8 @@ struct OverlayButton: View {
   var body: some View {
     Button(action: action) {
       Image(systemName: iconName)
-        .font(.title3)
-        .padding(12)
+        .font(.title2)
+        .padding(14)
         .circleBlurBackground()
     }
     .foregroundStyle(.primary)
@@ -40,7 +40,18 @@ struct BackButton: View {
   var body: some View {
     OverlayButton(
       iconName: "chevron.left",
-      action: { dismiss() }
+      action: {
+        dismiss()
+        print("dismiss called")
+      }
     )
   }
+}
+
+#Preview {
+  Color.blue.ignoresSafeArea()
+    .overlay(alignment: .topLeading) {
+      BackButton()
+        .padding()
+    }
 }

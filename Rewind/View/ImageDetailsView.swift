@@ -10,7 +10,6 @@ import VGSL
 
 struct ImageDetailsView: View {
   var viewStore: ViewStore<ImageDetailsState, ImageDetailsAction>
-  var showCloseButton: Bool
 
   @Namespace
   private var namespace
@@ -22,10 +21,8 @@ struct ImageDetailsView: View {
   var body: some View {
     content
       .overlay(alignment: .topLeading) {
-        if showCloseButton {
-          BackButton()
-            .padding()
-        }
+        BackButton()
+          .padding()
       }
       .task {
         viewStore(.willBePresented)
@@ -318,8 +315,7 @@ extension SingleFavoriteModel {
   ).viewStore
 
   ImageDetailsView(
-    viewStore: store,
-    showCloseButton: true
+    viewStore: store
   )
 }
 
@@ -343,8 +339,7 @@ extension SingleFavoriteModel {
   ).viewStore
 
   ImageDetailsView(
-    viewStore: store,
-    showCloseButton: true
+    viewStore: store
   )
 }
 #endif

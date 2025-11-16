@@ -128,6 +128,7 @@ func makeImageDetailsModel(
       case .button(.favorite):
         state.isFavorite.toggle()
         favoriteModel(state.isFavorite)
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
       case .button(.saveImage):
         enqueueEffect(.anotherAction(.internal(.saveImage)))
       case .button(.share):

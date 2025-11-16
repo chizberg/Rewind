@@ -55,15 +55,14 @@ struct RootView: View {
     }
     .mask(RoundedRectangle(cornerRadius: CGFloat.deviceBezel).ignoresSafeArea())
     .fullScreenCover(
-      item: Binding<Identified<ImageDetailsModel>?>(
+      item: Binding(
         get: { appStore.previewedImage },
         set: { _ in appStore(.imageDetails(.dismiss)) }
       ),
-      content: { previewedImage in
-        let viewStore = previewedImage.value.viewStore
+      content: { identified in
+        let viewStore = identified.value
         ImageDetailsView(
-          viewStore: viewStore,
-          showCloseButton: true
+          viewStore: viewStore
         )
         .navigationTransition(
           .zoom(
@@ -77,8 +76,8 @@ struct RootView: View {
         get: { appStore.previewedList },
         set: { _ in appStore(.imageList(.dismiss)) }
       ),
-      content: { previewedList in
-        let viewStore = previewedList.value.viewStore
+      content: { identified in
+        let viewStore = identified.value
         ImageList(
           viewStore: viewStore
         ).navigationTransition(.zoom(sourceID: viewStore.matchedTransitionSourceName, in: rootView))
@@ -86,11 +85,11 @@ struct RootView: View {
     )
     .sheet(
       item: Binding(
-        get: { appStore.settingsModel },
+        get: { appStore.settingsStore },
         set: { _ in appStore(.settings(.dismiss)) }
       ),
-      content: { settingsModel in
-        SettingsView(store: settingsModel.value.viewStore)
+      content: { identified in
+        SettingsView(store: identified.value)
           .navigationTransition(
             .zoom(sourceID: TransitionSource.settings, in: rootView)
           )

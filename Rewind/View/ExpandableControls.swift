@@ -111,7 +111,7 @@ struct ExpandableControls: View {
         .padding()
         .contentShape(Rectangle())
         .background {
-          RoundedRectangle(cornerRadius: 12)
+          RoundedRectangle(cornerRadius: expandedRadius - 3)
             .fill(Color.systemBackground.opacity(0.5))
         }
     }.foregroundStyle(iconColor)
@@ -123,7 +123,7 @@ struct ExpandableControls: View {
 }
 
 private let minimizedRadius: CGFloat = 25
-private let expandedRadius: CGFloat = 15
+private let expandedRadius: CGFloat = 20
 
 private struct MapTypePicker: View {
   @Binding

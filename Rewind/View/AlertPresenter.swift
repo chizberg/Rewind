@@ -8,7 +8,7 @@
 import SwiftUI
 import VGSL
 
-struct AlertModel {
+struct AlertParams {
   struct AlertAction {
     var title: LocalizedStringResource
     var style: UIAlertAction.Style = .default
@@ -23,7 +23,7 @@ struct AlertModel {
 
 private struct AlertPresenter: View {
   @Binding
-  var model: Identified<AlertModel>?
+  var model: Identified<AlertParams>?
 
   var body: some View {
     if let alert = model?.value {
@@ -82,7 +82,7 @@ private final class TrackableAlertController: UIAlertController {
 
 extension View {
   func alert(
-    _ alertModel: Binding<Identified<AlertModel>?>
+    _ alertModel: Binding<Identified<AlertParams>?>
   ) -> some View {
     background {
       AlertPresenter(model: alertModel)
@@ -90,7 +90,7 @@ extension View {
   }
 }
 
-extension AlertModel.AlertAction {
+extension AlertParams.AlertAction {
   fileprivate var uiAlertAction: UIAlertAction {
     UIAlertAction(
       title: String(localized: title),
@@ -103,16 +103,16 @@ extension AlertModel.AlertAction {
 #if DEBUG
 #Preview {
   @Previewable @State
-  var model: Identified<AlertModel>?
+  var model: Identified<AlertParams>?
 
   Button("show alert") {
     model = Identified(value: .mock)
   }.alert($model)
 }
 
-extension AlertModel {
-  static var mock: AlertModel {
-    AlertModel(
+extension AlertParams {
+  static var mock: AlertParams {
+    AlertParams(
       actions: [
         AlertAction(
           title: "Print value",
