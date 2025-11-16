@@ -17,43 +17,47 @@ struct ImageList: View {
   private var namespace
 
   var body: some View {
-    NavigationStack(path: Binding(
-      get: { viewStore.imageDetails },
-      set: { _ in viewStore(.dismissImage) }
-    )) {
-      Group {
-        if !viewStore.images.isEmpty {
-          ScrollView {
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 300))], spacing: 10) {
-              items
-            }
-            .padding(.horizontal, 16)
-          }
-        } else {
-          ZStack {
-            Color.clear
-            VStack {
-              Text("💔").font(.largeTitle)
-              Text("Nothing here yet")
-            }
+    NavigationStack {
+      content
+        .navigationTitle(viewStore.title)
+        .toolbar {
+          ToolbarItem(placement: .topBarLeading) {
+            backButton
+              .buttonStyle(.plain)
           }
         }
-      }
-      .navigationTitle(viewStore.title)
-      .toolbar {
-        ToolbarItem(placement: .topBarLeading) {
-          backButton
+        .fullScreenCover(
+          item: Binding(
+            get: { viewStore.imageDetails },
+            set: { _ in viewStore(.dismissImage) }
+          ),
+          content: { identified in
+            let viewStore = identified.value
+            ImageDetailsView(viewStore: viewStore)
+              .navigationTransition(
+                .zoom(sourceID: viewStore.cid, in: namespace)
+              )
+          }
+        )
+    }
+  }
+
+  @ViewBuilder
+  private var content: some View {
+    if !viewStore.images.isEmpty {
+      ScrollView {
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 300))], spacing: 10) {
+          items
         }
+        .padding(.horizontal, 16)
       }
-      .navigationDestination(for: Identified<ImageDetailsModel>.self) { model in
-        let viewStore = model.value.viewStore
-        ImageDetailsView(
-          viewStore: viewStore,
-          showCloseButton: false
-        )
-        .navigationTransition(
-          .zoom(sourceID: viewStore.cid, in: namespace)
-        )
+    } else {
+      ZStack {
+        Color.clear
+        VStack {
+          Text("💔").font(.largeTitle)
+          Text("Nothing here yet")
+        }
       }
     }
   }
@@ -75,6 +79,7 @@ struct ImageList: View {
       dismiss()
     } label: {
       Image(systemName: "chevron.left")
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
     .foregroundStyle(.primary)
   }

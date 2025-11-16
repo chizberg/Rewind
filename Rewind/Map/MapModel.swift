@@ -213,11 +213,11 @@ private enum EffectID {
   static let loadAnnotations = "load_annotations"
 }
 
-extension AlertModel {
+extension AlertParams {
   fileprivate static func locationAccessDenied(
     openSettings: @escaping Action
-  ) -> AlertModel {
-    AlertModel(
+  ) -> AlertParams {
+    AlertParams(
       title: "The app has no access to your location",
       message: "You can change it in Settings.\nGo to Apps -> Rewind -> Location -> While Using the App",
       actions: [
@@ -227,8 +227,8 @@ extension AlertModel {
     )
   }
 
-  fileprivate static var unableToDetermineLocation: AlertModel {
-    AlertModel(
+  fileprivate static var unableToDetermineLocation: AlertParams {
+    AlertParams(
       title: "Unable to Determine Location",
       message: "Please try again later",
       actions: [

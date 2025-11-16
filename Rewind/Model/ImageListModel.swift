@@ -16,7 +16,7 @@ struct ImageListState {
   var title: LocalizedStringKey
   var matchedTransitionSourceName: String
   var images: [Model.Image]
-  var imageDetails: [Identified<ImageDetailsModel>]
+  var imageDetails: Identified<ImageDetailsModel.Store>?
 }
 
 enum ImageListAction {
@@ -37,15 +37,16 @@ func makeImageListModel(
       title: title,
       matchedTransitionSourceName: matchedTransitionSourceName,
       images: images,
-      imageDetails: []
+      imageDetails: nil
     ),
     reduce: { state, action, _ in
-      print(action)
       switch action {
       case let .presentImage(image):
-        state.imageDetails = [Identified(value: imageDetailsFactory(image, "image_list"))]
+        state.imageDetails = Identified(
+          value: imageDetailsFactory(image, "image_list").viewStore
+        )
       case .dismissImage:
-        state.imageDetails = []
+        state.imageDetails = nil
       case let .updateImages(images):
         state.images = images
       }

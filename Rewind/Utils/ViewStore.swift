@@ -51,7 +51,9 @@ struct ViewStore<State, Action> {
 }
 
 extension Reducer {
-  var viewStore: ViewStore<State, Action> {
+  typealias Store = ViewStore<State, Action>
+
+  var viewStore: Store {
     ViewStore(reducer: self)
   }
 }

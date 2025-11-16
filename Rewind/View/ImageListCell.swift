@@ -56,7 +56,7 @@ struct ImageListCell: View {
   }
 }
 
-private let radius: CGFloat = 15
+private let radius: CGFloat = 20
 
 #if DEBUG
 #Preview {
