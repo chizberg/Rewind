@@ -1,4 +1,0 @@
-module BezelKit {
-header "BezelKit-Swift.h"
-export *
-}
