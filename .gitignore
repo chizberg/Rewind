@@ -96,6 +96,8 @@ xcuserdata
 
 ### Xcode ###
 
+XcodeBuild/
+
 ## Xcode 8 and earlier
 
 ### Xcode Patch ###
@@ -111,3 +113,5 @@ xcuserdata
 
 # Claude Code configuration
 CLAUDE.md
+
+.DS_Store

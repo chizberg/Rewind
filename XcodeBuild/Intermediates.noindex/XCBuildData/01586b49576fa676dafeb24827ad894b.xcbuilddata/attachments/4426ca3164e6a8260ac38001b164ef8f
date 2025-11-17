@@ -1,4 +1,0 @@
-module VGSL {
-header "VGSL-Swift.h"
-export *
-}

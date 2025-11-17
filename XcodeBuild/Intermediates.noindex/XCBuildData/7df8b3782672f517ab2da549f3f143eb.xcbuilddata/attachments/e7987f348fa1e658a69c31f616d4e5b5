@@ -1,4 +1,0 @@
-module BasePublic {
-header "BasePublic-Swift.h"
-export *
-}

@@ -1,4 +1,0 @@
-module NetworkingPublic {
-header "NetworkingPublic-Swift.h"
-export *
-}

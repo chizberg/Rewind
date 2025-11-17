@@ -1,4 +1,0 @@
-module VGSLFundamentals {
-header "VGSLFundamentals-Swift.h"
-export *
-}
