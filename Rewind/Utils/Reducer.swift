@@ -12,7 +12,7 @@ import VGSL
 final class Reducer<State, Action> {
   struct Effect {
     var id: String
-    var action: ((Action) async -> Void) async throws -> Void
+    var action: ((Action) async -> Void) async -> Void
   }
 
   @ObservableProperty
@@ -47,7 +47,7 @@ final class Reducer<State, Action> {
             existingTask.cancel()
           }
           effects[effect.id] = Task {
-            try await effect.action { action in await MainActor.run { self(action) } }
+            await effect.action { action in await MainActor.run { self(action) } }
             effects[effect.id] = nil
           }
         }
@@ -104,7 +104,7 @@ extension Reducer {
 extension Reducer.Effect {
   static func perform(
     id: String = UUID().uuidString,
-    action: @escaping ((Action) async -> Void) async throws -> Void
+    action: @escaping ((Action) async -> Void) async -> Void
   ) -> Reducer.Effect {
     Reducer.Effect(
       id: id,
@@ -135,13 +135,15 @@ extension Reducer.Effect {
 
   static func throttled(
     id: ThrottledActionID,
-    action: @escaping ((Action) async -> Void) async throws -> Void
+    action: @escaping ((Action) async -> Void) async -> Void
   ) -> Reducer.Effect {
     Reducer.Effect(
       id: id.rawValue,
       action: { performAnotherReducerAction in
-        try await Task.sleep(for: .seconds(id.delay))
-        try await action(performAnotherReducerAction)
+        do {
+          try await Task.sleep(for: .seconds(id.delay))
+          await action(performAnotherReducerAction)
+        } catch {}
       }
     )
   }

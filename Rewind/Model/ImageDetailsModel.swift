@@ -31,17 +31,20 @@ struct ImageDetailsState {
   var details: LoadableDetails?
 
   var uiImage: UIImage?
+  var cachedLowResImage: UIImage?
   var isImageSaved: Bool
   var openSource: String
   var isFavorite: Bool
   var shareVC: Identified<UIViewController>?
   var mapOptionsPresented: Bool
   var fullscreenPreview: Identified<UIImage>?
+  var alertModel: Identified<AlertParams>?
 }
 
 enum ImageDetailsAction {
   case willBePresented
   case dataLoaded(Model.ImageDetails)
+  case cachedLowResImageLoaded(UIImage)
   case imageLoaded(UIImage)
 
   enum Button {
@@ -64,8 +67,14 @@ enum ImageDetailsAction {
     case shareSheetLoaded(UIViewController)
   }
 
+  enum Alert {
+    case present(AlertParams)
+    case dismiss
+  }
+
   case button(Button)
   case fullscreenPreview(FullscreenPreview)
+  case alert(Alert)
   case `internal`(Internal)
   case shareSheetDismissed
   case setMapOptionsVisibility(Bool)
@@ -74,7 +83,7 @@ enum ImageDetailsAction {
 
 func makeImageDetailsModel(
   modelImage: Model.Image,
-  load: Remote<Void, Model.ImageDetails>,
+  remote: Remote<Void, Model.ImageDetails>,
   image: LoadableUIImage,
   coordinate: Coordinate,
   openSource: String,
@@ -90,6 +99,7 @@ func makeImageDetailsModel(
       cid: modelImage.cid,
       details: nil,
       uiImage: nil,
+      cachedLowResImage: nil,
       isImageSaved: false,
       openSource: openSource,
       isFavorite: favoriteModel.state,
@@ -100,12 +110,37 @@ func makeImageDetailsModel(
       switch action {
       case .willBePresented:
         enqueueEffect(.perform { anotherAction in
-          let data = try await load()
-          await anotherAction(.dataLoaded(data))
+          do {
+            let data = try await remote.load()
+            await anotherAction(.dataLoaded(data))
+          } catch {
+            await anotherAction(.alert(.present(.error(
+              title: "Unable to load image info",
+              error: error
+            ))))
+          }
         })
         enqueueEffect(.perform { anotherAction in
-          let img = try await image(.high)
-          await anotherAction(.imageLoaded(img))
+          do {
+            let medium = try await image.load(
+              ImageLoadingParams(
+                quality: .medium,
+                cachedOnly: true
+              )
+            )
+            await anotherAction(.cachedLowResImageLoaded(medium))
+          } catch {}
+        })
+        enqueueEffect(.perform { anotherAction in
+          do {
+            let img = try await image.load(.high)
+            await anotherAction(.imageLoaded(img))
+          } catch {
+            await anotherAction(.alert(.present(.error(
+              title: "Unable to load image in high resolution",
+              error: error
+            ))))
+          }
         })
       case let .dataLoaded(data):
         state.details = ImageDetailsState.LoadableDetails(
@@ -117,6 +152,15 @@ func makeImageDetailsModel(
         )
       case let .imageLoaded(image):
         state.uiImage = image
+      case let .cachedLowResImageLoaded(image):
+        state.cachedLowResImage = image
+      case let .alert(alert):
+        switch alert {
+        case let .present(alertParams):
+          state.alertModel = Identified(value: alertParams)
+        case .dismiss:
+          state.alertModel = nil
+        }
       case .button(.viewOnWeb):
         var components = URLComponents()
         components.scheme = "https"
@@ -174,11 +218,18 @@ func makeImageDetailsModel(
       case .internal(.saveImage):
         guard let image = state.uiImage else { return }
         enqueueEffect(.perform { anotherAction in
-          let library = PHPhotoLibrary.shared()
-          try await library.performChanges {
-            PHAssetChangeRequest.creationRequestForAsset(from: image)
+          do {
+            let library = PHPhotoLibrary.shared()
+            try await library.performChanges {
+              PHAssetChangeRequest.creationRequestForAsset(from: image)
+            }
+            await anotherAction(.internal(.imageSaved))
+          } catch {
+            await anotherAction(.alert(.present(.error(
+              title: "Unable to save image",
+              error: error
+            ))))
           }
-          await anotherAction(.internal(.imageSaved))
         })
       case .internal(.imageSaved):
         UINotificationFeedbackGenerator().notificationOccurred(.success)

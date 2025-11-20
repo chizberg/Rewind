@@ -49,8 +49,19 @@ final class ClusterAnnotationView: MKAnnotationView {
     imageView.image = nil
     loadingTask?.cancel()
 
-    loadingTask = cluster.preview.image.load(quality: .low) { [weak self] in
-      self?.imageView.image = $0
+    loadingTask = cluster.preview.image.load(
+      ImageLoadingParams(
+        quality: .low,
+        cachedOnly: false
+      )
+    ) { [weak self] result in
+      guard let self else { return }
+      switch result {
+      case let .success(image):
+        imageView.image = image
+      case .failure:
+        imageView.image = .error
+      }
     }
 
     let color = UIColor.from(year: cluster.preview.date.year)

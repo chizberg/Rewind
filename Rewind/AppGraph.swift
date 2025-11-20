@@ -56,7 +56,7 @@ final class AppGraph {
     let imageDetailsFactory = { image, source in
       makeImageDetailsModel(
         modelImage: image,
-        load: remotes.imageDetails.mapArgs { image.cid },
+        remote: remotes.imageDetails.mapArgs { image.cid },
         image: image.image,
         coordinate: image.coordinate,
         openSource: source,
