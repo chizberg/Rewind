@@ -53,6 +53,12 @@ struct RootView: View {
         horizontalScroll
       }
     }
+    .alert(
+      Binding(
+        get: { appStore.alertModel },
+        set: { _ in appStore(.alert(.dismiss)) }
+      )
+    )
     .mask(RoundedRectangle(cornerRadius: CGFloat.deviceBezel).ignoresSafeArea())
     .fullScreenCover(
       item: Binding(
@@ -94,12 +100,6 @@ struct RootView: View {
             .zoom(sourceID: TransitionSource.settings, in: rootView)
           )
       }
-    )
-    .alert(
-      Binding(
-        get: { appStore.alertModel },
-        set: { _ in appStore(.alert(.dismiss)) }
-      )
     )
   }
 

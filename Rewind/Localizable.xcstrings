@@ -5,7 +5,14 @@
 
     },
     "☮️ & ❤️" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "☮️ & ❤️"
+          }
+        }
+      }
     },
     "💔" : {
       "comment" : "emoji for empty favorites list",
@@ -73,7 +80,14 @@
       }
     },
     "Cluster" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Кластер"
+          }
+        }
+      }
     },
     "Contact Support" : {
       "localizations" : {
@@ -85,13 +99,12 @@
         }
       }
     },
-    "Dismiss" : {
-      "comment" : "test alert action name",
+    "Copy to clipboard" : {
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Закрыть"
+            "value" : "Скопировать в буфер обмена"
           }
         }
       }
@@ -161,18 +174,6 @@
         }
       }
     },
-    "Images" : {
-      "comment" : "title of list of annotation cluster's images",
-      "extractionState" : "stale",
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Фотографии"
-          }
-        }
-      }
-    },
     "Links" : {
       "localizations" : {
         "ru" : {
@@ -216,10 +217,24 @@
       }
     },
     "OK" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ОК"
+          }
+        }
+      }
     },
     "On the map" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "На карте"
+          }
+        }
+      }
     },
     "PastVu rules" : {
       "localizations" : {
@@ -232,10 +247,14 @@
       }
     },
     "Please try again later" : {
-
-    },
-    "Print value" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пожалуйста, попробуйте позже"
+          }
+        }
+      }
     },
     "Rewind" : {
       "localizations" : {
@@ -324,10 +343,64 @@
       }
     },
     "The app has no access to your location" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У приложения нет доступа к геолокации"
+          }
+        }
+      }
     },
     "Unable to Determine Location" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось определить местоположение"
+          }
+        }
+      }
+    },
+    "Unable to load image in high resolution" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось загрузить изображение в полном разрешении"
+          }
+        }
+      }
+    },
+    "Unable to load image info" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось загрузить информацию об изображении"
+          }
+        }
+      }
+    },
+    "Unable to load map annotations" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось загрузить метки на карте"
+          }
+        }
+      }
+    },
+    "Unable to save image" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось сохранить изображение"
+          }
+        }
+      }
     },
     "uploaded by" : {
       "comment" : "Is shown right above the nickname of a user that uploaded the image",
@@ -379,7 +452,14 @@
       }
     },
     "with a little help from [@lisa.iso](https://www.instagram.com/l.chizberg),\n[@dmitriitrif](https://github.com/dmitriitrif) and [@Xelwow](https://github.com/xelwow)" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "c небольшой помощью от [@lisa.iso](https://www.instagram.com/l.chizberg),\n[@dmitriitrif](https://github.com/dmitriitrif) и [@Xelwow](https://github.com/xelwow)"
+          }
+        }
+      }
     },
     "Yandex Maps" : {
       "comment" : "map app name",
@@ -393,7 +473,14 @@
       }
     },
     "You can change it in Settings.\nGo to Apps -> Rewind -> Location -> While Using the App" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вы можете изменить это в Настройках. Приложения -> Rewind -> Геолокация -> Во время использования"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

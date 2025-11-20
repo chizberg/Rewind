@@ -5,6 +5,8 @@
 //  Created by Alexey Sherstnev on 08.02.2025.
 //
 
+import Foundation
+
 struct Remote<Args, Response> {
   let impl: (Args) async throws -> Response
 
@@ -12,12 +14,12 @@ struct Remote<Args, Response> {
     self.impl = impl
   }
 
-  func callAsFunction(_ args: Args) async throws -> Response {
+  func load(_ args: Args) async throws -> Response {
     try await impl(args)
   }
 
   @discardableResult
-  func callAsFunction(
+  func load(
     _ args: Args,
     completion: @MainActor @escaping (Result<Response, Error>) -> Void
   ) -> Task<Void, Never> {
@@ -46,10 +48,33 @@ struct Remote<Args, Response> {
       try await transform(self.impl(args))
     }
   }
+
+  func exponentialBackoff(
+    attemptCount: Int = 3,
+    initialDelay: TimeInterval = 1,
+    factor: Double = 2.0
+  ) -> Remote<Args, Response> {
+    Remote<Args, Response> { args in
+      var currentDelay = initialDelay
+      var lastError: Error?
+      for i in 0..<attemptCount {
+        do {
+          return try await self.impl(args)
+        } catch {
+          lastError = error
+          if i < attemptCount - 1 {
+            try await Task.sleep(for: .seconds(currentDelay))
+            currentDelay *= factor
+          }
+        }
+      }
+      throw lastError!
+    }
+  }
 }
 
 extension Remote where Args == Void {
-  func callAsFunction() async throws -> Response {
+  func load() async throws -> Response {
     try await impl(())
   }
 }

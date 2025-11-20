@@ -89,7 +89,7 @@ struct ImageList: View {
 private let imageDetailsFactoryMock: ImageDetailsFactory = { image, source in
   makeImageDetailsModel(
     modelImage: .mock,
-    load: Remote { .mock },
+    remote: Remote { .mock },
     image: .mock,
     coordinate: image.coordinate,
     openSource: source,

@@ -35,10 +35,10 @@ extension RewindRemotes {
         return Model.Cluster(nc: $0, image: loadableImage)
       }
       return (images, clusters)
-    }
+    }.exponentialBackoff()
     imageDetails = Remote { cid in
       let details = try await requestPerformer.perform(request: .imageDetails(cid: cid))
       return Model.ImageDetails(details)
-    }
+    }.exponentialBackoff()
   }
 }

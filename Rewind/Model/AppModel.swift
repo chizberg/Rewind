@@ -120,3 +120,27 @@ func makeAppModel(
     }
   )
 }
+
+extension AlertParams {
+  static func error(
+    title: LocalizedStringResource,
+    error: Error
+  ) -> AlertParams {
+    let errorDescription = String(describing: error)
+    return AlertParams(
+      title: title,
+      message: LocalizedStringResource(stringLiteral: errorDescription),
+      actions: [
+        AlertAction(
+          title: "Copy to clipboard",
+          handler: {
+            UIPasteboard.general.string = errorDescription
+          }
+        ),
+        AlertAction(
+          title: "OK"
+        ),
+      ]
+    )
+  }
+}

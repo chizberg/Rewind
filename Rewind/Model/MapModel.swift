@@ -170,8 +170,15 @@ func makeMapModel(
         case .loadAnnotations:
           let params = (state.region, state.yearRange)
           enqueueEffect(.perform(id: EffectID.loadAnnotations) { anotherAction in
-            let (images, clusters) = try await annotationsRemote(params)
-            await anotherAction(.internal(.loaded(images, clusters)))
+            do {
+              let (images, clusters) = try await annotationsRemote.load(params)
+              await anotherAction(.internal(.loaded(images, clusters)))
+            } catch {
+              performAppAction(.alert(.present(.error(
+                title: "Unable to load map annotations",
+                error: error
+              ))))
+            }
           })
         case let .loaded(images, clusters):
           let clustersSet = Set(clusters)

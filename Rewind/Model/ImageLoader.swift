@@ -22,18 +22,20 @@ final class ImageLoader {
   func makeImage(
     path: String
   ) -> LoadableUIImage {
-    LoadableUIImage { [weak self] quality in
-      guard let self else { throw IsDead() }
-      return try await load(path: path, quality: quality)
-    }
+    LoadableUIImage { [weak self] params in
+      guard let self else { throw HandlingError("is dead") }
+      return try await load(path: path, params: params)
+    }.exponentialBackoff(attemptCount: 2)
   }
 
-  private func load(path: String, quality: ImageQuality) async throws -> UIImage {
-    if let image = cached(path: path, quality: quality) {
+  private func load(path: String, params: ImageLoadingParams) async throws -> UIImage {
+    if let image = cached(path: path, quality: params.quality) {
       return image
+    } else if params.cachedOnly {
+      throw HandlingError("no cached image found")
     }
-    let image = try await fetch(path: path, quality: quality)
-    let key = ImageCacheKey(path: path, quality: quality)
+    let image = try await fetch(path: path, quality: params.quality)
+    let key = ImageCacheKey(path: path, quality: params.quality)
     cache.setObject(image, forKey: key)
     return image
   }
@@ -46,11 +48,9 @@ final class ImageLoader {
     let key = ImageCacheKey(path: path, quality: quality)
     return cache.object(forKey: key)
   }
-
-  private struct IsDead: Error {}
 }
 
-private class ImageCacheKey: AnyObject {
+private class ImageCacheKey: NSObject {
   let path: String
   let quality: ImageQuality
 
@@ -58,32 +58,44 @@ private class ImageCacheKey: AnyObject {
     self.path = path
     self.quality = quality
   }
+
+  override func isEqual(_ object: Any?) -> Bool {
+    guard let other = object as? ImageCacheKey else { return false }
+    return path == other.path && quality == other.quality
+  }
+
+  override var hash: Int {
+    var hasher = Hasher()
+    hasher.combine(path)
+    hasher.combine(quality)
+    return hasher.finalize()
+  }
 }
 
-typealias LoadableUIImage = Remote<ImageQuality, UIImage>
+typealias LoadableUIImage = Remote<ImageLoadingParams, UIImage>
+struct ImageLoadingParams {
+  var quality: ImageQuality
+  var cachedOnly: Bool
+}
+
+struct ImageLoadingError: Error {
+  var err: Error
+}
 
 extension LoadableUIImage {
-  func load(
-    quality: ImageQuality,
-    completion: @escaping @MainActor (UIImage) -> Void
-  ) -> Task<Void, Never> {
-    self(quality) { result in
-      switch result {
-      case let .success(image): completion(image)
-      case .failure: break // TODO: error handling
-      }
-    }
+  func load(_ quality: ImageQuality) async throws -> UIImage {
+    try await impl(
+      ImageLoadingParams(
+        quality: quality,
+        cachedOnly: false
+      )
+    )
   }
 }
 
 #if DEBUG
 extension LoadableUIImage {
-  static let mock = LoadableUIImage { _ in
-    UIImage(named: "cat")!
-  }
-
-  static let panorama = LoadableUIImage { _ in
-    UIImage(named: "panorama")!
-  }
+  static let mock = LoadableUIImage { _ in .cat }
+  static let panorama = LoadableUIImage { _ in .panorama }
 }
 #endif

@@ -51,6 +51,12 @@ struct ImageDetailsView: View {
           .navigationTransition(.zoom(sourceID: titleImageID, in: namespace))
         }
       )
+      .alert(
+        Binding(
+          get: { viewStore.alertModel },
+          set: { _ in viewStore(.alert(.dismiss)) }
+        )
+      )
   }
 
   @ViewBuilder
@@ -92,16 +98,20 @@ struct ImageDetailsView: View {
   }
 
   private var picture: some View {
-    Group {
+    ZStack {
       if let uiImage = viewStore.uiImage {
         Image(uiImage: uiImage)
           .resizable()
       } else {
-        ZStack {
+        if let cachedPreview = viewStore.cachedLowResImage {
+          Image(uiImage: cachedPreview)
+            .resizable()
+        } else {
           Color.clear
-          ProgressView()
-            .scaleEffect(1.5)
         }
+
+        ProgressView()
+          .scaleEffect(1.5)
       }
     }
     .aspectRatio(contentMode: .fit)
@@ -305,7 +315,7 @@ extension SingleFavoriteModel {
   @Previewable @State
   var store = makeImageDetailsModel(
     modelImage: .mock,
-    load: Remote { Model.ImageDetails(.mock) },
+    remote: Remote { Model.ImageDetails(.mock) },
     image: .mock,
     coordinate: Model.Image.mock.coordinate,
     openSource: "",
@@ -323,7 +333,7 @@ extension SingleFavoriteModel {
   @Previewable @State
   var store = makeImageDetailsModel(
     modelImage: .mock,
-    load: Remote {
+    remote: Remote {
       try await Task.sleep(for: .seconds(1))
       return Model.ImageDetails(.mock)
     },
