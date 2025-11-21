@@ -37,7 +37,7 @@ enum AppAction {
   }
 
   enum Alert {
-    case present(AlertParams)
+    case present(AlertParams?)
     case dismiss
   }
 
@@ -112,6 +112,7 @@ func makeAppModel(
       case let .alert(alertAction):
         switch alertAction {
         case let .present(alertModel):
+          guard let alertModel else { return }
           state.alertModel = Identified(value: alertModel)
         case .dismiss:
           state.alertModel = nil
@@ -125,7 +126,8 @@ extension AlertParams {
   static func error(
     title: LocalizedStringResource,
     error: Error
-  ) -> AlertParams {
+  ) -> AlertParams? {
+    guard !(error is CancellationError) else { return nil }
     let errorDescription = String(describing: error)
     return AlertParams(
       title: title,

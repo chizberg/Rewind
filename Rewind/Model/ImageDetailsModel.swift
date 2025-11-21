@@ -68,7 +68,7 @@ enum ImageDetailsAction {
   }
 
   enum Alert {
-    case present(AlertParams)
+    case present(AlertParams?)
     case dismiss
   }
 
@@ -157,6 +157,7 @@ func makeImageDetailsModel(
       case let .alert(alert):
         switch alert {
         case let .present(alertParams):
+          guard let alertParams else { return }
           state.alertModel = Identified(value: alertParams)
         case .dismiss:
           state.alertModel = nil
