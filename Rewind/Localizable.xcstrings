@@ -109,6 +109,17 @@
         }
       }
     },
+    "Dismiss" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скрыть"
+          }
+        }
+      }
+    },
     "Favorite" : {
       "comment" : "label for action to add to favorites",
       "localizations" : {
@@ -252,6 +263,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Пожалуйста, попробуйте позже"
+          }
+        }
+      }
+    },
+    "Print value" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Распечатать значение"
           }
         }
       }
