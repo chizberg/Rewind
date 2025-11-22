@@ -53,7 +53,6 @@ struct RewindAsyncImage<Content: View, Placeholder: View, ErrorView: View>: View
     }
     .task {
       do {
-        // Try to load the image asynchronously.
         let fetchedImage = try await getter()
         await MainActor.run {
           self.image = fetchedImage

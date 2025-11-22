@@ -143,10 +143,7 @@ private let honorableMentions: [Contributor] = [
   @Previewable @State
   var store = makeSettingsViewModel(
     settings: ObservableProperty(
-      initialValue: SettingsState(
-        showYearColorInClusters: false,
-        openClusterPreviews: false
-      )
+      initialValue: .default
     ),
     urlOpener: { _ in }
   ).viewStore

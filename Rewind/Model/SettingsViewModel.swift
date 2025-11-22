@@ -41,10 +41,7 @@ func makeSettings(
 ) -> ObservableProperty<SettingsState> {
   let property = storage.makeCodableField(
     key: "settings",
-    default: SettingsState(
-      showYearColorInClusters: false,
-      openClusterPreviews: false
-    )
+    default: SettingsState.default
   )
   return property.unsafeMakeObservable()
 }
@@ -84,4 +81,11 @@ func makeSettingsViewModel(
     settings.value = newState
   }
   .unsafeBimap(state: { $0 }, action: { .ui($0) })
+}
+
+extension SettingsState {
+  static let `default` = SettingsState(
+    showYearColorInClusters: true,
+    openClusterPreviews: false
+  )
 }

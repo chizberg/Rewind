@@ -39,6 +39,7 @@ final class MapAdapter: NSObject, MKMapViewDelegate {
       map.region = initialRegion
       map.delegate = weakSelf
       map.showsUserLocation = true
+      map.isPitchEnabled = false
       map.isRotateEnabled = false
       map.register(
         ImageAnnotationView.self,
@@ -142,7 +143,7 @@ final class MapAdapter: NSObject, MKMapViewDelegate {
     }
     if annotation is MKClusterAnnotation {
       guard let cell = mapView.dequeueReusableAnnotationView(
-        withIdentifier: ReuseIdentifier.localCluster
+        withIdentifier: ReuseIdentifier.mkCluster
       ) as? MergedAnnotationView else {
         return nil
       }
