@@ -11,6 +11,7 @@ import VGSL
 struct ThumbnailView: View {
   var image: Model.Image
   var size: CGSize
+  var radius: CGFloat = 25
 
   var body: some View {
     ZStack(alignment: .bottomLeading) {
@@ -20,11 +21,7 @@ struct ThumbnailView: View {
           .aspectRatio(contentMode: .fill)
           .frame(size: size)
       } placeholder: {
-        if #available(iOS 26, *) {
-          GlassView(radius: radius)
-        } else {
-          BlurView(style: .regular, radius: radius)
-        }
+        MapControlBackground(radius: radius)
       }
 
       ImageDateView(date: image.date)
@@ -39,8 +36,6 @@ struct ThumbnailView: View {
     }
   }
 }
-
-private let radius: CGFloat = 20
 
 #if DEBUG
 #Preview("single cat") {

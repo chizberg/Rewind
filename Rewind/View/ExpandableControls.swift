@@ -28,6 +28,7 @@ struct ExpandableControls: View {
             iconName: "calendar.badge.clock",
             expandedContent: {
               YearSelector(yearRange: $yearRange)
+                .padding(.leading, 10)
             },
             isExpanded: isExpanded
           )
@@ -37,7 +38,7 @@ struct ExpandableControls: View {
             iconName: "map",
             expandedContent: {
               MapTypePicker(mapType: $mapType)
-                .padding(.leading, 5)
+                .padding(.leading, 10)
             },
             isExpanded: isExpanded
           )
@@ -123,7 +124,7 @@ struct ExpandableControls: View {
 }
 
 private let minimizedRadius: CGFloat = 25
-private let expandedRadius: CGFloat = 20
+private let expandedRadius: CGFloat = 30
 
 private struct MapTypePicker: View {
   @Binding
@@ -199,17 +200,19 @@ private struct ExpandableStack<StaticContent: View>: View {
             .matchedGeometryEffect(id: item.id, in: namespace)
         }
       }
-    }.animation(.spring(.init(duration: 0.4)), value: expandedItems)
+    }
   }
 
   private func expansionBinding(_ item: Item) -> Binding<Bool> {
     Binding(
       get: { expandedItems.contains(item) },
       set: { isExpanded in
-        if isExpanded {
-          expandedItems.append(item)
-        } else {
-          expandedItems.removeAll { $0 == item }
+        withAnimation(.spring(duration: 0.4)) {
+          if isExpanded {
+            expandedItems.append(item)
+          } else {
+            expandedItems.removeAll { $0 == item }
+          }
         }
       }
     )

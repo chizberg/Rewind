@@ -15,13 +15,11 @@ final class UIKitYearSelector: UIView {
     static let lineHeight: CGFloat = 7
     static let lineRadius: CGFloat = lineHeight / 2
     static let horizontalLineInset: CGFloat = 33
-    static let thumbWidth: CGFloat = 50
+    static let thumbWidth: CGFloat = 60
     // так как у нас значения thumbView берутся с границ, то мы возможные значения thumbView.x
     // ограничиваем ещё на половину thumbWidth (изначально у нас thumbView.center.x =
     // horizontalLineInset)
     static let valueInset: CGFloat = horizontalLineInset + thumbWidth / 2
-    static let cornerRadius: CGFloat = 13
-
     static let startYear: Int = 1826
     static let endYear: Int = 2000
   }
