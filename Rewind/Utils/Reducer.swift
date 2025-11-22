@@ -99,6 +99,17 @@ extension Reducer {
       })
     }
   }
+
+  func onStateUpdate(
+    perform: @escaping (State) -> Void
+  ) -> Reducer<State, Action> {
+    let disposable = $state.currentAndNewValues.addObserver {
+      perform($0)
+    }
+    return modified(self) {
+      $0.store(disposable: disposable)
+    }
+  }
 }
 
 extension Reducer.Effect {

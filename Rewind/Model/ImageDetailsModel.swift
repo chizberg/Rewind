@@ -186,7 +186,10 @@ func makeImageDetailsModel(
           let vc = await UIActivityViewController(
             activityItems: [
               image,
-              "\(title), \(details.description ?? "")",
+              [
+                String(title.characters),
+                details.description.map { String($0.characters) },
+              ].compactMap(\.self).joined(separator: "\n"),
             ],
             applicationActivities: nil
           )
