@@ -1,10 +1,25 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "" : {
-
+    "• " : {
+      "comment" : "contributor list indent",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• "
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• "
+          }
+        }
+      }
     },
     "☮️ & ❤️" : {
+      "comment" : "peace sign from credits",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -37,6 +52,7 @@
       }
     },
     "2025" : {
+      "comment" : "year from credits",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -80,6 +96,7 @@
       }
     },
     "Cluster" : {
+      "comment" : "title of a image list from local cluster",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -90,6 +107,7 @@
       }
     },
     "Contact Support" : {
+      "comment" : "button from settings to contact email support",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -100,6 +118,7 @@
       }
     },
     "Copy to clipboard" : {
+      "comment" : "action to copy error’s message to clipboard",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -110,7 +129,7 @@
       }
     },
     "Dismiss" : {
-      "extractionState" : "stale",
+      "comment" : "dissmiss action title for alert",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -154,6 +173,7 @@
       }
     },
     "Go to Settings" : {
+      "comment" : "prompt to open location settings to grant access for the app",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -186,6 +206,7 @@
       }
     },
     "Links" : {
+      "comment" : "header of a links session in settings",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -195,12 +216,13 @@
         }
       }
     },
-    "Made by [@chizberg](https://github.com/chizberg)" : {
+    "Made by " : {
+      "comment" : "title in credits section. made by <name>",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Сделано [@chizberg](https://github.com/chizberg)"
+            "value" : "Сделано "
           }
         }
       }
@@ -228,6 +250,7 @@
       }
     },
     "OK" : {
+      "comment" : "ok action of alert",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -238,6 +261,7 @@
       }
     },
     "On the map" : {
+      "comment" : "title of a list of images presented currently on the map",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -247,7 +271,30 @@
         }
       }
     },
+    "Open big cluster previews on tap" : {
+      "comment" : "Settings toggle to open preview images on tap to annotation",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открывать превью больших кластеров по тапу"
+          }
+        }
+      }
+    },
+    "PastVu" : {
+      "comment" : "header of a settings section related to PastVu API links",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PastVu"
+          }
+        }
+      }
+    },
     "PastVu rules" : {
+      "comment" : "name of a link to pastVu rules",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -258,6 +305,7 @@
       }
     },
     "Please try again later" : {
+      "comment" : "Prompt to try finding location later",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -268,7 +316,7 @@
       }
     },
     "Print value" : {
-      "extractionState" : "stale",
+      "comment" : "debug action to print value",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -279,11 +327,23 @@
       }
     },
     "Rewind" : {
+      "comment" : "app name from credits",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rewind"
+          }
+        }
+      }
+    },
+    "Rewind uses PastVu API to get the images" : {
+      "comment" : "credit to pastvu api",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind использует данные PastVu API"
           }
         }
       }
@@ -333,6 +393,7 @@
       }
     },
     "Settings" : {
+      "comment" : "settings screen title",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -353,6 +414,17 @@
         }
       }
     },
+    "Show colors in cluster annotations" : {
+      "comment" : "settings toggle name",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показывать цвета в кластерах на карте"
+          }
+        }
+      }
+    },
     "source" : {
       "comment" : "label for image source",
       "localizations" : {
@@ -365,6 +437,7 @@
       }
     },
     "The app has no access to your location" : {
+      "comment" : "error message in alert",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -374,7 +447,19 @@
         }
       }
     },
+    "This app would not be possible without PastVu" : {
+      "comment" : "pastvu api credit in settings",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это приложение было бы невозможно без PastVu"
+          }
+        }
+      }
+    },
     "Unable to Determine Location" : {
+      "comment" : "error message in alert",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -385,6 +470,7 @@
       }
     },
     "Unable to load image in high resolution" : {
+      "comment" : "error message in alert",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -395,6 +481,7 @@
       }
     },
     "Unable to load image info" : {
+      "comment" : "error message in alert",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -405,6 +492,7 @@
       }
     },
     "Unable to load map annotations" : {
+      "comment" : "error message in alert",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -415,6 +503,7 @@
       }
     },
     "Unable to save image" : {
+      "comment" : "error message in alert",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -454,6 +543,7 @@
       }
     },
     "View PastVu website" : {
+      "comment" : "link to a website. located in settings",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -464,6 +554,7 @@
       }
     },
     "View source code" : {
+      "comment" : "link to a github repo. located in settings",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -473,12 +564,13 @@
         }
       }
     },
-    "with a little help from [@lisa.iso](https://www.instagram.com/l.chizberg),\n[@dmitriitrif](https://github.com/dmitriitrif) and [@Xelwow](https://github.com/xelwow)" : {
+    "with a little help from:" : {
+      "comment" : "credits in settings. with a little help from a, b and c.",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "c небольшой помощью от [@lisa.iso](https://www.instagram.com/l.chizberg),\n[@dmitriitrif](https://github.com/dmitriitrif) и [@Xelwow](https://github.com/xelwow)"
+            "value" : "с небольшой помощью от:"
           }
         }
       }
@@ -495,6 +587,7 @@
       }
     },
     "You can change it in Settings.\nGo to Apps -> Rewind -> Location -> While Using the App" : {
+      "comment" : "prompt to open settings and grant location access",
       "localizations" : {
         "ru" : {
           "stringUnit" : {

@@ -15,7 +15,7 @@ typealias AppModel = Reducer<AppState, AppAction>
 struct AppState {
   var previewedImage: Identified<ImageDetailsModel.Store>?
   var previewedList: Identified<ImageListModel.Store>?
-  var settingsStore: Identified<SettingsModel.Store>?
+  var settingsStore: Identified<SettingsViewModel.Store>?
   var alertModel: Identified<AlertParams>?
 }
 
@@ -52,9 +52,9 @@ typealias ImageDetailsFactory = (Model.Image, String) -> ImageDetailsModel
 
 func makeAppModel(
   imageDetailsFactory: @escaping ImageDetailsFactory,
+  settingsViewModelFactory: @escaping () -> SettingsViewModel,
   performMapAction: @escaping (MapAction.External) -> Void,
-  favoritesModel: FavoritesModel,
-  urlOpener: @escaping UrlOpener
+  favoritesModel: FavoritesModel
 ) -> AppModel {
   AppModel(
     initial: AppState(
@@ -104,7 +104,7 @@ func makeAppModel(
         switch settingsAction {
         case .present:
           state.settingsStore = Identified(value:
-            makeSettingsModel(urlOpener: urlOpener).viewStore
+            settingsViewModelFactory().viewStore
           )
         case .dismiss:
           state.settingsStore = nil

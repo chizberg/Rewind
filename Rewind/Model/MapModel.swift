@@ -62,7 +62,8 @@ func makeMapModel(
   applyMapType: @escaping (MapType) -> Void,
   performAppAction: @escaping (AppAction) -> Void,
   locationModel: LocationModel,
-  urlOpener: @escaping UrlOpener
+  urlOpener: @escaping UrlOpener,
+  settings: Variable<SettingsState>
 ) -> MapModel {
   MapModel(
     initial: MapState(
@@ -90,10 +91,14 @@ func makeMapModel(
             case let .image(image):
               performAppAction(.imageDetails(.present(image, source: "annotation")))
             case let .cluster(cluster):
-              mapAdapter.set(
-                region: Region(center: cluster.coordinate, zoom: state.region.zoom + 1),
-                animated: true
-              )
+              if settings.value.openClusterPreviews {
+                performAppAction(.imageDetails(.present(cluster.preview, source: "annotation")))
+              } else {
+                mapAdapter.set(
+                  region: Region(center: cluster.coordinate, zoom: state.region.zoom + 1),
+                  animated: true
+                )
+              }
             case let .localCluster(localCluster):
               listToPresent = localCluster.images
             }

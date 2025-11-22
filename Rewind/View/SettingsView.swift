@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
+import VGSL
 
 struct SettingsView: View {
-  var store: ViewStore<SettingsState, SettingsAction>
+  var store: ViewStore<SettingsState, SettingsViewAction.UI>
 
   @Environment(\.dismiss)
   private var dismiss
@@ -17,10 +18,33 @@ struct SettingsView: View {
     NavigationStack {
       List {
         Section {
-          makeButton("Contact Support", action: .contactSupport)
-          makeButton("View source code", action: .openRepo)
+          makeToggle(
+            "Show colors in cluster annotations",
+            state: store.showYearColorInClusters,
+            makeAction: { .setShowYearColorInClusters($0) }
+          )
+          makeToggle(
+            "Open big cluster previews on tap",
+            state: store.openClusterPreviews,
+            makeAction: { .setOpenClusterPreviews($0) }
+          )
+        }
+
+        Section {
           makeButton("View PastVu website", action: .openPastVu)
           makeButton("PastVu rules", action: .pastVuRules)
+        } header: {
+          Text("PastVu")
+        } footer: {
+          VStack(alignment: .leading) {
+            Text("Rewind uses PastVu API to get the images")
+            Text("This app would not be possible without PastVu")
+          }
+        }
+
+        Section {
+          makeButton("Contact Support", action: .contactSupport)
+          makeButton("View source code", action: .openRepo)
         } header: {
           Text("Links")
         } footer: {
@@ -38,14 +62,12 @@ struct SettingsView: View {
 
   private var credits: some View {
     VStack(alignment: .leading) {
-      Text("Made by [@chizberg](https://github.com/chizberg)")
-      Text(
-        """
-        with a little help from [@lisa.iso](https://www.instagram.com/l.chizberg),
-        [@dmitriitrif](https://github.com/dmitriitrif) and [@Xelwow](https://github.com/xelwow)
-        """
-      )
-      Text("")
+      Text("Made by ") + Text(chizberg.description)
+      Text("with a little help from:")
+      ForEach(honorableMentions) { contributor in
+        Text("• ") + Text(contributor.description)
+      }
+      Text(String())
       Text("☮️ & ❤️")
       Text("Rewind")
       Text("2025")
@@ -55,7 +77,7 @@ struct SettingsView: View {
   // TODO: use list selection? afaik headers/footers are unavailable then
   private func makeButton(
     _ title: LocalizedStringKey,
-    action: SettingsAction
+    action: SettingsViewAction.UI
   ) -> some View {
     Button {
       store(action)
@@ -69,6 +91,22 @@ struct SettingsView: View {
     .foregroundStyle(.primary)
   }
 
+  private func makeToggle(
+    _ title: LocalizedStringKey,
+    state: Bool,
+    makeAction: @escaping (Bool) -> SettingsViewAction.UI
+  ) -> some View {
+    Toggle(
+      title,
+      isOn: Binding(
+        get: { state },
+        set: { newValue in
+          store(makeAction(newValue))
+        }
+      )
+    )
+  }
+
   private var backButton: some View {
     Button {
       dismiss()
@@ -79,9 +117,37 @@ struct SettingsView: View {
   }
 }
 
+private struct Contributor: Identifiable {
+  var username: String
+  var rawURL: String
+
+  var description: AttributedString {
+    (try? AttributedString(markdown: "[@\(username)](\(rawURL))")) ?? AttributedString()
+  }
+
+  var id: String { username }
+}
+
+private let chizberg = Contributor(
+  username: "chizberg",
+  rawURL: "https://github.com/chizberg"
+)
+private let honorableMentions: [Contributor] = [
+  Contributor(username: "lisa.iso", rawURL: "https://www.instagram.com/l.chizberg"),
+  Contributor(username: "dmitriitrif", rawURL: "https://github.com/dmitriitrif"),
+  Contributor(username: "Xelwow", rawURL: "https://github.com/xelwow"),
+]
+
+#if DEBUG
 #Preview {
   @Previewable @State
-  var store = makeSettingsModel(
+  var store = makeSettingsViewModel(
+    settings: ObservableProperty(
+      initialValue: SettingsState(
+        showYearColorInClusters: false,
+        openClusterPreviews: false
+      )
+    ),
     urlOpener: { _ in }
   ).viewStore
 
@@ -89,3 +155,4 @@ struct SettingsView: View {
     store: store
   )
 }
+#endif // DEBUG

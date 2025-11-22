@@ -10,14 +10,27 @@ import VGSL
 
 final class MergedAnnotationView: MKAnnotationView {
   private let label = UILabel()
+  private var colorSubscription: Disposable?
+
+  var showYearColor: ObservableVariable<Bool>? {
+    didSet {
+      colorSubscription = showYearColor?
+        .currentAndNewValues
+        .addObserver { [weak self] showYearColor in
+          self?.updateColors(showYearColor: showYearColor)
+        }
+    }
+  }
 
   override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
     super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
 
     label.textAlignment = .center
-    label.font = .systemFont(ofSize: 17, weight: .bold)
-    label.textColor = .white
+    label.font = .systemFont(ofSize: 17, weight: .semibold)
     addSubview(label)
+    registerForTraitChanges([UITraitUserInterfaceStyle.self]) { (self: Self, _) in
+      self.updateColors()
+    }
   }
 
   @available(*, unavailable)
@@ -45,25 +58,52 @@ final class MergedAnnotationView: MKAnnotationView {
 
   override func prepareForDisplay() {
     super.prepareForDisplay()
-    guard let (year, count) = makeYearAndCount() else {
+    guard let count else {
       assertionFailure("unable to extract year and count")
       return
     }
     label.text = "\(count)"
-    backgroundColor = UIColor.from(year: year)
+    updateColors()
     setNeedsLayout()
   }
 
-  private func makeYearAndCount() -> (year: Int, count: Int)? {
+  private func updateColors() {
+    updateColors(showYearColor: showYearColor?.value ?? false)
+  }
+
+  private func updateColors(showYearColor: Bool) {
+    if showYearColor, let year {
+      backgroundColor = UIColor.from(year: year)
+      label.textColor = .white
+    } else {
+      backgroundColor = .neutralClusterBg
+      label.textColor = .label
+    }
+  }
+
+  private var year: Int? {
     if let mkCluster = annotation as? MKClusterAnnotation,
        let wrappers = mkCluster.memberAnnotations as? [AnnotationWrapper],
        case let .image(firstImage) = wrappers.first?.value {
-      (year: firstImage.date.year, count: wrappers.count)
+      firstImage.date.year
     } else
     if let wrapper = annotation as? AnnotationWrapper,
        case let .localCluster(cluster) = wrapper.value,
        let first = cluster.images.first {
-      (year: first.date.year, count: cluster.images.count)
+      first.date.year
+    } else {
+      nil
+    }
+  }
+
+  private var count: Int? {
+    if let mkCluster = annotation as? MKClusterAnnotation,
+       let wrappers = mkCluster.memberAnnotations as? [AnnotationWrapper] {
+      wrappers.count
+    } else
+    if let wrapper = annotation as? AnnotationWrapper,
+       case let .localCluster(cluster) = wrapper.value {
+      cluster.images.count
     } else {
       nil
     }

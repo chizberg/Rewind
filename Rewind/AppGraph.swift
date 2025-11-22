@@ -19,7 +19,6 @@ final class AppGraph {
   private let favoritesStorage: FavoritesStorage
 
   init() {
-    let mapAdapter = MapAdapter()
     let requestPerformer = RequestPerformer(
       urlRequestPerformer: URLSession.shared.data
     )
@@ -37,6 +36,10 @@ final class AppGraph {
       requestPerformer: requestPerformer,
       imageLoader: imageLoader
     )
+    let settings = makeSettings(storage: storage)
+    let mapAdapter = MapAdapter(
+      showYearColorInClusters: settings.asObservableVariable().showYearColorInClusters
+    )
     weak var mapModelRef: MapModel?
     weak var appModelRef: AppModel?
     let urlOpener: UrlOpener = { $0.map { UIApplication.shared.open($0) } }
@@ -46,7 +49,8 @@ final class AppGraph {
       applyMapType: { mapAdapter.apply(mapType: $0) },
       performAppAction: { appModelRef?($0) },
       locationModel: locationModel,
-      urlOpener: urlOpener
+      urlOpener: urlOpener,
+      settings: settings.asVariable()
     )
     mapModelRef = mapModel
     mapStore = mapModel.viewStore.bimap(
@@ -67,9 +71,14 @@ final class AppGraph {
     }
     let appModel = makeAppModel(
       imageDetailsFactory: imageDetailsFactory,
+      settingsViewModelFactory: {
+        makeSettingsViewModel(
+          settings: settings,
+          urlOpener: urlOpener
+        )
+      },
       performMapAction: { mapModelRef?(.external($0)) },
-      favoritesModel: favoritesModel,
-      urlOpener: urlOpener
+      favoritesModel: favoritesModel
     )
     appModelRef = appModel
     appStore = appModel.viewStore

@@ -16,6 +16,7 @@ final class MapAdapter: NSObject, MKMapViewDelegate {
 
   private var map: Lazy<MKMapView>
   private var pipe = SignalPipe<Event>()
+  private var showYearColorInClusters: ObservableVariable<Bool>
 
   var view: UIView {
     map.value
@@ -31,7 +32,7 @@ final class MapAdapter: NSObject, MKMapViewDelegate {
     }
   }
 
-  override init() {
+  init(showYearColorInClusters: ObservableVariable<Bool>) {
     weak var weakSelf: MapAdapter?
     map = Lazy(getter: { // TODO: simplify
       let map = MKMapView()
@@ -57,6 +58,7 @@ final class MapAdapter: NSObject, MKMapViewDelegate {
       )
       return map
     })
+    self.showYearColorInClusters = showYearColorInClusters
     super.init()
     weakSelf = self
   }
@@ -121,19 +123,31 @@ final class MapAdapter: NSObject, MKMapViewDelegate {
           withIdentifier: ReuseIdentifier.image
         )
       case .cluster:
-        return mapView.dequeueReusableAnnotationView(
+        guard let cell = mapView.dequeueReusableAnnotationView(
           withIdentifier: ReuseIdentifier.cluster
-        )
+        ) as? ClusterAnnotationView else {
+          return nil
+        }
+        cell.showYearColor = showYearColorInClusters
+        return cell
       case .localCluster:
-        return mapView.dequeueReusableAnnotationView(
+        guard let cell = mapView.dequeueReusableAnnotationView(
           withIdentifier: ReuseIdentifier.localCluster
-        )
+        ) as? MergedAnnotationView else {
+          return nil
+        }
+        cell.showYearColor = showYearColorInClusters
+        return cell
       }
     }
     if annotation is MKClusterAnnotation {
-      return mapView.dequeueReusableAnnotationView(
-        withIdentifier: ReuseIdentifier.mkCluster
-      )
+      guard let cell = mapView.dequeueReusableAnnotationView(
+        withIdentifier: ReuseIdentifier.localCluster
+      ) as? MergedAnnotationView else {
+        return nil
+      }
+      cell.showYearColor = showYearColorInClusters
+      return cell
     }
     return nil
   }
