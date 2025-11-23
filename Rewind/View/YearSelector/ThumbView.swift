@@ -18,11 +18,11 @@ import UIKit
 // через yearLabel и backgroundColor
 final class ThumbView: UIView {
   private enum Style {
-    static let cornerRadius: CGFloat = 5
+    static let cornerRadius: CGFloat = 15
     static let font = UIFont.systemFont(ofSize: 15, weight: .bold)
     static let horizontalInset: CGFloat = 3
     static let verticalInset: CGFloat = 3
-    static let thumbSize: CGSize = .init(width: 50, height: 30)
+    static let thumbSize: CGSize = .init(width: 60, height: 30)
     static let textColor: UIColor = .white
   }
 
