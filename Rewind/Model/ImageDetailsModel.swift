@@ -49,6 +49,7 @@ enum ImageDetailsAction {
 
   enum Button {
     case favorite
+    case showOnMap
     case share
     case saveImage
     case viewOnWeb
@@ -88,6 +89,7 @@ func makeImageDetailsModel(
   coordinate: Coordinate,
   openSource: String,
   favoriteModel: SingleFavoriteModel,
+  showOnMap: @escaping (Coordinate) -> Void,
   canOpenURL: @escaping (URL) -> Bool,
   urlOpener: @escaping (URL) -> Void
 ) -> ImageDetailsModel {
@@ -162,41 +164,46 @@ func makeImageDetailsModel(
         case .dismiss:
           state.alertModel = nil
         }
-      case .button(.viewOnWeb):
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = "pastvu.com"
-        components.path = "/\(state.cid)"
-        if let url = components.url {
-          urlOpener(url)
+      case let .button(button):
+        switch button {
+        case .viewOnWeb:
+          var components = URLComponents()
+          components.scheme = "https"
+          components.host = "pastvu.com"
+          components.path = "/\(state.cid)"
+          if let url = components.url {
+            urlOpener(url)
+          }
+        case .favorite:
+          state.isFavorite.toggle()
+          enqueueEffect(.perform { [isFavorite = state.isFavorite] _ in
+            favoriteModel(isFavorite)
+            await UIImpactFeedbackGenerator(style: .light).impactOccurred()
+          })
+        case .showOnMap:
+          showOnMap(modelImage.coordinate)
+        case .saveImage:
+          enqueueEffect(.anotherAction(.internal(.saveImage)))
+        case .share:
+          guard let details = state.details,
+                let image = state.uiImage
+          else { return }
+          enqueueEffect(.perform { [title = state.title] anotherAction in
+            let vc = await UIActivityViewController(
+              activityItems: [
+                image,
+                [
+                  String(title.characters),
+                  details.description.map { String($0.characters) },
+                ].compactMap(\.self).joined(separator: "\n"),
+              ],
+              applicationActivities: nil
+            )
+            await anotherAction(.internal(.shareSheetLoaded(vc)))
+          })
+        case .route:
+          enqueueEffect(.anotherAction(.setMapOptionsVisibility(true)))
         }
-      case .button(.favorite):
-        state.isFavorite.toggle()
-        enqueueEffect(.perform { [isFavorite = state.isFavorite] _ in
-          favoriteModel(isFavorite)
-          await UIImpactFeedbackGenerator(style: .light).impactOccurred()
-        })
-      case .button(.saveImage):
-        enqueueEffect(.anotherAction(.internal(.saveImage)))
-      case .button(.share):
-        guard let details = state.details,
-              let image = state.uiImage
-        else { return }
-        enqueueEffect(.perform { [title = state.title] anotherAction in
-          let vc = await UIActivityViewController(
-            activityItems: [
-              image,
-              [
-                String(title.characters),
-                details.description.map { String($0.characters) },
-              ].compactMap(\.self).joined(separator: "\n"),
-            ],
-            applicationActivities: nil
-          )
-          await anotherAction(.internal(.shareSheetLoaded(vc)))
-        })
-      case .button(.route):
-        enqueueEffect(.anotherAction(.setMapOptionsVisibility(true)))
       case .shareSheetDismissed:
         state.shareVC = nil
       case let .setMapOptionsVisibility(visible):
