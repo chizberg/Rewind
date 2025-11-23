@@ -425,6 +425,17 @@
         }
       }
     },
+    "Show on map" : {
+      "comment" : "action name on image details screen. shows image location on a map",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показать на карте"
+          }
+        }
+      }
+    },
     "source" : {
       "comment" : "label for image source",
       "localizations" : {

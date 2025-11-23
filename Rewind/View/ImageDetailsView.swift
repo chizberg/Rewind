@@ -214,7 +214,7 @@ struct ImageDetailsView: View {
   }
 
   private var actionButtons: some View {
-    LazyVGrid(columns: [.init(.adaptive(minimum: 175))]) {
+    TwoColumnLayout {
       ForEach(visibleActions, id: \.self) {
         makeButton(action: $0)
       }
@@ -234,6 +234,7 @@ struct ImageDetailsView: View {
 private let titleImageID = "fullscreenPreview"
 private let visibleActions: [ImageDetailsAction.Button] = [
   .favorite,
+  .showOnMap,
   .share,
   .saveImage,
   .viewOnWeb,
@@ -269,6 +270,7 @@ private struct ButtonSpec {
   ) {
     title = switch button {
     case .favorite: "Favorite"
+    case .showOnMap: "Show on map"
     case .share: "Share"
     case .saveImage: "Save image"
     case .viewOnWeb: "View on Web"
@@ -277,6 +279,7 @@ private struct ButtonSpec {
 
     iconName = switch button {
     case .favorite: isFavorite ? "star.fill" : "star"
+    case .showOnMap: "mappin.and.ellipse"
     case .share: "square.and.arrow.up"
     case .saveImage: isImageSaved
       ? "square.and.arrow.down.badge.checkmark"
@@ -288,13 +291,13 @@ private struct ButtonSpec {
     foreground = switch button {
     case .favorite: isFavorite ? .white : .primary
     case .saveImage: isImageSaved ? .white : .primary
-    case .share, .viewOnWeb, .route: .primary
+    case .showOnMap, .share, .viewOnWeb, .route: .primary
     }
 
     background = switch button {
     case .favorite: isFavorite ? .yellow.mix(with: .black, by: 0.1) : .systemBackground
     case .saveImage: isImageSaved ? .green.mix(with: .black, by: 0.1) : .systemBackground
-    case .share, .viewOnWeb, .route: .systemBackground
+    case .showOnMap, .share, .viewOnWeb, .route: .systemBackground
     }
   }
 }
@@ -320,6 +323,7 @@ extension SingleFavoriteModel {
     coordinate: Model.Image.mock.coordinate,
     openSource: "",
     favoriteModel: .mock,
+    showOnMap: { _ in },
     canOpenURL: { _ in true },
     urlOpener: { _ in }
   ).viewStore
@@ -344,6 +348,7 @@ extension SingleFavoriteModel {
     coordinate: Model.Image.mock.coordinate,
     openSource: "",
     favoriteModel: .mock,
+    showOnMap: { _ in },
     canOpenURL: { _ in true },
     urlOpener: { _ in }
   ).viewStore

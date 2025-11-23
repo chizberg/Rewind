@@ -65,6 +65,11 @@ final class AppGraph {
         coordinate: image.coordinate,
         openSource: source,
         favoriteModel: favoritesModel.isFavorite(image),
+        showOnMap: { coordinate in
+          appModelRef?(.imageList(.dismiss))
+          appModelRef?(.imageDetails(.dismiss))
+          mapModelRef?(.external(.focusOn(coordinate)))
+        },
         canOpenURL: { UIApplication.shared.canOpenURL($0) },
         urlOpener: urlOpener
       )

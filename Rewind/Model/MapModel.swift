@@ -41,6 +41,7 @@ enum MapAction {
     case map(Map)
     case ui(UI)
     case previewClosed
+    case focusOn(Coordinate)
     case newLocationState(LocationState)
   }
 
@@ -80,76 +81,88 @@ func makeMapModel(
       switch action {
       case let .external(externalAction):
         switch externalAction {
-        case let .map(.regionChanged(region)):
-          enqueueEffect(.throttled(id: .regionChanged) { anotherAction in
-            await anotherAction(.internal(.regionChanged(region)))
-          })
-        case let .map(.annotationSelected(mkAnn)):
-          var listToPresent: [Model.Image] = []
-          if let ann = mkAnn as? AnnotationWrapper {
-            switch ann.value {
-            case let .image(image):
-              performAppAction(.imageDetails(.present(image, source: "annotation")))
-            case let .cluster(cluster):
-              if settings.value.openClusterPreviews {
-                performAppAction(.imageDetails(.present(cluster.preview, source: "annotation")))
-              } else {
-                mapAdapter.set(
-                  region: Region(center: cluster.coordinate, zoom: state.region.zoom + 1),
-                  animated: true
+        case let .map(map):
+          switch map {
+          case let .regionChanged(region):
+            enqueueEffect(.throttled(id: .regionChanged) { anotherAction in
+              await anotherAction(.internal(.regionChanged(region)))
+            })
+          case let .annotationSelected(mkAnn):
+            var listToPresent: [Model.Image] = []
+            if let ann = mkAnn as? AnnotationWrapper {
+              switch ann.value {
+              case let .image(image):
+                performAppAction(.imageDetails(.present(image, source: "annotation")))
+              case let .cluster(cluster):
+                if settings.value.openClusterPreviews {
+                  performAppAction(.imageDetails(.present(cluster.preview, source: "annotation")))
+                } else {
+                  mapAdapter.set(
+                    region: Region(center: cluster.coordinate, zoom: state.region.zoom + 1),
+                    animated: true
+                  )
+                }
+              case let .localCluster(localCluster):
+                listToPresent = localCluster.images
+              }
+            } else if let mkCluster = mkAnn as? MKClusterAnnotation {
+              listToPresent = mkCluster.memberAnnotations.compactMap { ann in
+                if let wrapper = ann as? AnnotationWrapper,
+                   case let .image(image) = wrapper.value {
+                  return image
+                }
+                return nil
+              }
+            }
+            if !listToPresent.isEmpty {
+              performAppAction(
+                .imageList(
+                  .present(listToPresent, source: "local cluster", title: "Cluster")
                 )
-              }
-            case let .localCluster(localCluster):
-              listToPresent = localCluster.images
-            }
-          } else if let mkCluster = mkAnn as? MKClusterAnnotation {
-            listToPresent = mkCluster.memberAnnotations.compactMap { ann in
-              if let wrapper = ann as? AnnotationWrapper,
-                 case let .image(image) = wrapper.value {
-                return image
-              }
-              return nil
-            }
-          }
-          if !listToPresent.isEmpty {
-            performAppAction(
-              .imageList(
-                .present(listToPresent, source: "local cluster", title: "Cluster")
               )
-            )
+            }
+          case .annotationDeselected:
+            break
           }
-        case .map(.annotationDeselected): break
-        case .ui(.mapViewLoaded):
-          locationModel(.requestAccess)
-          locationModel(.tryStartUpdatingLocation)
-        case let .ui(.yearRangeChanged(yearRange)):
-          state.yearRange = yearRange
-          enqueueEffect(.throttled(id: .clearAnnotations) { anotherAction in
-            await anotherAction(.internal(.clearAnnotations))
-          })
-          enqueueEffect(.throttled(id: .loadAnnotations) { anotherAction in
-            await anotherAction(.internal(.loadAnnotations))
-          })
-        case let .ui(.mapTypeSelected(mapType)):
-          state.mapType = mapType
-          applyMapType(mapType)
-        case .ui(.locationButtonTapped):
-          if let location = state.locationState.location {
-            mapAdapter.set(
-              region: Region(center: location.coordinate, zoom: 15),
-              animated: true
-            )
-          } else if state.locationState.isAccessGranted == false {
-            performAppAction(.alert(.present(.locationAccessDenied {
-              if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
-                urlOpener(settingsURL)
-              }
-            })))
-          } else {
-            performAppAction(.alert(.present(.unableToDetermineLocation)))
+        case let .ui(ui):
+          switch ui {
+          case .mapViewLoaded:
+            locationModel(.requestAccess)
+            locationModel(.tryStartUpdatingLocation)
+          case let .yearRangeChanged(yearRange):
+            state.yearRange = yearRange
+            enqueueEffect(.throttled(id: .clearAnnotations) { anotherAction in
+              await anotherAction(.internal(.clearAnnotations))
+            })
+            enqueueEffect(.throttled(id: .loadAnnotations) { anotherAction in
+              await anotherAction(.internal(.loadAnnotations))
+            })
+          case let .mapTypeSelected(mapType):
+            state.mapType = mapType
+            applyMapType(mapType)
+          case .locationButtonTapped:
+            if let location = state.locationState.location {
+              mapAdapter.set(
+                region: Region(center: location.coordinate, zoom: 15),
+                animated: true
+              )
+            } else if state.locationState.isAccessGranted == false {
+              performAppAction(.alert(.present(.locationAccessDenied {
+                if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
+                  urlOpener(settingsURL)
+                }
+              })))
+            } else {
+              performAppAction(.alert(.present(.unableToDetermineLocation)))
+            }
           }
         case .previewClosed:
           mapAdapter.deselectAnnotations()
+        case let .focusOn(coordinate):
+          mapAdapter.set(
+            region: Region(center: coordinate, zoom: 17),
+            animated: true
+          )
         case let .newLocationState(locationState):
           if let location = locationState.location, state.locationState.location == nil {
             mapAdapter.set(

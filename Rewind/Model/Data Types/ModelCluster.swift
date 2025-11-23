@@ -7,6 +7,8 @@
 
 import Foundation
 
+import VGSL
+
 extension Model {
   struct Cluster {
     var preview: Model.Image
@@ -14,7 +16,9 @@ extension Model {
     var count: Int
 
     init(nc: Network.Cluster, image: LoadableUIImage) {
-      preview = Model.Image(nc.preview, image: image)
+      preview = modified(Model.Image(nc.preview, image: image)) {
+        $0.coordinate = $0.coordinate.reversed() // 🩼
+      }
       coordinate = Coordinate(nc.geo)
       count = nc.count
     }

@@ -31,6 +31,10 @@ extension Coordinate {
       && longitude.isAlmostEqual(to: other.longitude, e: e)
   }
 
+  func reversed() -> Coordinate {
+    Coordinate(latitude: longitude, longitude: latitude)
+  }
+
   // FIXME: chizberg - adjust()
 }
 

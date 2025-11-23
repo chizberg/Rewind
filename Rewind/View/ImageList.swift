@@ -94,6 +94,7 @@ private let imageDetailsFactoryMock: ImageDetailsFactory = { image, source in
     coordinate: image.coordinate,
     openSource: source,
     favoriteModel: .mock,
+    showOnMap: { _ in },
     canOpenURL: { _ in false },
     urlOpener: { _ in }
   )
