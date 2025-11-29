@@ -74,6 +74,13 @@ final class AppGraph {
         urlOpener: urlOpener
       )
     }
+    let onboardingViewModel = makeOnboardingViewModel(
+      keyValueStorage: storage,
+      onFinish: {
+        mapModelRef?(.external(.ui(.mapViewLoaded))) // 🩼
+        appModelRef?(.onboarding(.dismiss))
+      }
+    )
     let appModel = makeAppModel(
       imageDetailsFactory: imageDetailsFactory,
       settingsViewModelFactory: {
@@ -83,7 +90,8 @@ final class AppGraph {
         )
       },
       performMapAction: { mapModelRef?(.external($0)) },
-      favoritesModel: favoritesModel
+      favoritesModel: favoritesModel,
+      onboardingViewModel: onboardingViewModel
     )
     appModelRef = appModel
     appStore = appModel.viewStore

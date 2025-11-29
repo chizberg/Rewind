@@ -91,7 +91,7 @@ struct ImageDetailsView: View {
       }
     }
     .background {
-      Color.secondaryBackground.edgesIgnoringSafeArea(
+      Color.secondarySystemBackground.edgesIgnoringSafeArea(
         isSplitView ? .bottom : .vertical
       )
     }
@@ -285,7 +285,7 @@ private struct ButtonSpec {
       ? "square.and.arrow.down.badge.checkmark"
       : "square.and.arrow.down"
     case .viewOnWeb: "globe.americas.fill"
-    case .route: "map"
+    case .route: "point.bottomleft.forward.to.arrow.triangle.scurvepath.fill"
     }
 
     foreground = switch button {

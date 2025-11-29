@@ -68,6 +68,7 @@ final class MapAdapter: NSObject, MKMapViewDelegate {
     map.value.addAnnotations(annotations)
   }
 
+  // operation queue for adding/removal?
   func remove(annotations: [MKAnnotation]) {
     animateRemoval(
       annotations.compactMap { map.value.view(for: $0) },

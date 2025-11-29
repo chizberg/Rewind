@@ -100,7 +100,7 @@ final class ClusterAnnotationView: MKAnnotationView {
   }
 
   private func updateColors() {
-    updateColors(showYearColor: showYearColor?.value ?? false)
+    updateColors(showYearColor: showYearColor?.value ?? true)
   }
 
   private func updateColors(showYearColor: Bool) {

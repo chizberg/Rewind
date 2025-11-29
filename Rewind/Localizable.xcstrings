@@ -62,6 +62,17 @@
         }
       }
     },
+    "A time-travel app" : {
+      "comment" : "Onboarding app description subtitle",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложение для путешествий во времени"
+          }
+        }
+      }
+    },
     "address" : {
       "comment" : "label for image address",
       "localizations" : {
@@ -106,6 +117,74 @@
         }
       }
     },
+    "cluster_of_images_description" : {
+      "comment" : "Onboarding description of a cluster annotation",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A large group of images. To view them all, you need to zoom in"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Большая группа изображений. Нужно приблизить, чтобы увидеть все"
+          }
+        }
+      }
+    },
+    "cluster_of_images_title" : {
+      "comment" : "Onboarding title of a cluster annotation",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cluster of images"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Кластер картинок"
+          }
+        }
+      }
+    },
+    "comparison_description" : {
+      "comment" : "Onboarding description of a comparison feature",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "[Work in progress] Take a&nbsp;photo to&nbsp;compare the&nbsp;same place over&nbsp;time"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "[Работа в процессе] Сделайте фотографию, чтобы сравнить то же место спустя годы"
+          }
+        }
+      }
+    },
+    "comparison_title" : {
+      "comment" : "Onboarding title of a comparison feature",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compare past and present"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сравните прошлое с настоящим"
+          }
+        }
+      }
+    },
     "Contact Support" : {
       "comment" : "button from settings to contact email support",
       "localizations" : {
@@ -129,12 +208,12 @@
       }
     },
     "Dismiss" : {
-      "comment" : "dissmiss action title for alert",
+      "comment" : "Alert dismiss action",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Скрыть"
+            "value" : "Закрыть"
           }
         }
       }
@@ -172,6 +251,17 @@
         }
       }
     },
+    "Get started" : {
+      "comment" : "Onboarding first navigation button",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Начнём!"
+          }
+        }
+      }
+    },
     "Go to Settings" : {
       "comment" : "prompt to open location settings to grant access for the app",
       "localizations" : {
@@ -194,6 +284,85 @@
         }
       }
     },
+    "group_of_images_description" : {
+      "comment" : "Onboarding description of group of images annotation",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Several images that are close to each other. Opens a full list when tapped"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Несколько изображений, которые находятся рядом. По касанию откроется список"
+          }
+        }
+      }
+    },
+    "group_of_images_title" : {
+      "comment" : "Onboarding title of group of images annotation",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Group of images"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Группа картинок"
+          }
+        }
+      }
+    },
+    "Hi!" : {
+      "comment" : "Greeting from onboarding",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Привет!"
+          }
+        }
+      }
+    },
+    "history_near_you_description" : {
+      "comment" : "Onboarding description of location feature",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can view old&nbsp;images of&nbsp;places on&nbsp;the&nbsp;map"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вы можете увидеть старые фотографии мест на карте"
+          }
+        }
+      }
+    },
+    "history_near_you_title" : {
+      "comment" : "Onboarding title of location feature",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "History near you"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "История вокруг вас"
+          }
+        }
+      }
+    },
     "Hybrid" : {
       "comment" : "hybrid map style",
       "localizations" : {
@@ -201,6 +370,51 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Гибрид"
+          }
+        }
+      }
+    },
+    "images_saving_description" : {
+      "comment" : "Onboarding description of image saving feature",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can create a&nbsp;collection of&nbsp;your most&nbsp;spectacular moments and&nbsp;places"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Создайте коллекцию самых захватывающих мест и моментов"
+          }
+        }
+      }
+    },
+    "images_saving_title" : {
+      "comment" : "Onboarding title of image saving feature",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save images you like"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сохраняйте любимые фотографии"
+          }
+        }
+      }
+    },
+    "Let's see!" : {
+      "comment" : "Button to finish location onboarding",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вперёд!"
           }
         }
       }
@@ -260,6 +474,17 @@
         }
       }
     },
+    "Old photos on a map 🗺️" : {
+      "comment" : "TItle of map annotation onboarding",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Старые фотографии на карте 🗺️"
+          }
+        }
+      }
+    },
     "On the map" : {
       "comment" : "title of a list of images presented currently on the map",
       "localizations" : {
@@ -267,6 +492,57 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "На карте"
+          }
+        }
+      }
+    },
+    "onboarding_date" : {
+      "comment" : "Description of images’ date for onboarding",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Every image has location and date. Date has a corresponding color"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У каждого изображения есть локация и дата. Дате соответствует цвет"
+          }
+        }
+      }
+    },
+    "onboarding_location" : {
+      "comment" : "Description of location access in the onboarding",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind needs your location to show images near you. Without it you can still use the app"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind нужна ваша локация чтобы показывать фотографии рядом. Без этого доступа приложение тоже можно использовать"
+          }
+        }
+      }
+    },
+    "onboarding_pastvu" : {
+      "comment" : "Data source description for the onboarding",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind uses the PastVu API to obtain all historical images and their associated data."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind использует PastVu API для получения всех изображений и данных о них"
           }
         }
       }
@@ -436,6 +712,40 @@
         }
       }
     },
+    "single_image_description" : {
+      "comment" : "Onboarding description of a single image map annotation",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shows direction. You can view image details when you tap it"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показывает направление. По касанию открывает детали изображения"
+          }
+        }
+      }
+    },
+    "single_image_title" : {
+      "comment" : "Onboarding title of a single image map annotation",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Single image"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Одна картинка"
+          }
+        }
+      }
+    },
     "source" : {
       "comment" : "label for image source",
       "localizations" : {
@@ -465,6 +775,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Это приложение было бы невозможно без PastVu"
+          }
+        }
+      }
+    },
+    "This is " : {
+      "comment" : "Part of onboarding greeting. Like “Hi! This is Rewind”",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это "
           }
         }
       }
@@ -571,6 +892,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Открыть исходный код"
+          }
+        }
+      }
+    },
+    "What do they look like?" : {
+      "comment" : "Map annotation onboarding subtitle",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Как они выглядят?"
           }
         }
       }

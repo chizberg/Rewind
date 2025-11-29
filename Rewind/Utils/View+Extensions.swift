@@ -6,10 +6,15 @@
 //
 
 import SwiftUI
+import VGSL
 
 extension View {
   func frame(size: CGSize) -> some View {
     frame(width: size.width, height: size.height)
+  }
+
+  func frame(squareSize: CGFloat) -> some View {
+    frame(width: squareSize, height: squareSize)
   }
 
   func readFrame(
@@ -48,5 +53,13 @@ extension View {
     transform: (Self) -> some View
   ) -> some View {
     self.if(condition, transform: transform, else: { $0 })
+  }
+}
+
+extension SwiftUI.ScrollView {
+  func showsIndicators(_ shows: Bool) -> some View {
+    modified(self) {
+      $0.showsIndicators = shows
+    }
   }
 }
