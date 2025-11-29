@@ -30,8 +30,10 @@ struct RootView: View {
         rawMap
       }
       .ignoresSafeArea()
-      .task { // TODO: move to onboarding
-        mapStore(.mapViewLoaded)
+      .task {
+        if appStore.onboardingStore == nil {
+          mapStore(.mapViewLoaded)
+        }
       }
 
       GeometryReader { geometry in
@@ -80,6 +82,15 @@ struct RootView: View {
         ImageList(
           viewStore: viewStore
         ).navigationTransition(.zoom(sourceID: viewStore.matchedTransitionSourceName, in: rootView))
+      }
+    )
+    .fullScreenCover(
+      item: Binding(
+        get: { appStore.onboardingStore },
+        set: { _ in appStore(.onboarding(.dismiss)) }
+      ),
+      content: { identified in
+        OnboardingView(store: identified.value)
       }
     )
     .sheet(

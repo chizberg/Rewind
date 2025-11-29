@@ -16,6 +16,7 @@ struct AppState {
   var previewedImage: Identified<ImageDetailsModel.Store>?
   var previewedList: Identified<ImageListModel.Store>?
   var settingsStore: Identified<SettingsViewModel.Store>?
+  var onboardingStore: Identified<OnboardingViewModel.Store>?
   var alertModel: Identified<AlertParams>?
 }
 
@@ -36,6 +37,10 @@ enum AppAction {
     case dismiss
   }
 
+  enum Onboarding {
+    case dismiss
+  }
+
   enum Alert {
     case present(AlertParams?)
     case dismiss
@@ -44,6 +49,7 @@ enum AppAction {
   case imageDetails(ImageDetails)
   case imageList(ImageList)
   case settings(Settings)
+  case onboarding(Onboarding)
   case alert(Alert)
 }
 
@@ -54,13 +60,18 @@ func makeAppModel(
   imageDetailsFactory: @escaping ImageDetailsFactory,
   settingsViewModelFactory: @escaping () -> SettingsViewModel,
   performMapAction: @escaping (MapAction.External) -> Void,
-  favoritesModel: FavoritesModel
+  favoritesModel: FavoritesModel,
+  onboardingViewModel: OnboardingViewModel?
 ) -> AppModel {
   AppModel(
     initial: AppState(
       previewedImage: nil,
       previewedList: nil,
-      settingsStore: nil
+      settingsStore: nil,
+      onboardingStore: onboardingViewModel.map {
+        Identified(value: $0.viewStore)
+      },
+      alertModel: nil
     ),
     reduce: { state, action, _ in
       switch action {
@@ -108,6 +119,11 @@ func makeAppModel(
           )
         case .dismiss:
           state.settingsStore = nil
+        }
+      case let .onboarding(onboardingAction):
+        switch onboardingAction {
+        case .dismiss:
+          state.onboardingStore = nil
         }
       case let .alert(alertAction):
         switch alertAction {

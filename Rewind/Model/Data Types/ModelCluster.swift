@@ -22,6 +22,12 @@ extension Model {
       coordinate = Coordinate(nc.geo)
       count = nc.count
     }
+
+    init(preview: Model.Image, coordinate: Coordinate, count: Int) {
+      self.preview = preview
+      self.coordinate = coordinate
+      self.count = count
+    }
   }
 }
 

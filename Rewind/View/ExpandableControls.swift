@@ -35,7 +35,7 @@ struct ExpandableControls: View {
         },
         .init(id: "map type picker") { isExpanded in
           expandableItemView(
-            iconName: "map",
+            iconName: "square.3.layers.3d.top.filled",
             expandedContent: {
               MapTypePicker(mapType: $mapType)
                 .padding(.leading, 10)
