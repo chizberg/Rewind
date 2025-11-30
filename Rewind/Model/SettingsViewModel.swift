@@ -22,7 +22,7 @@ enum SettingsViewAction {
     case setShowYearColorInClusters(Bool)
     case setOpenClusterPreviews(Bool)
 
-    case contactSupport
+    case contact
     case openRepo
     case openPastVu
     case pastVuRules
@@ -60,7 +60,7 @@ func makeSettingsViewModel(
           state.showYearColorInClusters = value
         case let .setOpenClusterPreviews(value):
           state.openClusterPreviews = value
-        case .contactSupport:
+        case .contact:
           urlOpener(URL(string: "mailto:a.chizberg@proton.me"))
         case .openRepo:
           urlOpener(URL(string: "https://github.com/chizberg/Rewind"))

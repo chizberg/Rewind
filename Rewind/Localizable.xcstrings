@@ -195,13 +195,13 @@
         }
       }
     },
-    "Contact Support" : {
+    "Contact developer" : {
       "comment" : "button from settings to contact email support",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Связаться с поддержкой"
+            "value" : "Связаться с разработчиком"
           }
         }
       }
@@ -219,7 +219,6 @@
     },
     "Dismiss" : {
       "comment" : "Alert dismiss action",
-      "extractionState" : "stale",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -604,7 +603,6 @@
     },
     "Print value" : {
       "comment" : "debug action to print value",
-      "extractionState" : "stale",
       "localizations" : {
         "ru" : {
           "stringUnit" : {

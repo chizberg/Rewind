@@ -43,7 +43,7 @@ struct SettingsView: View {
         }
 
         Section {
-          makeButton("Contact Support", action: .contactSupport)
+          makeButton("Contact developer", action: .contact)
           makeButton("View source code", action: .openRepo)
         } header: {
           Text("Links")
