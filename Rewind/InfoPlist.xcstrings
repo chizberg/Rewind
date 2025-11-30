@@ -1,6 +1,23 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "App needs this access to save images to your library" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App needs this access to save images to your library"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложению нужен доступ, чтобы сохранять фотографии в вашу медиатеку"
+          }
+        }
+      }
+    },
     "CFBundleDisplayName" : {
       "comment" : "Bundle display name",
       "extractionState" : "extracted_with_value",
@@ -37,7 +54,7 @@
         }
       }
     },
-    "NSLocationWhenInUseUsageDescription" : {
+    "Location is needed to show images around you" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -54,19 +71,26 @@
         }
       }
     },
-    "NSPhotoLibraryAddUsageDescription" : {
-      "extractionState" : "manual",
+    "NSLocationWhenInUseUsageDescription" : {
+      "comment" : "Privacy - Location When In Use Usage Description",
+      "extractionState" : "extracted_with_value",
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "App needs this access to save images to your library"
+            "state" : "new",
+            "value" : "Location is needed to show images around you"
           }
-        },
-        "ru" : {
+        }
+      }
+    },
+    "NSPhotoLibraryAddUsageDescription" : {
+      "comment" : "Privacy - Photo Library Additions Usage Description",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "Приложению нужен доступ, чтобы сохранять фотографии в вашу медиатеку"
+            "state" : "new",
+            "value" : "App needs this access to save images to your library"
           }
         }
       }
