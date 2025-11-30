@@ -18,14 +18,8 @@ struct MapControls: View {
   var body: some View {
     VStack {
       ExpandableControls(
-        yearRange: Binding(
-          get: { mapStore.yearRange },
-          set: { mapStore(.yearRangeChanged($0)) }
-        ),
-        mapType: Binding(
-          get: { mapStore.mapType },
-          set: { mapStore(.mapTypeSelected($0)) }
-        ),
+        yearRange: mapStore.binding(\.yearRange, send: { .yearRangeChanged($0) }),
+        mapType: mapStore.binding(\.mapType, send: { .mapTypeSelected($0) }),
         staticItems: [
           .init(
             id: "location",

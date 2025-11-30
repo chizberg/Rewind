@@ -48,18 +48,10 @@ struct RootView: View {
         }.ignoresSafeArea(edges: .bottom)
       }
     }
-    .alert(
-      Binding(
-        get: { appStore.alertModel },
-        set: { _ in appStore(.alert(.dismiss)) }
-      )
-    )
+    .alert(appStore.binding(\.alertModel, send: { _ in .alert(.dismiss) }))
     .mask(RoundedRectangle(cornerRadius: CGFloat.deviceBezel).ignoresSafeArea())
     .fullScreenCover(
-      item: Binding(
-        get: { appStore.previewedImage },
-        set: { _ in appStore(.imageDetails(.dismiss)) }
-      ),
+      item: appStore.binding(\.previewedImage, send: { _ in .imageDetails(.dismiss) }),
       content: { identified in
         let viewStore = identified.value
         ImageDetailsView(
@@ -73,10 +65,7 @@ struct RootView: View {
       }
     )
     .fullScreenCover(
-      item: Binding(
-        get: { appStore.previewedList },
-        set: { _ in appStore(.imageList(.dismiss)) }
-      ),
+      item: appStore.binding(\.previewedList, send: { _ in .imageList(.dismiss) }),
       content: { identified in
         let viewStore = identified.value
         ImageList(
@@ -85,19 +74,13 @@ struct RootView: View {
       }
     )
     .fullScreenCover(
-      item: Binding(
-        get: { appStore.onboardingStore },
-        set: { _ in appStore(.onboarding(.dismiss)) }
-      ),
+      item: appStore.binding(\.onboardingStore, send: { _ in .onboarding(.dismiss) }),
       content: { identified in
         OnboardingView(store: identified.value)
       }
     )
     .sheet(
-      item: Binding(
-        get: { appStore.settingsStore },
-        set: { _ in appStore(.settings(.dismiss)) }
-      ),
+      item: appStore.binding(\.settingsStore, send: { _ in .settings(.dismiss) }),
       content: { identified in
         SettingsView(store: identified.value)
           .navigationTransition(

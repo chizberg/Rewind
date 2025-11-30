@@ -177,7 +177,7 @@ func makeImageDetailsModel(
         case .favorite:
           state.isFavorite.toggle()
           enqueueEffect(.perform { [isFavorite = state.isFavorite] _ in
-            favoriteModel(isFavorite)
+            await favoriteModel(isFavorite)
             await UIImpactFeedbackGenerator(style: .light).impactOccurred()
           })
         case .showOnMap:

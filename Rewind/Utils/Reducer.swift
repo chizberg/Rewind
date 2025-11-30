@@ -9,6 +9,7 @@ import Foundation
 
 import VGSL
 
+@preconcurrency @MainActor
 final class Reducer<State, Action> {
   struct Effect {
     var id: String
@@ -18,7 +19,7 @@ final class Reducer<State, Action> {
   @ObservableProperty
   private(set) var state: State
   private let reduce: ActionHandler
-  @MainActor @Property
+  @Property
   private var effects: [String: Task<Void, Error>]
   private let disposePool = AutodisposePool()
 
@@ -41,16 +42,10 @@ final class Reducer<State, Action> {
     var newEffects = [Effect]()
     reduce(&state, action) { newEffects.append($0) }
     for effect in newEffects {
-      Task { // TODO: chizberg - simplify?
-        await MainActor.run {
-          if let existingTask = effects[effect.id] {
-            existingTask.cancel()
-          }
-          effects[effect.id] = Task {
-            await effect.action { action in await MainActor.run { self(action) } }
-            effects[effect.id] = nil
-          }
-        }
+      effects[effect.id]?.cancel()
+      effects[effect.id] = nil
+      effects[effect.id] = Task { [weak self] in
+        await effect.action { action in await MainActor.run { self?(action) } }
       }
     }
   }
@@ -60,16 +55,14 @@ final class Reducer<State, Action> {
   }
 }
 
-enum ThrottledActionID: String {
+enum DebouncedActionID: String {
   case regionChanged
   case updatePreviews
-  case loadAnnotations
-  case clearAnnotations
+  case yearRangeChanged
 
   var delay: TimeInterval {
     switch self {
-    case .regionChanged, .loadAnnotations, .clearAnnotations: 0.15
-    case .updatePreviews: 0.3
+    case .regionChanged, .yearRangeChanged, .updatePreviews: 0.1
     }
   }
 }
@@ -144,8 +137,8 @@ extension Reducer.Effect {
     )
   }
 
-  static func throttled(
-    id: ThrottledActionID,
+  static func debounced(
+    id: DebouncedActionID,
     action: @escaping ((Action) async -> Void) async -> Void
   ) -> Reducer.Effect {
     Reducer.Effect(

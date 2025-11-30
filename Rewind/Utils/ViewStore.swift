@@ -50,6 +50,20 @@ struct ViewStore<State, Action> {
   }
 }
 
+extension ViewStore {
+  func binding<T>(
+    _ kp: KeyPath<State, T>,
+    send: @escaping (T) -> Action
+  ) -> Binding<T> {
+    Binding(
+      get: { state.wrappedValue[keyPath: kp] },
+      set: { newValue in
+        self(send(newValue))
+      }
+    )
+  }
+}
+
 extension Reducer {
   typealias Store = ViewStore<State, Action>
 

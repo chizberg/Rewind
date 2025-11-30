@@ -88,7 +88,7 @@ func makeMapModel(
         case let .map(map):
           switch map {
           case let .regionChanged(region):
-            enqueueEffect(.throttled(id: .regionChanged) { anotherAction in
+            enqueueEffect(.debounced(id: .regionChanged) { anotherAction in
               await anotherAction(.internal(.regionChanged(region)))
             })
           case let .annotationSelected(mkAnn):
@@ -135,10 +135,8 @@ func makeMapModel(
             locationModel(.tryStartUpdatingLocation)
           case let .yearRangeChanged(yearRange):
             state.yearRange = yearRange
-            enqueueEffect(.throttled(id: .clearAnnotations) { anotherAction in
+            enqueueEffect(.debounced(id: .yearRangeChanged) { anotherAction in
               await anotherAction(.internal(.clearAnnotations))
-            })
-            enqueueEffect(.throttled(id: .loadAnnotations) { anotherAction in
               await anotherAction(.internal(.loadAnnotations))
             })
           case let .mapTypeSelected(mapType):
@@ -186,7 +184,7 @@ func makeMapModel(
           }
           state.region = region
           enqueueEffect(.anotherAction(.internal(.loadAnnotations)))
-          enqueueEffect(.throttled(id: .updatePreviews) { anotherAction in
+          enqueueEffect(.debounced(id: .updatePreviews) { anotherAction in
             await anotherAction(.internal(.updatePreviews))
           })
         case .loadAnnotations:
@@ -232,7 +230,7 @@ func makeMapModel(
 
           mapAdapter.remove(annotations: clusteredImagesToRemove)
           mapAdapter.add(annotations: clusteredImagesToAdd + newClusterAnnotations)
-          enqueueEffect(.throttled(id: .updatePreviews) { anotherAction in
+          enqueueEffect(.debounced(id: .updatePreviews) { anotherAction in
             await anotherAction(.internal(.updatePreviews))
           })
         case .clearAnnotations:
@@ -240,7 +238,7 @@ func makeMapModel(
           state.clusters.removeAll()
           mapAdapter.clear()
           enqueueEffect(.cancel(id: EffectID.loadAnnotations))
-          enqueueEffect(.throttled(id: .updatePreviews) { anotherAction in
+          enqueueEffect(.debounced(id: .updatePreviews) { anotherAction in
             await anotherAction(.internal(.updatePreviews))
           })
         case .updatePreviews:
