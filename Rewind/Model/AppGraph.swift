@@ -11,8 +11,8 @@ import UIKit
 import VGSL
 
 final class AppGraph {
-  let mapStore: ViewStore<MapState, MapAction.External.UI>
-  let appStore: ViewStore<AppState, AppAction>
+  let mapStore: MapViewModel.Store
+  let appStore: AppModel.Store
   let mapAdapter: MapAdapter
 
   private let disposePool = AutodisposePool()
@@ -91,7 +91,8 @@ final class AppGraph {
       },
       performMapAction: { mapModelRef?(.external($0)) },
       favoritesModel: favoritesModel,
-      onboardingViewModel: onboardingViewModel
+      onboardingViewModel: onboardingViewModel,
+      currentRegionImages: Variable { mapModelRef?.state.currentRegionImages ?? [] }
     )
     appModelRef = appModel
     appStore = appModel.viewStore

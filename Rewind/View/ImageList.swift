@@ -9,7 +9,7 @@ import SwiftUI
 import VGSL
 
 struct ImageList: View {
-  var viewStore: ViewStore<ImageListState, ImageListAction>
+  var viewStore: ImageListModel.Store
 
   @Environment(\.dismiss)
   private var dismiss

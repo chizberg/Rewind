@@ -9,7 +9,7 @@ import SwiftUI
 import VGSL
 
 struct SettingsView: View {
-  var store: ViewStore<SettingsState, SettingsViewAction.UI>
+  var store: SettingsViewModel.Store
 
   @Environment(\.dismiss)
   private var dismiss
