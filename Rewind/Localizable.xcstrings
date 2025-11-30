@@ -29,6 +29,16 @@
         }
       }
     },
+    "👀" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "👀"
+          }
+        }
+      }
+    },
     "💔" : {
       "comment" : "emoji for empty favorites list",
       "localizations" : {
@@ -209,6 +219,7 @@
     },
     "Dismiss" : {
       "comment" : "Alert dismiss action",
+      "extractionState" : "stale",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -453,12 +464,12 @@
       }
     },
     "Nothing here yet" : {
-      "comment" : "prompt on empty favorites list",
+      "comment" : "empty images list prompt",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Тут пока ничего нет :("
+            "value" : "Тут пока ничего нет"
           }
         }
       }
@@ -593,6 +604,7 @@
     },
     "Print value" : {
       "comment" : "debug action to print value",
+      "extractionState" : "stale",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -859,6 +871,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "загружено"
+          }
+        }
+      }
+    },
+    "View as List" : {
+      "comment" : "Description of a card that opens a new screen with a list of images",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открыть списком"
           }
         }
       }

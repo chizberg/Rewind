@@ -9,7 +9,7 @@ import SwiftUI
 import VGSL
 
 struct ImageDetailsView: View {
-  var viewStore: ViewStore<ImageDetailsState, ImageDetailsAction>
+  var viewStore: ImageDetailsModel.Store
 
   @Namespace
   private var namespace

@@ -9,6 +9,7 @@ import MapKit
 import VGSL
 
 typealias MapModel = Reducer<MapState, MapAction>
+typealias MapViewModel = Reducer<MapState, MapAction.External.UI>
 
 struct MapState {
   typealias ClusteredImages = [ClusteringCell: Either<Set<Model.Image>, Model.LocalCluster>]
@@ -16,8 +17,9 @@ struct MapState {
   var region: Region
   var yearRange: ClosedRange<Int>
   var currentRegionImages: [Model.Image]
-  var previews: [Model.Image]
+  var previews: [ThumbnailCard]
   var locationState: LocationState
+  var isLoading: Bool
 
   fileprivate var clusters: Set<Model.Cluster>
   fileprivate var clusteredImages: ClusteredImages
@@ -48,6 +50,7 @@ enum MapAction {
   enum Internal {
     case regionChanged(Region)
     case loadAnnotations
+    case loadingFailed(Error)
     case loaded([Model.Image], [Model.Cluster])
     case clearAnnotations
     case updatePreviews
@@ -74,6 +77,7 @@ func makeMapModel(
       currentRegionImages: [],
       previews: [],
       locationState: locationModel.state,
+      isLoading: false,
       clusters: [],
       clusteredImages: [:]
     ),
@@ -186,19 +190,24 @@ func makeMapModel(
             await anotherAction(.internal(.updatePreviews))
           })
         case .loadAnnotations:
+          state.isLoading = true
           let params = (state.region, state.yearRange)
           enqueueEffect(.perform(id: EffectID.loadAnnotations) { anotherAction in
             do {
               let (images, clusters) = try await annotationsRemote.load(params)
               await anotherAction(.internal(.loaded(images, clusters)))
             } catch {
-              performAppAction(.alert(.present(.error(
-                title: "Unable to load map annotations",
-                error: error
-              ))))
+              await anotherAction(.internal(.loadingFailed(error)))
             }
           })
+        case let .loadingFailed(error):
+          state.isLoading = false
+          performAppAction(.alert(.present(.error(
+            title: "Unable to load map annotations",
+            error: error
+          ))))
         case let .loaded(images, clusters):
+          state.isLoading = false
           let clustersSet = Set(clusters)
           let newClusters = clustersSet.subtracting(state.clusters)
           state.clusters.formUnion(clustersSet)
@@ -235,6 +244,7 @@ func makeMapModel(
             await anotherAction(.internal(.updatePreviews))
           })
         case .updatePreviews:
+          guard !state.isLoading else { return }
           let annotations = mapAdapter.visibleAnnotations.flatMap {
             if let cluster = $0 as? MKClusterAnnotation {
               return cluster.memberAnnotations
@@ -250,11 +260,24 @@ func makeMapModel(
             }
           }
           state.currentRegionImages = Array(Set(modelValues))
-          state.previews = Array(state.currentRegionImages.prefix(10))
+          state.previews = makePreviews(images: state.currentRegionImages, limit: 10)
         }
       }
     }
   )
+}
+
+private func makePreviews(
+  images: [Model.Image],
+  limit: Int
+) -> [ThumbnailCard] {
+  if images.isEmpty {
+    [.noImages]
+  } else if images.count > limit {
+    images.prefix(limit).map { .image($0) } + [.viewAsList]
+  } else {
+    images.map { .image($0) }
+  }
 }
 
 private enum EffectID {

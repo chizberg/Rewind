@@ -11,8 +11,8 @@ import SwiftUI
 
 struct RootView: View {
   let rawMap: UIView
-  let mapStore: ViewStore<MapState, MapAction.External.UI>
-  let appStore: ViewStore<AppState, AppAction>
+  let mapStore: MapViewModel.Store
+  let appStore: AppModel.Store
 
   enum TransitionSource {
     static let settings = "settings"

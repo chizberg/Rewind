@@ -35,7 +35,34 @@ extension Coordinate {
     Coordinate(latitude: longitude, longitude: latitude)
   }
 
-  // FIXME: chizberg - adjust()
+  // https://gist.github.com/missinglink/d0a085188a8eab2ca66db385bb7c023a
+  func wrap() -> Coordinate {
+    let quadrant = Int(abs(latitude) / 90) % 4
+    let pole: Double = latitude > 0 ? 90 : -90
+    let offset = latitude.truncatingRemainder(dividingBy: 90)
+
+    var wrapped = self
+    switch quadrant {
+    case 0:
+      wrapped.latitude = offset
+    case 1:
+      wrapped.latitude = pole - offset
+      wrapped.longitude += 180
+    case 2:
+      wrapped.latitude = -offset
+      wrapped.longitude += 180
+    case 3:
+      wrapped.latitude = -pole + offset
+    default:
+      assertionFailure("should not be reached")
+    }
+
+    if wrapped.longitude > 180 || wrapped.longitude < -180 {
+      wrapped.longitude -= floor((wrapped.longitude + 180) / 360) * 360
+    }
+
+    return wrapped
+  }
 }
 
 extension Coordinate: @retroactive Codable {
@@ -106,7 +133,7 @@ extension Region {
         latitude: center.latitude - halfLatitudeDelta,
         longitude: center.longitude - halfLongitudeDelta
       ),
-    ]
+    ].map { $0.wrap() }
   }
 
   // server requires reverse order

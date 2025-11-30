@@ -10,8 +10,8 @@ import SwiftUI
 import BezelKit
 
 struct MapControls: View {
-  let mapStore: ViewStore<MapState, MapAction.External.UI>
-  let appStore: ViewStore<AppState, AppAction>
+  let mapStore: MapViewModel.Store
+  let appStore: AppModel.Store
   let namespace: Namespace.ID
   let hasBottomSafeAreaInset: Bool
 
@@ -41,20 +41,26 @@ struct MapControls: View {
 
       MapControlsGlassContainer(
         hasBottomSafeAreaInset: hasBottomSafeAreaInset
-      ) {
-        content
-          .padding(.vertical, 20)
-      }
+      ) { content }
     }
   }
 
   private var content: some View {
     AutoscrollingScrollView(scrollOnChangeOf: mapStore.previews) {
       horizontalScrollContent
-        .padding(.horizontal, 20)
+        .padding(.horizontal, glassCardPadding)
     }
     .frame(height: thumbnailSize.height)
     .animation(.spring().speed(2), value: mapStore.previews)
+    .padding(.vertical, glassCardPadding)
+    .overlay(alignment: .topTrailing) {
+      if mapStore.isLoading {
+        ProgressView()
+          .progressViewStyle(.circular)
+          .padding(glassCardPadding + 5)
+      }
+    }
+    .animation(.default, value: mapStore.isLoading)
   }
 
   private var horizontalScrollContent: some View {
@@ -73,13 +79,9 @@ struct MapControls: View {
           iconName: "list.bullet",
           sourceID: RootView.TransitionSource.viewAsListButton,
           action: {
-            appStore(.imageList(
-              .present(
-                mapStore.currentRegionImages,
-                source: RootView.TransitionSource.viewAsListButton,
-                title: "On the map"
-              )
-            ))
+            appStore(.imageList(.presentCurrentRegionImages(
+              source: RootView.TransitionSource.viewAsListButton
+            )))
           }
         )
 
@@ -91,22 +93,31 @@ struct MapControls: View {
         }
       }.frame(width: 75)
 
-      ForEach(mapStore.previews) { image in
-        ThumbnailView(
-          image: image,
+      ForEach(mapStore.previews) { card in
+        let transitionID = "\(card.id) \(RootView.TransitionSource.thumbnail)"
+        ThumbnailCardView(
+          card: card,
           size: thumbnailSize,
           radius: mapControlRadius
         )
         .matchedTransitionSource(
-          id: "\(image.cid) \(RootView.TransitionSource.thumbnail)",
+          id: transitionID,
           in: namespace
         )
         .cornerRadius(mapControlRadius) // for transitions
         .onTapGesture {
-          appStore(.imageDetails(.present(
-            image,
-            source: RootView.TransitionSource.thumbnail
-          )))
+          switch card {
+          case let .image(image):
+            appStore(.imageDetails(.present(
+              image,
+              source: RootView.TransitionSource.thumbnail
+            )))
+          case .viewAsList:
+            appStore(.imageList(.presentCurrentRegionImages(
+              source: transitionID
+            )))
+          case .noImages: break
+          }
         }
         .transition(.scale)
       }
@@ -130,6 +141,8 @@ struct MapControls: View {
     .onTapGesture(perform: action)
   }
 }
+
+private let glassCardPadding: CGFloat = 20
 
 struct MapControlBackground: View {
   @Environment(\.colorScheme)
