@@ -19,10 +19,13 @@ struct RootView: View {
     static let thumbnail = "thumbnail"
     static let viewAsListButton = "view as list button"
     static let favoritesButton = "favorites button"
+    static let pullUpCard = "pull up card"
   }
 
   @Namespace
   private var rootView
+  @State
+  private var screenRadius = CGFloat.deviceBezel
 
   var body: some View {
     ZStack(alignment: .bottom) {
@@ -49,7 +52,7 @@ struct RootView: View {
       }
     }
     .alert(appStore.binding(\.alertModel, send: { _ in .alert(.dismiss) }))
-    .mask(RoundedRectangle(cornerRadius: CGFloat.deviceBezel).ignoresSafeArea())
+    .mask(RoundedRectangle(cornerRadius: screenRadius).ignoresSafeArea())
     .fullScreenCover(
       item: appStore.binding(\.previewedImage, send: { _ in .imageDetails(.dismiss) }),
       content: { identified in

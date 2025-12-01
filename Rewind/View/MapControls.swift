@@ -15,6 +15,13 @@ struct MapControls: View {
   let namespace: Namespace.ID
   let hasBottomSafeAreaInset: Bool
 
+  @State
+  private var offset: CGFloat = 0
+  @State
+  private var pullingProgress: CGFloat = 0
+  @State
+  private var glassCardRadius = max(CGFloat.deviceBezel - containerPadding, 32)
+
   var body: some View {
     VStack {
       ExpandableControls(
@@ -34,9 +41,59 @@ struct MapControls: View {
       .padding(.bottom, 2)
 
       MapControlsGlassContainer(
-        hasBottomSafeAreaInset: hasBottomSafeAreaInset
-      ) { content }
+        hasBottomSafeAreaInset: hasBottomSafeAreaInset,
+        radius: glassCardRadius
+      ) {
+        content
+      }
+      .overlay(alignment: .top) { // card to pull
+        VStack {
+          Spacer().frame(
+            height: glassCardHeight + makeBottomPadding(
+              hasBottomSafeAreaInset: hasBottomSafeAreaInset
+            )
+          )
+
+          ZStack(alignment: .top) {
+            makeGlassBackground(radius: glassCardRadius)
+
+            RoundedRectangle(cornerRadius: glassCardRadius)
+              .fill(Color.systemBackground.opacity(pullingProgress))
+
+            HStack {
+              Image(systemName: "list.bullet")
+              Text("Pull to view images as list")
+            }
+            .opacity(0.7)
+            .padding()
+          }
+          .matchedTransitionSource(
+            id: RootView.TransitionSource.pullUpCard,
+            in: namespace
+          )
+          .padding(.horizontal, containerPadding)
+          .frame(height: 700)
+        }
+      }
+      .minimizable(
+        contentHeight: glassCardHeight,
+        state: appStore.binding(
+          \.mapControls.minimization, send: { .mapControls(.setMinimization($0)) }
+        ),
+        offset: $offset,
+        glimpseHeight: 100,
+        pullingProgress: $pullingProgress,
+        minPullLength: 200,
+        onPull: { appStore(.imageList(.presentCurrentRegionImages(
+          source: RootView.TransitionSource.pullUpCard)))
+        }
+      )
     }
+    .offset(y: offset)
+    .animation(
+      .interactiveSpring(duration: 0.4, extraBounce: 0.1, blendDuration: 0.5),
+      value: offset
+    )
   }
 
   private var content: some View {
@@ -136,7 +193,10 @@ struct MapControls: View {
   }
 }
 
-private let glassCardPadding: CGFloat = 20
+extension MapControls {
+  // height of controls that covers the map under it
+  static let blockingHeight = glassCardHeight + makeBottomPadding(hasBottomSafeAreaInset: true)
+}
 
 struct MapControlBackground: View {
   @Environment(\.colorScheme)
@@ -168,15 +228,12 @@ private struct MapControlsGlassContainer<Content: View>: View {
 
   init(
     hasBottomSafeAreaInset: Bool,
+    radius: CGFloat,
     @ViewBuilder content: @escaping () -> Content
   ) {
     self.content = content
-    radius = max(CGFloat.deviceBezel - containerPadding, 32)
-    let bottomPadding: CGFloat = if #available(iOS 26, *) {
-      containerPadding
-    } else {
-      hasBottomSafeAreaInset ? iOS18HomeBarHeight : containerPadding
-    }
+    self.radius = radius
+    let bottomPadding = makeBottomPadding(hasBottomSafeAreaInset: hasBottomSafeAreaInset)
     insets = EdgeInsets(
       top: 0,
       leading: containerPadding,
@@ -189,11 +246,7 @@ private struct MapControlsGlassContainer<Content: View>: View {
     content()
       .background {
         ZStack {
-          if #available(iOS 26, *) {
-            GlassView(radius: radius)
-          } else {
-            BlurView(style: .systemThinMaterial, radius: radius)
-          }
+          makeGlassBackground(radius: radius)
 
           Rectangle().fill(.primary.opacity(0.05))
         }
@@ -242,18 +295,67 @@ private struct AutoscrollingScrollView<Value: Equatable, Content: View>: View {
   }
 }
 
+private func makeBottomPadding(hasBottomSafeAreaInset: Bool) -> CGFloat {
+  let iOS18HomeBarHeight: CGFloat = 21
+  return if #available(iOS 26, *) {
+    containerPadding
+  } else {
+    hasBottomSafeAreaInset ? iOS18HomeBarHeight : containerPadding
+  }
+}
+
+@ViewBuilder
+private func makeGlassBackground(radius: CGFloat) -> some View {
+  if #available(iOS 26, *) {
+    GlassView(radius: radius)
+  } else {
+    BlurView(style: .systemThinMaterial, radius: radius)
+  }
+}
+
 private let thumbnailSize = CGSize(width: 250, height: 187.5)
 private let containerPadding: CGFloat = 8
 private let mapControlRadius: CGFloat = 25
-private let iOS18HomeBarHeight: CGFloat = 21
+private let glassCardPadding: CGFloat = 20
+private let glassCardHeight = thumbnailSize.height + glassCardPadding * 2
 
 #if DEBUG
 #Preview {
+  @Previewable @State
+  var mapStore = MapModel.makeMock { initialState in
+    initialState.previews = [
+      .image(.mock),
+      .noImages,
+      .viewAsList,
+    ]
+  }.viewStore.bimap(
+    state: { $0 },
+    action: { .external(.ui($0)) }
+  )
+  @Previewable @State
+  var appStore = AppModel.mock.viewStore
+  @Previewable @Namespace
+  var namespace
+
+  ZStack(alignment: .bottom) {
+    Color.blue
+
+    MapControls(
+      mapStore: mapStore,
+      appStore: appStore,
+      namespace: namespace,
+      hasBottomSafeAreaInset: false
+    )
+  }.ignoresSafeArea()
+}
+
+#Preview("container") {
   ZStack(alignment: .bottom) {
     Color.clear
 
     MapControlsGlassContainer(
-      hasBottomSafeAreaInset: true
+      hasBottomSafeAreaInset: true,
+      radius: 35
     ) {
       Color.yellow
         .frame(height: 300)

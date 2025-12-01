@@ -13,8 +13,8 @@ struct AnnotationsScreen: View {
 
   var body: some View {
     VStack(alignment: .leading) {
-      VStack(alignment: .leading) {
-        Text("Old photos on a map 🗺️")
+      VStack(alignment: .leading, spacing: 8) {
+        Text("Old photos on a map")
           .multilineTextAlignment(.leading)
           .font(.largeTitle.bold())
 
@@ -90,6 +90,7 @@ struct AnnotationsScreen: View {
           .prominent()
           Spacer()
         }
+        .padding()
         .background {
           LinearGradient(
             stops: [

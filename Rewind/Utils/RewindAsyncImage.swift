@@ -7,21 +7,18 @@
 
 import SwiftUI
 
-struct RewindAsyncImage<Content: View, Placeholder: View, ErrorView: View>: View {
+struct RewindAsyncImage<Content: View, Placeholder: View>: View {
   let getter: () async throws -> UIImage
   @ViewBuilder
   var content: (UIImage) -> Content
   var placeholder: Placeholder
-  @ViewBuilder
-  var errorView: (Error) -> ErrorView
 
   init(
     _ image: LoadableUIImage,
     _ quality: ImageQuality,
     cachedOnly: Bool = false,
     @ViewBuilder content: @escaping (UIImage) -> Content,
-    @ViewBuilder placeholder: @escaping () -> Placeholder,
-    @ViewBuilder errorView: @escaping (Error) -> ErrorView
+    @ViewBuilder placeholder: @escaping () -> Placeholder
   ) {
     getter = {
       try await image.load(
@@ -33,7 +30,6 @@ struct RewindAsyncImage<Content: View, Placeholder: View, ErrorView: View>: View
     }
     self.content = content
     self.placeholder = placeholder()
-    self.errorView = errorView
   }
 
   @State
@@ -45,13 +41,13 @@ struct RewindAsyncImage<Content: View, Placeholder: View, ErrorView: View>: View
     Group {
       if let image {
         content(image)
-      } else if let error {
-        errorView(error)
+      } else if error != nil {
+        content(UIImage.error)
       } else {
         placeholder
       }
     }
-    .task {
+    .task(priority: .background) {
       do {
         let fetchedImage = try await getter()
         await MainActor.run {
@@ -63,26 +59,5 @@ struct RewindAsyncImage<Content: View, Placeholder: View, ErrorView: View>: View
         }
       }
     }
-  }
-}
-
-extension RewindAsyncImage where ErrorView == Image {
-  init(
-    _ image: LoadableUIImage,
-    _ quality: ImageQuality,
-    cachedOnly: Bool = false,
-    @ViewBuilder content: @escaping (UIImage) -> Content,
-    @ViewBuilder placeholder: @escaping () -> Placeholder
-  ) {
-    self.init(
-      image,
-      quality,
-      cachedOnly: cachedOnly,
-      content: content,
-      placeholder: placeholder,
-      errorView: { _ in
-        Image(uiImage: .error)
-      }
-    )
   }
 }

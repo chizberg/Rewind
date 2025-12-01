@@ -59,10 +59,12 @@ enum DebouncedActionID: String {
   case regionChanged
   case updatePreviews
   case yearRangeChanged
+  case unfoldControlsBack
 
   var delay: TimeInterval {
     switch self {
     case .regionChanged, .yearRangeChanged, .updatePreviews: 0.1
+    case .unfoldControlsBack: 2
     }
   }
 }
@@ -137,6 +139,12 @@ extension Reducer.Effect {
     )
   }
 
+  static func cancel(
+    debouncedAction: DebouncedActionID
+  ) -> Reducer.Effect {
+    .cancel(id: debouncedAction.rawValue)
+  }
+
   static func debounced(
     id: DebouncedActionID,
     action: @escaping ((Action) async -> Void) async -> Void
@@ -147,6 +155,21 @@ extension Reducer.Effect {
         do {
           try await Task.sleep(for: .seconds(id.delay))
           await action(performAnotherReducerAction)
+        } catch {}
+      }
+    )
+  }
+
+  static func debounced(
+    id: DebouncedActionID,
+    anotherAction: Action
+  ) -> Reducer.Effect {
+    Reducer.Effect(
+      id: id.rawValue,
+      action: { performAnotherReducerAction in
+        do {
+          try await Task.sleep(for: .seconds(id.delay))
+          await performAnotherReducerAction(anotherAction)
         } catch {}
       }
     )

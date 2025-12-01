@@ -20,7 +20,10 @@ struct ImageListCell: View {
           }
           .clipped()
       } placeholder: {
-        BlurView(style: .regular)
+        Color(uiColor: .secondarySystemBackground)
+          .overlay {
+            ProgressView()
+          }
       }
       .aspectRatio(4 / 3, contentMode: .fit)
 

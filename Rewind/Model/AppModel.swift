@@ -13,11 +13,16 @@ import VGSL
 typealias AppModel = Reducer<AppState, AppAction>
 
 struct AppState {
+  struct MapControlsState {
+    var minimization: MinimizationState
+  }
+
   var previewedImage: Identified<ImageDetailsModel.Store>?
   var previewedList: Identified<ImageListModel.Store>?
   var settingsStore: Identified<SettingsViewModel.Store>?
   var onboardingStore: Identified<OnboardingViewModel.Store>?
   var alertModel: Identified<AlertParams>?
+  var mapControls: MapControlsState
 }
 
 enum AppAction {
@@ -47,11 +52,16 @@ enum AppAction {
     case dismiss
   }
 
+  enum MapControls {
+    case setMinimization(MinimizationState)
+  }
+
   case imageDetails(ImageDetails)
   case imageList(ImageList)
   case settings(Settings)
   case onboarding(Onboarding)
   case alert(Alert)
+  case mapControls(MapControls)
 }
 
 typealias UrlOpener = (URL?) -> Void
@@ -66,14 +76,8 @@ func makeAppModel(
   currentRegionImages: Variable<[Model.Image]>
 ) -> AppModel {
   AppModel(
-    initial: AppState(
-      previewedImage: nil,
-      previewedList: nil,
-      settingsStore: nil,
-      onboardingStore: onboardingViewModel.map {
-        Identified(value: $0.viewStore)
-      },
-      alertModel: nil
+    initial: .makeInitial(
+      onboardingViewModel: onboardingViewModel
     ),
     reduce: { state, action, _ in
       switch action {
@@ -145,6 +149,11 @@ func makeAppModel(
         case .dismiss:
           state.alertModel = nil
         }
+      case let .mapControls(mapControlsAction):
+        switch mapControlsAction {
+        case let .setMinimization(minimization):
+          state.mapControls.minimization = minimization
+        }
       }
     }
   )
@@ -174,3 +183,35 @@ extension AlertParams {
     )
   }
 }
+
+extension AppState {
+  fileprivate static func makeInitial(
+    onboardingViewModel: OnboardingViewModel?
+  ) -> AppState {
+    AppState(
+      previewedImage: nil,
+      previewedList: nil,
+      settingsStore: nil,
+      onboardingStore: onboardingViewModel.map {
+        Identified(value: $0.viewStore)
+      },
+      alertModel: nil,
+      mapControls: MapControlsState(minimization: .normal)
+    )
+  }
+}
+
+#if DEBUG
+extension AppModel {
+  static let mock = AppModel(
+    initial: .makeInitial(onboardingViewModel: nil),
+    reduce: { state, action, _ in
+      switch action { // 🩼 - should make a full-working AppModel mock
+      case let .mapControls(.setMinimization(minimization)):
+        state.mapControls.minimization = minimization
+      default: break
+      }
+    }
+  )
+}
+#endif

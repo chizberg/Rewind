@@ -50,7 +50,8 @@ final class AppGraph {
       performAppAction: { appModelRef?($0) },
       locationModel: locationModel,
       urlOpener: urlOpener,
-      settings: settings.asVariable()
+      settings: settings.asVariable(),
+      appState: Variable { appModelRef?.state }
     )
     mapModelRef = mapModel
     mapStore = mapModel.viewStore.bimap(

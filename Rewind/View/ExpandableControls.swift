@@ -251,9 +251,7 @@ private struct ExpandableView<Minimized: View, Expanded: View, Background: View>
   var mapType = MapType.standard
 
   ZStack(alignment: .bottom) {
-    Image("cat")
-      .resizable()
-      .ignoresSafeArea()
+    Color.blue.ignoresSafeArea()
 
     ExpandableControls(
       yearRange: $yearRange,
