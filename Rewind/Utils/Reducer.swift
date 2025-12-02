@@ -20,7 +20,7 @@ final class Reducer<State, Action> {
   private(set) var state: State
   private let reduce: ActionHandler
   @Property
-  private var effects: [String: Task<Void, Error>]
+  private var effects: [String: (Task<Void, Error>, UUID)]
   private let disposePool = AutodisposePool()
 
   typealias ActionHandler = (
@@ -42,11 +42,15 @@ final class Reducer<State, Action> {
     var newEffects = [Effect]()
     reduce(&state, action) { newEffects.append($0) }
     for effect in newEffects {
-      effects[effect.id]?.cancel()
+      effects[effect.id]?.0.cancel()
       effects[effect.id] = nil
-      effects[effect.id] = Task { [weak self] in
+      let taskID = UUID()
+      effects[effect.id] = (Task { [weak self] in
         await effect.action { action in await MainActor.run { self?(action) } }
-      }
+        if let self, effects[effect.id]?.1 == taskID {
+          effects[effect.id] = nil
+        }
+      }, taskID)
     }
   }
 

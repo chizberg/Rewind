@@ -24,8 +24,6 @@ struct RootView: View {
 
   @Namespace
   private var rootView
-  @State
-  private var screenRadius = CGFloat.deviceBezel
 
   var body: some View {
     ZStack(alignment: .bottom) {
@@ -93,6 +91,9 @@ struct RootView: View {
     )
   }
 }
+
+@MainActor
+private let screenRadius = CGFloat.deviceBezel
 
 #Preview {
   @Previewable @State var graph = AppGraph()
