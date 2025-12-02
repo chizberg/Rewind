@@ -27,10 +27,7 @@ struct ImageList: View {
           }
         }
         .fullScreenCover(
-          item: Binding(
-            get: { viewStore.imageDetails },
-            set: { _ in viewStore(.dismissImage) }
-          ),
+          item: viewStore.binding(\.imageDetails, send: { _ in .dismissImage }),
           content: { identified in
             let viewStore = identified.value
             ImageDetailsView(viewStore: viewStore)

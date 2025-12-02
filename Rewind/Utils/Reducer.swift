@@ -9,6 +9,7 @@ import Foundation
 
 import VGSL
 
+@preconcurrency @MainActor
 final class Reducer<State, Action> {
   struct Effect {
     var id: String
@@ -18,8 +19,8 @@ final class Reducer<State, Action> {
   @ObservableProperty
   private(set) var state: State
   private let reduce: ActionHandler
-  @MainActor @Property
-  private var effects: [String: Task<Void, Error>]
+  @Property
+  private var effects: [String: (Task<Void, Error>, UUID)]
   private let disposePool = AutodisposePool()
 
   typealias ActionHandler = (
@@ -41,17 +42,15 @@ final class Reducer<State, Action> {
     var newEffects = [Effect]()
     reduce(&state, action) { newEffects.append($0) }
     for effect in newEffects {
-      Task { // TODO: chizberg - simplify?
-        await MainActor.run {
-          if let existingTask = effects[effect.id] {
-            existingTask.cancel()
-          }
-          effects[effect.id] = Task {
-            await effect.action { action in await MainActor.run { self(action) } }
-            effects[effect.id] = nil
-          }
+      effects[effect.id]?.0.cancel()
+      effects[effect.id] = nil
+      let taskID = UUID()
+      effects[effect.id] = (Task { [weak self] in
+        await effect.action { action in await MainActor.run { self?(action) } }
+        if let self, effects[effect.id]?.1 == taskID {
+          effects[effect.id] = nil
         }
-      }
+      }, taskID)
     }
   }
 
@@ -60,16 +59,16 @@ final class Reducer<State, Action> {
   }
 }
 
-enum ThrottledActionID: String {
+enum DebouncedActionID: String {
   case regionChanged
   case updatePreviews
-  case loadAnnotations
-  case clearAnnotations
+  case yearRangeChanged
+  case unfoldControlsBack
 
   var delay: TimeInterval {
     switch self {
-    case .regionChanged, .loadAnnotations, .clearAnnotations: 0.15
-    case .updatePreviews: 0.3
+    case .regionChanged, .yearRangeChanged, .updatePreviews: 0.1
+    case .unfoldControlsBack: 2
     }
   }
 }
@@ -144,8 +143,14 @@ extension Reducer.Effect {
     )
   }
 
-  static func throttled(
-    id: ThrottledActionID,
+  static func cancel(
+    debouncedAction: DebouncedActionID
+  ) -> Reducer.Effect {
+    .cancel(id: debouncedAction.rawValue)
+  }
+
+  static func debounced(
+    id: DebouncedActionID,
     action: @escaping ((Action) async -> Void) async -> Void
   ) -> Reducer.Effect {
     Reducer.Effect(
@@ -154,6 +159,21 @@ extension Reducer.Effect {
         do {
           try await Task.sleep(for: .seconds(id.delay))
           await action(performAnotherReducerAction)
+        } catch {}
+      }
+    )
+  }
+
+  static func debounced(
+    id: DebouncedActionID,
+    anotherAction: Action
+  ) -> Reducer.Effect {
+    Reducer.Effect(
+      id: id.rawValue,
+      action: { performAnotherReducerAction in
+        do {
+          try await Task.sleep(for: .seconds(id.delay))
+          await performAnotherReducerAction(anotherAction)
         } catch {}
       }
     )

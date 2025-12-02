@@ -11,7 +11,7 @@ import VGSL
 typealias MapType = MKMapType
 
 // TODO: rename, it's not only adapter
-final class MapAdapter: NSObject, MKMapViewDelegate {
+final class MapAdapter: NSObject, MKMapViewDelegate, UIGestureRecognizerDelegate {
   typealias Event = MapAction.External.Map
 
   private var map: Lazy<MKMapView>
@@ -62,6 +62,15 @@ final class MapAdapter: NSObject, MKMapViewDelegate {
     self.showYearColorInClusters = showYearColorInClusters
     super.init()
     weakSelf = self
+
+    map.whenLoaded { map in
+      let pan = UIPanGestureRecognizer(
+        target: self,
+        action: #selector(self.handlePan(_:))
+      )
+      pan.delegate = self
+      map.addGestureRecognizer(pan)
+    }
   }
 
   func add(annotations: [MKAnnotation]) {
@@ -152,6 +161,20 @@ final class MapAdapter: NSObject, MKMapViewDelegate {
       return cell
     }
     return nil
+  }
+
+  // MARK: - Pan location tracking
+
+  @objc
+  private func handlePan(_ recognizer: UIPanGestureRecognizer) {
+    pipe.send(.userDragged(recognizer.location(in: map.value), map.value.frame))
+  }
+
+  func gestureRecognizer(
+    _: UIGestureRecognizer,
+    shouldRecognizeSimultaneouslyWith _: UIGestureRecognizer
+  ) -> Bool {
+    true
   }
 }
 

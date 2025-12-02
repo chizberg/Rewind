@@ -484,13 +484,13 @@
         }
       }
     },
-    "Old photos on a map 🗺️" : {
+    "Old photos on a map" : {
       "comment" : "TItle of map annotation onboarding",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Старые фотографии на карте 🗺️"
+            "value" : "Старые фотографии на карте"
           }
         }
       }
@@ -608,6 +608,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Распечатать значение"
+          }
+        }
+      }
+    },
+    "Pull to view images as list" : {
+      "comment" : "hint on a pullable card under map controls bar",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Потяните для списка"
           }
         }
       }

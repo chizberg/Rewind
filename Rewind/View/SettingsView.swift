@@ -20,12 +20,12 @@ struct SettingsView: View {
         Section {
           makeToggle(
             "Show colors in cluster annotations",
-            state: store.showYearColorInClusters,
+            state: \.showYearColorInClusters,
             makeAction: { .setShowYearColorInClusters($0) }
           )
           makeToggle(
             "Open big cluster previews on tap",
-            state: store.openClusterPreviews,
+            state: \.openClusterPreviews,
             makeAction: { .setOpenClusterPreviews($0) }
           )
         }
@@ -93,17 +93,12 @@ struct SettingsView: View {
 
   private func makeToggle(
     _ title: LocalizedStringKey,
-    state: Bool,
+    state: KeyPath<SettingsState, Bool>,
     makeAction: @escaping (Bool) -> SettingsViewAction.UI
   ) -> some View {
     Toggle(
       title,
-      isOn: Binding(
-        get: { state },
-        set: { newValue in
-          store(makeAction(newValue))
-        }
-      )
+      isOn: store.binding(state, send: { makeAction($0) })
     )
   }
 

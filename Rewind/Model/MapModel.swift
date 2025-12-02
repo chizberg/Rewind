@@ -31,6 +31,7 @@ enum MapAction {
       case regionChanged(Region)
       case annotationSelected(MKAnnotation?)
       case annotationDeselected(MKAnnotation?)
+      case userDragged(CGPoint, CGRect)
     }
 
     enum UI {
@@ -54,6 +55,7 @@ enum MapAction {
     case loaded([Model.Image], [Model.Cluster])
     case clearAnnotations
     case updatePreviews
+    case unfoldMapControlsBack
   }
 
   case external(External)
@@ -67,20 +69,11 @@ func makeMapModel(
   performAppAction: @escaping (AppAction) -> Void,
   locationModel: LocationModel,
   urlOpener: @escaping UrlOpener,
-  settings: Variable<SettingsState>
+  settings: Variable<SettingsState>,
+  appState: Variable<AppState?>
 ) -> MapModel {
   MapModel(
-    initial: MapState(
-      mapType: .standard,
-      region: .zero,
-      yearRange: 1826...2000,
-      currentRegionImages: [],
-      previews: [],
-      locationState: locationModel.state,
-      isLoading: false,
-      clusters: [],
-      clusteredImages: [:]
-    ),
+    initial: .makeInitial(locationState: locationModel.state),
     reduce: { state, action, enqueueEffect in
       switch action {
       case let .external(externalAction):
@@ -88,9 +81,10 @@ func makeMapModel(
         case let .map(map):
           switch map {
           case let .regionChanged(region):
-            enqueueEffect(.throttled(id: .regionChanged) { anotherAction in
-              await anotherAction(.internal(.regionChanged(region)))
-            })
+            enqueueEffect(.debounced(
+              id: .regionChanged,
+              anotherAction: .internal(.regionChanged(region))
+            ))
           case let .annotationSelected(mkAnn):
             var listToPresent: [Model.Image] = []
             if let ann = mkAnn as? AnnotationWrapper {
@@ -127,6 +121,19 @@ func makeMapModel(
             }
           case .annotationDeselected:
             break
+          case let .userDragged(touchPosition, mapFrame):
+            guard let minimizationState = appState.value?.mapControls.minimization,
+                  !minimizationState.isMinimizedByUser else {
+              enqueueEffect(.cancel(debouncedAction: .unfoldControlsBack))
+              return
+            }
+            if touchPosition.y > mapFrame.height - MapControls.blockingHeight {
+              performAppAction(.mapControls(.setMinimization(.minimized(byUser: false))))
+              enqueueEffect(.debounced(
+                id: .unfoldControlsBack,
+                anotherAction: .internal(.unfoldMapControlsBack)
+              ))
+            }
           }
         case let .ui(ui):
           switch ui {
@@ -135,10 +142,8 @@ func makeMapModel(
             locationModel(.tryStartUpdatingLocation)
           case let .yearRangeChanged(yearRange):
             state.yearRange = yearRange
-            enqueueEffect(.throttled(id: .clearAnnotations) { anotherAction in
+            enqueueEffect(.debounced(id: .yearRangeChanged) { anotherAction in
               await anotherAction(.internal(.clearAnnotations))
-            })
-            enqueueEffect(.throttled(id: .loadAnnotations) { anotherAction in
               await anotherAction(.internal(.loadAnnotations))
             })
           case let .mapTypeSelected(mapType):
@@ -186,9 +191,10 @@ func makeMapModel(
           }
           state.region = region
           enqueueEffect(.anotherAction(.internal(.loadAnnotations)))
-          enqueueEffect(.throttled(id: .updatePreviews) { anotherAction in
-            await anotherAction(.internal(.updatePreviews))
-          })
+          enqueueEffect(.debounced(
+            id: .updatePreviews,
+            anotherAction: .internal(.updatePreviews)
+          ))
         case .loadAnnotations:
           state.isLoading = true
           let params = (state.region, state.yearRange)
@@ -232,17 +238,19 @@ func makeMapModel(
 
           mapAdapter.remove(annotations: clusteredImagesToRemove)
           mapAdapter.add(annotations: clusteredImagesToAdd + newClusterAnnotations)
-          enqueueEffect(.throttled(id: .updatePreviews) { anotherAction in
-            await anotherAction(.internal(.updatePreviews))
-          })
+          enqueueEffect(.debounced(
+            id: .updatePreviews,
+            anotherAction: .internal(.updatePreviews)
+          ))
         case .clearAnnotations:
           state.clusteredImages.removeAll()
           state.clusters.removeAll()
           mapAdapter.clear()
           enqueueEffect(.cancel(id: EffectID.loadAnnotations))
-          enqueueEffect(.throttled(id: .updatePreviews) { anotherAction in
-            await anotherAction(.internal(.updatePreviews))
-          })
+          enqueueEffect(.debounced(
+            id: .updatePreviews,
+            anotherAction: .internal(.updatePreviews)
+          ))
         case .updatePreviews:
           guard !state.isLoading else { return }
           let annotations = mapAdapter.visibleAnnotations.flatMap {
@@ -261,6 +269,8 @@ func makeMapModel(
           }
           state.currentRegionImages = Array(Set(modelValues))
           state.previews = makePreviews(images: state.currentRegionImages, limit: 10)
+        case .unfoldMapControlsBack:
+          performAppAction(.mapControls(.setMinimization(.normal)))
         }
       }
     }
@@ -277,6 +287,24 @@ private func makePreviews(
     images.prefix(limit).map { .image($0) } + [.viewAsList]
   } else {
     images.map { .image($0) }
+  }
+}
+
+extension MapState {
+  fileprivate static func makeInitial(
+    locationState: LocationState
+  ) -> MapState {
+    MapState(
+      mapType: .standard,
+      region: .zero,
+      yearRange: 1826...2000,
+      currentRegionImages: [],
+      previews: [],
+      locationState: locationState,
+      isLoading: false,
+      clusters: [],
+      clusteredImages: [:]
+    )
   }
 }
 
@@ -308,3 +336,21 @@ extension AlertParams {
     )
   }
 }
+
+#if DEBUG
+extension MapModel {
+  static func makeMock(
+    stateTransform: (inout MapState) -> Void = { _ in }
+  ) -> MapModel {
+    let initialState = MapState.makeInitial(
+      locationState: LocationState(
+        isAccessGranted: false
+      )
+    )
+    return MapModel(
+      initial: modified(initialState, stateTransform),
+      reduce: { _, _, _ in }
+    )
+  }
+}
+#endif

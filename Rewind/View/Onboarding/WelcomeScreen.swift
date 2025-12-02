@@ -15,7 +15,7 @@ struct WelcomeScreen: View {
       Spacer()
         .frame(height: 50)
 
-      VStack(alignment: .leading) {
+      VStack(alignment: .leading, spacing: 8) {
         Text("Hi!")
           .font(.largeTitle.bold())
         HStack {
@@ -65,6 +65,7 @@ struct WelcomeScreen: View {
         .prominent()
         Spacer()
       }
+      .padding()
     }
     .frame(maxWidth: 500, maxHeight: 900)
   }

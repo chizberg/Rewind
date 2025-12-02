@@ -28,10 +28,7 @@ struct ImageDetailsView: View {
         viewStore(.willBePresented)
       }
       .sheet(
-        item: Binding(
-          get: { viewStore.shareVC },
-          set: { if $0 == nil { viewStore(.shareSheetDismissed) }}
-        ),
+        item: viewStore.binding(\.shareVC, send: { _ in .shareSheetDismissed }),
         content: { vc in
           ViewControllerRepresentable {
             vc.value
@@ -39,10 +36,9 @@ struct ImageDetailsView: View {
         }
       )
       .fullScreenCover(
-        item: Binding(
-          get: { viewStore.fullscreenPreview },
-          set: { if $0 == nil { viewStore(.fullscreenPreview(.dismiss)) }}
-        ),
+        item: viewStore.binding(\.fullscreenPreview, send: { _ in
+          .fullscreenPreview(.dismiss)
+        }),
         content: { identifiedImage in
           ZoomableImage(
             image: identifiedImage.value,
@@ -199,9 +195,9 @@ struct ImageDetailsView: View {
     .if(action == .route) {
       $0.confirmationDialog(
         "Select map app to find route",
-        isPresented: Binding(
-          get: { viewStore.mapOptionsPresented },
-          set: { viewStore(.setMapOptionsVisibility($0)) }
+        isPresented: viewStore.binding(
+          \.mapOptionsPresented,
+          send: { .setMapOptionsVisibility($0) }
         ),
         titleVisibility: .visible,
         actions: {
