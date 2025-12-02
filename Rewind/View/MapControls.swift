@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-import BezelKit
-
 struct MapControls: View {
   let mapStore: MapViewModel.Store
   let appStore: AppModel.Store
@@ -19,8 +17,6 @@ struct MapControls: View {
   private var offset: CGFloat = 0
   @State
   private var pullingProgress: CGFloat = 0
-  @State
-  private var glassCardRadius = max(CGFloat.deviceBezel - containerPadding, 32)
 
   var body: some View {
     VStack {
@@ -318,6 +314,10 @@ private let containerPadding: CGFloat = 8
 private let mapControlRadius: CGFloat = 25
 private let glassCardPadding: CGFloat = 20
 private let glassCardHeight = thumbnailSize.height + glassCardPadding * 2
+private let glassCardRadius = max(
+  DeviceModel.getCurrent().screenRadius() - containerPadding,
+  32
+)
 
 #if DEBUG
 #Preview {

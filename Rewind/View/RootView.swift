@@ -5,7 +5,6 @@
 //  Created by Alexey Sherstnev on 02.02.2025.
 //
 
-import BezelKit
 import MapKit
 import SwiftUI
 
@@ -50,7 +49,15 @@ struct RootView: View {
       }
     }
     .alert(appStore.binding(\.alertModel, send: { _ in .alert(.dismiss) }))
-    .mask(RoundedRectangle(cornerRadius: screenRadius).ignoresSafeArea())
+    .delayedModifier(
+      value: appStore.anyOverlayPresented,
+      delay: appStore.anyOverlayPresented ? 0 : 1
+    ) { view, hasOverlays in
+      view.mask(
+        RoundedRectangle(cornerRadius: hasOverlays ? screenRadius : 0)
+          .ignoresSafeArea()
+      )
+    }
     .fullScreenCover(
       item: appStore.binding(\.previewedImage, send: { _ in .imageDetails(.dismiss) }),
       content: { identified in
@@ -92,9 +99,18 @@ struct RootView: View {
   }
 }
 
-@MainActor
-private let screenRadius = CGFloat.deviceBezel
+private let screenRadius = DeviceModel.getCurrent().screenRadius()
 
+extension AppState {
+  fileprivate var anyOverlayPresented: Bool {
+    previewedImage != nil
+      || previewedList != nil
+      || onboardingStore != nil
+      || settingsStore != nil
+  }
+}
+
+#if DEBUG
 #Preview {
   @Previewable @State var graph = AppGraph()
 
@@ -104,3 +120,4 @@ private let screenRadius = CGFloat.deviceBezel
     appStore: graph.appStore
   )
 }
+#endif

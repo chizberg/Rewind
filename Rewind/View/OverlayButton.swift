@@ -40,10 +40,7 @@ struct BackButton: View {
   var body: some View {
     OverlayButton(
       iconName: "chevron.left",
-      action: {
-        dismiss()
-        print("dismiss called")
-      }
+      action: { dismiss() }
     )
   }
 }
