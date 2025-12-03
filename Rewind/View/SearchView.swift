@@ -17,11 +17,12 @@ struct SearchView: View {
 
   var body: some View {
     NavigationStack {
-      List(
-        store.suggests,
-        selection: store.binding(\.selectedSuggest, send: { .setSelectedSuggest($0) })
-      ) { suggest in
-        SuggestCell(suggest: suggest).tag(suggest)
+      List(store.suggests) { suggest in
+        SuggestCell(
+          suggest: suggest,
+          onSelected: { store(.suggestSelected(suggest)) },
+          addToQuery: { store(.addSuggestToQuery(suggest)) }
+        )
       }
       .allowsHitTesting(!store.suggests.isEmpty)
       .overlay { overlayView }
@@ -115,14 +116,34 @@ private let searchBarRadius: CGFloat = 20
 
 private struct SuggestCell: View {
   var suggest: SearchState.Suggest
+  var onSelected: () -> Void
+  var addToQuery: () -> Void
 
   var body: some View {
-    VStack(alignment: .leading) {
-      Text(suggest.title)
-      if !suggest.subtitle.isEmpty {
-        Text(suggest.subtitle)
-          .font(.caption)
+    HStack {
+      HStack {
+        VStack(alignment: .leading) {
+          Text(suggest.title)
+          if !suggest.subtitle.isEmpty {
+            Text(suggest.subtitle)
+              .font(.caption)
+          }
+        }
+
+        Color.clear
       }
+      .contentShape(Rectangle())
+      .onTapGesture {
+        onSelected()
+      }
+
+      Button {
+        addToQuery()
+      } label: {
+        Image(systemName: "arrow.down.left.circle")
+          .padding(5)
+      }
+      .foregroundColor(.primary)
     }
   }
 }
@@ -138,5 +159,18 @@ private struct SuggestCell: View {
   )
 
   SearchView(store: store)
+}
+
+#Preview("cell") {
+  List {
+    SuggestCell(
+      suggest: SearchState.Suggest(
+        title: "Belgrade",
+        subtitle: "Serbia"
+      ),
+      onSelected: { print("selected") },
+      addToQuery: { print("add to query") }
+    )
+  }
 }
 #endif
