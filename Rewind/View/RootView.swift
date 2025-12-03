@@ -19,6 +19,7 @@ struct RootView: View {
     static let viewAsListButton = "view as list button"
     static let favoritesButton = "favorites button"
     static let pullUpCard = "pull up card"
+    static let search = "search"
   }
 
   @Namespace
@@ -88,6 +89,14 @@ struct RootView: View {
       }
     )
     .sheet(
+      item: appStore.binding(\.searchStore, send: { _ in .search(.dismiss) }),
+      content: { identified in
+        let viewStore = identified.value
+        SearchView(store: viewStore)
+          .navigationTransition(.zoom(sourceID: TransitionSource.search, in: rootView))
+      }
+    )
+    .sheet(
       item: appStore.binding(\.settingsStore, send: { _ in .settings(.dismiss) }),
       content: { identified in
         SettingsView(store: identified.value)
@@ -107,6 +116,7 @@ extension AppState {
       || previewedList != nil
       || onboardingStore != nil
       || settingsStore != nil
+      || searchStore != nil
   }
 }
 
