@@ -21,7 +21,6 @@ struct SearchState {
   }
 
   var query: String
-  var selectedSuggest: Suggest?
   var suggests: [Suggest]
   var alertModel: Identified<AlertParams>?
 }
@@ -29,7 +28,8 @@ struct SearchState {
 enum SearchAction {
   enum External {
     case updateQuery(String)
-    case setSelectedSuggest(SearchState.Suggest?)
+    case suggestSelected(SearchState.Suggest)
+    case addSuggestToQuery(SearchState.Suggest)
     case submit
     case dismissAlert
   }
@@ -37,6 +37,7 @@ enum SearchAction {
   enum Internal {
     case suggestsUpdated([MKLocalSearchCompletion])
     case suggestsFailed(Error)
+    case performSearch(String)
     case searchResponseReceived(MKLocalSearch.Response)
     case searchError(Error)
     case nothingFound
@@ -62,30 +63,16 @@ func makeSearchModel(
         case let .updateQuery(query):
           state.query = query
           suggestProvider.query = query
-        case let .setSelectedSuggest(suggest):
-          state.selectedSuggest = suggest
-          if let suggest {
-            enqueueEffect(.anotherAction(
-              .external(.updateQuery(suggest.title))
-            ))
-            enqueueEffect(.after(
-              0.2, anotherAction: .external(.setSelectedSuggest(nil))
-            ))
-          }
+        case let .suggestSelected(suggest):
+          enqueueEffect(.anotherAction(
+            .internal(.performSearch(suggest.query))
+          ))
+        case let .addSuggestToQuery(suggest):
+          state.query = suggest.query
         case .submit:
-          enqueueEffect(.perform { [query = state.query] anotherAction in
-            do {
-              let request = MKLocalSearch.Request()
-              request.naturalLanguageQuery = query
-              let search = MKLocalSearch(request: request)
-              let result = try await search.start()
-              await anotherAction(
-                .internal(.searchResponseReceived(result))
-              )
-            } catch {
-              await anotherAction(.internal(.searchError(error)))
-            }
-          })
+          enqueueEffect(.anotherAction(
+            .internal(.performSearch(state.query))
+          ))
         case .dismissAlert:
           state.alertModel = nil
         }
@@ -100,6 +87,20 @@ func makeSearchModel(
             title: "Unable to load suggests for this query",
             error: error
           ))
+        case let .performSearch(query):
+          enqueueEffect(.perform { anotherAction in
+            do {
+              let request = MKLocalSearch.Request()
+              request.naturalLanguageQuery = query
+              let search = MKLocalSearch(request: request)
+              let result = try await search.start()
+              await anotherAction(
+                .internal(.searchResponseReceived(result))
+              )
+            } catch {
+              await anotherAction(.internal(.searchError(error)))
+            }
+          })
         case let .searchResponseReceived(response):
           guard let mapItem = response.mapItems.first,
                 let location = mapItem.getLocation()
@@ -173,8 +174,19 @@ private final class SearchSuggestProvider: NSObject, MKLocalSearchCompleterDeleg
   }
 }
 
+extension SearchState.Suggest {
+  fileprivate var query: String {
+    Array.build {
+      if !subtitle.isEmpty {
+        subtitle
+      }
+      title
+    }.joined(separator: ", ")
+  }
+}
+
 extension MKMapItem {
-  func getLocation() -> CLLocation? {
+  fileprivate func getLocation() -> CLLocation? {
     if #available(iOS 26, *) {
       location
     } else { placemark.location }
