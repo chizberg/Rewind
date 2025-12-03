@@ -52,6 +52,7 @@
     },
     "2GIS" : {
       "comment" : "map app name",
+      "extractionState" : "stale",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
