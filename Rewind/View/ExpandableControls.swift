@@ -11,6 +11,7 @@ struct ExpandableControls: View {
   struct StaticItem: Identifiable {
     var id: String
     var iconName: String
+    var transitionSource: (id: String, namespace: Namespace.ID)?
     var action: () -> Void
   }
 
@@ -51,7 +52,12 @@ struct ExpandableControls: View {
             action: $0.action
           ).background {
             makeBackground(radius: minimizedRadius)
-          }
+          }.ifLet($0.transitionSource) { view, source in
+            view.matchedTransitionSource(
+              id: source.id,
+              in: source.namespace
+            )
+          }.clipShape(Circle())
         }
       }
     )

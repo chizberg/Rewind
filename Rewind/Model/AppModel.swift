@@ -21,6 +21,7 @@ struct AppState {
   var previewedList: Identified<ImageListModel.Store>?
   var settingsStore: Identified<SettingsViewModel.Store>?
   var onboardingStore: Identified<OnboardingViewModel.Store>?
+  var searchStore: Identified<SearchViewStore>?
   var alertModel: Identified<AlertParams>?
   var mapControls: MapControlsState
 }
@@ -47,6 +48,11 @@ enum AppAction {
     case dismiss
   }
 
+  enum Search {
+    case present
+    case dismiss
+  }
+
   enum Alert {
     case present(AlertParams?)
     case dismiss
@@ -60,6 +66,7 @@ enum AppAction {
   case imageList(ImageList)
   case settings(Settings)
   case onboarding(Onboarding)
+  case search(Search)
   case alert(Alert)
   case mapControls(MapControls)
 }
@@ -69,6 +76,7 @@ typealias ImageDetailsFactory = (Model.Image, String) -> ImageDetailsModel
 
 func makeAppModel(
   imageDetailsFactory: @escaping ImageDetailsFactory,
+  searchModelFactory: @escaping () -> SearchModel,
   settingsViewModelFactory: @escaping () -> SettingsViewModel,
   performMapAction: @escaping (MapAction.External) -> Void,
   favoritesModel: FavoritesModel,
@@ -141,6 +149,18 @@ func makeAppModel(
         case .dismiss:
           state.onboardingStore = nil
         }
+      case let .search(searchAction):
+        switch searchAction {
+        case .present:
+          state.searchStore = Identified(
+            value: searchModelFactory().viewStore.bimap(
+              state: { $0 },
+              action: { .external($0) }
+            )
+          )
+        case .dismiss:
+          state.searchStore = nil
+        }
       case let .alert(alertAction):
         switch alertAction {
         case let .present(alertModel):
@@ -160,11 +180,18 @@ func makeAppModel(
 }
 
 extension AlertParams {
-  static func error(
+  static func nonCancelledError(
     title: LocalizedStringResource,
     error: Error
   ) -> AlertParams? {
     guard !(error is CancellationError) else { return nil }
+    return .error(title: title, error: error)
+  }
+
+  static func error(
+    title: LocalizedStringResource,
+    error: Error
+  ) -> AlertParams {
     let errorDescription = String(describing: error)
     return AlertParams(
       title: title,
@@ -176,6 +203,21 @@ extension AlertParams {
             UIPasteboard.general.string = errorDescription
           }
         ),
+        AlertAction(
+          title: "OK"
+        ),
+      ]
+    )
+  }
+
+  static func info(
+    title: LocalizedStringResource,
+    message: LocalizedStringResource
+  ) -> AlertParams {
+    AlertParams(
+      title: title,
+      message: message,
+      actions: [
         AlertAction(
           title: "OK"
         ),
@@ -195,6 +237,7 @@ extension AppState {
       onboardingStore: onboardingViewModel.map {
         Identified(value: $0.viewStore)
       },
+      searchStore: nil,
       alertModel: nil,
       mapControls: MapControlsState(minimization: .normal)
     )

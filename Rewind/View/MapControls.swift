@@ -17,24 +17,17 @@ struct MapControls: View {
   private var offset: CGFloat = 0
   @State
   private var pullingProgress: CGFloat = 0
+  @Environment(\.horizontalSizeClass)
+  private var horizontalSizeClass
 
   var body: some View {
-    VStack {
-      ExpandableControls(
-        yearRange: mapStore.binding(\.yearRange, send: { .yearRangeChanged($0) }),
-        mapType: mapStore.binding(\.mapType, send: { .mapTypeSelected($0) }),
-        staticItems: [
-          .init(
-            id: "location",
-            iconName: mapStore.locationState.isAccessGranted
-              ? "location" : "location.slash"
-          ) {
-            mapStore(.locationButtonTapped)
-          },
-        ]
-      )
-      .padding(.horizontal, 25)
-      .padding(.bottom, 2)
+    VStack(alignment: .leading) {
+      expandableControls
+        .if(horizontalSizeClass == .regular) {
+          $0.frame(maxWidth: 450)
+        }
+        .padding(.horizontal, 25)
+        .padding(.bottom, 2)
 
       MapControlsGlassContainer(
         hasBottomSafeAreaInset: hasBottomSafeAreaInset,
@@ -42,35 +35,7 @@ struct MapControls: View {
       ) {
         content
       }
-      .overlay(alignment: .top) { // card to pull
-        VStack {
-          Spacer().frame(
-            height: glassCardHeight + makeBottomPadding(
-              hasBottomSafeAreaInset: hasBottomSafeAreaInset
-            )
-          )
-
-          ZStack(alignment: .top) {
-            makeGlassBackground(radius: glassCardRadius)
-
-            RoundedRectangle(cornerRadius: glassCardRadius)
-              .fill(Color.systemBackground.opacity(pullingProgress))
-
-            HStack {
-              Image(systemName: "list.bullet")
-              Text("Pull to view images as list")
-            }
-            .opacity(0.7)
-            .padding()
-          }
-          .matchedTransitionSource(
-            id: RootView.TransitionSource.pullUpCard,
-            in: namespace
-          )
-          .padding(.horizontal, containerPadding)
-          .frame(height: 700)
-        }
-      }
+      .overlay(alignment: .top) { cardToPull }
       .minimizable(
         contentHeight: glassCardHeight,
         state: appStore.binding(
@@ -90,6 +55,59 @@ struct MapControls: View {
       .interactiveSpring(duration: 0.4, extraBounce: 0.1, blendDuration: 0.5),
       value: offset
     )
+  }
+
+  private var expandableControls: some View {
+    ExpandableControls(
+      yearRange: mapStore.binding(\.yearRange, send: { .yearRangeChanged($0) }),
+      mapType: mapStore.binding(\.mapType, send: { .mapTypeSelected($0) }),
+      staticItems: [
+        ExpandableControls.StaticItem(
+          id: "search",
+          iconName: "magnifyingglass",
+          transitionSource: (id: RootView.TransitionSource.search, namespace: namespace)
+        ) {
+          appStore(.search(.present))
+        },
+        ExpandableControls.StaticItem(
+          id: "location",
+          iconName: mapStore.locationState.isAccessGranted
+            ? "location" : "location.slash"
+        ) {
+          mapStore(.locationButtonTapped)
+        },
+      ]
+    )
+  }
+
+  private var cardToPull: some View {
+    VStack {
+      Spacer().frame(
+        height: glassCardHeight + makeBottomPadding(
+          hasBottomSafeAreaInset: hasBottomSafeAreaInset
+        )
+      )
+
+      ZStack(alignment: .top) {
+        makeGlassBackground(radius: glassCardRadius)
+
+        RoundedRectangle(cornerRadius: glassCardRadius)
+          .fill(Color.systemBackground.opacity(pullingProgress))
+
+        HStack {
+          Image(systemName: "list.bullet")
+          Text("Pull to view images as list")
+        }
+        .opacity(0.7)
+        .padding()
+      }
+      .matchedTransitionSource(
+        id: RootView.TransitionSource.pullUpCard,
+        in: namespace
+      )
+      .padding(.horizontal, containerPadding)
+      .frame(height: 700)
+    }
   }
 
   private var content: some View {

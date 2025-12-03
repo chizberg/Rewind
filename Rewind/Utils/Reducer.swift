@@ -134,6 +134,22 @@ extension Reducer.Effect {
     )
   }
 
+  static func after(
+    _ delay: TimeInterval,
+    id: String = UUID().uuidString,
+    anotherAction: Action
+  ) -> Reducer.Effect {
+    Reducer.Effect(
+      id: id,
+      action: { performAnotherReducerAction in
+        do {
+          try await Task.sleep(for: .seconds(delay))
+          await performAnotherReducerAction(anotherAction)
+        } catch {}
+      }
+    )
+  }
+
   static func cancel(
     id: String
   ) -> Reducer.Effect {

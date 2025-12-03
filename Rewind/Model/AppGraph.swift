@@ -69,11 +69,17 @@ final class AppGraph {
         showOnMap: { coordinate in
           appModelRef?(.imageList(.dismiss))
           appModelRef?(.imageDetails(.dismiss))
-          mapModelRef?(.external(.focusOn(coordinate)))
+          mapModelRef?(.external(.focusOn(coordinate, zoom: 17)))
         },
         canOpenURL: { UIApplication.shared.canOpenURL($0) },
         urlOpener: urlOpener
       )
+    }
+    let searchModelFactory = {
+      makeSearchModel(onLocationFound: { location in
+        appModelRef?(.search(.dismiss))
+        mapModelRef?(.external(.focusOn(location.coordinate, zoom: 15)))
+      })
     }
     let onboardingViewModel = makeOnboardingViewModel(
       keyValueStorage: storage,
@@ -84,6 +90,7 @@ final class AppGraph {
     )
     let appModel = makeAppModel(
       imageDetailsFactory: imageDetailsFactory,
+      searchModelFactory: searchModelFactory,
       settingsViewModelFactory: {
         makeSettingsViewModel(
           settings: settings,

@@ -44,7 +44,7 @@ enum MapAction {
     case map(Map)
     case ui(UI)
     case previewClosed
-    case focusOn(Coordinate)
+    case focusOn(Coordinate, zoom: Int)
     case newLocationState(LocationState)
   }
 
@@ -167,9 +167,9 @@ func makeMapModel(
           }
         case .previewClosed:
           mapAdapter.deselectAnnotations()
-        case let .focusOn(coordinate):
+        case let .focusOn(coordinate, zoom):
           mapAdapter.set(
-            region: Region(center: coordinate, zoom: 17),
+            region: Region(center: coordinate, zoom: zoom),
             animated: true
           )
         case let .newLocationState(locationState):
@@ -208,7 +208,7 @@ func makeMapModel(
           })
         case let .loadingFailed(error):
           state.isLoading = false
-          performAppAction(.alert(.present(.error(
+          performAppAction(.alert(.present(.nonCancelledError(
             title: "Unable to load map annotations",
             error: error
           ))))

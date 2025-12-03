@@ -11,8 +11,6 @@ import VGSL
 struct ImageList: View {
   var viewStore: ImageListModel.Store
 
-  @Environment(\.dismiss)
-  private var dismiss
   @Namespace
   private var namespace
 
@@ -22,8 +20,7 @@ struct ImageList: View {
         .navigationTitle(viewStore.title)
         .toolbar {
           ToolbarItem(placement: .topBarLeading) {
-            backButton
-              .buttonStyle(.plain)
+            ToolbarBackButton()
           }
         }
         .fullScreenCover(
@@ -70,8 +67,13 @@ struct ImageList: View {
       .matchedTransitionSource(id: image.cid, in: namespace)
     }
   }
+}
 
-  private var backButton: some View {
+struct ToolbarBackButton: View {
+  @Environment(\.dismiss)
+  private var dismiss
+
+  var body: some View {
     Button {
       dismiss()
     } label: {
@@ -79,6 +81,7 @@ struct ImageList: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
     .foregroundStyle(.primary)
+    .buttonStyle(.plain)
   }
 }
 

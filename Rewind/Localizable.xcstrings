@@ -667,6 +667,28 @@
         }
       }
     },
+    "Search" : {
+      "comment" : "search screen navigation title",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поиск"
+          }
+        }
+      }
+    },
+    "Search for location" : {
+      "comment" : "search text field placeholder",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поиск локации"
+          }
+        }
+      }
+    },
     "Select map app to find route" : {
       "comment" : "prompt for menu with list of map apps to find the route to image location",
       "localizations" : {
@@ -756,6 +778,17 @@
         }
       }
     },
+    "Something went wrong during the search" : {
+      "comment" : "Search error alert title",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Что-то пошло не так во время поиска"
+          }
+        }
+      }
+    },
     "source" : {
       "comment" : "label for image source",
       "localizations" : {
@@ -763,6 +796,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "источник"
+          }
+        }
+      }
+    },
+    "Start typing" : {
+      "comment" : "Title of a placeholder that is shown when search query is empty",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Введите запрос"
           }
         }
       }
@@ -800,6 +844,17 @@
         }
       }
     },
+    "Try to change the search query and try again" : {
+      "comment" : "Search error alert prompt",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Попробуйте изменить текст запроса и поискать снова"
+          }
+        }
+      }
+    },
     "Unable to Determine Location" : {
       "comment" : "error message in alert",
       "localizations" : {
@@ -807,6 +862,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Не удалось определить местоположение"
+          }
+        }
+      }
+    },
+    "Unable to find what you're looking for" : {
+      "comment" : "Search error alert title",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось найти то, что вы ищете"
           }
         }
       }
@@ -840,6 +906,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Не удалось загрузить метки на карте"
+          }
+        }
+      }
+    },
+    "Unable to load suggests for this query" : {
+      "comment" : "Search suggest error alert title",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось загрузить подсказки для вашего запроса"
           }
         }
       }

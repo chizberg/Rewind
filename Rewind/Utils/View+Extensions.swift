@@ -48,11 +48,30 @@ extension View {
   }
 
   @ViewBuilder
+  func ifLet<T>(
+    _ value: T?,
+    transform: (Self, T) -> some View,
+    else elseTransform: (Self) -> some View
+  ) -> some View {
+    if let value {
+      transform(self, value)
+    } else {
+      elseTransform(self)
+    }
+  }
+
   func `if`(
     _ condition: Bool,
     transform: (Self) -> some View
   ) -> some View {
     self.if(condition, transform: transform, else: { $0 })
+  }
+
+  func ifLet<T>(
+    _ value: T?,
+    transform: (Self, T) -> some View
+  ) -> some View {
+    self.ifLet(value, transform: transform, else: { $0 })
   }
 }
 
