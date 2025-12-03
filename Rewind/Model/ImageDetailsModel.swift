@@ -209,14 +209,14 @@ func makeImageDetailsModel(
       case let .setMapOptionsVisibility(visible):
         state.mapOptionsPresented = visible
       case let .mapAppSelected(app):
-        guard let link = app.coordinateLink(
+        if let link = app.coordinateLink(
           latitude: coordinate.latitude,
           longitude: coordinate.longitude
-        ) else { return }
-        if canOpenURL(link) {
+        ),
+          canOpenURL(link) {
           urlOpener(link)
-        } else if let downloadLink = app.downloadLink {
-          urlOpener(downloadLink)
+        } else {
+          UINotificationFeedbackGenerator().notificationOccurred(.error)
         }
       case .fullscreenPreview(.present):
         if let image = state.uiImage {
