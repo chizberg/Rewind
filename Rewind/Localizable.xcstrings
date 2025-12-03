@@ -50,18 +50,6 @@
         }
       }
     },
-    "2GIS" : {
-      "comment" : "map app name",
-      "extractionState" : "stale",
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "2ГИС"
-          }
-        }
-      }
-    },
     "2025" : {
       "comment" : "year from credits",
       "localizations" : {
