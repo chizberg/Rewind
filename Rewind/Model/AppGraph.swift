@@ -15,6 +15,8 @@ final class AppGraph {
   let appStore: AppModel.Store
   let mapAdapter: MapAdapter
 
+  var orientationLock: Property<OrientationLock?>?
+
   private let disposePool = AutodisposePool()
   private let favoritesStorage: FavoritesStorage
 
@@ -42,6 +44,7 @@ final class AppGraph {
     )
     weak var mapModelRef: MapModel?
     weak var appModelRef: AppModel?
+    weak var weakSelf: AppGraph?
     let urlOpener: UrlOpener = { $0.map { UIApplication.shared.open($0) } }
     let mapModel = makeMapModel(
       mapAdapter: mapAdapter,
@@ -72,7 +75,8 @@ final class AppGraph {
           mapModelRef?(.external(.focusOn(coordinate, zoom: 17)))
         },
         canOpenURL: { UIApplication.shared.canOpenURL($0) },
-        urlOpener: urlOpener
+        urlOpener: urlOpener,
+        setOrientationLock: { weakSelf?.orientationLock?.value = $0 }
       )
     }
     let searchModelFactory = {
@@ -106,6 +110,7 @@ final class AppGraph {
     appStore = appModel.viewStore
     self.mapAdapter = mapAdapter
     self.favoritesStorage = favoritesStorage
+    weakSelf = self
 
     mapAdapter.events.addObserver {
       mapModelRef?(.external(.map($0)))

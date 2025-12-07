@@ -44,11 +44,13 @@ struct WelcomeScreen: View {
             title: "images_saving_title",
             description: "images_saving_description"
           )
-          makeFeatureDescription(
-            iconName: "camera.viewfinder",
-            title: "comparison_title",
-            description: "comparison_description"
-          )
+          if UIDevice.current.userInterfaceIdiom == .phone {
+            makeFeatureDescription(
+              iconName: "camera.viewfinder",
+              title: "comparison_title",
+              description: "comparison_description"
+            )
+          }
         }
         .padding(.top, 20)
         .padding(.horizontal)

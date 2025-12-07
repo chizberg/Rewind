@@ -22,11 +22,8 @@ struct ImageDetailsState {
     var username: String
   }
 
-  // Model.Image fields
-  var date: ImageDate
-  var title: AttributedString
-  var direction: Direction?
-  var cid: Int
+  var image: Model.Image
+  var attributedTitle: AttributedString
 
   var details: LoadableDetails?
 
@@ -35,9 +32,11 @@ struct ImageDetailsState {
   var isImageSaved: Bool
   var openSource: String
   var isFavorite: Bool
-  var shareVC: Identified<UIViewController>?
   var mapOptionsPresented: Bool
+
   var fullscreenPreview: Identified<UIImage>?
+  var comparisonStore: Identified<ComparisonViewStore>?
+  var shareVC: Identified<UIViewController>?
   var alertModel: Identified<AlertParams>?
 }
 
@@ -49,6 +48,7 @@ enum ImageDetailsAction {
 
   enum Button {
     case favorite
+    case compare
     case showOnMap
     case share
     case saveImage
@@ -68,6 +68,11 @@ enum ImageDetailsAction {
     case shareSheetLoaded(UIViewController)
   }
 
+  enum ImageComparison {
+    case present
+    case dismiss
+  }
+
   enum Alert {
     case present(AlertParams?)
     case dismiss
@@ -75,6 +80,7 @@ enum ImageDetailsAction {
 
   case button(Button)
   case fullscreenPreview(FullscreenPreview)
+  case comparison(ImageComparison)
   case alert(Alert)
   case `internal`(Internal)
   case shareSheetDismissed
@@ -91,22 +97,24 @@ func makeImageDetailsModel(
   favoriteModel: SingleFavoriteModel,
   showOnMap: @escaping (Coordinate) -> Void,
   canOpenURL: @escaping (URL) -> Bool,
-  urlOpener: @escaping (URL) -> Void
+  urlOpener: @escaping (URL) -> Void,
+  setOrientationLock: @escaping ResultAction<OrientationLock?>
 ) -> ImageDetailsModel {
   Reducer(
     initial: ImageDetailsState(
-      date: modelImage.date,
-      title: modelImage.title.makeAttrString(),
-      direction: modelImage.dir,
-      cid: modelImage.cid,
+      image: modelImage,
+      attributedTitle: modelImage.title.makeAttrString(),
       details: nil,
       uiImage: nil,
       cachedLowResImage: nil,
       isImageSaved: false,
       openSource: openSource,
       isFavorite: favoriteModel.state,
+      mapOptionsPresented: false,
+      fullscreenPreview: nil,
+      comparisonStore: nil,
       shareVC: nil,
-      mapOptionsPresented: false
+      alertModel: nil
     ),
     reduce: { state, action, enqueueEffect in
       switch action {
@@ -156,6 +164,26 @@ func makeImageDetailsModel(
         state.uiImage = image
       case let .cachedLowResImageLoaded(image):
         state.cachedLowResImage = image
+      case let .comparison(comparisonAction):
+        switch comparisonAction {
+        case .present:
+          guard let image = state.uiImage else {
+            UINotificationFeedbackGenerator().notificationOccurred(.error)
+            return
+          }
+          setOrientationLock(.portrait)
+          state.comparisonStore = Identified(
+            value: makeComparisonModel(
+              oldUIImage: image,
+              oldImageData: modelImage
+            )
+            .viewStore
+            .bimap(state: { $0 }, action: { .external($0) })
+          )
+        case .dismiss:
+          setOrientationLock(nil)
+          state.comparisonStore = nil
+        }
       case let .alert(alert):
         switch alert {
         case let .present(alertParams):
@@ -170,7 +198,7 @@ func makeImageDetailsModel(
           var components = URLComponents()
           components.scheme = "https"
           components.host = "pastvu.com"
-          components.path = "/\(state.cid)"
+          components.path = "/\(state.image.cid)"
           if let url = components.url {
             urlOpener(url)
           }
@@ -180,6 +208,8 @@ func makeImageDetailsModel(
             await favoriteModel(isFavorite)
             await UIImpactFeedbackGenerator(style: .light).impactOccurred()
           })
+        case .compare:
+          enqueueEffect(.anotherAction(.comparison(.present)))
         case .showOnMap:
           showOnMap(modelImage.coordinate)
         case .saveImage:
@@ -188,10 +218,14 @@ func makeImageDetailsModel(
           guard let details = state.details,
                 let image = state.uiImage
           else { return }
-          enqueueEffect(.perform { [title = state.title] anotherAction in
+          enqueueEffect(.perform { [title = state.attributedTitle] anotherAction in
+            let item = ImageShareItem(
+              image: image,
+              text: String(title.characters)
+            )
             let vc = await UIActivityViewController(
               activityItems: [
-                image,
+                item,
                 [
                   String(title.characters),
                   details.description.map { String($0.characters) },

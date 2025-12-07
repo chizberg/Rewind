@@ -68,7 +68,7 @@ struct RootView: View {
         )
         .navigationTransition(
           .zoom(
-            sourceID: "\(viewStore.cid) \(viewStore.openSource)", in: rootView
+            sourceID: "\(viewStore.image.cid) \(viewStore.openSource)", in: rootView
           )
         )
       }

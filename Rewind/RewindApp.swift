@@ -9,7 +9,16 @@ import SwiftUI
 
 @main
 struct RewindApp: App {
-  fileprivate let graph = AppGraph()
+  @UIApplicationDelegateAdaptor(AppDelegate.self)
+  var appDelegate
+
+  let graph: AppGraph
+
+  init() {
+    graph = AppGraph()
+
+    graph.orientationLock = appDelegate.orientationLock?.asProperty()
+  }
 
   var body: some Scene {
     WindowGroup {

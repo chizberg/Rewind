@@ -150,19 +150,30 @@
         }
       }
     },
+    "Compare" : {
+      "comment" : "Action of taking a photo of how the place looked like before and how it does now",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сравнить"
+          }
+        }
+      }
+    },
     "comparison_description" : {
       "comment" : "Onboarding description of a comparison feature",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "[Work in progress] Take a&nbsp;photo to&nbsp;compare the&nbsp;same place over&nbsp;time"
+            "value" : "Take a&nbsp;photo to&nbsp;compare the&nbsp;same place over&nbsp;time"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "[Работа в процессе] Сделайте фотографию, чтобы сравнить то же место спустя годы"
+            "value" : "Сделайте фотографию, чтобы сравнить то же место спустя годы"
           }
         }
       }
@@ -623,6 +634,17 @@
         }
       }
     },
+    "Rewind <<" : {
+      "comment" : "app label for comparison photos",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind <<"
+          }
+        }
+      }
+    },
     "Rewind uses PastVu API to get the images" : {
       "comment" : "credit to pastvu api",
       "localizations" : {
@@ -932,6 +954,17 @@
         }
       }
     },
+    "Unable to use the camera" : {
+      "comment" : "error message for comparison screen whenever the camera session is not ready",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось подключиться к камере"
+          }
+        }
+      }
+    },
     "uploaded by" : {
       "comment" : "Is shown right above the nickname of a user that uploaded the image",
       "extractionState" : "manual",
@@ -1034,6 +1067,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Вы можете изменить это в Настройках. Приложения -> Rewind -> Геолокация -> Во время использования"
+          }
+        }
+      }
+    },
+    "You can check camera permissions in Settings" : {
+      "comment" : "alert error message",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Можете проверить доступ приложения к камере в Настройках"
           }
         }
       }

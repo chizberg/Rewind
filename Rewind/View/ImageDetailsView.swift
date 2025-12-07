@@ -27,12 +27,13 @@ struct ImageDetailsView: View {
       .task {
         viewStore(.willBePresented)
       }
-      .sheet(
-        item: viewStore.binding(\.shareVC, send: { _ in .shareSheetDismissed }),
-        content: { vc in
-          ViewControllerRepresentable {
-            vc.value
-          }
+      .sheet(viewStore.binding(\.shareVC, send: { _ in .shareSheetDismissed }))
+      .fullScreenCover(
+        item: viewStore.binding(\.comparisonStore, send: { _ in .comparison(.dismiss) }),
+        content: { identified in
+          ComparisonScreen(
+            store: identified.value
+          ).navigationTransition(.zoom(sourceID: TransitionSource.compareButton, in: namespace))
         }
       )
       .fullScreenCover(
@@ -40,11 +41,11 @@ struct ImageDetailsView: View {
           .fullscreenPreview(.dismiss)
         }),
         content: { identifiedImage in
-          ZoomableImage(
+          ZoomableImageScreen(
             image: identifiedImage.value,
             saveImage: { viewStore(.fullscreenPreview(.saveImage)) }
           )
-          .navigationTransition(.zoom(sourceID: titleImageID, in: namespace))
+          .navigationTransition(.zoom(sourceID: TransitionSource.titleImage, in: namespace))
         }
       )
       .alert(
@@ -116,7 +117,7 @@ struct ImageDetailsView: View {
       MagnificationGesture(minimumScaleDelta: 1.3)
         .onChanged { _ in showFullscreenPreview() }
     )
-    .matchedTransitionSource(id: titleImageID, in: namespace)
+    .matchedTransitionSource(id: TransitionSource.titleImage, in: namespace)
   }
 
   private var textDetails: some View {
@@ -155,14 +156,14 @@ struct ImageDetailsView: View {
   private var title: some View {
     HStack {
       VStack(alignment: .leading, spacing: 5) {
-        Text(viewStore.title)
+        Text(viewStore.attributedTitle)
           .font(.title.bold())
 
         HStack {
-          ImageDateView(date: viewStore.date)
+          ImageDateView(date: viewStore.image.date)
 
-          if let direction = viewStore.direction {
-            DirectionView(date: viewStore.date, direction: direction)
+          if let direction = viewStore.image.dir {
+            DirectionView(date: viewStore.image.date, direction: direction)
           }
         }
       }
@@ -192,6 +193,9 @@ struct ImageDetailsView: View {
     .foregroundStyle(spec.foreground)
     .background(spec.background)
     .cornerRadius(15)
+    .ifLet(spec.transitionSource) { view, sourceID in
+      view.matchedTransitionSource(id: sourceID, in: namespace)
+    }
     .if(action == .route) {
       $0.confirmationDialog(
         "Select map app to find route",
@@ -227,15 +231,16 @@ struct ImageDetailsView: View {
   }
 }
 
-private let titleImageID = "fullscreenPreview"
-private let visibleActions: [ImageDetailsAction.Button] = [
-  .favorite,
-  .showOnMap,
-  .share,
-  .saveImage,
-  .viewOnWeb,
-  .route,
-]
+private enum TransitionSource {
+  static let titleImage = "fullscreenPreview"
+  static let compareButton = "compareButton"
+}
+
+private let visibleActions: [ImageDetailsAction.Button] = Array.build {
+  ImageDetailsAction.Button.favorite
+  withUIIdiom(phone: ImageDetailsAction.Button.compare, pad: nil)
+  [ImageDetailsAction.Button.showOnMap, .share, .saveImage, .viewOnWeb, .route]
+}
 
 private struct LabeledText: View {
   var label: LocalizedStringKey
@@ -258,6 +263,7 @@ private struct ButtonSpec {
   var iconName: String
   var foreground: SwiftUI.Color
   var background: SwiftUI.Color
+  var transitionSource: String?
 
   init(
     button: ImageDetailsAction.Button,
@@ -266,6 +272,7 @@ private struct ButtonSpec {
   ) {
     title = switch button {
     case .favorite: "Favorite"
+    case .compare: "Compare"
     case .showOnMap: "Show on map"
     case .share: "Share"
     case .saveImage: "Save image"
@@ -275,6 +282,7 @@ private struct ButtonSpec {
 
     iconName = switch button {
     case .favorite: isFavorite ? "star.fill" : "star"
+    case .compare: "camera.viewfinder"
     case .showOnMap: "mappin.and.ellipse"
     case .share: "square.and.arrow.up"
     case .saveImage: isImageSaved
@@ -287,13 +295,19 @@ private struct ButtonSpec {
     foreground = switch button {
     case .favorite: isFavorite ? .white : .primary
     case .saveImage: isImageSaved ? .white : .primary
-    case .showOnMap, .share, .viewOnWeb, .route: .primary
+    case .showOnMap, .share, .viewOnWeb, .route, .compare: .primary
     }
 
     background = switch button {
     case .favorite: isFavorite ? .yellow.mix(with: .black, by: 0.1) : .systemBackground
     case .saveImage: isImageSaved ? .green.mix(with: .black, by: 0.1) : .systemBackground
-    case .showOnMap, .share, .viewOnWeb, .route: .systemBackground
+    case .showOnMap, .share, .viewOnWeb, .route, .compare: .systemBackground
+    }
+
+    transitionSource = switch button {
+    case .compare: TransitionSource.compareButton
+    case .favorite, .showOnMap, .share, .saveImage, .viewOnWeb, .route:
+      nil
     }
   }
 }
@@ -321,7 +335,8 @@ extension SingleFavoriteModel {
     favoriteModel: .mock,
     showOnMap: { _ in },
     canOpenURL: { _ in true },
-    urlOpener: { _ in }
+    urlOpener: { _ in },
+    setOrientationLock: { _ in }
   ).viewStore
 
   ImageDetailsView(
@@ -346,7 +361,8 @@ extension SingleFavoriteModel {
     favoriteModel: .mock,
     showOnMap: { _ in },
     canOpenURL: { _ in true },
-    urlOpener: { _ in }
+    urlOpener: { _ in },
+    setOrientationLock: { _ in }
   ).viewStore
 
   ImageDetailsView(

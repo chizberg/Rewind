@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Camera access is needed to take comparison photos</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>App needs this access to save images to your library</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

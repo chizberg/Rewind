@@ -1,5 +1,5 @@
 //
-//  ZoomableImage.swift
+//  ZoomableImageScreen.swift
 //  Rewind
 //
 //  Created by Aleksei Sherstnev on 23.2.25.
@@ -8,7 +8,7 @@
 import SwiftUI
 import UIKit
 
-struct ZoomableImage: View {
+struct ZoomableImageScreen: View {
   var image: UIImage
   var saveImage: () -> Void
 
@@ -24,19 +24,11 @@ struct ZoomableImage: View {
       Color.black
         .ignoresSafeArea()
 
-      ViewRepresentable {
-        let view = ZoomableImageView(
-          zoomValue: $zoomValue,
-          onTap: {
-            controlsHidden.toggle()
-          }
-        )
-        view.addGestureRecognizer(TapActionRecognizer {
-          controlsHidden.toggle()
-        })
-        view.set(image: image)
-        return view
-      }
+      ZoomableImageView(
+        image: image,
+        zoomValue: $zoomValue,
+        onTap: { controlsHidden.toggle() }
+      )
       .ignoresSafeArea()
       .onChange(of: zoomValue) { old, new in
         if old == 1, new > 1 {
@@ -62,22 +54,40 @@ struct ZoomableImage: View {
   }
 }
 
+struct ZoomableImageView: View {
+  var image: UIImage
+  @Binding
+  var zoomValue: CGFloat
+  var onTap: () -> Void
+
+  var body: some View {
+    ViewRepresentable {
+      let view = ZoomableImageViewImpl(
+        zoomValue: $zoomValue,
+        onTap: onTap
+      )
+      view.set(image: image)
+      return view
+    }
+  }
+}
+
 #Preview {
-  ZoomableImage(
+  ZoomableImageScreen(
     image: UIImage(named: "cat")!,
     saveImage: {}
   )
 }
 
-private final class ZoomableImageView: UIScrollView, UIScrollViewDelegate {
+private final class ZoomableImageViewImpl: UIScrollView, UIScrollViewDelegate {
   private let imageView: UIImageView
   private var previousFrameSize: CGSize = .zero
   private let zoomValue: Binding<CGFloat>
-  private let onTap: (() -> Void)?
+  private let onTap: () -> Void
 
   init(
     zoomValue: Binding<CGFloat> = .constant(1),
-    onTap: (() -> Void)? = nil
+    onTap: @escaping () -> Void
   ) {
     imageView = UIImageView()
     self.zoomValue = zoomValue
@@ -96,11 +106,9 @@ private final class ZoomableImageView: UIScrollView, UIScrollViewDelegate {
     doubleTap.numberOfTapsRequired = 2
     addGestureRecognizer(doubleTap)
 
-    if let onTap {
-      let tap = TapActionRecognizer(action: onTap)
-      tap.require(toFail: doubleTap)
-      addGestureRecognizer(tap)
-    }
+    let tap = TapActionRecognizer(action: onTap)
+    tap.require(toFail: doubleTap)
+    addGestureRecognizer(tap)
   }
 
   @available(*, unavailable)
@@ -184,7 +192,7 @@ private final class ZoomableImageView: UIScrollView, UIScrollViewDelegate {
   }
 }
 
-final class TapActionRecognizer: UITapGestureRecognizer {
+private final class TapActionRecognizer: UITapGestureRecognizer {
   let action: () -> Void
 
   init(action: @escaping () -> Void) {
