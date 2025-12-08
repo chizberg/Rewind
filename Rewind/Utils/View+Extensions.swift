@@ -73,6 +73,41 @@ extension View {
   ) -> some View {
     self.ifLet(value, transform: transform, else: { $0 })
   }
+
+  @ViewBuilder
+  func modifyWithUIIdiom(
+    phone: (Self) -> some View,
+    pad: (Self) -> some View
+  ) -> some View {
+    switch UIDevice.current.userInterfaceIdiom {
+    case .phone: phone(self)
+    case .pad: pad(self)
+    default: phone(self)
+    }
+  }
+
+  func modifyWithUIIdiom(
+    _ idiom: UIUserInterfaceIdiom,
+    transform: (Self) -> some View
+  ) -> some View {
+    self.if(
+      UIDevice.current.userInterfaceIdiom == idiom,
+      transform: transform
+    )
+  }
+
+  func sheet(
+    _ value: Binding<Identified<UIViewController>?>
+  ) -> some View {
+    sheet(
+      item: value,
+      content: { vc in
+        ViewControllerRepresentable {
+          vc.value
+        }
+      }
+    )
+  }
 }
 
 extension SwiftUI.ScrollView {

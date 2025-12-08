@@ -29,7 +29,7 @@ struct ImageList: View {
             let viewStore = identified.value
             ImageDetailsView(viewStore: viewStore)
               .navigationTransition(
-                .zoom(sourceID: viewStore.cid, in: namespace)
+                .zoom(sourceID: viewStore.image.cid, in: namespace)
               )
           }
         )
@@ -96,7 +96,8 @@ private let imageDetailsFactoryMock: ImageDetailsFactory = { image, source in
     favoriteModel: .mock,
     showOnMap: { _ in },
     canOpenURL: { _ in false },
-    urlOpener: { _ in }
+    urlOpener: { _ in },
+    setOrientationLock: { _ in }
   )
 }
 

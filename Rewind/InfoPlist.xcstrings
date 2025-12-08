@@ -54,19 +54,20 @@
         }
       }
     },
-    "Location is needed to show images around you" : {
-      "extractionState" : "manual",
+    "NSCameraUsageDescription" : {
+      "comment" : "Privacy - Camera Usage Description",
+      "extractionState" : "extracted_with_value",
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "Location is needed to show images around you"
+            "state" : "new",
+            "value" : "Camera access is needed to take comparison photos"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Геолокация нужна чтобы показывать фотографии рядом с вами"
+            "value" : "Доступ к камере нужен, чтобы делать фото сравнения"
           }
         }
       }
@@ -80,6 +81,12 @@
             "state" : "new",
             "value" : "Location is needed to show images around you"
           }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Геолокация нужна чтобы показывать фотографии рядом с вами"
+          }
         }
       }
     },
@@ -91,6 +98,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "App needs this access to save images to your library"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложению нужен доступ чтобы сохранить изображения в галерею"
           }
         }
       }
