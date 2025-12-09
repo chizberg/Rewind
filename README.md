@@ -6,7 +6,7 @@ Rewind is an iOS app for exploring retro images on a map. Available in TestFligh
 
 - **Vintage images near you:** the app uses PastVu API to fetch images and their metadata and shows them on an Apple MapKit map
 - **Favorites:** save images you like to view them later
-- **Compare [[Work in progress](https://github.com/chizberg/Rewind/issues/12)]:** take a photo to compare how a place looks like today and how it looked in the past
+- **Compare:** take a photo to compare how a place looks like today and how it looked in the past
 - **Search:** quickly find places you know with a simple query. *Uses Apple MapKit search*
 
 ### Screenshots
