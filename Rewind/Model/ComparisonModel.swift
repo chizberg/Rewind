@@ -21,7 +21,7 @@ struct ComparisonState {
 
   enum CameraState {
     case viewfinder(UIView)
-    case taken(capture: UIImage, renderedResult: UIImage?)
+    case taken(capture: UIImage)
   }
 
   var oldUIImage: UIImage
@@ -31,6 +31,7 @@ struct ComparisonState {
   var orientation: Orientation
   var alert: Identified<AlertParams>?
   var shareVC: Identified<UIViewController>?
+  var comparisonViewSize: CGSize
 
   fileprivate var session: CameraSession?
 }
@@ -39,6 +40,8 @@ enum ComparisonAction {
   enum External {
     enum Alert {
       case presentAccessError
+      case presentSavingImageError(Error)
+      case presentSharingImageError(Error)
       case dismiss
     }
 
@@ -51,7 +54,7 @@ enum ComparisonAction {
     case shoot
     case retake
     case viewWillAppear
-    case resultRendered(UIImage?)
+    case comparisonViewSizeChanged(CGSize)
     case shareSheet(ShareSheet)
     case alert(Alert)
   }
@@ -80,6 +83,7 @@ func makeComparisonModel(
       cameraState: nil,
       style: .sideBySide,
       orientation: orientationTracker.orientation,
+      comparisonViewSize: .zero,
       session: nil
     ),
     reduce: { state, action, enqueueEffect in
@@ -120,34 +124,29 @@ func makeComparisonModel(
           @unknown default:
             enqueueEffect(.anotherAction(.external(.alert(.presentAccessError))))
           }
-        case let .resultRendered(result):
-          guard case let .taken(capture, _) = state.cameraState,
-                let result
-          else {
-            assertionFailure()
-            return
-          }
-          state.cameraState = .taken(capture: capture, renderedResult: result)
+        case let .comparisonViewSizeChanged(size):
+          state.comparisonViewSize = size
         case let .shareSheet(shareSheetAction):
           switch shareSheetAction {
           case .present:
-            guard case let .taken(_, result) = state.cameraState,
-                  let result
-            else {
-              assertionFailure()
-              return
-            }
-            let item = ImageShareItem(image: result, text: state.oldImageData.title)
-            enqueueEffect(.perform { anotherAction in
-              await anotherAction(.internal(.shareSheetLoaded(
-                UIActivityViewController(
-                  activityItems: [
-                    item,
-                    oldImageData.title,
-                  ],
-                  applicationActivities: nil
-                )
-              )))
+            enqueueEffect(.perform { [state] anotherAction in
+              do {
+                guard let result = await renderComparisonView(state: state) else {
+                  throw HandlingError("Unable to render an image")
+                }
+                let item = ImageShareItem(image: result, text: state.oldImageData.title)
+                await anotherAction(.internal(.shareSheetLoaded(
+                  UIActivityViewController(
+                    activityItems: [
+                      item,
+                      oldImageData.title,
+                    ],
+                    applicationActivities: nil
+                  )
+                )))
+              } catch {
+                await anotherAction(.external(.alert(.presentSharingImageError(error))))
+              }
             })
           case .dismiss:
             state.shareVC = nil
@@ -158,6 +157,16 @@ func makeComparisonModel(
             state.alert = Identified(value: .info(
               title: "Unable to use the camera",
               message: "You can check camera permissions in Settings"
+            ))
+          case let .presentSavingImageError(error):
+            state.alert = Identified(value: .error(
+              title: "Unable to save image",
+              error: error
+            ))
+          case let .presentSharingImageError(error):
+            state.alert = Identified(value: .error(
+              title: "Unable to share image",
+              error: error
             ))
           case .dismiss:
             state.alert = nil
@@ -180,8 +189,19 @@ func makeComparisonModel(
           state.cameraState = .viewfinder(session.makePreview())
           enqueueEffect(.perform { _ in session.start() })
         case let .imageTaken(image):
-          state.cameraState = .taken(capture: image, renderedResult: nil)
+          state.cameraState = .taken(capture: image)
           state.session?.stop()
+          enqueueEffect(.perform { [state] anotherAction in
+            do {
+              if let result = await renderComparisonView(state: state) {
+                try await save(image: result)
+              } else {
+                throw HandlingError("Unable to render the image")
+              }
+            } catch {
+              await anotherAction(.external(.alert(.presentSavingImageError(error))))
+            }
+          })
         case let .orientationChanged(orientation):
           state.orientation = orientation
         case let .shareSheetLoaded(vc):
@@ -195,105 +215,26 @@ func makeComparisonModel(
   )
 }
 
-/// Manages the AVFoundation camera capture session lifecycle, including session setup,
-/// preview generation, and photo capture. Use this class to start/stop the camera session,
-/// create a preview view, and capture photos asynchronously.
-final class CameraSession: NSObject, AVCapturePhotoCaptureDelegate {
-  private let captureSession: AVCaptureSession
-  private let photoOutput: AVCapturePhotoOutput
+@MainActor
+private func renderComparisonView(
+  state: ComparisonState
+) -> UIImage? {
+  let view = ComparisonView(
+    style: state.style,
+    oldImageData: state.oldImageData,
+    oldImage: state.oldUIImage,
+    cameraState: state.cameraState
+  )
+  .frame(size: state.comparisonViewSize)
+  .background(.background)
+  .environment(\.colorScheme, .dark)
 
-  private let capturedImages = SignalPipe<Result<UIImage, Error>>()
-
-  init(
-    device: AVCaptureDevice
-  ) throws {
-    let input = try AVCaptureDeviceInput(device: device)
-
-    photoOutput = AVCapturePhotoOutput()
-    captureSession = AVCaptureSession()
-
-    if captureSession.canAddInput(input) {
-      captureSession.addInput(input)
-    } else {
-      assertionFailure("can't add capture input")
-    }
-    if captureSession.canAddOutput(photoOutput) {
-      captureSession.addOutput(photoOutput)
-    } else {
-      assertionFailure("can't add capture output")
-    }
-  }
-
-  func start() {
-    captureSession.startRunning()
-  }
-
-  func stop() {
-    captureSession.stopRunning()
-  }
-
-  func makePreview() -> UIView {
-    let preview = CameraPreview()
-    preview.videoPreviewLayer?.session = captureSession
-    preview.videoPreviewLayer?.videoGravity = .resizeAspectFill
-    return preview
-  }
-
-  func capturePhoto() async throws -> UIImage {
-    let photo = try await photoOutput.capturePhoto(with: AVCapturePhotoSettings())
-    if let data = photo.fileDataRepresentation(),
-       let image = UIImage(data: data) {
-      return image
-    } else {
-      throw HandlingError("Failed to decode image")
-    }
-  }
-
-  deinit {
-    stop()
-  }
-}
-
-private final class CameraPreview: UIView {
-  override static var layerClass: AnyClass {
-    AVCaptureVideoPreviewLayer.self
-  }
-
-  var videoPreviewLayer: AVCaptureVideoPreviewLayer? {
-    layer as? AVCaptureVideoPreviewLayer
-  }
-}
-
-extension AVCapturePhotoOutput {
-  fileprivate func capturePhoto(
-    with settings: AVCapturePhotoSettings
-  ) async throws -> AVCapturePhoto {
-    let delegate = PhotoCaptureDelegate()
-    let result: AVCapturePhoto = try await withCheckedThrowingContinuation { continuation in
-      delegate.completion = { photo, error in
-        if let error {
-          continuation.resume(throwing: error)
-        } else {
-          continuation.resume(returning: photo)
-        }
-      }
-      self.capturePhoto(with: settings, delegate: delegate)
-    }
-    _ = delegate // keep delegate alive
-    return result
-  }
-}
-
-private final class PhotoCaptureDelegate: NSObject, AVCapturePhotoCaptureDelegate {
-  var completion: ((AVCapturePhoto, Error?) -> Void)?
-
-  func photoOutput(
-    _: AVCapturePhotoOutput,
-    didFinishProcessingPhoto photo: AVCapturePhoto,
-    error: (any Error)?
-  ) {
-    completion?(photo, error)
-  }
+  let renderer = ImageRenderer(
+    content: view
+  )
+  renderer.scale = 3
+  renderer.isOpaque = true
+  return renderer.uiImage
 }
 
 extension ComparisonState.CameraState? {

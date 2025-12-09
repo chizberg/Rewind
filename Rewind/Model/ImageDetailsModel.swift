@@ -264,10 +264,7 @@ func makeImageDetailsModel(
         guard let image = state.uiImage else { return }
         enqueueEffect(.perform { anotherAction in
           do {
-            let library = PHPhotoLibrary.shared()
-            try await library.performChanges {
-              PHAssetChangeRequest.creationRequestForAsset(from: image)
-            }
+            try await save(image: image)
             await anotherAction(.internal(.imageSaved))
           } catch {
             await anotherAction(.alert(.present(.error(
@@ -284,4 +281,11 @@ func makeImageDetailsModel(
       }
     }
   )
+}
+
+func save(image: UIImage) async throws {
+  let library = PHPhotoLibrary.shared()
+  try await library.performChanges {
+    PHAssetChangeRequest.creationRequestForAsset(from: image)
+  }
 }

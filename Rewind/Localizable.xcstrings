@@ -954,6 +954,17 @@
         }
       }
     },
+    "Unable to share image" : {
+      "comment" : "error message in alert",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось поделиться изображением"
+          }
+        }
+      }
+    },
     "Unable to use the camera" : {
       "comment" : "error message for comparison screen whenever the camera session is not ready",
       "localizations" : {
