@@ -49,6 +49,13 @@ struct RootView: View {
         }.ignoresSafeArea(edges: .bottom)
       }
     }
+    .overlay(alignment: .topTrailing) {
+      Text("Rewind <<")
+        .font(.caption.weight(.semibold))
+        .opacity(0.3)
+        .padding(3)
+        .padding(.horizontal, 2)
+    }
     .alert(appStore.binding(\.alertModel, send: { _ in .alert(.dismiss) }))
     .delayedModifier(
       value: appStore.anyOverlayPresented,
