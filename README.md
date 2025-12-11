@@ -12,11 +12,11 @@ Rewind is an iOS app for exploring retro images on a map. Available in TestFligh
 ### Screenshots
 
 <p align="leading">
-  <img src="screenshots/phone/en/time-travel-app.png" width="15%" />
-  <img src="screenshots/phone/en/what-was-here.png" width="15%" />
-  <img src="screenshots/phone/en/explore-the-past.png" width="15%" />
-  <img src="screenshots/phone/en/moments-you-love.png" width="15%" />
-  <img src="screenshots/phone/en/compare.png" width="15%" />
+  <img src="screenshots/phone/en/jpgs/time-travel-app.jpeg" width="19%" />
+  <img src="screenshots/phone/en/jpgs/what-was-here.jpeg" width="19%" />
+  <img src="screenshots/phone/en/jpgs/explore-the-past.jpeg" width="19%" />
+  <img src="screenshots/phone/en/jpgs/moments-you-love.jpeg" width="19%" />
+  <img src="screenshots/phone/en/jpgs/compare.jpeg" width="19%" />
 </p>
 
 ### Availability
