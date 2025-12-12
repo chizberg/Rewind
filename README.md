@@ -1,7 +1,9 @@
 # Rewind
 
 Rewind is an iOS app for exploring retro images on a map. 
+
 Available in the App Store: https://apps.apple.com/ru/app/rewind-history-on-a-map/id6755358800
+
 Also in TestFlight: https://testflight.apple.com/join/vbJFFZgD
 
 ### Features
