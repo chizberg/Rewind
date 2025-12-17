@@ -37,10 +37,10 @@ extension Network.Request {
   }
 }
 
-private func makeBaseURLComponents(useAPIHost: Bool) -> URLComponents {
+private func makeBaseURLComponents() -> URLComponents {
   var components = URLComponents()
   components.scheme = "https"
-  components.host = (useAPIHost ? "api." : "") + "pastvu.com"
+  components.host = "api.pastvu.com"
   return components
 }
 
@@ -81,7 +81,7 @@ extension Network {
 
     return Request<([Image], [Cluster])>(
       makeURLRequest: {
-        var components = makeBaseURLComponents(useAPIHost: true)
+        var components = makeBaseURLComponents()
         components.path = "/api2"
         let rawParams = RawParams(
           z: zoom,
@@ -123,7 +123,7 @@ extension Network {
 
     return Request<ImageDetails>(
       makeURLRequest: {
-        var components = makeBaseURLComponents(useAPIHost: true)
+        var components = makeBaseURLComponents()
         components.path = "/api2"
         let rawParams = RawParams(cid: cid)
         let paramsString = try? String(data: JSONEncoder().encode(rawParams), encoding: .utf8)
@@ -151,9 +151,11 @@ extension Network {
     }
     return Request<UIImage>(
       makeURLRequest: {
-        var components = makeBaseURLComponents(useAPIHost: false)
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = "img.pastvu.com"
         let clearPath = dropUnexpectedQueryItems(from: path)
-        components.path = "/_p/\(quality.linkParam)/\(clearPath)"
+        components.path = "/\(quality.linkParam)/\(clearPath)"
         return URLRequest(url: components.url!)
       },
       parseResult: { data in
