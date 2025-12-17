@@ -44,7 +44,9 @@ struct ThumbnailCardView: View {
           .aspectRatio(contentMode: .fill)
           .frame(size: size)
       } placeholder: {
-        Color.clear
+        Color.clear.overlay {
+          ProgressView()
+        }
       }
 
       ImageDateView(date: image.date)
@@ -73,10 +75,16 @@ struct ThumbnailCardView: View {
 
 #if DEBUG
 #Preview("single cat") {
-  ThumbnailCardView(
-    card: .image(.mock),
-    size: CGSize(width: 200, height: 200)
-  )
+  ZStack {
+    Image(.cat).resizable().ignoresSafeArea()
+
+    ThumbnailCardView(
+      card: .image(modified(.mock) {
+        $0.image = $0.image.delayed(delay: 1)
+      }),
+      size: CGSize(width: 200, height: 200)
+    )
+  }
 }
 
 #Preview("panorama touch test") {

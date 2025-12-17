@@ -78,3 +78,14 @@ extension Remote where Args == Void {
     try await impl(())
   }
 }
+
+#if DEBUG
+extension Remote {
+  func delayed(delay: TimeInterval) -> Remote {
+    Remote<Args, Response> { args in
+      try await Task.sleep(for: .seconds(delay))
+      return try await self.impl(args)
+    }
+  }
+}
+#endif

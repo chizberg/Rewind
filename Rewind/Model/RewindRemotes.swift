@@ -8,8 +8,13 @@
 import Foundation
 
 struct RewindRemotes {
-  var annotations: Remote<(Region, ClosedRange<Int>), ([Model.Image], [Model.Cluster])>
+  var annotations: Remote<AnnotationLoadingParams, ([Model.Image], [Model.Cluster])>
   var imageDetails: Remote<Int, Model.ImageDetails>
+}
+
+struct AnnotationLoadingParams {
+  var region: Region
+  var yearRange: ClosedRange<Int>
 }
 
 extension RewindRemotes {
@@ -17,13 +22,13 @@ extension RewindRemotes {
     requestPerformer: RequestPerformer,
     imageLoader: ImageLoader
   ) {
-    annotations = Remote { region, yearRange in
+    annotations = Remote { params in
       let (nis, ncs) = try await requestPerformer.perform(
         request: .byBounds(
-          zoom: region.zoom,
-          coordinates: region.geoJSONCoordinates,
+          zoom: params.region.zoom,
+          coordinates: params.region.geoJSONCoordinates,
           startAt: Date().timeIntervalSince1970,
-          yearRange: yearRange
+          yearRange: params.yearRange
         )
       )
       let images = nis.map {

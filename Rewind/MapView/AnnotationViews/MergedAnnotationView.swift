@@ -83,13 +83,12 @@ final class MergedAnnotationView: MKAnnotationView {
 
   private var year: Int? {
     if let mkCluster = annotation as? MKClusterAnnotation,
-       let wrappers = mkCluster.memberAnnotations as? [AnnotationWrapper],
-       case let .image(firstImage) = wrappers.first?.value {
-      firstImage.date.year
+       let wrappers = mkCluster.memberAnnotations as? [Annotation<Model.Image>],
+       let first = wrappers.first {
+      first.value.date.year
     } else
-    if let wrapper = annotation as? AnnotationWrapper,
-       case let .localCluster(cluster) = wrapper.value,
-       let first = cluster.images.first {
+    if let wrapper = annotation as? Annotation<Model.LocalCluster>,
+       let first = wrapper.value.images.first {
       first.date.year
     } else {
       nil
@@ -98,12 +97,11 @@ final class MergedAnnotationView: MKAnnotationView {
 
   private var count: Int? {
     if let mkCluster = annotation as? MKClusterAnnotation,
-       let wrappers = mkCluster.memberAnnotations as? [AnnotationWrapper] {
+       let wrappers = mkCluster.memberAnnotations as? [Annotation<Model.Image>] {
       wrappers.count
     } else
-    if let wrapper = annotation as? AnnotationWrapper,
-       case let .localCluster(cluster) = wrapper.value {
-      cluster.images.count
+    if let wrapper = annotation as? Annotation<Model.LocalCluster> {
+      wrapper.value.images.count
     } else {
       nil
     }

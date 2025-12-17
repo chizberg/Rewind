@@ -20,9 +20,10 @@ struct MapState {
   var previews: [ThumbnailCard]
   var locationState: LocationState
   var isLoading: Bool
+  var lastLoadedParams: AnnotationLoadingParams?
 
-  fileprivate var clusters: Set<Model.Cluster>
-  fileprivate var clusteredImages: ClusteredImages
+  var clusters: Set<Model.Cluster>
+  var clusteredImages: ClusteredImages
 }
 
 enum MapAction {
@@ -52,8 +53,7 @@ enum MapAction {
     case regionChanged(Region)
     case loadAnnotations
     case loadingFailed(Error)
-    case loaded([Model.Image], [Model.Cluster])
-    case clearAnnotations
+    case loaded(AnnotationLoadingParams, [Model.Image], [Model.Cluster])
     case updatePreviews
     case unfoldMapControlsBack
   }
@@ -64,13 +64,14 @@ enum MapAction {
 
 func makeMapModel(
   mapAdapter: MapAdapter,
-  annotationsRemote: Remote<(Region, ClosedRange<Int>), ([Model.Image], [Model.Cluster])>,
+  annotationsRemote: Remote<AnnotationLoadingParams, ([Model.Image], [Model.Cluster])>,
   applyMapType: @escaping (MapType) -> Void,
   performAppAction: @escaping (AppAction) -> Void,
   locationModel: LocationModel,
   urlOpener: @escaping UrlOpener,
   settings: Variable<SettingsState>,
-  appState: Variable<AppState?>
+  appState: Variable<AppState?>,
+  annotationStore: AnnotationStore
 ) -> MapModel {
   MapModel(
     initial: .makeInitial(locationState: locationModel.state),
@@ -87,27 +88,24 @@ func makeMapModel(
             ))
           case let .annotationSelected(mkAnn):
             var listToPresent: [Model.Image] = []
-            if let ann = mkAnn as? AnnotationWrapper {
-              switch ann.value {
-              case let .image(image):
-                performAppAction(.imageDetails(.present(image, source: "annotation")))
-              case let .cluster(cluster):
-                if settings.value.openClusterPreviews {
-                  performAppAction(.imageDetails(.present(cluster.preview, source: "annotation")))
-                } else {
-                  mapAdapter.set(
-                    region: Region(center: cluster.coordinate, zoom: state.region.zoom + 1),
-                    animated: true
-                  )
-                }
-              case let .localCluster(localCluster):
-                listToPresent = localCluster.images
+            if let imageAnn = mkAnn as? Annotation<Model.Image> {
+              performAppAction(.imageDetails(.present(imageAnn.value, source: "annotation")))
+            } else if let clusterAnn = mkAnn as? Annotation<Model.Cluster> {
+              let cluster = clusterAnn.value
+              if settings.value.openClusterPreviews {
+                performAppAction(.imageDetails(.present(cluster.preview, source: "annotation")))
+              } else {
+                mapAdapter.set(
+                  region: Region(center: cluster.coordinate, zoom: state.region.zoom + 1),
+                  animated: true
+                )
               }
+            } else if let localClusterAnn = mkAnn as? Annotation<Model.LocalCluster> {
+              listToPresent = localClusterAnn.value.images
             } else if let mkCluster = mkAnn as? MKClusterAnnotation {
               listToPresent = mkCluster.memberAnnotations.compactMap { ann in
-                if let wrapper = ann as? AnnotationWrapper,
-                   case let .image(image) = wrapper.value {
-                  return image
+                if let imageAnn = ann as? Annotation<Model.Image> {
+                  return imageAnn.value
                 }
                 return nil
               }
@@ -143,7 +141,6 @@ func makeMapModel(
           case let .yearRangeChanged(yearRange):
             state.yearRange = yearRange
             enqueueEffect(.debounced(id: .yearRangeChanged) { anotherAction in
-              await anotherAction(.internal(.clearAnnotations))
               await anotherAction(.internal(.loadAnnotations))
             })
           case let .mapTypeSelected(mapType):
@@ -186,9 +183,6 @@ func makeMapModel(
       case let .internal(internalAction):
         switch internalAction {
         case let .regionChanged(region):
-          if state.region != .zero, state.region.zoom != region.zoom {
-            enqueueEffect(.anotherAction(.internal(.clearAnnotations)))
-          }
           state.region = region
           enqueueEffect(.anotherAction(.internal(.loadAnnotations)))
           enqueueEffect(.debounced(
@@ -197,11 +191,11 @@ func makeMapModel(
           ))
         case .loadAnnotations:
           state.isLoading = true
-          let params = (state.region, state.yearRange)
+          let params = AnnotationLoadingParams(region: state.region, yearRange: state.yearRange)
           enqueueEffect(.perform(id: EffectID.loadAnnotations) { anotherAction in
             do {
               let (images, clusters) = try await annotationsRemote.load(params)
-              await anotherAction(.internal(.loaded(images, clusters)))
+              await anotherAction(.internal(.loaded(params, images, clusters)))
             } catch {
               await anotherAction(.internal(.loadingFailed(error)))
             }
@@ -212,45 +206,35 @@ func makeMapModel(
             title: "Unable to load map annotations",
             error: error
           ))))
-        case let .loaded(images, clusters):
-          state.isLoading = false
-          let clustersSet = Set(clusters)
-          let newClusters = clustersSet.subtracting(state.clusters)
-          state.clusters.formUnion(clustersSet)
-          let newClusterAnnotations = newClusters.map {
-            AnnotationWrapper(value: .cluster($0))
-          }
-
-          let groupedImages = groupImages(
+        case let .loaded(params, images, clusters):
+          let (toAdd, toRemove) = makeDiffAfterReceived(
             images: images,
-            zoom: state.region.zoom
+            clusters: clusters,
+            params: params,
+            state: &state
           )
-          let patches = makePatches(
-            newImages: groupedImages,
-            current: state.clusteredImages
-          )
+          state.isLoading = false
+          state.lastLoadedParams = params
 
-          let (clusteredImagesToAdd, clusteredImagesToRemove) = applyPatches(
-            patches,
-            clusteredImages: &state.clusteredImages,
-            annotationsInRect: { mapAdapter.annotations(in: $0) }
-          )
+          enqueueEffect(.perform { anotherAction in
+            var annsToAdd: [MKAnnotation] = []
+            for key in toAdd {
+              let ann = await annotationStore.create(key: key)
+              annsToAdd.append(ann as MKAnnotation)
+            }
 
-          mapAdapter.remove(annotations: clusteredImagesToRemove)
-          mapAdapter.add(annotations: clusteredImagesToAdd + newClusterAnnotations)
-          enqueueEffect(.debounced(
-            id: .updatePreviews,
-            anotherAction: .internal(.updatePreviews)
-          ))
-        case .clearAnnotations:
-          state.clusteredImages.removeAll()
-          state.clusters.removeAll()
-          mapAdapter.clear()
-          enqueueEffect(.cancel(id: EffectID.loadAnnotations))
-          enqueueEffect(.debounced(
-            id: .updatePreviews,
-            anotherAction: .internal(.updatePreviews)
-          ))
+            var annsToRemove: [MKAnnotation] = []
+            for key in toRemove {
+              if let ann = await annotationStore.existing(key: key) {
+                annsToRemove.append(ann as MKAnnotation)
+              }
+            }
+
+            await mapAdapter.remove(annotations: annsToRemove)
+            mapAdapter.add(annotations: annsToAdd)
+            await annotationStore.refresh()
+            await anotherAction(.internal(.updatePreviews))
+          })
         case .updatePreviews:
           guard !state.isLoading else { return }
           let annotations = mapAdapter.visibleAnnotations.flatMap {
@@ -260,11 +244,17 @@ func makeMapModel(
             return [$0]
           }
           let modelValues = annotations.flatMap { (ann: MKAnnotation) -> [Model.Image] in
-            guard let wrapper = ann as? AnnotationWrapper else { return [] }
-            return switch wrapper.value {
-            case let .image(image): [image]
-            case let .cluster(cluster): [cluster.preview]
-            case let .localCluster(localCluster): Array(localCluster.images)
+            if let imageAnn = ann as? Annotation<Model.Image> {
+              return [imageAnn.value]
+            } else if let clusterAnn = ann as? Annotation<Model.Cluster> {
+              return [clusterAnn.value.preview]
+            } else if let localClusterAnn = ann as? Annotation<Model.LocalCluster> {
+              return localClusterAnn.value.images
+            } else if ann is MKUserLocation {
+              return []
+            } else {
+              assertionFailure("unexpected annotation type")
+              return []
             }
           }
           state.currentRegionImages = Array(Set(modelValues))
@@ -302,6 +292,7 @@ extension MapState {
       previews: [],
       locationState: locationState,
       isLoading: false,
+      lastLoadedParams: nil,
       clusters: [],
       clusteredImages: [:]
     )

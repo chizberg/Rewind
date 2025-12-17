@@ -23,7 +23,7 @@ final class Reducer<State, Action> {
   private var effects: [String: (Task<Void, Error>, UUID)]
   private let disposePool = AutodisposePool()
 
-  typealias ActionHandler = (
+  typealias ActionHandler = @MainActor (
     inout State,
     Action,
     _ enqueueEffect: (Reducer<State, Action>.Effect) -> Void

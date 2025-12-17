@@ -30,7 +30,7 @@ struct AnnotationsScreen: View {
           VStack(spacing: 5) {
             makeAnnotationDescription(
               annotation: ImageAnnotationView(
-                annotation: AnnotationWrapper(value: .image(.demo)),
+                annotation: Annotation.withoutStore(value: Model.Image.demo),
                 reuseIdentifier: nil
               ),
               title: "single_image_title",
@@ -38,8 +38,8 @@ struct AnnotationsScreen: View {
             )
             makeAnnotationDescription(
               annotation: MergedAnnotationView(
-                annotation: AnnotationWrapper(
-                  value: .localCluster(.demo)
+                annotation: Annotation.withoutStore(
+                  value: Model.LocalCluster.demo
                 ),
                 reuseIdentifier: nil
               ),
@@ -48,8 +48,8 @@ struct AnnotationsScreen: View {
             )
             makeAnnotationDescription(
               annotation: ClusterAnnotationView(
-                annotation: AnnotationWrapper(
-                  value: .cluster(.demo)
+                annotation: Annotation.withoutStore(
+                  value: Model.Cluster.demo
                 ),
                 reuseIdentifier: nil
               ),

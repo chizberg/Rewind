@@ -10,7 +10,6 @@ import UIKit
 
 final class ImageAnnotationView: MKAnnotationView {
   private let iconView: UIImageView
-
   override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
     iconView = UIImageView(image: iconImage)
     super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
@@ -26,17 +25,18 @@ final class ImageAnnotationView: MKAnnotationView {
 
   override func prepareForDisplay() {
     super.prepareForDisplay()
-    guard let wrapper = annotation as? AnnotationWrapper,
-          case let .image(image) = wrapper.value else { return }
+    guard let imageAnn = annotation as? Annotation<Model.Image> else {
+      return
+    }
+    let image = imageAnn.value
     iconView.tintColor = UIColor.from(year: image.date.year)
-
-    let angle = (image.dir?.angle ?? 0)
-    transform = .identity.rotated(by: angle)
+    iconView.transform = .identity.rotated(by: image.dir?.angle ?? 0)
   }
 
   override func layoutSubviews() {
     super.layoutSubviews()
-    iconView.frame = bounds
+    iconView.bounds = bounds
+    iconView.center = bounds.center
   }
 
   override var annotation: MKAnnotation? {

@@ -205,8 +205,8 @@ func makeImageDetailsModel(
         case .favorite:
           state.isFavorite.toggle()
           enqueueEffect(.perform { [isFavorite = state.isFavorite] _ in
-            await favoriteModel(isFavorite)
-            await UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            favoriteModel(isFavorite)
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
           })
         case .compare:
           enqueueEffect(.anotherAction(.comparison(.present)))
@@ -223,7 +223,7 @@ func makeImageDetailsModel(
               image: image,
               text: String(title.characters)
             )
-            let vc = await UIActivityViewController(
+            let vc = UIActivityViewController(
               activityItems: [
                 item,
                 [

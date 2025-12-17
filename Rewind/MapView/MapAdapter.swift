@@ -11,6 +11,7 @@ import VGSL
 typealias MapType = MKMapType
 
 // TODO: rename, it's not only adapter
+@MainActor
 final class MapAdapter: NSObject, MKMapViewDelegate, UIGestureRecognizerDelegate {
   typealias Event = MapAction.External.Map
 
@@ -77,18 +78,29 @@ final class MapAdapter: NSObject, MKMapViewDelegate, UIGestureRecognizerDelegate
     map.value.addAnnotations(annotations)
   }
 
-  // operation queue for adding/removal?
-  func remove(annotations: [MKAnnotation]) {
+  func remove(annotations: [MKAnnotation]) async {
+    await withCheckedContinuation { continuation in
+      remove(annotations: annotations) {
+        continuation.resume()
+      }
+    }
+  }
+
+  func remove(annotations: [MKAnnotation], completion: @escaping Action) {
     animateRemoval(
       annotations.compactMap { map.value.view(for: $0) },
       completion: { [weak self] _ in
         self?.map.value.removeAnnotations(annotations)
+        completion()
       }
     )
   }
 
   func clear() {
-    remove(annotations: map.value.annotations.filter { !($0 is MKUserLocation) })
+    remove(
+      annotations: map.value.annotations.filter { !($0 is MKUserLocation) },
+      completion: {}
+    )
   }
 
   func deselectAnnotations() {
@@ -127,31 +139,29 @@ final class MapAdapter: NSObject, MKMapViewDelegate, UIGestureRecognizerDelegate
     _ mapView: MKMapView,
     viewFor annotation: any MKAnnotation
   ) -> MKAnnotationView? {
-    if let wrapper = annotation as? AnnotationWrapper {
-      switch wrapper.value {
-      case .image:
-        return mapView.dequeueReusableAnnotationView(
-          withIdentifier: ReuseIdentifier.image
-        )
-      case .cluster:
-        guard let cell = mapView.dequeueReusableAnnotationView(
-          withIdentifier: ReuseIdentifier.cluster
-        ) as? ClusterAnnotationView else {
-          return nil
-        }
-        cell.showYearColor = showYearColorInClusters
-        return cell
-      case .localCluster:
-        guard let cell = mapView.dequeueReusableAnnotationView(
-          withIdentifier: ReuseIdentifier.localCluster
-        ) as? MergedAnnotationView else {
-          return nil
-        }
-        cell.showYearColor = showYearColorInClusters
-        return cell
+    if annotation is Annotation<Model.Image> {
+      return mapView.dequeueReusableAnnotationView(
+        withIdentifier: ReuseIdentifier.image
+      )
+    } else if annotation is Annotation<Model.Cluster> {
+      guard let cell = mapView.dequeueReusableAnnotationView(
+        withIdentifier: ReuseIdentifier.cluster
+      ) as? ClusterAnnotationView else {
+        assertionFailure()
+        return nil
       }
-    }
-    if annotation is MKClusterAnnotation {
+      cell.showYearColor = showYearColorInClusters
+      return cell
+    } else if annotation is Annotation<Model.LocalCluster> {
+      guard let cell = mapView.dequeueReusableAnnotationView(
+        withIdentifier: ReuseIdentifier.localCluster
+      ) as? MergedAnnotationView else {
+        assertionFailure()
+        return nil
+      }
+      cell.showYearColor = showYearColorInClusters
+      return cell
+    } else if annotation is MKClusterAnnotation {
       guard let cell = mapView.dequeueReusableAnnotationView(
         withIdentifier: ReuseIdentifier.mkCluster
       ) as? MergedAnnotationView else {
@@ -159,7 +169,10 @@ final class MapAdapter: NSObject, MKMapViewDelegate, UIGestureRecognizerDelegate
       }
       cell.showYearColor = showYearColorInClusters
       return cell
+    } else if annotation is MKUserLocation {
+      return nil
     }
+    assertionFailure("unknown annotation type: \(type(of: annotation))")
     return nil
   }
 
