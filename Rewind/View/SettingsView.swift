@@ -45,6 +45,7 @@ struct SettingsView: View {
         Section {
           makeButton("Contact developer", action: .contact)
           makeButton("View source code", action: .openRepo)
+          makeButton("View in App Store", action: .viewInAppStore)
         } header: {
           Text("Links")
         } footer: {
