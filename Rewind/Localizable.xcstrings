@@ -1005,6 +1005,17 @@
         }
       }
     },
+    "View in App Store" : {
+      "comment" : "Action title in settings. Opens an App Store page of the app",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открыть в App Store"
+          }
+        }
+      }
+    },
     "View on Web" : {
       "comment" : "label for action to open the image page on the web",
       "localizations" : {

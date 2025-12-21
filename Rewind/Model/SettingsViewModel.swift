@@ -24,6 +24,8 @@ enum SettingsViewAction {
 
     case contact
     case openRepo
+    case viewInAppStore
+
     case openPastVu
     case pastVuRules
   }
@@ -64,6 +66,8 @@ func makeSettingsViewModel(
           urlOpener(URL(string: "mailto:a.chizberg@proton.me"))
         case .openRepo:
           urlOpener(URL(string: "https://github.com/chizberg/Rewind"))
+        case .viewInAppStore:
+          urlOpener(URL(string: "https://apps.apple.com/app/rewind-history-on-a-map/id6755358800"))
         case .openPastVu:
           urlOpener(URL(string: "https://pastvu.com"))
         case .pastVuRules:
