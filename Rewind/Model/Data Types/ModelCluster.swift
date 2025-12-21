@@ -38,6 +38,14 @@ extension Model.Cluster: Hashable {
 
   func hash(into hasher: inout Hasher) {
     hasher.combine(preview)
+    hasher.combine(coordinate)
     hasher.combine(count)
+  }
+}
+
+extension Coordinate: @retroactive Hashable {
+  public func hash(into hasher: inout Hasher) {
+    hasher.combine(latitude)
+    hasher.combine(longitude)
   }
 }

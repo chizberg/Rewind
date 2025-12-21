@@ -91,9 +91,8 @@ final class ClusterAnnotationView: MKAnnotationView {
   }
 
   private var clusterValue: Model.Cluster? {
-    if let wrapper = annotation as? AnnotationWrapper,
-       case let .cluster(cluster) = wrapper.value {
-      cluster
+    if let wrapper = annotation as? Annotation<Model.Cluster> {
+      wrapper.value
     } else {
       nil
     }
@@ -110,8 +109,8 @@ final class ClusterAnnotationView: MKAnnotationView {
       : .neutralClusterBg
     let fgColor: UIColor = showYearColor ? .white : .label
 
-    imageView.layer.borderColor = bgColor.cgColor // traitcollection subscription
-    imageView.backgroundColor = bgColor
+    imageView.layer.borderColor = bgColor.cgColor
+    imageView.backgroundColor = bgColor.withAlphaComponent(0.8)
     countView.backgroundColor = bgColor
     countLabel.textColor = fgColor
   }

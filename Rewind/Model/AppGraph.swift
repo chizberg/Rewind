@@ -10,6 +10,7 @@ import UIKit
 
 import VGSL
 
+@MainActor
 final class AppGraph {
   let mapStore: MapViewModel.Store
   let appStore: AppModel.Store
@@ -54,7 +55,8 @@ final class AppGraph {
       locationModel: locationModel,
       urlOpener: urlOpener,
       settings: settings.asVariable(),
-      appState: Variable { appModelRef?.state }
+      appState: Variable { appModelRef?.state },
+      annotationStore: AnnotationStore()
     )
     mapModelRef = mapModel
     mapStore = mapModel.viewStore.bimap(

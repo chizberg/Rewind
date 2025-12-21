@@ -17,8 +17,82 @@ struct ClusteringCell: Hashable {
   var size: CLLocationDegrees
 }
 
-func groupImages(
+func makeDiffAfterReceived(
   images: [Model.Image],
+  clusters: [Model.Cluster],
+  params: AnnotationLoadingParams,
+  state: inout MapState
+) -> (
+  toAdd: [AnnotationValue],
+  toRemove: [AnnotationValue]
+) {
+  let shouldClearOldAnnotations = if let lastParams = state.lastLoadedParams {
+    lastParams.region.zoom != params.region.zoom
+      || lastParams.yearRange != params.yearRange
+  } else {
+    false
+  }
+  var toAdd = [AnnotationValue]()
+  var toRemove = [AnnotationValue]()
+
+  // clusters:
+  // if shouldClearOldAnnotations, replace all clusters with new ones
+  // otherwise, just add new clusters
+  let receivedClusters = Set(clusters)
+  let newClusters = receivedClusters.subtracting(state.clusters)
+  if shouldClearOldAnnotations {
+    let clustersToRemove = state.clusters
+    toRemove += clustersToRemove.map { .cluster($0) }
+    state.clusters = receivedClusters
+    toAdd += receivedClusters.map { .cluster($0) }
+  } else {
+    state.clusters.formUnion(newClusters)
+    toAdd += newClusters.map { .cluster($0) }
+  }
+
+  // clustered images:
+  // if shouldClearOldAnnotations, remove all local clusters
+  // remove all images that are not in the received set
+  // group old images that are still present with new images
+  // then add new ones to these groups
+  let receivedImages = Set(images)
+  if shouldClearOldAnnotations {
+    var freeImages = Set<Model.Image>()
+    for cellValue in state.clusteredImages.values {
+      switch cellValue {
+      case let .left(images):
+        freeImages.formUnion(images)
+      case let .right(localCluster):
+        toRemove.append(.localCluster(localCluster))
+      }
+    }
+    let staleImages = freeImages.subtracting(receivedImages)
+    toRemove += staleImages.map { .image($0) }
+    state.clusteredImages = groupImages(
+      images: freeImages.intersection(receivedImages),
+      zoom: params.region.zoom
+    ).map(key: { $0 }, value: { .left($0) })
+  }
+
+  let groupedImages = groupImages(
+    images: receivedImages,
+    zoom: params.region.zoom
+  )
+  let patches = makePatches(
+    newImages: groupedImages,
+    current: state.clusteredImages
+  )
+  applyPatches(
+    patches,
+    clusteredImages: &state.clusteredImages,
+    toAdd: &toAdd,
+    toRemove: &toRemove
+  )
+  return (toAdd, toRemove)
+}
+
+private func groupImages(
+  images: any Sequence<Model.Image>,
   zoom: Int
 ) -> [ClusteringCell: Set<Model.Image>] {
   let size = delta(zoom: zoom) / clusteringCellRatio
@@ -32,13 +106,13 @@ func groupImages(
   }
 }
 
-enum LocalClusteringPatch {
+private enum LocalClusteringPatch {
   case addImages(Set<Model.Image>)
   case addCluster(Model.LocalCluster, removing: Set<Model.Image>)
   case addImagesToCluster(Set<Model.Image>)
 }
 
-func makePatches(
+private func makePatches(
   newImages: [ClusteringCell: Set<Model.Image>],
   current: MapState.ClusteredImages
 ) -> [(ClusteringCell, LocalClusteringPatch)] {
@@ -55,83 +129,37 @@ func makePatches(
   }
 }
 
-func applyPatches(
+private func applyPatches(
   _ patches: [(ClusteringCell, LocalClusteringPatch)],
   clusteredImages: inout MapState.ClusteredImages,
-  annotationsInRect: (MKMapRect) -> [MKAnnotation]
-) -> (
-  toAdd: [AnnotationWrapper],
-  toRemove: [MKAnnotation]
+  toAdd: inout [AnnotationValue],
+  toRemove: inout [AnnotationValue]
 ) {
-  var toAdd: [AnnotationWrapper] = []
-  var toRemove: [MKAnnotation] = []
   for (cell, patch) in patches {
     switch patch {
     case let .addImages(newImages):
       clusteredImages[cell] = .left(
         (clusteredImages[cell]?.left ?? []).union(newImages)
       )
-      toAdd.append(contentsOf: newImages.map {
-        AnnotationWrapper(value: .image($0))
-      })
+      toAdd.append(contentsOf: newImages.map { .image($0) })
     case let .addCluster(newLocalCluster, removing: imagesToRemove):
       clusteredImages[cell] = .right(newLocalCluster)
-      toAdd.append(
-        AnnotationWrapper(value: .localCluster(newLocalCluster))
-      )
-      let currentAnnotations = annotationsInRect(cell.rect)
-      let imageAnnotationsToRemove = imagesToRemove.compactMap {
-        findAnnotationToDelete(for: $0, in: currentAnnotations)
-      }
-      toRemove.append(contentsOf: imageAnnotationsToRemove)
+      toAdd.append(.localCluster(newLocalCluster))
+      toRemove.append(contentsOf: imagesToRemove.map { .image($0) })
     case let .addImagesToCluster(newImages):
-      guard let currentCluster = clusteredImages[cell]?.right else {
+      guard let cluster = clusteredImages[cell]?.right else {
         assertionFailure("expected local cluster")
         continue
       }
-      let newLocalCluster = modified(currentCluster) {
+      let newLocalCluster = modified(cluster) {
         $0.images.append(contentsOf: newImages)
         $0.id = UUID()
       }
       clusteredImages[cell] = .right(newLocalCluster)
-      toAdd.append(AnnotationWrapper(value: .localCluster(newLocalCluster)))
-      let currentAnnotations = annotationsInRect(cell.rect)
-      let oldAnnotationToRemove = currentAnnotations.first { ann in
-        if let wrapper = ann as? AnnotationWrapper,
-           case let .localCluster(localCluster) = wrapper.value {
-          return localCluster == currentCluster
-        }
-        return false
-      }
-      if let oldAnnotationToRemove {
-        toRemove.append(oldAnnotationToRemove)
-      }
+      toAdd.append(.localCluster(newLocalCluster))
+      toRemove.append(.localCluster(cluster))
     }
   }
-  return (toAdd, toRemove)
-}
-
-private func findAnnotationToDelete(
-  for image: Model.Image,
-  in annotations: [MKAnnotation]
-) -> MKAnnotation? {
-  func isGoal(_ ann: MKAnnotation) -> Bool {
-    if let wrapper = ann as? AnnotationWrapper,
-       case let .image(imageValue) = wrapper.value,
-       imageValue == image {
-      return true
-    }
-    return false
-  }
-  for ann in annotations {
-    if isGoal(ann) { return ann }
-    if let mkCluster = ann as? MKClusterAnnotation {
-      for member in mkCluster.memberAnnotations where isGoal(member) {
-        return member
-      }
-    }
-  }
-  return nil
 }
 
 private func makePatch(

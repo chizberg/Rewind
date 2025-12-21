@@ -9,6 +9,7 @@ disabled_rules:
   - function_body_length
   - function_parameter_count
   - implicit_optional_initialization
+  - file_length
 
 excluded:
   - XcodeBuild

@@ -131,7 +131,7 @@ func makeComparisonModel(
           case .present:
             enqueueEffect(.perform { [state] anotherAction in
               do {
-                guard let result = await renderComparisonView(state: state) else {
+                guard let result = renderComparisonView(state: state) else {
                   throw HandlingError("Unable to render an image")
                 }
                 let item = ImageShareItem(image: result, text: state.oldImageData.title)
@@ -193,7 +193,7 @@ func makeComparisonModel(
           state.session?.stop()
           enqueueEffect(.perform { [state] anotherAction in
             do {
-              if let result = await renderComparisonView(state: state) {
+              if let result = renderComparisonView(state: state) {
                 try await save(image: result)
               } else {
                 throw HandlingError("Unable to render the image")
