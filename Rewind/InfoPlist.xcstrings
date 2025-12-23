@@ -15,6 +15,18 @@
             "state" : "translated",
             "value" : "Приложению нужен доступ, чтобы сохранять фотографии в вашу медиатеку"
           }
+        },
+        "sr-Latn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikaciji je potreban ovaj pristup da bi mogla da sačuva slike u vašu galeriju"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Застосунку потрібен цей доступ, щоб зберігати зображення у вашу медіатеку"
+          }
         }
       }
     },
@@ -29,6 +41,18 @@
           }
         },
         "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind"
+          }
+        },
+        "sr-Latn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind"
+          }
+        },
+        "uk" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rewind"
@@ -51,6 +75,18 @@
             "state" : "translated",
             "value" : "Rewind"
           }
+        },
+        "sr-Latn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind"
+          }
         }
       }
     },
@@ -68,6 +104,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Доступ к камере нужен, чтобы делать фото сравнения"
+          }
+        },
+        "sr-Latn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pristup kameri je potreban za snimanje uporednih fotografija"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Доступ до камери потрібен, щоб робити фото порівняння"
           }
         }
       }
@@ -87,6 +135,18 @@
             "state" : "translated",
             "value" : "Геолокация нужна чтобы показывать фотографии рядом с вами"
           }
+        },
+        "sr-Latn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lokacija je potrebna za prikaz slika u vašoj blizini"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Геолокація потрібна, щоб показувати зображення поблизу вас"
+          }
         }
       }
     },
@@ -104,6 +164,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Приложению нужен доступ чтобы сохранить изображения в галерею"
+          }
+        },
+        "sr-Latn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikaciji je potreban ovaj pristup da bi sačuvala slike u vašu galeriju"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Застосунку потрібен цей доступ, щоб зберігати зображення у вашу галерею"
           }
         }
       }
