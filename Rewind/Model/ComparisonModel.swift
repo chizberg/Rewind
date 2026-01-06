@@ -33,13 +33,19 @@ struct ComparisonState {
   var shareVC: Identified<UIViewController>?
   var comparisonVC: UIViewController!
 
-  fileprivate var session: CameraSession?
+  var currentLens: Lens?
+  var availableLens: [Lens] {
+    cameraSession?.availableLens ?? []
+  }
+
+  fileprivate var cameraSession: CameraSession?
 }
 
 enum ComparisonAction {
   enum External {
     enum Alert {
       case presentAccessError
+      case presentLensError(Error)
       case presentSavingImageError(Error)
       case presentSharingImageError(Error)
       case dismiss
@@ -53,6 +59,7 @@ enum ComparisonAction {
     case setStyle(ComparisonState.Style)
     case shoot
     case retake
+    case setLens(Lens)
     case viewWillAppear
     case shareSheet(ShareSheet)
     case alert(Alert)
@@ -83,7 +90,7 @@ func makeComparisonModel(
       cameraState: nil,
       style: .sideBySide,
       orientation: orientationTracker.orientation,
-      session: nil
+      cameraSession: nil
     ),
     reduce: { state, action, enqueueEffect in
       switch action {
@@ -92,7 +99,7 @@ func makeComparisonModel(
         case let .setStyle(style):
           state.style = style
         case .shoot:
-          guard let session = state.session else { return }
+          guard let session = state.cameraSession else { return }
           enqueueEffect(.perform { anotherAction in
             do {
               let image = try await session.capturePhoto()
@@ -102,9 +109,16 @@ func makeComparisonModel(
             }
           })
         case .retake:
-          guard let session = state.session else { return }
+          guard let session = state.cameraSession else { return }
           state.cameraState = .viewfinder(session.makePreview())
           enqueueEffect(.perform { _ in session.start() })
+        case let .setLens(lens):
+          do {
+            try state.cameraSession?.setLens(lens: lens, animated: true)
+            state.currentLens = lens
+          } catch {
+            enqueueEffect(.anotherAction(.external(.alert(.presentLensError(error)))))
+          }
         case .viewWillAppear:
           let access = AVCaptureDevice.authorizationStatus(for: .video)
           switch access {
@@ -151,6 +165,11 @@ func makeComparisonModel(
               title: "Unable to use the camera",
               message: "You can check camera permissions in Settings"
             ))
+          case let .presentLensError(error):
+            state.alert = Identified(value: .error(
+              title: "Unable to switch lens",
+              error: error
+            ))
           case let .presentSavingImageError(error):
             state.alert = Identified(value: .error(
               title: "Unable to save image",
@@ -175,12 +194,13 @@ func makeComparisonModel(
             enqueueEffect(.anotherAction(.external(.alert(.presentAccessError))))
           }
         case let .sessionReady(session):
-          state.session = session
+          state.cameraSession = session
+          state.currentLens = session.mainLens
           state.cameraState = .viewfinder(session.makePreview())
           enqueueEffect(.perform { _ in session.start() })
         case let .imageTaken(image):
           state.cameraState = .taken(capture: image)
-          state.session?.stop()
+          state.cameraSession?.stop()
           enqueueEffect(.perform { [state] anotherAction in
             do {
               try await save(image: renderComparisonView(view: state.comparisonVC.view))
