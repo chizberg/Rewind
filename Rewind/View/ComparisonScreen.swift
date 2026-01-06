@@ -18,13 +18,7 @@ struct ComparisonScreen: View {
         Color.clear
           .aspectRatio(4 / 6, contentMode: .fit) // two 4/3 images
           .overlay {
-            ComparisonView(
-              style: store.style,
-              oldImageData: store.oldImageData,
-              oldImage: store.oldUIImage,
-              cameraState: store.cameraState
-            )
-            .readSize { store(.comparisonViewSizeChanged($0)) }
+            ComparisonViewRepresentable(vc: store.comparisonVC)
           }
         Spacer(minLength: 0)
       }
@@ -117,6 +111,27 @@ struct ComparisonScreen: View {
     }
     .foregroundStyle(.primary)
     .frame(squareSize: shutterButtonSize)
+  }
+}
+
+private struct ComparisonViewRepresentable: UIViewControllerRepresentable {
+  var vc: UIViewController
+
+  func makeUIViewController(context _: Context) -> UIViewController {
+    vc
+  }
+
+  func updateUIViewController(_: UIViewController, context _: Context) {}
+
+  func sizeThatFits(
+    _ proposal: ProposedViewSize,
+    uiViewController: UIViewController,
+    context _: Context
+  ) -> CGSize? {
+    uiViewController.view.sizeThatFits(CGSize(
+      width: proposal.width ?? .infinity,
+      height: proposal.height ?? .infinity
+    ))
   }
 }
 

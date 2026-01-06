@@ -13,15 +13,16 @@ import VGSL
 /// Manages the AVFoundation camera capture session lifecycle, including session setup,
 /// preview generation, and photo capture. Use this class to start/stop the camera session,
 /// create a preview view, and capture photos asynchronously.
-final class CameraSession: NSObject, AVCapturePhotoCaptureDelegate {
+final class CameraSession {
   private let captureSession: AVCaptureSession
   private let photoOutput: AVCapturePhotoOutput
 
   private let capturedImages = SignalPipe<Result<UIImage, Error>>()
 
-  init(
-    device: AVCaptureDevice
-  ) throws {
+  init() throws { 
+    guard let device = AVCaptureDevice.default(for: .video) else {
+      throw HandlingError("No video device available")
+    }
     let input = try AVCaptureDeviceInput(device: device)
 
     photoOutput = AVCapturePhotoOutput()
@@ -40,11 +41,11 @@ final class CameraSession: NSObject, AVCapturePhotoCaptureDelegate {
   }
 
   func start() {
-    captureSession.startRunning()
+    Task { captureSession.startRunning() }
   }
 
   func stop() {
-    captureSession.stopRunning()
+    Task { captureSession.stopRunning() }
   }
 
   func makePreview() -> UIView {
