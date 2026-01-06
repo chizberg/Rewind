@@ -5,6 +5,7 @@
 //  Created by Aleksei Sherstnev on 5. 12. 2025..
 //
 
+import AVKit
 import SwiftUI
 
 struct ComparisonScreen: View {
@@ -18,21 +19,15 @@ struct ComparisonScreen: View {
         Color.clear
           .aspectRatio(4 / 6, contentMode: .fit) // two 4/3 images
           .overlay {
-            ComparisonView(
-              style: store.style,
-              oldImageData: store.oldImageData,
-              oldImage: store.oldUIImage,
-              cameraState: store.cameraState
-            )
-            .readSize { store(.comparisonViewSizeChanged($0)) }
+            ComparisonViewRepresentable(vc: store.comparisonVC)
           }
         Spacer(minLength: 0)
       }
 
       VStack {
         Spacer()
-        stylePicker
-          .padding(.bottom, 10)
+        pickers
+          .padding(.bottom, 20)
         bottomControls
           .padding(.bottom, 75)
       }
@@ -40,37 +35,49 @@ struct ComparisonScreen: View {
     .alert(store.binding(\.alert, send: { _ in .alert(.dismiss) }))
     .environment(\.colorScheme, .dark)
     .sheet(store.binding(\.shareVC, send: { _ in .shareSheet(.dismiss) }))
+    .onCameraCaptureEvent { event in
+      if event.phase == .ended {
+        store(.shoot)
+      }
+    }
     .task {
       store(.viewWillAppear)
     }
   }
 
-  private var stylePicker: some View {
-    HStack(spacing: 0) {
-      ForEach(ComparisonState.Style.allCases, id: \.self) { style in
-        let isSelected = store.style == style
-        Button {
-          store(.setStyle(style))
-        } label: {
+  private var pickers: some View {
+    HStack {
+      CustomSegmentedControl(
+        items: ComparisonState.Style.allCases,
+        pickedItem: store.binding(\.style, send: { .setStyle($0) }),
+        content: { style, isSelected in
           Image(systemName: style.iconName)
             .padding(10)
+            .foregroundStyle(
+              isSelected ? .yellow : .primary.opacity(0.7)
+            )
             .rotating(on: .phone, with: store.orientation)
-            .if(isSelected) { view in
-              view.background {
-                PickedStyleBackground()
-              }
-            }
         }
-        .foregroundStyle(
-          isSelected ? .yellow : .primary.opacity(0.7)
+      )
+
+      if let currentLens = store.currentLens,
+         store.cameraState.isViewfinder,
+         store.availableLens.count > 1 {
+        CustomSegmentedControl(
+          items: store.availableLens,
+          pickedItem: Binding(get: { currentLens }, set: { store(.setLens($0)) }),
+          content: { lens, isSelected in
+            Text(lens.title)
+              .monospaced()
+              .padding(10)
+              .foregroundStyle(
+                isSelected ? .yellow : .primary.opacity(0.7)
+              )
+              .rotating(on: .phone, with: store.orientation)
+          }
         )
       }
     }
-    .padding(3)
-    .background {
-      Capsule().fill(.background.opacity(0.5))
-    }
-    .padding(.bottom, 10)
   }
 
   private var bottomControls: some View {
@@ -120,7 +127,30 @@ struct ComparisonScreen: View {
   }
 }
 
-extension ComparisonState.Style {
+private struct ComparisonViewRepresentable: UIViewControllerRepresentable {
+  var vc: UIViewController
+
+  func makeUIViewController(context _: Context) -> UIViewController {
+    vc
+  }
+
+  func updateUIViewController(_: UIViewController, context _: Context) {}
+
+  func sizeThatFits(
+    _ proposal: ProposedViewSize,
+    uiViewController: UIViewController,
+    context _: Context
+  ) -> CGSize? {
+    uiViewController.view.sizeThatFits(CGSize(
+      width: proposal.width ?? .infinity,
+      height: proposal.height ?? .infinity
+    ))
+  }
+}
+
+extension ComparisonState.Style: Identifiable {
+  var id: Self { self }
+
   fileprivate var iconName: String {
     switch self {
     case .sideBySide: "rectangle.split.1x2"

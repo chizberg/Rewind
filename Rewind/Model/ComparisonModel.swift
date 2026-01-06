@@ -31,15 +31,21 @@ struct ComparisonState {
   var orientation: Orientation
   var alert: Identified<AlertParams>?
   var shareVC: Identified<UIViewController>?
-  var comparisonViewSize: CGSize
+  var comparisonVC: UIViewController!
 
-  fileprivate var session: CameraSession?
+  var currentLens: Lens?
+  var availableLens: [Lens] {
+    cameraSession?.availableLens ?? []
+  }
+
+  fileprivate var cameraSession: CameraSession?
 }
 
 enum ComparisonAction {
   enum External {
     enum Alert {
       case presentAccessError
+      case presentLensError(Error)
       case presentSavingImageError(Error)
       case presentSharingImageError(Error)
       case dismiss
@@ -53,8 +59,8 @@ enum ComparisonAction {
     case setStyle(ComparisonState.Style)
     case shoot
     case retake
+    case setLens(Lens)
     case viewWillAppear
-    case comparisonViewSizeChanged(CGSize)
     case shareSheet(ShareSheet)
     case alert(Alert)
   }
@@ -65,6 +71,7 @@ enum ComparisonAction {
     case imageTaken(UIImage)
     case orientationChanged(Orientation)
     case shareSheetLoaded(UIViewController)
+    case comparisonViewLoaded(UIViewController)
   }
 
   case external(External)
@@ -76,15 +83,14 @@ func makeComparisonModel(
   oldImageData: Model.Image
 ) -> ComparisonModel {
   let orientationTracker = OrientationTracker()
-  return ComparisonModel(
+  let model = ComparisonModel(
     initial: ComparisonState(
       oldUIImage: oldUIImage,
       oldImageData: oldImageData,
       cameraState: nil,
       style: .sideBySide,
       orientation: orientationTracker.orientation,
-      comparisonViewSize: .zero,
-      session: nil
+      cameraSession: nil
     ),
     reduce: { state, action, enqueueEffect in
       switch action {
@@ -93,7 +99,7 @@ func makeComparisonModel(
         case let .setStyle(style):
           state.style = style
         case .shoot:
-          guard let session = state.session else { return }
+          guard let session = state.cameraSession else { return }
           enqueueEffect(.perform { anotherAction in
             do {
               let image = try await session.capturePhoto()
@@ -103,9 +109,16 @@ func makeComparisonModel(
             }
           })
         case .retake:
-          guard let session = state.session else { return }
+          guard let session = state.cameraSession else { return }
           state.cameraState = .viewfinder(session.makePreview())
           enqueueEffect(.perform { _ in session.start() })
+        case let .setLens(lens):
+          do {
+            try state.cameraSession?.setLens(lens: lens, animated: true)
+            state.currentLens = lens
+          } catch {
+            enqueueEffect(.anotherAction(.external(.alert(.presentLensError(error)))))
+          }
         case .viewWillAppear:
           let access = AVCaptureDevice.authorizationStatus(for: .video)
           switch access {
@@ -124,29 +137,23 @@ func makeComparisonModel(
           @unknown default:
             enqueueEffect(.anotherAction(.external(.alert(.presentAccessError))))
           }
-        case let .comparisonViewSizeChanged(size):
-          state.comparisonViewSize = size
         case let .shareSheet(shareSheetAction):
           switch shareSheetAction {
           case .present:
             enqueueEffect(.perform { [state] anotherAction in
-              do {
-                guard let result = renderComparisonView(state: state) else {
-                  throw HandlingError("Unable to render an image")
-                }
-                let item = ImageShareItem(image: result, text: state.oldImageData.title)
-                await anotherAction(.internal(.shareSheetLoaded(
-                  UIActivityViewController(
-                    activityItems: [
-                      item,
-                      oldImageData.title,
-                    ],
-                    applicationActivities: nil
-                  )
-                )))
-              } catch {
-                await anotherAction(.external(.alert(.presentSharingImageError(error))))
-              }
+              let item = ImageShareItem(
+                image: renderComparisonView(view: state.comparisonVC.view),
+                text: state.oldImageData.title
+              )
+              await anotherAction(.internal(.shareSheetLoaded(
+                UIActivityViewController(
+                  activityItems: [
+                    item,
+                    oldImageData.title,
+                  ],
+                  applicationActivities: nil
+                )
+              )))
             })
           case .dismiss:
             state.shareVC = nil
@@ -157,6 +164,11 @@ func makeComparisonModel(
             state.alert = Identified(value: .info(
               title: "Unable to use the camera",
               message: "You can check camera permissions in Settings"
+            ))
+          case let .presentLensError(error):
+            state.alert = Identified(value: .error(
+              title: "Unable to switch lens",
+              error: error
             ))
           case let .presentSavingImageError(error):
             state.alert = Identified(value: .error(
@@ -176,28 +188,22 @@ func makeComparisonModel(
         switch internalAction {
         case .videoAccessGranted:
           do {
-            guard let device = AVCaptureDevice.default(for: .video) else {
-              throw HandlingError("No video device available")
-            }
-            let session = try CameraSession(device: device)
+            let session = try CameraSession()
             enqueueEffect(.anotherAction(.internal(.sessionReady(session))))
           } catch {
             enqueueEffect(.anotherAction(.external(.alert(.presentAccessError))))
           }
         case let .sessionReady(session):
-          state.session = session
+          state.cameraSession = session
+          state.currentLens = session.mainLens
           state.cameraState = .viewfinder(session.makePreview())
           enqueueEffect(.perform { _ in session.start() })
         case let .imageTaken(image):
           state.cameraState = .taken(capture: image)
-          state.session?.stop()
+          state.cameraSession?.stop()
           enqueueEffect(.perform { [state] anotherAction in
             do {
-              if let result = renderComparisonView(state: state) {
-                try await save(image: result)
-              } else {
-                throw HandlingError("Unable to render the image")
-              }
+              try await save(image: renderComparisonView(view: state.comparisonVC.view))
             } catch {
               await anotherAction(.external(.alert(.presentSavingImageError(error))))
             }
@@ -206,6 +212,8 @@ func makeComparisonModel(
           state.orientation = orientation
         case let .shareSheetLoaded(vc):
           state.shareVC = Identified(value: vc)
+        case let .comparisonViewLoaded(vc):
+          state.comparisonVC = vc
         }
       }
     }
@@ -213,28 +221,38 @@ func makeComparisonModel(
     signal: orientationTracker.$orientation.newValues.retaining(object: orientationTracker),
     makeAction: { .internal(.orientationChanged($0)) }
   )
+
+  let vc = UIHostingController(
+    rootView: model.$state.asObservedVariable().observe { state in
+      ComparisonView(
+        style: state.style,
+        oldImageData: state.oldImageData,
+        oldImage: state.oldUIImage,
+        cameraState: state.cameraState
+      )
+    }
+  )
+  vc.sizingOptions = [.intrinsicContentSize]
+  model.viewStore(.internal(.comparisonViewLoaded(vc)))
+
+  return model
 }
 
 @MainActor
 private func renderComparisonView(
-  state: ComparisonState
-) -> UIImage? {
-  let view = ComparisonView(
-    style: state.style,
-    oldImageData: state.oldImageData,
-    oldImage: state.oldUIImage,
-    cameraState: state.cameraState
-  )
-  .frame(size: state.comparisonViewSize)
-  .background(.background)
-  .environment(\.colorScheme, .dark)
+  view: UIView
+) -> UIImage {
+  let format = UIGraphicsImageRendererFormat()
+  format.scale = 3
+  format.opaque = true
 
-  let renderer = ImageRenderer(
-    content: view
+  let renderer = UIGraphicsImageRenderer(
+    size: view.bounds.size,
+    format: format
   )
-  renderer.scale = 3
-  renderer.isOpaque = true
-  return renderer.uiImage
+  return renderer.image { _ in
+    view.drawHierarchy(in: view.bounds, afterScreenUpdates: true)
+  }
 }
 
 extension ComparisonState.CameraState? {

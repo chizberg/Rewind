@@ -74,6 +74,12 @@ extension View {
     self.ifLet(value, transform: transform, else: { $0 })
   }
 
+  func modify(
+    @ViewBuilder transform: (Self) -> some View
+  ) -> some View {
+    transform(self)
+  }
+
   @ViewBuilder
   func modifyWithUIIdiom(
     phone: (Self) -> some View,
