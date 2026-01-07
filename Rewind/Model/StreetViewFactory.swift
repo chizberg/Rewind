@@ -68,7 +68,7 @@ private func makeHTML(
         inset: 0;
         width: 100%;
         height: 100%;
-        min-width: 50px; // if size is 0x0, pov breaks
+        min-width: 50px; /* if size is 0x0, pov breaks */
         min-height: 50px;
         border: 0;
         display: block;
