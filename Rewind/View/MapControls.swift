@@ -28,6 +28,7 @@ struct MapControls: View {
         }
         .padding(.horizontal, 25)
         .padding(.bottom, 2)
+        .offset(y: offset)
 
       MapControlsGlassContainer(
         hasBottomSafeAreaInset: hasBottomSafeAreaInset,
@@ -36,6 +37,7 @@ struct MapControls: View {
         content
       }
       .overlay(alignment: .top) { cardToPull }
+      .offset(y: offset)
       .minimizable(
         contentHeight: glassCardHeight,
         state: appStore.binding(
@@ -44,15 +46,14 @@ struct MapControls: View {
         offset: $offset,
         glimpseHeight: 100,
         pullingProgress: $pullingProgress,
-        minPullLength: 200,
+        minPullLength: 300,
         onPull: { appStore(.imageList(.presentCurrentRegionImages(
           source: RootView.TransitionSource.pullUpCard)))
         }
       )
     }
-    .offset(y: offset)
     .animation(
-      .interactiveSpring(duration: 0.4, extraBounce: 0.1, blendDuration: 0.5),
+      .interactiveSpring(duration: 0.3, extraBounce: 0.1, blendDuration: 1),
       value: offset
     )
   }
