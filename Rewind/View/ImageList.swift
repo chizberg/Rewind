@@ -96,7 +96,7 @@ private let imageDetailsFactoryMock: ImageDetailsFactory = { _, source in
     canOpenURL: { _ in false },
     urlOpener: { _ in },
     setOrientationLock: { _ in },
-    streetViewAvailability: .mock(true)
+    streetViewAvailability: .mock(.unavailable)
   )
 }
 

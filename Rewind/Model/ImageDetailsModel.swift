@@ -98,7 +98,7 @@ func makeImageDetailsModel(
   canOpenURL: @escaping (URL) -> Bool,
   urlOpener: @escaping (URL) -> Void,
   setOrientationLock: @escaping ResultAction<OrientationLock?>,
-  streetViewAvailability: Remote<Coordinate, Bool>
+  streetViewAvailability: Remote<Coordinate, StreetViewAvailability>
 ) -> ImageDetailsModel {
   Reducer(
     initial: ImageDetailsState(

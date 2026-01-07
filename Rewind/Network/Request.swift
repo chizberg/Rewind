@@ -36,7 +36,8 @@ extension Network.Request {
     Network.image(path: path, quality: quality)
   }
 
-  static func streetViewAvailability(coordinate: Coordinate) -> Network.Request<Bool> {
+  static func streetViewAvailability(coordinate: Coordinate) -> Network
+    .Request<StreetViewAvailability> {
     Network.streetViewAvailability(coordinate: coordinate)
   }
 }
@@ -173,7 +174,8 @@ extension Network {
   }
 
   // https://developers.google.com/maps/documentation/streetview/metadata
-  fileprivate static func streetViewAvailability(coordinate: Coordinate) -> Request<Bool> {
+  fileprivate static func streetViewAvailability(coordinate: Coordinate)
+    -> Request<StreetViewAvailability> {
     struct Response: Decodable {
       enum Status: String, Decodable {
         case ok = "OK"
@@ -186,6 +188,24 @@ extension Network {
       }
 
       let status: Status
+      let date: String?
+    }
+
+    func extractYear(date: String?) throws -> Int {
+      guard let date else { throw HandlingError("Date is missing") }
+      let s = date.trimmingCharacters(in: .whitespacesAndNewlines)
+      guard
+        let yearStr = s.split(
+          separator: "-",
+          maxSplits: 1,
+          omittingEmptySubsequences: true
+        ).first,
+        yearStr.allSatisfy(\.isNumber),
+        let year = Int(yearStr)
+      else {
+        throw HandlingError("Invalid date format")
+      }
+      return year
     }
 
     return Request(
@@ -208,7 +228,12 @@ extension Network {
       },
       parseResult: { data in
         let response = try JSONDecoder().decode(Response.self, from: data)
-        return response.status == .ok
+        if response.status == .ok {
+          let year = try extractYear(date: response.date)
+          return .available(year: year)
+        } else {
+          return .unavailable
+        }
       }
     )
   }
