@@ -1913,6 +1913,9 @@
         }
       }
     },
+    "Unable to switch lens" : {
+
+    },
     "Unable to use the camera" : {
       "comment" : "error message for comparison screen whenever the camera session is not ready",
       "localizations" : {

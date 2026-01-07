@@ -13,6 +13,11 @@ import VGSL
 typealias ComparisonModel = Reducer<ComparisonState, ComparisonAction>
 typealias ComparisonViewStore = ViewStore<ComparisonState, ComparisonAction.External>
 
+struct ComparisonViewDeps {
+  var store: ComparisonViewStore
+  var comparisonVC: UIViewController
+}
+
 struct ComparisonState {
   enum Style: CaseIterable, Equatable {
     case sideBySide
@@ -31,7 +36,6 @@ struct ComparisonState {
   var orientation: Orientation
   var alert: Identified<AlertParams>?
   var shareVC: Identified<UIViewController>?
-  var comparisonVC: UIViewController!
 
   var currentLens: Lens?
   var availableLens: [Lens] {
@@ -71,18 +75,18 @@ enum ComparisonAction {
     case imageTaken(UIImage)
     case orientationChanged(Orientation)
     case shareSheetLoaded(UIViewController)
-    case comparisonViewLoaded(UIViewController)
   }
 
   case external(External)
   case `internal`(Internal)
 }
 
-func makeComparisonModel(
+func makeComparisonViewDeps(
   oldUIImage: UIImage,
   oldImageData: Model.Image
-) -> ComparisonModel {
+) -> ComparisonViewDeps {
   let orientationTracker = OrientationTracker()
+  weak var comparisonVC: UIViewController?
   let model = ComparisonModel(
     initial: ComparisonState(
       oldUIImage: oldUIImage,
@@ -141,19 +145,27 @@ func makeComparisonModel(
           switch shareSheetAction {
           case .present:
             enqueueEffect(.perform { [state] anotherAction in
-              let item = ImageShareItem(
-                image: renderComparisonView(view: state.comparisonVC.view),
-                text: state.oldImageData.title
-              )
-              await anotherAction(.internal(.shareSheetLoaded(
-                UIActivityViewController(
-                  activityItems: [
-                    item,
-                    oldImageData.title,
-                  ],
-                  applicationActivities: nil
+              do {
+                guard let comparisonVC else {
+                  assertionFailure()
+                  throw HandlingError("Comparison VC is missing")
+                }
+                let item = ImageShareItem(
+                  image: renderComparisonView(view: comparisonVC.view),
+                  text: state.oldImageData.title
                 )
-              )))
+                await anotherAction(.internal(.shareSheetLoaded(
+                  UIActivityViewController(
+                    activityItems: [
+                      item,
+                      oldImageData.title,
+                    ],
+                    applicationActivities: nil
+                  )
+                )))
+              } catch {
+                await anotherAction(.external(.alert(.presentSharingImageError(error))))
+              }
             })
           case .dismiss:
             state.shareVC = nil
@@ -201,9 +213,13 @@ func makeComparisonModel(
         case let .imageTaken(image):
           state.cameraState = .taken(capture: image)
           state.cameraSession?.stop()
-          enqueueEffect(.perform { [state] anotherAction in
+          enqueueEffect(.perform { anotherAction in
             do {
-              try await save(image: renderComparisonView(view: state.comparisonVC.view))
+              guard let comparisonVC else {
+                assertionFailure()
+                throw HandlingError("Comparison VC is missing")
+              }
+              try await save(image: renderComparisonView(view: comparisonVC.view))
             } catch {
               await anotherAction(.external(.alert(.presentSavingImageError(error))))
             }
@@ -212,8 +228,6 @@ func makeComparisonModel(
           state.orientation = orientation
         case let .shareSheetLoaded(vc):
           state.shareVC = Identified(value: vc)
-        case let .comparisonViewLoaded(vc):
-          state.comparisonVC = vc
         }
       }
     }
@@ -232,10 +246,13 @@ func makeComparisonModel(
       )
     }
   )
-  vc.sizingOptions = [.intrinsicContentSize]
-  model.viewStore(.internal(.comparisonViewLoaded(vc)))
+  vc.sizingOptions = UIHostingControllerSizingOptions.intrinsicContentSize
+  comparisonVC = vc
 
-  return model
+  return ComparisonViewDeps(
+    store: model.viewStore.bimap(state: { $0 }, action: { .external($0) }),
+    comparisonVC: vc
+  )
 }
 
 @MainActor

@@ -35,7 +35,7 @@ struct ImageDetailsState {
   var mapOptionsPresented: Bool
 
   var fullscreenPreview: Identified<UIImage>?
-  var comparisonStore: Identified<ComparisonViewStore>?
+  var comparisonDeps: Identified<ComparisonViewDeps>?
   var shareVC: Identified<UIViewController>?
   var alertModel: Identified<AlertParams>?
 }
@@ -112,7 +112,7 @@ func makeImageDetailsModel(
       isFavorite: favoriteModel.state,
       mapOptionsPresented: false,
       fullscreenPreview: nil,
-      comparisonStore: nil,
+      comparisonDeps: nil,
       shareVC: nil,
       alertModel: nil
     ),
@@ -172,17 +172,15 @@ func makeImageDetailsModel(
             return
           }
           setOrientationLock(.portrait)
-          state.comparisonStore = Identified(
-            value: makeComparisonModel(
+          state.comparisonDeps = Identified(
+            value: makeComparisonViewDeps(
               oldUIImage: image,
               oldImageData: modelImage
             )
-            .viewStore
-            .bimap(state: { $0 }, action: { .external($0) })
           )
         case .dismiss:
           setOrientationLock(nil)
-          state.comparisonStore = nil
+          state.comparisonDeps = nil
         }
       case let .alert(alert):
         switch alert {
