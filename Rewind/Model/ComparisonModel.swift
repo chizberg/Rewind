@@ -43,6 +43,7 @@ struct ComparisonState {
   var orientation: Orientation
   var alert: Identified<AlertParams>?
   var shareVC: Identified<UIViewController>?
+  var streetViewAvailability: StreetViewAvailability?
 
   var currentLens: Lens?
   var availableLens: [Lens] {
@@ -84,6 +85,7 @@ enum ComparisonAction {
     case imageTaken(UIImage)
     case orientationChanged(Orientation)
     case shareSheetLoaded(UIViewController)
+    case streetViewAvailabilityLoaded(StreetViewAvailability)
     case setupCapture
   }
 
@@ -95,7 +97,7 @@ func makeComparisonViewDeps(
   captureMode: ComparisonState.CaptureMode,
   oldUIImage: UIImage,
   oldImageData: Model.Image,
-  streetViewAvailability: Remote<Void, Bool>
+  streetViewAvailability: Remote<Void, StreetViewAvailability>
 ) -> ComparisonViewDeps {
   let orientationTracker = OrientationTracker()
   weak var comparisonVC: UIViewController?
@@ -164,10 +166,8 @@ func makeComparisonViewDeps(
           case .streetView:
             enqueueEffect(.perform { anotherAction in
               do {
-                let isAvailable = try await streetViewAvailability.load()
-                if !isAvailable {
-                  await anotherAction(.external(.alert(.presentStreetViewUnavailable)))
-                }
+                let availability = try await streetViewAvailability.load()
+                await anotherAction(.internal(.streetViewAvailabilityLoaded(availability)))
               } catch {
                 assertionFailure()
                 // we block user actions only if streetView is surely not available
@@ -287,6 +287,11 @@ func makeComparisonViewDeps(
               enqueueEffect(.anotherAction(.external(.alert(.presentStreetViewError(error)))))
             }
           }
+        case let .streetViewAvailabilityLoaded(availability):
+          state.streetViewAvailability = availability
+          if case .unavailable = availability {
+            enqueueEffect(.anotherAction(.external(.alert(.presentStreetViewUnavailable))))
+          }
         }
       }
     }
@@ -301,7 +306,8 @@ func makeComparisonViewDeps(
         style: state.style,
         oldImageData: state.oldImageData,
         oldImage: state.oldUIImage,
-        captureState: state.captureState
+        captureState: state.captureState,
+        streetViewYear: state.streetViewAvailability?.year
       )
     }
   )
@@ -338,5 +344,14 @@ extension ComparisonState.CaptureState? {
 
   var isViewfinder: Bool {
     if case .viewfinder = self { true } else { false }
+  }
+}
+
+extension StreetViewAvailability {
+  fileprivate var year: Int? {
+    switch self {
+    case let .available(year): year
+    case .unavailable: nil
+    }
   }
 }

@@ -12,6 +12,7 @@ struct ComparisonView: View {
   var oldImageData: Model.Image
   var oldImage: UIImage
   var captureState: ComparisonState.CaptureState?
+  var streetViewYear: Int?
 
   @State
   private var currentYear = Calendar.current.component(.year, from: .now)
@@ -21,14 +22,14 @@ struct ComparisonView: View {
     case .sideBySide:
       SideBySideView(
         oldYear: oldImageData.date.year,
-        currentYear: currentYear,
+        currentYear: streetViewYear ?? currentYear,
         old: { ScaleToFillImage(image: oldImage) },
         new: { cameraPreview }
       )
     case .cardOnCard:
       CardOnCardView(
         oldYear: oldImageData.date.year,
-        currentYear: currentYear,
+        currentYear: streetViewYear ?? currentYear,
         oldImageAspectRatio: oldImage.size.aspectRatio ?? 3 / 4,
         old: { ScaleToFillImage(image: oldImage) },
         new: { cameraPreview }

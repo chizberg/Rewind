@@ -8,6 +8,11 @@
 import UIKit
 import WebKit
 
+enum StreetViewAvailability {
+  case available(year: Int)
+  case unavailable
+}
+
 func makeStreetView(
   image: Model.Image
 ) throws -> WKWebView {

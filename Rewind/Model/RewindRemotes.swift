@@ -10,7 +10,7 @@ import Foundation
 struct RewindRemotes {
   var annotations: Remote<AnnotationLoadingParams, ([Model.Image], [Model.Cluster])>
   var imageDetails: Remote<Int, Model.ImageDetails>
-  var streetViewAvailability: Remote<Coordinate, Bool>
+  var streetViewAvailability: Remote<Coordinate, StreetViewAvailability>
 }
 
 struct AnnotationLoadingParams {

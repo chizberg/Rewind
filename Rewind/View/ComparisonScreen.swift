@@ -208,7 +208,7 @@ private let shutterButtonSize: CGFloat = 80
     captureMode: .camera,
     oldUIImage: .panorama,
     oldImageData: .mock,
-    streetViewAvailability: .mock(true)
+    streetViewAvailability: .mock(.unavailable)
   )
 
   ComparisonScreen(deps: deps)
@@ -220,7 +220,7 @@ private let shutterButtonSize: CGFloat = 80
     captureMode: .streetView,
     oldUIImage: .panorama,
     oldImageData: .mock,
-    streetViewAvailability: .mock(true)
+    streetViewAvailability: .mock(.available(year: 1826))
   )
 
   ComparisonScreen(deps: deps)

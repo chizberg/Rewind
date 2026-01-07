@@ -351,7 +351,7 @@ extension SingleFavoriteModel {
     canOpenURL: { _ in true },
     urlOpener: { _ in },
     setOrientationLock: { _ in },
-    streetViewAvailability: .mock(true)
+    streetViewAvailability: .mock(.unavailable)
   ).viewStore
 
   ImageDetailsView(
@@ -375,7 +375,7 @@ extension SingleFavoriteModel {
     canOpenURL: { _ in true },
     urlOpener: { _ in },
     setOrientationLock: { _ in },
-    streetViewAvailability: .mock(true)
+    streetViewAvailability: .mock(.unavailable)
   ).viewStore
 
   ImageDetailsView(
