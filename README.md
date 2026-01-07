@@ -29,10 +29,6 @@ Also in TestFlight: https://testflight.apple.com/join/vbJFFZgD
 2. Replace `REPLACE_ME` with your Google Maps API key
 3. Build and run
 
-> **Note:** `Config/Secrets.xcconfig` is in `.gitignore` and should never be committed.
-
-**CI:** Generate `Config/Secrets.xcconfig` from the `GOOGLE_MAPS_API_KEY` environment secret.
-
 ### Availability
 iOS 18+
 
