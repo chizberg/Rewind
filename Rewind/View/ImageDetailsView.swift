@@ -29,10 +29,10 @@ struct ImageDetailsView: View {
       }
       .sheet(viewStore.binding(\.shareVC, send: { _ in .shareSheetDismissed }))
       .fullScreenCover(
-        item: viewStore.binding(\.comparisonStore, send: { _ in .comparison(.dismiss) }),
+        item: viewStore.binding(\.comparisonDeps, send: { _ in .comparison(.dismiss) }),
         content: { identified in
           ComparisonScreen(
-            store: identified.value
+            deps: identified.value
           ).navigationTransition(.zoom(sourceID: TransitionSource.compareButton, in: namespace))
         }
       )

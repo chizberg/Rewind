@@ -9,7 +9,8 @@ import AVKit
 import SwiftUI
 
 struct ComparisonScreen: View {
-  var store: ComparisonViewStore
+  var deps: ComparisonViewDeps
+  var store: ComparisonViewStore { deps.store }
 
   var body: some View {
     ZStack {
@@ -19,7 +20,7 @@ struct ComparisonScreen: View {
         Color.clear
           .aspectRatio(4 / 6, contentMode: .fit) // two 4/3 images
           .overlay {
-            ComparisonViewRepresentable(vc: store.comparisonVC)
+            ComparisonViewRepresentable(vc: deps.comparisonVC)
           }
         Spacer(minLength: 0)
       }
@@ -202,11 +203,11 @@ private let shutterButtonSize: CGFloat = 80
 #if DEBUG
 #Preview {
   @Previewable @State
-  var store = makeComparisonModel(
+  var deps = makeComparisonViewDeps(
     oldUIImage: .panorama,
     oldImageData: .mock
-  ).viewStore.bimap(state: { $0 }, action: { .external($0) })
+  )
 
-  ComparisonScreen(store: store)
+  ComparisonScreen(deps: deps)
 }
 #endif
