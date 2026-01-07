@@ -62,7 +62,8 @@ struct ComparisonScreen: View {
       )
 
       if let currentLens = store.currentLens,
-         store.cameraState.isViewfinder,
+         store.captureMode == .camera,
+         store.captureState.isViewfinder,
          store.availableLens.count > 1 {
         CustomSegmentedControl(
           items: store.availableLens,
@@ -87,7 +88,7 @@ struct ComparisonScreen: View {
         BackButton()
         Spacer()
 
-        if store.cameraState.isTaken {
+        if store.captureState.isTaken {
           OverlayButton(iconName: "square.and.arrow.up") {
             store(.shareSheet(.present))
           }
@@ -95,7 +96,7 @@ struct ComparisonScreen: View {
       }
       .padding(.horizontal, 35)
 
-      makeShutterButton(retake: store.cameraState.isTaken)
+      makeShutterButton(retake: store.captureState.isTaken)
     }
   }
 
@@ -201,11 +202,25 @@ extension Orientation {
 private let shutterButtonSize: CGFloat = 80
 
 #if DEBUG
-#Preview {
+#Preview("camera") {
   @Previewable @State
   var deps = makeComparisonViewDeps(
+    captureMode: .camera,
     oldUIImage: .panorama,
-    oldImageData: .mock
+    oldImageData: .mock,
+    streetViewAvailability: .mock(true)
+  )
+
+  ComparisonScreen(deps: deps)
+}
+
+#Preview("street view") {
+  @Previewable @State
+  var deps = makeComparisonViewDeps(
+    captureMode: .streetView,
+    oldUIImage: .panorama,
+    oldImageData: .mock,
+    streetViewAvailability: .mock(true)
   )
 
   ComparisonScreen(deps: deps)

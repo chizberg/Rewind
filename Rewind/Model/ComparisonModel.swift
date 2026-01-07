@@ -7,6 +7,7 @@
 
 import AVFoundation
 import SwiftUI
+import WebKit
 
 import VGSL
 
@@ -24,15 +25,21 @@ struct ComparisonState {
     case cardOnCard
   }
 
-  enum CameraState {
+  enum CaptureMode: CaseIterable, Equatable {
+    case camera
+    case streetView
+  }
+
+  enum CaptureState {
     case viewfinder(UIView)
     case taken(capture: UIImage)
   }
 
   var oldUIImage: UIImage
   var oldImageData: Model.Image
-  var cameraState: CameraState?
+  var captureState: CaptureState?
   var style: Style
+  var captureMode: CaptureMode
   var orientation: Orientation
   var alert: Identified<AlertParams>?
   var shareVC: Identified<UIViewController>?
@@ -52,6 +59,8 @@ enum ComparisonAction {
       case presentLensError(Error)
       case presentSavingImageError(Error)
       case presentSharingImageError(Error)
+      case presentStreetViewError(Error)
+      case presentStreetViewUnavailable
       case dismiss
     }
 
@@ -75,6 +84,7 @@ enum ComparisonAction {
     case imageTaken(UIImage)
     case orientationChanged(Orientation)
     case shareSheetLoaded(UIViewController)
+    case setupCapture
   }
 
   case external(External)
@@ -82,8 +92,10 @@ enum ComparisonAction {
 }
 
 func makeComparisonViewDeps(
+  captureMode: ComparisonState.CaptureMode,
   oldUIImage: UIImage,
-  oldImageData: Model.Image
+  oldImageData: Model.Image,
+  streetViewAvailability: Remote<Void, Bool>
 ) -> ComparisonViewDeps {
   let orientationTracker = OrientationTracker()
   weak var comparisonVC: UIViewController?
@@ -91,8 +103,9 @@ func makeComparisonViewDeps(
     initial: ComparisonState(
       oldUIImage: oldUIImage,
       oldImageData: oldImageData,
-      cameraState: nil,
+      captureState: nil,
       style: .sideBySide,
+      captureMode: captureMode,
       orientation: orientationTracker.orientation,
       cameraSession: nil
     ),
@@ -103,19 +116,24 @@ func makeComparisonViewDeps(
         case let .setStyle(style):
           state.style = style
         case .shoot:
-          guard let session = state.cameraSession else { return }
-          enqueueEffect(.perform { anotherAction in
+          enqueueEffect(.perform { [state] anotherAction in
             do {
-              let image = try await session.capturePhoto()
+              let image: UIImage
+              switch state.captureMode {
+              case .camera:
+                guard let session = state.cameraSession else { return }
+                image = try await session.capturePhoto()
+              case .streetView:
+                guard case let .viewfinder(webView) = state.captureState else { return }
+                image = renderView(view: webView)
+              }
               await anotherAction(.internal(.imageTaken(image)))
             } catch {
               await anotherAction(.external(.alert(.presentAccessError)))
             }
           })
         case .retake:
-          guard let session = state.cameraSession else { return }
-          state.cameraState = .viewfinder(session.makePreview())
-          enqueueEffect(.perform { _ in session.start() })
+          enqueueEffect(.anotherAction(.internal(.setupCapture)))
         case let .setLens(lens):
           do {
             try state.cameraSession?.setLens(lens: lens, animated: true)
@@ -124,22 +142,38 @@ func makeComparisonViewDeps(
             enqueueEffect(.anotherAction(.external(.alert(.presentLensError(error)))))
           }
         case .viewWillAppear:
-          let access = AVCaptureDevice.authorizationStatus(for: .video)
-          switch access {
-          case .authorized:
-            enqueueEffect(.anotherAction(.internal(.videoAccessGranted)))
-          case .notDetermined:
+          switch state.captureMode {
+          case .camera:
+            let access = AVCaptureDevice.authorizationStatus(for: .video)
+            switch access {
+            case .authorized:
+              enqueueEffect(.anotherAction(.internal(.videoAccessGranted)))
+            case .notDetermined:
+              enqueueEffect(.perform { anotherAction in
+                let granted = await AVCaptureDevice.requestAccess(for: .video)
+                await anotherAction(
+                  granted
+                    ? .internal(.videoAccessGranted)
+                    : .external(.alert(.presentAccessError))
+                )
+              })
+            case .restricted, .denied: fallthrough
+            @unknown default:
+              enqueueEffect(.anotherAction(.external(.alert(.presentAccessError))))
+            }
+          case .streetView:
             enqueueEffect(.perform { anotherAction in
-              let granted = await AVCaptureDevice.requestAccess(for: .video)
-              await anotherAction(
-                granted
-                  ? .internal(.videoAccessGranted)
-                  : .external(.alert(.presentAccessError))
-              )
+              do {
+                let isAvailable = try await streetViewAvailability.load()
+                if !isAvailable {
+                  await anotherAction(.external(.alert(.presentStreetViewUnavailable)))
+                }
+              } catch {
+                assertionFailure()
+                // we block user actions only if streetView is surely not available
+              }
             })
-          case .restricted, .denied: fallthrough
-          @unknown default:
-            enqueueEffect(.anotherAction(.external(.alert(.presentAccessError))))
+            enqueueEffect(.anotherAction(.internal(.setupCapture)))
           }
         case let .shareSheet(shareSheetAction):
           switch shareSheetAction {
@@ -151,7 +185,7 @@ func makeComparisonViewDeps(
                   throw HandlingError("Comparison VC is missing")
                 }
                 let item = ImageShareItem(
-                  image: renderComparisonView(view: comparisonVC.view),
+                  image: renderView(view: comparisonVC.view),
                   text: state.oldImageData.title
                 )
                 await anotherAction(.internal(.shareSheetLoaded(
@@ -192,6 +226,16 @@ func makeComparisonViewDeps(
               title: "Unable to share image",
               error: error
             ))
+          case let .presentStreetViewError(error):
+            state.alert = Identified(value: .error(
+              title: "Street View Error",
+              error: error
+            ))
+          case .presentStreetViewUnavailable:
+            state.alert = Identified(value: .info(
+              title: "Google Street View Unavailable",
+              message: "Google Street View is not available for this location."
+            ))
           case .dismiss:
             state.alert = nil
           }
@@ -208,10 +252,10 @@ func makeComparisonViewDeps(
         case let .sessionReady(session):
           state.cameraSession = session
           state.currentLens = session.mainLens
-          state.cameraState = .viewfinder(session.makePreview())
-          enqueueEffect(.perform { _ in session.start() })
+          enqueueEffect(.anotherAction(.internal(.setupCapture)))
         case let .imageTaken(image):
-          state.cameraState = .taken(capture: image)
+          UINotificationFeedbackGenerator().notificationOccurred(.success)
+          state.captureState = .taken(capture: image)
           state.cameraSession?.stop()
           enqueueEffect(.perform { anotherAction in
             do {
@@ -219,7 +263,7 @@ func makeComparisonViewDeps(
                 assertionFailure()
                 throw HandlingError("Comparison VC is missing")
               }
-              try await save(image: renderComparisonView(view: comparisonVC.view))
+              try await save(image: renderView(view: comparisonVC.view))
             } catch {
               await anotherAction(.external(.alert(.presentSavingImageError(error))))
             }
@@ -228,6 +272,21 @@ func makeComparisonViewDeps(
           state.orientation = orientation
         case let .shareSheetLoaded(vc):
           state.shareVC = Identified(value: vc)
+        case .setupCapture:
+          switch state.captureMode {
+          case .camera:
+            guard let session = state.cameraSession else { return }
+            state.captureState = .viewfinder(session.makePreview())
+            session.start()
+          case .streetView:
+            do {
+              let streetView = try makeStreetView(image: state.oldImageData)
+              state.cameraSession?.stop()
+              state.captureState = .viewfinder(streetView)
+            } catch {
+              enqueueEffect(.anotherAction(.external(.alert(.presentStreetViewError(error)))))
+            }
+          }
         }
       }
     }
@@ -242,7 +301,7 @@ func makeComparisonViewDeps(
         style: state.style,
         oldImageData: state.oldImageData,
         oldImage: state.oldUIImage,
-        cameraState: state.cameraState
+        captureState: state.captureState
       )
     }
   )
@@ -256,7 +315,7 @@ func makeComparisonViewDeps(
 }
 
 @MainActor
-private func renderComparisonView(
+private func renderView(
   view: UIView
 ) -> UIImage {
   let format = UIGraphicsImageRendererFormat()
@@ -272,7 +331,7 @@ private func renderComparisonView(
   }
 }
 
-extension ComparisonState.CameraState? {
+extension ComparisonState.CaptureState? {
   var isTaken: Bool {
     if case .taken = self { true } else { false }
   }

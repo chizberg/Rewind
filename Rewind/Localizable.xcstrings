@@ -98,25 +98,31 @@
         }
       }
     },
-    "2025" : {
+    "2026" : {
       "comment" : "year from credits",
       "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2026"
+          }
+        },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "2025"
+            "value" : "2026"
           }
         },
         "sr-Latn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "2025"
+            "value" : "2026"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "2025"
+            "value" : "2026"
           }
         }
       }
@@ -313,6 +319,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Порівняти"
+          }
+        }
+      }
+    },
+    "Compare with Google Street View" : {
+      "comment" : "Action of taking a photo of how the place looked like before and how it looks in google street view",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сравнить с панорамами Google"
+          }
+        },
+        "sr-Latn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uporedi sa Google Street View"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Порівняти з панорамами Google"
           }
         }
       }
@@ -578,6 +607,52 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Google Карти"
+          }
+        }
+      }
+    },
+    "Google Street View is not available for this location." : {
+      "comment" : "error alert message",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Панорамы Google недоступны для этого места."
+          }
+        },
+        "sr-Latn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Google Street View nije dostupan za ovu lokaciju."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Панорами Google недоступні для цього місця."
+          }
+        }
+      }
+    },
+    "Google Street View Unavailable" : {
+      "comment" : "error alert title",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Google Street View недоступен"
+          }
+        },
+        "sr-Latn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Google Street View nedostupan"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Google Street View недоступний"
           }
         }
       }
@@ -1637,6 +1712,29 @@
         }
       }
     },
+    "Street View Error" : {
+      "comment" : "error alert title",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ошибка Street View"
+          }
+        },
+        "sr-Latn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Greška Street View"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Помилка Street View"
+          }
+        }
+      }
+    },
     "The app has no access to your location" : {
       "comment" : "error message in alert",
       "localizations" : {
@@ -1914,7 +2012,27 @@
       }
     },
     "Unable to switch lens" : {
-
+      "comment" : "error message in alert when camera lens can’t be switched",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось сменить линзу"
+          }
+        },
+        "sr-Latn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nije moguće promeniti objektiv"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вдалося переключити об'єктив"
+          }
+        }
+      }
     },
     "Unable to use the camera" : {
       "comment" : "error message for comparison screen whenever the camera session is not ready",

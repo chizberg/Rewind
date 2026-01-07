@@ -41,6 +41,7 @@
 		22291C882D50106600F2FEBE /* Rewind.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rewind.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		22291C982D50106800F2FEBE /* RewindTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RewindTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		22291CA22D50106800F2FEBE /* RewindUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RewindUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4355A152FDB547CB9241A65F /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -103,6 +104,7 @@
 		22291C7F2D50106600F2FEBE = {
 			isa = PBXGroup;
 			children = (
+				26162C0FAABB4C9C9B7E32EE /* Config */,
 				22291C8A2D50106600F2FEBE /* Rewind */,
 				22291C892D50106600F2FEBE /* Products */,
 			);
@@ -116,6 +118,14 @@
 				22291CA22D50106800F2FEBE /* RewindUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		26162C0FAABB4C9C9B7E32EE /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				4355A152FDB547CB9241A65F /* Secrets.xcconfig */,
+			);
+			path = Config;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -431,11 +441,12 @@
 		};
 		22291CAD2D50106800F2FEBE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4355A152FDB547CB9241A65F /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_ASSET_PATHS = "\"Rewind/Preview Content\"";
 				DEVELOPMENT_TEAM = AGFUBHFQD6;
 				ENABLE_PREVIEWS = YES;
@@ -453,7 +464,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = chizberg.Rewind;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -464,11 +475,12 @@
 		};
 		22291CAE2D50106800F2FEBE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4355A152FDB547CB9241A65F /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_ASSET_PATHS = "\"Rewind/Preview Content\"";
 				DEVELOPMENT_TEAM = AGFUBHFQD6;
 				ENABLE_PREVIEWS = YES;
@@ -486,7 +498,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = chizberg.Rewind;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

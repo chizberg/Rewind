@@ -35,6 +35,10 @@ extension Network.Request {
   static func image(path: String, quality: ImageQuality) -> Network.Request<UIImage> {
     Network.image(path: path, quality: quality)
   }
+
+  static func streetViewAvailability(coordinate: Coordinate) -> Network.Request<Bool> {
+    Network.streetViewAvailability(coordinate: coordinate)
+  }
 }
 
 private func makeBaseURLComponents() -> URLComponents {
@@ -164,6 +168,47 @@ extension Network {
         } else {
           throw NetworkError.parsingFailure(desc: "Image decoding error")
         }
+      }
+    )
+  }
+
+  // https://developers.google.com/maps/documentation/streetview/metadata
+  fileprivate static func streetViewAvailability(coordinate: Coordinate) -> Request<Bool> {
+    struct Response: Decodable {
+      enum Status: String, Decodable {
+        case ok = "OK"
+        case zeroResults = "ZERO_RESULTS"
+        case notFound = "NOT_FOUND"
+        case overQueryLimit = "OVER_QUERY_LIMIT"
+        case requestDenied = "REQUEST_DENIED"
+        case invalidRequest = "INVALID_REQUEST"
+        case unknownError = "UNKNOWN_ERROR"
+      }
+
+      let status: Status
+    }
+
+    return Request(
+      makeURLRequest: {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = "maps.googleapis.com"
+        components.path = "/maps/api/streetview/metadata"
+        components.queryItems = [
+          URLQueryItem(
+            name: "location",
+            value: "\(coordinate.latitude),\(coordinate.longitude)"
+          ),
+          URLQueryItem(
+            name: "key",
+            value: Secrets.googleMapsApiKey
+          ),
+        ]
+        return URLRequest(url: components.url!)
+      },
+      parseResult: { data in
+        let response = try JSONDecoder().decode(Response.self, from: data)
+        return response.status == .ok
       }
     )
   }

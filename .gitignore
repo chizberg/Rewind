@@ -115,3 +115,6 @@ XcodeBuild/
 CLAUDE.md
 
 .DS_Store
+
+# Secrets (API keys)
+/Config/Secrets.xcconfig

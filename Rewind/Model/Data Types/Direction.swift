@@ -43,4 +43,18 @@ extension Direction {
     case .aero: nil
     }
   }
+
+  var angleDegrees: CGFloat? {
+    switch self {
+    case .n: 0
+    case .e: 90
+    case .s: 180
+    case .w: 270
+    case .ne: 45
+    case .nw: 315
+    case .se: 135
+    case .sw: 225
+    case .aero: nil
+    }
+  }
 }

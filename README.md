@@ -23,6 +23,16 @@ Also in TestFlight: https://testflight.apple.com/join/vbJFFZgD
   <img src="screenshots/phone/en/jpgs/compare.jpeg" width="19%" />
 </p>
 
+### Setup
+
+1. Copy `Config/Secrets.xcconfig.example` to `Config/Secrets.xcconfig`
+2. Replace `REPLACE_ME` with your Google Maps API key
+3. Build and run
+
+> **Note:** `Config/Secrets.xcconfig` is in `.gitignore` and should never be committed.
+
+**CI:** Generate `Config/Secrets.xcconfig` from the `GOOGLE_MAPS_API_KEY` environment secret.
+
 ### Availability
 iOS 18+
 

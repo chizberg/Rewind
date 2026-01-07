@@ -67,8 +67,6 @@ final class AppGraph {
       makeImageDetailsModel(
         modelImage: image,
         remote: remotes.imageDetails.mapArgs { image.cid },
-        image: image.image,
-        coordinate: image.coordinate,
         openSource: source,
         favoriteModel: favoritesModel.isFavorite(image),
         showOnMap: { coordinate in
@@ -78,7 +76,8 @@ final class AppGraph {
         },
         canOpenURL: { UIApplication.shared.canOpenURL($0) },
         urlOpener: urlOpener,
-        setOrientationLock: { weakSelf?.orientationLock?.value = $0 }
+        setOrientationLock: { weakSelf?.orientationLock?.value = $0 },
+        streetViewAvailability: remotes.streetViewAvailability
       )
     }
     let searchModelFactory = {

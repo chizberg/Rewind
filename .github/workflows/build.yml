@@ -17,6 +17,10 @@ jobs:
           xcrun simctl list runtimes
       - name: Ensure iOS platform runtimes
         run: sudo xcodebuild -downloadPlatform iOS
+      - name: Create Secrets.xcconfig
+        run: |
+          mkdir -p Config
+          echo "GOOGLE_MAPS_API_KEY = ${{ secrets.GOOGLE_MAPS_API_KEY }}" > Config/Secrets.xcconfig
       - name: Resolve Swift packages
         run: xcodebuild -resolvePackageDependencies
       - name: Build

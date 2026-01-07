@@ -48,7 +48,8 @@ enum ImageDetailsAction {
 
   enum Button {
     case favorite
-    case compare
+    case compareCamera
+    case compareStreetView
     case showOnMap
     case share
     case saveImage
@@ -69,7 +70,7 @@ enum ImageDetailsAction {
   }
 
   enum ImageComparison {
-    case present
+    case present(ComparisonState.CaptureMode)
     case dismiss
   }
 
@@ -91,14 +92,13 @@ enum ImageDetailsAction {
 func makeImageDetailsModel(
   modelImage: Model.Image,
   remote: Remote<Void, Model.ImageDetails>,
-  image: LoadableUIImage,
-  coordinate: Coordinate,
   openSource: String,
   favoriteModel: SingleFavoriteModel,
   showOnMap: @escaping (Coordinate) -> Void,
   canOpenURL: @escaping (URL) -> Bool,
   urlOpener: @escaping (URL) -> Void,
-  setOrientationLock: @escaping ResultAction<OrientationLock?>
+  setOrientationLock: @escaping ResultAction<OrientationLock?>,
+  streetViewAvailability: Remote<Coordinate, Bool>
 ) -> ImageDetailsModel {
   Reducer(
     initial: ImageDetailsState(
@@ -132,7 +132,7 @@ func makeImageDetailsModel(
         })
         enqueueEffect(.perform { anotherAction in
           do {
-            let medium = try await image.load(
+            let medium = try await modelImage.image.load(
               ImageLoadingParams(
                 quality: .medium,
                 cachedOnly: true
@@ -143,7 +143,7 @@ func makeImageDetailsModel(
         })
         enqueueEffect(.perform { anotherAction in
           do {
-            let img = try await image.load(.high)
+            let img = try await modelImage.image.load(.high)
             await anotherAction(.imageLoaded(img))
           } catch {
             await anotherAction(.alert(.present(.error(
@@ -166,7 +166,7 @@ func makeImageDetailsModel(
         state.cachedLowResImage = image
       case let .comparison(comparisonAction):
         switch comparisonAction {
-        case .present:
+        case let .present(mode):
           guard let image = state.uiImage else {
             UINotificationFeedbackGenerator().notificationOccurred(.error)
             return
@@ -174,8 +174,12 @@ func makeImageDetailsModel(
           setOrientationLock(.portrait)
           state.comparisonDeps = Identified(
             value: makeComparisonViewDeps(
+              captureMode: mode,
               oldUIImage: image,
-              oldImageData: modelImage
+              oldImageData: modelImage,
+              streetViewAvailability: streetViewAvailability.mapArgs {
+                modelImage.coordinate
+              }
             )
           )
         case .dismiss:
@@ -206,8 +210,10 @@ func makeImageDetailsModel(
             favoriteModel(isFavorite)
             UIImpactFeedbackGenerator(style: .light).impactOccurred()
           })
-        case .compare:
-          enqueueEffect(.anotherAction(.comparison(.present)))
+        case .compareCamera:
+          enqueueEffect(.anotherAction(.comparison(.present(.camera))))
+        case .compareStreetView:
+          enqueueEffect(.anotherAction(.comparison(.present(.streetView))))
         case .showOnMap:
           showOnMap(modelImage.coordinate)
         case .saveImage:
@@ -242,8 +248,8 @@ func makeImageDetailsModel(
         state.mapOptionsPresented = visible
       case let .mapAppSelected(app):
         if let link = app.coordinateLink(
-          latitude: coordinate.latitude,
-          longitude: coordinate.longitude
+          latitude: modelImage.coordinate.latitude,
+          longitude: modelImage.coordinate.longitude
         ),
           canOpenURL(link) {
           urlOpener(link)
