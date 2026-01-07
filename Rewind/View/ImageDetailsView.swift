@@ -31,9 +31,20 @@ struct ImageDetailsView: View {
       .fullScreenCover(
         item: viewStore.binding(\.comparisonDeps, send: { _ in .comparison(.dismiss) }),
         content: { identified in
+          let deps = identified.value
           ComparisonScreen(
-            deps: identified.value
-          ).navigationTransition(.zoom(sourceID: TransitionSource.compareButton, in: namespace))
+            deps: deps
+          ).modify { view in
+            switch deps.store.captureMode {
+            case .camera:
+              view.navigationTransition(.zoom(
+                sourceID: TransitionSource.compareCameraButton,
+                in: namespace
+              ))
+            case .streetView:
+              view
+            }
+          }
         }
       )
       .fullScreenCover(
@@ -233,12 +244,13 @@ struct ImageDetailsView: View {
 
 private enum TransitionSource {
   static let titleImage = "fullscreenPreview"
-  static let compareButton = "compareButton"
+  static let compareCameraButton = "compareCameraButton"
 }
 
 private let visibleActions: [ImageDetailsAction.Button] = Array.build {
   ImageDetailsAction.Button.favorite
-  withUIIdiom(phone: ImageDetailsAction.Button.compare, pad: nil)
+  withUIIdiom(phone: ImageDetailsAction.Button.compareCamera, pad: nil)
+  withUIIdiom(phone: ImageDetailsAction.Button.compareStreetView, pad: nil)
   [ImageDetailsAction.Button.showOnMap, .share, .saveImage, .viewOnWeb, .route]
 }
 
@@ -272,7 +284,8 @@ private struct ButtonSpec {
   ) {
     title = switch button {
     case .favorite: "Favorite"
-    case .compare: "Compare"
+    case .compareCamera: "Compare"
+    case .compareStreetView: "Compare with Google Street View"
     case .showOnMap: "Show on map"
     case .share: "Share"
     case .saveImage: "Save image"
@@ -282,7 +295,8 @@ private struct ButtonSpec {
 
     iconName = switch button {
     case .favorite: isFavorite ? "star.fill" : "star"
-    case .compare: "camera.viewfinder"
+    case .compareCamera: "camera.viewfinder"
+    case .compareStreetView: "pano"
     case .showOnMap: "mappin.and.ellipse"
     case .share: "square.and.arrow.up"
     case .saveImage: isImageSaved
@@ -295,17 +309,19 @@ private struct ButtonSpec {
     foreground = switch button {
     case .favorite: isFavorite ? .white : .primary
     case .saveImage: isImageSaved ? .white : .primary
-    case .showOnMap, .share, .viewOnWeb, .route, .compare: .primary
+    case .showOnMap, .share, .viewOnWeb, .route, .compareCamera, .compareStreetView: .primary
     }
 
     background = switch button {
     case .favorite: isFavorite ? .yellow.mix(with: .black, by: 0.1) : .systemBackground
     case .saveImage: isImageSaved ? .green.mix(with: .black, by: 0.1) : .systemBackground
-    case .showOnMap, .share, .viewOnWeb, .route, .compare: .systemBackground
+    case .showOnMap, .share, .viewOnWeb, .route, .compareCamera,
+         .compareStreetView: .systemBackground
     }
 
     transitionSource = switch button {
-    case .compare: TransitionSource.compareButton
+    case .compareCamera: TransitionSource.compareCameraButton
+    case .compareStreetView: nil // zoom gesture conflicts with matched transition
     case .favorite, .showOnMap, .share, .saveImage, .viewOnWeb, .route:
       nil
     }
@@ -329,14 +345,13 @@ extension SingleFavoriteModel {
   var store = makeImageDetailsModel(
     modelImage: .mock,
     remote: Remote { Model.ImageDetails(.mock) },
-    image: .mock,
-    coordinate: Model.Image.mock.coordinate,
     openSource: "",
     favoriteModel: .mock,
     showOnMap: { _ in },
     canOpenURL: { _ in true },
     urlOpener: { _ in },
-    setOrientationLock: { _ in }
+    setOrientationLock: { _ in },
+    streetViewAvailability: .mock(true)
   ).viewStore
 
   ImageDetailsView(
@@ -347,22 +362,20 @@ extension SingleFavoriteModel {
 #Preview("loading") {
   @Previewable @State
   var store = makeImageDetailsModel(
-    modelImage: .mock,
+    modelImage: modified(.mock) {
+      $0.image = $0.image.delayed(delay: 2)
+    },
     remote: Remote {
       try await Task.sleep(for: .seconds(1))
       return Model.ImageDetails(.mock)
     },
-    image: LoadableUIImage { _ in
-      try await Task.sleep(for: .seconds(2))
-      return UIImage(named: "cat")!
-    },
-    coordinate: Model.Image.mock.coordinate,
     openSource: "",
     favoriteModel: .mock,
     showOnMap: { _ in },
     canOpenURL: { _ in true },
     urlOpener: { _ in },
-    setOrientationLock: { _ in }
+    setOrientationLock: { _ in },
+    streetViewAvailability: .mock(true)
   ).viewStore
 
   ImageDetailsView(

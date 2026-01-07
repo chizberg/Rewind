@@ -87,5 +87,9 @@ extension Remote {
       return try await self.impl(args)
     }
   }
+
+  static func mock(_ response: Response) -> Remote {
+    Remote<Args, Response> { _ in response }
+  }
 }
 #endif

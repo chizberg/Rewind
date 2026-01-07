@@ -86,18 +86,17 @@ struct ToolbarBackButton: View {
 }
 
 #if DEBUG
-private let imageDetailsFactoryMock: ImageDetailsFactory = { image, source in
+private let imageDetailsFactoryMock: ImageDetailsFactory = { _, source in
   makeImageDetailsModel(
     modelImage: .mock,
     remote: Remote { .mock },
-    image: .mock,
-    coordinate: image.coordinate,
     openSource: source,
     favoriteModel: .mock,
     showOnMap: { _ in },
     canOpenURL: { _ in false },
     urlOpener: { _ in },
-    setOrientationLock: { _ in }
+    setOrientationLock: { _ in },
+    streetViewAvailability: .mock(true)
   )
 }
 

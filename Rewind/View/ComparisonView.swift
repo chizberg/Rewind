@@ -11,7 +11,7 @@ struct ComparisonView: View {
   var style: ComparisonState.Style
   var oldImageData: Model.Image
   var oldImage: UIImage
-  var cameraState: ComparisonState.CameraState?
+  var captureState: ComparisonState.CaptureState?
 
   @State
   private var currentYear = Calendar.current.component(.year, from: .now)
@@ -38,11 +38,11 @@ struct ComparisonView: View {
 
   @ViewBuilder
   private var cameraPreview: some View {
-    switch cameraState {
+    switch captureState {
     case let .taken(capture):
       ScaleToFillImage(image: capture)
-    case let .viewfinder(preview):
-      ViewRepresentable { preview }
+    case let .viewfinder(view):
+      ViewRepresentable { view }
     case .none:
       Color.clear.overlay { ProgressView() }
     }
@@ -160,7 +160,7 @@ private struct CardOnCardView<Old: View, New: View>: View {
       style: style,
       oldImageData: .mock,
       oldImage: .lyskovo,
-      cameraState: .taken(capture: .cat)
+      captureState: .taken(capture: .cat)
     )
     .background(.background)
     .environment(\.colorScheme, .dark)

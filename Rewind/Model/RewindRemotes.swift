@@ -10,6 +10,7 @@ import Foundation
 struct RewindRemotes {
   var annotations: Remote<AnnotationLoadingParams, ([Model.Image], [Model.Cluster])>
   var imageDetails: Remote<Int, Model.ImageDetails>
+  var streetViewAvailability: Remote<Coordinate, Bool>
 }
 
 struct AnnotationLoadingParams {
@@ -45,5 +46,8 @@ extension RewindRemotes {
       let details = try await requestPerformer.perform(request: .imageDetails(cid: cid))
       return Model.ImageDetails(details)
     }.exponentialBackoff()
+    streetViewAvailability = Remote { coordinate in
+      try await requestPerformer.perform(request: .streetViewAvailability(coordinate: coordinate))
+    }
   }
 }

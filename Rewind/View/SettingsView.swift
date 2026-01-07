@@ -71,7 +71,7 @@ struct SettingsView: View {
       Text(String())
       Text("☮️ & ❤️")
       Text("Rewind")
-      Text("2025")
+      Text("2026")
     }
   }
 
