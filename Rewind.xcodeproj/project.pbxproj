@@ -38,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4355A152FDB547CB9241A65F /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		22291C882D50106600F2FEBE /* Rewind.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rewind.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		22291C982D50106800F2FEBE /* RewindTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RewindTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		22291CA22D50106800F2FEBE /* RewindUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RewindUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -100,9 +101,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		26162C0FAABB4C9C9B7E32EE /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				4355A152FDB547CB9241A65F /* Secrets.xcconfig */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
 		22291C7F2D50106600F2FEBE = {
 			isa = PBXGroup;
 			children = (
+				26162C0FAABB4C9C9B7E32EE /* Config */,
 				22291C8A2D50106600F2FEBE /* Rewind */,
 				22291C892D50106600F2FEBE /* Products */,
 			);
@@ -431,6 +441,7 @@
 		};
 		22291CAD2D50106800F2FEBE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4355A152FDB547CB9241A65F /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -464,6 +475,7 @@
 		};
 		22291CAE2D50106800F2FEBE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4355A152FDB547CB9241A65F /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
