@@ -81,7 +81,8 @@ func makeAppModel(
   performMapAction: @escaping (MapAction.External) -> Void,
   favoritesModel: FavoritesModel,
   onboardingViewModel: OnboardingViewModel?,
-  currentRegionImages: Variable<[Model.Image]>
+  currentRegionImages: Variable<[Model.Image]>,
+  sorting: Property<ImageSorting>
 ) -> AppModel {
   AppModel(
     initial: .makeInitial(
@@ -108,7 +109,8 @@ func makeAppModel(
               matchedTransitionSourceName: source,
               images: favoritesModel.state,
               listUpdates: favoritesModel.$state.newValues,
-              imageDetailsFactory: imageDetailsFactory
+              imageDetailsFactory: imageDetailsFactory,
+              sorting: nil
             ).viewStore
           )
         case let .presentCurrentRegionImages(source):
@@ -118,7 +120,8 @@ func makeAppModel(
               matchedTransitionSourceName: source,
               images: currentRegionImages.value,
               listUpdates: .empty,
-              imageDetailsFactory: imageDetailsFactory
+              imageDetailsFactory: imageDetailsFactory,
+              sorting: sorting
             ).viewStore
           )
         case let .present(images, source, title):
@@ -128,7 +131,8 @@ func makeAppModel(
               matchedTransitionSourceName: source,
               images: images,
               listUpdates: .empty,
-              imageDetailsFactory: imageDetailsFactory
+              imageDetailsFactory: imageDetailsFactory,
+              sorting: sorting
             ).viewStore
           )
         case .dismiss:

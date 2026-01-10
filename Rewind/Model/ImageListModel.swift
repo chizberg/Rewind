@@ -17,12 +17,14 @@ struct ImageListState {
   var matchedTransitionSourceName: String
   var images: [Model.Image]
   var imageDetails: Identified<ImageDetailsModel.Store>?
+  var sorting: ImageSorting?
 }
 
 enum ImageListAction {
   case presentImage(Model.Image)
   case dismissImage
   case updateImages([Model.Image])
+  case setSorting(ImageSorting)
 }
 
 func makeImageListModel(
@@ -30,14 +32,16 @@ func makeImageListModel(
   matchedTransitionSourceName: String,
   images: [Model.Image],
   listUpdates: Signal<[Model.Image]>,
-  imageDetailsFactory: @escaping ImageDetailsFactory
+  imageDetailsFactory: @escaping ImageDetailsFactory,
+  sorting: Property<ImageSorting>?
 ) -> ImageListModel {
   ImageListModel(
     initial: ImageListState(
       title: title,
       matchedTransitionSourceName: matchedTransitionSourceName,
       images: images,
-      imageDetails: nil
+      imageDetails: nil,
+      sorting: sorting?.value
     ),
     reduce: { state, action, _ in
       switch action {
@@ -49,6 +53,11 @@ func makeImageListModel(
         state.imageDetails = nil
       case let .updateImages(images):
         state.images = images
+      case let .setSorting(newSorting):
+        guard state.sorting != newSorting else { return }
+        state.sorting = newSorting
+        sorting?.value = newSorting
+        state.images = state.images.sorted(by: newSorting)
       }
     }
   ).adding(

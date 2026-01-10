@@ -71,7 +71,8 @@ func makeMapModel(
   urlOpener: @escaping UrlOpener,
   settings: Variable<SettingsState>,
   appState: Variable<AppState?>,
-  annotationStore: AnnotationStore
+  annotationStore: AnnotationStore,
+  sorting: Variable<ImageSorting>
 ) -> MapModel {
   MapModel(
     initial: .makeInitial(locationState: locationModel.state),
@@ -257,7 +258,7 @@ func makeMapModel(
               return []
             }
           }
-          state.currentRegionImages = Array(Set(modelValues))
+          state.currentRegionImages = Array(Set(modelValues)).sorted(by: sorting.value)
           state.previews = makePreviews(images: state.currentRegionImages, limit: 10)
         case .unfoldMapControlsBack:
           performAppAction(.mapControls(.setMinimization(.normal)))

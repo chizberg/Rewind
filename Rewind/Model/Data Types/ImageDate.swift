@@ -16,3 +16,9 @@ struct ImageDate: Equatable, Codable, Hashable {
     return "\(year) - \(year2)"
   }
 }
+
+extension ImageDate: Comparable {
+  static func <(lhs: ImageDate, rhs: ImageDate) -> Bool {
+    (lhs.year, lhs.year2) < (rhs.year, rhs.year2)
+  }
+}

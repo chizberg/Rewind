@@ -18,11 +18,7 @@ struct ImageList: View {
     NavigationStack {
       content
         .navigationTitle(viewStore.title)
-        .toolbar {
-          ToolbarItem(placement: .topBarLeading) {
-            ToolbarBackButton()
-          }
-        }
+        .toolbar { toolbar }
         .fullScreenCover(
           item: viewStore.binding(\.imageDetails, send: { _ in .dismissImage }),
           content: { identified in
@@ -67,6 +63,33 @@ struct ImageList: View {
       .matchedTransitionSource(id: image.cid, in: namespace)
     }
   }
+
+  @ToolbarContentBuilder
+  private var toolbar: some ToolbarContent {
+    ToolbarItem(placement: .topBarLeading) {
+      ToolbarBackButton()
+    }
+    if let sorting = viewStore.sorting {
+      ToolbarItem(placement: .topBarTrailing) {
+        Menu(content: {
+          Picker(
+            "Sorting",
+            selection: Binding(
+              get: { sorting },
+              set: { viewStore(.setSorting($0)) }
+            ),
+            content: {
+              ForEach(ImageSorting.allCases) {
+                Label($0.title, systemImage: $0.iconName)
+              }
+            }
+          )
+        }, label: {
+          Image(systemName: "arrow.up.arrow.down")
+        })
+      }
+    }
+  }
 }
 
 struct ToolbarBackButton: View {
@@ -82,6 +105,26 @@ struct ToolbarBackButton: View {
     }
     .foregroundStyle(.primary)
     .buttonStyle(.plain)
+  }
+}
+
+extension ImageSorting: Identifiable {
+  var id: ImageSorting { self }
+
+  fileprivate var title: LocalizedStringKey {
+    switch self {
+    case .dateAscending: "Date Ascending"
+    case .dateDescending: "Date Descending"
+    case .shuffle: "Shuffle"
+    }
+  }
+
+  fileprivate var iconName: String {
+    switch self {
+    case .dateAscending: "arrow.up"
+    case .dateDescending: "arrow.down"
+    case .shuffle: "shuffle"
+    }
   }
 }
 
@@ -106,10 +149,19 @@ private let imageDetailsFactoryMock: ImageDetailsFactory = { _, source in
     title: "Images",
     matchedTransitionSourceName: "",
     images: (0..<10).map { idx in
-      modified(.mock) { $0.cid = idx }
+      modified(.mock) {
+        let year = Int.random(in: 1826...1995)
+        let year2 = year + Int.random(in: 0...5)
+        $0.date = ImageDate(
+          year: year,
+          year2: year2
+        )
+        $0.cid = idx
+      }
     },
     listUpdates: .empty,
-    imageDetailsFactory: imageDetailsFactoryMock
+    imageDetailsFactory: imageDetailsFactoryMock,
+    sorting: .constant(.dateAscending)
   ).viewStore
 
   ImageList(viewStore: store)
@@ -122,7 +174,8 @@ private let imageDetailsFactoryMock: ImageDetailsFactory = { _, source in
     matchedTransitionSourceName: "",
     images: [],
     listUpdates: .empty,
-    imageDetailsFactory: imageDetailsFactoryMock
+    imageDetailsFactory: imageDetailsFactoryMock,
+    sorting: .constant(.dateAscending)
   ).viewStore
 
   ImageList(viewStore: store)

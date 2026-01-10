@@ -15,6 +15,33 @@ typealias SettingsViewModel = Reducer<SettingsState, SettingsViewAction.UI>
 struct SettingsState: Codable, Equatable {
   var showYearColorInClusters: Bool
   var openClusterPreviews: Bool
+
+  var sorting: ImageSorting
+
+  init(
+    showYearColorInClusters: Bool,
+    openClusterPreviews: Bool,
+    sorting: ImageSorting
+  ) {
+    self.showYearColorInClusters = showYearColorInClusters
+    self.openClusterPreviews = openClusterPreviews
+    self.sorting = sorting
+  }
+
+  enum CodingKeys: String, CodingKey {
+    case showYearColorInClusters
+    case openClusterPreviews
+    case sorting
+  }
+
+  init(from decoder: any Decoder) throws {
+    let container = try decoder.container(keyedBy: CodingKeys.self)
+    self.showYearColorInClusters = try container.decode(Bool.self, forKey: .showYearColorInClusters)
+    self.openClusterPreviews = try container.decode(Bool.self, forKey: .openClusterPreviews)
+
+    self.sorting = try container
+      .decodeIfPresent(ImageSorting.self, forKey: .sorting) ?? .dateAscending
+  }
 }
 
 enum SettingsViewAction {
@@ -90,6 +117,7 @@ func makeSettingsViewModel(
 extension SettingsState {
   static let `default` = SettingsState(
     showYearColorInClusters: true,
-    openClusterPreviews: false
+    openClusterPreviews: false,
+    sorting: .dateAscending
   )
 }
