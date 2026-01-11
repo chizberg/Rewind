@@ -56,7 +56,8 @@ final class AppGraph {
       urlOpener: urlOpener,
       settings: settings.asVariable(),
       appState: Variable { appModelRef?.state },
-      annotationStore: AnnotationStore()
+      annotationStore: AnnotationStore(),
+      sorting: settings.asVariable().map(\.sorting)
     )
     mapModelRef = mapModel
     mapStore = mapModel.viewStore.bimap(
@@ -105,7 +106,8 @@ final class AppGraph {
       performMapAction: { mapModelRef?(.external($0)) },
       favoritesModel: favoritesModel,
       onboardingViewModel: onboardingViewModel,
-      currentRegionImages: Variable { mapModelRef?.state.currentRegionImages ?? [] }
+      currentRegionImages: Variable { mapModelRef?.state.currentRegionImages ?? [] },
+      sorting: settings.asProperty().bimap(get: \.sorting, modify: { $0.sorting = $1 })
     )
     appModelRef = appModel
     appStore = appModel.viewStore
@@ -118,6 +120,9 @@ final class AppGraph {
     }.dispose(in: disposePool)
     locationModel.$state.currentAndNewValues.addObserver {
       mapModelRef?(.external(.newLocationState($0)))
+    }.dispose(in: disposePool)
+    settings.asObservableVariable().map(\.sorting).onChange { _ in
+      mapModelRef?(.internal(.updatePreviews))
     }.dispose(in: disposePool)
   }
 }
