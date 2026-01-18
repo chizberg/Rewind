@@ -21,13 +21,14 @@ func makeDiffAfterReceived(
   images: [Model.Image],
   clusters: [Model.Cluster],
   params: AnnotationLoadingParams,
+  mapSize: CGSize,
   state: inout MapState
 ) -> (
   toAdd: [AnnotationValue],
   toRemove: [AnnotationValue]
 ) {
   let shouldClearOldAnnotations = if let lastParams = state.lastLoadedParams {
-    lastParams.region.zoom != params.region.zoom
+    lastParams.zoom != params.zoom
       || lastParams.yearRange != params.yearRange
   } else {
     false
@@ -70,13 +71,15 @@ func makeDiffAfterReceived(
     toRemove += staleImages.map { .image($0) }
     state.clusteredImages = groupImages(
       images: freeImages.intersection(receivedImages),
-      zoom: params.region.zoom
+      zoom: params.zoom,
+      mapSize: mapSize
     ).map(key: { $0 }, value: { .left($0) })
   }
 
   let groupedImages = groupImages(
     images: receivedImages,
-    zoom: params.region.zoom
+    zoom: params.zoom,
+    mapSize: mapSize
   )
   let patches = makePatches(
     newImages: groupedImages,
@@ -93,9 +96,10 @@ func makeDiffAfterReceived(
 
 private func groupImages(
   images: any Sequence<Model.Image>,
-  zoom: Int
+  zoom: Int,
+  mapSize: CGSize
 ) -> [ClusteringCell: Set<Model.Image>] {
-  let size = delta(zoom: zoom) / clusteringCellRatio
+  let size = delta(zoom: zoom, mapSize: mapSize) / clusteringCellRatio
   return images.reduce(into: [:]) { result, image in
     let cell = ClusteringCell(
       latIndex: Int(floor(image.coordinate.latitude / size)),

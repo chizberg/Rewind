@@ -53,7 +53,7 @@ extension RGBAColor {
 
 extension Gradient {
   fileprivate func color(at rawT: CGFloat) -> RGBAColor {
-    let t = rawT.clamped(in: 0...1)
+    let t = rawT.clamp(0...1)
     guard let index = binSearch(firstEqualOrGreaterThan: t, keyPath: \.position, in: self) else {
       return self.last!.color
     }

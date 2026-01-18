@@ -66,8 +66,8 @@ final class CameraSession {
   }
 
   func setLens(lens: Lens, animated: Bool) throws {
-    let clamped = lens.zoomValue.clamped(
-      in: device.minAvailableVideoZoomFactor...device.maxAvailableVideoZoomFactor
+    let clamped = lens.zoomValue.clamp(
+      device.minAvailableVideoZoomFactor...device.maxAvailableVideoZoomFactor
     )
     try device.lockForConfiguration()
     defer { device.unlockForConfiguration() }

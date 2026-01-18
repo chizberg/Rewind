@@ -14,8 +14,21 @@ struct RewindRemotes {
 }
 
 struct AnnotationLoadingParams {
-  var region: Region
+  var zoom: Int
+  var coordinates: [[Double]]
+  var startAt: TimeInterval
   var yearRange: ClosedRange<Int>
+
+  init(
+    region: Region,
+    yearRange: ClosedRange<Int>,
+    mapSize: CGSize
+  ) {
+    self.zoom = Rewind.zoom(region: region, mapSize: mapSize)
+    self.coordinates = region.geoJSONCoordinates
+    self.startAt = Date().timeIntervalSince1970
+    self.yearRange = yearRange
+  }
 }
 
 extension RewindRemotes {
@@ -26,9 +39,9 @@ extension RewindRemotes {
     annotations = Remote { params in
       let (nis, ncs) = try await requestPerformer.perform(
         request: .byBounds(
-          zoom: params.region.zoom,
-          coordinates: params.region.geoJSONCoordinates,
-          startAt: Date().timeIntervalSince1970,
+          zoom: params.zoom,
+          coordinates: params.coordinates,
+          startAt: params.startAt,
           yearRange: params.yearRange
         )
       )

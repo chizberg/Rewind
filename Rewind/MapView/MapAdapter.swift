@@ -19,6 +19,10 @@ final class MapAdapter: NSObject, MKMapViewDelegate, UIGestureRecognizerDelegate
   private var pipe = SignalPipe<Event>()
   private var showYearColorInClusters: ObservableVariable<Bool>
 
+  var size: CGSize {
+    map.value.frame.size
+  }
+
   var view: UIView {
     map.value
   }
