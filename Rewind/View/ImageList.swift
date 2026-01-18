@@ -17,6 +17,7 @@ struct ImageList: View {
   var body: some View {
     NavigationStack {
       content
+        .animation(.default, value: viewStore.sorting)
         .navigationTitle(viewStore.title)
         .toolbar { toolbar }
         .fullScreenCover(
