@@ -96,8 +96,14 @@ func makeMapModel(
               if settings.value.openClusterPreviews {
                 performAppAction(.imageDetails(.present(cluster.preview, source: "annotation")))
               } else {
+                let mapSize = mapAdapter.size
+                let currentZoom = Rewind.zoom(region: state.region, mapSize: mapSize)
                 mapAdapter.set(
-                  region: Region(center: cluster.coordinate, zoom: state.region.zoom + 1),
+                  region: Region(
+                    center: cluster.coordinate,
+                    zoom: currentZoom + 1,
+                    mapSize: mapSize
+                  ),
                   animated: true
                 )
               }
@@ -150,7 +156,7 @@ func makeMapModel(
           case .locationButtonTapped:
             if let location = state.locationState.location {
               mapAdapter.set(
-                region: Region(center: location.coordinate, zoom: 15),
+                region: Region(center: location.coordinate, zoom: 17, mapSize: mapAdapter.size),
                 animated: true
               )
             } else if state.locationState.isAccessGranted == false {
@@ -167,13 +173,13 @@ func makeMapModel(
           mapAdapter.deselectAnnotations()
         case let .focusOn(coordinate, zoom):
           mapAdapter.set(
-            region: Region(center: coordinate, zoom: zoom),
+            region: Region(center: coordinate, zoom: zoom, mapSize: mapAdapter.size),
             animated: true
           )
         case let .newLocationState(locationState):
           if let location = locationState.location, state.locationState.location == nil {
             mapAdapter.set(
-              region: Region(center: location.coordinate, zoom: 15),
+              region: Region(center: location.coordinate, zoom: 15, mapSize: mapAdapter.size),
               animated: false
             )
           }
@@ -192,7 +198,11 @@ func makeMapModel(
           ))
         case .loadAnnotations:
           state.isLoading = true
-          let params = AnnotationLoadingParams(region: state.region, yearRange: state.yearRange)
+          let params = AnnotationLoadingParams(
+            region: state.region,
+            yearRange: state.yearRange,
+            mapSize: mapAdapter.size
+          )
           enqueueEffect(.perform(id: EffectID.loadAnnotations) { anotherAction in
             do {
               let (images, clusters) = try await annotationsRemote.load(params)
@@ -212,6 +222,7 @@ func makeMapModel(
             images: images,
             clusters: clusters,
             params: params,
+            mapSize: mapAdapter.size,
             state: &state
           )
           state.isLoading = false

@@ -104,7 +104,7 @@ private struct MinimizableContainer: ViewModifier {
       .updating($pulling) { value, pulling, _ in
         if value.isVertical,
            state.isNormal {
-          pulling.progress = (value.translation.height / -minPullLength).clamped(in: 0...1)
+          pulling.progress = (value.translation.height / -minPullLength).clamp(0...1)
           if pulling.progress.isApproximatelyEqualTo(1), !pulling.handled {
             onPull()
             pulling.handled = true

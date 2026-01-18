@@ -7,6 +7,8 @@
 
 import UIKit
 
+enum Model {} // namespace only
+
 extension Model {
   struct Image {
     var cid: Int

@@ -6,26 +6,35 @@
 //
 
 import MapKit
-
-enum Model {} // namespace only
+import VGSL
 
 // https://leafletjs.com/examples/zoom-levels/
-private func zoom(delta: Double) -> Int {
-  Int((2 + log2(180 / delta)).rounded(.toNearestOrAwayFromZero))
+func zoom(region: Region, mapSize: CGSize) -> Int {
+  let delta = min(region.span.latitudeDelta, region.span.longitudeDelta)
+  return Int(
+    log2(360 / delta).rounded(.toNearestOrAwayFromZero)
+      + adjustment(mapSize: mapSize)
+  ).clamp(3...19)
 }
 
-func delta(zoom: Int) -> Double {
-  180 / pow(2, Double(zoom - 2))
+func delta(zoom: Int, mapSize: CGSize) -> Double {
+  360 / pow(2, Double(zoom) - adjustment(mapSize: mapSize))
+}
+
+private func adjustment(mapSize: CGSize) -> Double {
+  let x = min(mapSize.width, mapSize.height)
+  let (x1, y1) = (375.0, 0.7) // min adjustment for small screens
+  let (x2, y2) = (1024.0, 1.5) // max adjustment for large screens
+  return (y2 - y1) / (x2 - x1) * (x - x1) + y1
 }
 
 extension Region {
-  var zoom: Int {
-    let delta = min(span.latitudeDelta, span.longitudeDelta)
-    return Rewind.zoom(delta: delta).clamped(in: minZoom...maxZoom)
-  }
-
-  init(center: Coordinate, zoom: Int) {
-    let delta = delta(zoom: zoom)
+  init(
+    center: Coordinate,
+    zoom: Int,
+    mapSize: CGSize
+  ) {
+    let delta = delta(zoom: zoom, mapSize: mapSize)
     self.init(
       center: center,
       span: MKCoordinateSpan(
@@ -35,15 +44,3 @@ extension Region {
     )
   }
 }
-
-extension Comparable {
-  func clamped(in range: ClosedRange<Self>) -> Self {
-    let lowerBound = range.lowerBound
-    let upperBound = range.upperBound
-
-    return min(upperBound, max(lowerBound, self))
-  }
-}
-
-private let minZoom = 3
-private let maxZoom = 19
