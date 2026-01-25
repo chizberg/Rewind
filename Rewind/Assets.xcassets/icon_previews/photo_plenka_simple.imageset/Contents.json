@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "photo_plenka_simple.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

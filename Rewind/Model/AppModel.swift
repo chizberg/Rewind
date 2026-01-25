@@ -19,7 +19,7 @@ struct AppState {
 
   var previewedImage: Identified<ImageDetailsModel.Store>?
   var previewedList: Identified<ImageListModel.Store>?
-  var settingsStore: Identified<SettingsViewModel.Store>?
+  var settingsStore: Identified<SettingsViewStore>?
   var onboardingStore: Identified<OnboardingViewModel.Store>?
   var searchStore: Identified<SearchViewStore>?
   var alertModel: Identified<AlertParams>?
@@ -142,8 +142,10 @@ func makeAppModel(
       case let .settings(settingsAction):
         switch settingsAction {
         case .present:
-          state.settingsStore = Identified(value:
-            settingsViewModelFactory().viewStore
+          state.settingsStore = Identified(
+            value: settingsViewModelFactory().viewStore.bimap(
+              state: { $0 }, action: { .ui($0) }
+            )
           )
         case .dismiss:
           state.settingsStore = nil
