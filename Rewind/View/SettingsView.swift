@@ -9,7 +9,7 @@ import SwiftUI
 import VGSL
 
 struct SettingsView: View {
-  var store: SettingsViewModel.Store
+  var store: SettingsViewStore
 
   @Environment(\.dismiss)
   private var dismiss
@@ -20,14 +20,24 @@ struct SettingsView: View {
         Section {
           makeToggle(
             "Show colors in cluster annotations",
-            state: \.showYearColorInClusters,
+            state: \.stored.showYearColorInClusters,
             makeAction: { .setShowYearColorInClusters($0) }
           )
           makeToggle(
             "Open big cluster previews on tap",
-            state: \.openClusterPreviews,
+            state: \.stored.openClusterPreviews,
             makeAction: { .setOpenClusterPreviews($0) }
           )
+        } header: {
+          Text("Map")
+        }
+
+        if store.supportsAlternateIcons {
+          Section {
+            iconPicker
+          } header: {
+            Text("App Icon")
+          }
         }
 
         Section {
@@ -47,17 +57,19 @@ struct SettingsView: View {
           makeButton("View source code", action: .openRepo)
           makeButton("View in App Store", action: .viewInAppStore)
         } header: {
-          Text("Links")
+          Text("About")
         } footer: {
           credits
         }
       }
       .navigationTitle("Settings")
+      .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .topBarLeading) {
           backButton
         }
       }
+      .alert(store.binding(\.alert, send: { _ in .alert(.dismiss) }))
     }
   }
 
@@ -94,7 +106,7 @@ struct SettingsView: View {
 
   private func makeToggle(
     _ title: LocalizedStringKey,
-    state: KeyPath<SettingsState, Bool>,
+    state: KeyPath<SettingsViewState, Bool>,
     makeAction: @escaping (Bool) -> SettingsViewAction.UI
   ) -> some View {
     Toggle(
@@ -110,6 +122,50 @@ struct SettingsView: View {
       Image(systemName: "chevron.left")
     }
     .foregroundStyle(.primary)
+  }
+
+  private var iconPicker: some View {
+    ScrollView(.horizontal) {
+      HStack {
+        ForEach(Icon.allCases, id: \.self) { icon in
+          IconView(icon: icon, isSelected: store.icon == icon)
+            .contentShape(Rectangle())
+            .onTapGesture {
+              store(.iconSelected(icon))
+            }
+        }
+      }
+      .padding(12)
+    }
+    .showsIndicators(false)
+    .listRowInsets(EdgeInsets())
+  }
+}
+
+private struct IconView: View {
+  var icon: Icon
+  var isSelected: Bool
+
+  var body: some View {
+    VStack {
+      Image(uiImage: icon.preview)
+        .resizable()
+        .aspectRatio(contentMode: .fit)
+        .frame(width: 80, height: 80)
+        .padding(5)
+        .background {
+          if isSelected {
+            RoundedRectangle(cornerRadius: 26)
+              .fill(.blue)
+              .transition(.scale)
+          }
+        }
+
+      Text(icon.displayName)
+        .font(isSelected ? .caption.bold() : .caption)
+        .padding(.bottom, 5)
+    }
+    .animation(.smooth(duration: 0.3), value: isSelected)
   }
 }
 
@@ -142,7 +198,7 @@ private let honorableMentions: [Contributor] = [
       initialValue: .default
     ),
     urlOpener: { _ in }
-  ).viewStore
+  ).viewStore.bimap(state: { $0 }, action: { .ui($0) })
 
   SettingsView(
     store: store
