@@ -2,7 +2,7 @@
 //  ModelLocalCluster.swift
 //  Rewind
 //
-//  Created by Aleksei Sherstnev on 16. 11. 2025..
+//  Created by Aleksei Sherstnev on 16. 11. 2025.
 //
 
 import Foundation

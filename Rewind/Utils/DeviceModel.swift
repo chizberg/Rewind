@@ -2,7 +2,7 @@
 //  DeviceModel.swift
 //  Rewind
 //
-//  Created by Aleksei Sherstnev on 2. 12. 2025..
+//  Created by Aleksei Sherstnev on 2. 12. 2025.
 //
 
 import Foundation

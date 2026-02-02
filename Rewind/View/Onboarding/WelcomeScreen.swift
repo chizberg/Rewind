@@ -2,7 +2,7 @@
 //  WelcomeScreen.swift
 //  Rewind
 //
-//  Created by Aleksei Sherstnev on 28. 11. 2025..
+//  Created by Aleksei Sherstnev on 28. 11. 2025.
 //
 
 import SwiftUI

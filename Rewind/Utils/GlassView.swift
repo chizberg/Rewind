@@ -2,7 +2,7 @@
 //  GlassView.swift
 //  Rewind
 //
-//  Created by Aleksei Sherstnev on 19. 10. 2025..
+//  Created by Aleksei Sherstnev on 19. 10. 2025.
 //
 
 import SwiftUI

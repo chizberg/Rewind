@@ -2,7 +2,7 @@
 //  Pair.swift
 //  Rewind
 //
-//  Created by Aleksei Sherstnev on 7. 12. 2025..
+//  Created by Aleksei Sherstnev on 7. 12. 2025.
 //
 
 import Foundation

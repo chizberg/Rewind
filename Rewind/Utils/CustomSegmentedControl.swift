@@ -2,7 +2,7 @@
 //  CustomSegmentedControl.swift
 //  Rewind
 //
-//  Created by Aleksei Sherstnev on 6. 1. 2026..
+//  Created by Aleksei Sherstnev on 6. 1. 2026.
 //
 
 import SwiftUI
