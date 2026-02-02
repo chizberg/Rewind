@@ -20,9 +20,9 @@ extension UIColor {
   }
 }
 
-typealias Gradient = [(position: CGFloat, color: RGBAColor)]
+typealias Gradient = NonEmptyArray<InterpolationPoint<RGBAColor>>
 
-let pastvuGradient: Gradient = [
+let pastvuGradient: Gradient = NonEmptyArray([
   (0.00, RGBAColor(red: 0, green: 0, blue: 102 / 255.0, alpha: 1)),
   (0.30, RGBAColor(red: 0, green: 0, blue: 171 / 255.0, alpha: 1)),
   (0.36, RGBAColor(red: 57 / 255.0, green: 0, blue: 171 / 255.0, alpha: 1)),
@@ -37,83 +37,22 @@ let pastvuGradient: Gradient = [
   (0.88, RGBAColor(red: 114 / 255.0, green: 171 / 255.0, blue: 0, alpha: 1)),
   (0.94, RGBAColor(red: 57 / 255.0, green: 171 / 255.0, blue: 0, alpha: 1)),
   (1.00, RGBAColor(red: 0, green: 171 / 255.0, blue: 0, alpha: 1)),
-]
+].map { InterpolationPoint($0, $1) })!
 
-extension RGBAColor {
+extension RGBAColor: Interpolatable {
   @inlinable
-  func lerp(at: CGFloat, beetween lhs: RGBAColor, _ rhs: RGBAColor) -> RGBAColor {
+  func lerp(at: CGFloat, between lhs: RGBAColor, _ rhs: RGBAColor) -> RGBAColor {
     RGBAColor(
-      red: VGSL.lerp(at: at, beetween: lhs.red, rhs.red),
-      green: VGSL.lerp(at: at, beetween: lhs.green, rhs.green),
-      blue: VGSL.lerp(at: at, beetween: lhs.blue, rhs.blue),
-      alpha: VGSL.lerp(at: at, beetween: lhs.alpha, rhs.alpha)
+      red: Rewind.lerp(at: at, between: lhs.red, rhs.red),
+      green: Rewind.lerp(at: at, between: lhs.green, rhs.green),
+      blue: Rewind.lerp(at: at, between: lhs.blue, rhs.blue),
+      alpha: Rewind.lerp(at: at, between: lhs.alpha, rhs.alpha)
     )
   }
 }
 
 extension Gradient {
-  fileprivate func color(at rawT: CGFloat) -> RGBAColor {
-    let t = rawT.clamp(0...1)
-    guard let index = binSearch(firstEqualOrGreaterThan: t, keyPath: \.position, in: self) else {
-      return self.last!.color
-    }
-    if index == 0 {
-      return self.first!.color
-    }
-    let lowerStop = self[index - 1]
-    let upperStop = self[index]
-    let t1 = lerpParameter(
-      of: t,
-      lowerBound: lowerStop.position,
-      upperBound: upperStop.position
-    )
-    return lowerStop.color.lerp(at: t1, beetween: lowerStop.color, upperStop.color)
+  fileprivate func color(at t: CGFloat) -> RGBAColor {
+    lerp(at: t, in: self)
   }
-}
-
-func lerpParameter<T: FloatingPoint>(of value: T, lowerBound: T, upperBound: T) -> T {
-  guard value > lowerBound else { return 0 }
-  guard value < upperBound else { return 1 }
-  return (value - lowerBound) / (upperBound - lowerBound)
-}
-
-private func binSearch<T: Numeric & Comparable>(
-  firstEqualOrGreaterThan goal: T,
-  in arr: [T]
-) -> Int? {
-  guard arr.count > 0 else { return nil }
-  var lhs = 0
-  var rhs = arr.count - 1
-  while arr[lhs + 1] < arr[rhs] {
-    let mid = (lhs + rhs) / 2
-    if arr[mid] >= goal {
-      rhs = mid
-    } else {
-      lhs = mid
-    }
-  }
-  if arr[lhs] >= goal { return lhs }
-  if arr[rhs] >= goal { return rhs }
-  return nil
-}
-
-private func binSearch<T, U: Numeric & Comparable>(
-  firstEqualOrGreaterThan goal: U,
-  keyPath kp: KeyPath<T, U>,
-  in arr: [T]
-) -> Int? {
-  guard arr.count > 0 else { return nil }
-  var lhs = 0
-  var rhs = arr.count - 1
-  while arr[lhs + 1][keyPath: kp] < arr[rhs][keyPath: kp] {
-    let mid = (lhs + rhs) / 2
-    if arr[mid][keyPath: kp] >= goal {
-      rhs = mid
-    } else {
-      lhs = mid
-    }
-  }
-  if arr[lhs][keyPath: kp] >= goal { return lhs }
-  if arr[rhs][keyPath: kp] >= goal { return rhs }
-  return nil
 }

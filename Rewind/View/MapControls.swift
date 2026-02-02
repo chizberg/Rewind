@@ -2,7 +2,7 @@
 //  MapControls.swift
 //  Rewind
 //
-//  Created by Aleksei Sherstnev on 22. 11. 2025..
+//  Created by Aleksei Sherstnev on 22. 11. 2025.
 //
 
 import SwiftUI

@@ -2,7 +2,7 @@
 //  ObservingAdapter.swift
 //  Rewind
 //
-//  Created by Aleksei Sherstnev on 4. 1. 2026..
+//  Created by Aleksei Sherstnev on 4. 1. 2026.
 //
 
 import SwiftUI

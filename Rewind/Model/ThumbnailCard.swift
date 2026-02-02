@@ -2,7 +2,7 @@
 //  ThumbnailCard.swift
 //  Rewind
 //
-//  Created by Aleksei Sherstnev on 29. 11. 2025..
+//  Created by Aleksei Sherstnev on 29. 11. 2025.
 //
 
 enum ThumbnailCard: Equatable, Identifiable {

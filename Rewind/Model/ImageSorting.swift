@@ -2,7 +2,7 @@
 //  ImageSorting.swift
 //  Rewind
 //
-//  Created by Aleksei Sherstnev on 10. 1. 2026..
+//  Created by Aleksei Sherstnev on 10. 1. 2026.
 //
 
 import Foundation

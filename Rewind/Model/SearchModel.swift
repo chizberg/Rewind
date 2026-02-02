@@ -2,7 +2,7 @@
 //  SearchModel.swift
 //  Rewind
 //
-//  Created by Aleksei Sherstnev on 3. 12. 2025..
+//  Created by Aleksei Sherstnev on 3. 12. 2025.
 //
 
 import Foundation

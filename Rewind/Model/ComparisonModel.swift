@@ -2,7 +2,7 @@
 //  ComparisonModel.swift
 //  Rewind
 //
-//  Created by Aleksei Sherstnev on 5. 12. 2025..
+//  Created by Aleksei Sherstnev on 5. 12. 2025.
 //
 
 import AVFoundation

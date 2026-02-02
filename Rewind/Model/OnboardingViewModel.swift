@@ -2,7 +2,7 @@
 //  OnboardingViewModel.swift
 //  Rewind
 //
-//  Created by Aleksei Sherstnev on 23. 11. 2025..
+//  Created by Aleksei Sherstnev on 23. 11. 2025.
 //
 
 import Foundation

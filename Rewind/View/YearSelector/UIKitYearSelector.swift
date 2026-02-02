@@ -246,7 +246,8 @@ extension CAGradientLayer {
     gradientLayer.locations = []
     gradientLayer.colors = []
 
-    for (value, color) in pastvuGradient {
+    for point in pastvuGradient {
+      let (value, color) = (point.position, point.value)
       gradientLayer.locations?.append(NSNumber(value: value))
       gradientLayer.colors?.append(color.systemColor.cgColor)
     }

@@ -2,7 +2,7 @@
 //  SettingsViewModel.swift
 //  Rewind
 //
-//  Created by Aleksei Sherstnev on 9. 11. 2025..
+//  Created by Aleksei Sherstnev on 9. 11. 2025.
 //
 
 import UIKit
