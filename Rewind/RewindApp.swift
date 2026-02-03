@@ -27,6 +27,10 @@ struct RewindApp: App {
         mapStore: graph.mapStore,
         appStore: graph.appStore
       )
+      .environment(\.openURL, OpenURLAction {
+        graph.urlOpener($0)
+        return .handled
+      })
     }
   }
 }

@@ -129,7 +129,7 @@ func makeSettingsViewModel(
         case .viewInAppStore:
           urlOpener(URL(string: "https://apps.apple.com/app/rewind-history-on-a-map/id6755358800"))
         case .openPastVu:
-          urlOpener(URL(string: "https://pastvu.com"))
+          urlOpener(pastvuCom)
         case .pastVuRules:
           urlOpener(URL(string: "https://docs.pastvu.com/en/rules"))
         case let .alert(alert):
@@ -155,6 +155,8 @@ func makeSettingsViewModel(
     settings.value = newState.stored
   }
 }
+
+let pastvuCom = URL(string: "https://pastvu.com")!
 
 extension SettingsState {
   static let `default` = SettingsState(

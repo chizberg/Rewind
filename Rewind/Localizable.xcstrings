@@ -590,6 +590,7 @@
     },
     "Dismiss" : {
       "comment" : "Alert dismiss action",
+      "extractionState" : "stale",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -1426,6 +1427,7 @@
     },
     "Print value" : {
       "comment" : "debug action to print value",
+      "extractionState" : "stale",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -2099,6 +2101,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Не вдалося знайти те, що ви шукаєте"
+          }
+        }
+      }
+    },
+    "Unable to load image data" : {
+      "comment" : "Error message. Shown when another image loading failed",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось загрузить данные изображения"
+          }
+        },
+        "sr-Latn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nije moguće učitati podatke slike"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вдалося завантажити дані зображення"
           }
         }
       }

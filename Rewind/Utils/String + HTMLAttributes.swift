@@ -40,6 +40,16 @@ extension NSAttributedString {
       .foregroundColor,
       range: fullRange
     )
+
+    // 🩼 NSAttributedString.DocumentReadingOptionKey.baseURL is unavailable on iOS
+    mutableAttrStr.enumerateAttribute(.link, in: fullRange, options: []) { value, range, _ in
+      if let url = value as? URL,
+         url.scheme == "applewebdata" {
+        let fixedURL = pastvuCom.appendingPathComponent(url.path)
+        mutableAttrStr.addAttribute(.link, value: fixedURL, range: range)
+      }
+    }
+
     self.init(attributedString: mutableAttrStr)
   }
 }

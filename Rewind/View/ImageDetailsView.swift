@@ -9,6 +9,12 @@ import SwiftUI
 import VGSL
 
 struct ImageDetailsView: View {
+  enum TransitionSource {
+    static let titleImage = "fullscreenPreview"
+    static let compareCameraButton = "compareCameraButton"
+    static let descriptionLink = "descriptionLink"
+  }
+
   var viewStore: ImageDetailsModel.Store
 
   @Namespace
@@ -57,6 +63,19 @@ struct ImageDetailsView: View {
             saveImage: { viewStore(.fullscreenPreview(.saveImage)) }
           )
           .navigationTransition(.zoom(sourceID: TransitionSource.titleImage, in: namespace))
+        }
+      )
+      .fullScreenCover(
+        item: viewStore.binding(\.anotherImageModel, send: { _ in .anotherImage(.dismiss) }),
+        content: { anotherImage in
+          let store = anotherImage.value
+          ImageDetailsView(viewStore: store)
+            .navigationTransition(
+              .zoom(
+                sourceID: store.openSource,
+                in: namespace
+              )
+            )
         }
       )
       .alert(
@@ -139,6 +158,19 @@ struct ImageDetailsView: View {
         if let description = details.description {
           Text(description)
             .font(.body)
+            .matchedTransitionSource(id: TransitionSource.descriptionLink, in: namespace)
+            .environment(\.openURL, OpenURLAction {
+              viewStore(.descriptionLink($0))
+              return .handled
+            })
+            .blur(radius: viewStore.loadingAnotherImage ? 7 : 0)
+            .allowsHitTesting(!viewStore.loadingAnotherImage)
+            .overlay {
+              if viewStore.loadingAnotherImage {
+                ProgressView()
+              }
+            }
+            .animation(.default, value: viewStore.loadingAnotherImage)
         }
 
         HStack(alignment: .top) {
@@ -242,11 +274,6 @@ struct ImageDetailsView: View {
   }
 }
 
-private enum TransitionSource {
-  static let titleImage = "fullscreenPreview"
-  static let compareCameraButton = "compareCameraButton"
-}
-
 private let visibleActions: [ImageDetailsAction.Button] = Array.build {
   ImageDetailsAction.Button.favorite
   withUIIdiom(phone: ImageDetailsAction.Button.compareCamera, pad: nil)
@@ -320,7 +347,7 @@ private struct ButtonSpec {
     }
 
     transitionSource = switch button {
-    case .compareCamera: TransitionSource.compareCameraButton
+    case .compareCamera: ImageDetailsView.TransitionSource.compareCameraButton
     case .compareStreetView: nil // zoom gesture conflicts with matched transition
     case .favorite, .showOnMap, .share, .saveImage, .viewOnWeb, .route:
       nil
@@ -329,13 +356,11 @@ private struct ButtonSpec {
 }
 
 #if DEBUG
-extension SingleFavoriteModel {
-  static var mock: SingleFavoriteModel {
+extension FavoritesModel {
+  static var mock: FavoritesModel {
     Reducer(
-      initial: false,
-      reduce: { current, new, _ in
-        current = new
-      }
+      initial: [],
+      reduce: { _, _, _ in }
     )
   }
 }
@@ -344,14 +369,15 @@ extension SingleFavoriteModel {
   @Previewable @State
   var store = makeImageDetailsModel(
     modelImage: .mock,
-    remote: Remote { Model.ImageDetails(.mock) },
+    remote: Remote { _ in Model.ImageDetails(.mock) },
     openSource: "",
-    favoriteModel: .mock,
+    favoritesModel: .mock,
     showOnMap: { _ in },
     canOpenURL: { _ in true },
     urlOpener: { _ in },
     setOrientationLock: { _ in },
-    streetViewAvailability: .mock(.unavailable)
+    streetViewAvailability: .mock(.unavailable),
+    extractModelImage: { _ in .mock }
   ).viewStore
 
   ImageDetailsView(
@@ -365,17 +391,18 @@ extension SingleFavoriteModel {
     modelImage: modified(.mock) {
       $0.image = $0.image.delayed(delay: 2)
     },
-    remote: Remote {
+    remote: Remote { _ in
       try await Task.sleep(for: .seconds(1))
       return Model.ImageDetails(.mock)
     },
     openSource: "",
-    favoriteModel: .mock,
+    favoritesModel: .mock,
     showOnMap: { _ in },
     canOpenURL: { _ in true },
     urlOpener: { _ in },
     setOrientationLock: { _ in },
-    streetViewAvailability: .mock(.unavailable)
+    streetViewAvailability: .mock(.unavailable),
+    extractModelImage: { _ in .mock }
   ).viewStore
 
   ImageDetailsView(

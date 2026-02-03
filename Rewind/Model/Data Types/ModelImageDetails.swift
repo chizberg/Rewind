@@ -22,6 +22,9 @@ extension Model {
 
     var username: String
 
+    var file: String
+    var dir: Direction?
+
     init(_ ni: Network.ImageDetails) {
       cid = ni.cid
       title = ni.title
@@ -33,6 +36,8 @@ extension Model {
       address = ni.address
       author = ni.author
       username = extractUsername(from: ni)
+      file = ni.file
+      dir = Direction(ni.dir)
     }
   }
 }
