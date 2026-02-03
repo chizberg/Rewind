@@ -7,9 +7,8 @@
 
 import AVFoundation
 import SwiftUI
-import WebKit
-
 import VGSL
+import WebKit
 
 typealias ComparisonModel = Reducer<ComparisonState, ComparisonAction>
 typealias ComparisonViewStore = ViewStore<ComparisonState, ComparisonAction.External>

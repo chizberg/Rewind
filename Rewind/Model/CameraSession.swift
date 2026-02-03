@@ -7,7 +7,6 @@
 
 import AVFoundation
 import SwiftUI
-
 import VGSL
 
 /// Manages the AVFoundation camera capture session lifecycle, including session setup,

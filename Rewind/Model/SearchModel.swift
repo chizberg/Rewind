@@ -7,7 +7,6 @@
 
 import Foundation
 import MapKit
-
 import VGSL
 
 typealias SearchModel = Reducer<SearchState, SearchAction>
