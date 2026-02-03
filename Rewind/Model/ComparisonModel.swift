@@ -183,19 +183,13 @@ func makeComparisonViewDeps(
                   assertionFailure()
                   throw HandlingError("Comparison VC is missing")
                 }
-                let item = ImageShareItem(
+                let vc = makeShareVC(
                   image: renderView(view: comparisonVC.view),
-                  text: state.oldImageData.title
+                  title: state.oldImageData.title,
+                  description: nil,
+                  url: pastVuURL(cid: state.oldImageData.cid)
                 )
-                await anotherAction(.internal(.shareSheetLoaded(
-                  UIActivityViewController(
-                    activityItems: [
-                      item,
-                      oldImageData.title,
-                    ],
-                    applicationActivities: nil
-                  )
-                )))
+                await anotherAction(.internal(.shareSheetLoaded(vc)))
               } catch {
                 await anotherAction(.external(.alert(.presentSharingImageError(error))))
               }
