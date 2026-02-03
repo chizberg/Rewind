@@ -32,10 +32,6 @@ extension Model {
 }
 
 extension Model.Cluster: Hashable {
-  static func ==(lhs: Self, rhs: Self) -> Bool {
-    lhs.preview == rhs.preview && lhs.coordinate == rhs.coordinate && lhs.count == rhs.count
-  }
-
   func hash(into hasher: inout Hasher) {
     hasher.combine(preview)
     hasher.combine(coordinate)

@@ -177,7 +177,9 @@ private struct Contributor: Identifiable {
     (try? AttributedString(markdown: "[@\(username)](\(rawURL))")) ?? AttributedString()
   }
 
-  var id: String { username }
+  var id: String {
+    username
+  }
 }
 
 private let chizberg = Contributor(

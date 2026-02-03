@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-// UNUSED, SHOULD PROBABLY BE REMOVED
+/// UNUSED, SHOULD PROBABLY BE REMOVED
 extension View {
   func blur(
     edge: Edge,
@@ -60,7 +60,7 @@ extension Edge {
   }
 }
 
-// overlays content with blurred copy at the edge
+/// overlays content with blurred copy at the edge
 private struct BlurEdge: ViewModifier {
   var fraction: CGFloat
   var scale: CGFloat

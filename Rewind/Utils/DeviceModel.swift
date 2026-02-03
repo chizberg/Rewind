@@ -25,8 +25,8 @@ enum DeviceModel {
   }
 }
 
-// copied from
-// https://github.com/markbattistella/BezelKit/blob/main/Sources/BezelKit/UIDevice%2BExt.swift
+/// copied from
+/// https://github.com/markbattistella/BezelKit/blob/main/Sources/BezelKit/UIDevice%2BExt.swift
 private func obtainDeviceID() -> String {
   #if targetEnvironment(simulator)
   return ProcessInfo().environment["SIMULATOR_MODEL_IDENTIFIER"] ?? ""
