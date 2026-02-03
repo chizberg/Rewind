@@ -24,7 +24,7 @@ extension Network {
 
     let watersignText: String?
 
-    // inner JSON values
+    /// inner JSON values
     let user: User // user that uploaded the image
   }
 

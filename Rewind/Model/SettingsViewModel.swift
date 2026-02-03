@@ -18,8 +18,8 @@ struct SettingsViewState {
   var alert: Identified<AlertParams>?
 }
 
-// new fields should be added carefully
-// not to break decoding from existing stored data
+/// new fields should be added carefully
+/// not to break decoding from existing stored data
 struct SettingsState: Codable, Equatable {
   var showYearColorInClusters: Bool
   var openClusterPreviews: Bool

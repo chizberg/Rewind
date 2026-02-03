@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-// ai-generated
-// https://chatgpt.com/share/692374a9-5138-8004-bce8-cd1ea6349151
+/// ai-generated
+/// https://chatgpt.com/share/692374a9-5138-8004-bce8-cd1ea6349151
 struct TwoColumnLayout: Layout {
   var columnSpacing: CGFloat = 8
   var rowSpacing: CGFloat = 8
@@ -19,7 +19,9 @@ struct TwoColumnLayout: Layout {
     var width: CGFloat = 0
   }
 
-  func makeCache(subviews _: Subviews) -> Cache { .init() }
+  func makeCache(subviews _: Subviews) -> Cache {
+    .init()
+  }
 
   func sizeThatFits(
     proposal: ProposedViewSize,

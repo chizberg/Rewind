@@ -49,7 +49,7 @@ final class UIKitYearSelector: UIView {
     return view
   }()
 
-  // shadows - серые линии вместо градиента за пределами выбранного отрезка
+  /// shadows - серые линии вместо градиента за пределами выбранного отрезка
   private let leftLineShadow: UIView = {
     let view = UIView()
     view.backgroundColor = .yearLineShadowColor
@@ -173,7 +173,7 @@ final class UIKitYearSelector: UIView {
     updateShadows()
   }
 
-  // ставит thumbs в нужные места в зависимости от выставленных значений
+  /// ставит thumbs в нужные места в зависимости от выставленных значений
   private func updateThumbCoordinates() {
     for thumb in thumbs {
       thumb.frame.origin.y = 10
@@ -207,16 +207,16 @@ final class UIKitYearSelector: UIView {
 
   // MARK: - converting funcs
 
-  // value - относительное расположение thumbView - от 0 до 1
-  // так как у нас значения берутся с краёв, а не с середин, мы берём valueInset
-  // value = x внутри отрезка возможных значений, разделённый на длину этого отрезка
+  /// value - относительное расположение thumbView - от 0 до 1
+  /// так как у нас значения берутся с краёв, а не с середин, мы берём valueInset
+  /// value = x внутри отрезка возможных значений, разделённый на длину этого отрезка
   private func value(from x: CGFloat) -> CGFloat {
     let minX = Constants.valueInset
     let maxX = bounds.width - Constants.valueInset
     return (x - minX) / (maxX - minX)
   }
 
-  // ищем координату thumbView исходя из value
+  /// ищем координату thumbView исходя из value
   private func x(from value: CGFloat) -> CGFloat {
     let minX = Constants.valueInset
     let maxX = bounds.width - Constants.valueInset

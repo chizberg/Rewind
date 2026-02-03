@@ -202,7 +202,7 @@ private enum ReuseIdentifier {
   static let mkCluster = "mkCluster"
 }
 
-// europe and africa
+/// europe and africa
 private let initialRegion = Region(
   center: Coordinate(
     latitude: 15.908556,

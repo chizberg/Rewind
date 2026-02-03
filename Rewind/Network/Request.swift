@@ -146,7 +146,7 @@ extension Network {
   }
 
   fileprivate static func image(path: String, quality: ImageQuality) -> Request<UIImage> {
-    // path contains unexpected query parameters, we have to remove them
+    /// path contains unexpected query parameters, we have to remove them
     func dropUnexpectedQueryItems(from path: String) -> String {
       guard var urlComponents = URLComponents(string: path) else {
         return path
@@ -173,7 +173,7 @@ extension Network {
     )
   }
 
-  // https://developers.google.com/maps/documentation/streetview/metadata
+  /// https://developers.google.com/maps/documentation/streetview/metadata
   fileprivate static func streetViewAvailability(coordinate: Coordinate)
     -> Request<StreetViewAvailability> {
     struct Response: Decodable {

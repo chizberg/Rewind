@@ -181,7 +181,7 @@ private final class ZoomableImageViewImpl: UIScrollView, UIScrollViewDelegate {
     contentInset = UIEdgeInsets(top: offsetY, left: offsetX, bottom: 0, right: 0)
   }
 
-  // UIScrollViewDelegate
+  /// UIScrollViewDelegate
   func viewForZooming(in _: UIScrollView) -> UIView? {
     imageView
   }

@@ -10,7 +10,9 @@ import SwiftUI
 
 struct ComparisonScreen: View {
   var deps: ComparisonViewDeps
-  var store: ComparisonViewStore { deps.store }
+  var store: ComparisonViewStore {
+    deps.store
+  }
 
   var body: some View {
     ZStack {
@@ -151,7 +153,9 @@ private struct ComparisonViewRepresentable: UIViewControllerRepresentable {
 }
 
 extension ComparisonState.Style: Identifiable {
-  var id: Self { self }
+  var id: Self {
+    self
+  }
 
   fileprivate var iconName: String {
     switch self {
@@ -172,7 +176,7 @@ private struct PickedStyleBackground: View {
 }
 
 extension View {
-  // phone and pad have different orientation lock logic
+  /// phone and pad have different orientation lock logic
   fileprivate func rotating(
     on idiom: UIUserInterfaceIdiom,
     with orientation: Orientation

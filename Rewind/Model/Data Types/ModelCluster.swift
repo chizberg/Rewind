@@ -6,7 +6,6 @@
 //
 
 import Foundation
-
 import VGSL
 
 extension Model {

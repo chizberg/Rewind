@@ -52,7 +52,9 @@ extension Model.Image: Hashable {
 }
 
 extension Model.Image: Identifiable {
-  var id: Int { cid }
+  var id: Int {
+    cid
+  }
 }
 
 #if DEBUG

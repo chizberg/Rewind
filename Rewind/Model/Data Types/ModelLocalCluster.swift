@@ -8,8 +8,8 @@
 import Foundation
 
 extension Model {
-  // when multiple annotations are nearby, they are merged into a local cluster
-  // don't mix it with Model.Cluster, that thing is for clusters loaded from API
+  /// when multiple annotations are nearby, they are merged into a local cluster
+  /// don't mix it with Model.Cluster, that thing is for clusters loaded from API
   struct LocalCluster: Equatable, Hashable {
     var images: [Model.Image]
     var coordinate: Coordinate

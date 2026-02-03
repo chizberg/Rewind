@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct ImageDateView: View {
-  static var cardRadius: CGFloat { radius }
+  static var cardRadius: CGFloat {
+    radius
+  }
 
   var date: ImageDate
 

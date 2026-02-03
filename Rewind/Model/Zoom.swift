@@ -8,7 +8,7 @@
 import MapKit
 import VGSL
 
-// https://leafletjs.com/examples/zoom-levels/
+/// https://leafletjs.com/examples/zoom-levels/
 func zoom(region: Region, mapSize: CGSize) -> Int {
   let delta = min(region.span.latitudeDelta, region.span.longitudeDelta)
   return Int(

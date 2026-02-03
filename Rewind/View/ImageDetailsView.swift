@@ -16,7 +16,9 @@ struct ImageDetailsView: View {
   @Environment(\.horizontalSizeClass)
   private var horizontalSizeClass
 
-  private var isSplitView: Bool { horizontalSizeClass == .regular }
+  private var isSplitView: Bool {
+    horizontalSizeClass == .regular
+  }
 
   var body: some View {
     content
@@ -163,7 +165,6 @@ struct ImageDetailsView: View {
     .textSelection(.enabled)
   }
 
-  @ViewBuilder
   private var title: some View {
     HStack {
       VStack(alignment: .leading, spacing: 5) {

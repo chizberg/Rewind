@@ -110,7 +110,9 @@ struct ToolbarBackButton: View {
 }
 
 extension ImageSorting: Identifiable {
-  var id: ImageSorting { self }
+  var id: ImageSorting {
+    self
+  }
 
   fileprivate var title: LocalizedStringKey {
     switch self {

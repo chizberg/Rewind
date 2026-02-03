@@ -53,7 +53,7 @@ func lerp<T: Interpolatable>(
   return lowerStop.value.lerp(at: t1, between: lowerStop.value, upperStop.value)
 }
 
-// VGSL version has a typo
+/// VGSL version has a typo
 @inlinable
 func lerp<T: FloatingPoint>(at: T, between lhs: T, _ rhs: T) -> T {
   VGSL.lerp(at: at, beetween: lhs, rhs)

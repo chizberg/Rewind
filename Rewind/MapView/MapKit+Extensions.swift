@@ -35,7 +35,7 @@ extension Coordinate {
     Coordinate(latitude: longitude, longitude: latitude)
   }
 
-  // https://gist.github.com/missinglink/d0a085188a8eab2ca66db385bb7c023a
+  /// https://gist.github.com/missinglink/d0a085188a8eab2ca66db385bb7c023a
   func wrap() -> Coordinate {
     let quadrant = Int(abs(latitude) / 90) % 4
     let pole: Double = latitude > 0 ? 90 : -90
@@ -136,7 +136,7 @@ extension Region {
     ].map { $0.wrap() }
   }
 
-  // server requires reverse order
+  /// server requires reverse order
   var geoJSONCoordinates: [[Double]] {
     geoJSONPoints.map { [$0.longitude, $0.latitude] }
   }
