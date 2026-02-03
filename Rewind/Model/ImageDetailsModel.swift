@@ -33,18 +33,20 @@ struct ImageDetailsState {
   var openSource: String
   var isFavorite: Bool
   var mapOptionsPresented: Bool
+  var loadingAnotherImage: Bool
 
   var fullscreenPreview: Identified<UIImage>?
   var comparisonDeps: Identified<ComparisonViewDeps>?
   var shareVC: Identified<UIViewController>?
+  var anotherImageModel: Identified<ImageDetailsModel.Store>?
   var alertModel: Identified<AlertParams>?
 }
 
 enum ImageDetailsAction {
   case willBePresented
-  case dataLoaded(Model.ImageDetails)
   case cachedLowResImageLoaded(UIImage)
   case imageLoaded(UIImage)
+  case descriptionLink(URL)
 
   enum Button {
     case favorite
@@ -67,10 +69,17 @@ enum ImageDetailsAction {
     case saveImage
     case imageSaved
     case shareSheetLoaded(UIViewController)
+    case anotherImageLoadFailed(Error)
+    case detailsLoaded(Model.ImageDetails)
   }
 
   enum ImageComparison {
     case present(ComparisonState.CaptureMode)
+    case dismiss
+  }
+
+  enum AnotherImage {
+    case present(Model.ImageDetails, String)
     case dismiss
   }
 
@@ -82,6 +91,7 @@ enum ImageDetailsAction {
   case button(Button)
   case fullscreenPreview(FullscreenPreview)
   case comparison(ImageComparison)
+  case anotherImage(AnotherImage)
   case alert(Alert)
   case `internal`(Internal)
   case shareSheetDismissed
@@ -91,16 +101,18 @@ enum ImageDetailsAction {
 
 func makeImageDetailsModel(
   modelImage: Model.Image,
-  remote: Remote<Void, Model.ImageDetails>,
+  remote: Remote<Int, Model.ImageDetails>,
   openSource: String,
-  favoriteModel: SingleFavoriteModel,
+  favoritesModel: FavoritesModel,
   showOnMap: @escaping (Coordinate) -> Void,
   canOpenURL: @escaping (URL) -> Bool,
   urlOpener: @escaping (URL) -> Void,
   setOrientationLock: @escaping ResultAction<OrientationLock?>,
-  streetViewAvailability: Remote<Coordinate, StreetViewAvailability>
+  streetViewAvailability: Remote<Coordinate, StreetViewAvailability>,
+  extractModelImage: @escaping (Model.ImageDetails) -> (Model.Image)
 ) -> ImageDetailsModel {
-  Reducer(
+  let favoriteModel = favoritesModel.isFavorite(modelImage)
+  return Reducer(
     initial: ImageDetailsState(
       image: modelImage,
       attributedTitle: modelImage.title.makeAttrString(),
@@ -111,9 +123,11 @@ func makeImageDetailsModel(
       openSource: openSource,
       isFavorite: favoriteModel.state,
       mapOptionsPresented: false,
+      loadingAnotherImage: false,
       fullscreenPreview: nil,
       comparisonDeps: nil,
       shareVC: nil,
+      anotherImageModel: nil,
       alertModel: nil
     ),
     reduce: { state, action, enqueueEffect in
@@ -121,8 +135,8 @@ func makeImageDetailsModel(
       case .willBePresented:
         enqueueEffect(.perform { anotherAction in
           do {
-            let data = try await remote.load()
-            await anotherAction(.dataLoaded(data))
+            let data = try await remote.load(modelImage.cid)
+            await anotherAction(.internal(.detailsLoaded(data)))
           } catch {
             await anotherAction(.alert(.present(.error(
               title: "Unable to load image info",
@@ -152,18 +166,31 @@ func makeImageDetailsModel(
             ))))
           }
         })
-      case let .dataLoaded(data):
-        state.details = ImageDetailsState.LoadableDetails(
-          description: data.description?.makeAttrString(),
-          source: data.source?.makeAttrString(),
-          address: data.address?.makeAttrString(),
-          author: data.author?.makeAttrString(),
-          username: data.username
-        )
-      case let .imageLoaded(image):
-        state.uiImage = image
       case let .cachedLowResImageLoaded(image):
         state.cachedLowResImage = image
+      case let .imageLoaded(image):
+        state.uiImage = image
+      case let .descriptionLink(link):
+        let pathComponents = link.pathComponents
+
+        // example: https://pastvu.com/p/2223969
+        if let host = link.host(), host == pastvuCom.host(),
+           pathComponents.count == 3, pathComponents[1] == "p", // [0] is "/"
+           let cid = pathComponents.last.flatMap({ Int($0) }) {
+          state.loadingAnotherImage = true
+          enqueueEffect(.perform { anotherAction in
+            do {
+              let details = try await remote.load(cid)
+              await anotherAction(.anotherImage(.present(
+                details, ImageDetailsView.TransitionSource.descriptionLink
+              )))
+            } catch {
+              await anotherAction(.internal(.anotherImageLoadFailed(error)))
+            }
+          })
+        } else {
+          urlOpener(link)
+        }
       case let .comparison(comparisonAction):
         switch comparisonAction {
         case let .present(mode):
@@ -264,24 +291,65 @@ func makeImageDetailsModel(
         state.fullscreenPreview = nil
       case .fullscreenPreview(.saveImage):
         enqueueEffect(.anotherAction(.internal(.saveImage)))
-      case .internal(.saveImage):
-        guard let image = state.uiImage else { return }
-        enqueueEffect(.perform { anotherAction in
-          do {
-            try await save(image: image)
-            await anotherAction(.internal(.imageSaved))
-          } catch {
-            await anotherAction(.alert(.present(.error(
-              title: "Unable to save image",
-              error: error
-            ))))
-          }
-        })
-      case .internal(.imageSaved):
-        UINotificationFeedbackGenerator().notificationOccurred(.success)
-        state.isImageSaved = true
-      case let .internal(.shareSheetLoaded(vc)):
-        state.shareVC = Identified(value: vc)
+      case let .anotherImage(anotherImageAction):
+        switch anotherImageAction {
+        case let .present(details, source):
+          state.loadingAnotherImage = false
+          let anotherModelImage = extractModelImage(details)
+          state.anotherImageModel = Identified(value:
+            makeImageDetailsModel(
+              modelImage: anotherModelImage,
+              remote: Remote { cid in
+                if cid == details.cid { return details }
+                return try await remote.load(cid)
+              },
+              openSource: source,
+              favoritesModel: favoritesModel,
+              showOnMap: showOnMap,
+              canOpenURL: canOpenURL,
+              urlOpener: urlOpener,
+              setOrientationLock: setOrientationLock,
+              streetViewAvailability: streetViewAvailability,
+              extractModelImage: extractModelImage
+            ).viewStore
+          )
+        case .dismiss:
+          state.anotherImageModel = nil
+        }
+      case let .internal(internalAction):
+        switch internalAction {
+        case .saveImage:
+          guard let image = state.uiImage else { return }
+          enqueueEffect(.perform { anotherAction in
+            do {
+              try await save(image: image)
+              await anotherAction(.internal(.imageSaved))
+            } catch {
+              await anotherAction(.alert(.present(.error(
+                title: "Unable to save image",
+                error: error
+              ))))
+            }
+          })
+        case .imageSaved:
+          UINotificationFeedbackGenerator().notificationOccurred(.success)
+          state.isImageSaved = true
+        case let .shareSheetLoaded(vc):
+          state.shareVC = Identified(value: vc)
+        case let .detailsLoaded(details):
+          state.details = ImageDetailsState.LoadableDetails(
+            description: details.description?.makeAttrString(),
+            source: details.source?.makeAttrString(),
+            address: details.address?.makeAttrString(),
+            author: details.author?.makeAttrString(),
+            username: details.username
+          )
+        case let .anotherImageLoadFailed(error):
+          state.loadingAnotherImage = false
+          enqueueEffect(.anotherAction(.alert(.present(.error(
+            title: "Unable to load image data", error: error
+          )))))
+        }
       }
     }
   )

@@ -133,14 +133,15 @@ extension ImageSorting: Identifiable {
 private let imageDetailsFactoryMock: ImageDetailsFactory = { _, source in
   makeImageDetailsModel(
     modelImage: .mock,
-    remote: Remote { .mock },
+    remote: Remote { _ in .mock },
     openSource: source,
-    favoriteModel: .mock,
+    favoritesModel: .mock,
     showOnMap: { _ in },
     canOpenURL: { _ in false },
     urlOpener: { _ in },
     setOrientationLock: { _ in },
-    streetViewAvailability: .mock(.unavailable)
+    streetViewAvailability: .mock(.unavailable),
+    extractModelImage: { _ in .mock }
   )
 }
 

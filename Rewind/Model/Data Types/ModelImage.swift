@@ -38,6 +38,16 @@ extension Model {
       date = si.date
       self.image = image
     }
+
+    init(_ mid: Model.ImageDetails, image: LoadableUIImage) {
+      cid = mid.cid
+      imagePath = mid.file
+      title = mid.title
+      dir = mid.dir
+      coordinate = mid.coordinate
+      date = mid.date
+      self.image = image
+    }
   }
 }
 
@@ -58,7 +68,7 @@ extension Model.Image: Identifiable {
 #if DEBUG
 extension Model.Image {
   static let mock = Model.Image(
-    .mock,
+    Network.Image.mock,
     image: .mock
   )
 }

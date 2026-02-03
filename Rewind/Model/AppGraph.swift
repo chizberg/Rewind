@@ -15,6 +15,7 @@ final class AppGraph {
   let mapStore: MapViewModel.Store
   let appStore: AppModel.Store
   let mapAdapter: MapAdapter
+  let urlOpener: UrlOpener
 
   var orientationLock: Property<OrientationLock?>?
 
@@ -47,6 +48,7 @@ final class AppGraph {
     weak var appModelRef: AppModel?
     weak var weakSelf: AppGraph?
     let urlOpener: UrlOpener = { $0.map { UIApplication.shared.open($0) } }
+    self.urlOpener = urlOpener
     let mapModel = makeMapModel(
       mapAdapter: mapAdapter,
       annotationsRemote: remotes.annotations,
@@ -67,9 +69,9 @@ final class AppGraph {
     let imageDetailsFactory = { image, source in
       makeImageDetailsModel(
         modelImage: image,
-        remote: remotes.imageDetails.mapArgs { image.cid },
+        remote: remotes.imageDetails,
         openSource: source,
-        favoriteModel: favoritesModel.isFavorite(image),
+        favoritesModel: favoritesModel,
         showOnMap: { coordinate in
           appModelRef?(.imageList(.dismiss))
           appModelRef?(.imageDetails(.dismiss))
@@ -78,7 +80,10 @@ final class AppGraph {
         canOpenURL: { UIApplication.shared.canOpenURL($0) },
         urlOpener: urlOpener,
         setOrientationLock: { weakSelf?.orientationLock?.value = $0 },
-        streetViewAvailability: remotes.streetViewAvailability
+        streetViewAvailability: remotes.streetViewAvailability,
+        extractModelImage: { [imageLoader] details in
+          Model.Image(details, image: imageLoader.makeImage(path: details.file))
+        }
       )
     }
     let searchModelFactory = {
