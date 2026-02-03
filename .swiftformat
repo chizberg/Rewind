@@ -1,6 +1,9 @@
 --disable redundantSelf
 --disable redundantFileprivate
 --disable wrapMultilineStatementBraces
+--disable docComments
+--disable wrapPropertyBodies
+--disable wrapFunctionBodies
 --extensionacl on-declarations
 --hexgrouping 2
 --ifdef noindent

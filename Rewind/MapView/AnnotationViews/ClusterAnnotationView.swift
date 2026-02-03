@@ -7,7 +7,6 @@
 
 import MapKit
 import UIKit
-
 import VGSL
 
 final class ClusterAnnotationView: MKAnnotationView {

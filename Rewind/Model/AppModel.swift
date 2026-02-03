@@ -7,7 +7,6 @@
 
 import Foundation
 import SwiftUI
-
 import VGSL
 
 typealias AppModel = Reducer<AppState, AppAction>

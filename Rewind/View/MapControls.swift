@@ -48,7 +48,8 @@ struct MapControls: View {
         pullingProgress: $pullingProgress,
         minPullLength: 300,
         onPull: { appStore(.imageList(.presentCurrentRegionImages(
-          source: RootView.TransitionSource.pullUpCard)))
+          source: RootView.TransitionSource.pullUpCard
+        )))
         }
       )
     }
@@ -190,7 +191,6 @@ struct MapControls: View {
     }
   }
 
-  @ViewBuilder
   private func makeBottomScrollButton(
     iconName: String,
     sourceID: String,

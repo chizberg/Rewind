@@ -54,7 +54,6 @@ private struct DelayedContainer<
 }
 
 extension View {
-  @ViewBuilder
   func delayedModifier<T: Equatable>(
     value: T,
     delay: TimeInterval,
