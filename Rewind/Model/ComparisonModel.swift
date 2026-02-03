@@ -43,6 +43,7 @@ struct ComparisonState {
   var alert: Identified<AlertParams>?
   var shareVC: Identified<UIViewController>?
   var streetViewAvailability: StreetViewAvailability?
+  var shouldDismiss: Bool
 
   var currentLens: Lens?
   var availableLens: [Lens] {
@@ -108,6 +109,7 @@ func makeComparisonViewDeps(
       style: .sideBySide,
       captureMode: captureMode,
       orientation: orientationTracker.orientation,
+      shouldDismiss: false,
       cameraSession: nil
     ),
     reduce: { state, action, enqueueEffect in
@@ -183,19 +185,13 @@ func makeComparisonViewDeps(
                   assertionFailure()
                   throw HandlingError("Comparison VC is missing")
                 }
-                let item = ImageShareItem(
+                let vc = makeShareVC(
                   image: renderView(view: comparisonVC.view),
-                  text: state.oldImageData.title
+                  title: state.oldImageData.title,
+                  description: nil,
+                  url: pastVuURL(cid: state.oldImageData.cid)
                 )
-                await anotherAction(.internal(.shareSheetLoaded(
-                  UIActivityViewController(
-                    activityItems: [
-                      item,
-                      oldImageData.title,
-                    ],
-                    applicationActivities: nil
-                  )
-                )))
+                await anotherAction(.internal(.shareSheetLoaded(vc)))
               } catch {
                 await anotherAction(.external(.alert(.presentSharingImageError(error))))
               }
@@ -237,6 +233,9 @@ func makeComparisonViewDeps(
             ))
           case .dismiss:
             state.alert = nil
+            if case .unavailable = state.streetViewAvailability {
+              state.shouldDismiss = true
+            }
           }
         }
       case let .internal(internalAction):

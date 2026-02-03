@@ -11,6 +11,8 @@ import SwiftUI
 struct ComparisonScreen: View {
   var deps: ComparisonViewDeps
   var store: ComparisonViewStore { deps.store }
+  @Environment(\.dismiss)
+  private var dismiss
 
   var body: some View {
     ZStack {
@@ -43,6 +45,11 @@ struct ComparisonScreen: View {
     }
     .task {
       store(.viewWillAppear)
+    }
+    .onChange(of: store.shouldDismiss) {
+      if store.shouldDismiss {
+        dismiss()
+      }
     }
   }
 

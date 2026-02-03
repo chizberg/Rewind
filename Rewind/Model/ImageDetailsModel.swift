@@ -224,11 +224,7 @@ func makeImageDetailsModel(
       case let .button(button):
         switch button {
         case .viewOnWeb:
-          var components = URLComponents()
-          components.scheme = "https"
-          components.host = "pastvu.com"
-          components.path = "/\(state.image.cid)"
-          if let url = components.url {
+          if let url = pastVuURL(cid: state.image.cid) {
             urlOpener(url)
           }
         case .favorite:
@@ -249,20 +245,14 @@ func makeImageDetailsModel(
           guard let details = state.details,
                 let image = state.uiImage
           else { return }
-          enqueueEffect(.perform { [title = state.attributedTitle] anotherAction in
-            let item = ImageShareItem(
+          let title = state.attributedTitle
+          let cid = state.image.cid
+          enqueueEffect(.perform { anotherAction in
+            let vc = makeShareVC(
               image: image,
-              text: String(title.characters)
-            )
-            let vc = UIActivityViewController(
-              activityItems: [
-                item,
-                [
-                  String(title.characters),
-                  details.description.map { String($0.characters) },
-                ].compactMap(\.self).joined(separator: "\n"),
-              ],
-              applicationActivities: nil
+              title: String(title.characters),
+              description: details.description.map { String($0.characters) },
+              url: pastVuURL(cid: cid)
             )
             await anotherAction(.internal(.shareSheetLoaded(vc)))
           })
@@ -353,6 +343,14 @@ func makeImageDetailsModel(
       }
     }
   )
+}
+
+func pastVuURL(cid: Int) -> URL? {
+  var components = URLComponents()
+  components.scheme = "https"
+  components.host = "pastvu.com"
+  components.path = "/\(cid)"
+  return components.url
 }
 
 func save(image: UIImage) async throws {
