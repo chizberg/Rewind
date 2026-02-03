@@ -43,6 +43,7 @@ struct ComparisonState {
   var alert: Identified<AlertParams>?
   var shareVC: Identified<UIViewController>?
   var streetViewAvailability: StreetViewAvailability?
+  var shouldDismiss: Bool
 
   var currentLens: Lens?
   var availableLens: [Lens] {
@@ -108,6 +109,7 @@ func makeComparisonViewDeps(
       style: .sideBySide,
       captureMode: captureMode,
       orientation: orientationTracker.orientation,
+      shouldDismiss: false,
       cameraSession: nil
     ),
     reduce: { state, action, enqueueEffect in
@@ -231,6 +233,9 @@ func makeComparisonViewDeps(
             ))
           case .dismiss:
             state.alert = nil
+            if case .unavailable = state.streetViewAvailability {
+              state.shouldDismiss = true
+            }
           }
         }
       case let .internal(internalAction):
