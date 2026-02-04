@@ -32,6 +32,12 @@ final actor AnnotationStore {
   func refresh() {
     anns = anns.filter { _, value in value.value != nil }
   }
+
+  /// Clears all stored annotation references.
+  /// Called on memory warnings to free up memory.
+  func clearAll() {
+    anns.removeAll()
+  }
 }
 
 enum AnnotationValue: Hashable {
