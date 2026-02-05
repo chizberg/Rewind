@@ -11,6 +11,9 @@ import SwiftUI
 struct AnnotationsScreen: View {
   var goNext: () -> Void
 
+  /// Interactive year range for the onboarding date picker demo
+  @State private var yearRange: ClosedRange<Int> = 1826...2000
+
   var body: some View {
     VStack(alignment: .leading) {
       VStack(alignment: .leading, spacing: 8) {
@@ -61,8 +64,7 @@ struct AnnotationsScreen: View {
           VStack {
             Text("onboarding_date")
             Divider()
-            YearSelector(yearRange: .constant(1826...2000))
-              .allowsHitTesting(false)
+            YearSelector(yearRange: $yearRange)
           }
           .onboardingCard()
 
