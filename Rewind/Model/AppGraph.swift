@@ -21,7 +21,6 @@ final class AppGraph {
   private let disposePool = AutodisposePool()
   private let favoritesStorage: FavoritesStorage
   private let imageLoader: ImageLoader
-  private let annotationStore: AnnotationStore
   private var memoryWarningObserver: NSObjectProtocol?
 
   init() {
@@ -31,7 +30,6 @@ final class AppGraph {
     let imageLoader = ImageLoader(requestPerformer: requestPerformer)
     self.imageLoader = imageLoader
     let annotationStore = AnnotationStore()
-    self.annotationStore = annotationStore
     let storage: KeyValueStorage = UserDefaults.standard
     let favoritesStorage = FavoritesStorage(
       storage: storage,
@@ -135,7 +133,7 @@ final class AppGraph {
       mapModelRef?(.internal(.updatePreviews))
     }.dispose(in: disposePool)
 
-    // React to memory warnings by clearing caches
+    // React to memory warnings by clearing image cache
     memoryWarningObserver = NotificationCenter.default.addObserver(
       forName: UIApplication.didReceiveMemoryWarningNotification,
       object: nil,
@@ -153,11 +151,7 @@ final class AppGraph {
 
   private func handleMemoryWarning() {
     // Clear image cache to free memory
+    // Note: Not clearing annotation store as it can cause bugs
     imageLoader.clearCache()
-
-    // Clear annotation store weak references
-    Task {
-      await annotationStore.clearAll()
-    }
   }
 }
