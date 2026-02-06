@@ -18,6 +18,12 @@ final class ImageLoader {
     self.requestPerformer = requestPerformer
   }
 
+  /// Clears all cached images from memory.
+  /// Called automatically on memory warnings.
+  func clearCache() {
+    cache.removeAllObjects()
+  }
+
   func makeImage(
     path: String
   ) -> LoadableUIImage {
