@@ -41,7 +41,7 @@ struct RewindAsyncImage<Content: View, Placeholder: View>: View {
     Group {
       if let image {
         content(image)
-      } else if error != nil {
+      } else if let error, error is CancellationError == false {
         content(UIImage.error)
       } else {
         placeholder
