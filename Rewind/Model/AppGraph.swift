@@ -15,12 +15,12 @@ final class AppGraph {
   let appStore: AppModel.Store
   let mapAdapter: MapAdapter
   let urlOpener: UrlOpener
+  let imageLoader: ImageLoader
 
   var orientationLock: Property<OrientationLock?>?
 
   private let disposePool = AutodisposePool()
   private let favoritesStorage: FavoritesStorage
-  private let imageLoader: ImageLoader
   private var memoryWarningObserver: NSObjectProtocol?
 
   init() {
@@ -139,7 +139,9 @@ final class AppGraph {
       object: nil,
       queue: .main
     ) { [weak self] _ in
-      self?.handleMemoryWarning()
+      MainActor.assumeIsolated {
+        self?.imageLoader.clearCache()
+      }
     }
   }
 
@@ -147,11 +149,5 @@ final class AppGraph {
     if let observer = memoryWarningObserver {
       NotificationCenter.default.removeObserver(observer)
     }
-  }
-
-  private func handleMemoryWarning() {
-    // Clear image cache to free memory
-    // Note: Not clearing annotation store as it can cause bugs
-    imageLoader.clearCache()
   }
 }

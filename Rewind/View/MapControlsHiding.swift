@@ -69,15 +69,6 @@ private struct MinimizableContainer: ViewModifier {
 
   func body(content: Content) -> some View {
     content
-      .overlay {
-        if state.isMinimized {
-          Color.clear
-            .contentShape(Rectangle())
-            .onTapGesture {
-              state = .normal
-            }
-        }
-      }
       .scrollDisabled(isVerticalDrag)
       .simultaneousGesture(gesture)
       .onChange(of: state.isMinimized) {
