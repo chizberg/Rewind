@@ -36,6 +36,15 @@ struct MapControls: View {
       ) {
         content
       }
+      .overlay {
+        if appStore.state.mapControls.minimization.isMinimized {
+          Color.clear
+            .contentShape(Rectangle())
+            .onTapGesture {
+              appStore(.mapControls(.setMinimization(.normal)))
+            }
+        }
+      }
       .overlay(alignment: .top) { cardToPull }
       .offset(y: offset)
       .minimizable(
