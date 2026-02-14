@@ -56,6 +56,7 @@ enum MapAction {
     case loaded(AnnotationLoadingParams, [Model.Image], [Model.Cluster])
     case updatePreviews
     case unfoldMapControlsBack
+    case clearAnnotations
   }
 
   case external(External)
@@ -148,6 +149,7 @@ func makeMapModel(
           case let .yearRangeChanged(yearRange):
             state.yearRange = yearRange
             enqueueEffect(.debounced(id: .yearRangeChanged) { anotherAction in
+              await anotherAction(.internal(.clearAnnotations))
               await anotherAction(.internal(.loadAnnotations))
             })
           case let .mapTypeSelected(mapType):
@@ -273,6 +275,12 @@ func makeMapModel(
           state.previews = makePreviews(images: state.currentRegionImages, limit: 10)
         case .unfoldMapControlsBack:
           performAppAction(.mapControls(.setMinimization(.normal)))
+        case .clearAnnotations:
+          mapAdapter.clear()
+          enqueueEffect(.perform { anotherAction in
+            await annotationStore.clear()
+            await anotherAction(.internal(.updatePreviews))
+          })
         }
       }
     }
