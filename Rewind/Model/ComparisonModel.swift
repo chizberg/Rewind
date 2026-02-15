@@ -45,6 +45,9 @@ struct ComparisonState {
   var streetViewAvailability: StreetViewAvailability?
   var shouldDismiss: Bool
 
+  var shotsCount: Int
+  var savesCount: Int
+
   var currentLens: Lens?
   var availableLens: [Lens] {
     cameraSession?.availableLens ?? []
@@ -83,6 +86,7 @@ enum ComparisonAction {
     case sessionReady(CameraSession)
     case videoAccessGranted
     case imageTaken(UIImage)
+    case imageSaved
     case orientationChanged(Orientation)
     case shareSheetLoaded(UIViewController)
     case streetViewAvailabilityLoaded(StreetViewAvailability)
@@ -110,6 +114,8 @@ func makeComparisonViewDeps(
       captureMode: captureMode,
       orientation: orientationTracker.orientation,
       shouldDismiss: false,
+      shotsCount: 0,
+      savesCount: 0,
       cameraSession: nil
     ),
     reduce: { state, action, enqueueEffect in
@@ -119,6 +125,8 @@ func makeComparisonViewDeps(
         case let .setStyle(style):
           state.style = style
         case .shoot:
+          state.shotsCount += 1
+          UINotificationFeedbackGenerator().notificationOccurred(.success)
           enqueueEffect(.perform { [state] anotherAction in
             do {
               let image: UIImage
@@ -252,7 +260,6 @@ func makeComparisonViewDeps(
           state.currentLens = session.mainLens
           enqueueEffect(.anotherAction(.internal(.setupCapture)))
         case let .imageTaken(image):
-          UINotificationFeedbackGenerator().notificationOccurred(.success)
           state.captureState = .taken(capture: image)
           state.cameraSession?.stop()
           enqueueEffect(.perform { anotherAction in
@@ -262,10 +269,13 @@ func makeComparisonViewDeps(
                 throw HandlingError("Comparison VC is missing")
               }
               try await save(image: renderView(view: comparisonVC.view))
+              await anotherAction(.internal(.imageSaved))
             } catch {
               await anotherAction(.external(.alert(.presentSavingImageError(error))))
             }
           })
+        case .imageSaved:
+          state.savesCount += 1
         case let .orientationChanged(orientation):
           state.orientation = orientation
         case let .shareSheetLoaded(vc):
@@ -305,7 +315,8 @@ func makeComparisonViewDeps(
         oldImageData: state.oldImageData,
         oldImage: state.oldUIImage,
         captureState: state.captureState,
-        streetViewYear: state.streetViewAvailability?.year
+        streetViewYear: state.streetViewAvailability?.year,
+        shotsCount: state.shotsCount
       )
     }
   )

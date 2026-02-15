@@ -928,10 +928,34 @@
     "comparison_description": {
       "comment": "Onboarding description of a comparison feature",
       "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Machen Sie ein&nbsp;Foto oder&nbsp;nutzen Sie Google Street View, um&nbsp;denselben Ort im&nbsp;Laufe der&nbsp;Zeit zu&nbsp;vergleichen"
+          }
+        },
         "en": {
           "stringUnit": {
             "state": "translated",
             "value": "Take a&nbsp;photo or&nbsp;use Google Street View to&nbsp;compare the&nbsp;same place over&nbsp;time"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Toma una&nbsp;foto o&nbsp;usa Google Street View para&nbsp;comparar el&nbsp;mismo lugar a&nbsp;lo largo del&nbsp;tiempo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prenez une&nbsp;photo ou&nbsp;utilisez Google Street View pour&nbsp;comparer le&nbsp;même endroit au&nbsp;fil du&nbsp;temps"
+          }
+        },
+        "kk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Бір орынды уақыт өткен соң салыстыру үшін фото түсіріңіз немесе Google Street View қолданыңыз"
           }
         },
         "ru": {
@@ -940,46 +964,22 @@
             "value": "Сравните то же место спустя годы, сделав фотографию или используя Google Street View"
           }
         },
-        "de": {
-          "stringUnit": {
-            "value": "Machen Sie ein&nbsp;Foto oder&nbsp;nutzen Sie Google Street View, um&nbsp;denselben Ort im&nbsp;Laufe der&nbsp;Zeit zu&nbsp;vergleichen",
-            "state": "translated"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "value": "Toma una&nbsp;foto o&nbsp;usa Google Street View para&nbsp;comparar el&nbsp;mismo lugar a&nbsp;lo largo del&nbsp;tiempo",
-            "state": "translated"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "value": "Prenez une&nbsp;photo ou&nbsp;utilisez Google Street View pour&nbsp;comparer le&nbsp;même endroit au&nbsp;fil du&nbsp;temps",
-            "state": "translated"
-          }
-        },
-        "kk": {
-          "stringUnit": {
-            "value": "Бір орынды уақыт өткен соң салыстыру үшін фото түсіріңіз немесе Google Street View қолданыңыз",
-            "state": "translated"
-          }
-        },
         "sr-Latn": {
           "stringUnit": {
-            "value": "Napravite fotografiju ili koristite Google Street View da&nbsp;uporedite isto mesto tokom&nbsp;vremena",
-            "state": "translated"
+            "state": "translated",
+            "value": "Napravite fotografiju ili koristite Google Street View da&nbsp;uporedite isto mesto tokom&nbsp;vremena"
           }
         },
         "uk": {
           "stringUnit": {
-            "value": "Зробіть фото або&nbsp;скористайтеся Google Street View, щоб&nbsp;порівняти те&nbsp;саме місце з&nbsp;плином часу",
-            "state": "translated"
+            "state": "translated",
+            "value": "Зробіть фото або&nbsp;скористайтеся Google Street View, щоб&nbsp;порівняти те&nbsp;саме місце з&nbsp;плином часу"
           }
         },
         "uz": {
           "stringUnit": {
-            "value": "Bir joyni vaqt o'tishi bilan solishtirish uchun foto oling yoki Google Street View'dan foydalaning",
-            "state": "translated"
+            "state": "translated",
+            "value": "Bir joyni vaqt o'tishi bilan solishtirish uchun foto oling yoki Google Street View'dan foydalaning"
           }
         }
       }
@@ -3531,6 +3531,59 @@
           "stringUnit": {
             "state": "translated",
             "value": "Rasmni saqlash"
+          }
+        }
+      }
+    },
+    "Saved to Photos": {
+      "comment": "text of a banner that is shown over comparison view. Displays that the image that user has taken is saved to a photos app",
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сохранено в Фото"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "value": "In Fotos gesichert",
+            "state": "translated"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "value": "Guardado en Fotos",
+            "state": "translated"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "value": "Enregistré dans Photos",
+            "state": "translated"
+          }
+        },
+        "kk": {
+          "stringUnit": {
+            "value": "Фотоларға сақталды",
+            "state": "translated"
+          }
+        },
+        "sr-Latn": {
+          "stringUnit": {
+            "value": "Sačuvano u Fotografije",
+            "state": "translated"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "value": "Збережено у Фото",
+            "state": "translated"
+          }
+        },
+        "uz": {
+          "stringUnit": {
+            "value": "Fotolarga saqlandi",
+            "state": "translated"
           }
         }
       }

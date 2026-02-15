@@ -13,11 +13,18 @@ struct ComparisonView: View {
   var oldImage: UIImage
   var captureState: ComparisonState.CaptureState?
   var streetViewYear: Int?
+  var shotsCount: Int
 
   @State
   private var currentYear = Calendar.current.component(.year, from: .now)
 
   var body: some View {
+    content
+      .modifier(BlinkingModifier(trigger: shotsCount))
+  }
+
+  @ViewBuilder
+  var content: some View {
     switch style {
     case .sideBySide:
       SideBySideView(
@@ -151,17 +158,58 @@ private struct CardOnCardView<Old: View, New: View>: View {
   }
 }
 
+private struct BlinkingModifier<T: Equatable>: ViewModifier {
+  var trigger: T
+
+  enum Phase: CaseIterable {
+    case initial
+    case shutterDown
+    case shutterUp
+
+    var shutterOpacity: CGFloat {
+      switch self {
+      case .initial, .shutterUp: 0
+      case .shutterDown: 1
+      }
+    }
+  }
+
+  func body(content: Content) -> some View {
+    content
+      .phaseAnimator(
+        Phase.allCases,
+        trigger: trigger,
+        content: { content, currentPhase in
+          content
+            .overlay {
+              Color.black.opacity(currentPhase.shutterOpacity)
+            }
+        },
+        animation: { nextPhase in
+          switch nextPhase {
+          case .initial: nil
+          case .shutterDown: nil
+          case .shutterUp: .easeInOut(duration: 0.25)
+          }
+        }
+      )
+  }
+}
+
 #if DEBUG
 #Preview {
   @Previewable @State
   var style = ComparisonState.Style.cardOnCard
+  @Previewable @State
+  var shotsCount = 0
 
   VStack {
     ComparisonView(
       style: style,
       oldImageData: .mock,
       oldImage: .lyskovo,
-      captureState: .taken(capture: .cat)
+      captureState: .taken(capture: .cat),
+      shotsCount: shotsCount
     )
     .background(.background)
     .environment(\.colorScheme, .dark)
@@ -172,6 +220,10 @@ private struct CardOnCardView<Old: View, New: View>: View {
       }
     }.pickerStyle(.segmented)
       .padding()
+
+    Button("Take a shot") {
+      shotsCount += 1
+    }
   }
 }
 #endif
