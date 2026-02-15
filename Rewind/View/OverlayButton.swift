@@ -16,7 +16,7 @@ struct OverlayButton: View {
       Image(systemName: iconName)
         .font(.title2)
         .padding(14)
-        .circleBlurBackground()
+        .blurBackground(in: Circle())
     }
     .foregroundStyle(.primary)
   }
@@ -24,11 +24,11 @@ struct OverlayButton: View {
 
 extension View {
   @ViewBuilder
-  fileprivate func circleBlurBackground() -> some View {
+  func blurBackground(in shape: some Shape) -> some View {
     if #available(iOS 26, *) {
-      glassEffect(in: Circle())
+      glassEffect(in: shape)
     } else {
-      background(.thinMaterial).clipShape(Circle())
+      background(.thinMaterial).clipShape(shape)
     }
   }
 }
