@@ -11,6 +11,7 @@ struct RewindRemotes {
   var annotations: Remote<AnnotationLoadingParams, ([Model.Image], [Model.Cluster])>
   var imageDetails: Remote<Int, Model.ImageDetails>
   var streetViewAvailability: Remote<Coordinate, StreetViewAvailability>
+  var translate: Remote<TranslateParams, String>
 }
 
 struct AnnotationLoadingParams {
@@ -29,6 +30,11 @@ struct AnnotationLoadingParams {
     self.startAt = Date().timeIntervalSince1970
     self.yearRange = yearRange
   }
+}
+
+struct TranslateParams {
+  var text: String
+  var target: String
 }
 
 extension RewindRemotes {
@@ -61,6 +67,9 @@ extension RewindRemotes {
     }.exponentialBackoff()
     streetViewAvailability = Remote { coordinate in
       try await requestPerformer.perform(request: .streetViewAvailability(coordinate: coordinate))
+    }
+    translate = Remote { params in
+      try await requestPerformer.perform(request: .translate(params: params))
     }
   }
 }

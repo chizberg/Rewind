@@ -84,6 +84,7 @@ final class AppGraph {
         urlOpener: urlOpener,
         setOrientationLock: { weakSelf?.orientationLock?.value = $0 },
         streetViewAvailability: remotes.streetViewAvailability,
+        translate: remotes.translate,
         extractModelImage: { [imageLoader] details in
           Model.Image(details, image: imageLoader.makeImage(path: details.file))
         }

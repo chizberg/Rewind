@@ -8,8 +8,8 @@
 import Foundation
 
 enum Secrets {
-  static var googleMapsApiKey: String {
-    object(forKey: "GOOGLE_MAPS_API_KEY", fallback: "")
+  static var googleApiKey: String {
+    object(forKey: "GOOGLE_API_KEY", fallback: "")
   }
 }
 
