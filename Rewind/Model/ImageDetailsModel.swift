@@ -13,19 +13,31 @@ import VGSL
 typealias ImageDetailsModel = Reducer<ImageDetailsState, ImageDetailsAction>
 
 struct ImageDetailsState {
-  struct LoadableDetails {
-    // making attributed strings is slow, should be done once in model
+  // making attributed strings is slow, should be done once in model
+  struct AttributedDetails {
     var description: AttributedString?
     var source: AttributedString?
     var address: AttributedString?
     var author: AttributedString?
-    var username: String
+  }
+
+  struct Translation: Equatable {
+    var title: AttributedString
+    var description: AttributedString
+  }
+
+  enum TranslationState: Equatable {
+    case notAvailable
+    case available
+    case translating
+    case translated(Translation)
   }
 
   var image: Model.Image
   var attributedTitle: AttributedString
 
-  var details: LoadableDetails?
+  var details: Model.ImageDetails?
+  var attributedDetails: AttributedDetails?
 
   var uiImage: UIImage?
   var cachedLowResImage: UIImage?
@@ -35,11 +47,15 @@ struct ImageDetailsState {
   var mapOptionsPresented: Bool
   var loadingAnotherImage: Bool
 
+  var translationState: TranslationState
+  var cachedTranslation: Translation?
+
   var fullscreenPreview: Identified<UIImage>?
   var comparisonDeps: Identified<ComparisonViewDeps>?
   var shareVC: Identified<UIViewController>?
   var anotherImageModel: Identified<ImageDetailsModel.Store>?
   var alertModel: Identified<AlertParams>?
+  var actionButtons: [ImageDetailsAction.Button]
 }
 
 enum ImageDetailsAction {
@@ -71,6 +87,8 @@ enum ImageDetailsAction {
     case shareSheetLoaded(UIViewController)
     case anotherImageLoadFailed(Error)
     case detailsLoaded(Model.ImageDetails)
+    case translationComplete(ImageDetailsState.Translation)
+    case translationFailed(Error)
   }
 
   enum ImageComparison {
@@ -97,6 +115,8 @@ enum ImageDetailsAction {
   case shareSheetDismissed
   case setMapOptionsVisibility(Bool)
   case mapAppSelected(MapApp)
+  case translate
+  case showTranslationOriginal
 }
 
 func makeImageDetailsModel(
@@ -109,6 +129,7 @@ func makeImageDetailsModel(
   urlOpener: @escaping (URL) -> Void,
   setOrientationLock: @escaping ResultAction<OrientationLock?>,
   streetViewAvailability: Remote<Coordinate, StreetViewAvailability>,
+  translate: Remote<TranslateParams, String>,
   extractModelImage: @escaping (Model.ImageDetails) -> (Model.Image)
 ) -> ImageDetailsModel {
   let favoriteModel = favoritesModel.isFavorite(modelImage)
@@ -124,11 +145,19 @@ func makeImageDetailsModel(
       isFavorite: favoriteModel.state,
       mapOptionsPresented: false,
       loadingAnotherImage: false,
+      translationState: .notAvailable,
+      cachedTranslation: nil,
       fullscreenPreview: nil,
       comparisonDeps: nil,
       shareVC: nil,
       anotherImageModel: nil,
-      alertModel: nil
+      alertModel: nil,
+      actionButtons: Array.build {
+        ImageDetailsAction.Button.favorite
+        withUIIdiom(phone: ImageDetailsAction.Button.compareCamera, pad: nil)
+        withUIIdiom(phone: ImageDetailsAction.Button.compareStreetView, pad: nil)
+        [ImageDetailsAction.Button.showOnMap, .share, .saveImage, .viewOnWeb, .route]
+      }
     ),
     reduce: { state, action, enqueueEffect in
       switch action {
@@ -242,7 +271,7 @@ func makeImageDetailsModel(
         case .saveImage:
           enqueueEffect(.anotherAction(.internal(.saveImage)))
         case .share:
-          guard let details = state.details,
+          guard let attrDetails = state.attributedDetails,
                 let image = state.uiImage
           else { return }
           let title = state.attributedTitle
@@ -251,7 +280,7 @@ func makeImageDetailsModel(
             let vc = makeShareVC(
               image: image,
               title: String(title.characters),
-              description: details.description.map { String($0.characters) },
+              description: attrDetails.description.map { String($0.characters) },
               url: pastVuURL(cid: cid)
             )
             await anotherAction(.internal(.shareSheetLoaded(vc)))
@@ -259,6 +288,36 @@ func makeImageDetailsModel(
         case .route:
           enqueueEffect(.anotherAction(.setMapOptionsVisibility(true)))
         }
+      case .translate:
+        guard let description = state.details?.description else {
+          assertionFailure("trying to translate non-existent description")
+          return
+        }
+        if let cached = state.cachedTranslation {
+          state.translationState = .translated(cached)
+        } else {
+          state.translationState = .translating
+          enqueueEffect(.perform { anotherAction in
+            do {
+              async let translatedDesc = try await translate.load(TranslateParams(
+                text: description, target: appLang
+              ))
+              async let translatedTitle = try await translate.load(TranslateParams(
+                text: modelImage.title, target: appLang
+              ))
+              try await anotherAction(.internal(.translationComplete(
+                ImageDetailsState.Translation(
+                  title: translatedTitle.makeAttrString(),
+                  description: translatedDesc.makeAttrString()
+                )
+              )))
+            } catch {
+              await anotherAction(.internal(.translationFailed(error)))
+            }
+          })
+        }
+      case .showTranslationOriginal:
+        state.translationState = .available
       case .shareSheetDismissed:
         state.shareVC = nil
       case let .setMapOptionsVisibility(visible):
@@ -300,6 +359,7 @@ func makeImageDetailsModel(
               urlOpener: urlOpener,
               setOrientationLock: setOrientationLock,
               streetViewAvailability: streetViewAvailability,
+              translate: translate,
               extractModelImage: extractModelImage
             ).viewStore
           )
@@ -327,13 +387,29 @@ func makeImageDetailsModel(
         case let .shareSheetLoaded(vc):
           state.shareVC = Identified(value: vc)
         case let .detailsLoaded(details):
-          state.details = ImageDetailsState.LoadableDetails(
+          state.attributedDetails = ImageDetailsState.AttributedDetails(
             description: details.description?.makeAttrString(),
             source: details.source?.makeAttrString(),
             address: details.address?.makeAttrString(),
-            author: details.author?.makeAttrString(),
-            username: details.username
+            author: details.author?.makeAttrString()
           )
+          state.details = details
+          if let description = details.description,
+             let descriptionLang = detectLanguage(description),
+             descriptionLang.confidence >= 0.9 {
+            state.translationState =
+              appLang == descriptionLang.languageCode ? .notAvailable : .available
+          } else {
+            state.translationState = .available
+          }
+        case let .translationComplete(translation):
+          state.translationState = .translated(translation)
+          state.cachedTranslation = translation
+        case let .translationFailed(error):
+          state.translationState = .available
+          enqueueEffect(.anotherAction(.alert(.present(.error(
+            title: "Unable to translate description", error: error
+          )))))
         case let .anotherImageLoadFailed(error):
           state.loadingAnotherImage = false
           enqueueEffect(.anotherAction(.alert(.present(.error(
@@ -359,3 +435,10 @@ func save(image: UIImage) async throws {
     PHAssetChangeRequest.creationRequestForAsset(from: image)
   }
 }
+
+private let appLang: String = {
+  let appLocalizations = Bundle.main.preferredLocalizations
+  if appLocalizations.isEmpty { assertionFailure("app localizations are empty") }
+  let appLang = appLocalizations.first ?? "en"
+  return appLang.split(separator: "-").first.map(String.init) ?? appLang
+}()

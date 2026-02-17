@@ -19,7 +19,7 @@ final class RequestPerformer {
   func perform<Response>(
     request: Network.Request<Response>
   ) async throws -> Response {
-    let urlRequest = request.makeURLRequest()
+    let urlRequest = try request.makeURLRequest()
     let data = try await data(for: urlRequest)
     do {
       return try request.parseResult(data)

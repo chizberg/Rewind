@@ -10,8 +10,9 @@ Also in TestFlight: https://testflight.apple.com/join/vbJFFZgD
 
 - **Vintage images near you:** the app uses PastVu API to fetch images and their metadata and shows them on an Apple MapKit map
 - **Favorites:** save images you like to view them later
-- **Compare:** take a photo to compare how a place looks like today and how it looked in the past
+- **Compare:** take a photo to compare how a place looks like today and how it looked in the past. You can use either the camera or Google Street View.
 - **Search:** quickly find places you know with a simple query. *Uses Apple MapKit search*
+- **Translate:** read descriptions in your preferred language. Uses Google Translate.
 
 ### Screenshots
 
@@ -22,12 +23,6 @@ Also in TestFlight: https://testflight.apple.com/join/vbJFFZgD
   <img src="screenshots/phone/en/jpgs/moments-you-love.jpeg" width="19%" />
   <img src="screenshots/phone/en/jpgs/compare.jpeg" width="19%" />
 </p>
-
-### Setup
-
-1. Copy `Config/Secrets.xcconfig.example` to `Config/Secrets.xcconfig`
-2. Replace `REPLACE_ME` with your Google Maps API key
-3. Build and run
 
 ### Availability
 iOS 18+
@@ -42,6 +37,12 @@ All images in the app come from the [PastVu API](https://docs.pastvu.com/dev/api
 - Apple MapKit
 - TCA-inspired Reducer
 - [VGSL](https://github.com/yandex/vgsl)
+
+### Setup
+
+1. Copy `Config/Secrets.xcconfig.example` to `Config/Secrets.xcconfig`
+2. Replace `REPLACE_ME` with your Google API key
+3. Build and run
 
 #### P.S. Previous attempts
 

@@ -12,7 +12,7 @@ enum Network {} // namespace only
 
 extension Network {
   struct Request<Response> {
-    let makeURLRequest: () -> URLRequest
+    let makeURLRequest: () throws -> URLRequest
     let parseResult: (Data) throws -> Response
   }
 }
@@ -39,6 +39,10 @@ extension Network.Request {
   static func streetViewAvailability(coordinate: Coordinate) -> Network
     .Request<StreetViewAvailability> {
     Network.streetViewAvailability(coordinate: coordinate)
+  }
+
+  static func translate(params: TranslateParams) -> Network.Request<String> {
+    Network.translate(params: params)
   }
 }
 
@@ -99,7 +103,7 @@ extension Network {
           ),
           startAt: startAt
         )
-        let paramsString = try? String(data: JSONEncoder().encode(rawParams), encoding: .utf8)
+        let paramsString = try String(data: JSONEncoder().encode(rawParams), encoding: .utf8)
         components.queryItems = [
           URLQueryItem(name: "method", value: "photo.getByBounds"),
           URLQueryItem(name: "params", value: paramsString),
@@ -131,7 +135,7 @@ extension Network {
         var components = makeBaseURLComponents()
         components.path = "/api2"
         let rawParams = RawParams(cid: cid)
-        let paramsString = try? String(data: JSONEncoder().encode(rawParams), encoding: .utf8)
+        let paramsString = try String(data: JSONEncoder().encode(rawParams), encoding: .utf8)
         components.queryItems = [
           URLQueryItem(name: "method", value: "photo.giveForPage"),
           URLQueryItem(name: "params", value: paramsString),
@@ -221,7 +225,7 @@ extension Network {
           ),
           URLQueryItem(
             name: "key",
-            value: Secrets.googleMapsApiKey
+            value: Secrets.googleApiKey
           ),
         ]
         return URLRequest(url: components.url!)
@@ -234,6 +238,53 @@ extension Network {
         } else {
           return .unavailable
         }
+      }
+    )
+  }
+
+  // https://docs.cloud.google.com/translate/docs/reference/rest/v2/translate
+  fileprivate static func translate(params: TranslateParams) -> Request<String> {
+    struct Response: Decodable {
+      struct Data: Decodable {
+        struct Translation: Decodable {
+          let translatedText: String
+          let model: String?
+          let detectedSourceLanguage: String?
+        }
+
+        let translations: [Translation]
+      }
+
+      let data: Data
+    }
+
+    return Request(
+      makeURLRequest: {
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = "translation.googleapis.com"
+        components.path = "/language/translate/v2"
+        components.queryItems = [
+          URLQueryItem(name: "key", value: Secrets.googleApiKey),
+        ]
+
+        var request = URLRequest(url: components.url!)
+        request.httpMethod = "POST"
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        let body: [String: Any] = [
+          "q": params.text,
+          "target": params.target,
+          "format": "text",
+        ]
+        request.httpBody = try JSONSerialization.data(withJSONObject: body)
+        return request
+      },
+      parseResult: { data in
+        let response = try JSONDecoder().decode(Response.self, from: data)
+        guard let translation = response.data.translations.first else {
+          throw HandlingError("No translations found")
+        }
+        return translation.translatedText
       }
     )
   }

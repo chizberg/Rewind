@@ -35,7 +35,7 @@ private func makeStreetViewURL(
   components.host = "www.google.com"
   components.path = "/maps/embed/v1/streetview"
   components.queryItems = Array.build {
-    URLQueryItem(name: "key", value: Secrets.googleMapsApiKey)
+    URLQueryItem(name: "key", value: Secrets.googleApiKey)
     URLQueryItem(
       name: "location",
       value: "\(image.coordinate.latitude),\(image.coordinate.longitude)"

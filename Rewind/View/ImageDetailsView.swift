@@ -26,6 +26,7 @@ struct ImageDetailsView: View {
 
   var body: some View {
     content
+      .animation(.smooth, value: viewStore.translationState)
       .overlay(alignment: .topLeading) {
         BackButton()
           .padding()
@@ -154,38 +155,25 @@ struct ImageDetailsView: View {
     VStack(alignment: .leading, spacing: 10) {
       title
 
-      if let details = viewStore.details {
-        if let description = details.description {
-          Text(description)
-            .font(.body)
-            .matchedTransitionSource(id: TransitionSource.descriptionLink, in: namespace)
-            .environment(\.openURL, OpenURLAction {
-              viewStore(.descriptionLink($0))
-              return .handled
-            })
-            .blur(radius: viewStore.loadingAnotherImage ? 7 : 0)
-            .allowsHitTesting(!viewStore.loadingAnotherImage)
-            .overlay {
-              if viewStore.loadingAnotherImage {
-                ProgressView()
-              }
-            }
-            .animation(.default, value: viewStore.loadingAnotherImage)
+      if let attrDetails = viewStore.attributedDetails, let details = viewStore.details {
+        if let desc = attrDetails.description {
+          makeDescription(desc: desc)
+            .animation(.smooth, value: viewStore.loadingAnotherImage)
         }
 
         HStack(alignment: .top) {
           LabeledText(label: "uploaded by", value: AttributedString(details.username))
           Spacer()
-          if let author = details.author {
+          if let author = attrDetails.author {
             LabeledText(label: "author", value: author)
             Spacer()
           }
         }
 
-        if let source = details.source {
+        if let source = attrDetails.source {
           LabeledText(label: "source", value: source)
         }
-        if let address = details.address {
+        if let address = attrDetails.address {
           LabeledText(label: "address", value: address)
         }
       } else {
@@ -195,10 +183,42 @@ struct ImageDetailsView: View {
     .textSelection(.enabled)
   }
 
+  @ViewBuilder
+  private func makeDescription(desc: AttributedString) -> some View {
+    let disabled = viewStore.loadingAnotherImage
+      || viewStore.translationState == .translating
+
+    VStack(alignment: .leading, spacing: 3) {
+      Text(viewStore.translation?.description ?? desc)
+        .font(.body)
+        .matchedTransitionSource(id: TransitionSource.descriptionLink, in: namespace)
+        .environment(\.openURL, OpenURLAction {
+          viewStore(.descriptionLink($0))
+          return .handled
+        })
+        .blur(radius: disabled ? 7 : 0)
+        .allowsHitTesting(!disabled)
+        .overlay {
+          if disabled {
+            ProgressView()
+          }
+        }
+
+      switch viewStore.translationState {
+      case .available:
+        TextAccessoryButton("Translate") { viewStore(.translate) }
+      case .translated:
+        TextAccessoryButton("Show Original") { viewStore(.showTranslationOriginal) }
+      case .translating, .notAvailable:
+        EmptyView()
+      }
+    }
+  }
+
   private var title: some View {
     HStack {
       VStack(alignment: .leading, spacing: 5) {
-        Text(viewStore.attributedTitle)
+        Text(viewStore.translation?.title ?? viewStore.attributedTitle)
           .font(.title.bold())
 
         HStack {
@@ -257,7 +277,7 @@ struct ImageDetailsView: View {
 
   private var actionButtons: some View {
     TwoColumnLayout {
-      ForEach(visibleActions, id: \.self) {
+      ForEach(viewStore.actionButtons, id: \.self) {
         makeButton(action: $0)
       }
     }
@@ -271,13 +291,6 @@ struct ImageDetailsView: View {
     }
     viewStore(.fullscreenPreview(.present))
   }
-}
-
-private let visibleActions: [ImageDetailsAction.Button] = Array.build {
-  ImageDetailsAction.Button.favorite
-  withUIIdiom(phone: ImageDetailsAction.Button.compareCamera, pad: nil)
-  withUIIdiom(phone: ImageDetailsAction.Button.compareStreetView, pad: nil)
-  [ImageDetailsAction.Button.showOnMap, .share, .saveImage, .viewOnWeb, .route]
 }
 
 private struct LabeledText: View {
@@ -354,6 +367,34 @@ private struct ButtonSpec {
   }
 }
 
+private struct TextAccessoryButton: View {
+  var title: LocalizedStringKey
+  var action: () -> Void
+
+  init(_ title: LocalizedStringKey, action: @escaping () -> Void) {
+    self.title = title
+    self.action = action
+  }
+
+  var body: some View {
+    Button(action: action, label: {
+      Text(title)
+        .font(.caption.smallCaps())
+        .padding(.horizontal, 8)
+        .padding(.vertical, 6)
+        .background {
+          Capsule().fill(Color.secondarySystemBackground)
+        }
+    }).foregroundStyle(.primary)
+  }
+}
+
+extension ImageDetailsState {
+  fileprivate var translation: ImageDetailsState.Translation? {
+    if case let .translated(translation) = translationState { translation } else { nil }
+  }
+}
+
 #if DEBUG
 extension FavoritesModel {
   static var mock: FavoritesModel {
@@ -376,6 +417,7 @@ extension FavoritesModel {
     urlOpener: { _ in },
     setOrientationLock: { _ in },
     streetViewAvailability: .mock(.unavailable),
+    translate: .mock("translated text"),
     extractModelImage: { _ in .mock }
   ).viewStore
 
@@ -401,11 +443,16 @@ extension FavoritesModel {
     urlOpener: { _ in },
     setOrientationLock: { _ in },
     streetViewAvailability: .mock(.unavailable),
+    translate: .mock("translated text").delayed(delay: 1),
     extractModelImage: { _ in .mock }
   ).viewStore
 
   ImageDetailsView(
     viewStore: store
   )
+}
+
+#Preview("text accessory button") {
+  TextAccessoryButton("Translate", action: { print("foo") })
 }
 #endif
