@@ -156,9 +156,21 @@ func makeMapModel(
             state.mapType = mapType
             applyMapType(mapType)
           case .locationButtonTapped:
+            let locationZoom = 17
+            let mapSize = mapAdapter.size
             if let location = state.locationState.location {
               mapAdapter.set(
-                region: Region(center: location.coordinate, zoom: 17, mapSize: mapAdapter.size),
+                region: modified(state.region) {
+                  $0.center = location.coordinate
+
+                  // region.zoom = max(region.zoom, locationZoom)
+                  if zoom(region: state.region, mapSize: mapSize) < locationZoom {
+                    let delta = delta(zoom: locationZoom, mapSize: mapSize)
+                    $0.span = MKCoordinateSpan(
+                      latitudeDelta: delta, longitudeDelta: delta
+                    )
+                  }
+                },
                 animated: true
               )
             } else if state.locationState.isAccessGranted == false {
