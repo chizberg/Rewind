@@ -10,17 +10,9 @@ import VGSL
 
 final class MergedAnnotationView: MKAnnotationView {
   private let label = UILabel()
-  private var colorSubscription: Disposable?
 
-  var showYearColor: ObservableVariable<Bool>? {
-    didSet {
-      colorSubscription = showYearColor?
-        .currentAndNewValues
-        .addObserver { [weak self] showYearColor in
-          self?.updateColors(showYearColor: showYearColor)
-        }
-    }
-  }
+  private var gradient = SettingsState.default.gradientScheme
+  private var gradientSubscription: Disposable?
 
   override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
     super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
@@ -67,17 +59,31 @@ final class MergedAnnotationView: MKAnnotationView {
     setNeedsLayout()
   }
 
-  private func updateColors() {
-    updateColors(showYearColor: showYearColor?.value ?? true)
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    gradientSubscription = nil
   }
 
-  private func updateColors(showYearColor: Bool) {
-    if showYearColor, let year {
-      backgroundColor = UIColor.from(year: year)
+  func subscribe(
+    gradientScheme: ObservableVariable<GradientScheme>
+  ) {
+    gradientSubscription = gradientScheme.currentAndNewValues.addObserver { [weak self] in
+      guard let self else { return }
+      gradient = $0
+      updateColors()
+    }
+  }
+
+  private func updateColors() {
+    guard let year else { return }
+    let yearColor = gradient.color(at: year)
+    backgroundColor = yearColor.systemColor
+    if yearColor.isDark {
       label.textColor = .white
+    } else if let fg = gradient.darkForeground {
+      label.textColor = fg.systemColor
     } else {
-      backgroundColor = .neutralClusterBg
-      label.textColor = .label
+      label.textColor = .black
     }
   }
 

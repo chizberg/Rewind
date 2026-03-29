@@ -45,7 +45,7 @@ final class AppGraph {
     )
     let settings = makeSettings(storage: storage)
     let mapAdapter = MapAdapter(
-      showYearColorInClusters: settings.asObservableVariable().showYearColorInClusters
+      settings: settings.asObservableVariable()
     )
     weak var mapModelRef: MapModel?
     weak var appModelRef: AppModel?
@@ -116,7 +116,7 @@ final class AppGraph {
       favoritesModel: favoritesModel,
       onboardingViewModel: onboardingViewModel,
       currentRegionImages: Variable { mapModelRef?.state.currentRegionImages ?? [] },
-      sorting: settings.asProperty().bimap(get: \.sorting, modify: { $0.sorting = $1 })
+      settings: settings.asProperty()
     )
     appModelRef = appModel
     appStore = appModel.viewStore
@@ -130,8 +130,11 @@ final class AppGraph {
     locationModel.$state.currentAndNewValues.addObserver {
       mapModelRef?(.external(.newLocationState($0)))
     }.dispose(in: disposePool)
-    settings.asObservableVariable().map(\.sorting).onChange { _ in
+    settings.sorting.asObservableVariable().onChange { _ in
       mapModelRef?(.internal(.updatePreviews))
+    }.dispose(in: disposePool)
+    settings.gradientScheme.asObservableVariable().onChange {
+      appModelRef?(.mapControls(.setGradientScheme($0)))
     }.dispose(in: disposePool)
 
     // React to memory warnings by clearing image cache

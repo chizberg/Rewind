@@ -23,6 +23,7 @@ struct AppState {
   var searchStore: Identified<SearchViewStore>?
   var alertModel: Identified<AlertParams>?
   var mapControls: MapControlsState
+  var gradientScheme: GradientScheme
 }
 
 enum AppAction {
@@ -59,6 +60,7 @@ enum AppAction {
 
   enum MapControls {
     case setMinimization(MinimizationState)
+    case setGradientScheme(GradientScheme)
   }
 
   case imageDetails(ImageDetails)
@@ -81,11 +83,12 @@ func makeAppModel(
   favoritesModel: FavoritesModel,
   onboardingViewModel: OnboardingViewModel?,
   currentRegionImages: Variable<[Model.Image]>,
-  sorting: Property<ImageSorting>
+  settings: Property<SettingsState>
 ) -> AppModel {
   AppModel(
     initial: .makeInitial(
-      onboardingViewModel: onboardingViewModel
+      onboardingViewModel: onboardingViewModel,
+      settingsState: settings.value
     ),
     reduce: { state, action, _ in
       switch action {
@@ -120,7 +123,7 @@ func makeAppModel(
               images: currentRegionImages.value,
               listUpdates: .empty,
               imageDetailsFactory: imageDetailsFactory,
-              sorting: sorting
+              sorting: settings.sorting
             ).viewStore
           )
         case let .present(images, source, title):
@@ -131,7 +134,7 @@ func makeAppModel(
               images: images,
               listUpdates: .empty,
               imageDetailsFactory: imageDetailsFactory,
-              sorting: sorting
+              sorting: settings.sorting
             ).viewStore
           )
         case .dismiss:
@@ -178,6 +181,8 @@ func makeAppModel(
         switch mapControlsAction {
         case let .setMinimization(minimization):
           state.mapControls.minimization = minimization
+        case let .setGradientScheme(gradientScheme):
+          state.gradientScheme = gradientScheme
         }
       }
     }
@@ -233,7 +238,8 @@ extension AlertParams {
 
 extension AppState {
   fileprivate static func makeInitial(
-    onboardingViewModel: OnboardingViewModel?
+    onboardingViewModel: OnboardingViewModel?,
+    settingsState: SettingsState
   ) -> AppState {
     AppState(
       previewedImage: nil,
@@ -244,7 +250,10 @@ extension AppState {
       },
       searchStore: nil,
       alertModel: nil,
-      mapControls: MapControlsState(minimization: .normal)
+      mapControls: MapControlsState(
+        minimization: .normal
+      ),
+      gradientScheme: settingsState.gradientScheme
     )
   }
 }
@@ -252,7 +261,10 @@ extension AppState {
 #if DEBUG
 extension AppModel {
   static let mock = AppModel(
-    initial: .makeInitial(onboardingViewModel: nil),
+    initial: .makeInitial(
+      onboardingViewModel: nil,
+      settingsState: .default
+    ),
     reduce: { state, action, _ in
       switch action { // 🩼 - should make a full-working AppModel mock
       case let .mapControls(.setMinimization(minimization)):

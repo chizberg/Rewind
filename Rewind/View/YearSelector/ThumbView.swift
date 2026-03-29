@@ -29,13 +29,19 @@ final class ThumbView: UIView {
   // относительное расположение в YearSelector, от 0 до 1
   // используем его для конвертации в год
   var value: CGFloat
+  var gradient: GradientScheme
 
   let valueSide: ValueSide
   private let yearLabel = UILabel()
 
-  init(value: CGFloat, valueSide type: ValueSide) {
+  init(
+    value: CGFloat,
+    valueSide type: ValueSide,
+    gradient: GradientScheme
+  ) {
     self.valueSide = type
     self.value = value
+    self.gradient = gradient
     super.init(frame: .zero)
 
     yearLabel.textAlignment = .center
@@ -66,7 +72,14 @@ final class ThumbView: UIView {
 
   func updateYear(_ newYear: Int) {
     yearLabel.text = "\(newYear)"
-    backgroundColor = UIColor.from(year: newYear)
+    let yearColor = gradient.color(at: newYear)
+    let labelColor: UIColor = if yearColor.isDark {
+      .white
+    } else {
+      gradient.darkForeground?.systemColor ?? .black
+    }
+    yearLabel.textColor = labelColor
+    backgroundColor = yearColor.systemColor
   }
 
   // Координата по x в superview

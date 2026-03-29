@@ -26,6 +26,11 @@ struct RootView: View {
   private var rootView
 
   var body: some View {
+    content
+      .environment(\.gradientScheme, appStore.gradientScheme)
+  }
+
+  private var content: some View {
     ZStack(alignment: .bottom) {
       ViewRepresentable {
         rawMap

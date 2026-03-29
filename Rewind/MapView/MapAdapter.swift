@@ -15,9 +15,9 @@ typealias MapType = MKMapType
 final class MapAdapter: NSObject, MKMapViewDelegate, UIGestureRecognizerDelegate {
   typealias Event = MapAction.External.Map
 
-  private var map: Lazy<MKMapView>
-  private var pipe = SignalPipe<Event>()
-  private var showYearColorInClusters: ObservableVariable<Bool>
+  private let map: Lazy<MKMapView>
+  private let pipe = SignalPipe<Event>()
+  private let gradientScheme: ObservableVariable<GradientScheme>
 
   var size: CGSize {
     map.value.frame.size
@@ -37,7 +37,7 @@ final class MapAdapter: NSObject, MKMapViewDelegate, UIGestureRecognizerDelegate
     }
   }
 
-  init(showYearColorInClusters: ObservableVariable<Bool>) {
+  init(settings: ObservableVariable<SettingsState>) {
     weak var weakSelf: MapAdapter?
     map = Lazy(getter: { // TODO: simplify
       let map = MKMapView()
@@ -64,7 +64,8 @@ final class MapAdapter: NSObject, MKMapViewDelegate, UIGestureRecognizerDelegate
       )
       return map
     })
-    self.showYearColorInClusters = showYearColorInClusters
+    self.gradientScheme = settings.gradientScheme
+
     super.init()
     weakSelf = self
 
@@ -144,9 +145,14 @@ final class MapAdapter: NSObject, MKMapViewDelegate, UIGestureRecognizerDelegate
     viewFor annotation: any MKAnnotation
   ) -> MKAnnotationView? {
     if annotation is Annotation<Model.Image> {
-      return mapView.dequeueReusableAnnotationView(
+      guard let cell = mapView.dequeueReusableAnnotationView(
         withIdentifier: ReuseIdentifier.image
-      )
+      ) as? ImageAnnotationView else {
+        assertionFailure()
+        return nil
+      }
+      cell.subscribe(gradientScheme: gradientScheme)
+      return cell
     } else if annotation is Annotation<Model.Cluster> {
       guard let cell = mapView.dequeueReusableAnnotationView(
         withIdentifier: ReuseIdentifier.cluster
@@ -154,7 +160,9 @@ final class MapAdapter: NSObject, MKMapViewDelegate, UIGestureRecognizerDelegate
         assertionFailure()
         return nil
       }
-      cell.showYearColor = showYearColorInClusters
+      cell.subscribe(
+        gradientScheme: gradientScheme
+      )
       return cell
     } else if annotation is Annotation<Model.LocalCluster> {
       guard let cell = mapView.dequeueReusableAnnotationView(
@@ -163,7 +171,9 @@ final class MapAdapter: NSObject, MKMapViewDelegate, UIGestureRecognizerDelegate
         assertionFailure()
         return nil
       }
-      cell.showYearColor = showYearColorInClusters
+      cell.subscribe(
+        gradientScheme: gradientScheme
+      )
       return cell
     } else if annotation is MKClusterAnnotation {
       guard let cell = mapView.dequeueReusableAnnotationView(
@@ -171,7 +181,9 @@ final class MapAdapter: NSObject, MKMapViewDelegate, UIGestureRecognizerDelegate
       ) as? MergedAnnotationView else {
         return nil
       }
-      cell.showYearColor = showYearColorInClusters
+      cell.subscribe(
+        gradientScheme: gradientScheme
+      )
       return cell
     } else if annotation is MKUserLocation {
       return nil
