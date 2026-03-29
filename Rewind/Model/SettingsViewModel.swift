@@ -21,34 +21,38 @@ struct SettingsViewState {
 // new fields should be added carefully
 // not to break decoding from existing stored data
 struct SettingsState: Codable, Equatable {
-  var showYearColorInClusters: Bool
   var openClusterPreviews: Bool
 
   var sorting: ImageSorting
+  var gradientScheme: GradientScheme
 
   init(
-    showYearColorInClusters: Bool,
     openClusterPreviews: Bool,
-    sorting: ImageSorting
+    sorting: ImageSorting,
+    gradientScheme: GradientScheme
   ) {
-    self.showYearColorInClusters = showYearColorInClusters
     self.openClusterPreviews = openClusterPreviews
     self.sorting = sorting
+    self.gradientScheme = gradientScheme
   }
 
   enum CodingKeys: String, CodingKey {
-    case showYearColorInClusters
     case openClusterPreviews
     case sorting
+    case gradientScheme
   }
 
   init(from decoder: any Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
-    self.showYearColorInClusters = try container.decode(Bool.self, forKey: .showYearColorInClusters)
     self.openClusterPreviews = try container.decode(Bool.self, forKey: .openClusterPreviews)
 
-    self.sorting = try container
-      .decodeIfPresent(ImageSorting.self, forKey: .sorting) ?? .dateAscending
+    // 29.3.26: optionality of these fields should be removed in 3 months, then fallback to default
+    self.sorting = try container.decodeIfPresent(
+      ImageSorting.self, forKey: .sorting
+    ) ?? SettingsState.default.sorting
+    self.gradientScheme = try container.decodeIfPresent(
+      GradientScheme.self, forKey: .gradientScheme
+    ) ?? SettingsState.default.gradientScheme
   }
 }
 
@@ -59,10 +63,10 @@ enum SettingsViewAction {
       case dismiss
     }
 
-    case setShowYearColorInClusters(Bool)
     case setOpenClusterPreviews(Bool)
 
     case iconSelected(Icon)
+    case gradientSchemeSelected(GradientScheme)
 
     case alert(Alert)
 
@@ -109,8 +113,6 @@ func makeSettingsViewModel(
       switch action {
       case let .ui(ui):
         switch ui {
-        case let .setShowYearColorInClusters(value):
-          state.stored.showYearColorInClusters = value
         case let .setOpenClusterPreviews(value):
           state.stored.openClusterPreviews = value
         case let .iconSelected(icon):
@@ -122,6 +124,8 @@ func makeSettingsViewModel(
               await anotherAction(.ui(.alert(.iconApplicationFailed(error))))
             }
           })
+        case let .gradientSchemeSelected(scheme):
+          state.stored.gradientScheme = scheme
         case .contact:
           urlOpener(URL(string: "mailto:a.chizberg@proton.me"))
         case .openRepo:
@@ -160,8 +164,8 @@ let pastvuCom = URL(string: "https://pastvu.com")!
 
 extension SettingsState {
   static let `default` = SettingsState(
-    showYearColorInClusters: true,
     openClusterPreviews: false,
-    sorting: .dateAscending
+    sorting: .dateAscending,
+    gradientScheme: .rewind
   )
 }

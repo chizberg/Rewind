@@ -19,11 +19,6 @@ struct SettingsView: View {
       List {
         Section {
           makeToggle(
-            "Show colors in cluster annotations",
-            state: \.stored.showYearColorInClusters,
-            makeAction: { .setShowYearColorInClusters($0) }
-          )
-          makeToggle(
             "Open big cluster previews on tap",
             state: \.stored.openClusterPreviews,
             makeAction: { .setOpenClusterPreviews($0) }
@@ -38,6 +33,12 @@ struct SettingsView: View {
           } header: {
             Text("App Icon")
           }
+        }
+
+        Section {
+          gradientSchemePicker
+        } header: {
+          Text("Gradient Picker")
         }
 
         Section {
@@ -139,6 +140,33 @@ struct SettingsView: View {
     }
     .showsIndicators(false)
     .listRowInsets(EdgeInsets())
+  }
+
+  private var gradientSchemePicker: some View {
+    ForEach(GradientScheme.allCases, id: \.self) { scheme in
+      let isSelected = store.stored.gradientScheme == scheme
+      HStack(spacing: 10) {
+        VStack(alignment: .leading) {
+          GradientSchemeView(scheme)
+            .frame(height: 30)
+            .cornerRadius(10)
+            .overlay {
+              HStack {
+                Text(scheme.title)
+                  .font(isSelected ? .body.bold() : .body)
+                  .foregroundStyle(.white)
+                Spacer()
+              }
+              .padding(.horizontal, 10)
+            }
+        }
+
+        Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
+          .foregroundStyle(isSelected ? .blue : .secondary.opacity(0.5))
+      }
+      .contentShape(Rectangle())
+      .onTapGesture { store(.gradientSchemeSelected(scheme)) }
+    }
   }
 }
 

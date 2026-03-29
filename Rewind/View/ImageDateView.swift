@@ -11,6 +11,8 @@ struct ImageDateView: View {
   static var cardRadius: CGFloat { radius }
 
   var date: ImageDate
+  @Environment(\.gradientScheme)
+  private var gradient
 
   var body: some View {
     ColoredContainer(date: date) {
@@ -40,16 +42,28 @@ struct DirectionView: View {
 
 private struct ColoredContainer<Content: View>: View {
   var date: ImageDate
+  @Environment(\.gradientScheme)
+  private var gradient
   @ViewBuilder
   var content: () -> Content
 
   var body: some View {
+    let yearColor = gradient.color(
+      at: date.year
+    )
+    let fgColor: UIColor = if yearColor.isDark {
+      .white
+    } else if let fg = gradient.darkForeground {
+      fg.systemColor
+    } else {
+      .black
+    }
     content()
-      .foregroundStyle(Color.white)
+      .foregroundStyle(Color(uiColor: fgColor))
       .padding(7)
       .background {
         RoundedRectangle(cornerRadius: radius)
-          .fill(Color(uiColor: UIColor.from(year: date.year)))
+          .fill(Color(uiColor: yearColor.systemColor))
       }
   }
 }

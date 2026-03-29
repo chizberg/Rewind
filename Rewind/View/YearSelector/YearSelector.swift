@@ -10,10 +10,14 @@ import SwiftUI
 struct YearSelector: View {
   @Binding
   var yearRange: ClosedRange<Int>
+  @Environment(\.gradientScheme)
+  private var gradient
 
   var body: some View {
     ViewRepresentable {
-      UIKitYearSelector(yearRange: $yearRange)
+      YearSelectorImpl(yearRange: $yearRange, gradient: gradient)
+    } updater: {
+      $0.updateGradient(gradient)
     }
     .frame(height: 50)
   }

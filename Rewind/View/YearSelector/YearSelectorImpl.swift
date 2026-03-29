@@ -1,5 +1,5 @@
 //
-//  UIKitYearSelector.swift
+//  YearSelectorImpl.swift
 //  PhotoPlenka
 //
 //  Created by Алексей Шерстнёв on 07.02.2022.
@@ -10,7 +10,7 @@ import UIKit
 
 // TODO: rewrite
 
-final class UIKitYearSelector: UIView {
+final class YearSelectorImpl: UIView {
   private enum Constants {
     static let lineHeight: CGFloat = 7
     static let lineRadius: CGFloat = lineHeight / 2
@@ -64,13 +64,25 @@ final class UIKitYearSelector: UIView {
     return view
   }()
 
-  private let gradientLayer = CAGradientLayer.yearGradient()
+  private let gradientLayer: CAGradientLayer
+  private var gradient: GradientScheme?
   private var panRecognizers = [UIPanGestureRecognizer]()
 
   @Binding var yearRangeBinding: ClosedRange<Int>
 
-  init(yearRange binding: Binding<ClosedRange<Int>>) {
+  init(
+    yearRange binding: Binding<ClosedRange<Int>>,
+    gradient: GradientScheme
+  ) {
     self._yearRangeBinding = binding
+    let gradientLayer = CAGradientLayer()
+
+    gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
+    gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
+    gradientLayer.set(gradient)
+
+    self.gradientLayer = gradientLayer
+
     thumbs = [
       .init(
         value: lerpParameter(
@@ -78,7 +90,8 @@ final class UIKitYearSelector: UIView {
           lowerBound: CGFloat(Constants.startYear),
           upperBound: CGFloat(Constants.endYear)
         ),
-        valueSide: .right
+        valueSide: .right,
+        gradient: gradient
       ),
       .init(
         value: lerpParameter(
@@ -86,7 +99,8 @@ final class UIKitYearSelector: UIView {
           lowerBound: CGFloat(Constants.startYear),
           upperBound: CGFloat(Constants.endYear)
         ),
-        valueSide: .left
+        valueSide: .left,
+        gradient: gradient
       ),
     ]
     super.init(frame: .zero)
@@ -107,6 +121,17 @@ final class UIKitYearSelector: UIView {
   @available(*, unavailable)
   required init?(coder _: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+
+  // updates gradient layer and thumb colors
+  func updateGradient(_ gradient: GradientScheme) {
+    guard self.gradient != gradient else { return }
+    self.gradient = gradient
+    gradientLayer.set(gradient)
+    for thumb in thumbs {
+      thumb.gradient = gradient
+      thumb.updateYear(year(from: thumb.value))
+    }
   }
 
   override func layoutSubviews() {
@@ -233,25 +258,5 @@ extension UIColor {
     UIColor { traits -> UIColor in
       traits.userInterfaceStyle == .dark ? .secondarySystemBackground : .systemGray3
     }
-  }
-}
-
-extension CAGradientLayer {
-  static func yearGradient() -> CAGradientLayer {
-    let gradientLayer = CAGradientLayer()
-    gradientLayer.type = .axial
-    gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
-    gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
-
-    gradientLayer.locations = []
-    gradientLayer.colors = []
-
-    for point in pastvuGradient {
-      let (value, color) = (point.position, point.value)
-      gradientLayer.locations?.append(NSNumber(value: value))
-      gradientLayer.colors?.append(color.systemColor.cgColor)
-    }
-
-    return gradientLayer
   }
 }

@@ -14,17 +14,10 @@ final class ClusterAnnotationView: MKAnnotationView {
   private let countView: UIView
   private let countLabel: UILabel
   private var loadingTask: Task<Void, Never>?
-  private var colorSubscription: Disposable?
 
-  var showYearColor: ObservableVariable<Bool>? {
-    didSet {
-      colorSubscription = showYearColor?
-        .currentAndNewValues
-        .addObserver { [weak self] showYearColor in
-          self?.updateColors(showYearColor: showYearColor)
-        }
-    }
-  }
+  private var gradient = SettingsState.default.gradientScheme
+
+  private var gradientSubscription: Disposable?
 
   override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
     imageView = UIImageView(image: nil)
@@ -81,12 +74,23 @@ final class ClusterAnnotationView: MKAnnotationView {
   override func prepareForReuse() {
     super.prepareForReuse()
     loadingTask?.cancel()
+    gradientSubscription = nil
   }
 
   override func layoutSubviews() {
     super.layoutSubviews()
     imageView.frame = bounds
     layoutCountView()
+  }
+
+  func subscribe(
+    gradientScheme: ObservableVariable<GradientScheme>
+  ) {
+    gradientSubscription = gradientScheme.currentAndNewValues.addObserver { [weak self] in
+      guard let self else { return }
+      gradient = $0
+      updateColors()
+    }
   }
 
   private var clusterValue: Model.Cluster? {
@@ -98,15 +102,16 @@ final class ClusterAnnotationView: MKAnnotationView {
   }
 
   private func updateColors() {
-    updateColors(showYearColor: showYearColor?.value ?? true)
-  }
-
-  private func updateColors(showYearColor: Bool) {
     guard let clusterValue else { return }
-    let bgColor: UIColor = showYearColor
-      ? .from(year: clusterValue.preview.date.year)
-      : .neutralClusterBg
-    let fgColor: UIColor = showYearColor ? .white : .label
+    let yearColor = gradient.color(at: clusterValue.preview.date.year)
+    let bgColor = yearColor.systemColor
+    let fgColor: UIColor = if yearColor.isDark {
+      .white
+    } else if let fg = gradient.darkForeground {
+      fg.systemColor
+    } else {
+      .black
+    }
 
     imageView.layer.borderColor = bgColor.cgColor
     imageView.backgroundColor = bgColor.withAlphaComponent(0.8)
