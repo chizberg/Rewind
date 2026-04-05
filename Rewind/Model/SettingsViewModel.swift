@@ -29,7 +29,7 @@ struct SettingsState: Codable, Equatable {
   init(
     openClusterPreviews: Bool,
     sorting: ImageSorting,
-    gradientScheme: GradientScheme
+    gradientScheme: GradientScheme,
   ) {
     self.openClusterPreviews = openClusterPreviews
     self.sorting = sorting
@@ -48,10 +48,10 @@ struct SettingsState: Codable, Equatable {
 
     // 29.3.26: optionality of these fields should be removed in 3 months, then fallback to default
     self.sorting = try container.decodeIfPresent(
-      ImageSorting.self, forKey: .sorting
+      ImageSorting.self, forKey: .sorting,
     ) ?? SettingsState.default.sorting
     self.gradientScheme = try container.decodeIfPresent(
-      GradientScheme.self, forKey: .gradientScheme
+      GradientScheme.self, forKey: .gradientScheme,
     ) ?? SettingsState.default.gradientScheme
   }
 }
@@ -87,27 +87,27 @@ enum SettingsViewAction {
 }
 
 func makeSettings(
-  storage: KeyValueStorage
+  storage: KeyValueStorage,
 ) -> ObservableProperty<SettingsState> {
   let property = storage.makeCodableField(
     key: "settings",
-    default: SettingsState.default
+    default: SettingsState.default,
   )
   return property.unsafeMakeObservable()
 }
 
 func makeSettingsViewModel(
   settings: ObservableProperty<SettingsState>,
-  urlOpener: @escaping UrlOpener
+  urlOpener: @escaping UrlOpener,
 ) -> SettingsViewModel {
   Reducer<SettingsViewState, SettingsViewAction>(
     initial: SettingsViewState(
       stored: settings.value,
       supportsAlternateIcons: UIApplication.shared.supportsAlternateIcons,
       icon: Icon(
-        alternateIconName: UIApplication.shared.alternateIconName
+        alternateIconName: UIApplication.shared.alternateIconName,
       ),
-      alert: nil
+      alert: nil,
     ),
     reduce: { state, action, enqueueEffect in
       switch action {
@@ -141,7 +141,7 @@ func makeSettingsViewModel(
           case let .iconApplicationFailed(error):
             state.alert = Identified(value: .error(
               title: "Unable to set icon",
-              error: error
+              error: error,
             ))
           case .dismiss:
             state.alert = nil
@@ -153,7 +153,7 @@ func makeSettingsViewModel(
           state.icon = icon
         }
       }
-    }
+    },
   )
   .onStateUpdate { newState in
     settings.value = newState.stored
@@ -166,6 +166,6 @@ extension SettingsState {
   static let `default` = SettingsState(
     openClusterPreviews: false,
     sorting: .dateAscending,
-    gradientScheme: .rewind
+    gradientScheme: .rewind,
   )
 }

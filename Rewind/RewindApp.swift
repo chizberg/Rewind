@@ -25,7 +25,7 @@ struct RewindApp: App {
       RootView(
         rawMap: graph.mapAdapter.view,
         mapStore: graph.mapStore,
-        appStore: graph.appStore
+        appStore: graph.appStore,
       )
       .environment(\.openURL, OpenURLAction {
         graph.urlOpener($0)

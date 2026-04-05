@@ -23,7 +23,7 @@ struct AnnotationLoadingParams {
   init(
     region: Region,
     yearRange: ClosedRange<Int>,
-    mapSize: CGSize
+    mapSize: CGSize,
   ) {
     self.zoom = Rewind.zoom(region: region, mapSize: mapSize)
     self.coordinates = region.geoJSONCoordinates
@@ -40,7 +40,7 @@ struct TranslateParams {
 extension RewindRemotes {
   init(
     requestPerformer: RequestPerformer,
-    imageLoader: ImageLoader
+    imageLoader: ImageLoader,
   ) {
     annotations = Remote { params in
       let (nis, ncs) = try await requestPerformer.perform(
@@ -48,8 +48,8 @@ extension RewindRemotes {
           zoom: params.zoom,
           coordinates: params.coordinates,
           startAt: params.startAt,
-          yearRange: params.yearRange
-        )
+          yearRange: params.yearRange,
+        ),
       )
       let images = nis.map {
         let loadableImage = imageLoader.makeImage(path: $0.file)

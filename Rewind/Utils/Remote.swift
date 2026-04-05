@@ -21,7 +21,7 @@ struct Remote<Args, Response> {
   @discardableResult
   func load(
     _ args: Args,
-    completion: @MainActor @escaping (Result<Response, Error>) -> Void
+    completion: @MainActor @escaping (Result<Response, Error>) -> Void,
   ) -> Task<Void, Never> {
     Task {
       do {
@@ -34,7 +34,7 @@ struct Remote<Args, Response> {
   }
 
   func mapArgs<NewArgs>(
-    _ transform: @escaping (NewArgs) -> Args
+    _ transform: @escaping (NewArgs) -> Args,
   ) -> Remote<NewArgs, Response> {
     Remote<NewArgs, Response> { args in
       try await self.impl(transform(args))
@@ -42,7 +42,7 @@ struct Remote<Args, Response> {
   }
 
   func mapResponse<NewResponse>(
-    _ transform: @escaping (Response) -> NewResponse
+    _ transform: @escaping (Response) -> NewResponse,
   ) -> Remote<Args, NewResponse> {
     Remote<Args, NewResponse> { args in
       try await transform(self.impl(args))
@@ -52,7 +52,7 @@ struct Remote<Args, Response> {
   func exponentialBackoff(
     attemptCount: Int = 3,
     initialDelay: TimeInterval = 1,
-    factor: Double = 2.0
+    factor: Double = 2.0,
   ) -> Remote<Args, Response> {
     Remote<Args, Response> { args in
       var currentDelay = initialDelay

@@ -54,8 +54,8 @@ final class ClusterAnnotationView: MKAnnotationView {
     loadingTask = clusterValue.preview.image.load(
       ImageLoadingParams(
         quality: .low,
-        cachedOnly: false
-      )
+        cachedOnly: false,
+      ),
     ) { [weak self] result in
       guard let self else { return }
       switch result {
@@ -84,7 +84,7 @@ final class ClusterAnnotationView: MKAnnotationView {
   }
 
   func subscribe(
-    gradientScheme: ObservableVariable<GradientScheme>
+    gradientScheme: ObservableVariable<GradientScheme>,
   ) {
     gradientSubscription = gradientScheme.currentAndNewValues.addObserver { [weak self] in
       guard let self else { return }
@@ -123,7 +123,7 @@ final class ClusterAnnotationView: MKAnnotationView {
     let labelSize = countLabel.intrinsicContentSize
     let countViewSize = CGSize(
       width: labelSize.width + badgePadding.width * 2,
-      height: labelSize.height + badgePadding.height * 2
+      height: labelSize.height + badgePadding.height * 2,
     )
 
     countView.isHidden = countViewSize.width > frame.width
@@ -131,11 +131,11 @@ final class ClusterAnnotationView: MKAnnotationView {
 
     let countViewOrigin = CGPoint(
       x: bounds.width - countViewSize.width,
-      y: bounds.height - countViewSize.height
+      y: bounds.height - countViewSize.height,
     )
     let labelOrigin = CGPoint(
       x: badgePadding.width,
-      y: badgePadding.height
+      y: badgePadding.height,
     )
 
     countView.frame = CGRect(origin: countViewOrigin, size: countViewSize)

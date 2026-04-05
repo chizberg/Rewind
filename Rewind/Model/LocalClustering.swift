@@ -21,10 +21,10 @@ func makeDiffAfterReceived(
   clusters: [Model.Cluster],
   params: AnnotationLoadingParams,
   mapSize: CGSize,
-  state: inout MapState
+  state: inout MapState,
 ) -> (
   toAdd: [AnnotationValue],
-  toRemove: [AnnotationValue]
+  toRemove: [AnnotationValue],
 ) {
   let shouldClearOldAnnotations = if let lastParams = state.lastLoadedParams {
     lastParams.zoom != params.zoom
@@ -71,24 +71,24 @@ func makeDiffAfterReceived(
     state.clusteredImages = groupImages(
       images: freeImages.intersection(receivedImages),
       zoom: params.zoom,
-      mapSize: mapSize
+      mapSize: mapSize,
     ).map(key: { $0 }, value: { .left($0) })
   }
 
   let groupedImages = groupImages(
     images: receivedImages,
     zoom: params.zoom,
-    mapSize: mapSize
+    mapSize: mapSize,
   )
   let patches = makePatches(
     newImages: groupedImages,
-    current: state.clusteredImages
+    current: state.clusteredImages,
   )
   applyPatches(
     patches,
     clusteredImages: &state.clusteredImages,
     toAdd: &toAdd,
-    toRemove: &toRemove
+    toRemove: &toRemove,
   )
   return (toAdd, toRemove)
 }
@@ -96,14 +96,14 @@ func makeDiffAfterReceived(
 private func groupImages(
   images: any Sequence<Model.Image>,
   zoom: Int,
-  mapSize: CGSize
+  mapSize: CGSize,
 ) -> [ClusteringCell: Set<Model.Image>] {
   let size = delta(zoom: zoom, mapSize: mapSize) / clusteringCellRatio
   return images.reduce(into: [:]) { result, image in
     let cell = ClusteringCell(
       latIndex: Int(floor(image.coordinate.latitude / size)),
       lonIndex: Int(floor(image.coordinate.longitude / size)),
-      size: size
+      size: size,
     )
     result[cell, default: []].insert(image)
   }
@@ -117,13 +117,13 @@ private enum LocalClusteringPatch {
 
 private func makePatches(
   newImages: [ClusteringCell: Set<Model.Image>],
-  current: MapState.ClusteredImages
+  current: MapState.ClusteredImages,
 ) -> [(ClusteringCell, LocalClusteringPatch)] {
   newImages.compactMap { cell, newImagesForCell in
     if let patch = makePatch(
       cell: cell,
       newImages: newImagesForCell,
-      current: current[cell]
+      current: current[cell],
     ) {
       (cell, patch)
     } else {
@@ -136,13 +136,13 @@ private func applyPatches(
   _ patches: [(ClusteringCell, LocalClusteringPatch)],
   clusteredImages: inout MapState.ClusteredImages,
   toAdd: inout [AnnotationValue],
-  toRemove: inout [AnnotationValue]
+  toRemove: inout [AnnotationValue],
 ) {
   for (cell, patch) in patches {
     switch patch {
     case let .addImages(newImages):
       clusteredImages[cell] = .left(
-        (clusteredImages[cell]?.left ?? []).union(newImages)
+        (clusteredImages[cell]?.left ?? []).union(newImages),
       )
       toAdd.append(contentsOf: newImages.map { .image($0) })
     case let .addCluster(newLocalCluster, removing: imagesToRemove):
@@ -168,7 +168,7 @@ private func applyPatches(
 private func makePatch(
   cell: ClusteringCell,
   newImages: Set<Model.Image>,
-  current: Either<Set<Model.Image>, Model.LocalCluster>?
+  current: Either<Set<Model.Image>, Model.LocalCluster>?,
 ) -> LocalClusteringPatch? {
   guard let current else {
     if newImages.count < localClusterMinCount {
@@ -176,7 +176,7 @@ private func makePatch(
     } else {
       return .addCluster(
         Model.LocalCluster(images: newImages, cell: cell),
-        removing: []
+        removing: [],
       )
     }
   }
@@ -191,9 +191,9 @@ private func makePatch(
       return .addCluster(
         Model.LocalCluster(
           images: existingImages.union(imagesToAdd),
-          cell: cell
+          cell: cell,
         ),
-        removing: existingImages
+        removing: existingImages,
       )
     }
   case let .right(existingLocalCluster):
@@ -209,11 +209,11 @@ private func makePatch(
 extension Model.LocalCluster {
   fileprivate init(
     images: Set<Model.Image>,
-    cell: ClusteringCell
+    cell: ClusteringCell,
   ) {
     self.init(
       images: Array(images),
-      coordinate: cell.coordinate
+      coordinate: cell.coordinate,
     )
   }
 }
@@ -222,7 +222,7 @@ extension ClusteringCell {
   fileprivate var coordinate: Coordinate {
     Coordinate(
       latitude: Double(latIndex) * size + size / 2,
-      longitude: Double(lonIndex) * size + size / 2
+      longitude: Double(lonIndex) * size + size / 2,
     )
   }
 
@@ -230,12 +230,12 @@ extension ClusteringCell {
     MKMapRect(
       origin: MKMapPoint(
         x: Double(lonIndex) * size,
-        y: Double(latIndex) * size
+        y: Double(latIndex) * size,
       ),
       size: MKMapSize(
         width: size,
-        height: size
-      )
+        height: size,
+      ),
     )
   }
 }

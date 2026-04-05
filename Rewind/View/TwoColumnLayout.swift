@@ -24,7 +24,7 @@ struct TwoColumnLayout: Layout {
   func sizeThatFits(
     proposal: ProposedViewSize,
     subviews: Subviews,
-    cache: inout Cache
+    cache: inout Cache,
   ) -> CGSize {
     guard let width = proposal.width else { return .zero }
 
@@ -42,23 +42,23 @@ struct TwoColumnLayout: Layout {
     in bounds: CGRect,
     proposal _: ProposedViewSize,
     subviews: Subviews,
-    cache: inout Cache
+    cache: inout Cache,
   ) {
     for (i, subview) in subviews.enumerated() {
       let f = cache.frames[i]
       subview.place(
         at: CGPoint(
           x: bounds.minX + f.minX,
-          y: bounds.minY + f.minY
+          y: bounds.minY + f.minY,
         ),
-        proposal: ProposedViewSize(width: f.width, height: f.height)
+        proposal: ProposedViewSize(width: f.width, height: f.height),
       )
     }
   }
 
   private func computeLayout(
     width: CGFloat,
-    subviews: Subviews
+    subviews: Subviews,
   ) -> (CGSize, [CGRect]) {
     var frames = Array(repeating: CGRect.zero, count: subviews.count)
 
@@ -123,14 +123,14 @@ struct TwoColumnLayout: Layout {
         x: 0,
         y: y,
         width: columnWidth,
-        height: rowHeight
+        height: rowHeight,
       )
 
       frames[right] = CGRect(
         x: columnWidth + columnSpacing,
         y: y,
         width: columnWidth,
-        height: rowHeight
+        height: rowHeight,
       )
 
       y += rowHeight + rowSpacing

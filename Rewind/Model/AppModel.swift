@@ -89,7 +89,7 @@ func makeAppModel(
   AppModel(
     initial: .makeInitial(
       onboardingViewModel: onboardingViewModel,
-      settingsState: settings.value
+      settingsState: settings.value,
     ),
     reduce: { state, action, _ in
       switch action {
@@ -97,7 +97,7 @@ func makeAppModel(
         switch detailsAction {
         case let .present(image, source):
           state.previewedImage = Identified(
-            value: imageDetailsFactory(image, source).viewStore
+            value: imageDetailsFactory(image, source).viewStore,
           )
         case .dismiss:
           state.previewedImage = nil
@@ -114,8 +114,8 @@ func makeAppModel(
               images: favoritesModel.state,
               listUpdates: favoritesModel.$state.newValues,
               imageDetailsFactory: imageDetailsFactory,
-              sorting: nil
-            ).viewStore
+              sorting: nil,
+            ).viewStore,
           )
         case let .presentCurrentRegionImages(source):
           state.previewedList = Identified(
@@ -125,8 +125,8 @@ func makeAppModel(
               images: currentRegionImages.value,
               listUpdates: .empty,
               imageDetailsFactory: imageDetailsFactory,
-              sorting: settings.sorting
-            ).viewStore
+              sorting: settings.sorting,
+            ).viewStore,
           )
         case let .present(images, source, title):
           state.previewedList = Identified(
@@ -136,8 +136,8 @@ func makeAppModel(
               images: images,
               listUpdates: .empty,
               imageDetailsFactory: imageDetailsFactory,
-              sorting: settings.sorting
-            ).viewStore
+              sorting: settings.sorting,
+            ).viewStore,
           )
         case .dismiss:
           state.previewedList = nil
@@ -148,8 +148,8 @@ func makeAppModel(
         case .present:
           state.settingsStore = Identified(
             value: settingsViewModelFactory().viewStore.bimap(
-              state: { $0 }, action: { .ui($0) }
-            )
+              state: { $0 }, action: { .ui($0) },
+            ),
           )
         case .dismiss:
           state.settingsStore = nil
@@ -165,8 +165,8 @@ func makeAppModel(
           state.searchStore = Identified(
             value: searchModelFactory().viewStore.bimap(
               state: { $0 },
-              action: { .external($0) }
-            )
+              action: { .external($0) },
+            ),
           )
         case .dismiss:
           state.searchStore = nil
@@ -187,14 +187,14 @@ func makeAppModel(
           state.gradientScheme = gradientScheme
         }
       }
-    }
+    },
   )
 }
 
 extension AlertParams {
   static func nonCancelledError(
     title: LocalizedStringResource,
-    error: Error
+    error: Error,
   ) -> AlertParams? {
     guard !(error is CancellationError) else { return nil }
     return .error(title: title, error: error)
@@ -202,7 +202,7 @@ extension AlertParams {
 
   static func error(
     title: LocalizedStringResource,
-    error: Error
+    error: Error,
   ) -> AlertParams {
     let errorDescription = String(describing: error)
     return AlertParams(
@@ -213,27 +213,27 @@ extension AlertParams {
           title: "Copy to clipboard",
           handler: {
             UIPasteboard.general.string = errorDescription
-          }
+          },
         ),
         AlertAction(
-          title: "OK"
+          title: "OK",
         ),
-      ]
+      ],
     )
   }
 
   static func info(
     title: LocalizedStringResource,
-    message: LocalizedStringResource
+    message: LocalizedStringResource,
   ) -> AlertParams {
     AlertParams(
       title: title,
       message: message,
       actions: [
         AlertAction(
-          title: "OK"
+          title: "OK",
         ),
-      ]
+      ],
     )
   }
 }
@@ -241,7 +241,7 @@ extension AlertParams {
 extension AppState {
   fileprivate static func makeInitial(
     onboardingViewModel: OnboardingViewModel?,
-    settingsState: SettingsState
+    settingsState: SettingsState,
   ) -> AppState {
     AppState(
       previewedImage: nil,
@@ -253,9 +253,9 @@ extension AppState {
       searchStore: nil,
       alertModel: nil,
       mapControls: MapControlsState(
-        minimization: .normal
+        minimization: .normal,
       ),
-      gradientScheme: settingsState.gradientScheme
+      gradientScheme: settingsState.gradientScheme,
     )
   }
 }
@@ -265,7 +265,7 @@ extension AppModel {
   static let mock = AppModel(
     initial: .makeInitial(
       onboardingViewModel: nil,
-      settingsState: .default
+      settingsState: .default,
     ),
     reduce: { state, action, _ in
       switch action { // 🩼 - should make a full-working AppModel mock
@@ -273,7 +273,7 @@ extension AppModel {
         state.mapControls.minimization = minimization
       default: break
       }
-    }
+    },
   )
 }
 #endif

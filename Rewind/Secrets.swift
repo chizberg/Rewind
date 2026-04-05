@@ -21,7 +21,7 @@ private func object<T>(forKey key: String, fallback: T) -> T {
     """
     Missing \(key). Create Config/Secrets.xcconfig from \
     Config/Secrets.xcconfig.example and set your API key.
-    """
+    """,
   )
   return fallback
 }

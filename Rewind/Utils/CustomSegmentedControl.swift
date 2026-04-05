@@ -57,7 +57,7 @@ private var items = ["foo", "bar", "baz"].map { Identified(value: $0) }
 
     CustomSegmentedControl(
       items: items,
-      pickedItem: $pickedItem
+      pickedItem: $pickedItem,
     ) { item, isSelected in
       Text(item.value)
         .font(isSelected ? .body.bold() : .body)

@@ -14,7 +14,7 @@ func zoom(region: Region, mapSize: CGSize) -> Int {
   return Int(
     (log2(360 / delta)
       + adjustment(mapSize: mapSize)
-    ).rounded(.toNearestOrAwayFromZero)
+    ).rounded(.toNearestOrAwayFromZero),
   ).clamp(3...19)
 }
 
@@ -42,15 +42,15 @@ extension Region {
   init(
     center: Coordinate,
     zoom: Int,
-    mapSize: CGSize
+    mapSize: CGSize,
   ) {
     let delta = delta(zoom: zoom, mapSize: mapSize)
     self.init(
       center: center,
       span: MKCoordinateSpan(
         latitudeDelta: delta,
-        longitudeDelta: delta
-      )
+        longitudeDelta: delta,
+      ),
     )
   }
 }

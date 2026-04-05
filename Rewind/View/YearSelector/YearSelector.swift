@@ -28,7 +28,7 @@ struct YearSelector: View {
   var yearRange = 1826...2000
 
   YearSelector(
-    yearRange: $yearRange
+    yearRange: $yearRange,
   ).onChange(of: yearRange) {
     print(yearRange)
   }

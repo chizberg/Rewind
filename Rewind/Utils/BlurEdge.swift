@@ -13,7 +13,7 @@ extension View {
     edge: Edge,
     fraction: CGFloat = 0.1,
     scale: CGFloat = 1.3,
-    radius: CGFloat = 20
+    radius: CGFloat = 20,
   ) -> some View {
     modifier(BlurEdge(fraction: fraction, scale: scale, radius: radius, edge: edge))
   }
@@ -105,7 +105,7 @@ private struct BlurEdge: ViewModifier {
         .init(color: .white, location: 1),
       ],
       startPoint: edge.opposite.unitPoint,
-      endPoint: edge.unitPoint
+      endPoint: edge.unitPoint,
     )
   }
 }

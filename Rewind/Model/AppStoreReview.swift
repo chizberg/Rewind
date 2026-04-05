@@ -19,11 +19,11 @@ final class AppStoreReview {
   init(storage: KeyValueStorage) {
     _launchCount = storage.makeCodableField(
       key: "launchCount",
-      default: 0
+      default: 0,
     )
     _requestCount = storage.makeCodableField(
       key: "requestCount",
-      default: 0
+      default: 0,
     )
   }
 

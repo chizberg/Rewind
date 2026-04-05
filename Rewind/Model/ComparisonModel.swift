@@ -101,7 +101,7 @@ func makeComparisonViewDeps(
   captureMode: ComparisonState.CaptureMode,
   oldUIImage: UIImage,
   oldImageData: Model.Image,
-  streetViewAvailability: Remote<Void, StreetViewAvailability>
+  streetViewAvailability: Remote<Void, StreetViewAvailability>,
 ) -> ComparisonViewDeps {
   let orientationTracker = OrientationTracker()
   weak var comparisonVC: UIViewController?
@@ -116,7 +116,7 @@ func makeComparisonViewDeps(
       shouldDismiss: false,
       shotsCount: 0,
       savesCount: 0,
-      cameraSession: nil
+      cameraSession: nil,
     ),
     reduce: { state, action, enqueueEffect in
       switch action {
@@ -165,7 +165,7 @@ func makeComparisonViewDeps(
                 await anotherAction(
                   granted
                     ? .internal(.videoAccessGranted)
-                    : .external(.alert(.presentAccessError))
+                    : .external(.alert(.presentAccessError)),
                 )
               })
             case .restricted, .denied: fallthrough
@@ -197,7 +197,7 @@ func makeComparisonViewDeps(
                   image: renderView(view: comparisonVC.view),
                   title: state.oldImageData.title,
                   description: nil,
-                  url: pastVuURL(cid: state.oldImageData.cid)
+                  url: pastVuURL(cid: state.oldImageData.cid),
                 )
                 await anotherAction(.internal(.shareSheetLoaded(vc)))
               } catch {
@@ -212,32 +212,32 @@ func makeComparisonViewDeps(
           case .presentAccessError:
             state.alert = Identified(value: .info(
               title: "Unable to use the camera",
-              message: "You can check camera permissions in Settings"
+              message: "You can check camera permissions in Settings",
             ))
           case let .presentLensError(error):
             state.alert = Identified(value: .error(
               title: "Unable to switch lens",
-              error: error
+              error: error,
             ))
           case let .presentSavingImageError(error):
             state.alert = Identified(value: .error(
               title: "Unable to save image",
-              error: error
+              error: error,
             ))
           case let .presentSharingImageError(error):
             state.alert = Identified(value: .error(
               title: "Unable to share image",
-              error: error
+              error: error,
             ))
           case let .presentStreetViewError(error):
             state.alert = Identified(value: .error(
               title: "Street View Error",
-              error: error
+              error: error,
             ))
           case .presentStreetViewUnavailable:
             state.alert = Identified(value: .info(
               title: "Google Street View Unavailable",
-              message: "Google Street View is not available for this location."
+              message: "Google Street View is not available for this location.",
             ))
           case .dismiss:
             state.alert = nil
@@ -302,10 +302,10 @@ func makeComparisonViewDeps(
           }
         }
       }
-    }
+    },
   ).adding(
     signal: orientationTracker.$orientation.newValues.retaining(object: orientationTracker),
-    makeAction: { .internal(.orientationChanged($0)) }
+    makeAction: { .internal(.orientationChanged($0)) },
   )
 
   let vc = UIHostingController(
@@ -316,22 +316,22 @@ func makeComparisonViewDeps(
         oldImage: state.oldUIImage,
         captureState: state.captureState,
         streetViewYear: state.streetViewAvailability?.year,
-        shotsCount: state.shotsCount
+        shotsCount: state.shotsCount,
       )
-    }
+    },
   )
   vc.sizingOptions = UIHostingControllerSizingOptions.intrinsicContentSize
   comparisonVC = vc
 
   return ComparisonViewDeps(
     store: model.viewStore.bimap(state: { $0 }, action: { .external($0) }),
-    comparisonVC: vc
+    comparisonVC: vc,
   )
 }
 
 @MainActor
 private func renderView(
-  view: UIView
+  view: UIView,
 ) -> UIImage {
   let format = UIGraphicsImageRendererFormat()
   format.scale = 3
@@ -339,7 +339,7 @@ private func renderView(
 
   let renderer = UIGraphicsImageRenderer(
     size: view.bounds.size,
-    format: format
+    format: format,
   )
   return renderer.image { _ in
     view.drawHierarchy(in: view.bounds, afterScreenUpdates: true)

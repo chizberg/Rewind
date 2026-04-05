@@ -14,7 +14,7 @@ enum StreetViewAvailability {
 }
 
 func makeStreetView(
-  image: Model.Image
+  image: Model.Image,
 ) throws -> WKWebView {
   guard let url = makeStreetViewURL(image: image) else {
     throw HandlingError("Unable to generate a Street View URL")
@@ -28,7 +28,7 @@ func makeStreetView(
 }
 
 private func makeStreetViewURL(
-  image: Model.Image
+  image: Model.Image,
 ) -> URL? {
   var components = URLComponents()
   components.scheme = "https"
@@ -38,7 +38,7 @@ private func makeStreetViewURL(
     URLQueryItem(name: "key", value: Secrets.googleApiKey)
     URLQueryItem(
       name: "location",
-      value: "\(image.coordinate.latitude),\(image.coordinate.longitude)"
+      value: "\(image.coordinate.latitude),\(image.coordinate.longitude)",
     )
     if let heading = image.dir?.angleDegrees {
       URLQueryItem(name: "heading", value: "\(heading)")
@@ -48,7 +48,7 @@ private func makeStreetViewURL(
 }
 
 private func makeHTML(
-  url: URL
+  url: URL,
 ) -> String {
   let src = url.absoluteString
     .replacingOccurrences(of: "&", with: "&amp;")

@@ -42,7 +42,7 @@ func getAvailableLens(device: AVCaptureDevice) throws -> ([Lens], wide: Lens) {
   func makeLens(displayZoom: Double) -> Lens {
     Lens(
       title: makeZoomLabel(displayZoom),
-      zoomValue: displayZoom / displayMultiplier
+      zoomValue: displayZoom / displayMultiplier,
     )
   }
 

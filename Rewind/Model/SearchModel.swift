@@ -47,13 +47,13 @@ enum SearchAction {
 }
 
 func makeSearchModel(
-  onLocationFound: @escaping (CLLocation) -> Void
+  onLocationFound: @escaping (CLLocation) -> Void,
 ) -> SearchModel {
   let suggestProvider = SearchSuggestProvider()
   return SearchModel(
     initial: SearchState(
       query: "",
-      suggests: []
+      suggests: [],
     ),
     reduce: { state, action, enqueueEffect in
       switch action {
@@ -64,13 +64,13 @@ func makeSearchModel(
           suggestProvider.query = query
         case let .suggestSelected(suggest):
           enqueueEffect(.anotherAction(
-            .internal(.performSearch(suggest.query))
+            .internal(.performSearch(suggest.query)),
           ))
         case let .addSuggestToQuery(suggest):
           state.query = suggest.query
         case .submit:
           enqueueEffect(.anotherAction(
-            .internal(.performSearch(state.query))
+            .internal(.performSearch(state.query)),
           ))
         case .dismissAlert:
           state.alertModel = nil
@@ -84,7 +84,7 @@ func makeSearchModel(
         case let .suggestsFailed(error):
           state.alertModel = Identified(value: .error(
             title: "Unable to load suggests for this query",
-            error: error
+            error: error,
           ))
         case let .performSearch(query):
           enqueueEffect(.perform { anotherAction in
@@ -94,7 +94,7 @@ func makeSearchModel(
               let search = MKLocalSearch(request: request)
               let result = try await search.start()
               await anotherAction(
-                .internal(.searchResponseReceived(result))
+                .internal(.searchResponseReceived(result)),
               )
             } catch {
               await anotherAction(.internal(.searchError(error)))
@@ -116,16 +116,16 @@ func makeSearchModel(
           }
           state.alertModel = Identified(value: .error(
             title: "Something went wrong during the search",
-            error: error
+            error: error,
           ))
         case .nothingFound:
           state.alertModel = Identified(value: .info(
             title: "Unable to find what you're looking for",
-            message: "Try to change the search query and try again"
+            message: "Try to change the search query and try again",
           ))
         }
       }
-    }
+    },
   ).adding(
     signal: suggestProvider.signal,
     makeAction: { event in
@@ -133,7 +133,7 @@ func makeSearchModel(
       case let .didUpdateResults(results): .internal(.suggestsUpdated(results))
       case let .didFail(error): .internal(.suggestsFailed(error))
       }
-    }
+    },
   )
 }
 

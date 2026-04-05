@@ -19,17 +19,17 @@ extension View {
 
   func readFrame(
     in coordinateSpace: CoordinateSpace = .local,
-    action: @escaping (CGRect) -> Void
+    action: @escaping (CGRect) -> Void,
   ) -> some View {
     onGeometryChange(
       for: CGRect.self,
       of: { $0.frame(in: coordinateSpace) },
-      action: action
+      action: action,
     )
   }
 
   func readSize(
-    action: @escaping (CGSize) -> Void
+    action: @escaping (CGSize) -> Void,
   ) -> some View {
     readFrame { action($0.size) }
   }
@@ -38,7 +38,7 @@ extension View {
   func `if`(
     _ condition: Bool,
     transform: (Self) -> some View,
-    else elseTransform: (Self) -> some View
+    else elseTransform: (Self) -> some View,
   ) -> some View {
     if condition {
       transform(self)
@@ -51,7 +51,7 @@ extension View {
   func ifLet<T>(
     _ value: T?,
     transform: (Self, T) -> some View,
-    else elseTransform: (Self) -> some View
+    else elseTransform: (Self) -> some View,
   ) -> some View {
     if let value {
       transform(self, value)
@@ -62,20 +62,20 @@ extension View {
 
   func `if`(
     _ condition: Bool,
-    transform: (Self) -> some View
+    transform: (Self) -> some View,
   ) -> some View {
     self.if(condition, transform: transform, else: { $0 })
   }
 
   func ifLet<T>(
     _ value: T?,
-    transform: (Self, T) -> some View
+    transform: (Self, T) -> some View,
   ) -> some View {
     self.ifLet(value, transform: transform, else: { $0 })
   }
 
   func modify(
-    @ViewBuilder transform: (Self) -> some View
+    @ViewBuilder transform: (Self) -> some View,
   ) -> some View {
     transform(self)
   }
@@ -83,7 +83,7 @@ extension View {
   @ViewBuilder
   func modifyWithUIIdiom(
     phone: (Self) -> some View,
-    pad: (Self) -> some View
+    pad: (Self) -> some View,
   ) -> some View {
     switch UIDevice.current.userInterfaceIdiom {
     case .phone: phone(self)
@@ -94,16 +94,16 @@ extension View {
 
   func modifyWithUIIdiom(
     _ idiom: UIUserInterfaceIdiom,
-    transform: (Self) -> some View
+    transform: (Self) -> some View,
   ) -> some View {
     self.if(
       UIDevice.current.userInterfaceIdiom == idiom,
-      transform: transform
+      transform: transform,
     )
   }
 
   func sheet(
-    _ value: Binding<Identified<UIViewController>?>
+    _ value: Binding<Identified<UIViewController>?>,
   ) -> some View {
     sheet(
       item: value,
@@ -111,7 +111,7 @@ extension View {
         ViewControllerRepresentable {
           vc.value
         }
-      }
+      },
     )
   }
 }

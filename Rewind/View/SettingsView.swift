@@ -21,7 +21,7 @@ struct SettingsView: View {
           makeToggle(
             "Open big cluster previews on tap",
             state: \.stored.openClusterPreviews,
-            makeAction: { .setOpenClusterPreviews($0) }
+            makeAction: { .setOpenClusterPreviews($0) },
           )
         } header: {
           Text("Map")
@@ -91,7 +91,7 @@ struct SettingsView: View {
   // TODO: use list selection? afaik headers/footers are unavailable then
   private func makeButton(
     _ title: LocalizedStringKey,
-    action: SettingsViewAction.UI
+    action: SettingsViewAction.UI,
   ) -> some View {
     Button {
       store(action)
@@ -108,11 +108,11 @@ struct SettingsView: View {
   private func makeToggle(
     _ title: LocalizedStringKey,
     state: KeyPath<SettingsViewState, Bool>,
-    makeAction: @escaping (Bool) -> SettingsViewAction.UI
+    makeAction: @escaping (Bool) -> SettingsViewAction.UI,
   ) -> some View {
     Toggle(
       title,
-      isOn: store.binding(state, send: { makeAction($0) })
+      isOn: store.binding(state, send: { makeAction($0) }),
     )
   }
 
@@ -210,7 +210,7 @@ private struct Contributor: Identifiable {
 
 private let chizberg = Contributor(
   username: "chizberg",
-  rawURL: "https://github.com/chizberg"
+  rawURL: "https://github.com/chizberg",
 )
 private let honorableMentions: [Contributor] = [
   Contributor(username: "lisa.iso", rawURL: "https://www.instagram.com/l.chizberg"),
@@ -223,13 +223,13 @@ private let honorableMentions: [Contributor] = [
   @Previewable @State
   var store = makeSettingsViewModel(
     settings: ObservableProperty(
-      initialValue: .default
+      initialValue: .default,
     ),
-    urlOpener: { _ in }
+    urlOpener: { _ in },
   ).viewStore.bimap(state: { $0 }, action: { .ui($0) })
 
   SettingsView(
-    store: store
+    store: store,
   )
 }
 #endif // DEBUG

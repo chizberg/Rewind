@@ -26,9 +26,9 @@ struct ImageList: View {
             let viewStore = identified.value
             ImageDetailsView(viewStore: viewStore)
               .navigationTransition(
-                .zoom(sourceID: viewStore.image.cid, in: namespace)
+                .zoom(sourceID: viewStore.image.cid, in: namespace),
               )
-          }
+          },
         )
     }
   }
@@ -77,13 +77,13 @@ struct ImageList: View {
             "Sorting",
             selection: Binding(
               get: { sorting },
-              set: { viewStore(.setSorting($0)) }
+              set: { viewStore(.setSorting($0)) },
             ),
             content: {
               ForEach(ImageSorting.allCases) {
                 Label($0.title, systemImage: $0.iconName)
               }
-            }
+            },
           )
         }, label: {
           Image(systemName: "arrow.up.arrow.down")
@@ -142,7 +142,7 @@ private let imageDetailsFactoryMock: ImageDetailsFactory = { _, source in
     setOrientationLock: { _ in },
     streetViewAvailability: .mock(.unavailable),
     translate: .mock("translated text"),
-    extractModelImage: { _ in .mock }
+    extractModelImage: { _ in .mock },
   )
 }
 
@@ -157,14 +157,14 @@ private let imageDetailsFactoryMock: ImageDetailsFactory = { _, source in
         let year2 = year + Int.random(in: 0...5)
         $0.date = ImageDate(
           year: year,
-          year2: year2
+          year2: year2,
         )
         $0.cid = idx
       }
     },
     listUpdates: .empty,
     imageDetailsFactory: imageDetailsFactoryMock,
-    sorting: .constant(.dateAscending)
+    sorting: .constant(.dateAscending),
   ).viewStore
 
   ImageList(viewStore: store)
@@ -178,7 +178,7 @@ private let imageDetailsFactoryMock: ImageDetailsFactory = { _, source in
     images: [],
     listUpdates: .empty,
     imageDetailsFactory: imageDetailsFactoryMock,
-    sorting: .constant(.dateAscending)
+    sorting: .constant(.dateAscending),
   ).viewStore
 
   ImageList(viewStore: store)

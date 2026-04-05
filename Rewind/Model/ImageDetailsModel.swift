@@ -130,7 +130,7 @@ func makeImageDetailsModel(
   setOrientationLock: @escaping ResultAction<OrientationLock?>,
   streetViewAvailability: Remote<Coordinate, StreetViewAvailability>,
   translate: Remote<TranslateParams, String>,
-  extractModelImage: @escaping (Model.ImageDetails) -> (Model.Image)
+  extractModelImage: @escaping (Model.ImageDetails) -> (Model.Image),
 ) -> ImageDetailsModel {
   let favoriteModel = favoritesModel.isFavorite(modelImage)
   return Reducer(
@@ -157,7 +157,7 @@ func makeImageDetailsModel(
         withUIIdiom(phone: ImageDetailsAction.Button.compareCamera, pad: nil)
         withUIIdiom(phone: ImageDetailsAction.Button.compareStreetView, pad: nil)
         [ImageDetailsAction.Button.showOnMap, .share, .saveImage, .viewOnWeb, .route]
-      }
+      },
     ),
     reduce: { state, action, enqueueEffect in
       switch action {
@@ -169,7 +169,7 @@ func makeImageDetailsModel(
           } catch {
             await anotherAction(.alert(.present(.error(
               title: "Unable to load image info",
-              error: error
+              error: error,
             ))))
           }
         })
@@ -178,8 +178,8 @@ func makeImageDetailsModel(
             let medium = try await modelImage.image.load(
               ImageLoadingParams(
                 quality: .medium,
-                cachedOnly: true
-              )
+                cachedOnly: true,
+              ),
             )
             await anotherAction(.cachedLowResImageLoaded(medium))
           } catch {}
@@ -191,7 +191,7 @@ func makeImageDetailsModel(
           } catch {
             await anotherAction(.alert(.present(.error(
               title: "Unable to load image in high resolution",
-              error: error
+              error: error,
             ))))
           }
         })
@@ -211,7 +211,7 @@ func makeImageDetailsModel(
             do {
               let details = try await remote.load(cid)
               await anotherAction(.anotherImage(.present(
-                details, ImageDetailsView.TransitionSource.descriptionLink
+                details, ImageDetailsView.TransitionSource.descriptionLink,
               )))
             } catch {
               await anotherAction(.internal(.anotherImageLoadFailed(error)))
@@ -235,8 +235,8 @@ func makeImageDetailsModel(
               oldImageData: modelImage,
               streetViewAvailability: streetViewAvailability.mapArgs {
                 modelImage.coordinate
-              }
-            )
+              },
+            ),
           )
         case .dismiss:
           setOrientationLock(nil)
@@ -281,7 +281,7 @@ func makeImageDetailsModel(
               image: image,
               title: String(title.characters),
               description: attrDetails.description.map { String($0.characters) },
-              url: pastVuURL(cid: cid)
+              url: pastVuURL(cid: cid),
             )
             await anotherAction(.internal(.shareSheetLoaded(vc)))
           })
@@ -300,16 +300,16 @@ func makeImageDetailsModel(
           enqueueEffect(.perform { anotherAction in
             do {
               async let translatedDesc = try await translate.load(TranslateParams(
-                text: description, target: appLang
+                text: description, target: appLang,
               ))
               async let translatedTitle = try await translate.load(TranslateParams(
-                text: modelImage.title, target: appLang
+                text: modelImage.title, target: appLang,
               ))
               try await anotherAction(.internal(.translationComplete(
                 ImageDetailsState.Translation(
                   title: translatedTitle.makeAttrString(),
-                  description: translatedDesc.makeAttrString()
-                )
+                  description: translatedDesc.makeAttrString(),
+                ),
               )))
             } catch {
               await anotherAction(.internal(.translationFailed(error)))
@@ -325,7 +325,7 @@ func makeImageDetailsModel(
       case let .mapAppSelected(app):
         if let link = app.coordinateLink(
           latitude: modelImage.coordinate.latitude,
-          longitude: modelImage.coordinate.longitude
+          longitude: modelImage.coordinate.longitude,
         ),
           canOpenURL(link) {
           urlOpener(link)
@@ -345,7 +345,8 @@ func makeImageDetailsModel(
         case let .present(details, source):
           state.loadingAnotherImage = false
           let anotherModelImage = extractModelImage(details)
-          state.anotherImageModel = Identified(value:
+          state.anotherImageModel = Identified(
+            value:
             makeImageDetailsModel(
               modelImage: anotherModelImage,
               remote: Remote { cid in
@@ -360,8 +361,8 @@ func makeImageDetailsModel(
               setOrientationLock: setOrientationLock,
               streetViewAvailability: streetViewAvailability,
               translate: translate,
-              extractModelImage: extractModelImage
-            ).viewStore
+              extractModelImage: extractModelImage,
+            ).viewStore,
           )
         case .dismiss:
           state.anotherImageModel = nil
@@ -377,7 +378,7 @@ func makeImageDetailsModel(
             } catch {
               await anotherAction(.alert(.present(.error(
                 title: "Unable to save image",
-                error: error
+                error: error,
               ))))
             }
           })
@@ -391,7 +392,7 @@ func makeImageDetailsModel(
             description: details.description?.makeAttrString(),
             source: details.source?.makeAttrString(),
             address: details.address?.makeAttrString(),
-            author: details.author?.makeAttrString()
+            author: details.author?.makeAttrString(),
           )
           state.details = details
           if let description = details.description,
@@ -408,16 +409,16 @@ func makeImageDetailsModel(
         case let .translationFailed(error):
           state.translationState = .available
           enqueueEffect(.anotherAction(.alert(.present(.error(
-            title: "Unable to translate description", error: error
+            title: "Unable to translate description", error: error,
           )))))
         case let .anotherImageLoadFailed(error):
           state.loadingAnotherImage = false
           enqueueEffect(.anotherAction(.alert(.present(.error(
-            title: "Unable to load image data", error: error
+            title: "Unable to load image data", error: error,
           )))))
         }
       }
-    }
+    },
   )
 }
 

@@ -18,14 +18,14 @@ struct RewindAsyncImage<Content: View, Placeholder: View>: View {
     _ quality: ImageQuality,
     cachedOnly: Bool = false,
     @ViewBuilder content: @escaping (UIImage) -> Content,
-    @ViewBuilder placeholder: @escaping () -> Placeholder
+    @ViewBuilder placeholder: @escaping () -> Placeholder,
   ) {
     getter = {
       try await image.load(
         ImageLoadingParams(
           quality: quality,
-          cachedOnly: cachedOnly
-        )
+          cachedOnly: cachedOnly,
+        ),
       )
     }
     self.content = content

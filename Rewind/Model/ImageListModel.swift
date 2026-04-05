@@ -32,7 +32,7 @@ func makeImageListModel(
   images: [Model.Image],
   listUpdates: Signal<[Model.Image]>,
   imageDetailsFactory: @escaping ImageDetailsFactory,
-  sorting: Property<ImageSorting>?
+  sorting: Property<ImageSorting>?,
 ) -> ImageListModel {
   ImageListModel(
     initial: ImageListState(
@@ -40,13 +40,13 @@ func makeImageListModel(
       matchedTransitionSourceName: matchedTransitionSourceName,
       images: images,
       imageDetails: nil,
-      sorting: sorting?.value
+      sorting: sorting?.value,
     ),
     reduce: { state, action, _ in
       switch action {
       case let .presentImage(image):
         state.imageDetails = Identified(
-          value: imageDetailsFactory(image, "image_list").viewStore
+          value: imageDetailsFactory(image, "image_list").viewStore,
         )
       case .dismissImage:
         state.imageDetails = nil
@@ -58,9 +58,9 @@ func makeImageListModel(
         sorting?.value = newSorting
         state.images = state.images.sorted(by: newSorting)
       }
-    }
+    },
   ).adding(
     signal: listUpdates,
-    makeAction: { .updateImages($0) }
+    makeAction: { .updateImages($0) },
   )
 }

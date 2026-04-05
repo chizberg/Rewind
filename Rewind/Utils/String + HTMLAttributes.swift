@@ -24,21 +24,21 @@ extension NSAttributedString {
         .documentType: NSAttributedString.DocumentType.html,
         .characterEncoding: String.Encoding.utf8.rawValue,
       ],
-      documentAttributes: nil
+      documentAttributes: nil,
     ) else { return nil }
 
     let fullRange = NSRange(
       location: 0,
-      length: mutableAttrStr.length
+      length: mutableAttrStr.length,
     )
 
     mutableAttrStr.removeAttribute(
       .font,
-      range: fullRange
+      range: fullRange,
     )
     mutableAttrStr.removeAttribute(
       .foregroundColor,
-      range: fullRange
+      range: fullRange,
     )
 
     // 🩼 NSAttributedString.DocumentReadingOptionKey.baseURL is unavailable on iOS

@@ -49,7 +49,7 @@ private struct ColoredContainer<Content: View>: View {
 
   var body: some View {
     let yearColor = gradient.color(
-      at: date.year
+      at: date.year,
     )
     let fgColor: UIColor = if yearColor.isDark {
       .white

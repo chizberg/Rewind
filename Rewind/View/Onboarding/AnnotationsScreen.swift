@@ -34,30 +34,30 @@ struct AnnotationsScreen: View {
             makeAnnotationDescription(
               annotation: ImageAnnotationView(
                 annotation: Annotation.withoutStore(value: Model.Image.demo),
-                reuseIdentifier: nil
+                reuseIdentifier: nil,
               ),
               title: "single_image_title",
-              description: "single_image_description"
+              description: "single_image_description",
             )
             makeAnnotationDescription(
               annotation: MergedAnnotationView(
                 annotation: Annotation.withoutStore(
-                  value: Model.LocalCluster.demo
+                  value: Model.LocalCluster.demo,
                 ),
-                reuseIdentifier: nil
+                reuseIdentifier: nil,
               ),
               title: "group_of_images_title",
-              description: "group_of_images_description"
+              description: "group_of_images_description",
             )
             makeAnnotationDescription(
               annotation: ClusterAnnotationView(
                 annotation: Annotation.withoutStore(
-                  value: Model.Cluster.demo
+                  value: Model.Cluster.demo,
                 ),
-                reuseIdentifier: nil
+                reuseIdentifier: nil,
               ),
               title: "cluster_of_images_title",
-              description: "cluster_of_images_description"
+              description: "cluster_of_images_description",
             )
           }
 
@@ -100,7 +100,7 @@ struct AnnotationsScreen: View {
               .init(color: .systemBackground, location: 1),
             ],
             startPoint: .top,
-            endPoint: .bottom
+            endPoint: .bottom,
           )
           .ignoresSafeArea()
         }
@@ -112,12 +112,12 @@ struct AnnotationsScreen: View {
   func makeAnnotationDescription(
     annotation: MKAnnotationView,
     title: LocalizedStringKey,
-    description: LocalizedStringKey
+    description: LocalizedStringKey,
   ) -> some View {
     HStack {
       ViewRepresentable {
         AnnotationViewContainer(
-          annotationView: annotation
+          annotationView: annotation,
         )
       }
       .frame(squareSize: 60)
@@ -163,16 +163,16 @@ extension Model.Image {
       dir: "n",
       geo: [0, 0],
       year: 1861,
-      year2: 1861
+      year2: 1861,
     ),
-    image: .demo
+    image: .demo,
   )
 }
 
 extension Model.LocalCluster {
   fileprivate static let demo = Model.LocalCluster(
     images: [.demo, .demo, .demo],
-    coordinate: Model.Image.demo.coordinate
+    coordinate: Model.Image.demo.coordinate,
   )
 }
 
@@ -180,7 +180,7 @@ extension Model.Cluster {
   fileprivate static let demo = Model.Cluster(
     preview: .demo,
     coordinate: Model.Image.demo.coordinate,
-    count: 150
+    count: 150,
   )
 }
 

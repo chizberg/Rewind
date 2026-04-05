@@ -25,7 +25,7 @@ final class AppGraph {
 
   init() {
     let requestPerformer = RequestPerformer(
-      urlRequestPerformer: URLSession.shared.data
+      urlRequestPerformer: URLSession.shared.data,
     )
     let imageLoader = ImageLoader(requestPerformer: requestPerformer)
     self.imageLoader = imageLoader
@@ -33,19 +33,19 @@ final class AppGraph {
     let storage: KeyValueStorage = UserDefaults.standard
     let favoritesStorage = FavoritesStorage(
       storage: storage,
-      makeLoadableImage: imageLoader.makeImage
+      makeLoadableImage: imageLoader.makeImage,
     )
     let favoritesModel = makeFavoritesModel(
-      storage: favoritesStorage.property
+      storage: favoritesStorage.property,
     )
     let locationModel = makeLocationModel()
     let remotes = RewindRemotes(
       requestPerformer: requestPerformer,
-      imageLoader: imageLoader
+      imageLoader: imageLoader,
     )
     let settings = makeSettings(storage: storage)
     let mapAdapter = MapAdapter(
-      settings: settings.asObservableVariable()
+      settings: settings.asObservableVariable(),
     )
     weak var mapModelRef: MapModel?
     weak var appModelRef: AppModel?
@@ -62,12 +62,12 @@ final class AppGraph {
       settings: settings.asVariable(),
       appState: Variable { appModelRef?.state },
       annotationStore: annotationStore,
-      sorting: settings.asVariable().map(\.sorting)
+      sorting: settings.asVariable().map(\.sorting),
     )
     mapModelRef = mapModel
     mapStore = mapModel.viewStore.bimap(
       state: { $0 },
-      action: { .external(.ui($0)) }
+      action: { .external(.ui($0)) },
     )
     let imageDetailsFactory = { image, source in
       makeImageDetailsModel(
@@ -87,7 +87,7 @@ final class AppGraph {
         translate: remotes.translate,
         extractModelImage: { [imageLoader] details in
           Model.Image(details, image: imageLoader.makeImage(path: details.file))
-        }
+        },
       )
     }
     let searchModelFactory = {
@@ -101,7 +101,7 @@ final class AppGraph {
       onFinish: {
         mapModelRef?(.external(.ui(.mapViewLoaded))) // 🩼
         appModelRef?(.onboarding(.dismiss))
-      }
+      },
     )
     let storeReview = AppStoreReview(storage: storage)
     let appModel = makeAppModel(
@@ -110,7 +110,7 @@ final class AppGraph {
       settingsViewModelFactory: {
         makeSettingsViewModel(
           settings: settings,
-          urlOpener: urlOpener
+          urlOpener: urlOpener,
         )
       },
       performMapAction: { mapModelRef?(.external($0)) },
@@ -143,7 +143,7 @@ final class AppGraph {
     memoryWarningObserver = NotificationCenter.default.addObserver(
       forName: UIApplication.didReceiveMemoryWarningNotification,
       object: nil,
-      queue: .main
+      queue: .main,
     ) { [weak self] _ in
       MainActor.assumeIsolated {
         self?.imageLoader.clearCache()

@@ -39,7 +39,7 @@ func makeLocationModel() -> LocationModel {
   return Reducer(
     initial: LocationState(
       location: nil,
-      isAccessGranted: false
+      isAccessGranted: false,
     ),
     reduce: { state, action, enqueueEffect in
       switch action {
@@ -61,7 +61,7 @@ func makeLocationModel() -> LocationModel {
           }
         }
       }
-    }
+    },
   ).adding(signal: delegate.signal.retaining(object: delegate)) { .locationEvent($0) }
 }
 
