@@ -9,7 +9,7 @@ import Foundation
 
 func binSearch<T: Numeric & Comparable>(
   firstEqualOrGreaterThan goal: T,
-  in arr: [T]
+  in arr: [T],
 ) -> Int? {
   guard arr.count > 0 else { return nil }
   guard arr.count > 1 else { return arr[0] >= goal ? 0 : nil }
@@ -31,7 +31,7 @@ func binSearch<T: Numeric & Comparable>(
 func binSearch<T, U: Numeric & Comparable>(
   firstEqualOrGreaterThan goal: U,
   keyPath kp: KeyPath<T, U>,
-  in arr: [T]
+  in arr: [T],
 ) -> Int? {
   guard arr.count > 0 else { return nil }
   guard arr.count > 1 else { return arr[0][keyPath: kp] >= goal ? 0 : nil }

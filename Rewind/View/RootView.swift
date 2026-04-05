@@ -49,7 +49,7 @@ struct RootView: View {
             mapStore: mapStore,
             appStore: appStore,
             namespace: rootView,
-            hasBottomSafeAreaInset: geometry.safeAreaInsets.bottom > 0
+            hasBottomSafeAreaInset: geometry.safeAreaInsets.bottom > 0,
           )
         }.ignoresSafeArea(edges: .bottom)
       }
@@ -64,11 +64,11 @@ struct RootView: View {
     .alert(appStore.binding(\.alertModel, send: { _ in .alert(.dismiss) }))
     .delayedModifier(
       value: appStore.anyOverlayPresented,
-      delay: appStore.anyOverlayPresented ? 0 : 1
+      delay: appStore.anyOverlayPresented ? 0 : 1,
     ) { view, hasOverlays in
       view.mask(
         RoundedRectangle(cornerRadius: hasOverlays ? screenRadius : 0)
-          .ignoresSafeArea()
+          .ignoresSafeArea(),
       )
     }
     .fullScreenCover(
@@ -76,29 +76,29 @@ struct RootView: View {
       content: { identified in
         let viewStore = identified.value
         ImageDetailsView(
-          viewStore: viewStore
+          viewStore: viewStore,
         )
         .navigationTransition(
           .zoom(
-            sourceID: "\(viewStore.image.cid) \(viewStore.openSource)", in: rootView
-          )
+            sourceID: "\(viewStore.image.cid) \(viewStore.openSource)", in: rootView,
+          ),
         )
-      }
+      },
     )
     .fullScreenCover(
       item: appStore.binding(\.previewedList, send: { _ in .imageList(.dismiss) }),
       content: { identified in
         let viewStore = identified.value
         ImageList(
-          viewStore: viewStore
+          viewStore: viewStore,
         ).navigationTransition(.zoom(sourceID: viewStore.matchedTransitionSourceName, in: rootView))
-      }
+      },
     )
     .fullScreenCover(
       item: appStore.binding(\.onboardingStore, send: { _ in .onboarding(.dismiss) }),
       content: { identified in
         OnboardingView(store: identified.value)
-      }
+      },
     )
     .sheet(
       item: appStore.binding(\.searchStore, send: { _ in .search(.dismiss) }),
@@ -106,16 +106,16 @@ struct RootView: View {
         let viewStore = identified.value
         SearchView(store: viewStore)
           .navigationTransition(.zoom(sourceID: TransitionSource.search, in: rootView))
-      }
+      },
     )
     .sheet(
       item: appStore.binding(\.settingsStore, send: { _ in .settings(.dismiss) }),
       content: { identified in
         SettingsView(store: identified.value)
           .navigationTransition(
-            .zoom(sourceID: TransitionSource.settings, in: rootView)
+            .zoom(sourceID: TransitionSource.settings, in: rootView),
           )
-      }
+      },
     )
   }
 }
@@ -139,7 +139,7 @@ extension AppState {
   RootView(
     rawMap: graph.mapAdapter.view,
     mapStore: graph.mapStore,
-    appStore: graph.appStore
+    appStore: graph.appStore,
   )
 }
 #endif

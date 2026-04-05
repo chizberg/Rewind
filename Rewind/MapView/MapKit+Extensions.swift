@@ -76,8 +76,8 @@ extension Coordinate: @retroactive Codable {
     try container.encode(
       CoordinateCodableAdapter(
         latitude: latitude,
-        longitude: longitude
-      )
+        longitude: longitude,
+      ),
     )
   }
 
@@ -115,23 +115,23 @@ extension Region {
     return [
       Coordinate(
         latitude: center.latitude - halfLatitudeDelta,
-        longitude: center.longitude - halfLongitudeDelta
+        longitude: center.longitude - halfLongitudeDelta,
       ),
       Coordinate(
         latitude: center.latitude - halfLatitudeDelta,
-        longitude: center.longitude + halfLongitudeDelta
+        longitude: center.longitude + halfLongitudeDelta,
       ),
       Coordinate(
         latitude: center.latitude + halfLatitudeDelta,
-        longitude: center.longitude + halfLongitudeDelta
+        longitude: center.longitude + halfLongitudeDelta,
       ),
       Coordinate(
         latitude: center.latitude + halfLatitudeDelta,
-        longitude: center.longitude - halfLongitudeDelta
+        longitude: center.longitude - halfLongitudeDelta,
       ),
       Coordinate(
         latitude: center.latitude - halfLatitudeDelta,
-        longitude: center.longitude - halfLongitudeDelta
+        longitude: center.longitude - halfLongitudeDelta,
       ),
     ].map { $0.wrap() }
   }

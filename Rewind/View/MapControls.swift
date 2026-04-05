@@ -32,7 +32,7 @@ struct MapControls: View {
 
       MapControlsGlassContainer(
         hasBottomSafeAreaInset: hasBottomSafeAreaInset,
-        radius: glassCardRadius
+        radius: glassCardRadius,
       ) {
         content
       }
@@ -50,21 +50,21 @@ struct MapControls: View {
       .minimizable(
         contentHeight: glassCardHeight,
         state: appStore.binding(
-          \.mapControls.minimization, send: { .mapControls(.setMinimization($0)) }
+          \.mapControls.minimization, send: { .mapControls(.setMinimization($0)) },
         ),
         offset: $offset,
         glimpseHeight: 100,
         pullingProgress: $pullingProgress,
         minPullLength: 300,
         onPull: { appStore(.imageList(.presentCurrentRegionImages(
-          source: RootView.TransitionSource.pullUpCard
+          source: RootView.TransitionSource.pullUpCard,
         )))
-        }
+        },
       )
     }
     .animation(
       .interactiveSpring(duration: 0.3, extraBounce: 0.1, blendDuration: 1),
-      value: offset
+      value: offset,
     )
   }
 
@@ -76,18 +76,18 @@ struct MapControls: View {
         ExpandableControls.StaticItem(
           id: "search",
           iconName: "magnifyingglass",
-          transitionSource: (id: RootView.TransitionSource.search, namespace: namespace)
+          transitionSource: (id: RootView.TransitionSource.search, namespace: namespace),
         ) {
           appStore(.search(.present))
         },
         ExpandableControls.StaticItem(
           id: "location",
           iconName: mapStore.locationState.isAccessGranted
-            ? "location" : "location.slash"
+            ? "location" : "location.slash",
         ) {
           mapStore(.locationButtonTapped)
         },
-      ]
+      ],
     )
   }
 
@@ -95,8 +95,8 @@ struct MapControls: View {
     VStack {
       Spacer().frame(
         height: glassCardHeight + makeBottomPadding(
-          hasBottomSafeAreaInset: hasBottomSafeAreaInset
-        )
+          hasBottomSafeAreaInset: hasBottomSafeAreaInset,
+        ),
       )
 
       ZStack(alignment: .top) {
@@ -114,7 +114,7 @@ struct MapControls: View {
       }
       .matchedTransitionSource(
         id: RootView.TransitionSource.pullUpCard,
-        in: namespace
+        in: namespace,
       )
       .padding(.horizontal, containerPadding)
       .frame(height: 700)
@@ -144,10 +144,10 @@ struct MapControls: View {
       VStack {
         makeBottomScrollButton(
           iconName: "star",
-          sourceID: RootView.TransitionSource.favoritesButton
+          sourceID: RootView.TransitionSource.favoritesButton,
         ) {
           appStore(.imageList(.presentFavorites(
-            source: RootView.TransitionSource.favoritesButton
+            source: RootView.TransitionSource.favoritesButton,
           )))
         }
 
@@ -156,14 +156,14 @@ struct MapControls: View {
           sourceID: RootView.TransitionSource.viewAsListButton,
           action: {
             appStore(.imageList(.presentCurrentRegionImages(
-              source: RootView.TransitionSource.viewAsListButton
+              source: RootView.TransitionSource.viewAsListButton,
             )))
-          }
+          },
         )
 
         makeBottomScrollButton(
           iconName: "gearshape",
-          sourceID: RootView.TransitionSource.settings
+          sourceID: RootView.TransitionSource.settings,
         ) {
           appStore(.settings(.present))
         }
@@ -174,11 +174,11 @@ struct MapControls: View {
         ThumbnailCardView(
           card: card,
           size: thumbnailSize,
-          radius: mapControlRadius
+          radius: mapControlRadius,
         )
         .matchedTransitionSource(
           id: transitionID,
-          in: namespace
+          in: namespace,
         )
         .cornerRadius(mapControlRadius) // for transitions
         .onTapGesture {
@@ -186,11 +186,11 @@ struct MapControls: View {
           case let .image(image):
             appStore(.imageDetails(.present(
               image,
-              source: RootView.TransitionSource.thumbnail
+              source: RootView.TransitionSource.thumbnail,
             )))
           case .viewAsList:
             appStore(.imageList(.presentCurrentRegionImages(
-              source: transitionID
+              source: transitionID,
             )))
           case .noImages: break
           }
@@ -203,7 +203,7 @@ struct MapControls: View {
   private func makeBottomScrollButton(
     iconName: String,
     sourceID: String,
-    action: @escaping () -> Void
+    action: @escaping () -> Void,
   ) -> some View {
     ZStack {
       MapControlBackground(radius: mapControlRadius)
@@ -229,7 +229,7 @@ struct MapControlBackground: View {
 
   var body: some View {
     RoundedRectangle(
-      cornerRadius: radius
+      cornerRadius: radius,
     ).fill(Color(uiColor: .mapControlBackground))
   }
 }
@@ -253,7 +253,7 @@ private struct MapControlsGlassContainer<Content: View>: View {
   init(
     hasBottomSafeAreaInset: Bool,
     radius: CGFloat,
-    @ViewBuilder content: @escaping () -> Content
+    @ViewBuilder content: @escaping () -> Content,
   ) {
     self.content = content
     self.radius = radius
@@ -262,7 +262,7 @@ private struct MapControlsGlassContainer<Content: View>: View {
       top: 0,
       leading: containerPadding,
       bottom: bottomPadding,
-      trailing: containerPadding
+      trailing: containerPadding,
     )
   }
 
@@ -295,7 +295,7 @@ private struct AutoscrollingScrollView<Value: Equatable, Content: View>: View {
 
   init(
     scrollOnChangeOf value: Value,
-    @ViewBuilder content: () -> Content
+    @ViewBuilder content: () -> Content,
   ) {
     self.value = value
     self.content = content()
@@ -344,7 +344,7 @@ private let glassCardPadding: CGFloat = 20
 private let glassCardHeight = thumbnailSize.height + glassCardPadding * 2
 private let glassCardRadius = max(
   DeviceModel.getCurrent().screenRadius() - containerPadding,
-  32
+  32,
 )
 
 #if DEBUG
@@ -358,7 +358,7 @@ private let glassCardRadius = max(
     ]
   }.viewStore.bimap(
     state: { $0 },
-    action: { .external(.ui($0)) }
+    action: { .external(.ui($0)) },
   )
   @Previewable @State
   var appStore = AppModel.mock.viewStore
@@ -372,7 +372,7 @@ private let glassCardRadius = max(
       mapStore: mapStore,
       appStore: appStore,
       namespace: namespace,
-      hasBottomSafeAreaInset: false
+      hasBottomSafeAreaInset: false,
     )
   }.ignoresSafeArea()
 }
@@ -383,7 +383,7 @@ private let glassCardRadius = max(
 
     MapControlsGlassContainer(
       hasBottomSafeAreaInset: true,
-      radius: 35
+      radius: 35,
     ) {
       Color.yellow
         .frame(height: 300)

@@ -18,13 +18,13 @@ struct ViewStore<State, Action> {
   init(reducer: Reducer<State, Action>) {
     self.init(
       state: reducer.$state.asObservedVariable(),
-      actionPerformer: reducer.callAsFunction(_:)
+      actionPerformer: reducer.callAsFunction(_:),
     )
   }
 
   init(
     state: ObservedVariable<State>,
-    actionPerformer: @escaping (Action) -> Void
+    actionPerformer: @escaping (Action) -> Void,
   ) {
     self.state = state
     self.actionPerformer = actionPerformer
@@ -40,11 +40,11 @@ struct ViewStore<State, Action> {
 
   func bimap<NewState, NewAction>(
     state makeNewState: @escaping (State) -> NewState,
-    action makeOldAction: @escaping (NewAction) -> Action
+    action makeOldAction: @escaping (NewAction) -> Action,
   ) -> ViewStore<NewState, NewAction> {
     ViewStore<NewState, NewAction>(
       state: state.map(makeNewState),
-      actionPerformer: { self(makeOldAction($0)) }
+      actionPerformer: { self(makeOldAction($0)) },
     )
   }
 }
@@ -52,13 +52,13 @@ struct ViewStore<State, Action> {
 extension ViewStore {
   func binding<T>(
     _ kp: KeyPath<State, T>,
-    send: @escaping (T) -> Action
+    send: @escaping (T) -> Action,
   ) -> Binding<T> {
     Binding(
       get: { state.wrappedValue[keyPath: kp] },
       set: { newValue in
         self(send(newValue))
-      }
+      },
     )
   }
 }

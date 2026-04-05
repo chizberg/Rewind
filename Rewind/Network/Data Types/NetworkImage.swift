@@ -28,7 +28,7 @@ extension Network.Image {
     dir: "nw",
     geo: [56.040054, 45.044866],
     year: 1894,
-    year2: 1895
+    year2: 1895,
   )
 }
 #endif

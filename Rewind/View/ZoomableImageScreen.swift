@@ -27,7 +27,7 @@ struct ZoomableImageScreen: View {
       ZoomableImageView(
         image: image,
         zoomValue: $zoomValue,
-        onTap: { controlsHidden.toggle() }
+        onTap: { controlsHidden.toggle() },
       )
       .ignoresSafeArea()
       .onChange(of: zoomValue) { old, new in
@@ -43,7 +43,7 @@ struct ZoomableImageScreen: View {
         Spacer()
         OverlayButton(
           iconName: "square.and.arrow.down",
-          action: saveImage
+          action: saveImage,
         )
       }
       .padding()
@@ -64,7 +64,7 @@ struct ZoomableImageView: View {
     ViewRepresentable {
       let view = ZoomableImageViewImpl(
         zoomValue: $zoomValue,
-        onTap: onTap
+        onTap: onTap,
       )
       view.set(image: image)
       return view
@@ -75,7 +75,7 @@ struct ZoomableImageView: View {
 #Preview {
   ZoomableImageScreen(
     image: UIImage(named: "cat")!,
-    saveImage: {}
+    saveImage: {},
   )
 }
 
@@ -87,7 +87,7 @@ private final class ZoomableImageViewImpl: UIScrollView, UIScrollViewDelegate {
 
   init(
     zoomValue: Binding<CGFloat> = .constant(1),
-    onTap: @escaping () -> Void
+    onTap: @escaping () -> Void,
   ) {
     imageView = UIImageView()
     self.zoomValue = zoomValue

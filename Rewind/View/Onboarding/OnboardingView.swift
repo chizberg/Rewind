@@ -20,7 +20,7 @@ struct OnboardingView: View {
   var body: some View {
     NavigationStack(path: $path) {
       WelcomeScreen(
-        goNext: { path.append(.annotations) }
+        goNext: { path.append(.annotations) },
       ).navigationDestination(for: Screen.self) { screen in
         switch screen {
         case .annotations:

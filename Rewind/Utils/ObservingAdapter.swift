@@ -19,7 +19,7 @@ struct ObservingAdapter<Value: Observable, Content: View>: View {
 
 extension Observable {
   func observe(
-    @ViewBuilder content: @escaping (Self) -> some View
+    @ViewBuilder content: @escaping (Self) -> some View,
   ) -> some View {
     ObservingAdapter(value: self, content: content)
   }

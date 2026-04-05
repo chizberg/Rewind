@@ -37,7 +37,7 @@ final class ThumbView: UIView {
   init(
     value: CGFloat,
     valueSide type: ValueSide,
-    gradient: GradientScheme
+    gradient: GradientScheme,
   ) {
     self.valueSide = type
     self.value = value
@@ -62,11 +62,11 @@ final class ThumbView: UIView {
     frame.size = Style.thumbSize
     let labelSize = CGSize(
       width: Style.thumbSize.width - Style.horizontalInset * 2,
-      height: Style.thumbSize.height - Style.verticalInset * 2
+      height: Style.thumbSize.height - Style.verticalInset * 2,
     )
     yearLabel.frame = CGRect(
       origin: CGPoint(x: Style.horizontalInset, y: Style.verticalInset),
-      size: labelSize
+      size: labelSize,
     )
   }
 

@@ -20,20 +20,20 @@ final class ImageShareItem: NSObject, UIActivityItemSource {
   }
 
   func activityViewControllerPlaceholderItem(
-    _: UIActivityViewController
+    _: UIActivityViewController,
   ) -> Any {
     image
   }
 
   func activityViewController(
     _: UIActivityViewController,
-    itemForActivityType _: UIActivity.ActivityType?
+    itemForActivityType _: UIActivity.ActivityType?,
   ) -> Any? {
     image
   }
 
   func activityViewControllerLinkMetadata(
-    _: UIActivityViewController
+    _: UIActivityViewController,
   ) -> LPLinkMetadata? {
     let metadata = LPLinkMetadata()
     metadata.title = text
@@ -48,7 +48,7 @@ func makeShareVC(
   image: UIImage,
   title: String,
   description: String?,
-  url: URL?
+  url: URL?,
 ) -> UIActivityViewController {
   let item = ImageShareItem(image: image, text: title, url: url)
   let text = Array.build {
@@ -58,6 +58,6 @@ func makeShareVC(
   }.joined(separator: "\n")
   return UIActivityViewController(
     activityItems: [item, text],
-    applicationActivities: nil
+    applicationActivities: nil,
   )
 }

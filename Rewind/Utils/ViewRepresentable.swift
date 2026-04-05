@@ -13,7 +13,7 @@ struct ViewRepresentable<V: UIView>: UIViewRepresentable {
 
   init(
     factory: @escaping () -> V,
-    updater: @escaping (V) -> Void = { _ in }
+    updater: @escaping (V) -> Void = { _ in },
   ) {
     self.factory = factory
     self.updater = updater
@@ -34,7 +34,7 @@ struct ViewControllerRepresentable<V: UIViewController>: UIViewControllerReprese
 
   init(
     factory: @escaping () -> V,
-    updater: @escaping (V) -> Void = { _ in }
+    updater: @escaping (V) -> Void = { _ in },
   ) {
     self.factory = factory
     self.updater = updater

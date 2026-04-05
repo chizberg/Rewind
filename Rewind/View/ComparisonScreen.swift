@@ -63,10 +63,10 @@ struct ComparisonScreen: View {
           Image(systemName: style.iconName)
             .padding(10)
             .foregroundStyle(
-              isSelected ? .yellow : .primary.opacity(0.7)
+              isSelected ? .yellow : .primary.opacity(0.7),
             )
             .rotating(on: .phone, with: store.orientation)
-        }
+        },
       )
 
       if let currentLens = store.currentLens,
@@ -81,10 +81,10 @@ struct ComparisonScreen: View {
               .monospaced()
               .padding(10)
               .foregroundStyle(
-                isSelected ? .yellow : .primary.opacity(0.7)
+                isSelected ? .yellow : .primary.opacity(0.7),
               )
               .rotating(on: .phone, with: store.orientation)
-          }
+          },
         )
       }
     }
@@ -149,11 +149,11 @@ private struct ComparisonViewRepresentable: UIViewControllerRepresentable {
   func sizeThatFits(
     _ proposal: ProposedViewSize,
     uiViewController: UIViewController,
-    context _: Context
+    context _: Context,
   ) -> CGSize? {
     uiViewController.view.sizeThatFits(CGSize(
       width: proposal.width ?? .infinity,
-      height: proposal.height ?? .infinity
+      height: proposal.height ?? .infinity,
     ))
   }
 }
@@ -215,7 +215,7 @@ private struct AnimatedTopBanner<T: Equatable>: ViewModifier {
           case .pause: .smooth(duration: 2)
           case .hidden: .smooth
           }
-        }
+        },
       )
   }
 }
@@ -245,13 +245,13 @@ extension View {
   // phone and pad have different orientation lock logic
   fileprivate func rotating(
     on idiom: UIUserInterfaceIdiom,
-    with orientation: Orientation
+    with orientation: Orientation,
   ) -> some View {
     modifyWithUIIdiom(idiom, transform: { $0.rotating(with: orientation) })
   }
 
   fileprivate func rotating(
-    with orientation: Orientation
+    with orientation: Orientation,
   ) -> some View {
     rotationEffect(.degrees(orientation.rotationAngle))
       .animation(.default, value: orientation)
@@ -278,7 +278,7 @@ private let shutterButtonSize: CGFloat = 80
     captureMode: .camera,
     oldUIImage: .panorama,
     oldImageData: .mock,
-    streetViewAvailability: .mock(.unavailable)
+    streetViewAvailability: .mock(.unavailable),
   )
 
   ComparisonScreen(deps: deps)
@@ -290,7 +290,7 @@ private let shutterButtonSize: CGFloat = 80
     captureMode: .streetView,
     oldUIImage: .panorama,
     oldImageData: .mock,
-    streetViewAvailability: .mock(.available(year: 1826))
+    streetViewAvailability: .mock(.available(year: 1826)),
   )
 
   ComparisonScreen(deps: deps)

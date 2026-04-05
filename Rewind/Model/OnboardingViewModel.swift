@@ -22,11 +22,11 @@ struct OnboardingStorage: Codable {
 
 func makeOnboardingViewModel(
   keyValueStorage: KeyValueStorage,
-  onFinish: @escaping Action
+  onFinish: @escaping Action,
 ) -> OnboardingViewModel? {
   let storage = keyValueStorage.makeCodableField(
     key: "onboarding",
-    default: OnboardingStorage(wasShown: false)
+    default: OnboardingStorage(wasShown: false),
   )
   guard !storage.value.wasShown else {
     return nil
@@ -39,7 +39,7 @@ func makeOnboardingViewModel(
 
 extension OnboardingViewModel {
   convenience init(
-    onFinish: @escaping () -> Void
+    onFinish: @escaping () -> Void,
   ) {
     self.init(
       initial: OnboardingViewState(),
@@ -48,7 +48,7 @@ extension OnboardingViewModel {
         case .onboardingFinished:
           onFinish()
         }
-      }
+      },
     )
   }
 }

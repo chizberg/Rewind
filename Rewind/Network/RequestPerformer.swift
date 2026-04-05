@@ -17,7 +17,7 @@ final class RequestPerformer {
   }
 
   func perform<Response>(
-    request: Network.Request<Response>
+    request: Network.Request<Response>,
   ) async throws -> Response {
     let urlRequest = try request.makeURLRequest()
     let data = try await data(for: urlRequest)

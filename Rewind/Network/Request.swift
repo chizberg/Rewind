@@ -22,7 +22,7 @@ extension Network.Request {
     zoom: Int,
     coordinates: [[Double]],
     startAt: TimeInterval,
-    yearRange: ClosedRange<Int>
+    yearRange: ClosedRange<Int>,
   ) -> Network.Request<([Network.Image], [Network.Cluster])> {
     Network.byBounds(zoom: zoom, coordinates: coordinates, startAt: startAt, yearRange: yearRange)
   }
@@ -62,7 +62,7 @@ extension Network {
     zoom: Int,
     coordinates: [[Double]],
     startAt: TimeInterval,
-    yearRange: ClosedRange<Int>
+    yearRange: ClosedRange<Int>,
   ) -> Request<([Image], [Cluster])> {
     struct RawParams: Encodable {
       struct Geometry: Encodable {
@@ -99,9 +99,9 @@ extension Network {
           isPainting: false, // TODO: support for paintings
           localWork: isLocalWork(zoom: zoom),
           geometry: .init(
-            coordinates: [coordinates]
+            coordinates: [coordinates],
           ),
-          startAt: startAt
+          startAt: startAt,
         )
         let paramsString = try String(data: JSONEncoder().encode(rawParams), encoding: .utf8)
         components.queryItems = [
@@ -113,7 +113,7 @@ extension Network {
       parseResult: { data in
         let raw = try JSONDecoder().decode(RawResponse.self, from: data)
         return (raw.result.photos ?? [], raw.result.clusters ?? [])
-      }
+      },
     )
   }
 
@@ -145,7 +145,7 @@ extension Network {
       parseResult: { data in
         let raw = try JSONDecoder().decode(RawResponse.self, from: data)
         return raw.result.photo
-      }
+      },
     )
   }
 
@@ -173,7 +173,7 @@ extension Network {
         } else {
           throw NetworkError.parsingFailure(desc: "Image decoding error")
         }
-      }
+      },
     )
   }
 
@@ -202,7 +202,7 @@ extension Network {
         let yearStr = s.split(
           separator: "-",
           maxSplits: 1,
-          omittingEmptySubsequences: true
+          omittingEmptySubsequences: true,
         ).first,
         yearStr.allSatisfy(\.isNumber),
         let year = Int(yearStr)
@@ -221,11 +221,11 @@ extension Network {
         components.queryItems = [
           URLQueryItem(
             name: "location",
-            value: "\(coordinate.latitude),\(coordinate.longitude)"
+            value: "\(coordinate.latitude),\(coordinate.longitude)",
           ),
           URLQueryItem(
             name: "key",
-            value: Secrets.googleApiKey
+            value: Secrets.googleApiKey,
           ),
         ]
         return URLRequest(url: components.url!)
@@ -238,7 +238,7 @@ extension Network {
         } else {
           return .unavailable
         }
-      }
+      },
     )
   }
 
@@ -285,7 +285,7 @@ extension Network {
           throw HandlingError("No translations found")
         }
         return translation.translatedText
-      }
+      },
     )
   }
 }

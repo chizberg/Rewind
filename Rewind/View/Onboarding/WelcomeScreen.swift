@@ -37,18 +37,18 @@ struct WelcomeScreen: View {
           makeFeatureDescription(
             iconName: "mappin.and.ellipse",
             title: "history_near_you_title",
-            description: "history_near_you_description"
+            description: "history_near_you_description",
           )
           makeFeatureDescription(
             iconName: "star",
             title: "images_saving_title",
-            description: "images_saving_description"
+            description: "images_saving_description",
           )
           if UIDevice.current.userInterfaceIdiom == .phone {
             makeFeatureDescription(
               iconName: "camera.viewfinder",
               title: "comparison_title",
-              description: "comparison_description"
+              description: "comparison_description",
             )
           }
         }
@@ -75,7 +75,7 @@ struct WelcomeScreen: View {
   func makeFeatureDescription(
     iconName: String,
     title: LocalizedStringKey,
-    description: LocalizedStringKey
+    description: LocalizedStringKey,
   ) -> some View {
     HStack {
       Image(systemName: iconName)
@@ -107,7 +107,7 @@ private struct RewindCapsule: View {
 
   @ViewBuilder
   func capsuleContainer(
-    content: () -> some View
+    content: () -> some View,
   ) -> some View {
     if #available(iOS 26, *) {
       content().glassEffect(.regular.tint(rewindRed), in: Capsule())

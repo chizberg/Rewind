@@ -73,7 +73,7 @@ func makeMapModel(
   settings: Variable<SettingsState>,
   appState: Variable<AppState?>,
   annotationStore: AnnotationStore,
-  sorting: Variable<ImageSorting>
+  sorting: Variable<ImageSorting>,
 ) -> MapModel {
   MapModel(
     initial: .makeInitial(locationState: locationModel.state),
@@ -86,7 +86,7 @@ func makeMapModel(
           case let .regionChanged(region):
             enqueueEffect(.debounced(
               id: .regionChanged,
-              anotherAction: .internal(.regionChanged(region))
+              anotherAction: .internal(.regionChanged(region)),
             ))
           case let .annotationSelected(mkAnn):
             var listToPresent: [Model.Image] = []
@@ -103,9 +103,9 @@ func makeMapModel(
                   region: Region(
                     center: cluster.coordinate,
                     zoom: currentZoom + 1,
-                    mapSize: mapSize
+                    mapSize: mapSize,
                   ),
-                  animated: true
+                  animated: true,
                 )
               }
             } else if let localClusterAnn = mkAnn as? Annotation<Model.LocalCluster> {
@@ -121,8 +121,8 @@ func makeMapModel(
             if !listToPresent.isEmpty {
               performAppAction(
                 .imageList(
-                  .present(listToPresent, source: "local cluster", title: "Cluster")
-                )
+                  .present(listToPresent, source: "local cluster", title: "Cluster"),
+                ),
               )
             }
           case .annotationDeselected:
@@ -137,7 +137,7 @@ func makeMapModel(
               performAppAction(.mapControls(.setMinimization(.minimized(byUser: false))))
               enqueueEffect(.debounced(
                 id: .unfoldControlsBack,
-                anotherAction: .internal(.unfoldMapControlsBack)
+                anotherAction: .internal(.unfoldMapControlsBack),
               ))
             }
           }
@@ -167,11 +167,11 @@ func makeMapModel(
                   if zoom(region: state.region, mapSize: mapSize) < locationZoom {
                     let delta = delta(zoom: locationZoom, mapSize: mapSize)
                     $0.span = MKCoordinateSpan(
-                      latitudeDelta: delta, longitudeDelta: delta
+                      latitudeDelta: delta, longitudeDelta: delta,
                     )
                   }
                 },
-                animated: true
+                animated: true,
               )
             } else if state.locationState.isAccessGranted == false {
               performAppAction(.alert(.present(.locationAccessDenied {
@@ -188,13 +188,13 @@ func makeMapModel(
         case let .focusOn(coordinate, zoom):
           mapAdapter.set(
             region: Region(center: coordinate, zoom: zoom, mapSize: mapAdapter.size),
-            animated: true
+            animated: true,
           )
         case let .newLocationState(locationState):
           if let location = locationState.location, state.locationState.location == nil {
             mapAdapter.set(
               region: Region(center: location.coordinate, zoom: 15, mapSize: mapAdapter.size),
-              animated: false
+              animated: false,
             )
           }
           state.locationState = modified(locationState) {
@@ -208,14 +208,14 @@ func makeMapModel(
           enqueueEffect(.anotherAction(.internal(.loadAnnotations)))
           enqueueEffect(.debounced(
             id: .updatePreviews,
-            anotherAction: .internal(.updatePreviews)
+            anotherAction: .internal(.updatePreviews),
           ))
         case .loadAnnotations:
           state.isLoading = true
           let params = AnnotationLoadingParams(
             region: state.region,
             yearRange: state.yearRange,
-            mapSize: mapAdapter.size
+            mapSize: mapAdapter.size,
           )
           enqueueEffect(.perform(id: EffectID.loadAnnotations) { anotherAction in
             do {
@@ -229,7 +229,7 @@ func makeMapModel(
           state.isLoading = false
           performAppAction(.alert(.present(.nonCancelledError(
             title: "Unable to load map annotations",
-            error: error
+            error: error,
           ))))
         case let .loaded(params, images, clusters):
           let (toAdd, toRemove) = makeDiffAfterReceived(
@@ -237,7 +237,7 @@ func makeMapModel(
             clusters: clusters,
             params: params,
             mapSize: mapAdapter.size,
-            state: &state
+            state: &state,
           )
           state.isLoading = false
           state.lastLoadedParams = params
@@ -295,13 +295,13 @@ func makeMapModel(
           })
         }
       }
-    }
+    },
   )
 }
 
 private func makePreviews(
   images: [Model.Image],
-  limit: Int
+  limit: Int,
 ) -> [ThumbnailCard] {
   if images.isEmpty {
     [.noImages]
@@ -314,7 +314,7 @@ private func makePreviews(
 
 extension MapState {
   fileprivate static func makeInitial(
-    locationState: LocationState
+    locationState: LocationState,
   ) -> MapState {
     MapState(
       mapType: .standard,
@@ -326,7 +326,7 @@ extension MapState {
       isLoading: false,
       lastLoadedParams: nil,
       clusters: [],
-      clusteredImages: [:]
+      clusteredImages: [:],
     )
   }
 }
@@ -337,7 +337,7 @@ private enum EffectID {
 
 extension AlertParams {
   fileprivate static func locationAccessDenied(
-    openSettings: @escaping Action
+    openSettings: @escaping Action,
   ) -> AlertParams {
     AlertParams(
       title: "The app has no access to your location",
@@ -345,7 +345,7 @@ extension AlertParams {
       actions: [
         .init(title: "Go to Settings", handler: openSettings),
         .init(title: "OK"),
-      ]
+      ],
     )
   }
 
@@ -355,7 +355,7 @@ extension AlertParams {
       message: "Please try again later",
       actions: [
         .init(title: "OK"),
-      ]
+      ],
     )
   }
 }
@@ -363,16 +363,16 @@ extension AlertParams {
 #if DEBUG
 extension MapModel {
   static func makeMock(
-    stateTransform: (inout MapState) -> Void = { _ in }
+    stateTransform: (inout MapState) -> Void = { _ in },
   ) -> MapModel {
     let initialState = MapState.makeInitial(
       locationState: LocationState(
-        isAccessGranted: false
-      )
+        isAccessGranted: false,
+      ),
     )
     return MapModel(
       initial: modified(initialState, stateTransform),
-      reduce: { _, _, _ in }
+      reduce: { _, _, _ in },
     )
   }
 }

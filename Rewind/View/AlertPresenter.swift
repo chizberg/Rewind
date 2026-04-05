@@ -34,7 +34,7 @@ private struct AlertPresenter: View {
         let alertVC = TrackableAlertController(
           title: alert.title.map { String(localized: $0) },
           message: alert.message.map { String(localized: $0) },
-          preferredStyle: alert.preferredStyle
+          preferredStyle: alert.preferredStyle,
         )
         alertVC.onDismiss = {
           model = nil
@@ -82,7 +82,7 @@ private final class TrackableAlertController: UIAlertController {
 
 extension View {
   func alert(
-    _ alertModel: Binding<Identified<AlertParams>?>
+    _ alertModel: Binding<Identified<AlertParams>?>,
   ) -> some View {
     background {
       AlertPresenter(model: alertModel)
@@ -95,7 +95,7 @@ extension AlertParams.AlertAction {
     UIAlertAction(
       title: String(localized: title),
       style: style,
-      handler: { _ in handler?() }
+      handler: { _ in handler?() },
     )
   }
 }
@@ -119,13 +119,13 @@ extension AlertParams {
           style: .default,
           handler: {
             print("Alert action tapped")
-          }
+          },
         ),
         AlertAction(
           title: "Dismiss",
-          style: .cancel
+          style: .cancel,
         ),
-      ]
+      ],
     )
   }
 }

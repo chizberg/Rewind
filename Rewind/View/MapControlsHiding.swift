@@ -56,7 +56,7 @@ private struct MinimizableContainer: ViewModifier {
     glimpseHeight: CGFloat,
     pullingProgress: Binding<CGFloat>,
     minPullLength: CGFloat,
-    onPull: @escaping Action
+    onPull: @escaping Action,
   ) {
     _state = state
     _offset = offset
@@ -124,7 +124,7 @@ private struct MinimizableContainer: ViewModifier {
   }
 
   private func updateOffset(
-    state: MinimizationState, translation: CGFloat
+    state: MinimizationState, translation: CGFloat,
   ) {
     offset = offset(for: state) + translation
   }
@@ -160,7 +160,7 @@ extension View {
     glimpseHeight: CGFloat,
     pullingProgress: Binding<CGFloat>,
     minPullLength: CGFloat,
-    onPull: @escaping Action
+    onPull: @escaping Action,
   ) -> some View {
     modifier(
       MinimizableContainer(
@@ -170,8 +170,8 @@ extension View {
         glimpseHeight: glimpseHeight,
         pullingProgress: pullingProgress,
         minPullLength: minPullLength,
-        onPull: onPull
-      )
+        onPull: onPull,
+      ),
     )
   }
 }
@@ -193,7 +193,7 @@ extension View {
     LinearGradient(
       colors: [.blue, .white],
       startPoint: .top,
-      endPoint: .bottom
+      endPoint: .bottom,
     )
     .frame(height: 325)
     .offset(y: offset)
@@ -204,7 +204,7 @@ extension View {
       glimpseHeight: 100,
       pullingProgress: $pullingProgress,
       minPullLength: 200,
-      onPull: { print("pulled") }
+      onPull: { print("pulled") },
     )
     .animation(.default, value: offset)
   }

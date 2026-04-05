@@ -29,7 +29,7 @@ enum Orientation {
 final class OrientationTracker {
   @ObservableProperty
   var orientation = Orientation(
-    systemValue: UIDevice.current.orientation
+    systemValue: UIDevice.current.orientation,
   ) ?? .portrait
 
   init() {
@@ -37,7 +37,7 @@ final class OrientationTracker {
       self,
       selector: #selector(orientationDidChange),
       name: UIDevice.orientationDidChangeNotification,
-      object: nil
+      object: nil,
     )
     UIDevice.current.beginGeneratingDeviceOrientationNotifications()
   }
@@ -45,7 +45,7 @@ final class OrientationTracker {
   @objc
   private func orientationDidChange() {
     orientation = Orientation(
-      systemValue: UIDevice.current.orientation
+      systemValue: UIDevice.current.orientation,
     ) ?? orientation
   }
 

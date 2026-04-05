@@ -122,7 +122,7 @@ extension Network.ImageDetails {
     vcount: 66,
     vwcount: 9,
     ucdate: "2025-05-10T16:26:35.322Z",
-    regions: []
+    regions: [],
   )
 }
 #endif

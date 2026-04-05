@@ -30,13 +30,13 @@ func lerpParameter<T: FloatingPoint>(of value: T, lowerBound: T, upperBound: T) 
 
 func lerp<T: Interpolatable>(
   at rawT: CGFloat,
-  in values: NonEmptyArray<InterpolationPoint<T>>
+  in values: NonEmptyArray<InterpolationPoint<T>>,
 ) -> T {
   let t = rawT.clamp(values.first.position...values.last.position)
   guard let index = binSearch(
     firstEqualOrGreaterThan: t,
     keyPath: \.position,
-    in: values.asArray()
+    in: values.asArray(),
   ) else {
     return values.last.value
   }
@@ -48,7 +48,7 @@ func lerp<T: Interpolatable>(
   let t1 = lerpParameter(
     of: t,
     lowerBound: lowerStop.position,
-    upperBound: upperStop.position
+    upperBound: upperStop.position,
   )
   return lowerStop.value.lerp(at: t1, between: lowerStop.value, upperStop.value)
 }

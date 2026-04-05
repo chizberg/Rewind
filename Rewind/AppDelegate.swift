@@ -15,7 +15,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
   override init() {
     orientationLock = withUIIdiom(
       phone: ObservableProperty(initialValue: nil),
-      pad: nil // orientation lock does not apply
+      pad: nil // orientation lock does not apply,
     )
     super.init()
 
@@ -23,8 +23,8 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
       if let scene = UIApplication.shared.activeWindowScene {
         scene.requestGeometryUpdate(
           UIWindowScene.GeometryPreferences.iOS(
-            interfaceOrientations: $0?.mask ?? defaultOrientationMask
-          )
+            interfaceOrientations: $0?.mask ?? defaultOrientationMask,
+          ),
         )
       }
     }.dispose(in: disposePool)
@@ -32,7 +32,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
 
   func application(
     _: UIApplication,
-    supportedInterfaceOrientationsFor _: UIWindow?
+    supportedInterfaceOrientationsFor _: UIWindow?,
   ) -> UIInterfaceOrientationMask {
     orientationLock?.value?.mask ?? defaultOrientationMask
   }

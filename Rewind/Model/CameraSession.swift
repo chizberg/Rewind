@@ -66,7 +66,7 @@ final class CameraSession {
 
   func setLens(lens: Lens, animated: Bool) throws {
     let clamped = lens.zoomValue.clamp(
-      device.minAvailableVideoZoomFactor...device.maxAvailableVideoZoomFactor
+      device.minAvailableVideoZoomFactor...device.maxAvailableVideoZoomFactor,
     )
     try device.lockForConfiguration()
     defer { device.unlockForConfiguration() }
@@ -111,7 +111,7 @@ private final class CameraPreview: UIView {
 
 extension AVCapturePhotoOutput {
   fileprivate func capturePhoto(
-    with settings: AVCapturePhotoSettings
+    with settings: AVCapturePhotoSettings,
   ) async throws -> AVCapturePhoto {
     let delegate = PhotoCaptureDelegate()
     let result: AVCapturePhoto = try await withCheckedThrowingContinuation { continuation in
@@ -135,7 +135,7 @@ private final class PhotoCaptureDelegate: NSObject, AVCapturePhotoCaptureDelegat
   func photoOutput(
     _: AVCapturePhotoOutput,
     didFinishProcessingPhoto photo: AVCapturePhoto,
-    error: (any Error)?
+    error: (any Error)?,
   ) {
     completion?(photo, error)
   }

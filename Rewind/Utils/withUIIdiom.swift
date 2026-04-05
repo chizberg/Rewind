@@ -9,7 +9,7 @@ import UIKit
 
 func withUIIdiom<T>(
   phone: T,
-  pad: T
+  pad: T,
 ) -> T {
   switch UIDevice.current.userInterfaceIdiom {
   case .phone: phone

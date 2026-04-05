@@ -26,7 +26,7 @@ extension Network.Cluster {
   static let mock = Network.Cluster(
     preview: .mock,
     geo: [56.040054, 45.044866],
-    count: 150
+    count: 150,
   )
 }
 #endif

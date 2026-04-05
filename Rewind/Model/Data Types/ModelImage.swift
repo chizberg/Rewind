@@ -69,7 +69,7 @@ extension Model.Image: Identifiable {
 extension Model.Image {
   static let mock = Model.Image(
     Network.Image.mock,
-    image: .mock
+    image: .mock,
   )
 }
 #endif

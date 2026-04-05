@@ -31,7 +31,7 @@ struct ComparisonView: View {
         oldYear: oldImageData.date.year,
         currentYear: streetViewYear ?? currentYear,
         old: { ScaleToFillImage(image: oldImage) },
-        new: { cameraPreview }
+        new: { cameraPreview },
       )
     case .cardOnCard:
       CardOnCardView(
@@ -39,7 +39,7 @@ struct ComparisonView: View {
         currentYear: streetViewYear ?? currentYear,
         oldImageAspectRatio: oldImage.size.aspectRatio ?? 3 / 4,
         old: { ScaleToFillImage(image: oldImage) },
-        new: { cameraPreview }
+        new: { cameraPreview },
       )
     }
   }
@@ -128,7 +128,7 @@ private struct CardOnCardView<Old: View, New: View>: View {
 
   private func makeLabel(
     anchor: UnitPoint,
-    text: String
+    text: String,
   ) -> some View {
     Color.clear
       .overlay {
@@ -145,7 +145,7 @@ private struct CardOnCardView<Old: View, New: View>: View {
 
   private func makeImageCard(
     anchor: UnitPoint,
-    content: () -> some View
+    content: () -> some View,
   ) -> some View {
     content()
       .aspectRatio(oldImageAspectRatio, contentMode: .fit)
@@ -191,7 +191,7 @@ private struct BlinkingModifier<T: Equatable>: ViewModifier {
           case .shutterDown: nil
           case .shutterUp: .easeInOut(duration: 0.25)
           }
-        }
+        },
       )
   }
 }
@@ -209,7 +209,7 @@ private struct BlinkingModifier<T: Equatable>: ViewModifier {
       oldImageData: .mock,
       oldImage: .lyskovo,
       captureState: .taken(capture: .cat),
-      shotsCount: shotsCount
+      shotsCount: shotsCount,
     )
     .background(.background)
     .environment(\.colorScheme, .dark)

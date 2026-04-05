@@ -41,9 +41,9 @@ final class MergedAnnotationView: MKAnnotationView {
     label.frame = CGRect(
       origin: CGPoint(
         x: paddings.width,
-        y: paddings.height
+        y: paddings.height,
       ),
-      size: labelSize
+      size: labelSize,
     )
     layer.cornerRadius = min(bounds.width, bounds.height) / 2
   }
@@ -65,7 +65,7 @@ final class MergedAnnotationView: MKAnnotationView {
   }
 
   func subscribe(
-    gradientScheme: ObservableVariable<GradientScheme>
+    gradientScheme: ObservableVariable<GradientScheme>,
   ) {
     gradientSubscription = gradientScheme.currentAndNewValues.addObserver { [weak self] in
       guard let self else { return }

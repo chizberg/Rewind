@@ -25,12 +25,12 @@ final class Reducer<State, Action> {
   typealias ActionHandler = @MainActor (
     inout State,
     Action,
-    _ enqueueEffect: (Reducer<State, Action>.Effect) -> Void
+    _ enqueueEffect: (Reducer<State, Action>.Effect) -> Void,
   ) -> Void
 
   init(
     initial: State,
-    reduce: @escaping ActionHandler
+    reduce: @escaping ActionHandler,
   ) {
     _state = ObservableProperty(initialValue: initial)
     _effects = Property(initialValue: [:])
@@ -76,10 +76,10 @@ extension Reducer {
   // This bimap does not work with effects, effects cause the states to go out of sync.
   func unsafeBimap<NewState, NewAction>(
     state makeNewState: @escaping (State) -> NewState,
-    action makeOldAction: @escaping (NewAction) -> Action
+    action makeOldAction: @escaping (NewAction) -> Action,
   ) -> Reducer<NewState, NewAction> {
     Reducer<NewState, NewAction>(
-      initial: makeNewState(state)
+      initial: makeNewState(state),
     ) { newState, newAction, _ in
       let oldAction = makeOldAction(newAction)
       self(oldAction)
@@ -89,7 +89,7 @@ extension Reducer {
 
   func adding<Value>(
     signal: Signal<Value>,
-    makeAction: @escaping (Value) -> Action
+    makeAction: @escaping (Value) -> Action,
   ) -> Reducer<State, Action> {
     modified(self) {
       $0.store(disposable: signal.addObserver { [weak self] in
@@ -99,7 +99,7 @@ extension Reducer {
   }
 
   func onStateUpdate(
-    perform: @escaping (State) -> Void
+    perform: @escaping (State) -> Void,
   ) -> Reducer<State, Action> {
     let disposable = $state.currentAndNewValues.addObserver {
       perform($0)
@@ -113,30 +113,30 @@ extension Reducer {
 extension Reducer.Effect {
   static func perform(
     id: String = UUID().uuidString,
-    action: @escaping ((Action) async -> Void) async -> Void
+    action: @escaping ((Action) async -> Void) async -> Void,
   ) -> Reducer.Effect {
     Reducer.Effect(
       id: id,
-      action: action
+      action: action,
     )
   }
 
   static func anotherAction(
     id: String = UUID().uuidString,
-    _ action: Action
+    _ action: Action,
   ) -> Reducer.Effect {
     Reducer.Effect(
       id: id,
       action: { performAnotherReducerAction in
         await performAnotherReducerAction(action)
-      }
+      },
     )
   }
 
   static func after(
     _ delay: TimeInterval,
     id: String = UUID().uuidString,
-    anotherAction: Action
+    anotherAction: Action,
   ) -> Reducer.Effect {
     Reducer.Effect(
       id: id,
@@ -145,28 +145,28 @@ extension Reducer.Effect {
           try await Task.sleep(for: .seconds(delay))
           await performAnotherReducerAction(anotherAction)
         } catch {}
-      }
+      },
     )
   }
 
   static func cancel(
-    id: String
+    id: String,
   ) -> Reducer.Effect {
     Reducer.Effect(
       id: id,
-      action: { _ in }
+      action: { _ in },
     )
   }
 
   static func cancel(
-    debouncedAction: DebouncedActionID
+    debouncedAction: DebouncedActionID,
   ) -> Reducer.Effect {
     .cancel(id: debouncedAction.rawValue)
   }
 
   static func debounced(
     id: DebouncedActionID,
-    action: @escaping ((Action) async -> Void) async -> Void
+    action: @escaping ((Action) async -> Void) async -> Void,
   ) -> Reducer.Effect {
     Reducer.Effect(
       id: id.rawValue,
@@ -175,13 +175,13 @@ extension Reducer.Effect {
           try await Task.sleep(for: .seconds(id.delay))
           await action(performAnotherReducerAction)
         } catch {}
-      }
+      },
     )
   }
 
   static func debounced(
     id: DebouncedActionID,
-    anotherAction: Action
+    anotherAction: Action,
   ) -> Reducer.Effect {
     Reducer.Effect(
       id: id.rawValue,
@@ -190,7 +190,7 @@ extension Reducer.Effect {
           try await Task.sleep(for: .seconds(id.delay))
           await performAnotherReducerAction(anotherAction)
         } catch {}
-      }
+      },
     )
   }
 }

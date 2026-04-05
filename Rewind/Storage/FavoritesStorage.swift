@@ -14,7 +14,7 @@ final class FavoritesStorage {
 
   init(
     storage: KeyValueStorage,
-    makeLoadableImage: @escaping (String) -> LoadableUIImage
+    makeLoadableImage: @escaping (String) -> LoadableUIImage,
   ) {
     impl = storage.makeCodableField(key: "favorites", default: [])
     self.makeLoadableImage = makeLoadableImage
@@ -32,7 +32,7 @@ final class FavoritesStorage {
         guard let self else { return }
         modelImages = $0
         impl.value = $0.map { Storage.Image($0) }
-      }
+      },
     )
   }
 }

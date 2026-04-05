@@ -17,7 +17,7 @@ enum FavoritesAction {
 }
 
 func makeFavoritesModel(
-  storage: Property<[Model.Image]>
+  storage: Property<[Model.Image]>,
 ) -> FavoritesModel {
   Reducer(
     initial: storage.value,
@@ -34,7 +34,7 @@ func makeFavoritesModel(
         state.remove(at: index)
         storage.value = state
       }
-    }
+    },
   )
 }
 
@@ -42,7 +42,7 @@ extension FavoritesModel {
   func isFavorite(_ image: Model.Image) -> SingleFavoriteModel {
     unsafeBimap(
       state: { $0.contains { $0.cid == image.cid } },
-      action: { $0 ? .addToFavorites(image) : .removeFromFavorites(image) }
+      action: { $0 ? .addToFavorites(image) : .removeFromFavorites(image) },
     )
   }
 }

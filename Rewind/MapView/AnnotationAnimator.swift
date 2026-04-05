@@ -9,7 +9,7 @@ import MapKit
 
 func animateAddition(
   _ views: [MKAnnotationView],
-  completion: @escaping (Bool) -> Void = { _ in }
+  completion: @escaping (Bool) -> Void = { _ in },
 ) {
   views.forEach { $0.transform = superSmallTransform }
 
@@ -20,7 +20,7 @@ func animateAddition(
 
 func animateRemoval(
   _ views: [MKAnnotationView],
-  completion: @escaping (Bool) -> Void = { _ in }
+  completion: @escaping (Bool) -> Void = { _ in },
 ) {
   UIView.animate(duration: duration, animations: {
     views.forEach { $0.transform = superSmallTransform }

@@ -36,7 +36,7 @@ extension RGBAColor: Interpolatable {
       red: Rewind.lerp(at: at, between: lhs.red, rhs.red),
       green: Rewind.lerp(at: at, between: lhs.green, rhs.green),
       blue: Rewind.lerp(at: at, between: lhs.blue, rhs.blue),
-      alpha: Rewind.lerp(at: at, between: lhs.alpha, rhs.alpha)
+      alpha: Rewind.lerp(at: at, between: lhs.alpha, rhs.alpha),
     )
   }
 }
@@ -46,7 +46,7 @@ extension GradientScheme {
     let t = lerpParameter(
       of: CGFloat(year),
       lowerBound: 1826,
-      upperBound: 2000
+      upperBound: 2000,
     )
     return lerp(at: t, in: value)
   }

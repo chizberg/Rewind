@@ -31,17 +31,19 @@ struct ExpandableControls: View {
               YearSelector(yearRange: $yearRange)
                 .padding(.leading, 10)
             },
-            isExpanded: isExpanded
+            isExpanded: isExpanded,
           )
         },
         .init(id: "map type picker") { isExpanded in
           expandableItemView(
             iconName: "square.3.layers.3d.top.filled",
             expandedContent: {
-              MapTypePicker(mapType: $mapType)
-                .padding(.leading, 10)
+              VStack {
+                MapTypePicker(mapType: $mapType)
+                MapTypePicker(mapType: $mapType)
+              }.padding(10)
             },
-            isExpanded: isExpanded
+            isExpanded: isExpanded,
           )
         },
       ],
@@ -49,31 +51,31 @@ struct ExpandableControls: View {
         ForEach(staticItems) {
           minimizedButton(
             iconName: $0.iconName,
-            action: $0.action
+            action: $0.action,
           ).background {
             makeBackground(radius: minimizedRadius)
           }.ifLet($0.transitionSource) { view, source in
             view.matchedTransitionSource(
               id: source.id,
-              in: source.namespace
+              in: source.namespace,
             )
           }.clipShape(Circle())
         }
-      }
+      },
     )
   }
 
   private func expandableItemView(
     iconName: String,
     @ViewBuilder expandedContent: @escaping () -> some View,
-    isExpanded: Binding<Bool>
+    isExpanded: Binding<Bool>,
   ) -> some View {
     ExpandableView(
       isExpanded: isExpanded,
       minimized: { expand in
         minimizedButton(
           iconName: iconName,
-          action: expand
+          action: expand,
         )
       },
       expanded: { minimize in
@@ -86,7 +88,7 @@ struct ExpandableControls: View {
       },
       background: {
         makeBackground(radius: isExpanded.wrappedValue ? expandedRadius : minimizedRadius)
-      }
+      },
     )
   }
 
@@ -101,7 +103,7 @@ struct ExpandableControls: View {
 
   private func minimizedButton(
     iconName: String,
-    action: @escaping () -> Void
+    action: @escaping () -> Void,
   ) -> some View {
     Button(action: action) {
       Image(systemName: iconName)
@@ -155,7 +157,7 @@ private struct ExpandableStack<StaticContent: View>: View {
 
     init(
       id: String,
-      @ViewBuilder content: @escaping (Binding<Bool>) -> some View
+      @ViewBuilder content: @escaping (Binding<Bool>) -> some View,
     ) {
       self.id = id
       self.view = { binding in
@@ -170,7 +172,7 @@ private struct ExpandableStack<StaticContent: View>: View {
 
   init(
     items: [Item],
-    @ViewBuilder staticContent: () -> StaticContent
+    @ViewBuilder staticContent: () -> StaticContent,
   ) {
     self.items = items
     self.staticContent = staticContent()
@@ -220,7 +222,7 @@ private struct ExpandableStack<StaticContent: View>: View {
             expandedItems.removeAll { $0 == item }
           }
         }
-      }
+      },
     )
   }
 }
@@ -265,7 +267,7 @@ private struct ExpandableView<Minimized: View, Expanded: View, Background: View>
       staticItems: [
         .init(id: "search", iconName: "magnifyingglass", action: {}),
         .init(id: "location", iconName: "location", action: {}),
-      ]
+      ],
     )
     .padding()
   }

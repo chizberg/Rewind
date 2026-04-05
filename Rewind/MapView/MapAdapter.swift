@@ -48,19 +48,19 @@ final class MapAdapter: NSObject, MKMapViewDelegate, UIGestureRecognizerDelegate
       map.isRotateEnabled = false
       map.register(
         ImageAnnotationView.self,
-        forAnnotationViewWithReuseIdentifier: ReuseIdentifier.image
+        forAnnotationViewWithReuseIdentifier: ReuseIdentifier.image,
       )
       map.register(
         ClusterAnnotationView.self,
-        forAnnotationViewWithReuseIdentifier: ReuseIdentifier.cluster
+        forAnnotationViewWithReuseIdentifier: ReuseIdentifier.cluster,
       )
       map.register(
         MergedAnnotationView.self,
-        forAnnotationViewWithReuseIdentifier: ReuseIdentifier.localCluster
+        forAnnotationViewWithReuseIdentifier: ReuseIdentifier.localCluster,
       )
       map.register(
         MergedAnnotationView.self,
-        forAnnotationViewWithReuseIdentifier: ReuseIdentifier.mkCluster
+        forAnnotationViewWithReuseIdentifier: ReuseIdentifier.mkCluster,
       )
       return map
     })
@@ -72,7 +72,7 @@ final class MapAdapter: NSObject, MKMapViewDelegate, UIGestureRecognizerDelegate
     map.whenLoaded { map in
       let pan = UIPanGestureRecognizer(
         target: self,
-        action: #selector(self.handlePan(_:))
+        action: #selector(self.handlePan(_:)),
       )
       pan.delegate = self
       map.addGestureRecognizer(pan)
@@ -97,14 +97,14 @@ final class MapAdapter: NSObject, MKMapViewDelegate, UIGestureRecognizerDelegate
       completion: { [weak self] _ in
         self?.map.value.removeAnnotations(annotations)
         completion()
-      }
+      },
     )
   }
 
   func clear() {
     remove(
       annotations: map.value.annotations.filter { !($0 is MKUserLocation) },
-      completion: {}
+      completion: {},
     )
   }
 
@@ -142,11 +142,11 @@ final class MapAdapter: NSObject, MKMapViewDelegate, UIGestureRecognizerDelegate
 
   func mapView(
     _ mapView: MKMapView,
-    viewFor annotation: any MKAnnotation
+    viewFor annotation: any MKAnnotation,
   ) -> MKAnnotationView? {
     if annotation is Annotation<Model.Image> {
       guard let cell = mapView.dequeueReusableAnnotationView(
-        withIdentifier: ReuseIdentifier.image
+        withIdentifier: ReuseIdentifier.image,
       ) as? ImageAnnotationView else {
         assertionFailure()
         return nil
@@ -155,34 +155,34 @@ final class MapAdapter: NSObject, MKMapViewDelegate, UIGestureRecognizerDelegate
       return cell
     } else if annotation is Annotation<Model.Cluster> {
       guard let cell = mapView.dequeueReusableAnnotationView(
-        withIdentifier: ReuseIdentifier.cluster
+        withIdentifier: ReuseIdentifier.cluster,
       ) as? ClusterAnnotationView else {
         assertionFailure()
         return nil
       }
       cell.subscribe(
-        gradientScheme: gradientScheme
+        gradientScheme: gradientScheme,
       )
       return cell
     } else if annotation is Annotation<Model.LocalCluster> {
       guard let cell = mapView.dequeueReusableAnnotationView(
-        withIdentifier: ReuseIdentifier.localCluster
+        withIdentifier: ReuseIdentifier.localCluster,
       ) as? MergedAnnotationView else {
         assertionFailure()
         return nil
       }
       cell.subscribe(
-        gradientScheme: gradientScheme
+        gradientScheme: gradientScheme,
       )
       return cell
     } else if annotation is MKClusterAnnotation {
       guard let cell = mapView.dequeueReusableAnnotationView(
-        withIdentifier: ReuseIdentifier.mkCluster
+        withIdentifier: ReuseIdentifier.mkCluster,
       ) as? MergedAnnotationView else {
         return nil
       }
       cell.subscribe(
-        gradientScheme: gradientScheme
+        gradientScheme: gradientScheme,
       )
       return cell
     } else if annotation is MKUserLocation {
@@ -201,7 +201,7 @@ final class MapAdapter: NSObject, MKMapViewDelegate, UIGestureRecognizerDelegate
 
   func gestureRecognizer(
     _: UIGestureRecognizer,
-    shouldRecognizeSimultaneouslyWith _: UIGestureRecognizer
+    shouldRecognizeSimultaneouslyWith _: UIGestureRecognizer,
   ) -> Bool {
     true
   }
@@ -218,10 +218,10 @@ private enum ReuseIdentifier {
 private let initialRegion = Region(
   center: Coordinate(
     latitude: 15.908556,
-    longitude: 15.796728
+    longitude: 15.796728,
   ),
   span: MKCoordinateSpan(
     latitudeDelta: 76.225,
-    longitudeDelta: 76.225
-  )
+    longitudeDelta: 76.225,
+  ),
 )

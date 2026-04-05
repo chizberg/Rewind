@@ -21,7 +21,7 @@ struct SearchView: View {
         SuggestCell(
           suggest: suggest,
           onSelected: { store(.suggestSelected(suggest)) },
-          addToQuery: { store(.addSuggestToQuery(suggest)) }
+          addToQuery: { store(.addSuggestToQuery(suggest)) },
         )
       }
       .allowsHitTesting(!store.suggests.isEmpty)
@@ -45,7 +45,7 @@ struct SearchView: View {
       HStack {
         TextField(
           "Search for location",
-          text: store.binding(\.query, send: { .updateQuery($0) })
+          text: store.binding(\.query, send: { .updateQuery($0) }),
         ).focused($searchFieldFocused)
           .submitLabel(.search)
           .onSubmit {
@@ -78,7 +78,7 @@ struct SearchView: View {
     }
     .shadow(
       color: colorScheme == .light ? .black.opacity(0.1) : .clear,
-      radius: 20, x: 0, y: 0
+      radius: 20, x: 0, y: 0,
     )
     .padding()
     .animation(.spring, value: searchFieldFocused)
@@ -152,10 +152,10 @@ private struct SuggestCell: View {
 #Preview {
   @Previewable @State
   var store = makeSearchModel(
-    onLocationFound: { print("woohoo location", $0) }
+    onLocationFound: { print("woohoo location", $0) },
   ).viewStore.bimap(
     state: { $0 },
-    action: { .external($0) }
+    action: { .external($0) },
   )
 
   SearchView(store: store)
@@ -166,10 +166,10 @@ private struct SuggestCell: View {
     SuggestCell(
       suggest: SearchState.Suggest(
         title: "Belgrade",
-        subtitle: "Serbia"
+        subtitle: "Serbia",
       ),
       onSelected: { print("selected") },
-      addToQuery: { print("add to query") }
+      addToQuery: { print("add to query") },
     )
   }
 }

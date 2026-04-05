@@ -25,7 +25,7 @@ final class ImageLoader {
   }
 
   func makeImage(
-    path: String
+    path: String,
   ) -> LoadableUIImage {
     LoadableUIImage { [weak self] params in
       guard let self else { throw HandlingError("is dead") }
@@ -92,8 +92,8 @@ extension LoadableUIImage {
     try await impl(
       ImageLoadingParams(
         quality: quality,
-        cachedOnly: false
-      )
+        cachedOnly: false,
+      ),
     )
   }
 }

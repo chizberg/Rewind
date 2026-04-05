@@ -72,7 +72,7 @@ final class YearSelectorImpl: UIView {
 
   init(
     yearRange binding: Binding<ClosedRange<Int>>,
-    gradient: GradientScheme
+    gradient: GradientScheme,
   ) {
     self._yearRangeBinding = binding
     let gradientLayer = CAGradientLayer()
@@ -88,19 +88,19 @@ final class YearSelectorImpl: UIView {
         value: lerpParameter(
           of: CGFloat(binding.wrappedValue.lowerBound),
           lowerBound: CGFloat(Constants.startYear),
-          upperBound: CGFloat(Constants.endYear)
+          upperBound: CGFloat(Constants.endYear),
         ),
         valueSide: .right,
-        gradient: gradient
+        gradient: gradient,
       ),
       .init(
         value: lerpParameter(
           of: CGFloat(binding.wrappedValue.upperBound),
           lowerBound: CGFloat(Constants.startYear),
-          upperBound: CGFloat(Constants.endYear)
+          upperBound: CGFloat(Constants.endYear),
         ),
         valueSide: .left,
-        gradient: gradient
+        gradient: gradient,
       ),
     ]
     super.init(frame: .zero)
@@ -138,14 +138,14 @@ final class YearSelectorImpl: UIView {
     super.layoutSubviews()
     let lineOrigin = CGPoint(
       x: Constants.horizontalLineInset,
-      y: bounds.midY - Constants.lineHeight / 2
+      y: bounds.midY - Constants.lineHeight / 2,
     )
     line.frame = CGRect(
       origin: lineOrigin,
       size: CGSize(
         width: bounds.width - Constants.horizontalLineInset * 2,
-        height: Constants.lineHeight
-      )
+        height: Constants.lineHeight,
+      ),
     )
     CATransaction.performWithoutAnimations {
       gradientLayer.frame = line.bounds
@@ -218,7 +218,7 @@ final class YearSelectorImpl: UIView {
     let leftOrigin = CGPoint(x: leftOriginX, y: originY)
     leftLineShadow.frame = CGRect(
       origin: leftOrigin,
-      size: CGSize(width: leftShadowWidth, height: height)
+      size: CGSize(width: leftShadowWidth, height: height),
     )
 
     // правая тень - от второго (правого) thumb
@@ -226,7 +226,7 @@ final class YearSelectorImpl: UIView {
     let rightOrigin = CGPoint(x: rightOriginX, y: originY)
     rightLineShadow.frame = CGRect(
       origin: rightOrigin,
-      size: CGSize(width: rightShadowWidth, height: height)
+      size: CGSize(width: rightShadowWidth, height: height),
     )
   }
 

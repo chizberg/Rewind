@@ -24,7 +24,7 @@ private struct DelayedContainer<
   init(
     value: T,
     delay: TimeInterval,
-    @ViewBuilder content: @escaping (T) -> Content
+    @ViewBuilder content: @escaping (T) -> Content,
   ) {
     innerValue = value
     self.value = value
@@ -57,11 +57,11 @@ extension View {
   func delayedModifier<T: Equatable>(
     value: T,
     delay: TimeInterval,
-    transform: @escaping (Self, T) -> some View
+    transform: @escaping (Self, T) -> some View,
   ) -> some View {
     DelayedContainer(
       value: value,
-      delay: delay
+      delay: delay,
     ) { value in
       transform(self, value)
     }
@@ -76,7 +76,7 @@ extension View {
   VStack {
     DelayedContainer(
       value: count,
-      delay: count % 2 == 0 ? 1 : 0
+      delay: count % 2 == 0 ? 1 : 0,
     ) { value in
       Text("\(value)")
     }
@@ -96,10 +96,10 @@ extension View {
       .frame(squareSize: 200)
       .delayedModifier(
         value: overlayPresented,
-        delay: overlayPresented ? 0 : 1
+        delay: overlayPresented ? 0 : 1,
       ) { view, value in
         view.mask(
-          RoundedRectangle(cornerRadius: value ? 30 : 0)
+          RoundedRectangle(cornerRadius: value ? 30 : 0),
         )
       }
 

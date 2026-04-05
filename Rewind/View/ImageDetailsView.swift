@@ -40,19 +40,19 @@ struct ImageDetailsView: View {
         content: { identified in
           let deps = identified.value
           ComparisonScreen(
-            deps: deps
+            deps: deps,
           ).modify { view in
             switch deps.store.captureMode {
             case .camera:
               view.navigationTransition(.zoom(
                 sourceID: TransitionSource.compareCameraButton,
-                in: namespace
+                in: namespace,
               ))
             case .streetView:
               view
             }
           }
-        }
+        },
       )
       .fullScreenCover(
         item: viewStore.binding(\.fullscreenPreview, send: { _ in
@@ -61,10 +61,10 @@ struct ImageDetailsView: View {
         content: { identifiedImage in
           ZoomableImageScreen(
             image: identifiedImage.value,
-            saveImage: { viewStore(.fullscreenPreview(.saveImage)) }
+            saveImage: { viewStore(.fullscreenPreview(.saveImage)) },
           )
           .navigationTransition(.zoom(sourceID: TransitionSource.titleImage, in: namespace))
-        }
+        },
       )
       .fullScreenCover(
         item: viewStore.binding(\.anotherImageModel, send: { _ in .anotherImage(.dismiss) }),
@@ -74,16 +74,16 @@ struct ImageDetailsView: View {
             .navigationTransition(
               .zoom(
                 sourceID: store.openSource,
-                in: namespace
-              )
+                in: namespace,
+              ),
             )
-        }
+        },
       )
       .alert(
         Binding(
           get: { viewStore.alertModel },
-          set: { _ in viewStore(.alert(.dismiss)) }
-        )
+          set: { _ in viewStore(.alert(.dismiss)) },
+        ),
       )
   }
 
@@ -120,7 +120,7 @@ struct ImageDetailsView: View {
     }
     .background {
       Color.secondarySystemBackground.edgesIgnoringSafeArea(
-        isSplitView ? .bottom : .vertical
+        isSplitView ? .bottom : .vertical,
       )
     }
   }
@@ -146,7 +146,7 @@ struct ImageDetailsView: View {
     .onTapGesture { showFullscreenPreview() }
     .gesture(
       MagnificationGesture(minimumScaleDelta: 1.3)
-        .onChanged { _ in showFullscreenPreview() }
+        .onChanged { _ in showFullscreenPreview() },
     )
     .matchedTransitionSource(id: TransitionSource.titleImage, in: namespace)
   }
@@ -238,7 +238,7 @@ struct ImageDetailsView: View {
     let spec = ButtonSpec(
       button: action,
       isFavorite: viewStore.isFavorite,
-      isImageSaved: viewStore.isImageSaved
+      isImageSaved: viewStore.isImageSaved,
     )
     Button {
       viewStore(.button(action))
@@ -263,14 +263,14 @@ struct ImageDetailsView: View {
         "Select map app to find route",
         isPresented: viewStore.binding(
           \.mapOptionsPresented,
-          send: { .setMapOptionsVisibility($0) }
+          send: { .setMapOptionsVisibility($0) },
         ),
         titleVisibility: .visible,
         actions: {
           ForEach(MapApp.allCases, id: \.self) { app in
             Button(app.name, action: { viewStore(.mapAppSelected(app)) })
           }
-        }
+        },
       )
     }
   }
@@ -319,7 +319,7 @@ private struct ButtonSpec {
   init(
     button: ImageDetailsAction.Button,
     isFavorite: Bool,
-    isImageSaved: Bool
+    isImageSaved: Bool,
   ) {
     title = switch button {
     case .favorite: "Favorite"
@@ -400,7 +400,7 @@ extension FavoritesModel {
   static var mock: FavoritesModel {
     Reducer(
       initial: [],
-      reduce: { _, _, _ in }
+      reduce: { _, _, _ in },
     )
   }
 }
@@ -418,11 +418,11 @@ extension FavoritesModel {
     setOrientationLock: { _ in },
     streetViewAvailability: .mock(.unavailable),
     translate: .mock("translated text"),
-    extractModelImage: { _ in .mock }
+    extractModelImage: { _ in .mock },
   ).viewStore
 
   ImageDetailsView(
-    viewStore: store
+    viewStore: store,
   )
 }
 
@@ -444,11 +444,11 @@ extension FavoritesModel {
     setOrientationLock: { _ in },
     streetViewAvailability: .mock(.unavailable),
     translate: .mock("translated text").delayed(delay: 1),
-    extractModelImage: { _ in .mock }
+    extractModelImage: { _ in .mock },
   ).viewStore
 
   ImageDetailsView(
-    viewStore: store
+    viewStore: store,
   )
 }
 

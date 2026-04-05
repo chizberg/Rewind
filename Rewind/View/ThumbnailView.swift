@@ -82,7 +82,7 @@ struct ThumbnailCardView: View {
       card: .image(modified(.mock) {
         $0.image = $0.image.delayed(delay: 1)
       }),
-      size: CGSize(width: 200, height: 200)
+      size: CGSize(width: 200, height: 200),
     )
   }
 }
@@ -92,7 +92,7 @@ struct ThumbnailCardView: View {
     card: .image(modified(.mock) {
       $0.image = .panorama
     }),
-    size: CGSize(width: 200, height: 200)
+    size: CGSize(width: 200, height: 200),
   )
   .onTapGesture {
     print("foo")
@@ -105,7 +105,7 @@ struct ThumbnailCardView: View {
 
     ThumbnailCardView(
       card: .noImages,
-      size: CGSize(width: 200, height: 200)
+      size: CGSize(width: 200, height: 200),
     )
   }
 }
@@ -115,7 +115,7 @@ struct ThumbnailCardView: View {
     Image(.cat).resizable().ignoresSafeArea()
     ThumbnailCardView(
       card: .viewAsList,
-      size: CGSize(width: 200, height: 200)
+      size: CGSize(width: 200, height: 200),
     )
   }
 }
