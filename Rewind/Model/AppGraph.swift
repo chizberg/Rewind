@@ -103,6 +103,7 @@ final class AppGraph {
         appModelRef?(.onboarding(.dismiss))
       }
     )
+    let storeReview = AppStoreReview(storage: storage)
     let appModel = makeAppModel(
       imageDetailsFactory: imageDetailsFactory,
       searchModelFactory: searchModelFactory,
@@ -116,7 +117,8 @@ final class AppGraph {
       favoritesModel: favoritesModel,
       onboardingViewModel: onboardingViewModel,
       currentRegionImages: Variable { mapModelRef?.state.currentRegionImages ?? [] },
-      settings: settings.asProperty()
+      settings: settings.asProperty(),
+      requestAppStoreReview: { storeReview.request() },
     )
     appModelRef = appModel
     appStore = appModel.viewStore
@@ -147,6 +149,7 @@ final class AppGraph {
         self?.imageLoader.clearCache()
       }
     }
+    storeReview.appLaunched()
   }
 
   deinit {

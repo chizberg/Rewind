@@ -83,7 +83,8 @@ func makeAppModel(
   favoritesModel: FavoritesModel,
   onboardingViewModel: OnboardingViewModel?,
   currentRegionImages: Variable<[Model.Image]>,
-  settings: Property<SettingsState>
+  settings: Property<SettingsState>,
+  requestAppStoreReview: @escaping () -> Void,
 ) -> AppModel {
   AppModel(
     initial: .makeInitial(
@@ -101,6 +102,7 @@ func makeAppModel(
         case .dismiss:
           state.previewedImage = nil
           performMapAction(.previewClosed)
+          requestAppStoreReview()
         }
       case let .imageList(listAction):
         switch listAction {
