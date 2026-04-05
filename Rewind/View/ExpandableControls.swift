@@ -38,8 +38,10 @@ struct ExpandableControls: View {
           expandableItemView(
             iconName: "square.3.layers.3d.top.filled",
             expandedContent: {
-              MapTypePicker(mapType: $mapType)
-                .padding(.leading, 10)
+              VStack {
+                MapTypePicker(mapType: $mapType)
+                MapTypePicker(mapType: $mapType)
+              }.padding(10)
             },
             isExpanded: isExpanded,
           )

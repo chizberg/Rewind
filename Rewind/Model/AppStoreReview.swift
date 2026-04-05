@@ -43,9 +43,7 @@ final class AppStoreReview {
     #if DEBUG
     print("App Store review requested")
     #else
-    guard let scene = UIApplication.shared.connectedScenes
-      .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene
-    else { return }
+    guard let scene = UIApplication.shared.activeWindowScene else { return }
     AppStore.requestReview(in: scene)
     #endif
   }
