@@ -26,11 +26,6 @@ extension Coordinate {
     (latitude, longitude)
   }
 
-  func isAlmostEqual(to other: Self, e: Double = 0.01) -> Bool {
-    latitude.isAlmostEqual(to: other.latitude, e: e)
-      && longitude.isAlmostEqual(to: other.longitude, e: e)
-  }
-
   func reversed() -> Coordinate {
     Coordinate(latitude: longitude, longitude: latitude)
   }
@@ -156,10 +151,4 @@ extension MKMapRect {
 
 private func radians<T: FloatingPoint>(_ degrees: T) -> T {
   degrees * .pi / 180
-}
-
-extension FloatingPoint {
-  func isAlmostEqual(to other: Self, e: Self = 0.01) -> Bool {
-    abs(self - other) < e
-  }
 }

@@ -111,7 +111,7 @@ func makeAppModel(
             value: makeImageListModel(
               title: "Favorites",
               matchedTransitionSourceName: source,
-              images: favoritesModel.state,
+              images: favoritesModel.state.reversed(), // new -> old
               listUpdates: favoritesModel.$state.newValues,
               imageDetailsFactory: imageDetailsFactory,
               sorting: nil,

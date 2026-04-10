@@ -30,7 +30,7 @@ extension PhoneModel {
       return 41.5
     case .iPhone12Mini, .iPhone13Mini:
       return 44
-    case .iPhone12, .iPhone12Pro, .iPhone13, .iPhone13Pro, .iPhone14, .iPhone16e:
+    case .iPhone12, .iPhone12Pro, .iPhone13, .iPhone13Pro, .iPhone14, .iPhone16e, .iPhone17e:
       return 47.33
     case .iPhone12ProMax, .iPhone13ProMax, .iPhone14Plus:
       return 53.33
@@ -57,7 +57,7 @@ extension PadModel {
       return 0
     case .iPadPro11A12X, .iPadPro13A12X, .iPadPro11A12Z, .iPadPro13A12Z,
          .iPadAir4, .iPadPro11M1, .iPadPro13M1, .iPadAir5, .iPadPro11M2, .iPadPro13M2,
-         .iPadAir11M2, .iPadAir13M2, .iPadAir11M3, .iPadAir13M3:
+         .iPadAir11M2, .iPadAir13M2, .iPadAir11M3, .iPadAir13M3, .iPadAir11M4, .iPadAir13M4:
       return 18
     case .iPad10, .iPadA16:
       return 25
