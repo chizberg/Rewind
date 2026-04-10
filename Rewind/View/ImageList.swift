@@ -14,6 +14,9 @@ struct ImageList: View {
   @Namespace
   private var namespace
 
+  @State
+  private var scrollPosition = ScrollPosition()
+
   var body: some View {
     NavigationStack {
       content
@@ -41,6 +44,12 @@ struct ImageList: View {
           items
         }
         .padding(.horizontal, 16)
+      }
+      .scrollPosition($scrollPosition)
+      .onChange(of: viewStore.sorting) { _, _ in
+        withAnimation {
+          scrollPosition.scrollTo(edge: .top)
+        }
       }
     } else {
       ZStack {
