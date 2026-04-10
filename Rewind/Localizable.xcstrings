@@ -1363,6 +1363,7 @@
     },
     "Dismiss" : {
       "comment" : "Alert dismiss action",
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -3325,6 +3326,7 @@
     },
     "Print value" : {
       "comment" : "debug action to print value",
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
