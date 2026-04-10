@@ -126,6 +126,7 @@ func makeSettingsViewModel(
           })
         case let .gradientSchemeSelected(scheme):
           state.stored.gradientScheme = scheme
+          UISelectionFeedbackGenerator().selectionChanged()
         case .contact:
           urlOpener(URL(string: "mailto:a.chizberg@proton.me"))
         case .openRepo:
@@ -151,6 +152,7 @@ func makeSettingsViewModel(
         switch internalAction {
         case let .iconApplied(icon):
           state.icon = icon
+          UISelectionFeedbackGenerator().selectionChanged()
         }
       }
     },
