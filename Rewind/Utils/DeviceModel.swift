@@ -93,6 +93,7 @@ enum PhoneModel {
   case iPhone17ProMax
   case iPhone17
   case iPhoneAir
+  case iPhone17e
   case unknown
 
   init(deviceID: String) {
@@ -148,6 +149,7 @@ enum PhoneModel {
     case "iPhone18,2": self = .iPhone17ProMax
     case "iPhone18,3": self = .iPhone17
     case "iPhone18,4": self = .iPhoneAir
+    case "iPhone18,5": self = .iPhone17e
     default: self = .unknown
     }
   }
@@ -197,6 +199,8 @@ enum PadModel {
   case iPadPro13M5
   case iPadAir11M3
   case iPadAir13M3
+  case iPadAir11M4
+  case iPadAir13M4
   case unknown
 
   init(deviceID: String) {
@@ -244,6 +248,8 @@ enum PadModel {
     case "iPad17,3", "iPad17,4": self = .iPadPro13M5
     case "iPad15,3", "iPad15,4": self = .iPadAir11M3
     case "iPad15,5", "iPad15,6": self = .iPadAir13M3
+    case "iPad16,8", "iPad16,9": self = .iPadAir11M4
+    case "iPad16,10", "iPad16,11": self = .iPadAir13M4
     default: self = .unknown
     }
   }
