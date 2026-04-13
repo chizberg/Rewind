@@ -246,55 +246,55 @@
       "localizations": {
         "en": {
           "stringUnit": {
-            "state": "new",
-            "value": "Location is needed to show images around you"
+            "state": "translated",
+            "value": "Location is needed to show photos and paintings around you"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Геолокация нужна чтобы показывать фотографии рядом с вами"
+            "value": "Геолокация нужна чтобы показывать фотографии и картины рядом с вами"
           }
         },
         "sr-Latn": {
           "stringUnit": {
             "state": "translated",
-            "value": "Lokacija je potrebna za prikaz slika u vašoj blizini"
+            "value": "Lokacija je potrebna za prikaz fotografija i slika u vašoj blizini"
           }
         },
         "uk": {
           "stringUnit": {
             "state": "translated",
-            "value": "Геолокація потрібна, щоб показувати зображення поблизу вас"
+            "value": "Геолокація потрібна, щоб показувати фотографії та картини поблизу вас"
           }
         },
         "es": {
           "stringUnit": {
-            "value": "La ubicación es necesaria para mostrar imágenes a tu alrededor",
+            "value": "La ubicación es necesaria para mostrar fotos y pinturas a tu alrededor",
             "state": "translated"
           }
         },
         "fr": {
           "stringUnit": {
-            "value": "La localisation est nécessaire pour afficher les images autour de vous",
+            "value": "La localisation est nécessaire pour afficher les photos et peintures autour de vous",
             "state": "translated"
           }
         },
         "de": {
           "stringUnit": {
-            "value": "Der Standort wird benötigt, um Bilder in Ihrer Nähe anzuzeigen",
+            "value": "Der Standort wird benötigt, um Fotos und Gemälde in Ihrer Nähe anzuzeigen",
             "state": "translated"
           }
         },
         "kk": {
           "stringUnit": {
-            "value": "Жергілікті орын сіздің айналаңыздағы суреттерді көрсету үшін қажет",
+            "value": "Жергілікті орын сіздің айналаңыздағы фотосуреттер мен картиналарды көрсету үшін қажет",
             "state": "translated"
           }
         },
         "uz": {
           "stringUnit": {
-            "value": "Joylashuv atrofingizdagi rasmlarni ko'rsatish uchun kerak",
+            "value": "Joylashuv atrofingizdagi fotosuratlar va rasmlarni ko'rsatish uchun kerak",
             "state": "translated"
           }
         }

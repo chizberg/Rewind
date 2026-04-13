@@ -1,6 +1,6 @@
 # Rewind
 
-Rewind is an iOS app for exploring retro images on a map. 
+Rewind is an iOS app for exploring retro photos and paintings on a map. 
 
 Available in the App Store: https://apps.apple.com/app/rewind-history-on-a-map/id6755358800
 
@@ -8,8 +8,8 @@ Also in TestFlight: https://testflight.apple.com/join/vbJFFZgD
 
 ### Features
 
-- **Vintage images near you:** the app uses PastVu API to fetch images and their metadata and shows them on an Apple MapKit map
-- **Favorites:** save images you like to view them later
+- **Vintage photos and paintings near you:** the app uses PastVu API to fetch photos, paintings, and their metadata and shows them on an Apple MapKit map
+- **Favorites:** save what you like to view it later
 - **Compare:** take a photo to compare how a place looks like today and how it looked in the past. You can use either the camera or Google Street View.
 - **Search:** quickly find places you know with a simple query. *Uses Apple MapKit search*
 - **Translate:** read descriptions in your preferred language. Uses Google Translate.
@@ -29,7 +29,7 @@ iOS 18+
 
 ### PastVu
 
-All images in the app come from the [PastVu API](https://docs.pastvu.com/dev/api). You can see all these photos on [their website](https://pastvu.com). They have their rules, so better [check them out](https://docs.pastvu.com/en/rules) :)
+All photos and paintings in the app come from the [PastVu API](https://docs.pastvu.com/dev/api). You can see them all on [their website](https://pastvu.com). They have their rules, so better [check them out](https://docs.pastvu.com/en/rules) :)
 
 ### Stack
 

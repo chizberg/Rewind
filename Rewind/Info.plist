@@ -77,7 +77,7 @@
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>App needs this access to save images to your library</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Location is needed to show images around you</string>
+	<string>Location is needed to show photos and paintings around you</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 </dict>
