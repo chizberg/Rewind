@@ -5,7 +5,6 @@
 //  Created by Алексей Шерстнёв on 07.02.2022.
 //
 
-import SwiftUI
 import UIKit
 
 // TODO: rewrite
@@ -20,9 +19,9 @@ final class YearSelectorImpl: UIView {
     // ограничиваем ещё на половину thumbWidth (изначально у нас thumbView.center.x =
     // horizontalLineInset)
     static let valueInset: CGFloat = horizontalLineInset + thumbWidth / 2
-    static let startYear: Int = 1826
-    static let endYear: Int = 2000
   }
+
+  private var maxRange: ClosedRange<Int>
 
   private let thumbs: [ThumbView]
 
@@ -68,13 +67,16 @@ final class YearSelectorImpl: UIView {
   private var gradient: GradientScheme?
   private var panRecognizers = [UIPanGestureRecognizer]()
 
-  @Binding var yearRangeBinding: ClosedRange<Int>
+  var setYearRange: (ClosedRange<Int>) -> Void
 
   init(
-    yearRange binding: Binding<ClosedRange<Int>>,
+    yearRange: ClosedRange<Int>,
+    maxRange: ClosedRange<Int>,
     gradient: GradientScheme,
+    setYearRange: @escaping (ClosedRange<Int>) -> Void,
   ) {
-    self._yearRangeBinding = binding
+    self.setYearRange = setYearRange
+    self.maxRange = maxRange
     let gradientLayer = CAGradientLayer()
 
     gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
@@ -86,21 +88,23 @@ final class YearSelectorImpl: UIView {
     thumbs = [
       .init(
         value: lerpParameter(
-          of: CGFloat(binding.wrappedValue.lowerBound),
-          lowerBound: CGFloat(Constants.startYear),
-          upperBound: CGFloat(Constants.endYear),
+          of: CGFloat(yearRange.lowerBound),
+          lowerBound: CGFloat(maxRange.lowerBound),
+          upperBound: CGFloat(maxRange.upperBound),
         ),
         valueSide: .right,
         gradient: gradient,
+        maxRange: maxRange,
       ),
       .init(
         value: lerpParameter(
-          of: CGFloat(binding.wrappedValue.upperBound),
-          lowerBound: CGFloat(Constants.startYear),
-          upperBound: CGFloat(Constants.endYear),
+          of: CGFloat(yearRange.upperBound),
+          lowerBound: CGFloat(maxRange.lowerBound),
+          upperBound: CGFloat(maxRange.upperBound),
         ),
         valueSide: .left,
         gradient: gradient,
+        maxRange: maxRange,
       ),
     ]
     super.init(frame: .zero)
@@ -121,6 +125,28 @@ final class YearSelectorImpl: UIView {
   @available(*, unavailable)
   required init?(coder _: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+
+  func updateMaxRange(_ maxRange: ClosedRange<Int>, yearRange: ClosedRange<Int>) {
+    guard self.maxRange != maxRange else { return }
+    self.maxRange = maxRange
+    for thumb in thumbs {
+      thumb.maxRange = maxRange
+    }
+    thumbs[0].value = lerpParameter(
+      of: CGFloat(yearRange.lowerBound),
+      lowerBound: CGFloat(maxRange.lowerBound),
+      upperBound: CGFloat(maxRange.upperBound),
+    )
+    thumbs[1].value = lerpParameter(
+      of: CGFloat(yearRange.upperBound),
+      lowerBound: CGFloat(maxRange.lowerBound),
+      upperBound: CGFloat(maxRange.upperBound),
+    )
+    UIView.animate(springDuration: 0.3) { [self] in
+      updateThumbCoordinates()
+      updateShadows()
+    }
   }
 
   // updates gradient layer and thumb colors
@@ -194,7 +220,7 @@ final class YearSelectorImpl: UIView {
   }
 
   private func rangeDidChange() {
-    yearRangeBinding = yearRange
+    setYearRange(yearRange)
     updateShadows()
   }
 
@@ -249,7 +275,7 @@ final class YearSelectorImpl: UIView {
   }
 
   private func year(from value: CGFloat) -> Int {
-    Constants.startYear + Int(CGFloat(Constants.endYear - Constants.startYear) * value)
+    Int(lerp(at: value, between: CGFloat(maxRange.lowerBound), CGFloat(maxRange.upperBound)))
   }
 }
 

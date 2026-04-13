@@ -30,6 +30,7 @@ final class ThumbView: UIView {
   // используем его для конвертации в год
   var value: CGFloat
   var gradient: GradientScheme
+  var maxRange: ClosedRange<Int>
 
   let valueSide: ValueSide
   private let yearLabel = UILabel()
@@ -38,10 +39,12 @@ final class ThumbView: UIView {
     value: CGFloat,
     valueSide type: ValueSide,
     gradient: GradientScheme,
+    maxRange: ClosedRange<Int>,
   ) {
     self.valueSide = type
     self.value = value
     self.gradient = gradient
+    self.maxRange = maxRange
     super.init(frame: .zero)
 
     yearLabel.textAlignment = .center
@@ -72,7 +75,7 @@ final class ThumbView: UIView {
 
   func updateYear(_ newYear: Int) {
     yearLabel.text = "\(newYear)"
-    let yearColor = gradient.color(at: newYear)
+    let yearColor = gradient.color(at: newYear, maxRange: maxRange)
     let labelColor: UIColor = if yearColor.isDark {
       .white
     } else {

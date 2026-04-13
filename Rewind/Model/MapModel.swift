@@ -15,7 +15,7 @@ struct MapState {
   typealias ClusteredImages = [ClusteringCell: Either<Set<Model.Image>, Model.LocalCluster>]
   var mapType: MapType
   var region: Region
-  var yearRange: ClosedRange<Int>
+  var filters: ImageRequestFilters
   var currentRegionImages: [Model.Image]
   var previews: [ThumbnailCard]
   var locationState: LocationState
@@ -38,7 +38,7 @@ enum MapAction {
     enum UI {
       case mapViewLoaded
       case locationButtonTapped
-      case yearRangeChanged(ClosedRange<Int>)
+      case filtersChanged(ImageRequestFilters)
       case mapTypeSelected(MapType)
     }
 
@@ -146,9 +146,15 @@ func makeMapModel(
           case .mapViewLoaded:
             locationModel(.requestAccess)
             locationModel(.tryStartUpdatingLocation)
-          case let .yearRangeChanged(yearRange):
-            state.yearRange = yearRange
-            enqueueEffect(.debounced(id: .yearRangeChanged) { anotherAction in
+          case let .filtersChanged(filters):
+            let newImageKind = filters.imageKind
+            let imageKindChanged = state.filters.imageKind != newImageKind
+            state.filters = modified(filters) {
+              if imageKindChanged {
+                $0.yearRange = newImageKind.maxRange
+              }
+            }
+            enqueueEffect(.debounced(id: .filtersChanged) { anotherAction in
               await anotherAction(.internal(.clearAnnotations))
               await anotherAction(.internal(.loadAnnotations))
             })
@@ -214,7 +220,7 @@ func makeMapModel(
           state.isLoading = true
           let params = AnnotationLoadingParams(
             region: state.region,
-            yearRange: state.yearRange,
+            filters: state.filters,
             mapSize: mapAdapter.size,
           )
           enqueueEffect(.perform(id: EffectID.loadAnnotations) { anotherAction in
@@ -288,9 +294,9 @@ func makeMapModel(
         case .unfoldMapControlsBack:
           performAppAction(.mapControls(.setMinimization(.normal)))
         case .clearAnnotations:
-          mapAdapter.clear()
           enqueueEffect(.perform { anotherAction in
             await annotationStore.clear()
+            await mapAdapter.clear()
             await anotherAction(.internal(.updatePreviews))
           })
         }
@@ -319,7 +325,7 @@ extension MapState {
     MapState(
       mapType: .standard,
       region: .zero,
-      yearRange: 1826...2000,
+      filters: .default,
       currentRegionImages: [],
       previews: [],
       locationState: locationState,

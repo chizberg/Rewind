@@ -70,7 +70,7 @@ struct MapControls: View {
 
   private var expandableControls: some View {
     ExpandableControls(
-      yearRange: mapStore.binding(\.yearRange, send: { .yearRangeChanged($0) }),
+      filters: mapStore.binding(\.filters, send: { .filtersChanged($0) }),
       mapType: mapStore.binding(\.mapType, send: { .mapTypeSelected($0) }),
       staticItems: [
         ExpandableControls.StaticItem(

@@ -28,6 +28,7 @@ struct RootView: View {
   var body: some View {
     content
       .environment(\.gradientScheme, appStore.gradientScheme)
+      .environment(\.maxRange, mapStore.filters.imageKind.maxRange)
   }
 
   private var content: some View {

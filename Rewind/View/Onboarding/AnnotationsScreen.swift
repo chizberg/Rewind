@@ -12,7 +12,8 @@ struct AnnotationsScreen: View {
   var goNext: () -> Void
 
   /// Interactive year range for the onboarding date picker demo
-  @State private var yearRange: ClosedRange<Int> = 1826...2000
+  @State
+  private var yearRange: ClosedRange<Int> = ImageRequestFilters.ImageKind.photo.maxRange
 
   var body: some View {
     VStack(alignment: .leading) {
@@ -64,7 +65,10 @@ struct AnnotationsScreen: View {
           VStack {
             Text("onboarding_date")
             Divider()
-            YearSelector(yearRange: $yearRange)
+            YearSelector(
+              yearRange: $yearRange,
+              maxRange: ImageRequestFilters.default.imageKind.maxRange,
+            )
           }
           .onboardingCard()
 
