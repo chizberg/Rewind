@@ -9,7 +9,7 @@ Also in TestFlight: https://testflight.apple.com/join/vbJFFZgD
 ### Features
 
 - **Vintage photos and paintings near you:** the app uses PastVu API to fetch photos, paintings, and their metadata and shows them on an Apple MapKit map
-- **Favorites:** save what you like to view it later
+- **Favorites:** save what you like to view later
 - **Compare:** take a photo to compare how a place looks like today and how it looked in the past. You can use either the camera or Google Street View.
 - **Search:** quickly find places you know with a simple query. *Uses Apple MapKit search*
 - **Translate:** read descriptions in your preferred language. Uses Google Translate.

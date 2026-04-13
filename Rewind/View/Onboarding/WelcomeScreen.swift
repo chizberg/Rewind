@@ -82,6 +82,7 @@ struct WelcomeScreen: View {
       overscrollGradient.rotationEffect(.degrees(180))
         .frame(height: 80)
         .ignoresSafeArea()
+        .allowsHitTesting(false)
     }
   }
 

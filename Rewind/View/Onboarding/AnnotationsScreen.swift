@@ -24,7 +24,7 @@ struct AnnotationsScreen: View {
               .multilineTextAlignment(.leading)
               .font(.largeTitle.bold())
 
-            Text("How do images look?")
+            Text("What do the images look like?")
               .fontWeight(.semibold)
               .padding(.top, 2)
           }

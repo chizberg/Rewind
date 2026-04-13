@@ -2186,65 +2186,6 @@
         }
       }
     },
-    "How do images look?" : {
-      "comment" : "Map annotation onboarding subtitle",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wie sehen die Bilder aus?"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "How do images look?"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "¿Cómo se ven las imágenes?"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Comment les images apparaissent-elles ?"
-          }
-        },
-        "kk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Суреттер қалай көрінеді?"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Как выглядят изображения?"
-          }
-        },
-        "sr-Latn" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kako izgledaju slike?"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Як виглядають зображення?"
-          }
-        },
-        "uz" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rasmlar qanday ko'rinadi?"
-          }
-        }
-      }
-    },
     "Hybrid" : {
       "comment" : "hybrid map style",
       "localizations" : {
@@ -6299,56 +6240,61 @@
         }
       }
     },
-    "What do they look like?" : {
+    "What do the images look like?" : {
       "comment" : "Map annotation onboarding subtitle",
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wie sehen sie aus?"
+            "value" : "Wie sehen die Bilder aus?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What do the images look like?"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "¿Cómo se ven?"
+            "value" : "¿Cómo se ven las imágenes?"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "À quoi ça ressemble ?"
+            "value" : "Comment les images apparaissent-elles ?"
           }
         },
         "kk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Олар қандай көрінеді?"
+            "value" : "Суреттер қалай көрінеді?"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Как они выглядят?"
+            "value" : "Как выглядят изображения?"
           }
         },
         "sr-Latn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kako izgledaju?"
+            "value" : "Kako izgledaju slike?"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Як вони виглядають?"
+            "value" : "Як виглядають зображення?"
           }
         },
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ular qanday ko'rinadi?"
+            "value" : "Rasmlar qanday ko'rinadi?"
           }
         }
       }
