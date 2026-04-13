@@ -281,7 +281,6 @@ private struct ExpandableView<
   var mapType = MapType.standard
 
   ZStack(alignment: .bottom) {
-//    Color.blue.ignoresSafeArea()
     Image(.cat).resizable().ignoresSafeArea()
 
     ExpandableControls(
