@@ -50,17 +50,26 @@ struct ExpandableControls: View {
           minimizedButton(
             iconName: $0.iconName,
             action: $0.action,
-          ).background {
-            makeBackground(radius: minimizedRadius)
-          }.ifLet($0.transitionSource) { view, source in
+          )
+          .ifLet($0.transitionSource) { view, source in
             view.matchedTransitionSource(
               id: source.id,
               in: source.namespace,
             )
-          }.clipShape(Circle())
+          }
+          .modifier(BackgroundModifier(
+            radius: minimizedRadius,
+            isInteractive: true
+          ))
         }
       },
-    )
+    ).modify { view in
+      if #available(iOS 26, *) {
+        GlassEffectContainer { view }
+      } else {
+        view
+      }
+    }
   }
 
   private func expandableItemView(
@@ -84,19 +93,11 @@ struct ExpandableControls: View {
         }
         .padding(3)
       },
-      background: {
-        makeBackground(radius: isExpanded.wrappedValue ? expandedRadius : minimizedRadius)
-      },
+      background: BackgroundModifier(
+        radius: isExpanded.wrappedValue ? expandedRadius : minimizedRadius,
+        isInteractive: !isExpanded.wrappedValue,
+      ),
     )
-  }
-
-  @ViewBuilder
-  private func makeBackground(radius: CGFloat) -> some View {
-    if #available(iOS 26, *) {
-      GlassView(radius: radius)
-    } else {
-      BlurView(style: .systemThickMaterial, radius: radius)
-    }
   }
 
   private func minimizedButton(
@@ -126,6 +127,26 @@ struct ExpandableControls: View {
 
   private var iconColor: Color {
     .primary.opacity(0.8)
+  }
+}
+
+private struct BackgroundModifier: ViewModifier {
+  var radius: CGFloat
+  var isInteractive: Bool
+
+  func body(content: Content) -> some View {
+    if #available(iOS 26, *) {
+      content
+        .glassEffect(
+          .regular.interactive(isInteractive),
+          in: RoundedRectangle(cornerRadius: radius)
+        )
+    } else {
+      content
+        .background {
+          BlurView(style: .systemThinMaterial, radius: radius)
+        }
+    }
   }
 }
 
@@ -226,15 +247,18 @@ private struct ExpandableStack<StaticContent: View>: View {
 }
 
 // TODO: fix animations
-private struct ExpandableView<Minimized: View, Expanded: View, Background: View>: View {
+private struct ExpandableView<
+  Minimized: View,
+  Expanded: View,
+  Background: ViewModifier
+>: View {
   @Binding
   var isExpanded: Bool
   @ViewBuilder
   var minimized: (_ expand: @escaping () -> Void) -> Minimized
   @ViewBuilder
   var expanded: (_ minimize: @escaping () -> Void) -> Expanded
-  @ViewBuilder
-  var background: () -> Background
+  var background: Background
 
   var body: some View {
     VStack {
@@ -245,7 +269,7 @@ private struct ExpandableView<Minimized: View, Expanded: View, Background: View>
         minimized( /* expand: */ { isExpanded = true })
       }
     }
-    .background(background())
+    .modifier(background)
   }
 }
 
@@ -257,7 +281,8 @@ private struct ExpandableView<Minimized: View, Expanded: View, Background: View>
   var mapType = MapType.standard
 
   ZStack(alignment: .bottom) {
-    Color.blue.ignoresSafeArea()
+//    Color.blue.ignoresSafeArea()
+    Image(.cat).resizable().ignoresSafeArea()
 
     ExpandableControls(
       yearRange: $yearRange,
