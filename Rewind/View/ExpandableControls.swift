@@ -61,6 +61,7 @@ struct ExpandableControls: View {
             radius: minimizedRadius,
             isInteractive: true
           ))
+          .clipShape(Circle())
         }
       },
     ).modify { view in
