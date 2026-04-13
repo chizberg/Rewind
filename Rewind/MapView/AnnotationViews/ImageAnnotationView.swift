@@ -13,7 +13,9 @@ final class ImageAnnotationView: MKAnnotationView {
   private let iconView: UIImageView
 
   private var gradient = SettingsState.default.gradientScheme
+  private var yearRange = ImageRequestFilters.default.imageKind.maxRange
   private var gradientSubscription: Disposable?
+  private var yearRangeSubscription: Disposable?
 
   override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
     iconView = UIImageView(image: iconImage)
@@ -48,13 +50,22 @@ final class ImageAnnotationView: MKAnnotationView {
   override func prepareForReuse() {
     super.prepareForReuse()
     gradientSubscription = nil
+    yearRangeSubscription = nil
   }
 
-  func subscribe(gradientScheme: ObservableVariable<GradientScheme>) {
+  func subscribe(
+    gradientScheme: ObservableVariable<GradientScheme>,
+    yearRange: ObservableVariable<ClosedRange<Int>>,
+  ) {
     gradientSubscription = gradientScheme.currentAndNewValues.addObserver { [weak self] in
       guard let self else { return }
       gradient = $0
       updateColor()
+    }
+    yearRangeSubscription = yearRange.currentAndNewValues.addObserver { [weak self] in
+      guard let self else { return }
+      self.yearRange = $0
+      UIView.animate { self.updateColor() }
     }
   }
 
@@ -62,7 +73,7 @@ final class ImageAnnotationView: MKAnnotationView {
     guard let imageAnn = annotation as? Annotation<Model.Image> else {
       return
     }
-    let yearColor = gradient.color(at: imageAnn.value.date.year)
+    let yearColor = gradient.color(at: imageAnn.value.date.year, maxRange: yearRange)
     iconView.tintColor = yearColor.systemColor
     let shadowColor: UIColor = if yearColor.isDark {
       .white

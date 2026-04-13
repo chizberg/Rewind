@@ -16,8 +16,10 @@ final class ClusterAnnotationView: MKAnnotationView {
   private var loadingTask: Task<Void, Never>?
 
   private var gradient = SettingsState.default.gradientScheme
+  private var yearRange = ImageRequestFilters.default.imageKind.maxRange
 
   private var gradientSubscription: Disposable?
+  private var yearRangeSubscription: Disposable?
 
   override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
     imageView = UIImageView(image: nil)
@@ -75,6 +77,7 @@ final class ClusterAnnotationView: MKAnnotationView {
     super.prepareForReuse()
     loadingTask?.cancel()
     gradientSubscription = nil
+    yearRangeSubscription = nil
   }
 
   override func layoutSubviews() {
@@ -85,11 +88,17 @@ final class ClusterAnnotationView: MKAnnotationView {
 
   func subscribe(
     gradientScheme: ObservableVariable<GradientScheme>,
+    yearRange: ObservableVariable<ClosedRange<Int>>,
   ) {
     gradientSubscription = gradientScheme.currentAndNewValues.addObserver { [weak self] in
       guard let self else { return }
       gradient = $0
       updateColors()
+    }
+    yearRangeSubscription = yearRange.currentAndNewValues.addObserver { [weak self] in
+      guard let self else { return }
+      self.yearRange = $0
+      UIView.animate { self.updateColors() }
     }
   }
 
@@ -103,7 +112,7 @@ final class ClusterAnnotationView: MKAnnotationView {
 
   private func updateColors() {
     guard let clusterValue else { return }
-    let yearColor = gradient.color(at: clusterValue.preview.date.year)
+    let yearColor = gradient.color(at: clusterValue.preview.date.year, maxRange: yearRange)
     let bgColor = yearColor.systemColor
     let fgColor: UIColor = if yearColor.isDark {
       .white

@@ -61,12 +61,12 @@ final class Reducer<State, Action> {
 enum DebouncedActionID: String {
   case regionChanged
   case updatePreviews
-  case yearRangeChanged
+  case filtersChanged
   case unfoldControlsBack
 
   var delay: TimeInterval {
     switch self {
-    case .regionChanged, .yearRangeChanged, .updatePreviews: 0.1
+    case .regionChanged, .filtersChanged, .updatePreviews: 0.1
     case .unfoldControlsBack: 2
     }
   }

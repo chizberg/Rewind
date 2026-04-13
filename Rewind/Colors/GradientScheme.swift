@@ -42,17 +42,17 @@ extension RGBAColor: Interpolatable {
 }
 
 extension GradientScheme {
-  func color(at year: Int) -> RGBAColor {
+  func color(at year: Int, maxRange: ClosedRange<Int>) -> RGBAColor {
     let t = lerpParameter(
       of: CGFloat(year),
-      lowerBound: 1826,
-      upperBound: 2000,
+      lowerBound: CGFloat(maxRange.lowerBound),
+      upperBound: CGFloat(maxRange.upperBound),
     )
     return lerp(at: t, in: value)
   }
 
-  func uiColor(at year: Int) -> UIColor {
-    color(at: year).systemColor
+  func uiColor(at year: Int, maxRange: ClosedRange<Int>) -> UIColor {
+    color(at: year, maxRange: maxRange).systemColor
   }
 }
 

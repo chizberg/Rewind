@@ -28,7 +28,7 @@ func makeDiffAfterReceived(
 ) {
   let shouldClearOldAnnotations = if let lastParams = state.lastLoadedParams {
     lastParams.zoom != params.zoom
-      || lastParams.yearRange != params.yearRange
+      || lastParams.filters != params.filters
   } else {
     false
   }

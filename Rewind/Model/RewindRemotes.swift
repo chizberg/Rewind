@@ -18,17 +18,17 @@ struct AnnotationLoadingParams {
   var zoom: Int
   var coordinates: [[Double]]
   var startAt: TimeInterval
-  var yearRange: ClosedRange<Int>
+  var filters: ImageRequestFilters
 
   init(
     region: Region,
-    yearRange: ClosedRange<Int>,
+    filters: ImageRequestFilters,
     mapSize: CGSize,
   ) {
     self.zoom = Rewind.zoom(region: region, mapSize: mapSize)
     self.coordinates = region.geoJSONCoordinates
     self.startAt = Date().timeIntervalSince1970
-    self.yearRange = yearRange
+    self.filters = filters
   }
 }
 
@@ -48,7 +48,8 @@ extension RewindRemotes {
           zoom: params.zoom,
           coordinates: params.coordinates,
           startAt: params.startAt,
-          yearRange: params.yearRange,
+          yearRange: params.filters.yearRange,
+          isPainting: params.filters.imageKind == .painting,
         ),
       )
       let images = nis.map {

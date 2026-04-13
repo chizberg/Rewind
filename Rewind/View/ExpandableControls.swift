@@ -16,7 +16,7 @@ struct ExpandableControls: View {
   }
 
   @Binding
-  var yearRange: ClosedRange<Int>
+  var filters: ImageRequestFilters
   @Binding
   var mapType: MapType
   var staticItems: [StaticItem]
@@ -28,10 +28,14 @@ struct ExpandableControls: View {
           expandableItemView(
             iconName: "calendar.badge.clock",
             expandedContent: {
-              YearSelector(yearRange: $yearRange)
-                .padding(.leading, 10)
+              YearSelector(
+                yearRange: $filters.yearRange,
+                maxRange: filters.imageKind.maxRange,
+              )
+              .padding(.leading, 10)
             },
             isExpanded: isExpanded,
+            isAccent: filters.isRangeModified,
           )
         },
         .init(id: "map type picker") { isExpanded in
@@ -42,6 +46,18 @@ struct ExpandableControls: View {
                 .padding(.leading, 10)
             },
             isExpanded: isExpanded,
+            isAccent: false,
+          )
+        },
+        .init(id: "image kind picker") { isExpanded in
+          expandableItemView(
+            iconName: "paintbrush.pointed.fill",
+            expandedContent: {
+              ImageKindPicker(imageKind: $filters.imageKind)
+                .padding(.leading, 10)
+            },
+            isExpanded: isExpanded,
+            isAccent: filters.imageKind == .painting
           )
         },
       ],
@@ -50,6 +66,7 @@ struct ExpandableControls: View {
           minimizedButton(
             iconName: $0.iconName,
             action: $0.action,
+            isAccent: false,
           )
           .ifLet($0.transitionSource) { view, source in
             view.matchedTransitionSource(
@@ -77,6 +94,7 @@ struct ExpandableControls: View {
     iconName: String,
     @ViewBuilder expandedContent: @escaping () -> some View,
     isExpanded: Binding<Bool>,
+    isAccent: Bool,
   ) -> some View {
     ExpandableView(
       isExpanded: isExpanded,
@@ -84,12 +102,12 @@ struct ExpandableControls: View {
         minimizedButton(
           iconName: iconName,
           action: expand,
+          isAccent: isAccent,
         )
       },
       expanded: { minimize in
         HStack {
           expandedContent()
-
           closeButton(action: minimize)
         }
         .padding(3)
@@ -104,13 +122,15 @@ struct ExpandableControls: View {
   private func minimizedButton(
     iconName: String,
     action: @escaping () -> Void,
+    isAccent: Bool,
   ) -> some View {
     Button(action: action) {
       Image(systemName: iconName)
         .font(.title2.weight(.semibold))
         .padding(10)
         .contentShape(Rectangle())
-    }.foregroundStyle(iconColor)
+    }
+    .foregroundStyle(isAccent ? Color.accentColor : iconColor)
   }
 
   private func closeButton(action: @escaping () -> Void) -> some View {
@@ -168,6 +188,32 @@ private struct MapTypePicker: View {
   }
 }
 
+private struct ImageKindPicker: View {
+  @Binding
+  var imageKind: ImageRequestFilters.ImageKind
+
+  var body: some View {
+    Picker("Image kind", selection: $imageKind) {
+      Text("Photos").tag(ImageRequestFilters.ImageKind.photo)
+      Text("Paintings").tag(ImageRequestFilters.ImageKind.painting)
+    }
+    .pickerStyle(.segmented)
+  }
+}
+
+extension View {
+  @ViewBuilder
+  fileprivate func glassID<ID: Hashable>(
+    _ id: ID, in namespace: Namespace.ID
+  ) -> some View {
+    if #available(iOS 26, *) {
+      self.glassEffectID(id, in: namespace)
+    } else {
+      self
+    }
+  }
+}
+
 private struct ExpandableStack<StaticContent: View>: View {
   struct Item: Identifiable, Equatable {
     typealias ID = String
@@ -204,15 +250,16 @@ private struct ExpandableStack<StaticContent: View>: View {
   @Namespace
   private var namespace
   @State
-  private var expandedItems = [Item]()
+  private var expandedIDs = [Item.ID]()
 
   var body: some View {
     VStack(alignment: .leading) {
       // minimized
       HStack {
         ForEach(items) { item in
-          if !expandedItems.contains(item) {
+          if !expandedIDs.contains(item.id) {
             item.view(expansionBinding(item))
+              .glassID(item.id, in: namespace)
               .matchedGeometryEffect(id: item.id, in: namespace)
           }
         }
@@ -223,9 +270,12 @@ private struct ExpandableStack<StaticContent: View>: View {
       }
       // expanded
       VStack {
-        ForEach(expandedItems.reversed()) { item in
-          item.view(expansionBinding(item))
-            .matchedGeometryEffect(id: item.id, in: namespace)
+        ForEach(expandedIDs.reversed(), id: \.self) { id in
+          if let item = items.first(where: { $0.id == id }) {
+            item.view(expansionBinding(item))
+              .glassID(item.id, in: namespace)
+              .matchedGeometryEffect(id: item.id, in: namespace)
+          }
         }
       }
     }
@@ -233,13 +283,13 @@ private struct ExpandableStack<StaticContent: View>: View {
 
   private func expansionBinding(_ item: Item) -> Binding<Bool> {
     Binding(
-      get: { expandedItems.contains(item) },
+      get: { expandedIDs.contains(item.id) },
       set: { isExpanded in
         withAnimation(.spring(duration: 0.4)) {
           if isExpanded {
-            expandedItems.append(item)
+            expandedIDs.append(item.id)
           } else {
-            expandedItems.removeAll { $0 == item }
+            expandedIDs.removeAll { $0 == item.id }
           }
         }
       },
@@ -276,7 +326,7 @@ private struct ExpandableView<
 
 #Preview {
   @Previewable @State
-  var yearRange = 1826...2000
+  var filters = ImageRequestFilters.default
 
   @Previewable @State
   var mapType = MapType.standard
@@ -285,7 +335,7 @@ private struct ExpandableView<
     Image(.cat).resizable().ignoresSafeArea()
 
     ExpandableControls(
-      yearRange: $yearRange,
+      filters: $filters,
       mapType: $mapType,
       staticItems: [
         .init(id: "search", iconName: "magnifyingglass", action: {}),

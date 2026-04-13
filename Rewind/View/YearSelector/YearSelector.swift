@@ -10,13 +10,21 @@ import SwiftUI
 struct YearSelector: View {
   @Binding
   var yearRange: ClosedRange<Int>
+  var maxRange: ClosedRange<Int>
   @Environment(\.gradientScheme)
   private var gradient
 
   var body: some View {
     ViewRepresentable {
-      YearSelectorImpl(yearRange: $yearRange, gradient: gradient)
+      YearSelectorImpl(
+        yearRange: yearRange,
+        maxRange: maxRange,
+        gradient: gradient,
+        setYearRange: { yearRange = $0 },
+      )
     } updater: {
+      $0.setYearRange = { yearRange = $0 }
+      $0.updateMaxRange(maxRange, yearRange: yearRange)
       $0.updateGradient(gradient)
     }
     .frame(height: 50)
@@ -25,10 +33,11 @@ struct YearSelector: View {
 
 #Preview {
   @Previewable @State
-  var yearRange = 1826...2000
+  var yearRange = ImageRequestFilters.ImageKind.photo.maxRange
 
   YearSelector(
     yearRange: $yearRange,
+    maxRange: ImageRequestFilters.default.imageKind.maxRange,
   ).onChange(of: yearRange) {
     print(yearRange)
   }

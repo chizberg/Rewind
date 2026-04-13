@@ -44,9 +44,15 @@ final class AppGraph {
       imageLoader: imageLoader,
     )
     let settings = makeSettings(storage: storage)
+
+    let filters = ObservableVariableConnection(
+      initialValue: ImageRequestFilters.default
+    )
     let mapAdapter = MapAdapter(
       settings: settings.asObservableVariable(),
+      filters: filters.target
     )
+
     weak var mapModelRef: MapModel?
     weak var appModelRef: AppModel?
     weak var weakSelf: AppGraph?
@@ -138,6 +144,7 @@ final class AppGraph {
     settings.gradientScheme.asObservableVariable().onChange {
       appModelRef?(.mapControls(.setGradientScheme($0)))
     }.dispose(in: disposePool)
+    filters.current = mapModel.$state.filters.skipRepeats()
 
     // React to memory warnings by clearing image cache
     memoryWarningObserver = NotificationCenter.default.addObserver(

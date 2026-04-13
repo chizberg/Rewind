@@ -44,12 +44,15 @@ private struct ColoredContainer<Content: View>: View {
   var date: ImageDate
   @Environment(\.gradientScheme)
   private var gradient
+  @Environment(\.maxRange)
+  private var maxRange
   @ViewBuilder
   var content: () -> Content
 
   var body: some View {
     let yearColor = gradient.color(
       at: date.year,
+      maxRange: maxRange,
     )
     let fgColor: UIColor = if yearColor.isDark {
       .white
@@ -65,6 +68,7 @@ private struct ColoredContainer<Content: View>: View {
         RoundedRectangle(cornerRadius: radius)
           .fill(Color(uiColor: yearColor.systemColor))
       }
+      .animation(.smooth, value: maxRange)
   }
 }
 

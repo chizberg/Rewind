@@ -23,8 +23,15 @@ extension Network.Request {
     coordinates: [[Double]],
     startAt: TimeInterval,
     yearRange: ClosedRange<Int>,
+    isPainting: Bool,
   ) -> Network.Request<([Network.Image], [Network.Cluster])> {
-    Network.byBounds(zoom: zoom, coordinates: coordinates, startAt: startAt, yearRange: yearRange)
+    Network.byBounds(
+      zoom: zoom,
+      coordinates: coordinates,
+      startAt: startAt,
+      yearRange: yearRange,
+      isPainting: isPainting,
+    )
   }
 
   // TODO: more aestetically pleasing extensions
@@ -63,6 +70,7 @@ extension Network {
     coordinates: [[Double]],
     startAt: TimeInterval,
     yearRange: ClosedRange<Int>,
+    isPainting: Bool,
   ) -> Request<([Image], [Cluster])> {
     struct RawParams: Encodable {
       struct Geometry: Encodable {
@@ -96,7 +104,7 @@ extension Network {
           z: zoom,
           year: yearRange.lowerBound,
           year2: yearRange.upperBound,
-          isPainting: false, // TODO: support for paintings
+          isPainting: isPainting,
           localWork: isLocalWork(zoom: zoom),
           geometry: .init(
             coordinates: [coordinates],

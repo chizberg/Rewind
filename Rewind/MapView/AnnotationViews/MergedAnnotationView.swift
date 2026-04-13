@@ -12,7 +12,9 @@ final class MergedAnnotationView: MKAnnotationView {
   private let label = UILabel()
 
   private var gradient = SettingsState.default.gradientScheme
+  private var yearRange = ImageRequestFilters.default.imageKind.maxRange
   private var gradientSubscription: Disposable?
+  private var yearRangeSubscription: Disposable?
 
   override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
     super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
@@ -62,21 +64,28 @@ final class MergedAnnotationView: MKAnnotationView {
   override func prepareForReuse() {
     super.prepareForReuse()
     gradientSubscription = nil
+    yearRangeSubscription = nil
   }
 
   func subscribe(
     gradientScheme: ObservableVariable<GradientScheme>,
+    yearRange: ObservableVariable<ClosedRange<Int>>,
   ) {
     gradientSubscription = gradientScheme.currentAndNewValues.addObserver { [weak self] in
       guard let self else { return }
       gradient = $0
       updateColors()
     }
+    yearRangeSubscription = yearRange.currentAndNewValues.addObserver { [weak self] in
+      guard let self else { return }
+      self.yearRange = $0
+      UIView.animate { self.updateColors() }
+    }
   }
 
   private func updateColors() {
     guard let year else { return }
-    let yearColor = gradient.color(at: year)
+    let yearColor = gradient.color(at: year, maxRange: yearRange)
     backgroundColor = yearColor.systemColor
     if yearColor.isDark {
       label.textColor = .white
