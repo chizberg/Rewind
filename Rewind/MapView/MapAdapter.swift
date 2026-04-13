@@ -18,7 +18,7 @@ final class MapAdapter: NSObject, MKMapViewDelegate, UIGestureRecognizerDelegate
   private let map: Lazy<MKMapView>
   private let pipe = SignalPipe<Event>()
   private let gradientScheme: ObservableVariable<GradientScheme>
-  private let yearRange: ObservableVariable<ClosedRange<Int>>
+  private let maxYearRange: ObservableVariable<ClosedRange<Int>>
 
   var size: CGSize {
     map.value.frame.size
@@ -69,7 +69,7 @@ final class MapAdapter: NSObject, MKMapViewDelegate, UIGestureRecognizerDelegate
       return map
     })
     self.gradientScheme = settings.gradientScheme
-    self.yearRange = filters.imageKind.skipRepeats().map(\.maxRange)
+    self.maxYearRange = filters.imageKind.skipRepeats().map(\.maxRange)
 
     super.init()
     weakSelf = self
@@ -155,7 +155,7 @@ final class MapAdapter: NSObject, MKMapViewDelegate, UIGestureRecognizerDelegate
         assertionFailure()
         return nil
       }
-      cell.subscribe(gradientScheme: gradientScheme, yearRange: yearRange)
+      cell.subscribe(gradientScheme: gradientScheme, yearRange: maxYearRange)
       return cell
     } else if annotation is Annotation<Model.Cluster> {
       guard let cell = mapView.dequeueReusableAnnotationView(
@@ -164,7 +164,7 @@ final class MapAdapter: NSObject, MKMapViewDelegate, UIGestureRecognizerDelegate
         assertionFailure()
         return nil
       }
-      cell.subscribe(gradientScheme: gradientScheme, yearRange: yearRange)
+      cell.subscribe(gradientScheme: gradientScheme, yearRange: maxYearRange)
       return cell
     } else if annotation is Annotation<Model.LocalCluster> {
       guard let cell = mapView.dequeueReusableAnnotationView(
@@ -173,7 +173,7 @@ final class MapAdapter: NSObject, MKMapViewDelegate, UIGestureRecognizerDelegate
         assertionFailure()
         return nil
       }
-      cell.subscribe(gradientScheme: gradientScheme, yearRange: yearRange)
+      cell.subscribe(gradientScheme: gradientScheme, yearRange: maxYearRange)
       return cell
     } else if annotation is MKClusterAnnotation {
       guard let cell = mapView.dequeueReusableAnnotationView(
@@ -181,7 +181,7 @@ final class MapAdapter: NSObject, MKMapViewDelegate, UIGestureRecognizerDelegate
       ) as? MergedAnnotationView else {
         return nil
       }
-      cell.subscribe(gradientScheme: gradientScheme, yearRange: yearRange)
+      cell.subscribe(gradientScheme: gradientScheme, yearRange: maxYearRange)
       return cell
     } else if annotation is MKUserLocation {
       return nil
