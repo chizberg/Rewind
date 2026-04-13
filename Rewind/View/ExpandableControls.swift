@@ -324,6 +324,7 @@ private struct ExpandableView<
   }
 }
 
+#if DEBUG
 #Preview {
   @Previewable @State
   var filters = ImageRequestFilters.default
@@ -352,3 +353,4 @@ private struct ExpandableView<
 
   MapTypePicker(mapType: $mapType)
 }
+#endif
