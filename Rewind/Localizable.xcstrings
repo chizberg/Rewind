@@ -984,55 +984,55 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Machen Sie ein&nbsp;Foto oder&nbsp;nutzen Sie Google Street View, um&nbsp;denselben Ort im&nbsp;Laufe der&nbsp;Zeit zu&nbsp;vergleichen"
+            "value" : "Nutzen Sie Ihre Kamera, um denselben Ort im Laufe der Zeit zu vergleichen"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Take a&nbsp;photo or&nbsp;use Google Street View to&nbsp;compare the&nbsp;same place over&nbsp;time"
+            "value" : "Use your camera to compare the same place over time"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Toma una&nbsp;foto o&nbsp;usa Google Street View para&nbsp;comparar el&nbsp;mismo lugar a&nbsp;lo largo del&nbsp;tiempo"
+            "value" : "Usa tu cámara para comparar el mismo lugar a lo largo del tiempo"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Prenez une&nbsp;photo ou&nbsp;utilisez Google Street View pour&nbsp;comparer le&nbsp;même endroit au&nbsp;fil du&nbsp;temps"
+            "value" : "Utilisez votre caméra pour comparer le même endroit au fil du temps"
           }
         },
         "kk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Бір орынды уақыт өткен соң салыстыру үшін фото түсіріңіз немесе Google Street View қолданыңыз"
+            "value" : "Бір орынды уақыт өткен сайын салыстыру үшін камераңызды пайдаланыңыз"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Сравните то же место спустя годы, сделав фотографию или используя Google Street View"
+            "value" : "Используйте камеру, чтобы сравнить место спустя годы"
           }
         },
         "sr-Latn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Napravite fotografiju ili koristite Google Street View da&nbsp;uporedite isto mesto tokom&nbsp;vremena"
+            "value" : "Koristite kameru da uporedite isto mesto tokom vremena"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Зробіть фото або&nbsp;скористайтеся Google Street View, щоб&nbsp;порівняти те&nbsp;саме місце з&nbsp;плином часу"
+            "value" : "Використовуйте камеру, щоб порівняти те саме місце з плином часу"
           }
         },
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bir joyni vaqt o'tishi bilan solishtirish uchun foto oling yoki Google Street View'dan foydalaning"
+            "value" : "Bir joyni vaqt o'tishi bilan solishtirish uchun kamerangizdan foydalaning"
           }
         }
       }
@@ -2009,61 +2009,120 @@
         }
       }
     },
+    "History on a map" : {
+      "comment" : "TItle of map annotation onboarding",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geschichte auf einer Karte"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "History on a map"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historia en un mapa"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Histoire sur une carte"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Картадағы тарих"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "История на карте"
+          }
+        },
+        "sr-Latn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Istorija na mapi"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Історія на карті"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Xaritadagi tarix"
+          }
+        }
+      }
+    },
     "history_near_you_description" : {
       "comment" : "Onboarding description of location feature",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sie können alte&nbsp;Bilder von&nbsp;Orten auf&nbsp;der&nbsp;Karte ansehen"
+            "value" : "Sie können alte&nbsp;Fotos und&nbsp;Gemälde von&nbsp;Orten auf&nbsp;der&nbsp;Karte ansehen"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You can view old&nbsp;images of&nbsp;places on&nbsp;the&nbsp;map"
+            "value" : "Browse old photos and paintings of places on the map"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Puedes ver imágenes antiguas de&nbsp;lugares en&nbsp;el&nbsp;mapa"
+            "value" : "Explora fotos y pinturas antiguas de&nbsp;lugares en&nbsp;el&nbsp;mapa"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vous pouvez voir d'anciennes&nbsp;images de&nbsp;lieux sur&nbsp;la&nbsp;carte"
+            "value" : "Parcourez d'anciennes photos et&nbsp;peintures de&nbsp;lieux sur&nbsp;la&nbsp;carte"
           }
         },
         "kk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Сіз картадағы&nbsp;орындардың ескі&nbsp;суреттерін көре&nbsp;аласыз"
+            "value" : "Картадағы орындардың ескі&nbsp;фотосуреттері мен&nbsp;картиналарын қараңыз"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Вы можете увидеть старые фотографии мест на карте"
+            "value" : "Просматривайте старые фотографии и картины мест на карте"
           }
         },
         "sr-Latn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Možete da vidite stare&nbsp;fotografije mesta na&nbsp;mapi"
+            "value" : "Pregledajte stare fotografije i&nbsp;slike mesta na&nbsp;mapi"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ви можете переглядати старі&nbsp;фотографії місць на&nbsp;карті"
+            "value" : "Переглядайте старі фотографії та&nbsp;картини місць на&nbsp;карті"
           }
         },
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Siz xaritadagi&nbsp;joylarning eski&nbsp;rasmlarini ko'rishingiz&nbsp;mumkin"
+            "value" : "Xaritadagi joylarning eski fotosuratlari va rasmlarini ko'ring"
           }
         }
       }
@@ -2298,55 +2357,55 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Speichere Bilder, die dir gefallen"
+            "value" : "Speichere deine Favoriten"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Save images you like"
+            "value" : "Save your favorites"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Guarda las imágenes que te gusten"
+            "value" : "Guarda tus favoritos"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Enregistrez les images que vous aimez"
+            "value" : "Enregistrez vos favoris"
           }
         },
         "kk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ұнаған суреттерді сақтаңыз"
+            "value" : "Таңдаулыларыңызды сақтаңыз"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Сохраняйте любимые фотографии"
+            "value" : "Сохраняйте избранное"
           }
         },
         "sr-Latn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sačuvajte omiljene slike"
+            "value" : "Sačuvajte omiljene"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Зберігайте улюблені зображення"
+            "value" : "Зберігайте улюблене"
           }
         },
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Yoqqan rasmlarni saqlang"
+            "value" : "Sevimlilarni saqlang"
           }
         }
       }
@@ -2722,59 +2781,6 @@
         }
       }
     },
-    "Old photos on a map" : {
-      "comment" : "TItle of map annotation onboarding",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alte Fotos auf einer Karte"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fotos antiguas en un mapa"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Anciennes photos sur une carte"
-          }
-        },
-        "kk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Картадағы ескі фотосуреттер"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Старые фотографии на карте"
-          }
-        },
-        "sr-Latn" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Stare fotografije na mapi"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Старі фотографії на карті"
-          }
-        },
-        "uz" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Xaritadagi eski fotosuratlar"
-          }
-        }
-      }
-    },
     "On the map" : {
       "comment" : "title of a list of images presented currently on the map",
       "localizations" : {
@@ -2840,7 +2846,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Every image has location and date. Date has a corresponding color"
+            "value" : "Everything has a location and date. Each date has a corresponding color"
           }
         },
         "es" : {
@@ -2864,7 +2870,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "У каждого изображения есть локация и дата. Дате соответствует цвет"
+            "value" : "У всего есть локация и дата. Дате соответствует цвет"
           }
         },
         "sr-Latn" : {
@@ -2893,55 +2899,55 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rewind benötigt deinen Standort, um Bilder in deiner Nähe anzuzeigen. Ohne diese Berechtigung kannst du die App trotzdem nutzen"
+            "value" : "Rewind benötigt deinen Standort, um Fotos und Gemälde in deiner Nähe anzuzeigen. Ohne diese Berechtigung kannst du die App trotzdem nutzen"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rewind needs your location to show images near you. Without it you can still use the app"
+            "value" : "Rewind needs your location to show photos and paintings near you. Without it you can still use the app"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rewind necesita tu ubicación para mostrar imágenes cerca de ti. Sin ella aún puedes usar la app"
+            "value" : "Rewind necesita tu ubicación para mostrar fotos y pinturas cerca de ti. Sin ella aún puedes usar la app"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rewind a besoin de votre position pour afficher les images près de vous. Sans cela, vous pouvez quand même utiliser l'app"
+            "value" : "Rewind a besoin de votre position pour afficher les photos et peintures près de vous. Sans cela, vous pouvez quand même utiliser l'app"
           }
         },
         "kk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rewind сізге жақын жердегі суреттерді көрсету үшін орналасқан жеріңізді қажет етеді. Онсыз да қолданбаны пайдалана аласыз"
+            "value" : "Rewind сізге жақын жердегі фотосуреттер мен картиналарды көрсету үшін орналасқан жеріңізді қажет етеді. Онсыз да қолданбаны пайдалана аласыз"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rewind нужна ваша локация чтобы показывать фотографии рядом. Без этого доступа приложение тоже можно использовать"
+            "value" : "Rewind нужна ваша локация чтобы показывать фотографии и картины рядом. Без этого доступа приложение тоже можно использовать"
           }
         },
         "sr-Latn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rewind treba vašu lokaciju da bi prikazivao slike u vašoj blizini. Bez toga i dalje možete koristiti aplikaciju"
+            "value" : "Rewind treba vašu lokaciju da bi prikazivao fotografije i slike u vašoj blizini. Bez toga i dalje možete koristiti aplikaciju"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rewind потребує вашу локацію, щоб показувати фотографії поблизу. Без цього доступу застосунок теж можна використовувати"
+            "value" : "Rewind потребує вашу локацію, щоб показувати фотографії та картини поблизу. Без цього доступу застосунок теж можна використовувати"
           }
         },
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rewind sizga yaqin joylardagi rasmlarni koʻrsatish uchun joylashuvingizni bilishi kerak. Busiz ham ilovadan foydalanishingiz mumkin"
+            "value" : "Rewind sizga yaqin joylardagi fotosuratlar va rasmlarni koʻrsatish uchun joylashuvingizni bilishi kerak. Busiz ham ilovadan foydalanishingiz mumkin"
           }
         }
       }
@@ -2952,55 +2958,55 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rewind verwendet die PastVu-API, um alle historischen Bilder und die zugehörigen Daten abzurufen."
+            "value" : "Rewind verwendet die PastVu-API, um alle historischen Fotos, Gemälde und die zugehörigen Daten abzurufen."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rewind uses the PastVu API to obtain all historical images and their associated data."
+            "value" : "Rewind uses the PastVu API to obtain all historical photos, paintings, and their associated data."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rewind utiliza la API de PastVu para obtener todas las imágenes históricas y sus datos asociados."
+            "value" : "Rewind utiliza la API de PastVu para obtener todas las fotos históricas, pinturas y sus datos asociados."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rewind utilise l'API PastVu pour obtenir toutes les images historiques et leurs données associées."
+            "value" : "Rewind utilise l'API PastVu pour obtenir toutes les photos historiques, peintures et leurs données associées."
           }
         },
         "kk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rewind барлық тарихи суреттер мен олармен байланысты деректерді алу үшін PastVu API пайдаланады."
+            "value" : "Rewind барлық тарихи фотосуреттерді, картиналарды және олармен байланысты деректерді алу үшін PastVu API пайдаланады."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rewind использует PastVu API для получения всех изображений и данных о них"
+            "value" : "Rewind использует PastVu API для получения всех исторических фотографий, картин и данных о них"
           }
         },
         "sr-Latn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rewind koristi PastVu API za dobijanje svih istorijskih slika i njihovih pratećih podataka."
+            "value" : "Rewind koristi PastVu API za dobijanje svih istorijskih fotografija, slika i njihovih pratećih podataka."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rewind використовує PastVu API для отримання всіх історичних зображень та пов'язаних з ними даних."
+            "value" : "Rewind використовує PastVu API для отримання всіх історичних фотографій, картин та пов'язаних з ними даних."
           }
         },
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rewind barcha tarixiy rasmlar va ular bilan bogʻliq maʼlumotlarni olish uchun PastVu API dan foydalanadi."
+            "value" : "Rewind barcha tarixiy fotosuratlar, rasmlar va ular bilan bogʻliq maʼlumotlarni olish uchun PastVu API dan foydalanadi."
           }
         }
       }
@@ -3594,49 +3600,55 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rewind verwendet die PastVu API, um die Bilder abzurufen"
+            "value" : "Rewind verwendet die PastVu API, um Fotos und Gemälde abzurufen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind uses PastVu API to get photos and paintings"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rewind usa la API de PastVu para obtener las imágenes"
+            "value" : "Rewind usa la API de PastVu para obtener fotos y pinturas"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rewind utilise l'API PastVu pour obtenir les images"
+            "value" : "Rewind utilise l'API PastVu pour obtenir des photos et des peintures"
           }
         },
         "kk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rewind суреттерді алу үшін PastVu API пайдаланады"
+            "value" : "Rewind фотосуреттер мен картиналарды алу үшін PastVu API пайдаланады"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rewind использует данные PastVu API"
+            "value" : "Rewind использует PastVu API для получения фотографий и картин"
           }
         },
         "sr-Latn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rewind koristi PastVu API za preuzimanje slika"
+            "value" : "Rewind koristi PastVu API za preuzimanje fotografija i slika"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rewind використовує PastVu API для отримання зображень"
+            "value" : "Rewind використовує PastVu API для отримання фотографій та картин"
           }
         },
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rewind rasmlarni olish uchun PastVu API dan foydalanadi"
+            "value" : "Rewind fotosuratlar va rasmlarni olish uchun PastVu API dan foydalanadi"
           }
         }
       }
@@ -4660,6 +4672,124 @@
         }
       }
     },
+    "street_view_description" : {
+      "comment" : "Onboarding description of Street View feature",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sehen Sie, wie der Ort heute aussieht – mit Google Street View"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "See how the place looks today using Google Street View"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vea cómo se ve el lugar hoy con Google Street View"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Découvrez à quoi ressemble le lieu aujourd'hui grâce à Google Street View"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Google Street View көмегімен жердің бүгінгі көрінісін қараңыз"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Посмотрите, как место выглядит сейчас, с помощью Google Street View"
+          }
+        },
+        "sr-Latn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pogledajte kako mesto izgleda danas koristeći Google Street View"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подивіться, як місце виглядає сьогодні, за допомогою Google Street View"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Google Street View yordamida joyning bugungi ko'rinishini ko'ring"
+          }
+        }
+      }
+    },
+    "street_view_title" : {
+      "comment" : "Onboarding title of Street View feature",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Street View"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Street View"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Street View"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Street View"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Street View"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Street View"
+          }
+        },
+        "sr-Latn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Street View"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Street View"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Street View"
+          }
+        }
+      }
+    },
     "The app has no access to your location" : {
       "comment" : "error message in alert",
       "localizations" : {
@@ -4868,6 +4998,124 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tarjima qilish"
+          }
+        }
+      }
+    },
+    "translate_description" : {
+      "comment" : "Onboarding description of translate feature",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beschreibungen in einer Fremdsprache können mit einem Fingertipp in Ihre Sprache übersetzt werden"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descriptions in a foreign language can be translated into yours with one tap"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las descripciones en un idioma extranjero se pueden traducir al tuyo con un solo toque"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les descriptions dans une langue étrangère peuvent être traduites dans la vôtre en un seul geste"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Шет тіліндегі сипаттамаларды бір түрту арқылы өз тіліңізге аударуға болады"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Описания на иностранном языке можно перевести на ваш одним нажатием"
+          }
+        },
+        "sr-Latn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opisi na stranom jeziku mogu se prevesti na vaš jednim dodirom"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Описи іноземною мовою можна перекласти на вашу одним дотиком"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chet tildagi tavsiflarni bitta bosish bilan o'z tilingizga tarjima qilish mumkin"
+          }
+        }
+      }
+    },
+    "translate_title" : {
+      "comment" : "Onboarding title of translate feature",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Übersetzen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Translate"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Traducir"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Traduire"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Аудару"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перевод"
+          }
+        },
+        "sr-Latn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prevod"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переклад"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tarjima"
           }
         }
       }
@@ -5992,55 +6240,61 @@
         }
       }
     },
-    "What do they look like?" : {
+    "What do the images look like?" : {
       "comment" : "Map annotation onboarding subtitle",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wie sehen sie aus?"
+            "value" : "Wie sehen die Bilder aus?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What do the images look like?"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "¿Cómo se ven?"
+            "value" : "¿Cómo se ven las imágenes?"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "À quoi ça ressemble ?"
+            "value" : "Comment les images apparaissent-elles ?"
           }
         },
         "kk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Олар қандай көрінеді?"
+            "value" : "Суреттер қалай көрінеді?"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Как они выглядят?"
+            "value" : "Как выглядят изображения?"
           }
         },
         "sr-Latn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kako izgledaju?"
+            "value" : "Kako izgledaju slike?"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Як вони виглядають?"
+            "value" : "Як виглядають зображення?"
           }
         },
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ular qanday ko'rinadi?"
+            "value" : "Rasmlar qanday ko'rinadi?"
           }
         }
       }

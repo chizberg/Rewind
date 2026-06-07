@@ -16,101 +16,99 @@ struct AnnotationsScreen: View {
   private var yearRange: ClosedRange<Int> = ImageRequestFilters.ImageKind.photo.maxRange
 
   var body: some View {
-    VStack(alignment: .leading) {
-      VStack(alignment: .leading, spacing: 8) {
-        Text("Old photos on a map")
-          .multilineTextAlignment(.leading)
-          .font(.largeTitle.bold())
-
-        Text("What do they look like?")
-          .fontWeight(.semibold)
-          .padding(.top, 2)
-      }.padding(.horizontal)
-
-      Spacer()
-
-      ScrollView {
-        VStack(alignment: .leading, spacing: 20) {
-          VStack(spacing: 5) {
-            makeAnnotationDescription(
-              annotation: ImageAnnotationView(
-                annotation: Annotation.withoutStore(value: Model.Image.demo),
-                reuseIdentifier: nil,
-              ),
-              title: "single_image_title",
-              description: "single_image_description",
-            )
-            makeAnnotationDescription(
-              annotation: MergedAnnotationView(
-                annotation: Annotation.withoutStore(
-                  value: Model.LocalCluster.demo,
-                ),
-                reuseIdentifier: nil,
-              ),
-              title: "group_of_images_title",
-              description: "group_of_images_description",
-            )
-            makeAnnotationDescription(
-              annotation: ClusterAnnotationView(
-                annotation: Annotation.withoutStore(
-                  value: Model.Cluster.demo,
-                ),
-                reuseIdentifier: nil,
-              ),
-              title: "cluster_of_images_title",
-              description: "cluster_of_images_description",
-            )
-          }
-
-          VStack {
-            Text("onboarding_date")
-            Divider()
-            YearSelector(
-              yearRange: $yearRange,
-              maxRange: ImageRequestFilters.default.imageKind.maxRange,
-            )
-          }
-          .onboardingCard()
-
-          Text("onboarding_pastvu")
-            .font(.footnote)
-            .opacity(0.5)
-            .padding(.horizontal, 7)
-
-          HStack {
-            Text("onboarding_location")
-            Spacer(minLength: 0)
-          }.onboardingCard()
-        }
-        .padding(.top, 20)
-        .padding(.horizontal)
-        .padding(.bottom, 80)
-      }
-      .overlay(alignment: .bottom) {
+    ScrollView {
+      VStack(alignment: .leading, spacing: 20) {
         HStack {
-          Spacer()
-          Button(action: goNext) {
-            Text("Let's see!")
-              .padding(7)
+          VStack(alignment: .leading, spacing: 8) {
+            Text("History on a map")
+              .multilineTextAlignment(.leading)
+              .font(.largeTitle.bold())
+
+            Text("What do the images look like?")
+              .fontWeight(.semibold)
+              .padding(.top, 2)
           }
-          .prominent()
           Spacer()
         }
-        .padding()
-        .background {
-          LinearGradient(
-            stops: [
-              .init(color: .clear, location: 0),
-              .init(color: .systemBackground, location: 1),
-            ],
-            startPoint: .top,
-            endPoint: .bottom,
+
+        VStack(spacing: 5) {
+          makeAnnotationDescription(
+            annotation: ImageAnnotationView(
+              annotation: Annotation.withoutStore(value: Model.Image.demo),
+              reuseIdentifier: nil,
+            ),
+            title: "single_image_title",
+            description: "single_image_description",
           )
-          .ignoresSafeArea()
+          makeAnnotationDescription(
+            annotation: MergedAnnotationView(
+              annotation: Annotation.withoutStore(
+                value: Model.LocalCluster.demo,
+              ),
+              reuseIdentifier: nil,
+            ),
+            title: "group_of_images_title",
+            description: "group_of_images_description",
+          )
+          makeAnnotationDescription(
+            annotation: ClusterAnnotationView(
+              annotation: Annotation.withoutStore(
+                value: Model.Cluster.demo,
+              ),
+              reuseIdentifier: nil,
+            ),
+            title: "cluster_of_images_title",
+            description: "cluster_of_images_description",
+          )
         }
+
+        VStack {
+          Text("onboarding_date")
+          Divider()
+          YearSelector(
+            yearRange: $yearRange,
+            maxRange: ImageRequestFilters.default.imageKind.maxRange,
+          )
+        }
+        .onboardingCard()
+
+        Text("onboarding_pastvu")
+          .font(.footnote)
+          .opacity(0.5)
+          .padding(.horizontal, 7)
+
+        HStack {
+          Text("onboarding_location")
+          Spacer(minLength: 0)
+        }.onboardingCard()
+      }
+      .padding(.top, 20)
+      .padding(.horizontal)
+      .padding(.bottom, 80)
+    }
+    .overlay(alignment: .bottom) {
+      HStack {
+        Spacer()
+        Button(action: goNext) {
+          Text("Let's see!")
+            .padding(7)
+        }
+        .prominent()
+        Spacer()
+      }
+      .padding()
+      .background {
+        LinearGradient(
+          stops: [
+            .init(color: .clear, location: 0),
+            .init(color: .systemBackground, location: 1),
+          ],
+          startPoint: .top,
+          endPoint: .bottom,
+        )
+        .ignoresSafeArea()
       }
     }
-    .frame(maxWidth: 500, maxHeight: 900)
   }
 
   func makeAnnotationDescription(
