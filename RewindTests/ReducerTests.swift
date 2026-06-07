@@ -215,17 +215,6 @@ private func sleep(_ duration: Duration) async {
     pipe.send(5)
     #expect(reducer.state.count == 5)
   }
-
-  @Test func unsafeBimapMapsStateAndForwardsActions() {
-    let base = makeReducer()
-    let mapped = base.unsafeBimap(
-      state: { $0.count },
-      action: { (value: Int) in TestAction.add(value) },
-    )
-    mapped(3)
-    #expect(mapped.state == 3)
-    #expect(base.state.count == 3)
-  }
 }
 
 // MARK: - ViewStore

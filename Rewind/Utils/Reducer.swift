@@ -73,20 +73,6 @@ enum DebouncedActionID: String {
 }
 
 extension Reducer {
-  // This bimap does not work with effects, effects cause the states to go out of sync.
-  func unsafeBimap<NewState, NewAction>(
-    state makeNewState: @escaping (State) -> NewState,
-    action makeOldAction: @escaping (NewAction) -> Action,
-  ) -> Reducer<NewState, NewAction> {
-    Reducer<NewState, NewAction>(
-      initial: makeNewState(state),
-    ) { newState, newAction, _ in
-      let oldAction = makeOldAction(newAction)
-      self(oldAction)
-      newState = makeNewState(self.state)
-    }
-  }
-
   func adding<Value>(
     signal: Signal<Value>,
     makeAction: @escaping (Value) -> Action,
