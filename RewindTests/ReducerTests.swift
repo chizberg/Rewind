@@ -5,9 +5,9 @@
 //  Unit tests for the generic Reducer / ViewStore state-management primitive.
 //
 
+@testable import Rewind
 import Testing
 import VGSL
-@testable import Rewind
 
 // MARK: - Test fixtures
 
@@ -38,7 +38,9 @@ private func makeReducer(initial: TestState = .init()) -> TestReducer {
     case let .mark(tag):
       state.applied.append(tag)
     case let .effects(effects):
-      for effect in effects { enqueue(effect) }
+      for effect in effects {
+        enqueue(effect)
+      }
     }
   }
 }
@@ -67,7 +69,7 @@ private func sleep(_ duration: Duration) async {
 // MARK: - Synchronous state mutation
 
 @MainActor
-@Suite struct ReducerSyncTests {
+struct ReducerSyncTests {
   @Test func singleActionMutatesState() {
     let reducer = makeReducer()
     reducer(.increment)
@@ -94,7 +96,7 @@ private func sleep(_ duration: Duration) async {
 // MARK: - Effects
 
 @MainActor
-@Suite struct ReducerEffectTests {
+struct ReducerEffectTests {
   @Test func multipleEffectsPerActionAllRun() async {
     let reducer = makeReducer()
     reducer(.effects([
@@ -131,7 +133,7 @@ private func sleep(_ duration: Duration) async {
 // MARK: - Cancellation / deduplication by effect id
 
 @MainActor
-@Suite struct ReducerCancellationTests {
+struct ReducerCancellationTests {
   @Test func sameIdReplacesPendingEffect() async {
     let reducer = makeReducer()
     // First effect would add 10 after a long delay...
@@ -167,7 +169,7 @@ private func sleep(_ duration: Duration) async {
 // MARK: - Debounce
 
 @MainActor
-@Suite struct ReducerDebounceTests {
+struct ReducerDebounceTests {
   @Test func debouncedCollapsesRapidDispatches() async {
     let reducer = makeReducer()
     // Five rapid debounced dispatches share one id → only the last survives.
@@ -199,7 +201,7 @@ private func sleep(_ duration: Duration) async {
 // MARK: - Reducer extensions
 
 @MainActor
-@Suite struct ReducerExtensionTests {
+struct ReducerExtensionTests {
   @Test func onStateUpdateReceivesCurrentAndNewValues() {
     var observed: [Int] = []
     let reducer = makeReducer().onStateUpdate { observed.append($0.count) }
@@ -220,7 +222,7 @@ private func sleep(_ duration: Duration) async {
 // MARK: - ViewStore
 
 @MainActor
-@Suite struct ViewStoreTests {
+struct ViewStoreTests {
   @Test func readsStateViaDynamicMember() {
     let store = makeReducer(initial: TestState(count: 42)).viewStore
     #expect(store.count == 42)
