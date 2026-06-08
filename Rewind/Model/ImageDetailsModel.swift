@@ -142,7 +142,7 @@ func makeImageDetailsModel(
       cachedLowResImage: nil,
       isImageSaved: false,
       openSource: openSource,
-      isFavorite: favoriteModel.state,
+      isFavorite: favoriteModel.state.wrappedValue,
       mapOptionsPresented: false,
       loadingAnotherImage: false,
       translationState: .notAvailable,

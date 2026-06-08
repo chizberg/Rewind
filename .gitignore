@@ -118,3 +118,6 @@ CLAUDE.md
 
 # Secrets (API keys)
 /Config/Secrets.xcconfig
+
+# Local Claude Code state
+/.claude/

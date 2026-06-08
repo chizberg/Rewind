@@ -9,7 +9,7 @@ import Foundation
 import VGSL
 
 typealias FavoritesModel = Reducer<[Model.Image], FavoritesAction>
-typealias SingleFavoriteModel = Reducer<Bool, Bool>
+typealias SingleFavoriteStore = ViewStore<Bool, Bool>
 
 enum FavoritesAction {
   case addToFavorites(Model.Image)
@@ -39,8 +39,8 @@ func makeFavoritesModel(
 }
 
 extension FavoritesModel {
-  func isFavorite(_ image: Model.Image) -> SingleFavoriteModel {
-    unsafeBimap(
+  func isFavorite(_ image: Model.Image) -> SingleFavoriteStore {
+    viewStore.bimap(
       state: { $0.contains { $0.cid == image.cid } },
       action: { $0 ? .addToFavorites(image) : .removeFromFavorites(image) },
     )
