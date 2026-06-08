@@ -55,7 +55,7 @@ func makeSearchModel(
       query: "",
       suggests: [],
     ),
-    reduce: { state, action, enqueueEffect in
+    reduce: { state, action, effect, asyncEffect in
       switch action {
       case let .external(external):
         switch external {
@@ -63,13 +63,13 @@ func makeSearchModel(
           state.query = query
           suggestProvider.query = query
         case let .suggestSelected(suggest):
-          enqueueEffect(.anotherAction(
+          asyncEffect(.anotherAction(
             .internal(.performSearch(suggest.query)),
           ))
         case let .addSuggestToQuery(suggest):
           state.query = suggest.query
         case .submit:
-          enqueueEffect(.anotherAction(
+          asyncEffect(.anotherAction(
             .internal(.performSearch(state.query)),
           ))
         case .dismissAlert:
@@ -87,7 +87,7 @@ func makeSearchModel(
             error: error,
           ))
         case let .performSearch(query):
-          enqueueEffect(.perform { anotherAction in
+          asyncEffect(.perform { anotherAction in
             do {
               let request = MKLocalSearch.Request()
               request.naturalLanguageQuery = query
@@ -104,14 +104,14 @@ func makeSearchModel(
           guard let mapItem = response.mapItems.first,
                 let location = mapItem.getLocation()
           else {
-            enqueueEffect(.anotherAction(.internal(.nothingFound)))
+            asyncEffect(.anotherAction(.internal(.nothingFound)))
             return
           }
-          onLocationFound(location)
+          effect { onLocationFound(location) }
         case let .searchError(error):
           if let mkError = error as? MKError,
              mkError.code == .placemarkNotFound {
-            enqueueEffect(.anotherAction(.internal(.nothingFound)))
+            asyncEffect(.anotherAction(.internal(.nothingFound)))
             return
           }
           state.alertModel = Identified(value: .error(

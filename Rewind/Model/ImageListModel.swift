@@ -42,7 +42,7 @@ func makeImageListModel(
       imageDetails: nil,
       sorting: sorting?.value,
     ),
-    reduce: { state, action, _ in
+    reduce: { state, action, effect, _ in
       switch action {
       case let .presentImage(image):
         state.imageDetails = Identified(
@@ -55,7 +55,7 @@ func makeImageListModel(
       case let .setSorting(newSorting):
         guard state.sorting != newSorting else { return }
         state.sorting = newSorting
-        sorting?.value = newSorting
+        effect { sorting?.value = newSorting }
         state.images = state.images.sorted(by: newSorting)
       }
     },

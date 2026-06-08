@@ -1,365 +1,364 @@
 {
-  "sourceLanguage": "en",
-  "strings": {
-    "App needs this access to save images to your library": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "App needs this access to save images to your library"
+  "sourceLanguage" : "en",
+  "strings" : {
+    "App needs this access to save images to your library" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die App benötigt diesen Zugriff, um Bilder in deiner Mediathek zu speichern"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Приложению нужен доступ, чтобы сохранять фотографии в вашу медиатеку"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App needs this access to save images to your library"
           }
         },
-        "sr-Latn": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aplikaciji je potreban ovaj pristup da bi mogla da sačuva slike u vašu galeriju"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La app necesita este acceso para guardar imágenes en tu biblioteca"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Застосунку потрібен цей доступ, щоб зберігати зображення у вашу медіатеку"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'app a besoin de cet accès pour enregistrer des images dans votre photothèque"
           }
         },
-        "es": {
-          "stringUnit": {
-            "value": "La app necesita este acceso para guardar imágenes en tu biblioteca",
-            "state": "translated"
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Қолданбаға суреттерді медиатекаңызға сақтау үшін бұл рұқсат қажет"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "value": "L'app a besoin de cet accès pour enregistrer des images dans votre photothèque",
-            "state": "translated"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложению нужен доступ, чтобы сохранять фотографии в вашу медиатеку"
           }
         },
-        "de": {
-          "stringUnit": {
-            "value": "Die App benötigt diesen Zugriff, um Bilder in deiner Mediathek zu speichern",
-            "state": "translated"
+        "sr-Latn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikaciji je potreban ovaj pristup da bi mogla da sačuva slike u vašu galeriju"
           }
         },
-        "kk": {
-          "stringUnit": {
-            "value": "Қолданбаға суреттерді медиатекаңызға сақтау үшін бұл рұқсат қажет",
-            "state": "translated"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Застосунку потрібен цей доступ, щоб зберігати зображення у вашу медіатеку"
           }
         },
-        "uz": {
-          "stringUnit": {
-            "value": "Ilova rasmlarni kutubxonangizga saqlash uchun ushbu ruxsatga muhtoj",
-            "state": "translated"
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ilova rasmlarni kutubxonangizga saqlash uchun ushbu ruxsatga muhtoj"
           }
         }
       }
     },
-    "CFBundleDisplayName": {
-      "comment": "Bundle display name",
-      "extractionState": "extracted_with_value",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Rewind"
+    "CFBundleDisplayName" : {
+      "comment" : "Bundle display name",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rewind"
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Rewind"
           }
         },
-        "sr-Latn": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rewind"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rewind"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind"
           }
         },
-        "es": {
-          "stringUnit": {
-            "value": "Rewind",
-            "state": "translated"
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "value": "Rewind",
-            "state": "translated"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind"
           }
         },
-        "de": {
-          "stringUnit": {
-            "value": "Rewind",
-            "state": "translated"
+        "sr-Latn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind"
           }
         },
-        "kk": {
-          "stringUnit": {
-            "value": "Rewind",
-            "state": "translated"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind"
           }
         },
-        "uz": {
-          "stringUnit": {
-            "value": "Rewind",
-            "state": "translated"
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind"
           }
         }
       }
     },
-    "CFBundleName": {
-      "comment": "Bundle name",
-      "extractionState": "extracted_with_value",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Rewind"
+    "CFBundleName" : {
+      "comment" : "Bundle name",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rewind"
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Rewind"
           }
         },
-        "sr-Latn": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rewind"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rewind"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind"
           }
         },
-        "es": {
-          "stringUnit": {
-            "value": "Rewind",
-            "state": "translated"
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "value": "Rewind",
-            "state": "translated"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind"
           }
         },
-        "de": {
-          "stringUnit": {
-            "value": "Rewind",
-            "state": "translated"
+        "sr-Latn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind"
           }
         },
-        "kk": {
-          "stringUnit": {
-            "value": "Rewind",
-            "state": "translated"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind"
           }
         },
-        "uz": {
-          "stringUnit": {
-            "value": "Rewind",
-            "state": "translated"
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind"
           }
         }
       }
     },
-    "NSCameraUsageDescription": {
-      "comment": "Privacy - Camera Usage Description",
-      "extractionState": "extracted_with_value",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Camera access is needed to take comparison photos"
+    "NSCameraUsageDescription" : {
+      "comment" : "Privacy - Camera Usage Description",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kamerazugriff wird benötigt, um Vergleichsfotos aufzunehmen"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Доступ к камере нужен, чтобы делать фото сравнения"
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Camera access is needed to take comparison photos"
           }
         },
-        "sr-Latn": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pristup kameri je potreban za snimanje uporednih fotografija"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se necesita acceso a la cámara para tomar fotos de comparación"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Доступ до камери потрібен, щоб робити фото порівняння"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'accès à l'appareil photo est nécessaire pour prendre des photos de comparaison"
           }
         },
-        "es": {
-          "stringUnit": {
-            "value": "Se necesita acceso a la cámara para tomar fotos de comparación",
-            "state": "translated"
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Салыстыру фотоларын түсіру үшін камераға қол жеткізу қажет"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "value": "L'accès à l'appareil photo est nécessaire pour prendre des photos de comparaison",
-            "state": "translated"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Доступ к камере нужен, чтобы делать фото сравнения"
           }
         },
-        "de": {
-          "stringUnit": {
-            "value": "Kamerazugriff wird benötigt, um Vergleichsfotos aufzunehmen",
-            "state": "translated"
+        "sr-Latn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pristup kameri je potreban za snimanje uporednih fotografija"
           }
         },
-        "kk": {
-          "stringUnit": {
-            "value": "Салыстыру фотоларын түсіру үшін камераға қол жеткізу қажет",
-            "state": "translated"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Доступ до камери потрібен, щоб робити фото порівняння"
           }
         },
-        "uz": {
-          "stringUnit": {
-            "value": "Taqqoslash suratlarini olish uchun kameraga ruxsat kerak",
-            "state": "translated"
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Taqqoslash suratlarini olish uchun kameraga ruxsat kerak"
           }
         }
       }
     },
-    "NSLocationWhenInUseUsageDescription": {
-      "comment": "Privacy - Location When In Use Usage Description",
-      "extractionState": "extracted_with_value",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "Location is needed to show images around you"
+    "NSLocationWhenInUseUsageDescription" : {
+      "comment" : "Privacy - Location When In Use Usage Description",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Standort wird benötigt, um Fotos und Gemälde in Ihrer Nähe anzuzeigen"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Геолокация нужна чтобы показывать фотографии рядом с вами"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Location is needed to show photos and paintings around you"
           }
         },
-        "sr-Latn": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Lokacija je potrebna za prikaz slika u vašoj blizini"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La ubicación es necesaria para mostrar fotos y pinturas a tu alrededor"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Геолокація потрібна, щоб показувати зображення поблизу вас"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La localisation est nécessaire pour afficher les photos et peintures autour de vous"
           }
         },
-        "es": {
-          "stringUnit": {
-            "value": "La ubicación es necesaria para mostrar imágenes a tu alrededor",
-            "state": "translated"
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Жергілікті орын сіздің айналаңыздағы фотосуреттер мен картиналарды көрсету үшін қажет"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "value": "La localisation est nécessaire pour afficher les images autour de vous",
-            "state": "translated"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Геолокация нужна чтобы показывать фотографии и картины рядом с вами"
           }
         },
-        "de": {
-          "stringUnit": {
-            "value": "Der Standort wird benötigt, um Bilder in Ihrer Nähe anzuzeigen",
-            "state": "translated"
+        "sr-Latn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lokacija je potrebna za prikaz fotografija i slika u vašoj blizini"
           }
         },
-        "kk": {
-          "stringUnit": {
-            "value": "Жергілікті орын сіздің айналаңыздағы суреттерді көрсету үшін қажет",
-            "state": "translated"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Геолокація потрібна, щоб показувати фотографії та картини поблизу вас"
           }
         },
-        "uz": {
-          "stringUnit": {
-            "value": "Joylashuv atrofingizdagi rasmlarni ko'rsatish uchun kerak",
-            "state": "translated"
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Joylashuv atrofingizdagi fotosuratlar va rasmlarni ko'rsatish uchun kerak"
           }
         }
       }
     },
-    "NSPhotoLibraryAddUsageDescription": {
-      "comment": "Privacy - Photo Library Additions Usage Description",
-      "extractionState": "extracted_with_value",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "App needs this access to save images to your library"
+    "NSPhotoLibraryAddUsageDescription" : {
+      "comment" : "Privacy - Photo Library Additions Usage Description",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die App benötigt diesen Zugriff, um Bilder in Ihrer Mediathek zu speichern"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Приложению нужен доступ чтобы сохранить изображения в галерею"
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "App needs this access to save images to your library"
           }
         },
-        "sr-Latn": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aplikaciji je potreban ovaj pristup da bi sačuvala slike u vašu galeriju"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La aplicación necesita este acceso para guardar imágenes en tu biblioteca"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Застосунку потрібен цей доступ, щоб зберігати зображення у вашу галерею"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'application a besoin de cet accès pour enregistrer des images dans votre bibliothèque"
           }
         },
-        "es": {
-          "stringUnit": {
-            "value": "La aplicación necesita este acceso para guardar imágenes en tu biblioteca",
-            "state": "translated"
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Қолданбаға суреттерді галереяға сақтау үшін бұл рұқсат қажет"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "value": "L'application a besoin de cet accès pour enregistrer des images dans votre bibliothèque",
-            "state": "translated"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложению нужен доступ чтобы сохранить изображения в галерею"
           }
         },
-        "de": {
-          "stringUnit": {
-            "value": "Die App benötigt diesen Zugriff, um Bilder in Ihrer Mediathek zu speichern",
-            "state": "translated"
+        "sr-Latn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikaciji je potreban ovaj pristup da bi sačuvala slike u vašu galeriju"
           }
         },
-        "kk": {
-          "stringUnit": {
-            "value": "Қолданбаға суреттерді галереяға сақтау үшін бұл рұқсат қажет",
-            "state": "translated"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Застосунку потрібен цей доступ, щоб зберігати зображення у вашу галерею"
           }
         },
-        "uz": {
-          "stringUnit": {
-            "value": "Ilova rasmlarni galereyangizdagi saqlash uchun ushbu ruxsat kerak",
-            "state": "translated"
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ilova rasmlarni galereyangizdagi saqlash uchun ushbu ruxsat kerak"
           }
         }
       }
     }
   },
-  "version": "1.0"
+  "version" : "1.0"
 }

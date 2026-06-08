@@ -10,17 +10,17 @@ We do not run analytics or ad tracking SDKs.
 
 ## Location
 If you grant Location access, the app uses your **approximate location/region on-device** to:
-- center the map and choose the area to browse retro images.
+- center the map and choose the area to browse retro photos and paintings.
 
 We do **not** store your location and do **not** send it to our own servers (we don’t have any).  
-To fetch images, the app sends a **map area (bounds/region)** to the PastVu API so it can return results for that area.
+To fetch photos and paintings, the app sends a **map area (bounds/region)** to the PastVu API so it can return results for that area.
 
 ## Favorites (local storage)
 Favorites are stored **only on your device** (local storage).  
 They are **not** uploaded or shared by the app.
 
 ## Third-party service: PastVu
-Rewind downloads images and metadata from **PastVu** via their public API. PastVu may process standard network information (e.g., IP address, request logs) as part of providing their service.
+Rewind downloads photos, paintings, and metadata from **PastVu** via their public API. PastVu may process standard network information (e.g., IP address, request logs) as part of providing their service.
 
 PastVu rules: https://docs.pastvu.com/en/rules
 

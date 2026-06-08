@@ -21,18 +21,18 @@ func makeFavoritesModel(
 ) -> FavoritesModel {
   Reducer(
     initial: storage.value,
-    reduce: { state, action, _ in
+    reduce: { state, action, effect, _ in
       switch action {
       case let .addToFavorites(image):
         guard !state.contains(image) else { return }
         state.append(image)
-        storage.value = state
+        effect { [state] in storage.value = state }
       case let .removeFromFavorites(image):
         guard let index = state.firstIndex(of: image) else {
           return
         }
         state.remove(at: index)
-        storage.value = state
+        effect { [state] in storage.value = state }
       }
     },
   )

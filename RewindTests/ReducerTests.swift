@@ -16,20 +16,25 @@ private struct TestState: Equatable {
   var applied: [String] = []
 }
 
+private typealias TestReducer = Reducer<TestState, TestAction>
+private typealias TestEffect = Reducer<TestState, TestAction>.Effect // () -> Void
+private typealias TestAsyncEffect = Reducer<TestState, TestAction>.AsyncEffect
+
 private enum TestAction {
   case increment
   case add(Int)
   case mark(String)
-  /// Enqueue the given effects. Lets every test drive arbitrary effects through one reducer.
-  case effects([Reducer<TestState, TestAction>.Effect])
+  /// Enqueue synchronous effects (run right after reduce, on the calling stack).
+  case syncEffects([TestEffect])
+  /// Enqueue asynchronous effects (run later, each in its own cancellable Task).
+  case asyncEffects([TestAsyncEffect])
+  /// Enqueue both kinds in a single reduce, to test their relative ordering.
+  case mixed(sync: [TestEffect], async: [TestAsyncEffect])
 }
-
-private typealias TestReducer = Reducer<TestState, TestAction>
-private typealias TestEffect = Reducer<TestState, TestAction>.Effect
 
 @MainActor
 private func makeReducer(initial: TestState = .init()) -> TestReducer {
-  Reducer(initial: initial) { state, action, enqueue in
+  Reducer(initial: initial) { state, action, effect, asyncEffect in
     switch action {
     case .increment:
       state.count += 1
@@ -37,9 +42,20 @@ private func makeReducer(initial: TestState = .init()) -> TestReducer {
       state.count += value
     case let .mark(tag):
       state.applied.append(tag)
-    case let .effects(effects):
-      for effect in effects {
-        enqueue(effect)
+    case let .syncEffects(effects):
+      for e in effects {
+        effect(e)
+      }
+    case let .asyncEffects(effects):
+      for ae in effects {
+        asyncEffect(ae)
+      }
+    case let .mixed(sync, async):
+      for e in sync {
+        effect(e)
+      }
+      for ae in async {
+        asyncEffect(ae)
       }
     }
   }
@@ -48,7 +64,7 @@ private func makeReducer(initial: TestState = .init()) -> TestReducer {
 // MARK: - Async helpers
 
 /// Polls `condition` until it becomes true or the timeout elapses.
-/// Needed because effects run inside an internal `Task` that we can't await directly.
+/// Needed because async effects run inside an internal `Task` we can't await directly.
 @MainActor
 private func eventually(
   timeout: Duration = .seconds(2),
@@ -93,13 +109,60 @@ struct ReducerSyncTests {
   }
 }
 
-// MARK: - Effects
+// MARK: - Synchronous effects
 
 @MainActor
-struct ReducerEffectTests {
+struct ReducerSyncEffectTests {
+  @Test func syncEffectRunsImmediatelyAfterReduce() {
+    let reducer = makeReducer()
+    var ran = false
+    // Synchronous effects run on the calling stack — no Task, no await.
+    reducer(.syncEffects([{ ran = true }]))
+    #expect(ran)
+  }
+
+  @Test func syncEffectsRunInEnqueueOrder() {
+    let reducer = makeReducer()
+    var log: [Int] = []
+    reducer(.syncEffects([
+      { log.append(1) },
+      { log.append(2) },
+      { log.append(3) },
+    ]))
+    #expect(log == [1, 2, 3])
+  }
+
+  @Test func syncEffectMaySafelyDispatchFollowUpAction() {
+    // Sync effects run after the reducer clears its `isRunning` guard, so
+    // re-entering the same reducer from a sync effect is allowed (synchronous,
+    // no Task hop) and does not trip the recursion assertion.
+    let reducer = makeReducer()
+    reducer(.syncEffects([{ reducer(.add(5)) }]))
+    #expect(reducer.state.count == 5)
+  }
+
+  @Test func syncEffectsRunBeforeAsyncEffectsAreScheduled() async {
+    // The headline invariant of the dual-effect model: within ONE reduce call,
+    // every synchronous effect runs (on the calling stack) before any async
+    // effect is scheduled.
+    let reducer = makeReducer()
+    reducer(.mixed(
+      sync: [{ reducer(.mark("sync")) }],
+      async: [.anotherAction(.mark("async"))],
+    ))
+    // Sync effect has already run; the async effect is only scheduled, not run.
+    #expect(reducer.state.applied == ["sync"])
+    #expect(await eventually { reducer.state.applied == ["sync", "async"] })
+  }
+}
+
+// MARK: - Asynchronous effects
+
+@MainActor
+struct ReducerAsyncEffectTests {
   @Test func multipleEffectsPerActionAllRun() async {
     let reducer = makeReducer()
-    reducer(.effects([
+    reducer(.asyncEffects([
       .anotherAction(id: "a", .increment),
       .anotherAction(id: "b", .increment),
     ]))
@@ -108,7 +171,7 @@ struct ReducerEffectTests {
 
   @Test func performEffectDispatchesFollowUp() async {
     let reducer = makeReducer()
-    reducer(.effects([
+    reducer(.asyncEffects([
       .perform(id: "p") { send in
         await send(.add(7))
       },
@@ -118,13 +181,13 @@ struct ReducerEffectTests {
 
   @Test func anotherActionEffectDispatchesFollowUp() async {
     let reducer = makeReducer()
-    reducer(.effects([.anotherAction(id: "x", .increment)]))
+    reducer(.asyncEffects([.anotherAction(id: "x", .increment)]))
     #expect(await eventually { reducer.state.count == 1 })
   }
 
   @Test func afterEffectFiresAfterDelay() async {
     let reducer = makeReducer()
-    reducer(.effects([.after(0.05, id: "t", anotherAction: .increment)]))
+    reducer(.asyncEffects([.after(0.05, id: "t", anotherAction: .increment)]))
     #expect(reducer.state.count == 0) // not yet
     #expect(await eventually { reducer.state.count == 1 })
   }
@@ -137,9 +200,9 @@ struct ReducerCancellationTests {
   @Test func sameIdReplacesPendingEffect() async {
     let reducer = makeReducer()
     // First effect would add 10 after a long delay...
-    reducer(.effects([.after(0.3, id: "x", anotherAction: .add(10))]))
+    reducer(.asyncEffects([.after(0.3, id: "x", anotherAction: .add(10))]))
     // ...but a second effect with the same id supersedes it.
-    reducer(.effects([.after(0.05, id: "x", anotherAction: .add(1))]))
+    reducer(.asyncEffects([.after(0.05, id: "x", anotherAction: .add(1))]))
 
     #expect(await eventually { reducer.state.count == 1 })
     // Wait past the first effect's original delay to confirm it never fires.
@@ -149,8 +212,8 @@ struct ReducerCancellationTests {
 
   @Test func cancelEffectStopsPendingFollowUp() async {
     let reducer = makeReducer()
-    reducer(.effects([.after(0.2, id: "x", anotherAction: .add(10))]))
-    reducer(.effects([.cancel(id: "x")]))
+    reducer(.asyncEffects([.after(0.2, id: "x", anotherAction: .add(10))]))
+    reducer(.asyncEffects([.cancel(id: "x")]))
 
     await sleep(.milliseconds(350))
     #expect(reducer.state.count == 0)
@@ -158,11 +221,23 @@ struct ReducerCancellationTests {
 
   @Test func differentIdsRunIndependently() async {
     let reducer = makeReducer()
-    reducer(.effects([
+    reducer(.asyncEffects([
       .after(0.05, id: "a", anotherAction: .increment),
       .after(0.05, id: "b", anotherAction: .increment),
     ]))
     #expect(await eventually { reducer.state.count == 2 })
+  }
+
+  @Test func effectIdCanBeReusedAfterCancel() async {
+    let reducer = makeReducer()
+    reducer(.asyncEffects([.after(0.2, id: "x", anotherAction: .add(10))]))
+    reducer(.asyncEffects([.cancel(id: "x")]))
+    // Re-arm the same id with a fresh effect; it should fire exactly once.
+    reducer(.asyncEffects([.after(0.05, id: "x", anotherAction: .increment)]))
+
+    #expect(await eventually { reducer.state.count == 1 })
+    await sleep(.milliseconds(300))
+    #expect(reducer.state.count == 1) // the cancelled add(10) never fires
   }
 }
 
@@ -174,17 +249,26 @@ struct ReducerDebounceTests {
     let reducer = makeReducer()
     // Five rapid debounced dispatches share one id → only the last survives.
     for _ in 0..<5 {
-      reducer(.effects([.debounced(id: .regionChanged, anotherAction: .increment)]))
+      reducer(.asyncEffects([.debounced(id: .regionChanged, anotherAction: .increment)]))
     }
     #expect(await eventually { reducer.state.count == 1 })
-    await sleep(.milliseconds(150))
+    await sleep(.milliseconds(250)) // ≥2× the 100ms debounce: confirm no extra fire
     #expect(reducer.state.count == 1)
+  }
+
+  @Test func debouncedClosureFormRunsAfterDelay() async {
+    let reducer = makeReducer()
+    reducer(.asyncEffects([.debounced(id: .regionChanged) { send in
+      await send(.add(3))
+    }]))
+    #expect(reducer.state.count == 0) // debounce delay not elapsed yet
+    #expect(await eventually { reducer.state.count == 3 })
   }
 
   @Test func cancelDebouncedStopsPendingFollowUp() async {
     let reducer = makeReducer()
-    reducer(.effects([.debounced(id: .regionChanged, anotherAction: .add(10))]))
-    reducer(.effects([.cancel(debouncedAction: .regionChanged)]))
+    reducer(.asyncEffects([.debounced(id: .regionChanged, anotherAction: .add(10))]))
+    reducer(.asyncEffects([.cancel(debouncedAction: .regionChanged)]))
 
     await sleep(.milliseconds(200))
     #expect(reducer.state.count == 0)

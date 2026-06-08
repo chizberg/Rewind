@@ -91,7 +91,7 @@ func makeAppModel(
       onboardingViewModel: onboardingViewModel,
       settingsState: settings.value,
     ),
-    reduce: { state, action, _ in
+    reduce: { state, action, effect, _ in
       switch action {
       case let .imageDetails(detailsAction):
         switch detailsAction {
@@ -101,8 +101,10 @@ func makeAppModel(
           )
         case .dismiss:
           state.previewedImage = nil
-          performMapAction(.previewClosed)
-          requestAppStoreReview()
+          effect {
+            performMapAction(.previewClosed)
+            requestAppStoreReview()
+          }
         }
       case let .imageList(listAction):
         switch listAction {
@@ -141,7 +143,7 @@ func makeAppModel(
           )
         case .dismiss:
           state.previewedList = nil
-          performMapAction(.previewClosed)
+          effect { performMapAction(.previewClosed) }
         }
       case let .settings(settingsAction):
         switch settingsAction {
@@ -267,7 +269,7 @@ extension AppModel {
       onboardingViewModel: nil,
       settingsState: .default,
     ),
-    reduce: { state, action, _ in
+    reduce: { state, action, _, _ in
       switch action { // 🩼 - should make a full-working AppModel mock
       case let .mapControls(.setMinimization(minimization)):
         state.mapControls.minimization = minimization

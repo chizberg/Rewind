@@ -11,53 +11,58 @@ struct WelcomeScreen: View {
   var goNext: () -> Void
 
   var body: some View {
-    VStack(alignment: .leading) {
-      Spacer()
-        .frame(height: 50)
-
-      VStack(alignment: .leading, spacing: 8) {
-        Text("Hi!")
-          .font(.largeTitle.bold())
-        HStack {
-          (Text("This is ") + Text("Rewind").foregroundStyle(rewindRed))
+    ScrollView {
+      VStack(spacing: 10) {
+        VStack(alignment: .leading, spacing: 8) {
+          Text("Hi!")
             .font(.largeTitle.bold())
-          RewindCapsule()
-          Spacer(minLength: 0)
-        }
-
-        Text("A time-travel app")
-          .fontWeight(.semibold)
-          .padding(.top, 2)
-      }.padding(.horizontal)
-
-      Spacer()
-
-      ScrollView {
-        VStack(spacing: 10) {
-          makeFeatureDescription(
-            iconName: "mappin.and.ellipse",
-            title: "history_near_you_title",
-            description: "history_near_you_description",
-          )
-          makeFeatureDescription(
-            iconName: "star",
-            title: "images_saving_title",
-            description: "images_saving_description",
-          )
-          if UIDevice.current.userInterfaceIdiom == .phone {
-            makeFeatureDescription(
-              iconName: "camera.viewfinder",
-              title: "comparison_title",
-              description: "comparison_description",
-            )
+          HStack {
+            (Text("This is ") + Text("Rewind").foregroundStyle(rewindRed))
+              .font(.largeTitle.bold())
+            RewindCapsule()
+            Spacer(minLength: 0)
           }
+
+          Text("A time-travel app")
+            .fontWeight(.semibold)
+            .padding(.top, 2)
         }
-        .padding(.top, 20)
-        .padding(.horizontal)
+        .padding(.top, 50)
+        .padding(.bottom, 20)
+
+        makeFeatureDescription(
+          iconName: "mappin.and.ellipse",
+          title: "history_near_you_title",
+          description: "history_near_you_description",
+        )
+        makeFeatureDescription(
+          iconName: "star",
+          title: "images_saving_title",
+          description: "images_saving_description",
+        )
+        if UIDevice.current.userInterfaceIdiom == .phone {
+          makeFeatureDescription(
+            iconName: "camera.viewfinder",
+            title: "comparison_title",
+            description: "comparison_description",
+          )
+          makeFeatureDescription(
+            iconName: "pano",
+            title: "street_view_title",
+            description: "street_view_description",
+          )
+        }
+        makeFeatureDescription(
+          iconName: "character.bubble",
+          title: "translate_title",
+          description: "translate_description",
+        )
       }
-
-      Spacer()
-
+      .padding(.top, 20)
+      .padding(.horizontal)
+      .padding(.bottom, 80)
+    }
+    .overlay(alignment: .bottom) {
       HStack {
         Spacer()
         Button(action: goNext) {
@@ -68,8 +73,17 @@ struct WelcomeScreen: View {
         Spacer()
       }
       .padding()
+      .background {
+        overscrollGradient
+          .ignoresSafeArea()
+      }
     }
-    .frame(maxWidth: 500, maxHeight: 900)
+    .overlay(alignment: .top) {
+      overscrollGradient.rotationEffect(.degrees(180))
+        .frame(height: 80)
+        .ignoresSafeArea()
+        .allowsHitTesting(false)
+    }
   }
 
   func makeFeatureDescription(
@@ -92,6 +106,17 @@ struct WelcomeScreen: View {
       Spacer(minLength: 0)
     }
     .onboardingCard()
+  }
+
+  private var overscrollGradient: some View {
+    LinearGradient(
+      stops: [
+        .init(color: .clear, location: 0),
+        .init(color: .systemBackground, location: 1),
+      ],
+      startPoint: .top,
+      endPoint: .bottom,
+    )
   }
 }
 

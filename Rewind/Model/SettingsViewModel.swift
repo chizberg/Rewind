@@ -109,14 +109,14 @@ func makeSettingsViewModel(
       ),
       alert: nil,
     ),
-    reduce: { state, action, enqueueEffect in
+    reduce: { state, action, effect, asyncEffect in
       switch action {
       case let .ui(ui):
         switch ui {
         case let .setOpenClusterPreviews(value):
           state.stored.openClusterPreviews = value
         case let .iconSelected(icon):
-          enqueueEffect(.perform { anotherAction in
+          asyncEffect(.perform { anotherAction in
             do {
               try await UIApplication.shared.setAlternateIconName(icon.alternateIconName)
               await anotherAction(.internal(.iconApplied(icon)))
@@ -128,15 +128,19 @@ func makeSettingsViewModel(
           state.stored.gradientScheme = scheme
           UISelectionFeedbackGenerator().selectionChanged()
         case .contact:
-          urlOpener(URL(string: "mailto:a.chizberg@proton.me"))
+          effect { urlOpener(URL(string: "mailto:a.chizberg@proton.me")) }
         case .openRepo:
-          urlOpener(URL(string: "https://github.com/chizberg/Rewind"))
+          effect { urlOpener(URL(string: "https://github.com/chizberg/Rewind")) }
         case .viewInAppStore:
-          urlOpener(URL(string: "https://apps.apple.com/app/rewind-history-on-a-map/id6755358800"))
+          effect {
+            urlOpener(
+              URL(string: "https://apps.apple.com/app/rewind-history-on-a-map/id6755358800")
+            )
+          }
         case .openPastVu:
-          urlOpener(pastvuCom)
+          effect { urlOpener(pastvuCom) }
         case .pastVuRules:
-          urlOpener(URL(string: "https://docs.pastvu.com/en/rules"))
+          effect { urlOpener(URL(string: "https://docs.pastvu.com/en/rules")) }
         case let .alert(alert):
           switch alert {
           case let .iconApplicationFailed(error):
