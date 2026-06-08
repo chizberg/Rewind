@@ -400,7 +400,7 @@ extension FavoritesModel {
   static var mock: FavoritesModel {
     Reducer(
       initial: [],
-      reduce: { _, _, _ in },
+      reduce: { _, _, _, _ in },
     )
   }
 }

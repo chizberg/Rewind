@@ -41,7 +41,7 @@ func makeLocationModel() -> LocationModel {
       location: nil,
       isAccessGranted: false,
     ),
-    reduce: { state, action, enqueueEffect in
+    reduce: { state, action, _, asyncEffect in
       switch action {
       case .requestAccess:
         manager.requestWhenInUseAuthorization()
@@ -57,7 +57,7 @@ func makeLocationModel() -> LocationModel {
         case let .didChangeAuthorizationStatus(status):
           state.isAccessGranted = status.isAuthorized
           if state.isAccessGranted {
-            enqueueEffect(.anotherAction(.tryStartUpdatingLocation))
+            asyncEffect(.anotherAction(.tryStartUpdatingLocation))
           }
         }
       }

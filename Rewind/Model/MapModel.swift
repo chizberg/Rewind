@@ -77,36 +77,44 @@ func makeMapModel(
 ) -> MapModel {
   MapModel(
     initial: .makeInitial(locationState: locationModel.state),
-    reduce: { state, action, enqueueEffect in
+    reduce: { state, action, effect, asyncEffect in
       switch action {
       case let .external(externalAction):
         switch externalAction {
         case let .map(map):
           switch map {
           case let .regionChanged(region):
-            enqueueEffect(.debounced(
+            asyncEffect(.debounced(
               id: .regionChanged,
               anotherAction: .internal(.regionChanged(region)),
             ))
           case let .annotationSelected(mkAnn):
             var listToPresent: [Model.Image] = []
             if let imageAnn = mkAnn as? Annotation<Model.Image> {
-              performAppAction(.imageDetails(.present(imageAnn.value, source: "annotation")))
+              effect { performAppAction(.imageDetails(.present(
+                imageAnn.value,
+                source: "annotation"
+              ))) }
             } else if let clusterAnn = mkAnn as? Annotation<Model.Cluster> {
               let cluster = clusterAnn.value
               if settings.value.openClusterPreviews {
-                performAppAction(.imageDetails(.present(cluster.preview, source: "annotation")))
+                effect { performAppAction(.imageDetails(.present(
+                  cluster.preview,
+                  source: "annotation"
+                ))) }
               } else {
                 let mapSize = mapAdapter.size
                 let currentZoom = Rewind.zoom(region: state.region, mapSize: mapSize)
-                mapAdapter.set(
-                  region: Region(
-                    center: cluster.coordinate,
-                    zoom: currentZoom + 1,
-                    mapSize: mapSize,
-                  ),
-                  animated: true,
-                )
+                effect {
+                  mapAdapter.set(
+                    region: Region(
+                      center: cluster.coordinate,
+                      zoom: currentZoom + 1,
+                      mapSize: mapSize,
+                    ),
+                    animated: true,
+                  )
+                }
               }
             } else if let localClusterAnn = mkAnn as? Annotation<Model.LocalCluster> {
               listToPresent = localClusterAnn.value.images
@@ -119,23 +127,23 @@ func makeMapModel(
               }
             }
             if !listToPresent.isEmpty {
-              performAppAction(
+              effect { performAppAction(
                 .imageList(
                   .present(listToPresent, source: "local cluster", title: "Cluster"),
                 ),
-              )
+              ) }
             }
           case .annotationDeselected:
             break
           case let .userDragged(touchPosition, mapFrame):
             guard let minimizationState = appState.value?.mapControls.minimization,
                   !minimizationState.isMinimizedByUser else {
-              enqueueEffect(.cancel(debouncedAction: .unfoldControlsBack))
+              asyncEffect(.cancel(debouncedAction: .unfoldControlsBack))
               return
             }
             if touchPosition.y > mapFrame.height - MapControls.blockingHeight {
-              performAppAction(.mapControls(.setMinimization(.minimized(byUser: false))))
-              enqueueEffect(.debounced(
+              effect { performAppAction(.mapControls(.setMinimization(.minimized(byUser: false)))) }
+              asyncEffect(.debounced(
                 id: .unfoldControlsBack,
                 anotherAction: .internal(.unfoldMapControlsBack),
               ))
@@ -144,8 +152,10 @@ func makeMapModel(
         case let .ui(ui):
           switch ui {
           case .mapViewLoaded:
-            locationModel(.requestAccess)
-            locationModel(.tryStartUpdatingLocation)
+            effect {
+              locationModel(.requestAccess)
+              locationModel(.tryStartUpdatingLocation)
+            }
           case let .filtersChanged(filters):
             let newImageKind = filters.imageKind
             let imageKindChanged = state.filters.imageKind != newImageKind
@@ -154,54 +164,58 @@ func makeMapModel(
                 $0.yearRange = newImageKind.maxRange
               }
             }
-            enqueueEffect(.debounced(id: .filtersChanged) { anotherAction in
+            asyncEffect(.debounced(id: .filtersChanged) { anotherAction in
               await anotherAction(.internal(.clearAnnotations))
               await anotherAction(.internal(.loadAnnotations))
             })
           case let .mapTypeSelected(mapType):
             state.mapType = mapType
-            applyMapType(mapType)
+            effect { applyMapType(mapType) }
           case .locationButtonTapped:
             let locationZoom = 17
             let mapSize = mapAdapter.size
             if let location = state.locationState.location {
-              mapAdapter.set(
-                region: modified(state.region) {
-                  $0.center = location.coordinate
+              effect { [region = state.region] in
+                mapAdapter.set(
+                  region: modified(region) {
+                    $0.center = location.coordinate
 
-                  // region.zoom = max(region.zoom, locationZoom)
-                  if zoom(region: state.region, mapSize: mapSize) < locationZoom {
-                    let delta = delta(zoom: locationZoom, mapSize: mapSize)
-                    $0.span = MKCoordinateSpan(
-                      latitudeDelta: delta, longitudeDelta: delta,
-                    )
-                  }
-                },
-                animated: true,
-              )
+                    // region.zoom = max(region.zoom, locationZoom)
+                    if zoom(region: region, mapSize: mapSize) < locationZoom {
+                      let delta = delta(zoom: locationZoom, mapSize: mapSize)
+                      $0.span = MKCoordinateSpan(
+                        latitudeDelta: delta, longitudeDelta: delta,
+                      )
+                    }
+                  },
+                  animated: true,
+                )
+              }
             } else if state.locationState.isAccessGranted == false {
-              performAppAction(.alert(.present(.locationAccessDenied {
-                if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
-                  urlOpener(settingsURL)
-                }
-              })))
+              effect {
+                performAppAction(.alert(.present(.locationAccessDenied {
+                  if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
+                    urlOpener(settingsURL)
+                  }
+                })))
+              }
             } else {
-              performAppAction(.alert(.present(.unableToDetermineLocation)))
+              effect { performAppAction(.alert(.present(.unableToDetermineLocation))) }
             }
           }
         case .previewClosed:
-          mapAdapter.deselectAnnotations()
+          effect { mapAdapter.deselectAnnotations() }
         case let .focusOn(coordinate, zoom):
-          mapAdapter.set(
+          effect { mapAdapter.set(
             region: Region(center: coordinate, zoom: zoom, mapSize: mapAdapter.size),
             animated: true,
-          )
+          ) }
         case let .newLocationState(locationState):
           if let location = locationState.location, state.locationState.location == nil {
-            mapAdapter.set(
+            effect { mapAdapter.set(
               region: Region(center: location.coordinate, zoom: 15, mapSize: mapAdapter.size),
               animated: false,
-            )
+            ) }
           }
           state.locationState = modified(locationState) {
             $0.location = $0.location ?? state.locationState.location
@@ -211,8 +225,8 @@ func makeMapModel(
         switch internalAction {
         case let .regionChanged(region):
           state.region = region
-          enqueueEffect(.anotherAction(.internal(.loadAnnotations)))
-          enqueueEffect(.debounced(
+          asyncEffect(.anotherAction(.internal(.loadAnnotations)))
+          asyncEffect(.debounced(
             id: .updatePreviews,
             anotherAction: .internal(.updatePreviews),
           ))
@@ -223,7 +237,7 @@ func makeMapModel(
             filters: state.filters,
             mapSize: mapAdapter.size,
           )
-          enqueueEffect(.perform(id: EffectID.loadAnnotations) { anotherAction in
+          asyncEffect(.perform(id: EffectID.loadAnnotations) { anotherAction in
             do {
               let (images, clusters) = try await annotationsRemote.load(params)
               await anotherAction(.internal(.loaded(params, images, clusters)))
@@ -233,10 +247,12 @@ func makeMapModel(
           })
         case let .loadingFailed(error):
           state.isLoading = false
-          performAppAction(.alert(.present(.nonCancelledError(
-            title: "Unable to load map annotations",
-            error: error,
-          ))))
+          effect {
+            performAppAction(.alert(.present(.nonCancelledError(
+              title: "Unable to load map annotations",
+              error: error,
+            ))))
+          }
         case let .loaded(params, images, clusters):
           let (toAdd, toRemove) = makeDiffAfterReceived(
             images: images,
@@ -248,7 +264,7 @@ func makeMapModel(
           state.isLoading = false
           state.lastLoadedParams = params
 
-          enqueueEffect(.perform { anotherAction in
+          asyncEffect(.perform { anotherAction in
             var annsToAdd: [MKAnnotation] = []
             for key in toAdd {
               let ann = await annotationStore.create(key: key)
@@ -292,9 +308,9 @@ func makeMapModel(
           state.currentRegionImages = Array(Set(modelValues)).sorted(by: sorting.value)
           state.previews = makePreviews(images: state.currentRegionImages, limit: 10)
         case .unfoldMapControlsBack:
-          performAppAction(.mapControls(.setMinimization(.normal)))
+          effect { performAppAction(.mapControls(.setMinimization(.normal))) }
         case .clearAnnotations:
-          enqueueEffect(.perform { anotherAction in
+          asyncEffect(.perform { anotherAction in
             await annotationStore.clear()
             await mapAdapter.clear()
             await anotherAction(.internal(.updatePreviews))
@@ -378,7 +394,7 @@ extension MapModel {
     )
     return MapModel(
       initial: modified(initialState, stateTransform),
-      reduce: { _, _, _ in },
+      reduce: { _, _, _, _ in },
     )
   }
 }

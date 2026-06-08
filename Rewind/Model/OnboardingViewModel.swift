@@ -43,7 +43,7 @@ extension OnboardingViewModel {
   ) {
     self.init(
       initial: OnboardingViewState(),
-      reduce: { _, action, _ in
+      reduce: { _, action, _, _ in
         switch action {
         case .onboardingFinished:
           onFinish()

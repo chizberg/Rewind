@@ -159,10 +159,10 @@ func makeImageDetailsModel(
         [ImageDetailsAction.Button.showOnMap, .share, .saveImage, .viewOnWeb, .route]
       },
     ),
-    reduce: { state, action, enqueueEffect in
+    reduce: { state, action, effect, asyncEffect in
       switch action {
       case .willBePresented:
-        enqueueEffect(.perform { anotherAction in
+        asyncEffect(.perform { anotherAction in
           do {
             let data = try await remote.load(modelImage.cid)
             await anotherAction(.internal(.detailsLoaded(data)))
@@ -173,7 +173,7 @@ func makeImageDetailsModel(
             ))))
           }
         })
-        enqueueEffect(.perform { anotherAction in
+        asyncEffect(.perform { anotherAction in
           do {
             let medium = try await modelImage.image.load(
               ImageLoadingParams(
@@ -184,7 +184,7 @@ func makeImageDetailsModel(
             await anotherAction(.cachedLowResImageLoaded(medium))
           } catch {}
         })
-        enqueueEffect(.perform { anotherAction in
+        asyncEffect(.perform { anotherAction in
           do {
             let img = try await modelImage.image.load(.high)
             await anotherAction(.imageLoaded(img))
@@ -207,7 +207,7 @@ func makeImageDetailsModel(
            pathComponents.count == 3, pathComponents[1] == "p", // [0] is "/"
            let cid = pathComponents.last.flatMap({ Int($0) }) {
           state.loadingAnotherImage = true
-          enqueueEffect(.perform { anotherAction in
+          asyncEffect(.perform { anotherAction in
             do {
               let details = try await remote.load(cid)
               await anotherAction(.anotherImage(.present(
@@ -218,7 +218,7 @@ func makeImageDetailsModel(
             }
           })
         } else {
-          urlOpener(link)
+          effect { urlOpener(link) }
         }
       case let .comparison(comparisonAction):
         switch comparisonAction {
@@ -227,7 +227,7 @@ func makeImageDetailsModel(
             UINotificationFeedbackGenerator().notificationOccurred(.error)
             return
           }
-          setOrientationLock(.portrait)
+          effect { setOrientationLock(.portrait) }
           state.comparisonDeps = Identified(
             value: makeComparisonViewDeps(
               captureMode: mode,
@@ -239,7 +239,7 @@ func makeImageDetailsModel(
             ),
           )
         case .dismiss:
-          setOrientationLock(nil)
+          effect { setOrientationLock(nil) }
           state.comparisonDeps = nil
         }
       case let .alert(alert):
@@ -254,29 +254,29 @@ func makeImageDetailsModel(
         switch button {
         case .viewOnWeb:
           if let url = pastVuURL(cid: state.image.cid) {
-            urlOpener(url)
+            effect { urlOpener(url) }
           }
         case .favorite:
           state.isFavorite.toggle()
-          enqueueEffect(.perform { [isFavorite = state.isFavorite] _ in
+          asyncEffect(.perform { [isFavorite = state.isFavorite] _ in
             favoriteModel(isFavorite)
             UIImpactFeedbackGenerator(style: .light).impactOccurred()
           })
         case .compareCamera:
-          enqueueEffect(.anotherAction(.comparison(.present(.camera))))
+          asyncEffect(.anotherAction(.comparison(.present(.camera))))
         case .compareStreetView:
-          enqueueEffect(.anotherAction(.comparison(.present(.streetView))))
+          asyncEffect(.anotherAction(.comparison(.present(.streetView))))
         case .showOnMap:
-          showOnMap(modelImage.coordinate)
+          effect { showOnMap(modelImage.coordinate) }
         case .saveImage:
-          enqueueEffect(.anotherAction(.internal(.saveImage)))
+          asyncEffect(.anotherAction(.internal(.saveImage)))
         case .share:
           guard let attrDetails = state.attributedDetails,
                 let image = state.uiImage
           else { return }
           let title = state.attributedTitle
           let cid = state.image.cid
-          enqueueEffect(.perform { anotherAction in
+          asyncEffect(.perform { anotherAction in
             let vc = makeShareVC(
               image: image,
               title: String(title.characters),
@@ -286,7 +286,7 @@ func makeImageDetailsModel(
             await anotherAction(.internal(.shareSheetLoaded(vc)))
           })
         case .route:
-          enqueueEffect(.anotherAction(.setMapOptionsVisibility(true)))
+          asyncEffect(.anotherAction(.setMapOptionsVisibility(true)))
         }
       case .translate:
         guard let description = state.details?.description else {
@@ -297,7 +297,7 @@ func makeImageDetailsModel(
           state.translationState = .translated(cached)
         } else {
           state.translationState = .translating
-          enqueueEffect(.perform { anotherAction in
+          asyncEffect(.perform { anotherAction in
             do {
               async let translatedDesc = try await translate.load(TranslateParams(
                 text: description, target: appLang,
@@ -328,7 +328,7 @@ func makeImageDetailsModel(
           longitude: modelImage.coordinate.longitude,
         ),
           canOpenURL(link) {
-          urlOpener(link)
+          effect { urlOpener(link) }
         } else {
           UINotificationFeedbackGenerator().notificationOccurred(.error)
         }
@@ -339,7 +339,7 @@ func makeImageDetailsModel(
       case .fullscreenPreview(.dismiss):
         state.fullscreenPreview = nil
       case .fullscreenPreview(.saveImage):
-        enqueueEffect(.anotherAction(.internal(.saveImage)))
+        asyncEffect(.anotherAction(.internal(.saveImage)))
       case let .anotherImage(anotherImageAction):
         switch anotherImageAction {
         case let .present(details, source):
@@ -371,7 +371,7 @@ func makeImageDetailsModel(
         switch internalAction {
         case .saveImage:
           guard let image = state.uiImage else { return }
-          enqueueEffect(.perform { anotherAction in
+          asyncEffect(.perform { anotherAction in
             do {
               try await save(image: image)
               await anotherAction(.internal(.imageSaved))
@@ -408,12 +408,12 @@ func makeImageDetailsModel(
           state.cachedTranslation = translation
         case let .translationFailed(error):
           state.translationState = .available
-          enqueueEffect(.anotherAction(.alert(.present(.error(
+          asyncEffect(.anotherAction(.alert(.present(.error(
             title: "Unable to translate description", error: error,
           )))))
         case let .anotherImageLoadFailed(error):
           state.loadingAnotherImage = false
-          enqueueEffect(.anotherAction(.alert(.present(.error(
+          asyncEffect(.anotherAction(.alert(.present(.error(
             title: "Unable to load image data", error: error,
           )))))
         }
