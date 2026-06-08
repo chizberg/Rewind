@@ -118,7 +118,7 @@ func makeComparisonViewDeps(
       savesCount: 0,
       cameraSession: nil,
     ),
-    reduce: { state, action, enqueueEffect in
+    reduce: { state, action, _, asyncEffect in
       switch action {
       case let .external(externalAction):
         switch externalAction {
@@ -127,7 +127,7 @@ func makeComparisonViewDeps(
         case .shoot:
           state.shotsCount += 1
           UINotificationFeedbackGenerator().notificationOccurred(.success)
-          enqueueEffect(.perform { [state] anotherAction in
+          asyncEffect(.perform { [state] anotherAction in
             do {
               let image: UIImage
               switch state.captureMode {
@@ -144,13 +144,13 @@ func makeComparisonViewDeps(
             }
           })
         case .retake:
-          enqueueEffect(.anotherAction(.internal(.setupCapture)))
+          asyncEffect(.anotherAction(.internal(.setupCapture)))
         case let .setLens(lens):
           do {
             try state.cameraSession?.setLens(lens: lens, animated: true)
             state.currentLens = lens
           } catch {
-            enqueueEffect(.anotherAction(.external(.alert(.presentLensError(error)))))
+            asyncEffect(.anotherAction(.external(.alert(.presentLensError(error)))))
           }
         case .viewWillAppear:
           switch state.captureMode {
@@ -158,9 +158,9 @@ func makeComparisonViewDeps(
             let access = AVCaptureDevice.authorizationStatus(for: .video)
             switch access {
             case .authorized:
-              enqueueEffect(.anotherAction(.internal(.videoAccessGranted)))
+              asyncEffect(.anotherAction(.internal(.videoAccessGranted)))
             case .notDetermined:
-              enqueueEffect(.perform { anotherAction in
+              asyncEffect(.perform { anotherAction in
                 let granted = await AVCaptureDevice.requestAccess(for: .video)
                 await anotherAction(
                   granted
@@ -170,10 +170,10 @@ func makeComparisonViewDeps(
               })
             case .restricted, .denied: fallthrough
             @unknown default:
-              enqueueEffect(.anotherAction(.external(.alert(.presentAccessError))))
+              asyncEffect(.anotherAction(.external(.alert(.presentAccessError))))
             }
           case .streetView:
-            enqueueEffect(.perform { anotherAction in
+            asyncEffect(.perform { anotherAction in
               do {
                 let availability = try await streetViewAvailability.load()
                 await anotherAction(.internal(.streetViewAvailabilityLoaded(availability)))
@@ -182,12 +182,12 @@ func makeComparisonViewDeps(
                 // we block user actions only if streetView is surely not available
               }
             })
-            enqueueEffect(.anotherAction(.internal(.setupCapture)))
+            asyncEffect(.anotherAction(.internal(.setupCapture)))
           }
         case let .shareSheet(shareSheetAction):
           switch shareSheetAction {
           case .present:
-            enqueueEffect(.perform { [state] anotherAction in
+            asyncEffect(.perform { [state] anotherAction in
               do {
                 guard let comparisonVC else {
                   assertionFailure()
@@ -251,18 +251,18 @@ func makeComparisonViewDeps(
         case .videoAccessGranted:
           do {
             let session = try CameraSession()
-            enqueueEffect(.anotherAction(.internal(.sessionReady(session))))
+            asyncEffect(.anotherAction(.internal(.sessionReady(session))))
           } catch {
-            enqueueEffect(.anotherAction(.external(.alert(.presentAccessError))))
+            asyncEffect(.anotherAction(.external(.alert(.presentAccessError))))
           }
         case let .sessionReady(session):
           state.cameraSession = session
           state.currentLens = session.mainLens
-          enqueueEffect(.anotherAction(.internal(.setupCapture)))
+          asyncEffect(.anotherAction(.internal(.setupCapture)))
         case let .imageTaken(image):
           state.captureState = .taken(capture: image)
           state.cameraSession?.stop()
-          enqueueEffect(.perform { anotherAction in
+          asyncEffect(.perform { anotherAction in
             do {
               guard let comparisonVC else {
                 assertionFailure()
@@ -292,13 +292,13 @@ func makeComparisonViewDeps(
               state.cameraSession?.stop()
               state.captureState = .viewfinder(streetView)
             } catch {
-              enqueueEffect(.anotherAction(.external(.alert(.presentStreetViewError(error)))))
+              asyncEffect(.anotherAction(.external(.alert(.presentStreetViewError(error)))))
             }
           }
         case let .streetViewAvailabilityLoaded(availability):
           state.streetViewAvailability = availability
           if case .unavailable = availability {
-            enqueueEffect(.anotherAction(.external(.alert(.presentStreetViewUnavailable))))
+            asyncEffect(.anotherAction(.external(.alert(.presentStreetViewUnavailable))))
           }
         }
       }

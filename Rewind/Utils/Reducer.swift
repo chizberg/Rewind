@@ -10,7 +10,8 @@ import VGSL
 
 @preconcurrency @MainActor
 final class Reducer<State, Action> {
-  struct Effect {
+  typealias Effect = () -> Void
+  struct AsyncEffect {
     var id: String
     var action: ((Action) async -> Void) async -> Void
   }
@@ -19,13 +20,15 @@ final class Reducer<State, Action> {
   private(set) var state: State
   private let reduce: ActionHandler
   @Property
-  private var effects: [String: (Task<Void, Error>, UUID)]
+  private var asyncEffects: [String: (Task<Void, Error>, UUID)]
   private let disposePool = AutodisposePool()
+  private var isRunning = false
 
   typealias ActionHandler = @MainActor (
     inout State,
     Action,
-    _ enqueueEffect: (Reducer<State, Action>.Effect) -> Void,
+    _ enqueueEffect: (@escaping Effect) -> Void,
+    _ enqueueAsyncEffect: (Reducer<State, Action>.AsyncEffect) -> Void,
   ) -> Void
 
   init(
@@ -33,21 +36,30 @@ final class Reducer<State, Action> {
     reduce: @escaping ActionHandler,
   ) {
     _state = ObservableProperty(initialValue: initial)
-    _effects = Property(initialValue: [:])
+    _asyncEffects = Property(initialValue: [:])
     self.reduce = reduce
   }
 
   func callAsFunction(_ action: Action) {
+    assert(!isRunning, "Calling the same reducer recursively leads to unexpected state changes")
     var newEffects = [Effect]()
-    reduce(&state, action) { newEffects.append($0) }
-    for effect in newEffects {
-      effects[effect.id]?.0.cancel()
-      effects[effect.id] = nil
+    var newAsyncEffects = [AsyncEffect]()
+
+    isRunning = true
+    reduce(&state, action, { action in newEffects.append(action) }, { newAsyncEffects.append($0) })
+    isRunning = false
+
+    for e in newEffects {
+      e()
+    }
+    for ae in newAsyncEffects {
+      asyncEffects[ae.id]?.0.cancel()
+      asyncEffects[ae.id] = nil
       let taskID = UUID()
-      effects[effect.id] = (Task { [weak self] in
-        await effect.action { action in await MainActor.run { self?(action) } }
-        if let self, effects[effect.id]?.1 == taskID {
-          effects[effect.id] = nil
+      asyncEffects[ae.id] = (Task { [weak self] in
+        await ae.action { action in await MainActor.run { self?(action) } }
+        if let self, asyncEffects[ae.id]?.1 == taskID {
+          asyncEffects[ae.id] = nil
         }
       }, taskID)
     }
@@ -80,7 +92,7 @@ extension Reducer {
   ) -> Reducer<NewState, NewAction> {
     Reducer<NewState, NewAction>(
       initial: makeNewState(state),
-    ) { newState, newAction, _ in
+    ) { newState, newAction, _, _ in
       let oldAction = makeOldAction(newAction)
       self(oldAction)
       newState = makeNewState(self.state)
@@ -110,12 +122,12 @@ extension Reducer {
   }
 }
 
-extension Reducer.Effect {
+extension Reducer.AsyncEffect {
   static func perform(
     id: String = UUID().uuidString,
     action: @escaping ((Action) async -> Void) async -> Void,
-  ) -> Reducer.Effect {
-    Reducer.Effect(
+  ) -> Reducer.AsyncEffect {
+    Reducer.AsyncEffect(
       id: id,
       action: action,
     )
@@ -124,8 +136,8 @@ extension Reducer.Effect {
   static func anotherAction(
     id: String = UUID().uuidString,
     _ action: Action,
-  ) -> Reducer.Effect {
-    Reducer.Effect(
+  ) -> Reducer.AsyncEffect {
+    Reducer.AsyncEffect(
       id: id,
       action: { performAnotherReducerAction in
         await performAnotherReducerAction(action)
@@ -137,8 +149,8 @@ extension Reducer.Effect {
     _ delay: TimeInterval,
     id: String = UUID().uuidString,
     anotherAction: Action,
-  ) -> Reducer.Effect {
-    Reducer.Effect(
+  ) -> Reducer.AsyncEffect {
+    Reducer.AsyncEffect(
       id: id,
       action: { performAnotherReducerAction in
         do {
@@ -151,8 +163,8 @@ extension Reducer.Effect {
 
   static func cancel(
     id: String,
-  ) -> Reducer.Effect {
-    Reducer.Effect(
+  ) -> Reducer.AsyncEffect {
+    Reducer.AsyncEffect(
       id: id,
       action: { _ in },
     )
@@ -160,15 +172,15 @@ extension Reducer.Effect {
 
   static func cancel(
     debouncedAction: DebouncedActionID,
-  ) -> Reducer.Effect {
+  ) -> Reducer.AsyncEffect {
     .cancel(id: debouncedAction.rawValue)
   }
 
   static func debounced(
     id: DebouncedActionID,
     action: @escaping ((Action) async -> Void) async -> Void,
-  ) -> Reducer.Effect {
-    Reducer.Effect(
+  ) -> Reducer.AsyncEffect {
+    Reducer.AsyncEffect(
       id: id.rawValue,
       action: { performAnotherReducerAction in
         do {
@@ -182,8 +194,8 @@ extension Reducer.Effect {
   static func debounced(
     id: DebouncedActionID,
     anotherAction: Action,
-  ) -> Reducer.Effect {
-    Reducer.Effect(
+  ) -> Reducer.AsyncEffect {
+    Reducer.AsyncEffect(
       id: id.rawValue,
       action: { performAnotherReducerAction in
         do {
