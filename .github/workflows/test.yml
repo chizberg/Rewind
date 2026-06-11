@@ -12,14 +12,27 @@ jobs:
         with:
           xcode-version: latest-stable
       - name: Ensure iOS platform runtimes
-        run: sudo xcodebuild -downloadPlatform iOS
+        run: |
+          if xcrun simctl list runtimes available | grep -q "^iOS"; then
+            echo "iOS simulator runtime already installed, skipping download"
+            exit 0
+          fi
+          for attempt in 1 2 3; do
+            if sudo xcodebuild -downloadPlatform iOS; then
+              exit 0
+            fi
+            echo "downloadPlatform attempt $attempt failed; retrying in 30s..."
+            sleep 30
+          done
+          echo "Failed to download iOS platform after 3 attempts"
+          exit 1
       - name: Create Secrets.xcconfig
         run: |
           mkdir -p Config
           echo "GOOGLE_API_KEY = ${{ secrets.GOOGLE_API_KEY }}" > Config/Secrets.xcconfig
       - name: Resolve Swift packages
         run: xcodebuild -resolvePackageDependencies
-      - name: Select simulator
+      - name: Select and boot simulator
         id: sim
         run: |
           UDID=$(xcrun simctl list devices available -j \
@@ -28,6 +41,8 @@ jobs:
             echo "No available iPhone simulator found"; exit 1
           fi
           echo "Using simulator $UDID"
+          xcrun simctl boot "$UDID" || true
+          xcrun simctl bootstatus "$UDID" -b
           echo "udid=$UDID" >> "$GITHUB_OUTPUT"
       - name: Run unit tests
         run: |
