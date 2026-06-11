@@ -51,7 +51,9 @@ struct RewindAsyncImage<Content: View, Placeholder: View>: View {
       do {
         let fetchedImage = try await getter()
         await MainActor.run {
-          self.image = fetchedImage
+          withAnimation {
+            self.image = fetchedImage
+          }
         }
       } catch {
         await MainActor.run {

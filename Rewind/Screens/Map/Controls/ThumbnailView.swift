@@ -45,7 +45,7 @@ struct ThumbnailCardView: View {
           .frame(size: size)
       } placeholder: {
         Color.clear.overlay {
-          ProgressView()
+          DelayedProgressView(delay: 0.5)
         }
       }
 
@@ -69,6 +69,30 @@ struct ThumbnailCardView: View {
         .font(.largeTitle)
       Text("View as List")
         .fontWeight(.semibold)
+    }
+  }
+}
+
+private struct DelayedProgressView: View {
+  var delay: TimeInterval
+
+  @State
+  private var isVisible = false
+
+  var body: some View {
+    ZStack {
+      if isVisible {
+        ProgressView()
+          .transition(.opacity)
+      }
+    }
+    .task {
+      do {
+        try await Task.sleep(for: .seconds(delay))
+        withAnimation {
+          isVisible = true
+        }
+      } catch {}
     }
   }
 }

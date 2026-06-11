@@ -62,8 +62,15 @@ final class ClusterAnnotationView: MKAnnotationView {
       guard let self else { return }
       switch result {
       case let .success(image):
-        imageView.image = image
-      case .failure:
+        UIView.transition(
+          with: imageView,
+          duration: 0.25,
+          options: .transitionCrossDissolve,
+        ) {
+          self.imageView.image = image
+        }
+      case let .failure(error):
+        guard error is CancellationError == false else { return }
         imageView.image = .error
       }
     }
