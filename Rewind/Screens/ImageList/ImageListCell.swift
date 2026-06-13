@@ -22,7 +22,7 @@ struct ImageListCell: View {
       } placeholder: {
         Color(uiColor: .secondarySystemBackground)
           .overlay {
-            ProgressView()
+            DelayedProgressView()
           }
       }
       .aspectRatio(4 / 3, contentMode: .fit)

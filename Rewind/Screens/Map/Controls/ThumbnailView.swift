@@ -45,7 +45,7 @@ struct ThumbnailCardView: View {
           .frame(size: size)
       } placeholder: {
         Color.clear.overlay {
-          DelayedProgressView(delay: 0.5)
+          DelayedProgressView()
         }
       }
 
@@ -73,8 +73,8 @@ struct ThumbnailCardView: View {
   }
 }
 
-private struct DelayedProgressView: View {
-  var delay: TimeInterval
+struct DelayedProgressView: View {
+  var delay: TimeInterval = 0.5
 
   @State
   private var isVisible = false

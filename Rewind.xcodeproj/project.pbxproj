@@ -55,17 +55,17 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		2226F2F62D593DA20042601C /* RewindTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = RewindTests;
+			sourceTree = "<group>";
+		};
 		22291C8A2D50106600F2FEBE /* Rewind */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				2226F2F42D593DA20042601C /* Exceptions for "Rewind" folder in "Rewind" target */,
 			);
 			path = Rewind;
-			sourceTree = "<group>";
-		};
-		2226F2F62D593DA20042601C /* RewindTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = RewindTests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
