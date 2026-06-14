@@ -44,6 +44,20 @@ enum AnnotationValue: Hashable {
   case localCluster(Model.LocalCluster)
 }
 
+extension AnnotationValue {
+  var image: Model.Image? {
+    if case let .image(value) = self { value } else { nil }
+  }
+
+  var cluster: Model.Cluster? {
+    if case let .cluster(value) = self { value } else { nil }
+  }
+
+  var localCluster: Model.LocalCluster? {
+    if case let .localCluster(value) = self { value } else { nil }
+  }
+}
+
 protocol Locatable {
   var coordinate: Coordinate { get }
 }
