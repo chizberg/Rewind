@@ -50,34 +50,82 @@ func makeDiffAfterReceived(
     toAdd += newClusters.map { .cluster($0) }
   }
 
-  // clustered images:
-  // if shouldClearOldAnnotations, remove all local clusters
-  // remove all images that are not in the received set
-  // group old images that are still present with new images
-  // then add new ones to these groups
+  // clustered images: rebuild from scratch on a zoom/filter change, otherwise apply
+  // incremental additive patches for a same-zoom pan.
   let receivedImages = Set(images)
   if shouldClearOldAnnotations {
-    var freeImages = Set<Model.Image>()
-    for cellValue in state.clusteredImages.values {
-      switch cellValue {
-      case let .left(images):
-        freeImages.formUnion(images)
-      case let .right(localCluster):
-        toRemove.append(.localCluster(localCluster))
-      }
-    }
-    let staleImages = freeImages.subtracting(receivedImages)
-    toRemove += staleImages.map { .image($0) }
-    state.clusteredImages = groupImages(
-      images: freeImages.intersection(receivedImages),
+    regroupFromScratch(
+      receivedImages: receivedImages,
       zoom: params.zoom,
       mapSize: mapSize,
-    ).map(key: { $0 }, value: { .left($0) })
+      state: &state,
+      toAdd: &toAdd,
+      toRemove: &toRemove,
+    )
+  } else {
+    applyIncremental(
+      receivedImages: receivedImages,
+      zoom: params.zoom,
+      mapSize: mapSize,
+      state: &state,
+      toAdd: &toAdd,
+      toRemove: &toRemove,
+    )
   }
+  return (toAdd, toRemove)
+}
 
+private func regroupFromScratch(
+  receivedImages: Set<Model.Image>,
+  zoom: Int,
+  mapSize: CGSize,
+  state: inout MapState,
+  toAdd: inout [AnnotationValue],
+  toRemove: inout [AnnotationValue],
+) {
+  var freeImages = Set<Model.Image>()
+  for cellValue in state.clusteredImages.values {
+    switch cellValue {
+    case let .left(images):
+      freeImages.formUnion(images)
+    case let .right(localCluster):
+      // members stay out of `freeImages`, so they re-add as individuals if the cluster splits
+      toRemove.append(.localCluster(localCluster))
+    }
+  }
+  let staleImages = freeImages.subtracting(receivedImages)
+  toRemove += staleImages.map { .image($0) }
+
+  var regrouped = MapState.ClusteredImages()
+  for (cell, cellImages) in groupImages(
+    images: receivedImages,
+    zoom: zoom,
+    mapSize: mapSize,
+  ) {
+    if cellImages.count < localClusterMinCount {
+      regrouped[cell] = .left(cellImages)
+      toAdd += cellImages.subtracting(freeImages).map { .image($0) }
+    } else {
+      let cluster = Model.LocalCluster(images: cellImages, cell: cell)
+      regrouped[cell] = .right(cluster)
+      toAdd.append(.localCluster(cluster))
+      toRemove += cellImages.intersection(freeImages).map { .image($0) }
+    }
+  }
+  state.clusteredImages = regrouped
+}
+
+private func applyIncremental(
+  receivedImages: Set<Model.Image>,
+  zoom: Int,
+  mapSize: CGSize,
+  state: inout MapState,
+  toAdd: inout [AnnotationValue],
+  toRemove: inout [AnnotationValue],
+) {
   let groupedImages = groupImages(
     images: receivedImages,
-    zoom: params.zoom,
+    zoom: zoom,
     mapSize: mapSize,
   )
   let patches = makePatches(
@@ -90,7 +138,6 @@ func makeDiffAfterReceived(
     toAdd: &toAdd,
     toRemove: &toRemove,
   )
-  return (toAdd, toRemove)
 }
 
 private func groupImages(
