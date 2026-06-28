@@ -1,5 +1,5 @@
 //
-//  MapAdapter.swift
+//  RewindMap.swift
 //  Rewind
 //
 //  Created by Alexey Sherstnev on 03.02.2025.
@@ -10,82 +10,46 @@ import VGSL
 
 typealias MapType = MKMapType
 
-// TODO: rename, it's not only adapter
 @MainActor
-final class MapAdapter: NSObject, MKMapViewDelegate, UIGestureRecognizerDelegate {
+final class RewindMap {
   typealias Event = MapAction.External.Map
 
-  private let map: Lazy<MKMapView>
-  private let pipe = SignalPipe<Event>()
-  private let gradientScheme: ObservableVariable<GradientScheme>
-  private let maxYearRange: ObservableVariable<ClosedRange<Int>>
-
-  var size: CGSize {
-    map.value.frame.size
-  }
+  var events: Signal<Event>
 
   var view: UIView {
-    map.value
-  }
-
-  var events: Signal<Event> {
-    pipe.signal
+    map
   }
 
   var visibleAnnotations: [MKAnnotation] {
-    map.value.annotations.filter {
-      map.value.visibleMapRect.contains(MKMapPoint($0.coordinate))
+    map.annotations.filter {
+      map.visibleMapRect.contains(MKMapPoint($0.coordinate))
     }
   }
+
+  private let map: RewindMapView
+  private let delegate: RewindMapDelegate
 
   init(
     settings: ObservableVariable<SettingsState>,
     filters: ObservableVariable<ImageRequestFilters>,
   ) {
-    weak var weakSelf: MapAdapter?
-    map = Lazy(getter: { // TODO: simplify
-      let map = MKMapView()
-      map.region = initialRegion
-      map.delegate = weakSelf
-      map.showsUserLocation = true
-      map.isPitchEnabled = false
-      map.isRotateEnabled = false
-      map.register(
-        ImageAnnotationView.self,
-        forAnnotationViewWithReuseIdentifier: ReuseIdentifier.image,
-      )
-      map.register(
-        ClusterAnnotationView.self,
-        forAnnotationViewWithReuseIdentifier: ReuseIdentifier.cluster,
-      )
-      map.register(
-        MergedAnnotationView.self,
-        forAnnotationViewWithReuseIdentifier: ReuseIdentifier.localCluster,
-      )
-      map.register(
-        MergedAnnotationView.self,
-        forAnnotationViewWithReuseIdentifier: ReuseIdentifier.mkCluster,
-      )
-      return map
-    })
-    self.gradientScheme = settings.gradientScheme
-    self.maxYearRange = filters.imageKind.skipRepeats().map(\.maxRange)
+    map = RewindMapView()
+    map.region = initialRegion
 
-    super.init()
-    weakSelf = self
+    delegate = RewindMapDelegate(
+      gradientScheme: settings.gradientScheme,
+      maxYearRange: filters.imageKind.skipRepeats().map(\.maxRange)
+    )
+    map.delegate = delegate
 
-    map.whenLoaded { map in
-      let pan = UIPanGestureRecognizer(
-        target: self,
-        action: #selector(self.handlePan(_:)),
-      )
-      pan.delegate = self
-      map.addGestureRecognizer(pan)
-    }
+    events = Signal.merge(
+      map.events,
+      delegate.events,
+    )
   }
 
   func add(annotations: [MKAnnotation]) {
-    map.value.addAnnotations(annotations)
+    map.addAnnotations(annotations)
   }
 
   func remove(annotations: [MKAnnotation]) async {
@@ -96,36 +60,111 @@ final class MapAdapter: NSObject, MKMapViewDelegate, UIGestureRecognizerDelegate
     }
   }
 
-  func remove(annotations: [MKAnnotation], completion: @escaping Action) {
-    animateRemoval(
-      annotations.compactMap { map.value.view(for: $0) },
-      completion: { [weak self] _ in
-        self?.map.value.removeAnnotations(annotations)
-        completion()
-      },
-    )
-  }
-
   func clear() async {
     await remove(
-      annotations: map.value.annotations.filter { !($0 is MKUserLocation) },
+      annotations: map.annotations.filter { !($0 is MKUserLocation) },
     )
   }
 
   func deselectAnnotations() {
-    map.value.selectedAnnotations = []
+    map.selectedAnnotations = []
   }
 
   func set(region: Region, animated: Bool) {
-    map.value.setRegion(region, animated: animated)
+    map.setRegion(region, animated: animated)
   }
 
   func apply(mapType: MapType) {
-    map.value.mapType = mapType
+    map.mapType = mapType
   }
 
-  func annotations(in rect: MKMapRect) -> [MKAnnotation] {
-    map.value.annotations(in: rect).compactMap { $0 as? MKAnnotation }
+  private func remove(annotations: [MKAnnotation], completion: @escaping Action) {
+    animateRemoval(
+      annotations.compactMap { map.view(for: $0) },
+      completion: { [weak self] _ in
+        self?.map.removeAnnotations(annotations)
+        completion()
+      },
+    )
+  }
+}
+
+private final class RewindMapView: MKMapView, UIGestureRecognizerDelegate {
+  typealias Event = RewindMap.Event
+
+  var events: Signal<Event> {
+    pipe.signal
+  }
+
+  private let pipe = SignalPipe<Event>()
+
+  override init(frame: CGRect) {
+    super.init(frame: frame)
+
+    showsUserLocation = false
+    isPitchEnabled = false
+    isRotateEnabled = false
+
+    register(
+      ImageAnnotationView.self,
+      forAnnotationViewWithReuseIdentifier: ReuseIdentifier.image,
+    )
+    register(
+      ClusterAnnotationView.self,
+      forAnnotationViewWithReuseIdentifier: ReuseIdentifier.cluster,
+    )
+    register(
+      MergedAnnotationView.self,
+      forAnnotationViewWithReuseIdentifier: ReuseIdentifier.localCluster,
+    )
+    register(
+      MergedAnnotationView.self,
+      forAnnotationViewWithReuseIdentifier: ReuseIdentifier.mkCluster,
+    )
+
+    let pan = UIPanGestureRecognizer(
+      target: self,
+      action: #selector(handlePan(_:))
+    )
+    pan.delegate = self
+    addGestureRecognizer(pan)
+  }
+
+  @available(*, unavailable)
+  required init?(coder _: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+
+  @objc
+  func handlePan(_ recognizer: UIPanGestureRecognizer) {
+    pipe.send(.userDragged(recognizer.location(in: self), frame))
+  }
+
+  func gestureRecognizer(
+    _: UIGestureRecognizer,
+    shouldRecognizeSimultaneouslyWith _: UIGestureRecognizer,
+  ) -> Bool {
+    true
+  }
+}
+
+private final class RewindMapDelegate: NSObject, MKMapViewDelegate {
+  typealias Event = RewindMap.Event
+
+  var events: Signal<Event> {
+    pipe.signal
+  }
+
+  private let pipe = SignalPipe<Event>()
+  private let gradientScheme: ObservableVariable<GradientScheme>
+  private let maxYearRange: ObservableVariable<ClosedRange<Int>>
+
+  init(
+    gradientScheme: ObservableVariable<GradientScheme>,
+    maxYearRange: ObservableVariable<ClosedRange<Int>>
+  ) {
+    self.gradientScheme = gradientScheme
+    self.maxYearRange = maxYearRange
   }
 
   func mapView(_: MKMapView, didAdd views: [MKAnnotationView]) {
@@ -188,20 +227,6 @@ final class MapAdapter: NSObject, MKMapViewDelegate, UIGestureRecognizerDelegate
     }
     assertionFailure("unknown annotation type: \(type(of: annotation))")
     return nil
-  }
-
-  // MARK: - Pan location tracking
-
-  @objc
-  private func handlePan(_ recognizer: UIPanGestureRecognizer) {
-    pipe.send(.userDragged(recognizer.location(in: map.value), map.value.frame))
-  }
-
-  func gestureRecognizer(
-    _: UIGestureRecognizer,
-    shouldRecognizeSimultaneouslyWith _: UIGestureRecognizer,
-  ) -> Bool {
-    true
   }
 }
 

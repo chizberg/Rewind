@@ -13,7 +13,7 @@ import VGSL
 final class AppGraph {
   let mapStore: MapViewModel.Store
   let appStore: AppModel.Store
-  let mapAdapter: MapAdapter
+  let map: Lazy<RewindMap>
   let urlOpener: UrlOpener
   let imageLoader: ImageLoader
 
@@ -48,10 +48,12 @@ final class AppGraph {
     let filters = ObservableVariableConnection(
       initialValue: ImageRequestFilters.default
     )
-    let mapAdapter = MapAdapter(
-      settings: settings.asObservableVariable(),
-      filters: filters.target
-    )
+    let map = Lazy(onMainThreadGetter: {
+      RewindMap(
+        settings: settings.asObservableVariable(),
+        filters: filters.target
+      )
+    })
 
     weak var mapModelRef: MapModel?
     weak var appModelRef: AppModel?
@@ -59,9 +61,9 @@ final class AppGraph {
     let urlOpener: UrlOpener = { $0.map { UIApplication.shared.open($0) } }
     self.urlOpener = urlOpener
     let mapModel = makeMapModel(
-      mapAdapter: mapAdapter,
+      map: map,
       annotationsRemote: remotes.annotations,
-      applyMapType: { mapAdapter.apply(mapType: $0) },
+      applyMapType: { map.value.apply(mapType: $0) },
       performAppAction: { appModelRef?($0) },
       locationModel: locationModel,
       urlOpener: urlOpener,
@@ -128,11 +130,11 @@ final class AppGraph {
     )
     appModelRef = appModel
     appStore = appModel.viewStore
-    self.mapAdapter = mapAdapter
+    self.map = map
     self.favoritesStorage = favoritesStorage
     weakSelf = self
 
-    mapAdapter.events.addObserver {
+    map.future.asSignal().flatMap(\.events).addObserver {
       mapModelRef?(.external(.map($0)))
     }.dispose(in: disposePool)
     locationModel.$state.currentAndNewValues.addObserver {

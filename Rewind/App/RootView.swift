@@ -138,7 +138,7 @@ extension AppState {
   @Previewable @State var graph = AppGraph()
 
   RootView(
-    rawMap: graph.mapAdapter.view,
+    rawMap: graph.map.value.view,
     mapStore: graph.mapStore,
     appStore: graph.appStore,
   )

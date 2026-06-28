@@ -23,7 +23,7 @@ struct RewindApp: App {
   var body: some Scene {
     WindowGroup {
       RootView(
-        rawMap: graph.mapAdapter.view,
+        rawMap: graph.map.value.view,
         mapStore: graph.mapStore,
         appStore: graph.appStore,
       )

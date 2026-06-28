@@ -64,7 +64,7 @@ enum MapAction {
 }
 
 func makeMapModel(
-  mapAdapter: MapAdapter,
+  map: Lazy<RewindMap>,
   annotationsRemote: Remote<AnnotationLoadingParams, ([Model.Image], [Model.Cluster])>,
   applyMapType: @escaping (MapType) -> Void,
   performAppAction: @escaping (AppAction) -> Void,
@@ -81,8 +81,8 @@ func makeMapModel(
       switch action {
       case let .external(externalAction):
         switch externalAction {
-        case let .map(map):
-          switch map {
+        case let .map(mapAction):
+          switch mapAction {
           case let .regionChanged(region):
             asyncEffect(.debounced(
               id: .regionChanged,
@@ -103,10 +103,10 @@ func makeMapModel(
                   source: "annotation"
                 ))) }
               } else {
-                let mapSize = mapAdapter.size
+                let mapSize = map.value.size
                 let currentZoom = Rewind.zoom(region: state.region, mapSize: mapSize)
                 effect {
-                  mapAdapter.set(
+                  map.value.set(
                     region: Region(
                       center: cluster.coordinate,
                       zoom: currentZoom + 1,
@@ -173,10 +173,10 @@ func makeMapModel(
             effect { applyMapType(mapType) }
           case .locationButtonTapped:
             let locationZoom = 17
-            let mapSize = mapAdapter.size
+            let mapSize = map.value.size
             if let location = state.locationState.location {
               effect { [region = state.region] in
-                mapAdapter.set(
+                map.value.set(
                   region: modified(region) {
                     $0.center = location.coordinate
 
@@ -204,16 +204,16 @@ func makeMapModel(
             }
           }
         case .previewClosed:
-          effect { mapAdapter.deselectAnnotations() }
+          effect { map.value.deselectAnnotations() }
         case let .focusOn(coordinate, zoom):
-          effect { mapAdapter.set(
-            region: Region(center: coordinate, zoom: zoom, mapSize: mapAdapter.size),
+          effect { map.value.set(
+            region: Region(center: coordinate, zoom: zoom, mapSize: map.value.size),
             animated: true,
           ) }
         case let .newLocationState(locationState):
           if let location = locationState.location, state.locationState.location == nil {
-            effect { mapAdapter.set(
-              region: Region(center: location.coordinate, zoom: 15, mapSize: mapAdapter.size),
+            effect { map.value.set(
+              region: Region(center: location.coordinate, zoom: 15, mapSize: map.value.size),
               animated: false,
             ) }
           }
@@ -235,7 +235,7 @@ func makeMapModel(
           let params = AnnotationLoadingParams(
             region: state.region,
             filters: state.filters,
-            mapSize: mapAdapter.size,
+            mapSize: map.value.size,
           )
           asyncEffect(.perform(id: EffectID.loadAnnotations) { anotherAction in
             do {
@@ -254,11 +254,12 @@ func makeMapModel(
             ))))
           }
         case let .loaded(params, images, clusters):
+          let map = map.value
           let (toAdd, toRemove) = makeDiffAfterReceived(
             images: images,
             clusters: clusters,
             params: params,
-            mapSize: mapAdapter.size,
+            mapSize: map.size,
             state: &state,
           )
           state.isLoading = false
@@ -278,14 +279,14 @@ func makeMapModel(
               }
             }
 
-            await mapAdapter.remove(annotations: annsToRemove)
-            mapAdapter.add(annotations: annsToAdd)
+            await map.remove(annotations: annsToRemove)
+            map.add(annotations: annsToAdd)
             await annotationStore.refresh()
             await anotherAction(.internal(.updatePreviews))
           })
         case .updatePreviews:
           guard !state.isLoading else { return }
-          let annotations = mapAdapter.visibleAnnotations.flatMap {
+          let annotations = map.value.visibleAnnotations.flatMap {
             if let cluster = $0 as? MKClusterAnnotation {
               return cluster.memberAnnotations
             }
@@ -312,7 +313,7 @@ func makeMapModel(
         case .clearAnnotations:
           asyncEffect(.perform { anotherAction in
             await annotationStore.clear()
-            await mapAdapter.clear()
+            await map.value.clear()
             await anotherAction(.internal(.updatePreviews))
           })
         }
@@ -355,6 +356,10 @@ extension MapState {
 
 private enum EffectID {
   static let loadAnnotations = "load_annotations"
+}
+
+extension RewindMap {
+  fileprivate var size: CGSize { view.bounds.size }
 }
 
 extension AlertParams {
