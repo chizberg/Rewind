@@ -67,7 +67,6 @@ struct AnnotationsScreen: View {
           Divider()
           YearSelector(
             yearRange: $yearRange,
-            maxRange: ImageRequestFilters.default.imageKind.maxRange,
           )
         }
         .onboardingCard()

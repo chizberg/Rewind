@@ -27,6 +27,16 @@ struct ImageRequestFilters: Equatable {
   }
 }
 
+extension ImageRequestFilters.ImageKind {
+  var isPainting: Bool {
+    self == .painting
+  }
+
+  var isPhoto: Bool {
+    self == .photo
+  }
+}
+
 extension ImageRequestFilters {
   static let `default` = ImageRequestFilters(imageKind: .photo)
 }

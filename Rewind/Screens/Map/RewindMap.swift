@@ -8,8 +8,6 @@
 import MapKit
 import VGSL
 
-typealias MapType = MKMapType
-
 @MainActor
 final class RewindMap {
   typealias Event = MapAction.External.Map
@@ -75,7 +73,7 @@ final class RewindMap {
   }
 
   func apply(mapType: MapType) {
-    map.mapType = mapType
+    map.mapType = mapType.mkMapType
   }
 
   private func remove(annotations: [MKAnnotation], completion: @escaping Action) {

@@ -22,7 +22,7 @@ struct MapControls: View {
 
   var body: some View {
     VStack(alignment: .leading) {
-      expandableControls
+      floatingMenu
         .if(horizontalSizeClass == .regular) {
           $0.frame(maxWidth: 450)
         }
@@ -37,11 +37,11 @@ struct MapControls: View {
         content
       }
       .overlay {
-        if appStore.state.mapControls.minimization.isMinimized {
+        if mapStore.state.controls.minimization.isMinimized {
           Color.clear
             .contentShape(Rectangle())
             .onTapGesture {
-              appStore(.mapControls(.setMinimization(.normal)))
+              mapStore(.controls(.setMinimization(.normal)))
             }
         }
       }
@@ -49,8 +49,8 @@ struct MapControls: View {
       .offset(y: offset)
       .minimizable(
         contentHeight: glassCardHeight,
-        state: appStore.binding(
-          \.mapControls.minimization, send: { .mapControls(.setMinimization($0)) },
+        state: mapStore.binding(
+          \.controls.minimization, send: { .controls(.setMinimization($0)) },
         ),
         offset: $offset,
         glimpseHeight: 100,
@@ -68,26 +68,18 @@ struct MapControls: View {
     )
   }
 
-  private var expandableControls: some View {
-    ExpandableControls(
+  private var floatingMenu: some View {
+    FloatingMenu(
+      expandedItems: mapStore.binding(
+        \.controls.expandedItems,
+        send: { .controls(.setExpandedItems($0)) }
+      ),
       filters: mapStore.binding(\.filters, send: { .filtersChanged($0) }),
       mapType: mapStore.binding(\.mapType, send: { .mapTypeSelected($0) }),
-      staticItems: [
-        ExpandableControls.StaticItem(
-          id: "search",
-          iconName: "magnifyingglass",
-          transitionSource: (id: RootView.TransitionSource.search, namespace: namespace),
-        ) {
-          appStore(.search(.present))
-        },
-        ExpandableControls.StaticItem(
-          id: "location",
-          iconName: mapStore.locationState.isAccessGranted
-            ? "location" : "location.slash",
-        ) {
-          mapStore(.locationButtonTapped)
-        },
-      ],
+      onSearchTap: { appStore(.search(.present)) },
+      locationAccessGranted: mapStore.locationState.isAccessGranted,
+      onLocationTap: { mapStore(.locationButtonTapped) },
+      namespace: namespace
     )
   }
 

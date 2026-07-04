@@ -13,6 +13,12 @@ typealias MapViewModel = Reducer<MapState, MapAction.External.UI>
 
 struct MapState {
   typealias ClusteredImages = [ClusteringCell: Either<Set<Model.Image>, Model.LocalCluster>]
+
+  struct ControlsState {
+    var expandedItems: [FloatingMenu.Item]
+    var minimization: MinimizationState
+  }
+
   var mapType: MapType
   var region: Region
   var filters: ImageRequestFilters
@@ -24,6 +30,8 @@ struct MapState {
 
   var clusters: Set<Model.Cluster>
   var clusteredImages: ClusteredImages
+
+  var controls: ControlsState
 }
 
 enum MapAction {
@@ -36,10 +44,16 @@ enum MapAction {
     }
 
     enum UI {
+      enum Controls {
+        case setMinimization(MinimizationState)
+        case setExpandedItems([FloatingMenu.Item])
+      }
+
       case mapViewLoaded
       case locationButtonTapped
       case filtersChanged(ImageRequestFilters)
       case mapTypeSelected(MapType)
+      case controls(Controls)
     }
 
     case map(Map)
@@ -71,7 +85,6 @@ func makeMapModel(
   locationModel: LocationModel,
   urlOpener: @escaping UrlOpener,
   settings: Variable<SettingsState>,
-  appState: Variable<AppState?>,
   annotationStore: AnnotationStore,
   sorting: Variable<ImageSorting>,
 ) -> MapModel {
@@ -136,13 +149,12 @@ func makeMapModel(
           case .annotationDeselected:
             break
           case let .userDragged(touchPosition, mapFrame):
-            guard let minimizationState = appState.value?.mapControls.minimization,
-                  !minimizationState.isMinimizedByUser else {
+            guard !state.controls.minimization.isMinimizedByUser else {
               asyncEffect(.cancel(debouncedAction: .unfoldControlsBack))
               return
             }
             if touchPosition.y > mapFrame.height - MapControls.blockingHeight {
-              effect { performAppAction(.mapControls(.setMinimization(.minimized(byUser: false)))) }
+              state.controls.minimization = .minimized(byUser: false)
               asyncEffect(.debounced(
                 id: .unfoldControlsBack,
                 anotherAction: .internal(.unfoldMapControlsBack),
@@ -171,6 +183,13 @@ func makeMapModel(
           case let .mapTypeSelected(mapType):
             state.mapType = mapType
             effect { applyMapType(mapType) }
+          case let .controls(controls):
+            switch controls {
+            case let .setMinimization(minimization):
+              state.controls.minimization = minimization
+            case let .setExpandedItems(items):
+              state.controls.expandedItems = items
+            }
           case .locationButtonTapped:
             let locationZoom = 17
             let mapSize = map.value.size
@@ -309,7 +328,7 @@ func makeMapModel(
           state.currentRegionImages = Array(Set(modelValues)).sorted(by: sorting.value)
           state.previews = makePreviews(images: state.currentRegionImages, limit: 10)
         case .unfoldMapControlsBack:
-          effect { performAppAction(.mapControls(.setMinimization(.normal))) }
+          state.controls.minimization = .normal
         case .clearAnnotations:
           asyncEffect(.perform { anotherAction in
             await annotationStore.clear()
@@ -340,7 +359,7 @@ extension MapState {
     locationState: LocationState,
   ) -> MapState {
     MapState(
-      mapType: .standard,
+      mapType: .scheme,
       region: .zero,
       filters: .default,
       currentRegionImages: [],
@@ -350,6 +369,10 @@ extension MapState {
       lastLoadedParams: nil,
       clusters: [],
       clusteredImages: [:],
+      controls: ControlsState(
+        expandedItems: [],
+        minimization: .normal,
+      ),
     )
   }
 }

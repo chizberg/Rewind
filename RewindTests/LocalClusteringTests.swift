@@ -403,7 +403,7 @@ private func params(
 
 private func emptyState() -> MapState {
   MapState(
-    mapType: .standard,
+    mapType: .scheme,
     region: .zero,
     filters: .default,
     currentRegionImages: [],
@@ -413,6 +413,10 @@ private func emptyState() -> MapState {
     lastLoadedParams: nil,
     clusters: [],
     clusteredImages: [:],
+    controls: MapState.ControlsState(
+      expandedItems: [],
+      minimization: .normal,
+    ),
   )
 }
 
