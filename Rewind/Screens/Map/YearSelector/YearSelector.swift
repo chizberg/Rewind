@@ -10,6 +10,7 @@ import SwiftUI
 struct YearSelector: View {
   @Binding
   var yearRange: ClosedRange<Int>
+  @Environment(\.maxRange)
   var maxRange: ClosedRange<Int>
   @Environment(\.gradientScheme)
   private var gradient
@@ -37,7 +38,6 @@ struct YearSelector: View {
 
   YearSelector(
     yearRange: $yearRange,
-    maxRange: ImageRequestFilters.default.imageKind.maxRange,
   ).onChange(of: yearRange) {
     print(yearRange)
   }

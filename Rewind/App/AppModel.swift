@@ -12,17 +12,12 @@ import VGSL
 typealias AppModel = Reducer<AppState, AppAction>
 
 struct AppState {
-  struct MapControlsState {
-    var minimization: MinimizationState
-  }
-
   var previewedImage: Identified<ImageDetailsModel.Store>?
   var previewedList: Identified<ImageListModel.Store>?
   var settingsStore: Identified<SettingsViewStore>?
   var onboardingStore: Identified<OnboardingViewModel.Store>?
   var searchStore: Identified<SearchViewStore>?
   var alertModel: Identified<AlertParams>?
-  var mapControls: MapControlsState
   var gradientScheme: GradientScheme
 }
 
@@ -58,18 +53,13 @@ enum AppAction {
     case dismiss
   }
 
-  enum MapControls {
-    case setMinimization(MinimizationState)
-    case setGradientScheme(GradientScheme)
-  }
-
   case imageDetails(ImageDetails)
   case imageList(ImageList)
   case settings(Settings)
   case onboarding(Onboarding)
   case search(Search)
   case alert(Alert)
-  case mapControls(MapControls)
+  case setGradientScheme(GradientScheme)
 }
 
 typealias UrlOpener = (URL?) -> Void
@@ -181,13 +171,8 @@ func makeAppModel(
         case .dismiss:
           state.alertModel = nil
         }
-      case let .mapControls(mapControlsAction):
-        switch mapControlsAction {
-        case let .setMinimization(minimization):
-          state.mapControls.minimization = minimization
-        case let .setGradientScheme(gradientScheme):
-          state.gradientScheme = gradientScheme
-        }
+      case let .setGradientScheme(gradientScheme):
+        state.gradientScheme = gradientScheme
       }
     },
   )
@@ -254,9 +239,6 @@ extension AppState {
       },
       searchStore: nil,
       alertModel: nil,
-      mapControls: MapControlsState(
-        minimization: .normal,
-      ),
       gradientScheme: settingsState.gradientScheme,
     )
   }
@@ -269,13 +251,7 @@ extension AppModel {
       onboardingViewModel: nil,
       settingsState: .default,
     ),
-    reduce: { state, action, _, _ in
-      switch action { // 🩼 - should make a full-working AppModel mock
-      case let .mapControls(.setMinimization(minimization)):
-        state.mapControls.minimization = minimization
-      default: break
-      }
-    },
+    reduce: { _, _, _, _ in }, // 🩼 - should make a full-working AppModel mock
   )
 }
 #endif

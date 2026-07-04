@@ -68,7 +68,6 @@ final class AppGraph {
       locationModel: locationModel,
       urlOpener: urlOpener,
       settings: settings.asVariable(),
-      appState: Variable { appModelRef?.state },
       annotationStore: annotationStore,
       sorting: settings.asVariable().map(\.sorting),
     )
@@ -144,7 +143,7 @@ final class AppGraph {
       mapModelRef?(.internal(.updatePreviews))
     }.dispose(in: disposePool)
     settings.gradientScheme.asObservableVariable().onChange {
-      appModelRef?(.mapControls(.setGradientScheme($0)))
+      appModelRef?(.setGradientScheme($0))
     }.dispose(in: disposePool)
     filters.current = mapModel.$state.filters.skipRepeats()
 
