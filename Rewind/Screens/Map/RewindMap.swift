@@ -6,6 +6,7 @@
 //
 
 import MapKit
+import SwiftUI
 import VGSL
 
 @MainActor
@@ -77,6 +78,13 @@ final class RewindMap {
     map.mapType = mapType.mkMapType
   }
 
+  func updateBottomInset(_ inset: CGFloat) {
+    UIView.animate(mapControlsAnimation) {
+      map.layoutMargins.bottom = inset
+      map.layoutIfNeeded()
+    }
+  }
+
   private func remove(annotations: [MKAnnotation], completion: @escaping Action) {
     animateRemoval(
       annotations.compactMap { map.view(for: $0) },
@@ -103,6 +111,7 @@ private final class RewindMapView: MKMapView, UIGestureRecognizerDelegate {
     showsUserLocation = false
     isPitchEnabled = false
     isRotateEnabled = false
+    insetsLayoutMarginsFromSafeArea = false
 
     register(
       ImageAnnotationView.self,

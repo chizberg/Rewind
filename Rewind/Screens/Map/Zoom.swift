@@ -10,7 +10,7 @@ import VGSL
 
 // https://leafletjs.com/examples/zoom-levels/
 func zoom(region: Region, mapSize: CGSize) -> Int {
-  let delta = min(region.span.latitudeDelta, region.span.longitudeDelta)
+  let delta = max(region.span.latitudeDelta, region.span.longitudeDelta)
   return Int(
     (log2(360 / delta)
       + adjustment(mapSize: mapSize)
@@ -23,13 +23,13 @@ func delta(zoom: Int, mapSize: CGSize) -> Double {
 }
 
 private func adjustment(mapSize: CGSize) -> Double {
-  lerp(at: min(mapSize.width, mapSize.height), in: adjustments)
+  lerp(at: max(mapSize.width, mapSize.height), in: adjustments)
 }
 
 private let adjustments = NonEmptyArray([
-  (375.0, 0.65), // iPhone SE (3rd gen) width
-  (430.0, 0.8), // iPhone 15 Pro Max width
-  (1024.0, 1.5), // iPad Pro 13' width
+  (667.0, 0.65), // iPhone SE (3rd gen) height
+  (932.0, 0.8), // iPhone 15 Pro Max height
+  (1366.0, 1.5), // iPad Pro 13" height
 ].map { InterpolationPoint($0, $1) })!
 
 extension Double: Interpolatable {

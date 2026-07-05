@@ -63,7 +63,7 @@ struct MapControls<Menu: View>: View {
           \.minimization, send: { .controls(.setMinimization($0)) },
         ),
         offset: $offset,
-        glimpseHeight: 100,
+        glimpseHeight: glimpseHeight,
         pullingProgress: $pullingProgress,
         minPullLength: 300,
         onPull: { appAction(.imageList(.presentCurrentRegionImages(
@@ -73,7 +73,7 @@ struct MapControls<Menu: View>: View {
       )
     }
     .animation(
-      .interactiveSpring(duration: 0.3, extraBounce: 0.1, blendDuration: 1),
+      mapControlsAnimation,
       value: offset,
     )
   }
@@ -206,6 +206,12 @@ struct MapControls<Menu: View>: View {
 
 let mapControlsTouchBlockingHeight = glassCardHeight +
   makeBottomPadding(hasBottomSafeAreaInset: true)
+let mapControlsMinimizedOffset = glassCardHeight - glimpseHeight
+let mapControlsAnimation = Animation.interactiveSpring(
+  duration: 0.5,
+  extraBounce: 0.1,
+  blendDuration: 1
+)
 
 extension MapViewModel.Store {
   func makeControlsStore() -> MapControlsStore {
@@ -342,6 +348,7 @@ private let containerPadding: CGFloat = 8
 private let mapControlRadius: CGFloat = 25
 private let glassCardPadding: CGFloat = 20
 private let glassCardHeight = thumbnailSize.height + glassCardPadding * 2
+private let glimpseHeight: CGFloat = 100
 private let glassCardRadius = max(
   DeviceModel.getCurrent().screenRadius() - containerPadding,
   32,

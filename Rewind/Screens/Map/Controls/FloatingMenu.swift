@@ -181,7 +181,7 @@ private struct FloatingMenuImpl<Content: View>: View {
         view
       }
     }
-    .animation(.smooth, value: expandedItems)
+    .animation(mapControlsAnimation, value: expandedItems)
   }
 }
 

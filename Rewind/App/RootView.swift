@@ -9,15 +9,25 @@ import MapKit
 import SwiftUI
 
 struct RootView: View {
-  let rawMap: UIView
+  enum Map {
+    struct State {
+      var selectedImageKind: ImageRequestFilters.ImageKind
+    }
 
+    enum Action {
+      case mapViewLoaded
+      case controlsSizeChanged(CGSize)
+    }
+
+    typealias Store = ViewStore<State, Action>
+  }
+
+  let rawMap: UIView
   let mapControlsStore: MapControlsStore
   let floatingMenuStore: FloatingMenu.Store
-  let appStore: AppModel.Store
 
-  @ObservedVariable
-  var selectedImageKind: ImageRequestFilters.ImageKind
-  var onMapLoaded: () -> Void
+  let appStore: AppModel.Store
+  let mapStore: Map.Store
 
   enum TransitionSource {
     static let settings = "settings"
@@ -34,7 +44,7 @@ struct RootView: View {
   var body: some View {
     content
       .environment(\.gradientScheme, appStore.gradientScheme)
-      .environment(\.maxRange, selectedImageKind.maxRange)
+      .environment(\.maxRange, mapStore.selectedImageKind.maxRange)
   }
 
   private var content: some View {
@@ -45,7 +55,7 @@ struct RootView: View {
       .ignoresSafeArea()
       .task {
         if appStore.onboardingStore == nil {
-          onMapLoaded()
+          mapStore(.mapViewLoaded)
         }
       }
 
@@ -58,7 +68,9 @@ struct RootView: View {
             namespace: rootView,
             hasBottomSafeAreaInset: geometry.safeAreaInsets.bottom > 0,
             floatingMenu: { floatingMenu }
-          )
+          ).readSize {
+            mapStore(.controlsSizeChanged($0))
+          }
         }.ignoresSafeArea(edges: .bottom)
       }
     }
@@ -135,6 +147,26 @@ struct RootView: View {
   }
 }
 
+func makeRootMapStore(
+  mapStore: MapViewModel.Store
+) -> RootView.Map.Store {
+  mapStore.bimap(
+    state: { mapState in
+      RootView.Map.State(
+        selectedImageKind: mapState.filters.imageKind
+      )
+    },
+    action: { action in
+      switch action {
+      case .mapViewLoaded:
+        .mapViewLoaded
+      case let .controlsSizeChanged(size):
+        .controls(.sizeChanged(size))
+      }
+    }
+  )
+}
+
 private let screenRadius = DeviceModel.getCurrent().screenRadius()
 
 extension AppState {
@@ -156,8 +188,7 @@ extension AppState {
     mapControlsStore: graph.mapControlsStore,
     floatingMenuStore: graph.floatingMenuStore,
     appStore: graph.appStore,
-    selectedImageKind: graph.selectedImageKind,
-    onMapLoaded: graph.onMapLoaded,
+    mapStore: graph.rootViewMapStore
   )
 }
 #endif
