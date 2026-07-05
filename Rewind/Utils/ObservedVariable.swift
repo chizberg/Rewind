@@ -12,11 +12,12 @@ import VGSL
 @Observable final class ObservedVariable<Value> {
   private(set) var wrappedValue: Value
   private var subscription: Disposable?
-  private let impl: ObservableVariable<Value>
+
+  let ov: ObservableVariable<Value>
 
   init(ov: ObservableVariable<Value>) {
     wrappedValue = ov.value
-    impl = ov
+    self.ov = ov
 
     subscription = ov.newValues.addObserver { [weak self] in
       self?.wrappedValue = $0
@@ -28,7 +29,7 @@ import VGSL
   }
 
   func map<U>(_ transform: @escaping (Value) -> U) -> ObservedVariable<U> {
-    impl.map(transform).asObservedVariable()
+    ov.map(transform).asObservedVariable()
   }
 }
 

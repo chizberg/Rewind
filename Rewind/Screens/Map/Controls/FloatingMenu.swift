@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import VGSLFundamentals
 
 struct FloatingMenu: View {
   enum Item {
@@ -21,40 +22,56 @@ struct FloatingMenu: View {
     case location
   }
 
-  @Binding
-  var expandedItems: [Item]
-  @Binding
-  var filters: ImageRequestFilters
-  @Binding
-  var mapType: MapType
-  var onSearchTap: () -> Void
-  var locationAccessGranted: Bool
-  var onLocationTap: () -> Void
+  struct State: Equatable {
+    var expandedItems: [FloatingMenu.Item]
+    var filters: ImageRequestFilters
+    var mapType: MapType
+    var locationAccessGranted: Bool
+  }
+
+  enum Action {
+    case searchTap
+    case locationTap
+    case setFilters(ImageRequestFilters)
+    case setMapType(MapType)
+    case setExpandedItems([Item])
+  }
+
+  typealias Store = ViewStore<State, Action>
+
+  var store: Store
   var namespace: Namespace.ID
 
   var body: some View {
-    FloatingMenuImpl(expandedItems: expandedItems) {
-      makeTimePicker(items: $expandedItems, filters: $filters)
+    FloatingMenuImpl(expandedItems: store.expandedItems) {
+      makeTimePicker(
+        items: store.binding(\.expandedItems, send: { .setExpandedItems($0) }),
+        filters: store.binding(\.filters, send: { .setFilters($0) })
+      )
 
+      let mapType = store.mapType
       FloatingMenuButton(
         item: .mapType,
         iconName: mapType.isScheme ? "map" : "globe.europe.africa",
         action: {
           switch mapType {
-          case .scheme: mapType = .satellite
-          case .satellite: mapType = .scheme
+          case .scheme: store(.setMapType(.satellite))
+          case .satellite: store(.setMapType(.scheme))
           }
         }
       )
+      let imageKind = store.filters.imageKind
       FloatingMenuButton(
         item: .imageKind,
-        iconName: filters.imageKind.isPhoto ? "camera" : "paintbrush.pointed",
-        foregroundColor: filters.imageKind.isPainting ? .accentColor : iconColor,
+        iconName: imageKind.isPhoto ? "paintbrush.pointed" : "paintbrush.pointed.fill",
+        foregroundColor: imageKind.isPhoto ? iconColor : .accentColor,
         action: {
-          switch filters.imageKind {
+          var filters = store.filters
+          switch imageKind {
           case .painting: filters.imageKind = .photo
           case .photo: filters.imageKind = .painting
           }
+          store(.setFilters(filters))
         }
       )
 
@@ -63,12 +80,11 @@ struct FloatingMenu: View {
       FloatingMenuButton(
         item: .search,
         iconName: "magnifyingglass",
-        action: onSearchTap
+        action: { store(.searchTap) }
       )
-      .overlay { // 🩼 otherwise transitionSource conflicts with liquid glass effect
-        Color.clear
-          .contentShape(Rectangle())
-          .allowsHitTesting(false)
+      .background { // 🩼 otherwise transitionSource conflicts with liquid glass effect
+        Circle()
+          .opacity(0.0001) // 🩼 Color.clear is ignored
           .matchedTransitionSource(
             id: RootView.TransitionSource.search,
             in: namespace
@@ -77,10 +93,47 @@ struct FloatingMenu: View {
 
       FloatingMenuButton(
         item: .location,
-        iconName: locationAccessGranted ? "location" : "location.slash",
-        action: onLocationTap
+        iconName: store.locationAccessGranted ? "location" : "location.slash",
+        action: { store(.locationTap) }
       )
     }
+  }
+}
+
+func makeFloatingMenuStore(
+  appStore: AppModel.Store,
+  mapStore: MapViewModel.Store
+) -> FloatingMenu.Store {
+  FloatingMenu.Store.merge(
+    appStore,
+    mapStore,
+    stateTransform: { _, map in
+      FloatingMenu.State(
+        expandedItems: map.controls.expandedItems,
+        filters: map.filters,
+        mapType: map.mapType,
+        locationAccessGranted: map.locationState.isAccessGranted,
+      )
+    },
+    actionTransform: { (action: FloatingMenu.Action) in
+      switch action {
+      case .searchTap: .left(.search(.present))
+      case .locationTap: .right(.locationButtonTapped)
+      case let .setFilters(f): .right(.filtersChanged(f))
+      case let .setMapType(mt): .right(.mapTypeSelected(mt))
+      case let .setExpandedItems(i): .right(.controls(.setExpandedItems(i)))
+      }
+    }
+  ).skipRepeats()
+}
+
+extension Either where T == AppAction, U == MapAction.External.UI {
+  fileprivate func app(_ action: AppAction) -> Self {
+    .left(action)
+  }
+
+  fileprivate func map(_ action: MapAction.External.UI) -> Self {
+    .right(action)
   }
 }
 
@@ -296,13 +349,24 @@ private let iconColor = Color.primary.opacity(0.8)
 #if DEBUG
 #Preview {
   @Previewable @State
-  var expandedItems = [FloatingMenu.Item]()
-  @Previewable @State
-  var filters = ImageRequestFilters.default
-  @Previewable @State
-  var mapType = MapType.scheme
-  @Previewable @State
-  var locationAccessGranted = true
+  var store: ViewStore<FloatingMenu.State, FloatingMenu.Action> = Reducer(
+    initial: FloatingMenu.State(
+      expandedItems: [],
+      filters: ImageRequestFilters.default,
+      mapType: MapType.scheme,
+      locationAccessGranted: true
+    ),
+    reduce: { state, action, _, _ in
+      switch action {
+      case .locationTap: print("location tapped")
+      case .searchTap: print("search tapped")
+      case let .setExpandedItems(i): state.expandedItems = i
+      case let .setFilters(f): state.filters = f
+      case let .setMapType(m): state.mapType = m
+      }
+    }
+  ).viewStore
+
   @Previewable @Namespace
   var namespace
 
@@ -310,12 +374,7 @@ private let iconColor = Color.primary.opacity(0.8)
     Image(.cat).resizable().ignoresSafeArea()
 
     FloatingMenu(
-      expandedItems: $expandedItems,
-      filters: $filters,
-      mapType: $mapType,
-      onSearchTap: { print("search tapped") },
-      locationAccessGranted: locationAccessGranted,
-      onLocationTap: { print("location tapped") },
+      store: store,
       namespace: namespace
     ).padding()
   }

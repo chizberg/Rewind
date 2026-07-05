@@ -47,6 +47,25 @@ struct ViewStore<State, Action> {
       actionPerformer: { self(makeOldAction($0)) },
     )
   }
+
+  func bimap<NewState: Equatable, NewAction>(
+    state makeNewState: @escaping (State) -> NewState,
+    action makeOldAction: @escaping (NewAction) -> Action
+  ) -> ViewStore<NewState, NewAction> {
+    ViewStore<NewState, NewAction>(
+      state: state.map(makeNewState),
+      actionPerformer: { self(makeOldAction($0)) },
+    )
+  }
+}
+
+extension ViewStore where State: Equatable {
+  func skipRepeats() -> ViewStore<State, Action> {
+    ViewStore(
+      state: state.ov.skipRepeats().asObservedVariable(),
+      actionPerformer: { self($0) }
+    )
+  }
 }
 
 extension ViewStore {
@@ -59,6 +78,27 @@ extension ViewStore {
       set: { newValue in
         self(send(newValue))
       },
+    )
+  }
+
+  static func merge<S1, A1, S2, A2, S, A>(
+    _ lhs: ViewStore<S1, A1>,
+    _ rhs: ViewStore<S2, A2>,
+    stateTransform: @escaping (S1, S2) -> (S),
+    actionTransform: @escaping (A) -> Either<A1, A2>,
+  ) -> ViewStore<S, A> {
+    ViewStore<S, A>(
+      state: ObservableVariable.combineLatest(
+        lhs.state.ov,
+        rhs.state.ov
+      ).map(stateTransform).asObservedVariable(),
+      actionPerformer: { action in
+        let decided = actionTransform(action)
+        switch decided {
+        case let .left(l): lhs(l)
+        case let .right(r): rhs(r)
+        }
+      }
     )
   }
 }

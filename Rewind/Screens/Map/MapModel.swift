@@ -153,7 +153,7 @@ func makeMapModel(
               asyncEffect(.cancel(debouncedAction: .unfoldControlsBack))
               return
             }
-            if touchPosition.y > mapFrame.height - MapControls.blockingHeight {
+            if touchPosition.y > mapFrame.height - mapControlsTouchBlockingHeight {
               state.controls.minimization = .minimized(byUser: false)
               asyncEffect(.debounced(
                 id: .unfoldControlsBack,

@@ -8,7 +8,7 @@
 import SwiftUI
 import VGSL
 
-enum MinimizationState {
+enum MinimizationState: Equatable {
   case normal
   case minimized(byUser: Bool = false) // can be minimized automatically or by user
 
