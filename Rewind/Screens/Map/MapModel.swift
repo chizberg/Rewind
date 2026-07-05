@@ -17,6 +17,7 @@ struct MapState {
   struct ControlsState {
     var expandedItems: [FloatingMenu.Item]
     var minimization: MinimizationState
+    var size: CGSize
   }
 
   var mapType: MapType
@@ -47,6 +48,7 @@ enum MapAction {
       enum Controls {
         case setMinimization(MinimizationState)
         case setExpandedItems([FloatingMenu.Item])
+        case sizeChanged(CGSize)
       }
 
       case mapViewLoaded
@@ -189,6 +191,8 @@ func makeMapModel(
               state.controls.minimization = minimization
             case let .setExpandedItems(items):
               state.controls.expandedItems = items
+            case let .sizeChanged(size):
+              state.controls.size = size
             }
           case .locationButtonTapped:
             let locationZoom = 17
@@ -372,6 +376,7 @@ extension MapState {
       controls: ControlsState(
         expandedItems: [],
         minimization: .normal,
+        size: .zero,
       ),
     )
   }

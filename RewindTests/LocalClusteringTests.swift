@@ -416,6 +416,7 @@ private func emptyState() -> MapState {
     controls: MapState.ControlsState(
       expandedItems: [],
       minimization: .normal,
+      size: .zero,
     ),
   )
 }

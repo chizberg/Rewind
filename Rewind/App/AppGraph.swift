@@ -13,10 +13,8 @@ import VGSL
 final class AppGraph {
   let mapControlsStore: MapControlsStore
   let floatingMenuStore: FloatingMenu.Store
+  let rootViewMapStore: RootView.Map.Store
   let appStore: AppModel.Store
-
-  let onMapLoaded: () -> Void
-  let selectedImageKind: ObservedVariable<ImageRequestFilters.ImageKind>
 
   let map: Lazy<RewindMap>
   let urlOpener: UrlOpener
@@ -83,8 +81,7 @@ final class AppGraph {
       action: { .external(.ui($0)) },
     )
     mapControlsStore = mapStore.makeControlsStore()
-    onMapLoaded = { mapModelRef?(.external(.ui(.mapViewLoaded))) }
-    selectedImageKind = mapModel.$state.filters.imageKind.skipRepeats().asObservedVariable()
+    rootViewMapStore = makeRootMapStore(mapStore: mapStore)
     let imageDetailsFactory = { image, source in
       makeImageDetailsModel(
         modelImage: image,
@@ -158,6 +155,13 @@ final class AppGraph {
     settings.gradientScheme.asObservableVariable().onChange {
       appModelRef?(.setGradientScheme($0))
     }.dispose(in: disposePool)
+    ObservableVariable.combineLatest(
+      mapModel.$state.controls.minimization.skipRepeats(),
+      mapModel.$state.controls.size.skipRepeats()
+    ).newValues.addObserver { minimization, size in
+      let hiddenPart = minimization.isMinimized ? mapControlsMinimizedOffset : 0
+      map.value.updateBottomInset(size.height - hiddenPart)
+    }.dispose(in: disposePool)
     filters.current = mapModel.$state.filters.skipRepeats()
 
     // React to memory warnings by clearing image cache
@@ -171,6 +175,11 @@ final class AppGraph {
       }
     }
     storeReview.appLaunched()
+
+    assert(
+      map.currentValue == nil,
+      "the map is loaded too early, this can result in a runtime crash"
+    )
   }
 
   deinit {
