@@ -7,11 +7,21 @@
 
 import SwiftUI
 
-struct MapControls: View {
-  let mapStore: MapViewModel.Store
-  let appStore: AppModel.Store
-  let namespace: Namespace.ID
-  let hasBottomSafeAreaInset: Bool
+struct MapControlsState: Equatable {
+  var previews: [ThumbnailCard]
+  var isLoading: Bool
+  var minimization: MinimizationState
+}
+
+typealias MapControlsStore = ViewStore<MapControlsState, MapAction.External.UI>
+
+struct MapControls<Menu: View>: View {
+  var store: MapControlsStore
+  var appAction: (AppAction) -> Void
+  var namespace: Namespace.ID
+  var hasBottomSafeAreaInset: Bool
+  @ViewBuilder
+  var floatingMenu: Menu
 
   @State
   private var offset: CGFloat = 0
@@ -37,11 +47,11 @@ struct MapControls: View {
         content
       }
       .overlay {
-        if mapStore.state.controls.minimization.isMinimized {
+        if store.state.minimization.isMinimized {
           Color.clear
             .contentShape(Rectangle())
             .onTapGesture {
-              mapStore(.controls(.setMinimization(.normal)))
+              store(.controls(.setMinimization(.normal)))
             }
         }
       }
@@ -49,14 +59,14 @@ struct MapControls: View {
       .offset(y: offset)
       .minimizable(
         contentHeight: glassCardHeight,
-        state: mapStore.binding(
-          \.controls.minimization, send: { .controls(.setMinimization($0)) },
+        state: store.binding(
+          \.minimization, send: { .controls(.setMinimization($0)) },
         ),
         offset: $offset,
         glimpseHeight: 100,
         pullingProgress: $pullingProgress,
         minPullLength: 300,
-        onPull: { appStore(.imageList(.presentCurrentRegionImages(
+        onPull: { appAction(.imageList(.presentCurrentRegionImages(
           source: RootView.TransitionSource.pullUpCard,
         )))
         },
@@ -65,21 +75,6 @@ struct MapControls: View {
     .animation(
       .interactiveSpring(duration: 0.3, extraBounce: 0.1, blendDuration: 1),
       value: offset,
-    )
-  }
-
-  private var floatingMenu: some View {
-    FloatingMenu(
-      expandedItems: mapStore.binding(
-        \.controls.expandedItems,
-        send: { .controls(.setExpandedItems($0)) }
-      ),
-      filters: mapStore.binding(\.filters, send: { .filtersChanged($0) }),
-      mapType: mapStore.binding(\.mapType, send: { .mapTypeSelected($0) }),
-      onSearchTap: { appStore(.search(.present)) },
-      locationAccessGranted: mapStore.locationState.isAccessGranted,
-      onLocationTap: { mapStore(.locationButtonTapped) },
-      namespace: namespace
     )
   }
 
@@ -114,21 +109,21 @@ struct MapControls: View {
   }
 
   private var content: some View {
-    AutoscrollingScrollView(scrollOnChangeOf: mapStore.previews) {
+    AutoscrollingScrollView(scrollOnChangeOf: store.previews) {
       horizontalScrollContent
         .padding(.horizontal, glassCardPadding)
     }
     .frame(height: thumbnailSize.height)
-    .animation(.spring().speed(2), value: mapStore.previews)
+    .animation(.spring().speed(2), value: store.previews)
     .padding(.vertical, glassCardPadding)
     .overlay(alignment: .topTrailing) {
-      if mapStore.isLoading {
+      if store.isLoading {
         ProgressView()
           .progressViewStyle(.circular)
           .padding(glassCardPadding + 5)
       }
     }
-    .animation(.default, value: mapStore.isLoading)
+    .animation(.default, value: store.isLoading)
   }
 
   private var horizontalScrollContent: some View {
@@ -138,7 +133,7 @@ struct MapControls: View {
           iconName: "star",
           sourceID: RootView.TransitionSource.favoritesButton,
         ) {
-          appStore(.imageList(.presentFavorites(
+          appAction(.imageList(.presentFavorites(
             source: RootView.TransitionSource.favoritesButton,
           )))
         }
@@ -147,7 +142,7 @@ struct MapControls: View {
           iconName: "list.bullet",
           sourceID: RootView.TransitionSource.viewAsListButton,
           action: {
-            appStore(.imageList(.presentCurrentRegionImages(
+            appAction(.imageList(.presentCurrentRegionImages(
               source: RootView.TransitionSource.viewAsListButton,
             )))
           },
@@ -157,11 +152,11 @@ struct MapControls: View {
           iconName: "gearshape",
           sourceID: RootView.TransitionSource.settings,
         ) {
-          appStore(.settings(.present))
+          appAction(.settings(.present))
         }
       }.frame(width: 75)
 
-      ForEach(mapStore.previews) { card in
+      ForEach(store.previews) { card in
         let transitionID = "\(card.id) \(RootView.TransitionSource.thumbnail)"
         ThumbnailCardView(
           card: card,
@@ -176,12 +171,12 @@ struct MapControls: View {
         .onTapGesture {
           switch card {
           case let .image(image):
-            appStore(.imageDetails(.present(
+            appAction(.imageDetails(.present(
               image,
               source: RootView.TransitionSource.thumbnail,
             )))
           case .viewAsList:
-            appStore(.imageList(.presentCurrentRegionImages(
+            appAction(.imageList(.presentCurrentRegionImages(
               source: transitionID,
             )))
           case .noImages: break
@@ -209,9 +204,22 @@ struct MapControls: View {
   }
 }
 
-extension MapControls {
-  // height of controls that covers the map under it
-  static let blockingHeight = glassCardHeight + makeBottomPadding(hasBottomSafeAreaInset: true)
+let mapControlsTouchBlockingHeight = glassCardHeight +
+  makeBottomPadding(hasBottomSafeAreaInset: true)
+
+extension MapViewModel.Store {
+  func makeControlsStore() -> MapControlsStore {
+    bimap(
+      state: { mapState in
+        MapControlsState(
+          previews: mapState.previews,
+          isLoading: mapState.isLoading,
+          minimization: mapState.controls.minimization
+        )
+      },
+      action: { $0 },
+    ).skipRepeats()
+  }
 }
 
 struct MapControlBackground: View {
@@ -342,7 +350,7 @@ private let glassCardRadius = max(
 #if DEBUG
 #Preview {
   @Previewable @State
-  var mapStore = MapModel.makeMock { initialState in
+  var store = MapModel.makeMock { initialState in
     initialState.previews = [
       .image(.mock),
       .noImages,
@@ -351,7 +359,7 @@ private let glassCardRadius = max(
   }.viewStore.bimap(
     state: { $0 },
     action: { .external(.ui($0)) },
-  )
+  ).makeControlsStore()
   @Previewable @State
   var appStore = AppModel.mock.viewStore
   @Previewable @Namespace
@@ -361,10 +369,11 @@ private let glassCardRadius = max(
     Color.blue
 
     MapControls(
-      mapStore: mapStore,
-      appStore: appStore,
+      store: store,
+      appAction: appStore.callAsFunction,
       namespace: namespace,
       hasBottomSafeAreaInset: false,
+      floatingMenu: { Color.blue }
     )
   }.ignoresSafeArea()
 }

@@ -24,8 +24,11 @@ struct RewindApp: App {
     WindowGroup {
       RootView(
         rawMap: graph.map.value.view,
-        mapStore: graph.mapStore,
+        mapControlsStore: graph.mapControlsStore,
+        floatingMenuStore: graph.floatingMenuStore,
         appStore: graph.appStore,
+        selectedImageKind: graph.selectedImageKind,
+        onMapLoaded: graph.onMapLoaded,
       )
       .environment(\.openURL, OpenURLAction {
         graph.urlOpener($0)

@@ -10,8 +10,14 @@ import SwiftUI
 
 struct RootView: View {
   let rawMap: UIView
-  let mapStore: MapViewModel.Store
+
+  let mapControlsStore: MapControlsStore
+  let floatingMenuStore: FloatingMenu.Store
   let appStore: AppModel.Store
+
+  @ObservedVariable
+  var selectedImageKind: ImageRequestFilters.ImageKind
+  var onMapLoaded: () -> Void
 
   enum TransitionSource {
     static let settings = "settings"
@@ -28,7 +34,7 @@ struct RootView: View {
   var body: some View {
     content
       .environment(\.gradientScheme, appStore.gradientScheme)
-      .environment(\.maxRange, mapStore.filters.imageKind.maxRange)
+      .environment(\.maxRange, selectedImageKind.maxRange)
   }
 
   private var content: some View {
@@ -39,7 +45,7 @@ struct RootView: View {
       .ignoresSafeArea()
       .task {
         if appStore.onboardingStore == nil {
-          mapStore(.mapViewLoaded)
+          onMapLoaded()
         }
       }
 
@@ -47,10 +53,11 @@ struct RootView: View {
         VStack {
           Spacer()
           MapControls(
-            mapStore: mapStore,
-            appStore: appStore,
+            store: mapControlsStore,
+            appAction: appStore.callAsFunction,
             namespace: rootView,
             hasBottomSafeAreaInset: geometry.safeAreaInsets.bottom > 0,
+            floatingMenu: { floatingMenu }
           )
         }.ignoresSafeArea(edges: .bottom)
       }
@@ -119,6 +126,13 @@ struct RootView: View {
       },
     )
   }
+
+  var floatingMenu: FloatingMenu {
+    FloatingMenu(
+      store: floatingMenuStore,
+      namespace: rootView
+    )
+  }
 }
 
 private let screenRadius = DeviceModel.getCurrent().screenRadius()
@@ -139,8 +153,11 @@ extension AppState {
 
   RootView(
     rawMap: graph.map.value.view,
-    mapStore: graph.mapStore,
+    mapControlsStore: graph.mapControlsStore,
+    floatingMenuStore: graph.floatingMenuStore,
     appStore: graph.appStore,
+    selectedImageKind: graph.selectedImageKind,
+    onMapLoaded: graph.onMapLoaded,
   )
 }
 #endif

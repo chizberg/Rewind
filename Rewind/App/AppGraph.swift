@@ -11,14 +11,20 @@ import VGSL
 
 @MainActor
 final class AppGraph {
-  let mapStore: MapViewModel.Store
+  let mapControlsStore: MapControlsStore
+  let floatingMenuStore: FloatingMenu.Store
   let appStore: AppModel.Store
+
+  let onMapLoaded: () -> Void
+  let selectedImageKind: ObservedVariable<ImageRequestFilters.ImageKind>
+
   let map: Lazy<RewindMap>
   let urlOpener: UrlOpener
   let imageLoader: ImageLoader
 
   var orientationLock: Property<OrientationLock?>?
 
+  private let mapModel: MapModel
   private let disposePool = AutodisposePool()
   private let favoritesStorage: FavoritesStorage
   private var memoryWarningObserver: NSObjectProtocol?
@@ -60,7 +66,7 @@ final class AppGraph {
     weak var weakSelf: AppGraph?
     let urlOpener: UrlOpener = { $0.map { UIApplication.shared.open($0) } }
     self.urlOpener = urlOpener
-    let mapModel = makeMapModel(
+    mapModel = makeMapModel(
       map: map,
       annotationsRemote: remotes.annotations,
       applyMapType: { map.value.apply(mapType: $0) },
@@ -72,10 +78,13 @@ final class AppGraph {
       sorting: settings.asVariable().map(\.sorting),
     )
     mapModelRef = mapModel
-    mapStore = mapModel.viewStore.bimap(
+    let mapStore = mapModel.viewStore.bimap(
       state: { $0 },
       action: { .external(.ui($0)) },
     )
+    mapControlsStore = mapStore.makeControlsStore()
+    onMapLoaded = { mapModelRef?(.external(.ui(.mapViewLoaded))) }
+    selectedImageKind = mapModel.$state.filters.imageKind.skipRepeats().asObservedVariable()
     let imageDetailsFactory = { image, source in
       makeImageDetailsModel(
         modelImage: image,
@@ -129,6 +138,10 @@ final class AppGraph {
     )
     appModelRef = appModel
     appStore = appModel.viewStore
+    floatingMenuStore = makeFloatingMenuStore(
+      appStore: appStore,
+      mapStore: mapStore
+    )
     self.map = map
     self.favoritesStorage = favoritesStorage
     weakSelf = self

@@ -73,6 +73,7 @@ final class RewindMap {
   }
 
   func apply(mapType: MapType) {
+    guard map.mapType != mapType.mkMapType else { return }
     map.mapType = mapType.mkMapType
   }
 
