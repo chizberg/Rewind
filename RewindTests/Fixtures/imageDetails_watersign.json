@@ -1,0 +1,89 @@
+{
+  "result": {
+    "photo": {
+      "type": 1,
+      "user": {
+        "login": "nb92",
+        "avatar": "5/w/5ww7rzb9xa.jpg",
+        "disp": "Николай",
+        "ranks": [],
+        "sex": "m"
+      },
+      "s": 5,
+      "cid": 1641494,
+      "file": "v/s/s/vssv956fa6kpunaqmm.jpg",
+      "ldate": "2022-09-30T16:52:26.687Z",
+      "mime": "image/jpeg",
+      "size": 811791,
+      "r2d": [
+        93.04837116359776,
+        97.01100468235839
+      ],
+      "title": "Теразије",
+      "frags": [],
+      "watersignText": "uploaded by nb92",
+      "h": 2048,
+      "hs": 684,
+      "w": 1358,
+      "waterh": 48,
+      "waterhs": 16,
+      "watersignTextApplied": "2022-09-30T16:52:38.675Z",
+      "ws": 464,
+      "author": "Jerry Cooke",
+      "source": "<a href=\"https://www.gettyimages.com/license/534994482\" rel=\"nofollow noopener\" target=\"_blank\">https://www.gettyimages.com/license/534994482</a>",
+      "dir": "n",
+      "geo": [
+        44.813047,
+        20.460579
+      ],
+      "y": "1958—1965",
+      "year": 1958,
+      "year2": 1965,
+      "cdate": "2022-09-30T17:58:49.874Z",
+      "stdate": "2022-09-30T17:58:49.874Z",
+      "adate": "2022-09-30T17:58:49.874Z",
+      "vcount": 1020,
+      "vdcount": 1,
+      "vwcount": 1,
+      "regions": [
+        {
+          "cid": 2394,
+          "title_en": "Serbia",
+          "title_local": "Сербия",
+          "phc": 3919,
+          "pac": 18,
+          "cc": 3621
+        },
+        {
+          "cid": 2395,
+          "title_en": "Central Serbia",
+          "title_local": "Центральная Сербия",
+          "phc": 3630,
+          "pac": 17,
+          "cc": 3492
+        },
+        {
+          "cid": 2396,
+          "title_en": "Belgrade",
+          "title_local": "Белград",
+          "phc": 3327,
+          "pac": 17,
+          "cc": 3336
+        },
+        {
+          "cid": 8818,
+          "title_en": "Stari Grad Urban Municipality (Belgrad)",
+          "title_local": "Стари-Град (Белград)",
+          "phc": 1598,
+          "pac": 6,
+          "cc": 1625
+        }
+      ]
+    },
+    "can": {
+      "download": "login"
+    },
+    "forEdit": false
+  },
+  "rid": "8ordlenblt"
+}

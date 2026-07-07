@@ -1,0 +1,67 @@
+{
+  "result": {
+    "startAt": 0,
+    "z": 13,
+    "photos": [],
+    "clusters": [
+      {
+        "geo": [
+          50.072674,
+          14.443844
+        ],
+        "c": 83,
+        "p": {
+          "cid": 2081180,
+          "file": "l/q/e/lqea2zk8jja8nhar8t.jpg",
+          "title": "Francouzská",
+          "year": 1998,
+          "year2": 1998,
+          "dir": "e",
+          "geo": [
+            14.444176,
+            50.072229
+          ]
+        }
+      },
+      {
+        "geo": [
+          50.081048,
+          14.447538
+        ],
+        "c": 138,
+        "p": {
+          "cid": 1960253,
+          "file": "8/0/p/80pldnk6g0mc427gj7.jpg",
+          "title": "Žižkov. Рohled ze Škroupova náměstí/Smetanovo náměstí do Pospíšilovy ulice k hlavní bráně hřbitova",
+          "dir": "e",
+          "geo": [
+            14.44803,
+            50.08053
+          ],
+          "year": 1935,
+          "year2": 1945
+        }
+      },
+      {
+        "geo": [
+          50.090432,
+          14.445145
+        ],
+        "c": 244,
+        "p": {
+          "cid": 1488097,
+          "file": "5/y/n/5ynj8w3gji0hkhqhax.jpg",
+          "title": "Karlínské kasárny – nádvoří",
+          "year": 1920,
+          "year2": 1938,
+          "dir": "nw",
+          "geo": [
+            14.44505,
+            50.090219
+          ]
+        }
+      }
+    ]
+  },
+  "rid": "7ijcoqu9ct"
+}
