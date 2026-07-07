@@ -2,8 +2,8 @@
 //  ImageDateTests.swift
 //  RewindTests
 //
-//  Characterization tests for ImageDate.description (single year vs range) and
-//  its lexicographic Comparable ordering by (year, year2).
+//  Characterization tests for ImageDate's lexicographic Comparable ordering
+//  by (year, year2).
 //
 
 @testable import Rewind
