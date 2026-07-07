@@ -1,0 +1,47 @@
+{
+  "result": {
+    "startAt": 0,
+    "z": 17,
+    "photos": [
+      {
+        "cid": 1959860,
+        "__v": 0,
+        "dir": "nw",
+        "file": "q/q/p/qqp52d1i1jn4qndllt.jpg?s=81293f61a6",
+        "geo": [
+          50.089992,
+          14.419038
+        ],
+        "title": "Celkový pohled na Staronovou synagogu v Josefově s kašnou",
+        "year": 1890,
+        "year2": 1895
+      },
+      {
+        "cid": 1663751,
+        "__v": 0,
+        "dir": "se",
+        "file": "d/2/0/d204gr6iotinpnwlcm.jpg",
+        "geo": [
+          50.089791,
+          14.419005
+        ],
+        "title": "Pivnice Otta",
+        "year": 1938,
+        "year2": 1941
+      },
+      {
+        "cid": 1856884,
+        "__v": 0,
+        "file": "q/i/s/qisnv4sfxazqry875e.jpg",
+        "geo": [
+          50.089894,
+          14.417858
+        ],
+        "title": "Starý židovský hřbitov",
+        "year": 1968,
+        "year2": 1968
+      }
+    ]
+  },
+  "rid": "9tdtgorc7v"
+}
