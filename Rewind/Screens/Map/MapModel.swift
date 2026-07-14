@@ -334,11 +334,16 @@ func makeMapModel(
         case .unfoldMapControlsBack:
           state.controls.minimization = .normal
         case .clearAnnotations:
-          asyncEffect(.perform { anotherAction in
+          state.clusters = []
+          state.clusteredImages = [:]
+          asyncEffect(.perform { _ in
             await annotationStore.clear()
             await map.value.clear()
-            await anotherAction(.internal(.updatePreviews))
           })
+          asyncEffect(.debounced(
+            id: .updatePreviews,
+            anotherAction: .internal(.updatePreviews),
+          ))
         }
       }
     },
@@ -384,10 +389,6 @@ extension MapState {
 
 private enum EffectID {
   static let loadAnnotations = "load_annotations"
-}
-
-extension RewindMap {
-  fileprivate var size: CGSize { view.bounds.size }
 }
 
 extension AlertParams {
