@@ -108,7 +108,7 @@ private final class RewindMapView: MKMapView, UIGestureRecognizerDelegate {
   override init(frame: CGRect) {
     super.init(frame: frame)
 
-    showsUserLocation = false
+    showsUserLocation = true
     isPitchEnabled = false
     isRotateEnabled = false
     insetsLayoutMarginsFromSafeArea = false
