@@ -52,8 +52,8 @@ final class AppGraph {
     let filters = ObservableVariableConnection(
       initialValue: ImageRequestFilters.default
     )
-    let map = Lazy(onMainThreadGetter: {
-      RewindMap(
+    let map: Lazy<RewindMap> = Lazy(onMainThreadGetter: {
+      RewindMapImpl(
         settings: settings.asObservableVariable(),
         filters: filters.target
       )

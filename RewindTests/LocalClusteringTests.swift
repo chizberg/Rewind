@@ -11,9 +11,9 @@ import MapKit
 import Testing
 import VGSL
 
-// MARK: - Cluster formation (fresh state, first load → no clearing)
+struct LocalClusteringTests {
+  // MARK: - Cluster formation (fresh state, first load → no clearing)
 
-struct ClusterFormationTests {
   @Test func fourImagesStayIndividual() {
     var state = emptyState()
     let (toAdd, toRemove) = receive(
@@ -61,11 +61,9 @@ struct ClusterFormationTests {
     #expect(state.clusteredImages.values.contains { $0.right != nil })
     #expect(state.clusteredImages.values.contains { $0.left?.count == 3 })
   }
-}
 
-// MARK: - Incremental growth (same zoom & filters → additive path)
+  // MARK: - Incremental growth (same zoom & filters → additive path)
 
-struct IncrementalGrowthTests {
   @Test func twoPlusThreePromotesToCluster() {
     var state = emptyState()
     let p = params(zoom: 13)
@@ -153,11 +151,9 @@ struct IncrementalGrowthTests {
     #expect(toRemove.isEmpty)
     #expect(state.clusteredImages.values.first?.right?.images.count == 6)
   }
-}
 
-// MARK: - Zoom change (clear + rebuild)
+  // MARK: - Zoom change (clear + rebuild)
 
-struct ZoomChangeTests {
   @Test func zoomChangeRebuildsClusterWithNewIdentity() throws {
     var state = emptyState()
     // Identical coordinates → the 5 stay together in one cell at any zoom.
@@ -237,11 +233,9 @@ struct ZoomChangeTests {
     #expect(state.clusteredImages.count == 2)
     #expect(state.clusteredImages.values.allSatisfy { $0.left?.count == 1 })
   }
-}
 
-// MARK: - Server clusters (Model.Cluster from the API)
+  // MARK: - Server clusters (Model.Cluster from the API)
 
-struct ServerClusterTests {
   @Test func serverClustersAddedOnFirstLoad() {
     var state = emptyState()
     let (toAdd, toRemove) = receive(
@@ -297,11 +291,9 @@ struct ServerClusterTests {
     #expect(toAdd.clusters.isEmpty)
     #expect(toRemove.clusters.isEmpty)
   }
-}
 
-// MARK: - Edge cases
+  // MARK: - Edge cases
 
-struct EdgeCaseTests {
   @Test func emptyInputProducesNoChanges() {
     var state = emptyState()
     let (toAdd, toRemove) = receive([], params: params(zoom: 10), into: &state)
