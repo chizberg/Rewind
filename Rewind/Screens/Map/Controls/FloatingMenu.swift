@@ -55,8 +55,8 @@ struct FloatingMenu: View {
         iconName: mapType.isScheme ? "map" : "globe.europe.africa",
         action: {
           switch mapType {
-          case .scheme: store(.setMapType(.satellite))
-          case .satellite: store(.setMapType(.scheme))
+          case .scheme: store(.setMapType(.hybrid))
+          case .hybrid: store(.setMapType(.scheme))
           }
         }
       )
