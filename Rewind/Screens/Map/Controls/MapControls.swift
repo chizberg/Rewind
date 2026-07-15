@@ -45,9 +45,11 @@ struct MapControls<Menu: View>: View {
         radius: glassCardRadius,
       ) {
         content
+          .opacity(store.minimization.isMinimized ? 0.5 : 1)
       }
+      .scaleEffect(store.minimization.isMinimized ? 0.9 : 1, anchor: .top)
       .overlay {
-        if store.state.minimization.isMinimized {
+        if store.minimization.isMinimized {
           Color.clear
             .contentShape(Rectangle())
             .onTapGesture {
@@ -72,6 +74,10 @@ struct MapControls<Menu: View>: View {
         },
       )
     }
+    .animation(
+      mapControlsAnimation,
+      value: store.minimization.isMinimized
+    )
     .animation(
       mapControlsAnimation,
       value: offset,
@@ -348,7 +354,7 @@ private let containerPadding: CGFloat = 8
 private let mapControlRadius: CGFloat = 25
 private let glassCardPadding: CGFloat = 20
 private let glassCardHeight = thumbnailSize.height + glassCardPadding * 2
-private let glimpseHeight: CGFloat = 100
+private let glimpseHeight: CGFloat = 50
 private let glassCardRadius = max(
   DeviceModel.getCurrent().screenRadius() - containerPadding,
   32,
