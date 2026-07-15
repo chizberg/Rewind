@@ -9,12 +9,12 @@ import MapKit
 
 enum MapType {
   case scheme
-  case satellite
+  case hybrid
 
   var mkMapType: MKMapType {
     switch self {
     case .scheme: .standard
-    case .satellite: .satellite
+    case .hybrid: .hybrid
     }
   }
 }
@@ -24,7 +24,7 @@ extension MapType {
     self == .scheme
   }
 
-  var isSatellite: Bool {
-    self == .satellite
+  var isHybrid: Bool {
+    self == .hybrid
   }
 }

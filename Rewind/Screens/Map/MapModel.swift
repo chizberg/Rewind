@@ -336,14 +336,11 @@ func makeMapModel(
         case .clearAnnotations:
           state.clusters = []
           state.clusteredImages = [:]
-          asyncEffect(.perform { _ in
+          asyncEffect(.perform { anotherAction in
             await annotationStore.clear()
             await map.value.clear()
+            await anotherAction(.internal(.updatePreviews))
           })
-          asyncEffect(.debounced(
-            id: .updatePreviews,
-            anotherAction: .internal(.updatePreviews),
-          ))
         }
       }
     },
