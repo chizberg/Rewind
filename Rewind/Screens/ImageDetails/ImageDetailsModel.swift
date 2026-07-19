@@ -41,7 +41,7 @@ struct ImageDetailsState {
 
   var uiImage: UIImage?
   var cachedLowResImage: UIImage?
-  var isImageSaved: Bool
+  var imageSaveCount: Int
   var openSource: String
   var isFavorite: Bool
   var mapOptionsPresented: Bool
@@ -140,7 +140,7 @@ func makeImageDetailsModel(
       details: nil,
       uiImage: nil,
       cachedLowResImage: nil,
-      isImageSaved: false,
+      imageSaveCount: 0,
       openSource: openSource,
       isFavorite: favoriteModel.state.wrappedValue,
       mapOptionsPresented: false,
@@ -384,7 +384,7 @@ func makeImageDetailsModel(
           })
         case .imageSaved:
           UINotificationFeedbackGenerator().notificationOccurred(.success)
-          state.isImageSaved = true
+          state.imageSaveCount += 1
         case let .shareSheetLoaded(vc):
           state.shareVC = Identified(value: vc)
         case let .detailsLoaded(details):
@@ -420,6 +420,10 @@ func makeImageDetailsModel(
       }
     },
   )
+}
+
+extension ImageDetailsState {
+  var isImageSaved: Bool { imageSaveCount > 0 }
 }
 
 func pastVuURL(cid: Int) -> URL? {
