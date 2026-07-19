@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-@main
 struct RewindApp: App {
   @UIApplicationDelegateAdaptor(AppDelegate.self)
   var appDelegate
