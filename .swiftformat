@@ -4,6 +4,8 @@
 --disable docComments
 --disable wrapPropertyBodies
 --disable wrapFunctionBodies
+--disable wrapIfStatementBodies
+--disable wrapIfExpressionBodies
 --extensionacl on-declarations
 --hexgrouping 2
 --ifdef noindent
