@@ -10,6 +10,7 @@ import UIKit
 
 struct ZoomableImageScreen: View {
   var image: UIImage
+  var savesCount: Int
   var saveImage: () -> Void
 
   @Environment(\.dismiss)
@@ -38,11 +39,15 @@ struct ZoomableImageScreen: View {
         }
       }
 
+      SavedBanner(savesCount: savesCount)
+
       HStack {
         BackButton()
         Spacer()
         OverlayButton(
-          iconName: "square.and.arrow.down",
+          iconName: savesCount > 0
+            ? "square.and.arrow.down.badge.checkmark"
+            : "square.and.arrow.down",
           action: saveImage,
         )
       }
@@ -73,9 +78,13 @@ struct ZoomableImageView: View {
 }
 
 #Preview {
+  @Previewable @State
+  var savesCount = 0
+
   ZoomableImageScreen(
     image: UIImage(named: "cat")!,
-    saveImage: {},
+    savesCount: savesCount,
+    saveImage: { savesCount += 1 },
   )
 }
 

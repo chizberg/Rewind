@@ -61,6 +61,7 @@ struct ImageDetailsView: View {
         content: { identifiedImage in
           ZoomableImageScreen(
             image: identifiedImage.value,
+            savesCount: viewStore.imageSaveCount,
             saveImage: { viewStore(.fullscreenPreview(.saveImage)) },
           )
           .navigationTransition(.zoom(sourceID: TransitionSource.titleImage, in: namespace))
