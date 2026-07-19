@@ -50,9 +50,10 @@ struct FloatingMenu: View {
       )
 
       let mapType = store.mapType
-      FloatingMenuButton(
+      TitledFloatingMenuButton(
         item: .mapType,
         iconName: mapType.isScheme ? "map" : "globe.europe.africa",
+        title: mapType.isScheme ? "Scheme" : "Satellite",
         action: {
           switch mapType {
           case .scheme: store(.setMapType(.hybrid))
@@ -60,11 +61,13 @@ struct FloatingMenu: View {
           }
         }
       )
+
       let imageKind = store.filters.imageKind
-      FloatingMenuButton(
+      TitledFloatingMenuButton(
         item: .imageKind,
         iconName: imageKind.isPhoto ? "paintbrush.pointed" : "paintbrush.pointed.fill",
-        foregroundColor: imageKind.isPhoto ? iconColor : .accentColor,
+        title: imageKind.isPhoto ? "Photos" : "Paintings",
+        iconColor: imageKind.isPhoto ? buttonFgColor : .accentColor,
         action: {
           var filters = store.filters
           switch imageKind {
@@ -195,7 +198,7 @@ extension ContainerValues {
 private struct FloatingMenuButton: View {
   var item: FloatingMenu.Item
   var iconName: String
-  var foregroundColor: Color = iconColor
+  var foregroundColor: Color = buttonFgColor
   var action: () -> Void
 
   @ScaledMetric(relativeTo: .title2)
@@ -218,10 +221,88 @@ private struct FloatingMenuButton: View {
   }
 }
 
+private struct TitledFloatingMenuButton: View {
+  var item: FloatingMenu.Item
+
+  var iconName: String
+  var title: LocalizedStringKey
+  var iconColor: Color = buttonFgColor
+  var titleColor: Color = buttonFgColor
+  var action: () -> Void
+
+  @ScaledMetric(relativeTo: .title2)
+  private var iconHeight: CGFloat = 27
+
+  var body: some View {
+    Button(action: action) {
+      HStack {
+        Image(systemName: iconName)
+          .font(.title2.weight(.semibold))
+          .frame(width: iconHeight, height: iconHeight)
+          .foregroundStyle(iconColor)
+
+        ValueChangeIndicator(value: title, duration: 1) { t in
+          Text(t)
+            .bold()
+            .transition(
+              .blurReplace.combined(with: .scale(0, anchor: .leading))
+            )
+        }
+        .foregroundStyle(titleColor)
+      }
+    }
+    .padding(10)
+    .contentShape(Rectangle())
+    .modifier(
+      BackgroundModifier(isInteractive: true)
+    )
+    .animation(.default, value: title)
+    .containerValue(\.itemID, item)
+    .containerValue(\.kind, .fixed)
+  }
+}
+
+private struct ValueChangeIndicator<Value: Equatable, Indicator: View>: View {
+  var value: Value
+  var duration: TimeInterval
+  @ViewBuilder
+  var indicator: (Value) -> Indicator
+
+  @State
+  private var isVisible = false
+  @State
+  private var task: Task<Void, Never>? = nil
+
+  var body: some View {
+    content
+      .onChange(of: value) {
+        task?.cancel()
+        withAnimation {
+          isVisible = true
+        }
+        task = Task { @MainActor in
+          do {
+            try await Task.sleep(for: .seconds(duration))
+            withAnimation {
+              isVisible = false
+            }
+          } catch {}
+        }
+      }
+  }
+
+  @ViewBuilder
+  var content: some View {
+    if isVisible {
+      indicator(value)
+    }
+  }
+}
+
 private struct ExpandableMenuButton<Expanded: View>: View {
   var item: FloatingMenu.Item
   var iconName: String
-  var foregroundColor: Color = iconColor
+  var foregroundColor: Color = buttonFgColor
   @Binding
   var isExpanded: Bool
   @ViewBuilder
@@ -257,7 +338,7 @@ private struct CloseButton: View {
           Capsule()
             .fill(Color.systemBackground.opacity(0.5))
         }
-    }.foregroundStyle(iconColor)
+    }.foregroundStyle(buttonFgColor)
   }
 }
 
@@ -268,7 +349,7 @@ private func makeTimePicker(
   ExpandableMenuButton(
     item: .timePicker,
     iconName: "clock",
-    foregroundColor: filters.wrappedValue.isRangeModified ? .accentColor : iconColor,
+    foregroundColor: filters.wrappedValue.isRangeModified ? .accentColor : buttonFgColor,
     isExpanded: makeExpansionBinding(
       expandedItems: items,
       item: .timePicker
@@ -344,7 +425,7 @@ private struct BackgroundModifier: ViewModifier {
   }
 }
 
-private let iconColor = Color.primary.opacity(0.8)
+private let buttonFgColor = Color.primary.opacity(0.8)
 
 #if DEBUG
 #Preview {
@@ -377,6 +458,24 @@ private let iconColor = Color.primary.opacity(0.8)
       store: store,
       namespace: namespace
     ).padding()
+  }
+}
+
+#Preview("Titled Button") {
+  @Previewable @State
+  var showTitle = false
+
+  VStack {
+    TitledFloatingMenuButton(
+      item: .imageKind,
+      iconName: "paintbrush.pointed",
+      title: showTitle ? "Painting" : "Photo",
+      action: { showTitle.toggle() }
+    )
+
+    Button("title") {
+      showTitle.toggle()
+    }
   }
 }
 #endif

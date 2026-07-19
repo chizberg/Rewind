@@ -121,3 +121,5 @@ CLAUDE.md
 
 # Local Claude Code state
 /.claude/
+# Localization workflow scratch (drafts, patches, style guides)
+/.loc-workflow/
