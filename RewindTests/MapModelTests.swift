@@ -104,6 +104,39 @@ struct MapModelTests {
     #expect(model.state.lastLoadedParams?.zoom == 12)
   }
 
+  /// A server cluster whose preview shares its cid with a loose visible image contributes no
+  /// second card: region images and previews dedupe by cid across annotation kinds.
+  @Test func clusterPreviewSharingCidWithImageDedupes() async {
+    let env = TestEnv()
+    let model = env.makeModel()
+
+    // 3 loose images; the server cluster's preview duplicates cid 2
+    let images = (1...3).map { img($0, cell: $0, 0, zoom: 10, year: 1900 + $0) }
+    env.remote.response = (images, [serverCluster(2)])
+    model(.external(.map(.regionChanged(region(zoom: 10)))))
+
+    #expect(await eventually { !model.state.previews.isEmpty })
+    // 4 model values arrive (3 images + the cluster preview), 3 unique cids remain
+    #expect(Set(model.state.currentRegionImages.map(\.cid)) == [1, 2, 3])
+    #expect(model.state.previews.count == 3)
+  }
+
+  /// An empty reload (here: after a filter change clears the map) replaces stale preview cards
+  /// with the single "no images" card rather than leaving the old strip or an empty one.
+  @Test func emptyLoadShowsNoImagesCard() async {
+    let env = TestEnv()
+    let model = env.makeModel()
+
+    env.remote.response = ([img(1, cell: 0, 0, zoom: 10, year: 1900)], [])
+    model(.external(.map(.regionChanged(region(zoom: 10)))))
+    #expect(await eventually { model.state.previews.map(\.image?.cid) == [1] })
+
+    env.remote.response = ([], [])
+    model(.external(.ui(.filtersChanged(ImageRequestFilters(imageKind: .painting)))))
+    #expect(await eventually { model.state.previews == [.noImages] })
+    #expect(model.state.currentRegionImages.isEmpty)
+  }
+
   /// The first location fix recenters the map exactly once (zoom 15, not animated); later fixes
   /// only update state, and a nil-location update does not erase the known location.
   @Test func firstLocationRecentersMapOnce() async throws {
