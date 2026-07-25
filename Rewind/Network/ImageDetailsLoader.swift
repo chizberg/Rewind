@@ -16,8 +16,6 @@ actor ImageDetailsLoader {
     self.requestPerformer = requestPerformer
   }
 
-  /// Clears all cached details from memory.
-  /// Called automatically on memory warnings.
   func clearCache() {
     cache.removeAll()
   }
