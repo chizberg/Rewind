@@ -41,6 +41,7 @@ extension RewindRemotes {
   init(
     requestPerformer: RequestPerformer,
     imageLoader: ImageLoader,
+    imageDetailsLoader: ImageDetailsLoader,
   ) {
     annotations = Remote { params in
       let (nis, ncs) = try await requestPerformer.perform(
@@ -63,8 +64,7 @@ extension RewindRemotes {
       return (images, clusters)
     }.exponentialBackoff()
     imageDetails = Remote { cid in
-      let details = try await requestPerformer.perform(request: .imageDetails(cid: cid))
-      return Model.ImageDetails(details)
+      try await imageDetailsLoader.load(cid: cid)
     }.exponentialBackoff()
     streetViewAvailability = Remote { coordinate in
       try await requestPerformer.perform(request: .streetViewAvailability(coordinate: coordinate))

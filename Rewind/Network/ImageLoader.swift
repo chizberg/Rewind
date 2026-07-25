@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import VGSL
 
-final class ImageLoader {
+actor ImageLoader {
   private let cache: NSCache<ImageCacheKey, UIImage>
   private let requestPerformer: RequestPerformer
 
@@ -24,7 +24,7 @@ final class ImageLoader {
     cache.removeAllObjects()
   }
 
-  func makeImage(
+  nonisolated func makeImage(
     path: String,
   ) -> LoadableUIImage {
     LoadableUIImage { [weak self] params in
