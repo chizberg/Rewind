@@ -71,6 +71,8 @@ private final class Harness {
   private(set) var openedURLs: [URL] = []
   private(set) var requestedCids: [Int] = []
 
+  // Both closures below are non-Sendable and formed in this @MainActor context, so they inherit
+  // main-actor isolation — their bodies hop back to the main actor before touching harness state.
   func makeModel() -> ImageDetailsModel {
     makeImageDetailsModel(
       modelImage: .mock,
