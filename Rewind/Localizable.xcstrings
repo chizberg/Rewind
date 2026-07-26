@@ -113,6 +113,18 @@
         }
       }
     },
+    "🎨" : {
+      "comment" : "image colorization icon",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "🎨"
+          }
+        }
+      },
+      "shouldTranslate" : false
+    },
     "👀" : {
       "localizations" : {
         "de" : {
@@ -2908,12 +2920,6 @@
     "Paintings" : {
       "comment" : "image kind switcher indicator title",
       "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Картины"
-          }
-        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2936,6 +2942,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Картиналар"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Картины"
           }
         },
         "sr-Latn" : {
@@ -3067,12 +3079,6 @@
     "Photos" : {
       "comment" : "image kind switcher indicator title",
       "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Фото"
-          }
-        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3095,6 +3101,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Фотосуреттер"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Фото"
           }
         },
         "sr-Latn" : {
@@ -3497,12 +3509,6 @@
     "Satellite" : {
       "comment" : "map type switcher indicator title. honestly, means a hybrid map type, but the difference is clearer with a “satellite” name",
       "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Спутник"
-          }
-        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3525,6 +3531,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Жерсерік"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Спутник"
           }
         },
         "sr-Latn" : {
@@ -3656,12 +3668,6 @@
     "Scheme" : {
       "comment" : "map type switcher indicator title",
       "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Схема"
-          }
-        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3684,6 +3690,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Сызба"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Схема"
           }
         },
         "sr-Latn" : {

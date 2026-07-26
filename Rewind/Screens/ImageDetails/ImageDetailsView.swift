@@ -28,8 +28,30 @@ struct ImageDetailsView: View {
     content
       .animation(.smooth, value: viewStore.translationState)
       .overlay(alignment: .topLeading) {
-        BackButton()
-          .padding()
+        HStack {
+          BackButton()
+
+          Spacer()
+
+          if viewStore.colorizationState == .available {
+            Button {
+              print("chzbrg TODO: colorize")
+            } label: {
+              Text("🎨")
+                .font(.title2)
+                .padding(10)
+            }
+            .blurBackground(in: Circle())
+            .transition(.scale)
+          }
+
+          if isSplitView {
+            Spacer()
+              .frame(width: splitViewScrollWidth)
+          }
+        }
+        .padding()
+        .animation(.spring, value: viewStore.colorizationState)
       }
       .task {
         viewStore(.willBePresented)
@@ -97,7 +119,7 @@ struct ImageDetailsView: View {
           picture
         }
         scroll
-          .frame(width: 325)
+          .frame(width: splitViewScrollWidth)
       }
     } else {
       scroll
@@ -293,6 +315,8 @@ struct ImageDetailsView: View {
     viewStore(.fullscreenPreview(.present))
   }
 }
+
+private let splitViewScrollWidth = 325.0
 
 private struct LabeledText: View {
   var label: LocalizedStringKey
