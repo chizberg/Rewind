@@ -37,7 +37,7 @@ enum SearchAction {
     case suggestsUpdated([MKLocalSearchCompletion])
     case suggestsFailed(Error)
     case performSearch(String)
-    case searchResponseReceived(MKLocalSearch.Response)
+    case searchResponseReceived(CLLocation?)
     case searchError(Error)
     case nothingFound
   }
@@ -48,6 +48,7 @@ enum SearchAction {
 
 func makeSearchModel(
   onLocationFound: @escaping (CLLocation) -> Void,
+  search: @escaping (String) async throws -> CLLocation? = searchLocation,
 ) -> SearchModel {
   let suggestProvider = SearchSuggestProvider()
   return SearchModel(
@@ -87,23 +88,20 @@ func makeSearchModel(
             error: error,
           ))
         case let .performSearch(query):
-          asyncEffect(.perform { anotherAction in
+          asyncEffect(.perform(id: performSearchID) { anotherAction in
             do {
-              let request = MKLocalSearch.Request()
-              request.naturalLanguageQuery = query
-              let search = MKLocalSearch(request: request)
-              let result = try await search.start()
+              let location = try await search(query)
+              try Task.checkCancellation()
               await anotherAction(
-                .internal(.searchResponseReceived(result)),
+                .internal(.searchResponseReceived(location)),
               )
             } catch {
+              guard !Task.isCancelled else { return }
               await anotherAction(.internal(.searchError(error)))
             }
           })
-        case let .searchResponseReceived(response):
-          guard let mapItem = response.mapItems.first,
-                let location = mapItem.getLocation()
-          else {
+        case let .searchResponseReceived(location):
+          guard let location else {
             asyncEffect(.anotherAction(.internal(.nothingFound)))
             return
           }
@@ -135,6 +133,15 @@ func makeSearchModel(
       }
     },
   )
+}
+
+private let performSearchID = "performSearch"
+
+func searchLocation(_ query: String) async throws -> CLLocation? {
+  let request = MKLocalSearch.Request()
+  request.naturalLanguageQuery = query
+  let response = try await MKLocalSearch(request: request).start()
+  return response.mapItems.first?.getLocation()
 }
 
 private final class SearchSuggestProvider: NSObject, MKLocalSearchCompleterDelegate {
