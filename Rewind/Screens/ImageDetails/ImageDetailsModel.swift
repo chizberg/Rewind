@@ -122,6 +122,7 @@ enum ImageDetailsAction {
 func makeImageDetailsModel(
   modelImage: Model.Image,
   remote: Remote<Int, Model.ImageDetails>,
+  cachedDetails: Model.ImageDetails?,
   openSource: String,
   favoritesModel: FavoritesModel,
   showOnMap: @escaping (Coordinate) -> Void,
@@ -133,46 +134,52 @@ func makeImageDetailsModel(
   extractModelImage: @escaping (Model.ImageDetails) -> (Model.Image),
 ) -> ImageDetailsModel {
   let favoriteModel = favoritesModel.isFavorite(modelImage)
+  var initialState = ImageDetailsState(
+    image: modelImage,
+    attributedTitle: modelImage.title.makeAttrString(),
+    details: nil,
+    uiImage: nil,
+    cachedLowResImage: nil,
+    imageSaveCount: 0,
+    openSource: openSource,
+    isFavorite: favoriteModel.state.wrappedValue,
+    mapOptionsPresented: false,
+    loadingAnotherImage: false,
+    translationState: .notAvailable,
+    cachedTranslation: nil,
+    fullscreenPreview: nil,
+    comparisonDeps: nil,
+    shareVC: nil,
+    anotherImageModel: nil,
+    alertModel: nil,
+    actionButtons: Array.build {
+      ImageDetailsAction.Button.favorite
+      withUIIdiom(phone: ImageDetailsAction.Button.compareCamera, pad: nil)
+      withUIIdiom(phone: ImageDetailsAction.Button.compareStreetView, pad: nil)
+      [ImageDetailsAction.Button.showOnMap, .share, .saveImage, .viewOnWeb, .route]
+    },
+  )
+  if let cachedDetails {
+    apply(details: cachedDetails, to: &initialState)
+  }
   return Reducer(
-    initial: ImageDetailsState(
-      image: modelImage,
-      attributedTitle: modelImage.title.makeAttrString(),
-      details: nil,
-      uiImage: nil,
-      cachedLowResImage: nil,
-      imageSaveCount: 0,
-      openSource: openSource,
-      isFavorite: favoriteModel.state.wrappedValue,
-      mapOptionsPresented: false,
-      loadingAnotherImage: false,
-      translationState: .notAvailable,
-      cachedTranslation: nil,
-      fullscreenPreview: nil,
-      comparisonDeps: nil,
-      shareVC: nil,
-      anotherImageModel: nil,
-      alertModel: nil,
-      actionButtons: Array.build {
-        ImageDetailsAction.Button.favorite
-        withUIIdiom(phone: ImageDetailsAction.Button.compareCamera, pad: nil)
-        withUIIdiom(phone: ImageDetailsAction.Button.compareStreetView, pad: nil)
-        [ImageDetailsAction.Button.showOnMap, .share, .saveImage, .viewOnWeb, .route]
-      },
-    ),
+    initial: initialState,
     reduce: { state, action, effect, asyncEffect in
       switch action {
       case .willBePresented:
-        asyncEffect(.perform { anotherAction in
-          do {
-            let data = try await remote.load(modelImage.cid)
-            await anotherAction(.internal(.detailsLoaded(data)))
-          } catch {
-            await anotherAction(.alert(.present(.error(
-              title: "Unable to load image info",
-              error: error,
-            ))))
-          }
-        })
+        if state.details == nil {
+          asyncEffect(.perform { anotherAction in
+            do {
+              let data = try await remote.load(modelImage.cid)
+              await anotherAction(.internal(.detailsLoaded(data)))
+            } catch {
+              await anotherAction(.alert(.present(.error(
+                title: "Unable to load image info",
+                error: error,
+              ))))
+            }
+          })
+        }
         asyncEffect(.perform { anotherAction in
           do {
             let medium = try await modelImage.image.load(
@@ -349,10 +356,8 @@ func makeImageDetailsModel(
             value:
             makeImageDetailsModel(
               modelImage: anotherModelImage,
-              remote: Remote { cid in
-                if cid == details.cid { return details }
-                return try await remote.load(cid)
-              },
+              remote: remote,
+              cachedDetails: details,
               openSource: source,
               favoritesModel: favoritesModel,
               showOnMap: showOnMap,
@@ -388,21 +393,7 @@ func makeImageDetailsModel(
         case let .shareSheetLoaded(vc):
           state.shareVC = Identified(value: vc)
         case let .detailsLoaded(details):
-          state.attributedDetails = ImageDetailsState.AttributedDetails(
-            description: details.description?.makeAttrString(),
-            source: details.source?.makeAttrString(),
-            address: details.address?.makeAttrString(),
-            author: details.author?.makeAttrString(),
-          )
-          state.details = details
-          if let description = details.description,
-             let descriptionLang = detectLanguage(description),
-             descriptionLang.confidence >= 0.9 {
-            state.translationState =
-              appLang == descriptionLang.languageCode ? .notAvailable : .available
-          } else {
-            state.translationState = .available
-          }
+          apply(details: details, to: &state)
         case let .translationComplete(translation):
           state.translationState = .translated(translation)
           state.cachedTranslation = translation
@@ -420,6 +411,24 @@ func makeImageDetailsModel(
       }
     },
   )
+}
+
+private func apply(details: Model.ImageDetails, to state: inout ImageDetailsState) {
+  state.attributedDetails = ImageDetailsState.AttributedDetails(
+    description: details.description?.makeAttrString(),
+    source: details.source?.makeAttrString(),
+    address: details.address?.makeAttrString(),
+    author: details.author?.makeAttrString(),
+  )
+  state.details = details
+  if let description = details.description,
+     let descriptionLang = detectLanguage(description),
+     descriptionLang.confidence >= 0.9 {
+    state.translationState =
+      appLang == descriptionLang.languageCode ? .notAvailable : .available
+  } else {
+    state.translationState = .available
+  }
 }
 
 extension ImageDetailsState {

@@ -9,7 +9,8 @@ import Foundation
 import UIKit
 import VGSL
 
-actor ImageLoader {
+@MainActor
+final class ImageLoader {
   private let cache: NSCache<ImageCacheKey, UIImage>
   private let requestPerformer: RequestPerformer
 

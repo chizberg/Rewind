@@ -143,6 +143,7 @@ private let imageDetailsFactoryMock: ImageDetailsFactory = { _, source in
   makeImageDetailsModel(
     modelImage: .mock,
     remote: Remote { _ in .mock },
+    cachedDetails: nil,
     openSource: source,
     favoritesModel: .mock,
     showOnMap: { _ in },

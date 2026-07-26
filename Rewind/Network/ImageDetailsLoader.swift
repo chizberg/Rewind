@@ -7,7 +7,8 @@
 
 import Foundation
 
-actor ImageDetailsLoader {
+@MainActor
+final class ImageDetailsLoader {
   private var cache: [Int: Model.ImageDetails]
   private let requestPerformer: RequestPerformer
 
@@ -20,8 +21,12 @@ actor ImageDetailsLoader {
     cache.removeAll()
   }
 
+  func cached(cid: Int) -> Model.ImageDetails? {
+    cache[cid]
+  }
+
   func load(cid: Int) async throws -> Model.ImageDetails {
-    if let cached = cache[cid] {
+    if let cached = cached(cid: cid) {
       return cached
     }
     let networkDetails = try await requestPerformer.perform(request: .imageDetails(cid: cid))
