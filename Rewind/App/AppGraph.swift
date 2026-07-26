@@ -18,7 +18,6 @@ final class AppGraph {
 
   let map: Lazy<RewindMap>
   let urlOpener: UrlOpener
-  let imageLoader: ImageLoader
 
   var orientationLock: Property<OrientationLock?>?
 
@@ -32,7 +31,7 @@ final class AppGraph {
       urlRequestPerformer: URLSession.shared.data,
     )
     let imageLoader = ImageLoader(requestPerformer: requestPerformer)
-    self.imageLoader = imageLoader
+    let imageDetailsLoader = ImageDetailsLoader(requestPerformer: requestPerformer)
     let annotationStore = AnnotationStore()
     let storage: KeyValueStorage = UserDefaults.standard
     let favoritesStorage = FavoritesStorage(
@@ -46,6 +45,7 @@ final class AppGraph {
     let remotes = RewindRemotes(
       requestPerformer: requestPerformer,
       imageLoader: imageLoader,
+      imageDetailsLoader: imageDetailsLoader,
     )
     let settings = makeSettings(storage: storage)
 
@@ -164,14 +164,15 @@ final class AppGraph {
     }.dispose(in: disposePool)
     filters.current = mapModel.$state.filters.skipRepeats()
 
-    // React to memory warnings by clearing image cache
+    // React to memory warnings by clearing cached images and image details
     memoryWarningObserver = NotificationCenter.default.addObserver(
       forName: UIApplication.didReceiveMemoryWarningNotification,
       object: nil,
       queue: .main,
-    ) { [weak self] _ in
-      MainActor.assumeIsolated {
-        self?.imageLoader.clearCache()
+    ) { [imageLoader, imageDetailsLoader] _ in
+      Task {
+        await imageLoader.clearCache()
+        await imageDetailsLoader.clearCache()
       }
     }
     storeReview.appLaunched()
