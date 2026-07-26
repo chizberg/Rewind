@@ -86,6 +86,7 @@ final class AppGraph {
       makeImageDetailsModel(
         modelImage: image,
         remote: remotes.imageDetails,
+        cachedDetails: imageDetailsLoader.cached(cid: image.cid),
         openSource: source,
         favoritesModel: favoritesModel,
         showOnMap: { coordinate in

@@ -411,6 +411,7 @@ extension FavoritesModel {
   var store = makeImageDetailsModel(
     modelImage: .mock,
     remote: Remote { _ in Model.ImageDetails(.mock) },
+    cachedDetails: nil,
     openSource: "",
     favoritesModel: .mock,
     showOnMap: { _ in },
@@ -437,6 +438,7 @@ extension FavoritesModel {
       try await Task.sleep(for: .seconds(1))
       return Model.ImageDetails(.mock)
     },
+    cachedDetails: nil,
     openSource: "",
     favoritesModel: .mock,
     showOnMap: { _ in },

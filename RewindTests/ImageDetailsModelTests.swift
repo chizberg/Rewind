@@ -2,11 +2,13 @@
 //  ImageDetailsModelTests.swift
 //  RewindTests
 //
-//  Tests the description-link routing in the ImageDetails reducer: a link to a pastvu photo
-//  (https://pastvu.com/p/<cid>) recurses into a nested ImageDetails screen loaded from the remote,
-//  while any other link (external host, or a non-photo pastvu path) is handed to the url opener.
-//  The routing hinges on a branchy URL parse (host + /p/ path + integer cid), which is exactly the
-//  kind of quirk worth pinning; the raw button/url string tables are not tested.
+//  Tests two branchy parts of the ImageDetails reducer. Description-link routing: a link to a
+//  pastvu photo (https://pastvu.com/p/<cid>) recurses into a nested ImageDetails screen loaded
+//  from the remote, while any other link (external host, or a non-photo pastvu path) is handed to
+//  the url opener — the routing hinges on a URL parse (host + /p/ path + integer cid). And details
+//  seeding: details already known when the model is built land in the initial state instead of
+//  arriving as a later update, which is what keeps a cached screen from redrawing on open.
+//  The raw button/url string tables are not tested.
 //
 
 import Foundation
@@ -21,7 +23,7 @@ struct ImageDetailsModelTests {
   /// external url opener is never called.
   @Test func pastvuPhotoLinkOpensNestedDetails() async {
     let harness = Harness()
-    let model = harness.makeModel()
+    let model = harness.makeModel(cachedDetails: nil)
 
     let linkedCid = 2_223_969
     model(.descriptionLink(pastvuPhotoURL(linkedCid)))
@@ -36,7 +38,7 @@ struct ImageDetailsModelTests {
   /// A link to an external host is opened in the browser rather than recursing.
   @Test func externalLinkOpensInBrowser() async throws {
     let harness = Harness()
-    let model = harness.makeModel()
+    let model = harness.makeModel(cachedDetails: nil)
 
     let external = try #require(URL(string: "https://example.com/gallery"))
     model(.descriptionLink(external))
@@ -51,7 +53,7 @@ struct ImageDetailsModelTests {
   /// mistaken for a photo to recurse into.
   @Test func nonPhotoPastvuLinkOpensInBrowser() async throws {
     let harness = Harness()
-    let model = harness.makeModel()
+    let model = harness.makeModel(cachedDetails: nil)
 
     let userPage = try #require(URL(string: "https://pastvu.com/u/someone"))
     model(.descriptionLink(userPage))
@@ -59,6 +61,47 @@ struct ImageDetailsModelTests {
     #expect(await eventually { harness.openedURLs == [userPage] })
     #expect(model.state.anotherImageModel == nil)
     #expect(harness.requestedCids.isEmpty)
+  }
+
+  /// Details known upfront are part of the very first state, indistinguishable from a state the
+  /// network just filled in — so the screen renders complete in its first frame instead of
+  /// updating a frame later — and presenting it doesn't ask for them again.
+  @Test func knownDetailsSeedInitialState() async {
+    let harness = Harness()
+    let details = modified(Model.ImageDetails.mock) { $0.description = "Вулица Кастрычницкая" }
+    let seeded = harness.makeModel(cachedDetails: details)
+    let loaded = harness.makeModel(cachedDetails: nil)
+    loaded(.internal(.detailsLoaded(details)))
+
+    let seededAttributes = seeded.state.attributedDetails
+    let loadedAttributes = loaded.state.attributedDetails
+
+    #expect(seeded.state.details?.cid == details.cid)
+    #expect(seededAttributes?.description.map { String($0.characters) } == details.description)
+    #expect(seededAttributes?.description == loadedAttributes?.description)
+    #expect(seededAttributes?.author == loadedAttributes?.author)
+    #expect(seededAttributes?.address == loadedAttributes?.address)
+    #expect(seededAttributes?.source == loadedAttributes?.source)
+    #expect(seeded.state.translationState == loaded.state.translationState)
+
+    seeded(.willBePresented)
+
+    #expect(await eventually { seeded.state.uiImage != nil }) // image effects still run
+    #expect(harness.requestedCids.isEmpty) // details were not refetched
+  }
+
+  /// Without known details, presentation loads them and applies them to the same fields the seed
+  /// fills in.
+  @Test func unknownDetailsAreLoadedOnPresentation() async {
+    let harness = Harness()
+    let model = harness.makeModel(cachedDetails: nil)
+
+    #expect(model.state.details == nil)
+    model(.willBePresented)
+
+    #expect(await eventually { model.state.details != nil })
+    #expect(model.state.attributedDetails != nil)
+    #expect(harness.requestedCids == [Model.Image.mock.cid])
   }
 }
 
@@ -73,13 +116,14 @@ private final class Harness {
 
   // Both closures below are non-Sendable and formed in this @MainActor context, so they inherit
   // main-actor isolation — their bodies hop back to the main actor before touching harness state.
-  func makeModel() -> ImageDetailsModel {
+  func makeModel(cachedDetails: Model.ImageDetails?) -> ImageDetailsModel {
     makeImageDetailsModel(
       modelImage: .mock,
       remote: Remote { [weak self] cid in
         self?.requestedCids.append(cid)
         return modified(.mock) { $0.cid = cid }
       },
+      cachedDetails: cachedDetails,
       openSource: "",
       favoritesModel: .mock,
       showOnMap: { _ in },

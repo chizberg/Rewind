@@ -14,6 +14,7 @@ import Foundation
 @testable import Rewind
 import Testing
 
+@MainActor
 struct ImageDetailsLoaderTests {
   /// Loading the same photo twice performs a single request; the second load is served from cache.
   @Test func repeatedLoadIsServedFromCache() async throws {
@@ -53,11 +54,26 @@ struct ImageDetailsLoaderTests {
     let loader = makeLoader(network: network)
 
     _ = try await loader.load(cid: 7)
-    await loader.clearCache()
+    loader.clearCache()
     let refetched = try await loader.load(cid: 7)
 
     #expect(await network.requestedCids == [7, 7])
     #expect(refetched.title == "fetch #2")
+  }
+
+  /// What the details screen reads while building its initial state: cached details are available
+  /// without a suspension once loaded, and only for photos that are actually in the cache.
+  @Test func cachedIsReadableWithoutLoading() async throws {
+    let network = NetworkStub()
+    let loader = makeLoader(network: network)
+
+    #expect(loader.cached(cid: 5) == nil)
+    let loaded = try await loader.load(cid: 5)
+
+    #expect(loader.cached(cid: 5)?.title == loaded.title)
+    #expect(loader.cached(cid: 6) == nil)
+    loader.clearCache()
+    #expect(loader.cached(cid: 5) == nil)
   }
 
   /// A failed load caches nothing, so a later load retries instead of replaying the failure.
@@ -78,6 +94,7 @@ struct ImageDetailsLoaderTests {
   }
 }
 
+@MainActor
 private func makeLoader(network: NetworkStub) -> ImageDetailsLoader {
   ImageDetailsLoader(
     requestPerformer: RequestPerformer(
