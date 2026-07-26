@@ -33,6 +33,11 @@ struct ImageDetailsState {
     case translated(Translation)
   }
 
+  enum ColorizationState: Equatable {
+    case notAvailable
+    case available
+  }
+
   var image: Model.Image
   var attributedTitle: AttributedString
 
@@ -49,6 +54,8 @@ struct ImageDetailsState {
 
   var translationState: TranslationState
   var cachedTranslation: Translation?
+
+  var colorizationState: ColorizationState
 
   var fullscreenPreview: Identified<UIImage>?
   var comparisonDeps: Identified<ComparisonViewDeps>?
@@ -89,6 +96,7 @@ enum ImageDetailsAction {
     case detailsLoaded(Model.ImageDetails)
     case translationComplete(ImageDetailsState.Translation)
     case translationFailed(Error)
+    case bwDetectionCompleted(isBW: Bool)
   }
 
   enum ImageComparison {
@@ -146,6 +154,7 @@ func makeImageDetailsModel(
     loadingAnotherImage: false,
     translationState: .notAvailable,
     cachedTranslation: nil,
+    colorizationState: .notAvailable,
     fullscreenPreview: nil,
     comparisonDeps: nil,
     shareVC: nil,
@@ -209,6 +218,14 @@ func makeImageDetailsModel(
         state.cachedLowResImage = image
       case let .imageLoaded(image):
         state.uiImage = image
+        asyncEffect(.perform { anotherAction in
+          do {
+            let isBW = try await isMonochrome(image: image)
+            await anotherAction(.internal(.bwDetectionCompleted(isBW: isBW)))
+          } catch {
+            assertionFailure("BW detection failed: \(error)")
+          }
+        })
       case let .descriptionLink(link):
         let pathComponents = link.pathComponents
 
@@ -416,6 +433,8 @@ func makeImageDetailsModel(
           asyncEffect(.anotherAction(.alert(.present(.error(
             title: "Unable to load image data", error: error,
           )))))
+        case let .bwDetectionCompleted(isBW):
+          state.colorizationState = isBW ? .available : .notAvailable
         }
       }
     },

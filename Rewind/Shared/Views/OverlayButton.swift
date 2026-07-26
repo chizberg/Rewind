@@ -9,12 +9,24 @@ import SwiftUI
 
 struct OverlayButton: View {
   var iconName: String
+  var renderingMode: SymbolRenderingMode?
   var action: () -> Void
+
+  init(
+    iconName: String,
+    renderingMode: SymbolRenderingMode? = nil,
+    action: @escaping () -> Void,
+  ) {
+    self.iconName = iconName
+    self.renderingMode = renderingMode
+    self.action = action
+  }
 
   var body: some View {
     Button(action: action) {
       Image(systemName: iconName)
-        .font(.title2)
+        .symbolRenderingMode(renderingMode)
+        .font(.title2.monospaced())
         .padding(14)
         .blurBackground(in: Circle())
     }
@@ -26,7 +38,7 @@ extension View {
   @ViewBuilder
   func blurBackground(in shape: some Shape) -> some View {
     if #available(iOS 26, *) {
-      glassEffect(in: shape)
+      glassEffect(.regular.interactive(), in: shape)
     } else {
       background(.thinMaterial).clipShape(shape)
     }
@@ -48,7 +60,17 @@ struct BackButton: View {
 #Preview {
   Color.blue.ignoresSafeArea()
     .overlay(alignment: .topLeading) {
-      BackButton()
-        .padding()
+      HStack {
+        BackButton()
+
+        Spacer()
+
+        OverlayButton(
+          iconName: "paintpalette.fill",
+          renderingMode: .multicolor,
+          action: {},
+        )
+      }
+      .padding()
     }
 }
