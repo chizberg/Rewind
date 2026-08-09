@@ -61,27 +61,6 @@ private func makeReducer(initial: TestState = .init()) -> TestReducer {
   }
 }
 
-// MARK: - Async helpers
-
-/// Polls `condition` until it becomes true or the timeout elapses.
-/// Needed because async effects run inside an internal `Task` we can't await directly.
-@MainActor
-private func eventually(
-  timeout: Duration = .seconds(2),
-  _ condition: () -> Bool,
-) async -> Bool {
-  let deadline = ContinuousClock().now.advanced(by: timeout)
-  while !condition() {
-    if ContinuousClock().now >= deadline { return false }
-    try? await Task.sleep(for: .milliseconds(5))
-  }
-  return true
-}
-
-private func sleep(_ duration: Duration) async {
-  try? await Task.sleep(for: duration)
-}
-
 // MARK: - Synchronous state mutation
 
 @MainActor
