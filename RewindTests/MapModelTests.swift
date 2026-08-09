@@ -224,9 +224,7 @@ struct MapModelTests {
     model(.external(.map(.userDragged(bottomTouch, frame))))
     #expect(model.state.controls.minimization == .minimized(byUser: false))
 
-    #expect(await eventually(timeout: .seconds(4)) {
-      model.state.controls.minimization == .normal
-    })
+    #expect(await eventually { model.state.controls.minimization == .normal })
 
     model(.external(.ui(.controls(.setMinimization(.minimized(byUser: true))))))
     model(.external(.map(.userDragged(bottomTouch, frame))))
@@ -488,23 +486,4 @@ private func serverCluster(_ id: Int) -> Model.Cluster {
     coordinate: Coordinate(latitude: Double(id), longitude: Double(id)),
     count: id,
   )
-}
-
-// MARK: - Async helpers (mirrors ReducerTests: async effects run in an internal Task we can't await)
-
-@MainActor
-private func eventually(
-  timeout: Duration = .seconds(2),
-  _ condition: () -> Bool,
-) async -> Bool {
-  let deadline = ContinuousClock().now.advanced(by: timeout)
-  while !condition() {
-    if ContinuousClock().now >= deadline { return false }
-    try? await Task.sleep(for: .milliseconds(5))
-  }
-  return true
-}
-
-private func sleep(_ duration: Duration) async {
-  try? await Task.sleep(for: duration)
 }

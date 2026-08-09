@@ -28,19 +28,21 @@ struct SearchModelTests {
 
   /// A second tap while the first search is still in flight: only the second place is handed over,
   /// and the first one's late answer is dropped instead of yanking the map back.
-  @Test func secondSuggestSelectionSupersedesTheFirst() async throws {
+  @Test func secondSuggestSelectionSupersedesTheFirst() async {
     let harness = Harness()
-    harness.delayFirstSearch = true
+    harness.gateFirstSearch = true
     let model = harness.makeModel()
 
     model(.external(.suggestSelected(Harness.eiffel)))
-    #expect(await eventually { harness.searchedQueries.count == 1 }) // first search started
+    #expect(await eventually { harness.searchedQueries.count == 1 }) // first search started, gated
 
     model(.external(.suggestSelected(Harness.louvre)))
     #expect(await eventually { harness.foundLocations.count == 1 })
 
-    // Past the point the first search would have answered had it not been cancelled.
-    try await Task.sleep(for: .milliseconds(400))
+    // The superseded search answers only now: the test, not a timer, decides when the stale
+    // result lands, so it always lands after the cancellation it has to lose to.
+    harness.openGate()
+    #expect(await eventually { harness.answeredQueries.count == 2 })
 
     #expect(harness.foundLocations.count == 1)
     #expect(harness.foundLocations.first === Harness.louvreLocation)
@@ -57,7 +59,24 @@ private final class Harness {
 
   private(set) var foundLocations: [CLLocation] = []
   private(set) var searchedQueries: [String] = []
-  var delayFirstSearch = false
+  private(set) var answeredQueries: [String] = []
+
+  /// Set before `makeModel()` to suspend the first search at the gate instead of answering it,
+  /// so it stays in flight for as long as the test needs rather than for a fixed duration.
+  var gateFirstSearch = false
+
+  private var gate: CheckedContinuation<Void, Never>?
+  private var pendingGateOpen = false
+
+  /// Releases the search suspended by `gateFirstSearch`; safe to call before it reaches the gate.
+  func openGate() {
+    if let gate {
+      gate.resume()
+      self.gate = nil
+    } else {
+      pendingGateOpen = true
+    }
+  }
 
   func makeModel() -> SearchModel {
     makeSearchModel(
@@ -65,12 +84,21 @@ private final class Harness {
       search: { [weak self] query in
         guard let self else { return nil }
         searchedQueries.append(query)
-        if delayFirstSearch, searchedQueries.count == 1 {
-          try await Task.sleep(for: .milliseconds(200))
+        if gateFirstSearch, searchedQueries.count == 1 {
+          await waitForGate()
         }
+        answeredQueries.append(query)
         return Harness.location(matching: query)
       },
     )
+  }
+
+  private func waitForGate() async {
+    if pendingGateOpen {
+      pendingGateOpen = false
+      return
+    }
+    await withCheckedContinuation { gate = $0 }
   }
 
   /// Matches on the place's name rather than on the query string the reducer assembles, so the
@@ -84,17 +112,4 @@ private final class Harness {
       nil
     }
   }
-}
-
-@MainActor
-private func eventually(
-  timeout: Duration = .seconds(2),
-  _ condition: () -> Bool,
-) async -> Bool {
-  let deadline = ContinuousClock().now.advanced(by: timeout)
-  while !condition() {
-    if ContinuousClock().now >= deadline { return false }
-    try? await Task.sleep(for: .milliseconds(5))
-  }
-  return true
 }
