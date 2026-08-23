@@ -33,7 +33,7 @@ struct ImageDetailsView: View {
 
           Spacer()
 
-          if viewStore.colorizationState == .available {
+          if viewStore.isColorizationAvailable {
             Button {
               print("chzbrg TODO: colorize")
             } label: {
@@ -51,7 +51,7 @@ struct ImageDetailsView: View {
           }
         }
         .padding()
-        .animation(.spring, value: viewStore.colorizationState)
+        .animation(.spring, value: viewStore.isColorizationAvailable)
       }
       .task {
         viewStore(.willBePresented)

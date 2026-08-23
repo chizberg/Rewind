@@ -34,8 +34,10 @@ struct ImageDetailsState {
   }
 
   enum ColorizationState: Equatable {
+    case none
+    case detecting
     case notAvailable
-    case available
+    case available(WatermarkedImage)
   }
 
   var image: Model.Image
@@ -96,7 +98,7 @@ enum ImageDetailsAction {
     case detailsLoaded(Model.ImageDetails)
     case translationComplete(ImageDetailsState.Translation)
     case translationFailed(Error)
-    case bwDetectionCompleted(isBW: Bool)
+    case bwDetectionCompleted(isBW: Bool, image: WatermarkedImage)
   }
 
   enum ImageComparison {
@@ -154,7 +156,7 @@ func makeImageDetailsModel(
     loadingAnotherImage: false,
     translationState: .notAvailable,
     cachedTranslation: nil,
-    colorizationState: .notAvailable,
+    colorizationState: .none,
     fullscreenPreview: nil,
     comparisonDeps: nil,
     shareVC: nil,
@@ -218,14 +220,7 @@ func makeImageDetailsModel(
         state.cachedLowResImage = image
       case let .imageLoaded(image):
         state.uiImage = image
-        asyncEffect(.perform { anotherAction in
-          do {
-            let isBW = try await isMonochrome(image: image)
-            await anotherAction(.internal(.bwDetectionCompleted(isBW: isBW)))
-          } catch {
-            assertionFailure("BW detection failed: \(error)")
-          }
-        })
+        checkColorizationAvailability(state: &state, asyncEffect: asyncEffect)
       case let .descriptionLink(link):
         let pathComponents = link.pathComponents
 
@@ -420,6 +415,7 @@ func makeImageDetailsModel(
           state.shareVC = Identified(value: vc)
         case let .detailsLoaded(details):
           apply(details: details, to: &state)
+          checkColorizationAvailability(state: &state, asyncEffect: asyncEffect)
         case let .translationComplete(translation):
           state.translationState = .translated(translation)
           state.cachedTranslation = translation
@@ -433,12 +429,35 @@ func makeImageDetailsModel(
           asyncEffect(.anotherAction(.alert(.present(.error(
             title: "Unable to load image data", error: error,
           )))))
-        case let .bwDetectionCompleted(isBW):
-          state.colorizationState = isBW ? .available : .notAvailable
+        case let .bwDetectionCompleted(isBW, image):
+          state.colorizationState = isBW ? .available(image) : .notAvailable
         }
       }
     },
   )
+}
+
+private func checkColorizationAvailability(
+  state: inout ImageDetailsState,
+  asyncEffect: (ImageDetailsModel.AsyncEffect) -> Void,
+) {
+  guard state.colorizationState == .none,
+        let image = state.uiImage,
+        let details = state.details else { return }
+  state.colorizationState = .detecting
+  asyncEffect(.perform { anotherAction in
+    let image = await splitWatermark(
+      from: image,
+      watermarkHeight: details.watermarkHeight,
+      contentHeight: details.contentHeight,
+    )
+    do {
+      let isBW = try await isMonochrome(image: image.content)
+      await anotherAction(.internal(.bwDetectionCompleted(isBW: isBW, image: image)))
+    } catch {
+      assertionFailure("BW detection failed: \(error)")
+    }
+  })
 }
 
 private func apply(details: Model.ImageDetails, to state: inout ImageDetailsState) {
@@ -461,6 +480,13 @@ private func apply(details: Model.ImageDetails, to state: inout ImageDetailsStat
 
 extension ImageDetailsState {
   var isImageSaved: Bool { imageSaveCount > 0 }
+
+  var isColorizationAvailable: Bool {
+    switch colorizationState {
+    case .available: true
+    case .none, .detecting, .notAvailable: false
+    }
+  }
 }
 
 func pastVuURL(cid: Int) -> URL? {
