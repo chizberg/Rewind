@@ -127,6 +127,7 @@ enum ImageDetailsAction {
   case mapAppSelected(MapApp)
   case translate
   case showTranslationOriginal
+  case colorize
 }
 
 func makeImageDetailsModel(
@@ -140,6 +141,7 @@ func makeImageDetailsModel(
   urlOpener: @escaping (URL) -> Void,
   streetViewAvailability: Remote<Coordinate, StreetViewAvailability>,
   translate: Remote<TranslateParams, String>,
+  colorizationModel: @escaping () async -> ColorizationModel?,
   extractModelImage: @escaping (Model.ImageDetails) -> (Model.Image),
 ) -> ImageDetailsModel {
   let favoriteModel = favoritesModel.isFavorite(modelImage)
@@ -346,6 +348,12 @@ func makeImageDetailsModel(
         }
       case .showTranslationOriginal:
         state.translationState = .available
+      case .colorize:
+        asyncEffect(.perform { _ in
+          if await colorizationModel() == nil {
+            print("chzbrg TODO: the colorization model is not loaded")
+          }
+        })
       case .shareSheetDismissed:
         state.shareVC = nil
       case let .setMapOptionsVisibility(visible):
@@ -387,6 +395,7 @@ func makeImageDetailsModel(
               urlOpener: urlOpener,
               streetViewAvailability: streetViewAvailability,
               translate: translate,
+              colorizationModel: colorizationModel,
               extractModelImage: extractModelImage,
             ).viewStore,
           )
