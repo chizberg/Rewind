@@ -35,7 +35,7 @@ struct ImageDetailsView: View {
 
           if viewStore.isColorizationAvailable {
             ColorizeButton {
-              print("chzbrg TODO: colorize")
+              viewStore(.colorize)
             }
             .transition(.scale)
           }
@@ -508,6 +508,7 @@ extension FavoritesModel {
     setOrientationLock: { _ in },
     streetViewAvailability: .mock(.unavailable),
     translate: .mock("translated text"),
+    colorizationModel: { nil },
     extractModelImage: { _ in .mock },
   ).viewStore
 
@@ -535,6 +536,7 @@ extension FavoritesModel {
     setOrientationLock: { _ in },
     streetViewAvailability: .mock(.unavailable),
     translate: .mock("translated text").delayed(delay: 1),
+    colorizationModel: { nil },
     extractModelImage: { _ in .mock },
   ).viewStore
 

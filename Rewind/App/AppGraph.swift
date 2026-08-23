@@ -82,6 +82,7 @@ final class AppGraph {
     )
     mapControlsStore = mapStore.makeControlsStore()
     rootViewMapStore = makeRootMapStore(mapStore: mapStore)
+    let colorizationModelStore = ColorizationModelStore()
     let imageDetailsFactory = { image, source in
       makeImageDetailsModel(
         modelImage: image,
@@ -99,6 +100,13 @@ final class AppGraph {
         setOrientationLock: { weakSelf?.orientationLock?.value = $0 },
         streetViewAvailability: remotes.streetViewAvailability,
         translate: remotes.translate,
+        colorizationModel: {
+          if let kind = settings.value.colorizationModel {
+            await colorizationModelStore.localModel(kind: kind)
+          } else {
+            nil
+          }
+        },
         extractModelImage: { [imageLoader] details in
           Model.Image(details, image: imageLoader.makeImage(path: details.file))
         },

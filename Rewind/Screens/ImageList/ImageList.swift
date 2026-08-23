@@ -152,6 +152,7 @@ private let imageDetailsFactoryMock: ImageDetailsFactory = { _, source in
     setOrientationLock: { _ in },
     streetViewAvailability: .mock(.unavailable),
     translate: .mock("translated text"),
+    colorizationModel: { nil },
     extractModelImage: { _ in .mock },
   )
 }

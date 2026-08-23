@@ -25,21 +25,25 @@ struct SettingsState: Codable, Equatable {
 
   var sorting: ImageSorting
   var gradientScheme: GradientScheme
+  var colorizationModel: ColorizationModelStore.ModelKind?
 
   init(
     openClusterPreviews: Bool,
     sorting: ImageSorting,
     gradientScheme: GradientScheme,
+    colorizationModel: ColorizationModelStore.ModelKind?,
   ) {
     self.openClusterPreviews = openClusterPreviews
     self.sorting = sorting
     self.gradientScheme = gradientScheme
+    self.colorizationModel = colorizationModel
   }
 
   enum CodingKeys: String, CodingKey {
     case openClusterPreviews
     case sorting
     case gradientScheme
+    case colorizationModel
   }
 
   init(from decoder: any Decoder) throws {
@@ -53,6 +57,9 @@ struct SettingsState: Codable, Equatable {
     self.gradientScheme = try container.decodeIfPresent(
       GradientScheme.self, forKey: .gradientScheme,
     ) ?? SettingsState.default.gradientScheme
+    self.colorizationModel = try container.decodeIfPresent(
+      ColorizationModelStore.ModelKind.self, forKey: .colorizationModel,
+    )
   }
 }
 
@@ -173,5 +180,6 @@ extension SettingsState {
     openClusterPreviews: false,
     sorting: .dateAscending,
     gradientScheme: .rewind,
+    colorizationModel: nil,
   )
 }
