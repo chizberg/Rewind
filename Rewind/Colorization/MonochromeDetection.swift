@@ -145,4 +145,4 @@ private func deviationFromMonochrome(pixels: Pixels) throws -> Float {
 
 private let maxDownsampledDimension = 256
 private let powerIterations = 20
-private let monochromeThreshold: Float = 0.005
+private let monochromeThreshold: Float = 0.01

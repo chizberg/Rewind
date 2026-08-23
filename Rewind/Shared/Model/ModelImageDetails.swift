@@ -25,6 +25,9 @@ extension Model {
     var file: String
     var dir: Direction?
 
+    var watermarkHeight: Int
+    var contentHeight: Int
+
     init(_ ni: Network.ImageDetails) {
       cid = ni.cid
       title = ni.title
@@ -38,6 +41,8 @@ extension Model {
       username = extractUsername(from: ni)
       file = ni.file
       dir = Direction(ni.dir)
+      watermarkHeight = ni.waterh
+      contentHeight = ni.h
     }
   }
 }

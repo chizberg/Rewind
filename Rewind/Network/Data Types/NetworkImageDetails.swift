@@ -24,6 +24,9 @@ extension Network {
 
     let watersignText: String?
 
+    let h: Int // original image height
+    let waterh: Int // watermark height for original size
+
     // inner JSON values
     let user: User // user that uploaded the image
 
@@ -35,11 +38,9 @@ extension Network {
     let size: Int? // file size in bytes
     let r2d: [Double]? // coordinates for randomized selection in gallery flip coin mode
     let frags: [Fragment]? // array of comment fragments
-    let h: Int? // original image height
     let hs: Int? // standard image height
     let w: Int? // original image width
     let ws: Int? // standard image width
-    let waterh: Int? // watermark height for original size
     let waterhs: Int? // watermark height for standard size
     let y: String? // aggregated year field displaying date ranges (e.g., "1920—1940")
     let cdate: String? // last change time
@@ -99,6 +100,8 @@ extension Network.ImageDetails {
     address: nil,
     author: "Jerry Cooke",
     watersignText: "uploaded by Zanuda Kartotechnaya",
+    h: 800,
+    waterh: 19,
     user: .init(name: "Николай", ranks: [], login: "nikolay"),
     // unused fields
     type: 1,
@@ -108,11 +111,9 @@ extension Network.ImageDetails {
     size: 260_350,
     r2d: [48.715652, 90.425259],
     frags: [],
-    h: 800,
     hs: 684,
     w: 1060,
     ws: 928,
-    waterh: 19,
     waterhs: 16,
     y: "1958—1965",
     cdate: "2025-05-10T16:26:35.322Z",
