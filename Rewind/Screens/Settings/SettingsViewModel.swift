@@ -26,41 +26,6 @@ struct SettingsState: Codable, Equatable {
   var sorting: ImageSorting
   var gradientScheme: GradientScheme
   var colorizationModel: ColorizationModelStore.ModelKind?
-
-  init(
-    openClusterPreviews: Bool,
-    sorting: ImageSorting,
-    gradientScheme: GradientScheme,
-    colorizationModel: ColorizationModelStore.ModelKind?,
-  ) {
-    self.openClusterPreviews = openClusterPreviews
-    self.sorting = sorting
-    self.gradientScheme = gradientScheme
-    self.colorizationModel = colorizationModel
-  }
-
-  enum CodingKeys: String, CodingKey {
-    case openClusterPreviews
-    case sorting
-    case gradientScheme
-    case colorizationModel
-  }
-
-  init(from decoder: any Decoder) throws {
-    let container = try decoder.container(keyedBy: CodingKeys.self)
-    self.openClusterPreviews = try container.decode(Bool.self, forKey: .openClusterPreviews)
-
-    // 29.3.26: optionality of these fields should be removed in 3 months, then fallback to default
-    self.sorting = try container.decodeIfPresent(
-      ImageSorting.self, forKey: .sorting,
-    ) ?? SettingsState.default.sorting
-    self.gradientScheme = try container.decodeIfPresent(
-      GradientScheme.self, forKey: .gradientScheme,
-    ) ?? SettingsState.default.gradientScheme
-    self.colorizationModel = try container.decodeIfPresent(
-      ColorizationModelStore.ModelKind.self, forKey: .colorizationModel,
-    )
-  }
 }
 
 enum SettingsViewAction {
