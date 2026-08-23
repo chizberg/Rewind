@@ -176,11 +176,14 @@ extension Network {
         return URLRequest(url: components.url!)
       },
       parseResult: { data in
-        if let image = UIImage(data: data) {
-          return image
-        } else {
+        // UIImage(data:) would apply the EXIF orientation, and the full-size
+        // variant carries a stale one: its pixels are already upright, and the
+        // watermark is spliced onto their bottom edge
+        guard let source = CGImageSourceCreateWithData(data as CFData, nil),
+              let cgImage = CGImageSourceCreateImageAtIndex(source, 0, nil) else {
           throw NetworkError.parsingFailure(desc: "Image decoding error")
         }
+        return UIImage(cgImage: cgImage)
       },
     )
   }
