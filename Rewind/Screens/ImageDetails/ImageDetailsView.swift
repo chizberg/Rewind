@@ -34,14 +34,9 @@ struct ImageDetailsView: View {
           Spacer()
 
           if viewStore.isColorizationAvailable {
-            Button {
+            ColorizeButton {
               print("chzbrg TODO: colorize")
-            } label: {
-              Text("🎨")
-                .font(.title2)
-                .padding(10)
             }
-            .blurBackground(in: Circle())
             .transition(.scale)
           }
 
@@ -414,6 +409,75 @@ private struct TextAccessoryButton: View {
   }
 }
 
+private struct ColorizeButton: View {
+  var action: () -> Void
+
+  var exposureAdjust = 2.0
+  var rainbowDuration = 4.0
+  var rainbowRotationDuration = 2.0
+
+  @State
+  private var showsRainbow = false
+  @State
+  private var rainbowAngle = Angle.zero
+
+  var body: some View {
+    Button(action: action, label: {
+      Text("🎨")
+        .font(.title2)
+        .padding(10)
+    })
+    .blurBackground(in: Circle())
+    .background {
+      if showsRainbow {
+        AngularGradient(gradient: rainbow, center: .center)
+          .clipShape(Circle())
+          .blur(radius: 10)
+          .rotationEffect(rainbowAngle)
+          .scaleEffect(1.3)
+          .mask {
+            Circle()
+              .inset(by: -100)
+              .stroke(.black, lineWidth: 200)
+              .blur(radius: 20)
+          }
+      }
+    }
+    .animation(.default, value: showsRainbow)
+    .onAppear {
+      showsRainbow = true
+      withAnimation(
+        .linear(duration: rainbowRotationDuration).repeatForever(autoreverses: false)
+      ) {
+        rainbowAngle = .degrees(360)
+      }
+      Task.detached {
+        try await Task.sleep(for: .seconds(rainbowDuration))
+        await MainActor.run {
+          showsRainbow = false
+          rainbowAngle = .degrees(0)
+        }
+      }
+    }
+  }
+
+  private var rainbow: SwiftUI.Gradient {
+    let colors = [
+      SwiftUI.Color.red, .orange, .yellow, .green, .blue, .purple, .red
+    ].map {
+      if #available(iOS 26.0, *) {
+        $0.exposureAdjust(exposureAdjust)
+      } else {
+        $0
+      }
+    }
+    let stops = colors.enumerated().map { index, color in
+      SwiftUI.Gradient.Stop(color: color, location: Double(index) / Double(colors.count - 1))
+    }
+    return SwiftUI.Gradient(stops: stops)
+  }
+}
+
 extension ImageDetailsState {
   fileprivate var translation: ImageDetailsState.Translation? {
     if case let .translated(translation) = translationState { translation } else { nil }
@@ -482,4 +546,51 @@ extension FavoritesModel {
 #Preview("text accessory button") {
   TextAccessoryButton("Translate", action: { print("foo") })
 }
+
+#Preview("colorize button") {
+  ColorizationButtonPreview()
+}
+
+private struct ColorizationButtonPreview: View {
+  @State
+  var isShown = false
+  @State
+  var duration = 4.0
+  @State
+  var exposure = 2.0
+
+  var body: some View {
+    VStack {
+      let action = {
+        withAnimation {
+          isShown.toggle()
+        }
+      }
+
+      ZStack {
+        Image(.lyskovo)
+          .resizable()
+          .aspectRatio(contentMode: .fit)
+
+        if isShown {
+          ColorizeButton(action: action, exposureAdjust: exposure, rainbowDuration: duration)
+            .transition(.scale)
+        }
+      }
+
+      Button(action: action) {
+        Text("toggle")
+      }.buttonStyle(.bordered)
+        .padding(.bottom, 20)
+
+      Text("exposure \(exposure)")
+      Slider(value: $exposure, in: 0...5)
+        .padding(.bottom, 10)
+
+      Text("duration \(duration)")
+      Slider(value: $duration, in: 0...10)
+    }.padding()
+  }
+}
+
 #endif
