@@ -90,6 +90,49 @@ struct ImageDetailsModelTests {
     #expect(harness.requestedCids.isEmpty) // details were not refetched
   }
 
+  /// A successful translation is cached for the life of the screen: returning to the original
+  /// text and translating again reuses the cached result synchronously, without a second round
+  /// trip to the remote — translate only calls the network once per screen no matter how many
+  /// times the user toggles translate/original.
+  @Test func repeatedTranslateAfterShowingOriginalReusesCachedResult() async {
+    let harness = Harness()
+    var translateCallCount = 0
+    let model = harness.makeModel(
+      cachedDetails: .mock,
+      translate: Remote { params in
+        translateCallCount += 1
+        return "[xx] " + params.text
+      },
+    )
+
+    model(.translate)
+    #expect(model.state
+      .translationState == .translating) // flips synchronously, before the network responds
+
+    #expect(await eventually {
+      if case .translated = model.state.translationState { return true }
+      return false
+    })
+    guard case let .translated(firstTranslation) = model.state.translationState else {
+      Issue.record("expected .translated state after the first translate")
+      return
+    }
+    #expect(translateCallCount == 2) // title + description, requested concurrently
+    #expect(String(firstTranslation.title.characters) == "[xx] " + Model.Image.mock.title)
+    #expect(
+      String(firstTranslation.description.characters) ==
+        "[xx] " + (Model.ImageDetails.mock.description ?? ""),
+    )
+
+    model(.showTranslationOriginal)
+    #expect(model.state.translationState == .available)
+
+    model(.translate)
+    // cache hit: synchronous, no scheduler pump needed to observe the result
+    #expect(model.state.translationState == .translated(firstTranslation))
+    #expect(translateCallCount == 2) // no new network calls
+  }
+
   /// Without known details, presentation loads them and applies them to the same fields the seed
   /// fills in.
   @Test func unknownDetailsAreLoadedOnPresentation() async {
@@ -116,7 +159,10 @@ private final class Harness {
 
   // Both closures below are non-Sendable and formed in this @MainActor context, so they inherit
   // main-actor isolation — their bodies hop back to the main actor before touching harness state.
-  func makeModel(cachedDetails: Model.ImageDetails?) -> ImageDetailsModel {
+  func makeModel(
+    cachedDetails: Model.ImageDetails?,
+    translate: Remote<TranslateParams, String> = .mock("translated"),
+  ) -> ImageDetailsModel {
     makeImageDetailsModel(
       modelImage: .mock,
       remote: Remote { [weak self] cid in
@@ -131,7 +177,7 @@ private final class Harness {
       urlOpener: { [weak self] in self?.openedURLs.append($0) },
       setOrientationLock: { _ in },
       streetViewAvailability: .mock(.unavailable),
-      translate: .mock("translated"),
+      translate: translate,
       extractModelImage: { _ in .mock },
     )
   }
