@@ -11,5 +11,6 @@ enum NetworkError: Error {
   case invalidURL
   case connectionFailure(Error)
   case invalidCode(Int)
+  case missingFile
   case parsingFailure(Error? = nil, desc: String? = nil)
 }
