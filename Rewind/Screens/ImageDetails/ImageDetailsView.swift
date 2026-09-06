@@ -143,7 +143,7 @@ struct ImageDetailsView: View {
           .scaleEffect(1.5)
       }
     }
-    .aspectRatio(contentMode: .fit)
+    .scaledToFit()
     .onTapGesture { showFullscreenPreview() }
     .gesture(
       MagnificationGesture(minimumScaleDelta: 1.3)
