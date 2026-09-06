@@ -34,7 +34,7 @@ private let adjustments = NonEmptyArray([
 
 extension Double: Interpolatable {
   func lerp(at: CGFloat, between lhs: Double, _ rhs: Double) -> Double {
-    Rewind.lerp(at: at, between: lhs, rhs)
+    VGSL.lerp(at: at, between: lhs, rhs)
   }
 }
 

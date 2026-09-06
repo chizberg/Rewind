@@ -33,10 +33,10 @@ extension RGBAColor: Interpolatable {
   @inlinable
   func lerp(at: CGFloat, between lhs: RGBAColor, _ rhs: RGBAColor) -> RGBAColor {
     RGBAColor(
-      red: Rewind.lerp(at: at, between: lhs.red, rhs.red),
-      green: Rewind.lerp(at: at, between: lhs.green, rhs.green),
-      blue: Rewind.lerp(at: at, between: lhs.blue, rhs.blue),
-      alpha: Rewind.lerp(at: at, between: lhs.alpha, rhs.alpha),
+      red: VGSL.lerp(at: at, between: lhs.red, rhs.red),
+      green: VGSL.lerp(at: at, between: lhs.green, rhs.green),
+      blue: VGSL.lerp(at: at, between: lhs.blue, rhs.blue),
+      alpha: VGSL.lerp(at: at, between: lhs.alpha, rhs.alpha),
     )
   }
 }

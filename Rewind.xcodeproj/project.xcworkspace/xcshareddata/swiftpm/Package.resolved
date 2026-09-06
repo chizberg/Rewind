@@ -6,8 +6,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/yandex/vgsl.git",
       "state" : {
-        "revision" : "3139e0a527859b53f639d88061b7e9d0920beec9",
-        "version" : "6.28.1"
+        "revision" : "89e903641486a41b0a547ef9f012cce2e0dc8661",
+        "version" : "8.1.0"
       }
     }
   ],
