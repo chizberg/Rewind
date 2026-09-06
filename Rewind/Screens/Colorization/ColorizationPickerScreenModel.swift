@@ -29,10 +29,15 @@ enum ColorizationFileAction {
 struct ColorizationPickerScreenState {
   struct Common {
     var picked: ColorizationModelID?
+    var sizes: [ColorizationModelID: String]?
+    var alert: Identified<AlertParams>?
   }
 
   var fileStates: [ColorizationModelID: ColorizationFileState]
   var common: Common
+
+  var modelIDs: [ColorizationModelID]
+  var colorize: (() -> Void)?
 }
 
 enum ColorizationPickerScreenAction {
@@ -43,6 +48,10 @@ enum ColorizationPickerScreenAction {
 
   enum Common {
     case pick(ColorizationModelID?)
+    case loadManifest
+    case manifestLoaded(ColorizationManifest)
+    case manifestFailed(Error)
+    case dismissAlert
   }
 
   case file(File)
@@ -56,9 +65,11 @@ typealias ColorizationPickerScreenStore = ViewStore<
 >
 
 @MainActor
-private func makeColorizationPickerScreenStore(
+func makeColorizationPickerScreenStore(
   modelStore: ColorizationModelStore,
   pickedModel: Property<ColorizationModelID?>,
+  manifest: Remote<Void, ColorizationManifest>,
+  colorize: (() -> Void)?,
 ) -> ColorizationPickerScreenStore {
   let common = Reducer<
     ColorizationPickerScreenState.Common,
@@ -72,12 +83,38 @@ private func makeColorizationPickerScreenStore(
         asyncEffect(.perform { _ in
           pickedModel.value = id
         })
+      case .loadManifest:
+        asyncEffect(.perform { anotherAction in
+          do {
+            let loaded = try await manifest.load()
+            await anotherAction(.manifestLoaded(loaded))
+          } catch {
+            await anotherAction(.manifestFailed(error))
+          }
+        })
+      case let .manifestLoaded(manifest):
+        var sizes = [ColorizationModelID: String]()
+        for id in ColorizationModelID.allCases {
+          if let entry = try? manifest.entry(for: id) {
+            sizes[id] = entry.bytes.formatted(.byteCount(style: .file))
+          }
+        }
+        state.sizes = sizes
+      case let .manifestFailed(error):
+        state.alert = Identified(value: .error(
+          title: "Unable to load the model list",
+          error: error,
+        ))
+      case .dismissAlert:
+        state.alert = nil
       }
     }
   )
+  common(.loadManifest)
 
+  let modelIDs = ColorizationModelID.allCases
   var fileStores = [ColorizationModelID: ColorizationFileModel.Store]()
-  for id in ColorizationModelID.allCases {
+  for id in modelIDs {
     fileStores[id] = makeColorizationFileModel(
       id: id,
       store: modelStore,
@@ -94,7 +131,12 @@ private func makeColorizationPickerScreenStore(
     common.viewStore,
     filesMerged,
     stateTransform: { c, fm in
-      ColorizationPickerScreenState(fileStates: fm, common: c)
+      ColorizationPickerScreenState(
+        fileStates: fm,
+        common: c,
+        modelIDs: modelIDs,
+        colorize: colorize,
+      )
     },
     actionTransform: { mergedAction in
       switch mergedAction {
@@ -158,6 +200,11 @@ private func makeColorizationFileModel(
         state = .downloading(progress)
       case .downloadFinished:
         state = .downloaded
+        if pickedModel.value == nil {
+          asyncEffect(.perform { _ in
+            pickedModel.value = id
+          })
+        }
       case .failed:
         state = store.fileState(id: id)
       }

@@ -178,8 +178,9 @@ private final class Harness {
       setOrientationLock: { _ in },
       streetViewAvailability: .mock(.unavailable),
       translate: translate,
-      colorizationModel: { nil },
+      hasLoadedColorizationModel: .constant(false),
       extractModelImage: { _ in .mock },
+      makeColorizationPicker: { _ in .mock(.mock) },
     )
   }
 }

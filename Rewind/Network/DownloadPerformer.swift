@@ -72,7 +72,7 @@ final class DownloadPerformer {
     let observation = task.progress.observe(\.fractionCompleted) { progress, _ in
       onProgress(CGFloat(progress.fractionCompleted))
     }
-    
+
     defer { observation.invalidate() }
     try await withTaskCancellationHandler {
       try await withCheckedThrowingContinuation { continuation in

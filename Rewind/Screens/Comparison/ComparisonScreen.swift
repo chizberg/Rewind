@@ -93,7 +93,7 @@ struct ComparisonScreen: View {
   private var bottomControls: some View {
     ZStack {
       HStack {
-        BackButton()
+        DismissButton()
         Spacer()
 
         if store.captureState.isTaken {

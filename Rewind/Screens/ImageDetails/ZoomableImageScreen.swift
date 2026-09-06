@@ -42,7 +42,7 @@ struct ZoomableImageScreen: View {
       SavedBanner(savesCount: savesCount)
 
       HStack {
-        BackButton()
+        DismissButton()
         Spacer()
         OverlayButton(
           iconName: savesCount > 0

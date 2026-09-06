@@ -45,15 +45,40 @@ extension View {
   }
 }
 
-struct BackButton: View {
+struct DismissButton: View {
+  enum Kind {
+    case back
+    case close
+
+    var iconName: String {
+      switch self {
+      case .back: "chevron.left"
+      case .close: "xmark"
+      }
+    }
+  }
+
+  @Environment(\.dismissButtonKind)
+  private var kind
   @Environment(\.dismiss)
-  var dismiss
+  private var dismiss
 
   var body: some View {
     OverlayButton(
-      iconName: "chevron.left",
+      iconName: kind.iconName,
       action: { dismiss() },
     )
+  }
+}
+
+struct DismissButtonKindKey: EnvironmentKey {
+  static let defaultValue = DismissButton.Kind.back
+}
+
+extension EnvironmentValues {
+  var dismissButtonKind: DismissButton.Kind {
+    get { self[DismissButtonKindKey.self] }
+    set { self[DismissButtonKindKey.self] = newValue }
   }
 }
 
@@ -61,7 +86,7 @@ struct BackButton: View {
   Color.blue.ignoresSafeArea()
     .overlay(alignment: .topLeading) {
       HStack {
-        BackButton()
+        DismissButton()
 
         Spacer()
 
