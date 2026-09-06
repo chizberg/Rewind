@@ -25,7 +25,7 @@ struct SettingsState: Codable, Equatable {
 
   var sorting: ImageSorting
   var gradientScheme: GradientScheme
-  var colorizationModel: ColorizationModelStore.ModelKind?
+  var colorizationModel: ColorizationModelID?
 }
 
 enum SettingsViewAction {
