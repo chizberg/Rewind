@@ -17,6 +17,22 @@ struct Job<Progress, Success> {
   let cancel: () -> Void
 }
 
+extension Job {
+  var states: AsyncStream<State> {
+    AsyncStream { continuation in
+      var subscription: Disposable?
+      subscription = state.currentAndNewValues.addObserver { jobState in
+        continuation.yield(jobState)
+        if case .finished = jobState {
+          continuation.finish()
+          subscription?.dispose()
+        }
+      }
+      continuation.onTermination = { _ in cancel() }
+    }
+  }
+}
+
 extension Job where Success: Sendable {
   var value: Success {
     get async throws {
