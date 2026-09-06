@@ -16,7 +16,7 @@ struct ImageListCell: View {
           .overlay {
             Image(uiImage: uiImage)
               .resizable()
-              .aspectRatio(contentMode: .fill)
+              .scaledToFill()
           }
           .clipped()
       } placeholder: {

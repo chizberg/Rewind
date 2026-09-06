@@ -41,7 +41,7 @@ struct ThumbnailCardView: View {
       RewindAsyncImage(image.image, .medium) { loaded in
         Image(uiImage: loaded)
           .resizable()
-          .aspectRatio(contentMode: .fill)
+          .scaledToFill()
           .frame(size: size)
       } placeholder: {
         Color.clear.overlay {

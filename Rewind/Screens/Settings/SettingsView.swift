@@ -178,7 +178,7 @@ private struct IconView: View {
     VStack {
       Image(uiImage: icon.preview)
         .resizable()
-        .aspectRatio(contentMode: .fit)
+        .scaledToFit()
         .frame(width: 80, height: 80)
         .padding(5)
         .background {
