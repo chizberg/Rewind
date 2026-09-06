@@ -79,7 +79,10 @@ final class AppGraph {
     )
     mapControlsStore = mapStore.makeControlsStore()
     rootViewMapStore = makeRootMapStore(mapStore: mapStore)
-    let colorizationModelStore = ColorizationModelStore()
+    let colorizationModelStore = ColorizationModelStore(
+      downloadPerformer: DownloadPerformer(session: .shared),
+      manifest: remotes.colorizationManifest,
+    )
     let imageDetailsFactory = { image, source in
       makeImageDetailsModel(
         modelImage: image,
