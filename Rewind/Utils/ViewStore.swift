@@ -81,13 +81,13 @@ extension ViewStore {
     )
   }
 
-  static func merge<S1, A1, S2, A2, S, A>(
+  static func merge<S1, A1, S2, A2>(
     _ lhs: ViewStore<S1, A1>,
     _ rhs: ViewStore<S2, A2>,
-    stateTransform: @escaping (S1, S2) -> (S),
-    actionTransform: @escaping (A) -> Either<A1, A2>,
-  ) -> ViewStore<S, A> {
-    ViewStore<S, A>(
+    stateTransform: @escaping (S1, S2) -> State,
+    actionTransform: @escaping (Action) -> Either<A1, A2>,
+  ) -> ViewStore<State, Action> {
+    ViewStore(
       state: ObservableVariable.combineLatest(
         lhs.state.ov,
         rhs.state.ov
@@ -98,6 +98,23 @@ extension ViewStore {
         case let .left(l): lhs(l)
         case let .right(r): rhs(r)
         }
+      }
+    )
+  }
+
+  static func merge<Key: Hashable, S, A>(
+    _ stores: [Key: ViewStore<S, A>],
+    actionTransform: @escaping (Action) -> (Key, A)
+  ) -> ViewStore<State, Action> where State == [Key: S] {
+    ViewStore(
+      state: ObservableVariable.combineLatest(stores.mapValues(\.state.ov)).asObservedVariable(),
+      actionPerformer: { action in
+        let (key, storeAction) = actionTransform(action)
+        guard let store = stores[key] else {
+          assertionFailure()
+          return
+        }
+        store(storeAction)
       }
     )
   }

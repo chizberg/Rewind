@@ -9,8 +9,12 @@ import Foundation
 import VGSL
 
 final class ColorizationModelStore {
+  typealias DownloadJob = Job<CGFloat, Void>
+
   private let downloadPerformer: DownloadPerformer
   private let manifest: Remote<Void, ColorizationManifest>
+  @MainActor
+  private var jobs: [ColorizationModelID: DownloadJob] = [:]
 
   init(
     downloadPerformer: DownloadPerformer,
@@ -20,8 +24,12 @@ final class ColorizationModelStore {
     self.manifest = manifest
   }
 
+  @MainActor
   func fileState(id: ColorizationModelID) -> ColorizationFileState {
-    localModelURL(id) == nil ? .available : .downloaded
+    if case let .running(progress)? = jobs[id]?.state.value {
+      return .downloading(progress)
+    }
+    return localModelURL(id) == nil ? .available : .downloaded
   }
 
   func deleteFile(id: ColorizationModelID) throws {
@@ -36,11 +44,15 @@ final class ColorizationModelStore {
   }
 
   @MainActor
-  func download(id: ColorizationModelID) -> Job<CGFloat, Void> {
-    let connection = ObservableVariableConnection<Job<CGFloat, Void>.State>(
+  func download(id: ColorizationModelID) -> DownloadJob {
+    if let job = jobs[id] {
+      return job
+    }
+    let connection = ObservableVariableConnection<DownloadJob.State>(
       initialValue: .running(0)
     )
     let task = Task {
+      defer { jobs[id] = nil }
       do {
         let entry = try await manifest.load().entry(for: id)
         let transfer = downloadPerformer.perform(.colorizationModel(entry))
@@ -57,7 +69,9 @@ final class ColorizationModelStore {
         connection.current = .constant(.finished(.failure(error)))
       }
     }
-    return Job(state: connection.target, cancel: task.cancel)
+    let job = Job(state: connection.target, cancel: task.cancel)
+    jobs[id] = job
+    return job
   }
 
   private func place(compiled: URL, id: ColorizationModelID) throws {
