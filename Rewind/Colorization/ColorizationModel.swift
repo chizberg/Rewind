@@ -10,3 +10,8 @@ import UIKit
 protocol ColorizationModel: Sendable {
   func colorize(image: UIImage) async throws -> UIImage
 }
+
+enum ColorizationModelID: String, Codable, CaseIterable {
+  case ddColorLarge = "ddcolor-large"
+  case eccv16
+}

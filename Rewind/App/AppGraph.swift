@@ -97,8 +97,8 @@ final class AppGraph {
         streetViewAvailability: remotes.streetViewAvailability,
         translate: remotes.translate,
         colorizationModel: {
-          if let kind = settings.value.colorizationModel {
-            await colorizationModelStore.localModel(kind: kind)
+          if let id = settings.value.colorizationModel {
+            colorizationModelStore.localModel(id: id)
           } else {
             nil
           }
