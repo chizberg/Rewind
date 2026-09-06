@@ -83,6 +83,14 @@ final class AppGraph {
       downloadPerformer: DownloadPerformer(session: .shared),
       manifest: remotes.colorizationManifest,
     )
+    let makeColorizationPicker = { colorization in
+      makeColorizationPickerScreenStore(
+        modelStore: colorizationModelStore,
+        pickedModel: settings.colorizationModel.asProperty(),
+        manifest: remotes.colorizationManifest,
+        colorize: colorization
+      )
+    }
     let imageDetailsFactory = { image, source in
       makeImageDetailsModel(
         modelImage: image,
@@ -99,15 +107,15 @@ final class AppGraph {
         urlOpener: urlOpener,
         streetViewAvailability: remotes.streetViewAvailability,
         translate: remotes.translate,
-        colorizationModel: {
-          if let id = settings.value.colorizationModel {
-            colorizationModelStore.localModel(id: id)
-          } else {
-            nil
-          }
+        hasLoadedColorizationModel: Variable {
+          guard let id = settings.value.colorizationModel else { return false }
+          return colorizationModelStore.fileState(id: id) == .downloaded
         },
         extractModelImage: { [imageLoader] details in
           Model.Image(details, image: imageLoader.makeImage(path: details.file))
+        },
+        makeColorizationPicker: {
+          makeColorizationPicker($0)
         },
       )
     }

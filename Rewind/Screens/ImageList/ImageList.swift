@@ -151,8 +151,9 @@ private let imageDetailsFactoryMock: ImageDetailsFactory = { _, source in
     urlOpener: { _ in },
     streetViewAvailability: .mock(.unavailable),
     translate: .mock("translated text"),
-    colorizationModel: { nil },
+    hasLoadedColorizationModel: .constant(false),
     extractModelImage: { _ in .mock },
+    makeColorizationPicker: { _ in .mock(.mock) },
   )
 }
 

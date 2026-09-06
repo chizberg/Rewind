@@ -194,8 +194,9 @@ private final class Harness {
       urlOpener: { [weak self] in self?.openedURLs.append($0) },
       streetViewAvailability: .mock(.unavailable),
       translate: translate,
-      colorizationModel: { nil },
+      hasLoadedColorizationModel: .constant(false),
       extractModelImage: { Model.Image($0, image: .mock) },
+      makeColorizationPicker: { _ in .mock(.mock) },
     )
   }
 }

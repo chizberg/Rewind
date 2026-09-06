@@ -63,6 +63,7 @@ struct ImageDetailsState {
   var comparisonDeps: Identified<ComparisonViewDeps>?
   var shareVC: Identified<UIViewController>?
   var anotherImageModel: Identified<ImageDetailsModel.Store>?
+  var colorizationPicker: Identified<ColorizationPickerScreenStore>?
   var alertModel: Identified<AlertParams>?
   var actionButtons: [ImageDetailsAction.Button]
 }
@@ -111,6 +112,11 @@ enum ImageDetailsAction {
     case dismiss
   }
 
+  enum ColorizationPicker {
+    case present
+    case dismiss
+  }
+
   enum Alert {
     case present(AlertParams?)
     case dismiss
@@ -120,6 +126,7 @@ enum ImageDetailsAction {
   case fullscreenPreview(FullscreenPreview)
   case comparison(ImageComparison)
   case anotherImage(AnotherImage)
+  case colorizationPicker(ColorizationPicker)
   case alert(Alert)
   case `internal`(Internal)
   case shareSheetDismissed
@@ -141,8 +148,9 @@ func makeImageDetailsModel(
   urlOpener: @escaping (URL) -> Void,
   streetViewAvailability: Remote<Coordinate, StreetViewAvailability>,
   translate: Remote<TranslateParams, String>,
-  colorizationModel: @escaping () async -> ColorizationModel?,
+  hasLoadedColorizationModel: Variable<Bool>,
   extractModelImage: @escaping (Model.ImageDetails) -> (Model.Image),
+  makeColorizationPicker: @escaping (@escaping () -> Void) -> ColorizationPickerScreenStore,
 ) -> ImageDetailsModel {
   let favoriteModel = favoritesModel.isFavorite(modelImage)
   var initialState = ImageDetailsState(
@@ -163,6 +171,7 @@ func makeImageDetailsModel(
     comparisonDeps: nil,
     shareVC: nil,
     anotherImageModel: nil,
+    colorizationPicker: nil,
     alertModel: nil,
     actionButtons: Array.build {
       [ImageDetailsAction.Button.favorite, .compareCamera]
@@ -178,7 +187,8 @@ func makeImageDetailsModel(
   if let cachedDetails {
     apply(details: cachedDetails, to: &initialState)
   }
-  return Reducer(
+  weak var modelRef: ImageDetailsModel?
+  let model = ImageDetailsModel(
     initial: initialState,
     reduce: { state, action, effect, asyncEffect in
       switch action {
@@ -349,11 +359,19 @@ func makeImageDetailsModel(
       case .showTranslationOriginal:
         state.translationState = .available
       case .colorize:
-        asyncEffect(.perform { _ in
-          if await colorizationModel() == nil {
-            print("chzbrg TODO: the colorization model is not loaded")
-          }
+        if hasLoadedColorizationModel.value {
+          print("chzbrg TODO: colorize")
+          asyncEffect(.anotherAction(.colorizationPicker(.present)))
+        } else {
+          asyncEffect(.anotherAction(.colorizationPicker(.present)))
+        }
+      case .colorizationPicker(.present):
+        state.colorizationPicker = Identified(value: makeColorizationPicker {
+          modelRef?(.colorizationPicker(.dismiss))
+          modelRef?(.colorize)
         })
+      case .colorizationPicker(.dismiss):
+        state.colorizationPicker = nil
       case .shareSheetDismissed:
         state.shareVC = nil
       case let .setMapOptionsVisibility(visible):
@@ -395,8 +413,9 @@ func makeImageDetailsModel(
               urlOpener: urlOpener,
               streetViewAvailability: streetViewAvailability,
               translate: translate,
-              colorizationModel: colorizationModel,
+              hasLoadedColorizationModel: hasLoadedColorizationModel,
               extractModelImage: extractModelImage,
+              makeColorizationPicker: makeColorizationPicker,
             ).viewStore,
           )
         case .dismiss:
@@ -444,6 +463,8 @@ func makeImageDetailsModel(
       }
     },
   )
+  modelRef = model
+  return model
 }
 
 private func checkColorizationAvailability(

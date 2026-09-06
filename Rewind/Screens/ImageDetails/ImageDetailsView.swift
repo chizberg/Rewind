@@ -13,6 +13,7 @@ struct ImageDetailsView: View {
     static let titleImage = "fullscreenPreview"
     static let compareCameraButton = "compareCameraButton"
     static let descriptionLink = "descriptionLink"
+    static let colorizeButton = "colorizeButton"
   }
 
   var viewStore: ImageDetailsModel.Store
@@ -29,12 +30,12 @@ struct ImageDetailsView: View {
       .animation(.smooth, value: viewStore.translationState)
       .overlay(alignment: .topLeading) {
         HStack {
-          BackButton()
+          DismissButton()
 
           Spacer()
 
           if viewStore.isColorizationAvailable {
-            ColorizeButton {
+            ColorizeButton(namespace: namespace) {
               viewStore(.colorize)
             }
             .transition(.scale)
@@ -95,6 +96,17 @@ struct ImageDetailsView: View {
                 in: namespace,
               ),
             )
+        },
+      )
+      .sheet(
+        item: viewStore.binding(\.colorizationPicker, send: { _ in .colorizationPicker(.dismiss) }),
+        content: { picker in
+          ColorizationPickerScreen(store: picker.value)
+            .navigationTransition(
+              .zoom(sourceID: TransitionSource.colorizeButton, in: namespace),
+            )
+            .environment(\.dismissButtonKind, .close)
+            .interactiveDismissDisabled()
         },
       )
       .alert(
@@ -410,6 +422,7 @@ private struct TextAccessoryButton: View {
 }
 
 private struct ColorizeButton: View {
+  var namespace: Namespace.ID
   var action: () -> Void
 
   var exposureAdjust = 2.0
@@ -427,20 +440,28 @@ private struct ColorizeButton: View {
         .font(.title2)
         .padding(10)
     })
+    .matchedTransitionSource(
+      id: ImageDetailsView.TransitionSource.colorizeButton,
+      in: namespace
+    )
+    .clipShape(Circle())
     .blurBackground(in: Circle())
     .background {
       if showsRainbow {
-        AngularGradient(gradient: rainbow, center: .center)
-          .clipShape(Circle())
-          .blur(radius: 10)
-          .rotationEffect(rainbowAngle)
-          .scaleEffect(1.3)
-          .mask {
-            Circle()
-              .inset(by: -100)
-              .stroke(.black, lineWidth: 200)
-              .blur(radius: 20)
-          }
+        AngularGradient(
+          gradient: makeRainbowGradient(exposureAdjust: exposureAdjust),
+          center: .center
+        )
+        .clipShape(Circle())
+        .blur(radius: 10)
+        .rotationEffect(rainbowAngle)
+        .scaleEffect(1.3)
+        .mask {
+          Circle()
+            .inset(by: -100)
+            .stroke(.black, lineWidth: 200)
+            .blur(radius: 20)
+        }
       }
     }
     .animation(.default, value: showsRainbow)
@@ -460,28 +481,28 @@ private struct ColorizeButton: View {
       }
     }
   }
-
-  private var rainbow: SwiftUI.Gradient {
-    let colors = [
-      SwiftUI.Color.red, .orange, .yellow, .green, .blue, .purple, .red
-    ].map {
-      if #available(iOS 26.0, *) {
-        $0.exposureAdjust(exposureAdjust)
-      } else {
-        $0
-      }
-    }
-    let stops = colors.enumerated().map { index, color in
-      SwiftUI.Gradient.Stop(color: color, location: Double(index) / Double(colors.count - 1))
-    }
-    return SwiftUI.Gradient(stops: stops)
-  }
 }
 
 extension ImageDetailsState {
   fileprivate var translation: ImageDetailsState.Translation? {
     if case let .translated(translation) = translationState { translation } else { nil }
   }
+}
+
+func makeRainbowGradient(exposureAdjust: Double = 2.0) -> SwiftUI.Gradient {
+  let colors = [
+    SwiftUI.Color.red, .orange, .yellow, .green, .blue, .purple, .red
+  ].map {
+    if #available(iOS 26.0, *) {
+      $0.exposureAdjust(exposureAdjust)
+    } else {
+      $0
+    }
+  }
+  let stops = colors.enumerated().map { index, color in
+    SwiftUI.Gradient.Stop(color: color, location: Double(index) / Double(colors.count - 1))
+  }
+  return SwiftUI.Gradient(stops: stops)
 }
 
 #if DEBUG
@@ -507,8 +528,9 @@ extension FavoritesModel {
     urlOpener: { _ in },
     streetViewAvailability: .mock(.unavailable),
     translate: .mock("translated text"),
-    colorizationModel: { nil },
+    hasLoadedColorizationModel: .constant(false),
     extractModelImage: { _ in .mock },
+    makeColorizationPicker: { _ in .mock(.mock) },
   ).viewStore
 
   ImageDetailsView(
@@ -534,8 +556,9 @@ extension FavoritesModel {
     urlOpener: { _ in },
     streetViewAvailability: .mock(.unavailable),
     translate: .mock("translated text").delayed(delay: 1),
-    colorizationModel: { nil },
+    hasLoadedColorizationModel: .constant(false),
     extractModelImage: { _ in .mock },
+    makeColorizationPicker: { _ in .mock(.mock) },
   ).viewStore
 
   ImageDetailsView(
@@ -558,6 +581,8 @@ private struct ColorizationButtonPreview: View {
   var duration = 4.0
   @State
   var exposure = 2.0
+  @Namespace
+  var namespace
 
   var body: some View {
     VStack {
@@ -573,8 +598,13 @@ private struct ColorizationButtonPreview: View {
           .aspectRatio(contentMode: .fit)
 
         if isShown {
-          ColorizeButton(action: action, exposureAdjust: exposure, rainbowDuration: duration)
-            .transition(.scale)
+          ColorizeButton(
+            namespace: namespace,
+            action: action,
+            exposureAdjust: exposure,
+            rainbowDuration: duration
+          )
+          .transition(.scale)
         }
       }
 

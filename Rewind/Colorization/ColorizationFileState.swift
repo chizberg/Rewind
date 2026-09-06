@@ -10,7 +10,7 @@ import Foundation
 enum ColorizationFileState: Equatable {
   case available
   case downloading(CGFloat)
-  case installing
+  case installing // TODO: use installing while unzipping and compiling
   case downloaded
 
   var isDownloading: Bool {
