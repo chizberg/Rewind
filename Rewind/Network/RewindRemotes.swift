@@ -12,6 +12,7 @@ struct RewindRemotes {
   var imageDetails: Remote<Int, Model.ImageDetails>
   var streetViewAvailability: Remote<Coordinate, StreetViewAvailability>
   var translate: Remote<TranslateParams, String>
+  var colorizationManifest: Remote<Void, ColorizationManifest>
 }
 
 struct AnnotationLoadingParams {
@@ -72,5 +73,8 @@ extension RewindRemotes {
     translate = Remote { params in
       try await requestPerformer.perform(request: .translate(params: params))
     }
+    colorizationManifest = Remote {
+      try await requestPerformer.perform(request: .colorizationManifest())
+    }.exponentialBackoff()
   }
 }
