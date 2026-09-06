@@ -16,3 +16,20 @@ struct Job<Progress, Success> {
   let state: ObservableVariable<State>
   let cancel: () -> Void
 }
+
+extension Job where Success: Sendable {
+  var value: Success {
+    get async throws {
+      let finished = state.currentAndNewValues
+        .compactMap { state -> Result<Success, Error>? in
+          if case let .finished(result) = state { result } else { nil }
+        }
+        .firstAsFuture()
+      return try await withTaskCancellationHandler {
+        try await finished.value.get()
+      } onCancel: {
+        cancel()
+      }
+    }
+  }
+}
