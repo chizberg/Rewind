@@ -102,11 +102,13 @@ struct ImageDetailsView: View {
         item: viewStore.binding(\.colorizationPicker, send: { _ in .colorizationPicker(.dismiss) }),
         content: { picker in
           ColorizationPickerScreen(store: picker.value)
+            .overlay(alignment: .topLeading) {
+              DismissButton().padding()
+            }
             .navigationTransition(
               .zoom(sourceID: TransitionSource.colorizeButton, in: namespace),
             )
             .environment(\.dismissButtonKind, .close)
-            .interactiveDismissDisabled()
         },
       )
       .alert(

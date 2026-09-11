@@ -136,10 +136,11 @@ final class AppGraph {
     let appModel = makeAppModel(
       imageDetailsFactory: imageDetailsFactory,
       searchModelFactory: searchModelFactory,
-      settingsViewModelFactory: {
-        makeSettingsViewModel(
+      settingsViewStoreFactory: {
+        makeSettingsViewStore(
           settings: settings,
           urlOpener: urlOpener,
+          makeColorizationPicker: { makeColorizationPicker(nil) },
         )
       },
       performMapAction: { mapModelRef?(.external($0)) },

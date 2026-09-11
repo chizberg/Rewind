@@ -27,7 +27,13 @@ struct SettingsView: View {
           Text("Map")
         }
 
-        if store.supportsAlternateIcons {
+        Section {
+          makeLink("Colorization Model", action: .colorizationPicker(.present))
+        } header: {
+          Text("Image Colorization")
+        }
+
+        if store.ui.supportsAlternateIcons {
           Section {
             iconPicker
           } header: {
@@ -70,7 +76,17 @@ struct SettingsView: View {
           backButton
         }
       }
-      .alert(store.binding(\.alert, send: { _ in .alert(.dismiss) }))
+      .alert(store.binding(\.ui.alert, send: { _ in .alert(.dismiss) }))
+      .navigationDestination(
+        item: store.binding(
+          \.ui.colorizationPicker,
+          send: { _ in .colorizationPicker(.dismiss) }
+        ),
+      ) { picker in
+        ColorizationPickerScreen(store: picker.value)
+          .navigationTitle("Colorization Model")
+          .navigationBarTitleDisplayMode(.inline)
+      }
     }
   }
 
@@ -93,12 +109,34 @@ struct SettingsView: View {
     _ title: LocalizedStringKey,
     action: SettingsViewAction.UI,
   ) -> some View {
+    makeRow(title, action: action) {
+      EmptyView()
+    }
+  }
+
+  private func makeLink(
+    _ title: LocalizedStringKey,
+    action: SettingsViewAction.UI,
+  ) -> some View {
+    makeRow(title, action: action) {
+      Image(systemName: "chevron.right")
+        .font(.footnote.bold())
+        .foregroundStyle(.tertiary)
+    }
+  }
+
+  private func makeRow(
+    _ title: LocalizedStringKey,
+    action: SettingsViewAction.UI,
+    @ViewBuilder accessory: () -> some View,
+  ) -> some View {
     Button {
       store(action)
     } label: {
       HStack {
         Text(title)
         Spacer()
+        accessory()
       }.contentShape(Rectangle())
     }
     .buttonStyle(.borderless)
@@ -129,7 +167,7 @@ struct SettingsView: View {
     ScrollView(.horizontal) {
       HStack {
         ForEach(Icon.allCases, id: \.self) { icon in
-          IconView(icon: icon, isSelected: store.icon == icon)
+          IconView(icon: icon, isSelected: store.ui.icon == icon)
             .contentShape(Rectangle())
             .onTapGesture {
               store(.iconSelected(icon))
@@ -221,12 +259,13 @@ private let honorableMentions: [Contributor] = [
 #if DEBUG
 #Preview {
   @Previewable @State
-  var store = makeSettingsViewModel(
+  var store = makeSettingsViewStore(
     settings: ObservableProperty(
       initialValue: .default,
     ),
     urlOpener: { _ in },
-  ).viewStore.bimap(state: { $0 }, action: { .ui($0) })
+    makeColorizationPicker: { .mock(.mock) },
+  )
 
   SettingsView(
     store: store,

@@ -68,7 +68,7 @@ typealias ImageDetailsFactory = (Model.Image, String) -> ImageDetailsModel
 func makeAppModel(
   imageDetailsFactory: @escaping ImageDetailsFactory,
   searchModelFactory: @escaping () -> SearchModel,
-  settingsViewModelFactory: @escaping () -> SettingsViewModel,
+  settingsViewStoreFactory: @escaping () -> SettingsViewStore,
   performMapAction: @escaping (MapAction.External) -> Void,
   favoritesModel: FavoritesModel,
   onboardingViewModel: OnboardingViewModel?,
@@ -138,11 +138,7 @@ func makeAppModel(
       case let .settings(settingsAction):
         switch settingsAction {
         case .present:
-          state.settingsStore = Identified(
-            value: settingsViewModelFactory().viewStore.bimap(
-              state: { $0 }, action: { .ui($0) },
-            ),
-          )
+          state.settingsStore = Identified(value: settingsViewStoreFactory())
         case .dismiss:
           state.settingsStore = nil
         }
