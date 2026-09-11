@@ -82,7 +82,9 @@ struct ColorizationPickerScreen: View {
     } header: {
       Text("Pick a model")
     } footer: {
-      Text("You can change the model later in settings")
+      if store.colorize != nil {
+        Text("You can change the model later in settings")
+      }
     }
 
     if let colorize = store.colorize, store.common.picked != nil {
