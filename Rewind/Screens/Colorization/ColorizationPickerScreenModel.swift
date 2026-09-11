@@ -18,6 +18,7 @@ enum ColorizationFileAction {
   enum Internal {
     case observeDownload
     case downloadProgressChanged(CGFloat)
+    case installationStarted
     case downloadFinished
     case failed(Error)
   }
@@ -182,12 +183,14 @@ private func makeColorizationFileModel(
     case let .internal(`internal`):
       switch `internal` {
       case .observeDownload:
-        guard state.isDownloading else { return }
+        guard state.isInProgress else { return }
         asyncEffect(.perform(id: downloadEffectID) { anotherAction in
           for await jobState in store.download(id: id).states {
             switch jobState {
-            case let .running(progress):
+            case let .running(.downloading(progress)):
               await anotherAction(.internal(.downloadProgressChanged(progress)))
+            case .running(.processingFile):
+              await anotherAction(.internal(.installationStarted))
             case .finished(.success):
               await anotherAction(.internal(.downloadFinished))
             case let .finished(.failure(error)):
@@ -198,6 +201,9 @@ private func makeColorizationFileModel(
       case let .downloadProgressChanged(progress):
         guard state.isDownloading else { return }
         state = .downloading(progress)
+      case .installationStarted:
+        guard state.isDownloading else { return }
+        state = .installing
       case .downloadFinished:
         state = .downloaded
         if pickedModel.value == nil {
@@ -210,7 +216,7 @@ private func makeColorizationFileModel(
       }
     }
   }
-  if model.state.isDownloading {
+  if model.state.isInProgress {
     model(.internal(.observeDownload))
   }
   return model

@@ -9,7 +9,7 @@ import Foundation
 import VGSL
 
 final class ColorizationModelStore {
-  typealias DownloadJob = Job<CGFloat, Void>
+  typealias DownloadJob = Job<DownloadPerformer.Progress, Void>
 
   private let downloadPerformer: DownloadPerformer
   private let manifest: Remote<Void, ColorizationManifest>
@@ -26,10 +26,14 @@ final class ColorizationModelStore {
 
   @MainActor
   func fileState(id: ColorizationModelID) -> ColorizationFileState {
-    if case let .running(progress)? = jobs[id]?.state.value {
-      return .downloading(progress)
+    switch jobs[id]?.state.value {
+    case let .running(.downloading(progress))?:
+      .downloading(progress)
+    case .running(.processingFile)?:
+      .installing
+    case .finished?, nil:
+      localModelURL(id) == nil ? .available : .downloaded
     }
-    return localModelURL(id) == nil ? .available : .downloaded
   }
 
   func deleteFile(id: ColorizationModelID) throws {
@@ -49,7 +53,7 @@ final class ColorizationModelStore {
       return job
     }
     let connection = ObservableVariableConnection<DownloadJob.State>(
-      initialValue: .running(0)
+      initialValue: .running(.downloading(0))
     )
     let task = Task {
       defer { jobs[id] = nil }

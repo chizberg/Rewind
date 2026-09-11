@@ -9,6 +9,11 @@ import Foundation
 import VGSL
 
 final class DownloadPerformer {
+  enum Progress {
+    case downloading(CGFloat)
+    case processingFile
+  }
+
   private let session: URLSession
 
   init(session: URLSession) {
@@ -18,8 +23,10 @@ final class DownloadPerformer {
   @MainActor
   func perform<Response>(
     _ request: Network.DownloadRequest<Response>,
-  ) -> Job<CGFloat, Response> {
-    let state = ObservableProperty<Job<CGFloat, Response>.State>(initialValue: .running(0))
+  ) -> Job<Progress, Response> {
+    let state = ObservableProperty<Job<Progress, Response>.State>(
+      initialValue: .running(.downloading(0))
+    )
     let task = Task {
       do {
         let response = try await process(request) { progress in
@@ -35,11 +42,12 @@ final class DownloadPerformer {
 
   private func process<Response>(
     _ request: Network.DownloadRequest<Response>,
-    onProgress: @escaping (CGFloat) -> Void,
+    onProgress: @escaping (Progress) -> Void,
   ) async throws -> Response {
-    let file = try await fetch(request.makeURLRequest(), onProgress: onProgress)
+    let file = try await fetch(request.makeURLRequest()) { onProgress(.downloading($0)) }
     defer { try? FileManager.default.removeItem(at: file) }
     do {
+      onProgress(.processingFile)
       return try await request.processFile(file)
     } catch is CancellationError {
       throw CancellationError()
