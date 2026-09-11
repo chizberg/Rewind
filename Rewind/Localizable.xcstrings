@@ -888,6 +888,7 @@
       }
     },
     "colorization-feature-description" : {
+      "comment" : "Colorization picker description under the promo line. Explains the feature in one sentence",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -946,6 +947,7 @@
       }
     },
     "colorization-feature-promo" : {
+      "comment" : "Colorization picker promo line under the title. Three short perks separated by |",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1003,7 +1005,61 @@
         }
       }
     },
+    "Colorization Model" : {
+      "comment" : "settings row that opens the colorization model picker. Also the navigation title of the pushed picker",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Модель раскраски"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kolorierungsmodell"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modelo de colorización"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modèle de colorisation"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Түстендіру моделі"
+          }
+        },
+        "sr-Latn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Model kolorizacije"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Модель розфарбування"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rangli qilish modeli"
+          }
+        }
+      }
+    },
     "Colorize" : {
+      "comment" : "button at the bottom of the colorization picker. Starts colorizing the current image with the picked model",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -1056,6 +1112,7 @@
       }
     },
     "Compact" : {
+      "comment" : "title of the smaller colorization model (ECCV16) in the picker",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -1547,6 +1604,7 @@
       "shouldTranslate" : false
     },
     "ddcolor-large-description" : {
+      "comment" : "description of the DDColor-Large colorization model in the picker",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1605,7 +1663,7 @@
       }
     },
     "Default" : {
-      "comment" : "Default app icon name",
+      "comment" : "Default app icon name. Also the title of the default colorization model (DDColor-Large) in the picker",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1658,6 +1716,7 @@
       }
     },
     "Delete" : {
+      "comment" : "swipe action to delete a downloaded colorization model",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -1713,6 +1772,7 @@
       "shouldTranslate" : false
     },
     "eccv16-description" : {
+      "comment" : "description of the ECCV16 colorization model in the picker",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2596,6 +2656,7 @@
       }
     },
     "Image Colorization" : {
+      "comment" : "title of the colorization picker. Also a settings section header",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -3579,6 +3640,7 @@
       }
     },
     "Pick a model" : {
+      "comment" : "header of the model list section in the colorization picker",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -5899,6 +5961,7 @@
       }
     },
     "Unable to load the model list" : {
+      "comment" : "error alert title when the colorization model manifest fails to load",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -6865,6 +6928,7 @@
       }
     },
     "You can change the model later in settings" : {
+      "comment" : "footer of the model list section in the colorization picker",
       "localizations" : {
         "ru" : {
           "stringUnit" : {

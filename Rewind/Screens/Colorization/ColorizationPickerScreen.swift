@@ -23,9 +23,7 @@ struct ColorizationPickerScreen: View {
         }
       }
     }
-    .overlay(alignment: .topLeading) {
-      DismissButton().padding()
-    }
+    .interactiveDismissDisabled()
   }
 
   private var showsColorize: Bool {
