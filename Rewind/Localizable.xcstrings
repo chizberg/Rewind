@@ -887,25 +887,72 @@
         }
       }
     },
-    "colorization-feature-description" : {
-      "comment" : "Colorization picker description under the promo line. Explains the feature in one sentence",
+    "Colorization Model" : {
+      "comment" : "settings row that opens the colorization model picker. Also the navigation title of the pushed picker",
       "localizations" : {
-        "en" : {
+        "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bring color to any black-and-white photo in seconds. Free, no account needed."
+            "value" : "Kolorierungsmodell"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modelo de colorización"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modèle de colorisation"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Түстендіру моделі"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Добавьте цвет любому чёрно-белому фото за считанные секунды. Бесплатно и без регистрации."
+            "value" : "Модель раскраски"
           }
         },
+        "sr-Latn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Model kolorizacije"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Модель розфарбування"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rangli qilish modeli"
+          }
+        }
+      }
+    },
+    "colorization-feature-description" : {
+      "comment" : "Colorization picker description under the promo line. Explains the feature in one sentence",
+      "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bring Farbe in jedes Schwarz-Weiß-Foto – in Sekunden. Kostenlos, kein Konto nötig."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bring color to any black-and-white photo in seconds. Free, no account needed."
           }
         },
         "es" : {
@@ -924,6 +971,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Кез келген ақ-қара суретке бірнеше секундта түс беріңіз. Тегін, тіркелудің қажеті жоқ."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавьте цвет любому чёрно-белому фото за считанные секунды. Бесплатно и без регистрации."
           }
         },
         "sr-Latn" : {
@@ -949,22 +1002,16 @@
     "colorization-feature-promo" : {
       "comment" : "Colorization picker promo line under the title. Three short perks separated by |",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "free | on device | open source"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "бесплатно | на устройстве | открытый код"
-          }
-        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "kostenlos | auf dem Gerät | Open Source"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "free | on device | open source"
           }
         },
         "es" : {
@@ -983,6 +1030,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "тегін | құрылғыда | ашық код"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "бесплатно | на устройстве | открытый код"
           }
         },
         "sr-Latn" : {
@@ -1005,68 +1058,9 @@
         }
       }
     },
-    "Colorization Model" : {
-      "comment" : "settings row that opens the colorization model picker. Also the navigation title of the pushed picker",
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Модель раскраски"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kolorierungsmodell"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Modelo de colorización"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Modèle de colorisation"
-          }
-        },
-        "kk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Түстендіру моделі"
-          }
-        },
-        "sr-Latn" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Model kolorizacije"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Модель розфарбування"
-          }
-        },
-        "uz" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rangli qilish modeli"
-          }
-        }
-      }
-    },
     "Colorize" : {
       "comment" : "button at the bottom of the colorization picker. Starts colorizing the current image with the picked model",
       "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Раскрасить"
-          }
-        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1089,6 +1083,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Түстендіру"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Раскрасить"
           }
         },
         "sr-Latn" : {
@@ -1114,12 +1114,6 @@
     "Compact" : {
       "comment" : "title of the smaller colorization model (ECCV16) in the picker",
       "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Компактная"
-          }
-        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1142,6 +1136,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ықшам"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Компактная"
           }
         },
         "sr-Latn" : {
@@ -1606,22 +1606,16 @@
     "ddcolor-large-description" : {
       "comment" : "description of the DDColor-Large colorization model in the picker",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vivid, natural colors. Works well for most photos."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Яркие, естественные цвета. Хорошо подходит для большинства фото."
-          }
-        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Lebendige, natürliche Farben. Gut geeignet für die meisten Fotos."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vivid, natural colors. Works well for most photos."
           }
         },
         "es" : {
@@ -1640,6 +1634,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Қанық әрі табиғи түстер. Көптеген суреттер үшін жақсы нәтиже береді."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Яркие, естественные цвета. Хорошо подходит для большинства фото."
           }
         },
         "sr-Latn" : {
@@ -1718,12 +1718,6 @@
     "Delete" : {
       "comment" : "swipe action to delete a downloaded colorization model",
       "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Удалить"
-          }
-        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1746,6 +1740,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Жою"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить"
           }
         },
         "sr-Latn" : {
@@ -1774,22 +1774,16 @@
     "eccv16-description" : {
       "comment" : "description of the ECCV16 colorization model in the picker",
       "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Smaller and faster. Colors are softer and less accurate."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Меньше и быстрее. Цвета мягче и менее точные."
-          }
-        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kleiner und schneller. Die Farben sind weicher und weniger genau."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Smaller and faster. Colors are softer and less accurate."
           }
         },
         "es" : {
@@ -1808,6 +1802,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Кішірек әрі жылдамырақ. Түстері жұмсағырақ, дәлдігі төменірек."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Меньше и быстрее. Цвета мягче и менее точные."
           }
         },
         "sr-Latn" : {
@@ -2658,12 +2658,6 @@
     "Image Colorization" : {
       "comment" : "title of the colorization picker. Also a settings section header",
       "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Раскраска фото"
-          }
-        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2686,6 +2680,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Суретті түстендіру"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Раскраска фото"
           }
         },
         "sr-Latn" : {
@@ -3642,12 +3642,6 @@
     "Pick a model" : {
       "comment" : "header of the model list section in the colorization picker",
       "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Выберите модель"
-          }
-        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3670,6 +3664,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Модель таңдаңыз"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите модель"
           }
         },
         "sr-Latn" : {
@@ -5589,6 +5589,59 @@
         }
       }
     },
+    "Unable to colorize image" : {
+      "comment" : "error message in alert when the colorization run failed",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bild konnte nicht koloriert werden"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo colorear la imagen"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossible de coloriser l'image"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Суретті бояу мүмкін болмады"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось раскрасить изображение"
+          }
+        },
+        "sr-Latn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nije moguće obojiti sliku"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не вдалося розфарбувати зображення"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rasmni ranglab bo'lmadi"
+          }
+        }
+      }
+    },
     "Unable to Determine Location" : {
       "comment" : "error message in alert",
       "localizations" : {
@@ -5963,12 +6016,6 @@
     "Unable to load the model list" : {
       "comment" : "error alert title when the colorization model manifest fails to load",
       "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Не удалось загрузить список моделей"
-          }
-        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5991,6 +6038,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Модельдер тізімін жүктеу мүмкін болмады"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось загрузить список моделей"
           }
         },
         "sr-Latn" : {
@@ -6930,12 +6983,6 @@
     "You can change the model later in settings" : {
       "comment" : "footer of the model list section in the colorization picker",
       "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Позже модель можно изменить в настройках"
-          }
-        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6958,6 +7005,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Модельді кейінірек Параметрлерде өзгертуге болады"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Позже модель можно изменить в настройках"
           }
         },
         "sr-Latn" : {
