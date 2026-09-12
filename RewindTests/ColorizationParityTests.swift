@@ -11,6 +11,7 @@ import UIKit
 
 struct ColorizationParityTests {
   static let frames = ["2209460", "2504212"]
+  static let lightnessTolerance = 0.15
 
   @Test(arguments: frames)
   func grayFrame(_ frame: String) throws {
@@ -23,13 +24,21 @@ struct ColorizationParityTests {
   }
 
   @Test(arguments: frames, ColorizationModelID.allCases)
-  func claheFrame(_ frame: String, _ model: ColorizationModelID) throws {
+  func preparedFrame(_ frame: String, _ model: ColorizationModelID) throws {
     let reference = try ParityReference.load()
     let expected = try reference.expected(frame: frame, model: model)
 
-    let equalized = try CLAHE.apply(to: reference.gray(frame: frame), clip: expected.claheClip)
+    let input = try ColorizationPipeline.prepare(
+      image: reference.input(frame: frame),
+      claheClip: expected.claheClip,
+    )
 
-    try expected.check("3_clahe_rgb", ParityStatistics(bytes: equalized.values))
+    try expected.check("3_clahe_rgb", ParityStatistics(bytes: input.gray.values))
+    try expected.check(
+      "5_L",
+      ParityStatistics(input.lightness.values),
+      momentTolerance: Self.lightnessTolerance,
+    )
   }
 }
 
@@ -96,17 +105,31 @@ extension ParityReference.Case {
     _ measured: ParityStatistics,
     sourceLocation: SourceLocation = #_sourceLocation,
   ) throws {
+    try check(
+      stage,
+      measured,
+      momentTolerance: Self.momentTolerance,
+      sourceLocation: sourceLocation,
+    )
+  }
+
+  func check(
+    _ stage: String,
+    _ measured: ParityStatistics,
+    momentTolerance: Double,
+    sourceLocation: SourceLocation = #_sourceLocation,
+  ) throws {
     guard case let .statistics(expected)? = stages[stage] else {
       Issue.record("no \(stage) statistics in the reference", sourceLocation: sourceLocation)
       return
     }
     #expect(
-      abs(measured.mean - expected.mean) < Self.momentTolerance,
+      abs(measured.mean - expected.mean) < momentTolerance,
       "\(stage) mean \(measured.mean) against \(expected.mean)",
       sourceLocation: sourceLocation,
     )
     #expect(
-      abs(measured.standardDeviation - expected.standardDeviation) < Self.momentTolerance,
+      abs(measured.standardDeviation - expected.standardDeviation) < momentTolerance,
       "\(stage) std \(measured.standardDeviation) against \(expected.standardDeviation)",
       sourceLocation: sourceLocation,
     )
