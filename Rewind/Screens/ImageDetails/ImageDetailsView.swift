@@ -170,7 +170,7 @@ struct ImageDetailsView: View {
           Image(uiImage: cachedPreview)
             .resizable()
         } else {
-          Color.clear
+          SwiftUI.Color.clear
         }
 
         ProgressView()

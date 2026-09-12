@@ -53,7 +53,7 @@ struct ImageList: View {
       }
     } else {
       ZStack {
-        Color.clear
+        SwiftUI.Color.clear
         VStack {
           Text("💔").font(.largeTitle)
           Text("Nothing here yet")
