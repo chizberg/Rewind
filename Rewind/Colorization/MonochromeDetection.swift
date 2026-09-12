@@ -19,95 +19,30 @@ func isMonochrome(image: UIImage) async throws -> Bool {
     if cgImage.colorSpace?.model == .monochrome {
       return true
     }
-    let context = try makeContext(image: cgImage)
-    let pixels = try makePixels(context: context)
-    let deviation = try deviationFromMonochrome(pixels: pixels)
+    let planes = try RGBPlanes(cgImage: cgImage, maxSide: maxDownsampledDimension)
+    let deviation = try deviationFromMonochrome(planes: planes)
     return deviation < monochromeThreshold
   }.value
-}
-
-private func makeContext(image: CGImage) throws -> CGContext {
-  let (srcW, srcH) = (image.width, image.height)
-
-  let scale = Double(maxDownsampledDimension) / Double(max(srcW, srcH))
-  let w = max(1, Int((Double(srcW) * scale).rounded()))
-  let h = max(1, Int((Double(srcH) * scale).rounded()))
-
-  guard let ctx = CGContext(
-    data: nil,
-    width: w,
-    height: h,
-    bitsPerComponent: 8,
-    bytesPerRow: w * 4,
-    space: CGColorSpaceCreateDeviceRGB(),
-    bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
-  ) else {
-    throw HandlingError("Unable to create CGContext")
-  }
-
-  ctx.interpolationQuality = .low
-  ctx.draw(image, in: CGRect(x: 0, y: 0, width: w, height: h))
-
-  return ctx
-}
-
-// colors are plain for vDSP computations
-private struct Pixels {
-  var r: [Float]
-  var g: [Float]
-  var b: [Float]
-
-  var count: Int {
-    assert(r.count == g.count && g.count == b.count)
-    return r.count
-  }
-}
-
-private func makePixels(context: CGContext) throws -> Pixels {
-  guard let data = context.data else {
-    throw HandlingError("CGContext has no data")
-  }
-  guard context.bytesPerRow == context.width * 4 else {
-    throw HandlingError("Unexpected row padding: \(context.bytesPerRow)")
-  }
-
-  let count = context.width * context.height
-  let bytes = data.assumingMemoryBound(to: UInt8.self)
-
-  // bytes are laid out as R G B A R G B A ..., so a channel
-  // is every 4th byte starting at its own offset.
-  // the format is set in makeContext(image:)
-  func channel(offset: Int) -> [Float] {
-    var values = [Float](repeating: 0, count: count)
-    vDSP_vfltu8(bytes + offset, 4, &values, 1, UInt(count)) // UInt8 -> Float
-    return vDSP.multiply(1 / 255, values)
-  }
-
-  return Pixels(
-    r: channel(offset: 0),
-    g: channel(offset: 1),
-    b: channel(offset: 2)
-  )
 }
 
 // monochrome image pixels lie on a line in the RGB space
 // color image pixels are more like a cloud, so they deviate from a line
 // ~0 for monochrome, a regular color image is ~0.1, max is ~2/3
-private func deviationFromMonochrome(pixels: Pixels) throws -> Float {
-  guard pixels.count > 2 else {
+private func deviationFromMonochrome(planes: RGBPlanes) throws -> Float {
+  guard planes.size.pixelCount > 2 else {
     throw HandlingError("Too few points to compute deviation")
   }
 
   // each channel is shifted by its own average, so that the cloud of pixels
   // sits around zero. otherwise the line would be forced to pass through
   // black, and the line of a sepia image does not
-  let r = vDSP.add(-vDSP.mean(pixels.r), pixels.r)
-  let g = vDSP.add(-vDSP.mean(pixels.g), pixels.g)
-  let b = vDSP.add(-vDSP.mean(pixels.b), pixels.b)
+  let r = vDSP.add(-vDSP.mean(planes.r), planes.r)
+  let g = vDSP.add(-vDSP.mean(planes.g), planes.g)
+  let b = vDSP.add(-vDSP.mean(planes.b), planes.b)
 
   // covariance: rr, gg and bb are how much each channel varies on its own,
   // the rest is how much a pair of channels varies together
-  let inverseCount = 1 / Float(pixels.count)
+  let inverseCount = 1 / Float(planes.size.pixelCount)
   let rr = vDSP.dot(r, r) * inverseCount
   let gg = vDSP.dot(g, g) * inverseCount
   let bb = vDSP.dot(b, b) * inverseCount
