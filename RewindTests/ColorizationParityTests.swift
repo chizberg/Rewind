@@ -16,11 +16,20 @@ struct ColorizationParityTests {
   func grayFrame(_ frame: String) throws {
     let reference = try ParityReference.load()
     let expected = try reference.expected(frame: frame, model: .ddColorLarge)
-    let source = try RGBPlanes(image: reference.input(frame: frame), maxSide: reference.longSide)
 
-    let gray = Lab.neutralGray(lightness: Lab.lightness(of: source))
+    let gray = try reference.gray(frame: frame)
 
     try expected.check("1_to_gray_rgb", ParityStatistics(bytes: gray.values))
+  }
+
+  @Test(arguments: frames, ColorizationModelID.allCases)
+  func claheFrame(_ frame: String, _ model: ColorizationModelID) throws {
+    let reference = try ParityReference.load()
+    let expected = try reference.expected(frame: frame, model: model)
+
+    let equalized = try CLAHE.apply(to: reference.gray(frame: frame), clip: expected.claheClip)
+
+    try expected.check("3_clahe_rgb", ParityStatistics(bytes: equalized.values))
   }
 }
 
@@ -40,7 +49,13 @@ struct ParityReference: Decodable {
   }
 
   struct Case: Decodable {
+    var claheClip: Double
     var stages: [String: Stage]
+
+    enum CodingKeys: String, CodingKey {
+      case claheClip = "clahe"
+      case stages
+    }
   }
 
   var longSide: Int
@@ -64,6 +79,11 @@ struct ParityReference: Decodable {
 
   func input(frame: String) throws -> UIImage {
     try #require(UIImage(contentsOfFile: Fixture.url("ios-parity/\(frame)-input.png").path))
+  }
+
+  func gray(frame: String) throws -> Plane<UInt8> {
+    let source = try RGBPlanes(image: input(frame: frame), maxSide: longSide)
+    return Lab.neutralGray(lightness: Lab.lightness(of: source))
   }
 }
 
