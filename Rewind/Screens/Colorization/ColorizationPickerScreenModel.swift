@@ -212,6 +212,7 @@ private func makeColorizationFileModel(
           })
         }
       case .failed:
+        // TODO: show alert to handle download errors
         state = store.fileState(id: id)
       }
     }
