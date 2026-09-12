@@ -447,7 +447,11 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Rewind/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Rewind;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Camera access is needed to take comparison photos";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location is needed to show photos and paintings around you";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "App needs this access to save images to your library";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -483,7 +487,11 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Rewind/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Rewind;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Camera access is needed to take comparison photos";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location is needed to show photos and paintings around you";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "App needs this access to save images to your library";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
