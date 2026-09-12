@@ -111,9 +111,8 @@ final class AppGraph {
         setOrientationLock: { weakSelf?.orientationLock?.value = $0 },
         streetViewAvailability: remotes.streetViewAvailability,
         translate: remotes.translate,
-        hasLoadedColorizationModel: Variable {
-          guard let id = settings.value.colorizationModel else { return false }
-          return colorizationModelStore.fileState(id: id) == .downloaded
+        colorizationModel: Variable {
+          settings.value.colorizationModel.flatMap { colorizationModelStore.localModel(id: $0) }
         },
         extractModelImage: { [imageLoader] details in
           Model.Image(details, image: imageLoader.makeImage(path: details.file))

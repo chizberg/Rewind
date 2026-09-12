@@ -38,6 +38,8 @@ struct ImageDetailsState {
     case detecting
     case notAvailable
     case available(WatermarkedImage)
+    case colorizing(WatermarkedImage)
+    case ready(colorized: UIImage)
   }
 
   var image: Model.Image
@@ -100,6 +102,8 @@ enum ImageDetailsAction {
     case translationComplete(ImageDetailsState.Translation)
     case translationFailed(Error)
     case bwDetectionCompleted(isBW: Bool, image: WatermarkedImage)
+    case colorizationCompleted(UIImage)
+    case colorizationFailed(Error)
   }
 
   enum ImageComparison {
@@ -149,7 +153,7 @@ func makeImageDetailsModel(
   setOrientationLock: @escaping ResultAction<OrientationLock?>,
   streetViewAvailability: Remote<Coordinate, StreetViewAvailability>,
   translate: Remote<TranslateParams, String>,
-  hasLoadedColorizationModel: Variable<Bool>,
+  colorizationModel: Variable<ColorizationModel?>,
   extractModelImage: @escaping (Model.ImageDetails) -> (Model.Image),
   makeColorizationPicker: @escaping (@escaping () -> Void) -> ColorizationPickerScreenStore,
 ) -> ImageDetailsModel {
@@ -350,12 +354,20 @@ func makeImageDetailsModel(
       case .showTranslationOriginal:
         state.translationState = .available
       case .colorize:
-        if hasLoadedColorizationModel.value {
-          print("chzbrg TODO: colorize")
+        guard case let .available(image) = state.colorizationState else { return }
+        guard let model = colorizationModel.value else {
           asyncEffect(.anotherAction(.colorizationPicker(.present)))
-        } else {
-          asyncEffect(.anotherAction(.colorizationPicker(.present)))
+          return
         }
+        state.colorizationState = .colorizing(image)
+        asyncEffect(.perform { anotherAction in
+          do {
+            let colorized = try await model.colorize(image: image.content)
+            await anotherAction(.internal(.colorizationCompleted(colorized)))
+          } catch {
+            await anotherAction(.internal(.colorizationFailed(error)))
+          }
+        })
       case .colorizationPicker(.present):
         state.colorizationPicker = Identified(value: makeColorizationPicker {
           modelRef?(.colorizationPicker(.dismiss))
@@ -404,7 +416,7 @@ func makeImageDetailsModel(
               setOrientationLock: setOrientationLock,
               streetViewAvailability: streetViewAvailability,
               translate: translate,
-              hasLoadedColorizationModel: hasLoadedColorizationModel,
+              colorizationModel: colorizationModel,
               extractModelImage: extractModelImage,
               makeColorizationPicker: makeColorizationPicker,
             ).viewStore,
@@ -450,6 +462,15 @@ func makeImageDetailsModel(
           )))))
         case let .bwDetectionCompleted(isBW, image):
           state.colorizationState = isBW ? .available(image) : .notAvailable
+        case let .colorizationCompleted(colorized):
+          state.colorizationState = .ready(colorized: colorized)
+        case let .colorizationFailed(error):
+          if case let .colorizing(image) = state.colorizationState {
+            state.colorizationState = .available(image)
+          }
+          asyncEffect(.anotherAction(.alert(.present(.error(
+            title: "Unable to colorize image", error: error,
+          )))))
         }
       }
     },
@@ -501,13 +522,6 @@ private func apply(details: Model.ImageDetails, to state: inout ImageDetailsStat
 
 extension ImageDetailsState {
   var isImageSaved: Bool { imageSaveCount > 0 }
-
-  var isColorizationAvailable: Bool {
-    switch colorizationState {
-    case .available: true
-    case .none, .detecting, .notAvailable: false
-    }
-  }
 }
 
 func pastVuURL(cid: Int) -> URL? {

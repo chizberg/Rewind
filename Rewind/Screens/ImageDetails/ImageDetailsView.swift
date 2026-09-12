@@ -34,11 +34,14 @@ struct ImageDetailsView: View {
 
           Spacer()
 
-          if viewStore.isColorizationAvailable {
-            ColorizeButton(namespace: namespace) {
+          switch viewStore.colorizationState {
+          case .available, .colorizing:
+            ColorizeButton(namespace: namespace, isColorizing: viewStore.isColorizing) {
               viewStore(.colorize)
             }
             .transition(.scale)
+          case .none, .detecting, .notAvailable, .ready:
+            EmptyView()
           }
 
           if isSplitView {
@@ -47,7 +50,7 @@ struct ImageDetailsView: View {
           }
         }
         .padding()
-        .animation(.spring, value: viewStore.isColorizationAvailable)
+        .animation(.spring, value: viewStore.colorizationState)
       }
       .task {
         viewStore(.willBePresented)
@@ -425,6 +428,7 @@ private struct TextAccessoryButton: View {
 
 private struct ColorizeButton: View {
   var namespace: Namespace.ID
+  var isColorizing: Bool
   var action: () -> Void
 
   var exposureAdjust = 2.0
@@ -441,6 +445,12 @@ private struct ColorizeButton: View {
       Text("🎨")
         .font(.title2)
         .padding(10)
+        .opacity(isColorizing ? 0 : 1)
+        .overlay {
+          if isColorizing {
+            ProgressView()
+          }
+        }
     })
     .matchedTransitionSource(
       id: ImageDetailsView.TransitionSource.colorizeButton,
@@ -489,6 +499,10 @@ extension ImageDetailsState {
   fileprivate var translation: ImageDetailsState.Translation? {
     if case let .translated(translation) = translationState { translation } else { nil }
   }
+
+  fileprivate var isColorizing: Bool {
+    if case .colorizing = colorizationState { true } else { false }
+  }
 }
 
 func makeRainbowGradient(exposureAdjust: Double = 2.0) -> SwiftUI.Gradient {
@@ -531,7 +545,7 @@ extension FavoritesModel {
     setOrientationLock: { _ in },
     streetViewAvailability: .mock(.unavailable),
     translate: .mock("translated text"),
-    hasLoadedColorizationModel: .constant(false),
+    colorizationModel: .constant(nil),
     extractModelImage: { _ in .mock },
     makeColorizationPicker: { _ in .mock(.mock) },
   ).viewStore
@@ -560,7 +574,7 @@ extension FavoritesModel {
     setOrientationLock: { _ in },
     streetViewAvailability: .mock(.unavailable),
     translate: .mock("translated text").delayed(delay: 1),
-    hasLoadedColorizationModel: .constant(false),
+    colorizationModel: .constant(nil),
     extractModelImage: { _ in .mock },
     makeColorizationPicker: { _ in .mock(.mock) },
   ).viewStore
@@ -604,6 +618,7 @@ private struct ColorizationButtonPreview: View {
         if isShown {
           ColorizeButton(
             namespace: namespace,
+            isColorizing: false,
             action: action,
             exposureAdjust: exposure,
             rainbowDuration: duration

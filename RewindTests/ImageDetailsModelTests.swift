@@ -14,6 +14,7 @@
 import Foundation
 @testable import Rewind
 import Testing
+import UIKit
 import VGSL
 
 @MainActor
@@ -146,6 +147,62 @@ struct ImageDetailsModelTests {
     #expect(model.state.attributedDetails != nil)
     #expect(harness.requestedCids == [Model.Image.mock.cid])
   }
+
+  @Test func colorizeRunsTheModelOnTheContentAndKeepsTheResult() async {
+    let harness = Harness()
+    let source = WatermarkedImage(content: UIImage(), watermark: UIImage())
+    let colorized = UIImage()
+    var received: [UIImage] = []
+    let model = harness.makeModel(
+      cachedDetails: nil,
+      colorizationModel: StubColorizationModel { image in
+        received.append(image)
+        return colorized
+      },
+    )
+    model(.internal(.bwDetectionCompleted(isBW: true, image: source)))
+
+    model(.colorize)
+    #expect(model.state.colorizationState == .colorizing(source))
+
+    #expect(await eventually {
+      if case .ready = model.state.colorizationState { return true }
+      return false
+    })
+    guard case let .ready(result) = model.state.colorizationState else { return }
+    #expect(result === colorized)
+    #expect(received.count == 1)
+    #expect(received.first === source.content)
+    #expect(model.state.colorizationPicker == nil)
+  }
+
+  @Test func failedColorizationRestoresTheButtonAndReportsTheError() async {
+    let harness = Harness()
+    let source = WatermarkedImage(content: UIImage(), watermark: nil)
+    let model = harness.makeModel(
+      cachedDetails: nil,
+      colorizationModel: StubColorizationModel { _ in throw HandlingError("no color") },
+    )
+    model(.internal(.bwDetectionCompleted(isBW: true, image: source)))
+
+    model(.colorize)
+
+    #expect(await eventually { model.state.alertModel != nil })
+    #expect(model.state.colorizationState == .available(source))
+  }
+}
+
+@MainActor
+private final class StubColorizationModel: ColorizationModel {
+  private let run: (UIImage) throws -> UIImage
+
+  init(_ run: @escaping (UIImage) throws -> UIImage) {
+    self.run = run
+  }
+
+  func colorize(image: UIImage) async throws -> UIImage {
+    try run(image)
+  }
 }
 
 private func pastvuPhotoURL(_ cid: Int) -> URL {
@@ -162,6 +219,7 @@ private final class Harness {
   func makeModel(
     cachedDetails: Model.ImageDetails?,
     translate: Remote<TranslateParams, String> = .mock("translated"),
+    colorizationModel: ColorizationModel? = nil,
   ) -> ImageDetailsModel {
     makeImageDetailsModel(
       modelImage: .mock,
@@ -178,7 +236,7 @@ private final class Harness {
       setOrientationLock: { _ in },
       streetViewAvailability: .mock(.unavailable),
       translate: translate,
-      hasLoadedColorizationModel: .constant(false),
+      colorizationModel: .constant(colorizationModel),
       extractModelImage: { _ in .mock },
       makeColorizationPicker: { _ in .mock(.mock) },
     )
