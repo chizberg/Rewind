@@ -365,8 +365,8 @@ private final class FakeAnnotationsRemote {
 
   var asRemote: Remote<AnnotationLoadingParams, ([Model.Image], [Model.Cluster])> {
     Remote { params in
-      let (isFirst, gated) = await self.record(params)
-      if isFirst, await self.hangFirstCall {
+      let (isFirst, gated) = self.record(params)
+      if isFirst, self.hangFirstCall {
         // Long enough to still be in-flight when the next load replaces (cancels) this one;
         // Task.sleep throws on cancellation, so the load surfaces as a CancellationError.
         try await Task.sleep(for: .seconds(5))
@@ -374,7 +374,7 @@ private final class FakeAnnotationsRemote {
       if gated {
         await self.waitForGate()
       }
-      return await self.response
+      return self.response
     }
   }
 
