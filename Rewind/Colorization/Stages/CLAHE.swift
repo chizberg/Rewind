@@ -50,9 +50,9 @@ enum CLAHE {
       for tileX in 0..<gridSize {
         var histogram = [Int](repeating: 0, count: histogramSize)
         for y in 0..<tileHeight {
-          let row = mirroredIndex(tileY * tileHeight + y, limit: height) * width
+          let row = ColorizationHelpers.mirroredIndex(tileY * tileHeight + y, limit: height) * width
           for x in 0..<tileWidth {
-            let column = mirroredIndex(tileX * tileWidth + x, limit: width)
+            let column = ColorizationHelpers.mirroredIndex(tileX * tileWidth + x, limit: width)
             histogram[Int(lightness.values[row + column])] += 1
           }
         }
@@ -152,14 +152,5 @@ enum CLAHE {
 
   private static func blend(_ a: Float, _ b: Float, weight: Float) -> Float {
     a * (1 - weight) + b * weight
-  }
-
-  // OpenCV's BORDER_REFLECT_101: an index past the edge folds back without repeating the edge
-  // pixel, abcd -> dcb|abcd|cba. A single pixel has nothing to fold into, it is the answer.
-  private static func mirroredIndex(_ index: Int, limit: Int) -> Int {
-    guard limit > 1 else { return 0 }
-    let period = 2 * limit - 2
-    let i = index % period
-    return i < limit ? i : period - i
   }
 }
