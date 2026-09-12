@@ -477,20 +477,16 @@ private struct ColorizeButton: View {
       }
     }
     .animation(.default, value: showsRainbow)
-    .onAppear {
+    .task {
       showsRainbow = true
       withAnimation(
         .linear(duration: rainbowRotationDuration).repeatForever(autoreverses: false)
       ) {
         rainbowAngle = .degrees(360)
       }
-      Task.detached {
-        try await Task.sleep(for: .seconds(rainbowDuration))
-        await MainActor.run {
-          showsRainbow = false
-          rainbowAngle = .degrees(0)
-        }
-      }
+      try? await Task.sleep(for: .seconds(rainbowDuration))
+      showsRainbow = false
+      rainbowAngle = .degrees(0)
     }
   }
 }

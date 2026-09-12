@@ -34,6 +34,7 @@ struct OnboardingView: View {
 let rewindRed = Color.fromHex(0xB2_3C_36_FF)
 
 extension Button {
+  @MainActor
   @ViewBuilder
   func prominent() -> some View {
     if #available(iOS 26, *) {
