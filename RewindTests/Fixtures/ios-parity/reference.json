@@ -1,0 +1,723 @@
+{
+  "note": "Stage-by-stage reference for porting pipeline.py. All Lab is OpenCV float32: L 0..100, a/b ~-127..127, sRGB gamma decoded, D65 (Xn .950456 Zn 1.088754). Tolerance guidance: mean within 0.05, max within 1.0 of these values.",
+  "long_side": 800,
+  "cases": {
+    "2209460|ddcolor-large": {
+      "model": "ddcolor-large",
+      "levels": false,
+      "clahe": 1.0,
+      "bold": 1.5,
+      "size": 384,
+      "cfg": {
+        "resize": "fit",
+        "up": "bilinear"
+      },
+      "stages": {
+        "1_to_gray_rgb": {
+          "mean": 169.3968,
+          "std": 70.0703,
+          "min": 0.0,
+          "max": 255.0
+        },
+        "3_clahe_rgb": {
+          "mean": 164.6119,
+          "std": 68.6633,
+          "min": 0.0,
+          "max": 255.0
+        },
+        "4_model_ab_a": {
+          "mean": 8.6778,
+          "std": 5.5567,
+          "min": -12.4803,
+          "max": 70.5911
+        },
+        "4_model_ab_b": {
+          "mean": 2.2879,
+          "std": 6.6383,
+          "min": -132.5954,
+          "max": 49.8679
+        },
+        "4_model_chroma": {
+          "mean": 10.9048,
+          "std": 6.0472,
+          "min": 0.0014,
+          "max": 133.1404
+        },
+        "5_L": {
+          "mean": 68.0873,
+          "std": 27.3086,
+          "min": 0.0,
+          "max": 100.0
+        },
+        "6_bilateral_chroma": {
+          "mean": 10.7686,
+          "std": 5.7116,
+          "min": 0.0017,
+          "max": 119.2061
+        },
+        "7_cast_ratio": 0.8339,
+        "7_lum_weight": {
+          "mean": 0.4799,
+          "std": 0.2987,
+          "min": 0.0,
+          "max": 1.0
+        },
+        "7_bold_in": 1.5,
+        "7_bold_effective": 1.2904,
+        "7_bold_chroma": {
+          "mean": 12.4465,
+          "std": 6.9891,
+          "min": 0.0017,
+          "max": 122.9932
+        },
+        "8_cap": 36.0,
+        "8_cap_chroma": {
+          "mean": 12.2097,
+          "std": 6.8561,
+          "min": 0.0017,
+          "max": 120.653
+        },
+        "9_gamut_chroma": {
+          "mean": 12.162,
+          "std": 6.8294,
+          "min": 0.0017,
+          "max": 120.1817
+        },
+        "10_final_rgb": {
+          "mean": 171.5772,
+          "std": 71.4207,
+          "min": 0.0,
+          "max": 255.0
+        },
+        "10_final_R": {
+          "mean": 187.2613,
+          "std": 67.0538,
+          "min": 0.0,
+          "max": 255.0
+        },
+        "10_final_G": {
+          "mean": 162.9058,
+          "std": 71.795,
+          "min": 0.0,
+          "max": 255.0
+        },
+        "10_final_B": {
+          "mean": 164.5643,
+          "std": 72.6749,
+          "min": 0.0,
+          "max": 255.0
+        },
+        "10_final_metrics": {
+          "chroma": 11.992,
+          "chroma_p90": 20.8675,
+          "colorfulness": 30.0261,
+          "vivid_frac": 0.0486,
+          "hue_std": 0.5364,
+          "clip_frac": 0.0049,
+          "bleed": 0.781
+        }
+      }
+    },
+    "2209460|eccv16": {
+      "model": "eccv16",
+      "levels": false,
+      "clahe": 1.5,
+      "rebalance": 2.0,
+      "size": null,
+      "cfg": {
+        "res": 256,
+        "temperature": 0.3,
+        "mode": "mean",
+        "chroma_floor": 0.0,
+        "hue_mask": 1.0
+      },
+      "stages": {
+        "1_to_gray_rgb": {
+          "mean": 169.3968,
+          "std": 70.0703,
+          "min": 0.0,
+          "max": 255.0
+        },
+        "3_clahe_rgb": {
+          "mean": 161.5275,
+          "std": 68.2048,
+          "min": 0.0,
+          "max": 255.0
+        },
+        "4_model_ab_a": {
+          "mean": 0.2758,
+          "std": 6.183,
+          "min": -17.5021,
+          "max": 33.2574
+        },
+        "4_model_ab_b": {
+          "mean": 12.0261,
+          "std": 12.3475,
+          "min": -19.6318,
+          "max": 39.3332
+        },
+        "4_model_chroma": {
+          "mean": 16.3548,
+          "std": 8.241,
+          "min": 0.0146,
+          "max": 42.665
+        },
+        "5_L": {
+          "mean": 68.0873,
+          "std": 27.3086,
+          "min": 0.0,
+          "max": 100.0
+        },
+        "6_bilateral_chroma": {
+          "mean": 16.3207,
+          "std": 8.2228,
+          "min": 0.0591,
+          "max": 42.5061
+        },
+        "7_cast_ratio": 0.7371,
+        "7_lum_weight": {
+          "mean": 0.4799,
+          "std": 0.2987,
+          "min": 0.0,
+          "max": 1.0
+        },
+        "7_bold_in": 1.0,
+        "7_bold_effective": 1.0,
+        "7_bold_chroma": {
+          "mean": 16.3207,
+          "std": 8.2228,
+          "min": 0.0591,
+          "max": 42.5061
+        },
+        "8_cap": 24.0,
+        "8_cap_chroma": {
+          "mean": 10.6013,
+          "std": 5.3412,
+          "min": 0.0384,
+          "max": 27.6103
+        },
+        "9_gamut_chroma": {
+          "mean": 10.5599,
+          "std": 5.3204,
+          "min": 0.0382,
+          "max": 27.5025
+        },
+        "10_final_rgb": {
+          "mean": 166.0872,
+          "std": 70.9032,
+          "min": 0.0,
+          "max": 255.0
+        },
+        "10_final_R": {
+          "mean": 174.0121,
+          "std": 64.8073,
+          "min": 0.0,
+          "max": 255.0
+        },
+        "10_final_G": {
+          "mean": 168.5798,
+          "std": 71.5548,
+          "min": 0.0,
+          "max": 255.0
+        },
+        "10_final_B": {
+          "mean": 155.6697,
+          "std": 74.7274,
+          "min": 0.0,
+          "max": 255.0
+        },
+        "10_final_metrics": {
+          "chroma": 10.4621,
+          "chroma_p90": 17.797,
+          "colorfulness": 26.7746,
+          "vivid_frac": 0.006,
+          "hue_std": 0.8693,
+          "clip_frac": 0.0,
+          "bleed": 0.3874
+        }
+      }
+    },
+    "2504212|ddcolor-large": {
+      "model": "ddcolor-large",
+      "levels": false,
+      "clahe": 1.0,
+      "bold": 1.5,
+      "size": 384,
+      "cfg": {
+        "resize": "fit",
+        "up": "bilinear"
+      },
+      "stages": {
+        "1_to_gray_rgb": {
+          "mean": 101.6966,
+          "std": 58.1124,
+          "min": 7.0,
+          "max": 255.0
+        },
+        "3_clahe_rgb": {
+          "mean": 105.1776,
+          "std": 63.6824,
+          "min": 3.0,
+          "max": 255.0
+        },
+        "4_model_ab_a": {
+          "mean": 0.7216,
+          "std": 8.7072,
+          "min": -31.1353,
+          "max": 62.7638
+        },
+        "4_model_ab_b": {
+          "mean": 5.9202,
+          "std": 11.5263,
+          "min": -82.0315,
+          "max": 54.0975
+        },
+        "4_model_chroma": {
+          "mean": 12.2795,
+          "std": 9.6673,
+          "min": 0.0074,
+          "max": 82.7957
+        },
+        "5_L": {
+          "mean": 41.831,
+          "std": 23.3921,
+          "min": 1.9104,
+          "max": 100.0
+        },
+        "6_bilateral_chroma": {
+          "mean": 11.6669,
+          "std": 9.2759,
+          "min": 0.022,
+          "max": 72.2677
+        },
+        "7_cast_ratio": 0.5102,
+        "7_lum_weight": {
+          "mean": 0.597,
+          "std": 0.2368,
+          "min": 0.0,
+          "max": 1.0
+        },
+        "7_bold_in": 1.5,
+        "7_bold_effective": 1.5,
+        "7_bold_chroma": {
+          "mean": 15.5617,
+          "std": 13.0967,
+          "min": 0.0234,
+          "max": 92.7066
+        },
+        "8_cap": 36.0,
+        "8_cap_chroma": {
+          "mean": 9.8177,
+          "std": 8.2626,
+          "min": 0.0148,
+          "max": 58.4873
+        },
+        "9_gamut_chroma": {
+          "mean": 9.7793,
+          "std": 8.2303,
+          "min": 0.0147,
+          "max": 58.2589
+        },
+        "10_final_rgb": {
+          "mean": 99.3703,
+          "std": 58.9019,
+          "min": 0.0,
+          "max": 255.0
+        },
+        "10_final_R": {
+          "mean": 105.105,
+          "std": 66.6255,
+          "min": 0.0,
+          "max": 255.0
+        },
+        "10_final_G": {
+          "mean": 100.4473,
+          "std": 57.0597,
+          "min": 7.0,
+          "max": 255.0
+        },
+        "10_final_B": {
+          "mean": 92.5584,
+          "std": 51.3136,
+          "min": 0.0,
+          "max": 255.0
+        },
+        "10_final_metrics": {
+          "chroma": 9.7664,
+          "chroma_p90": 21.8558,
+          "colorfulness": 34.382,
+          "vivid_frac": 0.069,
+          "hue_std": 1.2102,
+          "clip_frac": 0.0011,
+          "bleed": 1.566
+        }
+      }
+    },
+    "2504212|eccv16": {
+      "model": "eccv16",
+      "levels": false,
+      "clahe": 1.5,
+      "rebalance": 2.0,
+      "size": null,
+      "cfg": {
+        "res": 256,
+        "temperature": 0.3,
+        "mode": "mean",
+        "chroma_floor": 0.0,
+        "hue_mask": 1.0
+      },
+      "stages": {
+        "1_to_gray_rgb": {
+          "mean": 101.6966,
+          "std": 58.1124,
+          "min": 7.0,
+          "max": 255.0
+        },
+        "3_clahe_rgb": {
+          "mean": 109.9803,
+          "std": 66.5065,
+          "min": 2.0,
+          "max": 255.0
+        },
+        "4_model_ab_a": {
+          "mean": -20.6125,
+          "std": 6.7371,
+          "min": -35.5622,
+          "max": 19.3147
+        },
+        "4_model_ab_b": {
+          "mean": 36.1618,
+          "std": 12.4227,
+          "min": -29.9232,
+          "max": 66.3471
+        },
+        "4_model_chroma": {
+          "mean": 41.8743,
+          "std": 13.3719,
+          "min": 0.027,
+          "max": 73.8501
+        },
+        "5_L": {
+          "mean": 41.831,
+          "std": 23.3921,
+          "min": 1.9104,
+          "max": 100.0
+        },
+        "6_bilateral_chroma": {
+          "mean": 41.8623,
+          "std": 13.1352,
+          "min": 0.078,
+          "max": 73.2832
+        },
+        "7_cast_ratio": 0.9942,
+        "7_lum_weight": {
+          "mean": 0.597,
+          "std": 0.2368,
+          "min": 0.0,
+          "max": 1.0
+        },
+        "7_bold_in": 1.0,
+        "7_bold_effective": 1.0,
+        "7_bold_chroma": {
+          "mean": 41.8623,
+          "std": 13.1352,
+          "min": 0.078,
+          "max": 73.2832
+        },
+        "8_cap": 24.0,
+        "8_cap_chroma": {
+          "mean": 15.2836,
+          "std": 4.7956,
+          "min": 0.0285,
+          "max": 26.7552
+        },
+        "9_gamut_chroma": {
+          "mean": 15.2239,
+          "std": 4.7768,
+          "min": 0.0284,
+          "max": 26.6507
+        },
+        "10_final_rgb": {
+          "mean": 93.7687,
+          "std": 57.2422,
+          "min": 0.0,
+          "max": 255.0
+        },
+        "10_final_R": {
+          "mean": 97.5012,
+          "std": 57.8349,
+          "min": 0.0,
+          "max": 255.0
+        },
+        "10_final_G": {
+          "mean": 104.4426,
+          "std": 58.7296,
+          "min": 9.0,
+          "max": 255.0
+        },
+        "10_final_B": {
+          "mean": 79.3624,
+          "std": 51.9671,
+          "min": 0.0,
+          "max": 238.0
+        },
+        "10_final_metrics": {
+          "chroma": 15.1404,
+          "chroma_p90": 21.0542,
+          "colorfulness": 16.165,
+          "vivid_frac": 0.0021,
+          "hue_std": 0.1513,
+          "clip_frac": 0.0,
+          "bleed": 0.6198
+        }
+      }
+    },
+    "166360|ddcolor-large": {
+      "model": "ddcolor-large",
+      "levels": true,
+      "clahe": 1.0,
+      "bold": 1.5,
+      "size": 384,
+      "cfg": {
+        "resize": "fit",
+        "up": "bilinear"
+      },
+      "stages": {
+        "1_to_gray_rgb": {
+          "mean": 90.9344,
+          "std": 47.2971,
+          "min": 23.0,
+          "max": 243.0
+        },
+        "2_levels_rgb": {
+          "mean": 95.67,
+          "std": 68.1539,
+          "min": 0.0,
+          "max": 255.0
+        },
+        "3_clahe_rgb": {
+          "mean": 98.1722,
+          "std": 68.1965,
+          "min": 2.0,
+          "max": 255.0
+        },
+        "4_model_ab_a": {
+          "mean": 8.2925,
+          "std": 9.5141,
+          "min": -22.7589,
+          "max": 107.9826
+        },
+        "4_model_ab_b": {
+          "mean": 3.7082,
+          "std": 10.5542,
+          "min": -53.4563,
+          "max": 80.0022
+        },
+        "4_model_chroma": {
+          "mean": 12.7189,
+          "std": 11.075,
+          "min": 0.0008,
+          "max": 124.3711
+        },
+        "5_L": {
+          "mean": 39.1556,
+          "std": 27.3282,
+          "min": 0.0,
+          "max": 100.0
+        },
+        "6_bilateral_chroma": {
+          "mean": 12.5352,
+          "std": 10.9414,
+          "min": 0.0003,
+          "max": 115.6197
+        },
+        "7_cast_ratio": 0.7245,
+        "7_lum_weight": {
+          "mean": 0.4568,
+          "std": 0.3351,
+          "min": 0.0,
+          "max": 1.0
+        },
+        "7_bold_in": 1.5,
+        "7_bold_effective": 1.5,
+        "7_bold_chroma": {
+          "mean": 15.903,
+          "std": 15.6058,
+          "min": 0.0003,
+          "max": 159.4156
+        },
+        "8_cap": 36.0,
+        "8_cap_chroma": {
+          "mean": 4.7773,
+          "std": 4.6881,
+          "min": 0.0001,
+          "max": 47.8893
+        },
+        "9_gamut_chroma": {
+          "mean": 4.7587,
+          "std": 4.6698,
+          "min": 0.0001,
+          "max": 47.7023
+        },
+        "10_final_rgb": {
+          "mean": 96.4029,
+          "std": 67.2759,
+          "min": 0.0,
+          "max": 255.0
+        },
+        "10_final_R": {
+          "mean": 102.082,
+          "std": 69.3395,
+          "min": 0.0,
+          "max": 255.0
+        },
+        "10_final_G": {
+          "mean": 94.0926,
+          "std": 67.7978,
+          "min": 0.0,
+          "max": 255.0
+        },
+        "10_final_B": {
+          "mean": 93.0341,
+          "std": 64.2238,
+          "min": 0.0,
+          "max": 255.0
+        },
+        "10_final_metrics": {
+          "chroma": 4.7744,
+          "chroma_p90": 7.6325,
+          "colorfulness": 15.6983,
+          "vivid_frac": 0.0147,
+          "hue_std": 0.4511,
+          "clip_frac": 0.0003,
+          "bleed": 0.5014
+        }
+      }
+    },
+    "166360|eccv16": {
+      "model": "eccv16",
+      "levels": true,
+      "clahe": 1.5,
+      "rebalance": 2.0,
+      "size": null,
+      "cfg": {
+        "res": 256,
+        "temperature": 0.3,
+        "mode": "mean",
+        "chroma_floor": 0.0,
+        "hue_mask": 1.0
+      },
+      "stages": {
+        "1_to_gray_rgb": {
+          "mean": 90.9344,
+          "std": 47.2971,
+          "min": 23.0,
+          "max": 243.0
+        },
+        "2_levels_rgb": {
+          "mean": 95.67,
+          "std": 68.1539,
+          "min": 0.0,
+          "max": 255.0
+        },
+        "3_clahe_rgb": {
+          "mean": 99.517,
+          "std": 68.0299,
+          "min": 2.0,
+          "max": 255.0
+        },
+        "4_model_ab_a": {
+          "mean": 7.4751,
+          "std": 8.6152,
+          "min": -17.5635,
+          "max": 60.3671
+        },
+        "4_model_ab_b": {
+          "mean": 10.4842,
+          "std": 18.3135,
+          "min": -24.3929,
+          "max": 68.3834
+        },
+        "4_model_chroma": {
+          "mean": 21.4263,
+          "std": 10.7848,
+          "min": 0.0372,
+          "max": 76.5461
+        },
+        "5_L": {
+          "mean": 39.1556,
+          "std": 27.3282,
+          "min": 0.0,
+          "max": 100.0
+        },
+        "6_bilateral_chroma": {
+          "mean": 21.3456,
+          "std": 10.7171,
+          "min": 0.015,
+          "max": 76.2981
+        },
+        "7_cast_ratio": 0.6031,
+        "7_lum_weight": {
+          "mean": 0.4568,
+          "std": 0.3351,
+          "min": 0.0,
+          "max": 1.0
+        },
+        "7_bold_in": 1.0,
+        "7_bold_effective": 1.0,
+        "7_bold_chroma": {
+          "mean": 21.3456,
+          "std": 10.7171,
+          "min": 0.015,
+          "max": 76.2981
+        },
+        "8_cap": 24.0,
+        "8_cap_chroma": {
+          "mean": 11.1975,
+          "std": 5.622,
+          "min": 0.0079,
+          "max": 40.0244
+        },
+        "9_gamut_chroma": {
+          "mean": 11.1537,
+          "std": 5.6,
+          "min": 0.0079,
+          "max": 39.8681
+        },
+        "10_final_rgb": {
+          "mean": 94.9953,
+          "std": 66.0976,
+          "min": 0.0,
+          "max": 255.0
+        },
+        "10_final_R": {
+          "mean": 105.2995,
+          "std": 71.0417,
+          "min": 0.0,
+          "max": 255.0
+        },
+        "10_final_G": {
+          "mean": 93.4849,
+          "std": 68.0617,
+          "min": 0.0,
+          "max": 255.0
+        },
+        "10_final_B": {
+          "mean": 86.2016,
+          "std": 56.9347,
+          "min": 0.0,
+          "max": 255.0
+        },
+        "10_final_metrics": {
+          "chroma": 11.1232,
+          "chroma_p90": 18.5638,
+          "colorfulness": 27.166,
+          "vivid_frac": 0.0075,
+          "hue_std": 0.9921,
+          "clip_frac": 0.0,
+          "bleed": 0.6613
+        }
+      }
+    }
+  }
+}

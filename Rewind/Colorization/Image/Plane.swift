@@ -16,6 +16,10 @@ struct Plane<Value> {
     self.size = size
     self.values = values
   }
+
+  func map<T>(_ transform: (Value) -> T) -> Plane<T> {
+    Plane<T>(size: size, values: values.map(transform))
+  }
 }
 
 struct PlaneSize: Equatable {
