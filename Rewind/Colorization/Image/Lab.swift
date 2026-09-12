@@ -25,7 +25,7 @@ enum Lab {
 extension Lab {
   // CIE Lab replaces the cube root below (6/29)³ with a straight line that meets it
   // in value and slope: (1/3)(29/6)² t + 4/29.
-  private static let epsilon: Float = 0.008856
+  private static let threshold: Float = 0.008856
   private static let slope: Float = 7.787
   private static let offset: Float = 16.0 / 116.0
 
@@ -43,7 +43,7 @@ extension Lab {
   // The f of the CIE Lab definition: a cube root, the eye's response to light, with a
   // straight segment near zero where the root's slope would be infinite.
   private static func f(_ t: Float) -> Float {
-    t > epsilon ? cbrtf(t) : slope * t + offset
+    t > threshold ? cbrtf(t) : slope * t + offset
   }
 
   // The sRGB value of a neutral pixel of this lightness: with a = b = 0 the three channels of
@@ -56,7 +56,7 @@ extension Lab {
   // cube, the straight segment is solved for t. Needed to get from L back to Y.
   private static func fInverse(_ u: Float) -> Float {
     let cubed = u * u * u
-    return cubed > epsilon ? cubed : (u - offset) / slope
+    return cubed > threshold ? cubed : (u - offset) / slope
   }
 
   // sRGB stores channels gamma-encoded, 0.5 is not half the light. This is the inverse of the
