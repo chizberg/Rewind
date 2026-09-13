@@ -34,7 +34,7 @@ Lab formulas and constants: [OpenCV, RGB ↔ CIE L\*a\*b\*](https://docs.opencv.
 | DDColor: fit, pad, inference, crop | `Models/DDColorLarge.swift` | done |
 | DDColor: back to full size | `ABPlanes.bilinearResized(target:)` | done |
 | ECCV16: squash, lightness, inference, back to full size | `Models/ECCV16.swift` | done |
-| Compose L + ab into the result | | not yet |
+| Compose L + ab into the result | `ColorizationPipeline.finish`, `Lab.rgb(lightness:ab:)` | done |
 | The store hands out a model, result on screen | | not yet |
 | Post-process: edge-aware blur, boldness, chroma ceiling | | not yet, each after looking at real photos |
 
@@ -44,11 +44,16 @@ Lab formulas and constants: [OpenCV, RGB ↔ CIE L\*a\*b\*](https://docs.opencv.
    strip, and `isMonochrome` decides whether the photo has no color. Only then is the colorize
    button offered.
 2. On a tap without a chosen model, the picker opens. With one, `ImageDetailsModel` calls
-   `ColorizationModel.colorize(image:)` on the photo without the watermark strip.
+   `ColorizationModel.colorize(image:)` on the photo without the watermark strip. Its default
+   implementation runs `ColorizationPipeline.run(_:image:)` with the model.
 3. The model comes from `ColorizationModelStore.localModel(id:)`. It already finds the installed
    `Application Support/ColorizationModels/<model ID>.mlmodelc` but does not create the model yet.
 
 ## The pipeline
+
+`ColorizationPipeline.run(_:image:)` takes one photo through the whole diagram: prepare with the
+model's `claheClip`, the model's `predict(gray:)`, then `finish`. As a nonisolated `async`
+function it runs the pixel work off the main actor the tap came from.
 
 ```
 UIImage (the photo without the watermark)
@@ -69,7 +74,9 @@ ab, ABPlanes, full size                                                       �
   │                                                                           │
   │  POST-PROCESS (not yet): edge-aware blur → boldness → chroma ceiling      │
   │                                                                           │
-  │  COMPOSE (not yet): Lab → sRGB  ◄─────────────────────────────────────────┘
+  │  COMPOSE ─ ColorizationPipeline.finish                                    │
+  │  Lab.rgb(lightness:ab:)         Lab → sRGB  ◄─────────────────────────────┘
+  │  RGBPlanes.makeUIImage()        rounded to bytes
   ▼
 UIImage (colorized)
 ```
@@ -92,8 +99,9 @@ size the photo was read at.
 4. **CLAHE.** `CLAHE.apply(to:clip:)` is Contrast Limited Adaptive Histogram Equalization on the L
    of 8-bit Lab, 8×8 tiles, written after OpenCV's `clahe.cpp` step by step. Faded scans get their
    local contrast back before the model reads them. The clip limit is a per-model constant measured
-   in the reference: DDColor 1.0, ECCV16 1.5. CLAHE only steers the color: it changes what the model
-   sees, never the result's brightness, which still comes from step 2.
+   in the reference, `ColorizationModel.claheClip`: DDColor 1.0, ECCV16 1.5. CLAHE only steers the
+   color: it changes what the model sees, never the result's brightness, which still comes from
+   step 2.
 
 ### 2. Model
 
@@ -190,12 +198,30 @@ this:
 4. **Back to full size.** The same bilinear scaling as DDColor's step 5, with a different scale
    on each axis.
 
-### 3. Compose (not yet)
+### 3. Compose
 
-Every pixel's L from prepare and ab from the model are converted Lab → XYZ → sRGB with the
-constants from the same OpenCV page, clamped to 0...1, and written into a `UIImage`. With a = b = 0
-the result is the neutral gray frame within one level, which is how the composition is tested
-without a model.
+`ColorizationPipeline.finish` makes the result from the full-size lightness of prepare and the ab of
+the model: `Lab.rgb(lightness:ab:)`, then `RGBPlanes.makeUIImage()`. The formulas and constants are
+OpenCV's float `COLOR_Lab2RGB`, like the rest of `Lab.swift`.
+
+1. **Lab → XYZ.** L gives `fy = (L + 16) / 116`, a and b shift it to `fx` and `fz`, and the inverse
+   of `f` (a cube, with the straight segment near zero) turns them into X, Y and Z. X and Z are
+   scaled by OpenCV's D65 white point, `Xn` 0.950456 and `Zn` 1.088754.
+2. **XYZ → sRGB.** OpenCV's
+   [XYZ → RGB matrix](https://docs.opencv.org/4.x/de/d25/imgproc_color_conversions.html#color_convert_rgb_xyz)
+   gives linear RGB. Each channel is clamped to 0...1 before the sRGB transfer function, in the
+   order of OpenCV's
+   [`color_lab.cpp`](https://github.com/opencv/opencv/blob/4.x/modules/imgproc/src/color_lab.cpp):
+   a color outside sRGB loses the excess.
+3. **Image.** `RGBPlanes.makeUIImage()` rounds every channel to a byte with
+   `ColorizationHelpers.byte(sRGB:)` and wraps the bytes in a `CGImage` with
+   `ColorizationHelpers.makeCGImage(bytes:size:)`, the same helpers that make the gray frame and
+   DDColor's input image.
+
+With a = b = 0 the result is the neutral gray frame within one level. `ColorizationPipelineTests`
+runs `run` on every parity frame with each model's clip limit and a model that predicts no color,
+and checks exactly that, together with the result's size and the CLAHE'd frame the model
+received.
 
 ### 4. Post-process (not yet)
 
@@ -226,6 +252,8 @@ order. Each is added only after looking at real photos on a phone.
 - Where it matters for the numbers, the code follows OpenCV's arithmetic rather than a textbook
   version: area resize, reflect padding, CLAHE, Lab constants and the 8-bit Lab tables CLAHE runs
   in; ECCV16's input follows Pillow's bicubic resize.
+- The final frame (`10_final_*`) is not compared yet: the reference recorded it after the
+  post-process stages. `LabTests` pins compose to cv2's `COLOR_Lab2RGB` on single pixels instead.
 - Rounding is `.rounded()` (halves away from zero) everywhere. cv2 rounds halves to even; the
   difference moves the parity means by at most 0.002.
 
@@ -233,18 +261,18 @@ order. Each is added only after looking at real photos on a phone.
 
 | File | What it holds |
 |---|---|
-| `ColorizationModel.swift` | the model protocol and `ColorizationModelID` |
-| `ColorizationPipeline.swift` | the pipeline's stages in order; `prepare` so far |
-| `ColorizationHelpers.swift` | helpers shared by several stages (`mirroredIndex`) |
+| `ColorizationModel.swift` | the model protocol (`claheClip`, `predict(gray:)`, `colorize(image:)` running the pipeline by default) and `ColorizationModelID` |
+| `ColorizationPipeline.swift` | the pipeline's stages in order: `run`, `prepare`, `finish` |
+| `ColorizationHelpers.swift` | helpers shared by several stages (`mirroredIndex`, `byte(sRGB:)`, `makeCGImage`) |
 | `Image/Plane.swift` | `Plane<Value>`: one channel of values with its `PlaneSize` |
-| `Image/RGBPlanes.swift` | a photo as three float channels |
+| `Image/RGBPlanes.swift` | a photo as three float channels, read from a `UIImage` and written back to one |
 | `Image/ABPlanes.swift` | the model's a and b channels, read from Core ML at fp16 or fp32, cropped, resized |
-| `Image/Lab.swift` | sRGB ↔ Lab: lightness of a photo and of a gray frame, neutral gray, the 8-bit tables CLAHE runs in |
+| `Image/Lab.swift` | sRGB ↔ Lab: lightness of a photo and of a gray frame, neutral gray, Lab → sRGB for compose, the 8-bit tables CLAHE runs in |
 | `Image/Resampling.swift` | area and bicubic resize and reflect padding of the gray frame |
 | `Stages/CLAHE.swift` | contrast limited adaptive histogram equalization |
 | `Models/CoreMLLoader.swift` | lazy Core ML loading with the file and memory checks |
-| `Models/DDColorLarge.swift` | DDColor-large: its geometry and inference |
-| `Models/ECCV16.swift` | ECCV16: its geometry and inference |
+| `Models/DDColorLarge.swift` | DDColor-large as a `ColorizationModel`: its clip limit, geometry and inference |
+| `Models/ECCV16.swift` | ECCV16 as a `ColorizationModel`: its clip limit, geometry and inference |
 | `ColorizationModelStore.swift`, `ColorizationManifest.swift`, `ColorizationFileState.swift`, `DownloadRequest+Colorization.swift` | downloading, installing and deleting models |
 | `MonochromeDetection.swift` | whether a photo needs colorization |
 | `WatermarkSeparation.swift` | the archive's watermark strip split off before colorization |

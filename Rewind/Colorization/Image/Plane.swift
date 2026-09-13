@@ -6,7 +6,6 @@
 //
 
 import CoreGraphics
-import Foundation
 
 struct Plane<Value> {
   var size: PlaneSize
@@ -41,23 +40,6 @@ extension Plane<UInt8> {
       bytes[i * 4 + 1] = value
       bytes[i * 4 + 2] = value
     }
-    guard let provider = CGDataProvider(data: Data(bytes) as CFData),
-          let image = CGImage(
-            width: size.width,
-            height: size.height,
-            bitsPerComponent: 8,
-            bitsPerPixel: 32,
-            bytesPerRow: size.width * 4,
-            space: CGColorSpaceCreateDeviceRGB(),
-            bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.noneSkipLast.rawValue),
-            provider: provider,
-            decode: nil,
-            shouldInterpolate: false,
-            intent: .defaultIntent,
-          )
-    else {
-      throw HandlingError("Unable to make an image for the colorization model")
-    }
-    return image
+    return try ColorizationHelpers.makeCGImage(bytes: bytes, size: size)
   }
 }

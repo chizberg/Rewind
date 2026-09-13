@@ -23,4 +23,18 @@ enum ColorizationPipeline {
       lightness: lightness,
     )
   }
+
+  // One photo colorized: prepare, the model's ab, finish. Nonisolated and async, so the pixel work
+  // runs on the global executor rather than on the main actor the tap came from.
+  // https://github.com/swiftlang/swift-evolution/blob/main/proposals/0338-clarify-execution-non-actor-async.md
+  static func run(_ model: some ColorizationModel, image: UIImage) async throws -> UIImage {
+    let input = try prepare(image: image, claheClip: model.claheClip)
+    let ab = try await model.predict(gray: input.gray)
+    return try finish(input, ab: ab)
+  }
+
+  // Everything after the model: composing the photo's own lightness with the model's ab.
+  private static func finish(_ input: Input, ab: ABPlanes) throws -> UIImage {
+    try Lab.rgb(lightness: input.lightness, ab: ab).makeUIImage()
+  }
 }

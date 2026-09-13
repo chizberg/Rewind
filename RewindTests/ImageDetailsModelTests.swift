@@ -207,6 +207,7 @@ struct ImageDetailsModelTests {
 
 @MainActor
 private final class StubColorizationModel: ColorizationModel {
+  nonisolated let claheClip = 0.0
   private let run: (UIImage) throws -> UIImage
 
   init(_ run: @escaping (UIImage) throws -> UIImage) {
@@ -215,6 +216,10 @@ private final class StubColorizationModel: ColorizationModel {
 
   func colorize(image: UIImage) async throws -> UIImage {
     try run(image)
+  }
+
+  func predict(gray _: Plane<UInt8>) throws -> ABPlanes {
+    throw HandlingError("The stub colorizes whole images")
   }
 }
 

@@ -11,7 +11,7 @@ import Foundation
 // ECCV16 (Zhang et al.) converted to Core ML at fp32: lightness in, ab out, with the reference's
 // decode of its 313 ab bins inside the graph. An actor: the MLModel stays isolated on it.
 // https://arxiv.org/abs/1603.08511
-actor ECCV16 {
+actor ECCV16: ColorizationModel {
   // Fixed input side the graph was converted for; above 256 the model invents colors.
   private static let inputSide = 256
   // Exponent on each bin's chroma in the graph's decode; the plain mean (0) is washed out.
@@ -25,6 +25,9 @@ actor ECCV16 {
   // Memory gate threshold: the 123 MB fp32 weights plus headroom for activations; not measured
   // for Core ML.
   private static let requiredMemory = 400_000_000
+
+  // The clip limit the reference measured for ECCV16.
+  nonisolated let claheClip = 1.5
 
   // The graph, loaded on the first prediction.
   private var loader: CoreMLLoader

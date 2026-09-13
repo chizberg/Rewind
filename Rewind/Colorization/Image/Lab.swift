@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import VGSL
 
 enum Lab {
   static func lightness(of rgb: RGBPlanes) -> Plane<Float> {
@@ -25,7 +26,29 @@ enum Lab {
   }
 
   static func neutralGray(lightness: Plane<Float>) -> Plane<UInt8> {
-    lightness.map { UInt8(sRGB: neutralGray(lightness: $0)) }
+    lightness.map { ColorizationHelpers.byte(sRGB: neutralGray(lightness: $0)) }
+  }
+
+  // The colorized photo: every pixel's L from the photo and ab from the model, through XYZ back to
+  // sRGB with OpenCV's matrix. Like cv2's float COLOR_Lab2RGB, the linear channels are clamped to
+  // 0...1 before the transfer function, so a color outside sRGB loses the excess.
+  // https://docs.opencv.org/4.x/de/d25/imgproc_color_conversions.html#color_convert_rgb_xyz
+  static func rgb(lightness: Plane<Float>, ab: ABPlanes) -> RGBPlanes {
+    assert(lightness.size == ab.size)
+    let count = lightness.size.pixelCount
+    var r = [Float](repeating: 0, count: count)
+    var g = [Float](repeating: 0, count: count)
+    var b = [Float](repeating: 0, count: count)
+    for i in 0..<count {
+      let fy = fOfLuminance(lightness: lightness.values[i])
+      let x = whiteX * fInverse(fy + ab.a[i] / 500)
+      let y = fInverse(fy)
+      let z = whiteZ * fInverse(fy - ab.b[i] / 200)
+      r[i] = gammaEncode((3.240479 * x - 1.53715 * y - 0.498535 * z).clamp(0...1))
+      g[i] = gammaEncode((-0.969256 * x + 1.875991 * y + 0.041556 * z).clamp(0...1))
+      b[i] = gammaEncode((0.055648 * x - 0.204043 * y + 1.057311 * z).clamp(0...1))
+    }
+    return RGBPlanes(size: lightness.size, r: r, g: g, b: b)
   }
 }
 
@@ -38,6 +61,10 @@ extension Lab {
   private static let threshold: Float = 0.008856
   private static let slope: Float = 7.787
   private static let offset: Float = 16.0 / 116.0
+  // OpenCV's D65 white, Xn and Zn: Lab holds X and Z relative to white, the way back multiplies
+  // them in. Yn is 1, so Y has no factor.
+  private static let whiteX: Float = 0.950456
+  private static let whiteZ: Float = 1.088754
 
   // Y of CIE XYZ: the pixel's light weighted by the eye's sensitivity. The weights are the
   // Y row of the sRGB -> XYZ matrix for D65; green dominates because the eye sees it best.
@@ -50,6 +77,11 @@ extension Lab {
     116 * f(luminance(r: r, g: g, b: b)) - 16
   }
 
+  // L* = 116 f(Y/Yn) - 16 solved for f(Y/Yn): the first step from L back to XYZ.
+  private static func fOfLuminance(lightness: Float) -> Float {
+    (lightness + 16) / 116
+  }
+
   // The f of the CIE Lab definition: a cube root, the eye's response to light, with a
   // straight segment near zero where the root's slope would be infinite.
   private static func f(_ t: Float) -> Float {
@@ -59,7 +91,7 @@ extension Lab {
   // The sRGB value of a neutral pixel of this lightness: with a = b = 0 the three channels of
   // Lab -> RGB come out equal, so the whole inverse conversion collapses into one channel.
   private static func neutralGray(lightness: Float) -> Float {
-    gammaEncode(fInverse((lightness + 16) / 116))
+    gammaEncode(fInverse(fOfLuminance(lightness: lightness)))
   }
 
   // f undone, the Lab -> XYZ direction of the same CIE definition: the cube root becomes a
@@ -79,14 +111,6 @@ extension Lab {
   // a byte stores. 0.0031308 is where 0.04045 lands after decoding, so the two branches meet.
   private static func gammaEncode(_ c: Float) -> Float {
     c <= 0.0031308 ? 12.92 * c : 1.055 * powf(c, 1 / 2.4) - 0.055
-  }
-}
-
-extension UInt8 {
-  // A 0...1 channel as a byte, halves away from zero. cv2 rounds them to even, but a gamma curve
-  // almost never lands on an exact half: the parity gray frame comes out identical either way.
-  fileprivate init(sRGB value: Float) {
-    self.init((Swift.min(Swift.max(value, 0), 1) * 255).rounded())
   }
 }
 

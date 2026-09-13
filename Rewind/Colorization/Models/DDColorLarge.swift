@@ -11,7 +11,7 @@ import Foundation
 // DDColor-large converted to Core ML at fp16: gray frame in, ab out. An actor: a prediction takes
 // seconds and the MLModel stays isolated on it.
 // https://arxiv.org/abs/2212.11613
-actor DDColorLarge {
+actor DDColorLarge: ColorizationModel {
   // Fixed input side the graph was traced for; the reference's working resolution.
   private static let inputSide = 384
   // Input feature name given at conversion.
@@ -21,6 +21,9 @@ actor DDColorLarge {
   // Memory gate threshold: above the 435 MB fp16 weights, below torch's 1.7 GB high-water at 384;
   // not measured for Core ML.
   private static let requiredMemory = 1_200_000_000
+
+  // The clip limit the reference measured for DDColor.
+  nonisolated let claheClip = 1.0
 
   // The graph, loaded on the first prediction.
   private var loader: CoreMLLoader

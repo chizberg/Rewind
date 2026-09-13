@@ -80,4 +80,16 @@ struct RGBPlanes {
 
     self.init(size: size, r: channel(offset: 0), g: channel(offset: 1), b: channel(offset: 2))
   }
+
+  // The composed photo as the UIImage the screen shows, each 0...1 channel rounded to a byte.
+  // https://developer.apple.com/documentation/uikit/uiimage/init(cgimage:)-14qlb
+  func makeUIImage() throws -> UIImage {
+    var bytes = [UInt8](repeating: 255, count: size.pixelCount * 4)
+    for i in 0..<size.pixelCount {
+      bytes[i * 4] = ColorizationHelpers.byte(sRGB: r[i])
+      bytes[i * 4 + 1] = ColorizationHelpers.byte(sRGB: g[i])
+      bytes[i * 4 + 2] = ColorizationHelpers.byte(sRGB: b[i])
+    }
+    return try UIImage(cgImage: ColorizationHelpers.makeCGImage(bytes: bytes, size: size))
+  }
 }
