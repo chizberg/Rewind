@@ -30,11 +30,11 @@ Lab formulas and constants: [OpenCV, RGB ↔ CIE L\*a\*b\*](https://docs.opencv.
 |---|---|---|
 | Split the watermark, detect monochrome | `WatermarkSeparation.swift`, `MonochromeDetection.swift` | done |
 | Download and install models | `ColorizationModelStore.swift` and around | done |
-| Prepare: read, lightness, gray frame, CLAHE | `ColorizationPipeline.prepare` | done |
+| Prepare: read, lightness, gray frame, CLAHE | `colorize(image:with:)` | done |
 | DDColor: fit, pad, inference, crop | `Models/DDColorLarge.swift` | done |
 | DDColor: back to full size | `ABPlanes.bilinearResized(target:)` | done |
 | ECCV16: squash, lightness, inference, back to full size | `Models/ECCV16.swift` | done |
-| Compose L + ab into the result | `ColorizationPipeline.finish`, `Lab.rgb(lightness:ab:)` | done |
+| Compose L + ab into the result | `colorize(image:with:)`, `Lab.rgb(lightness:ab:)` | done |
 | The store hands out a model, result on screen | | not yet |
 | Post-process: edge-aware blur, boldness, chroma ceiling | | not yet, each after looking at real photos |
 
@@ -44,21 +44,21 @@ Lab formulas and constants: [OpenCV, RGB ↔ CIE L\*a\*b\*](https://docs.opencv.
    strip, and `isMonochrome` decides whether the photo has no color. Only then is the colorize
    button offered.
 2. On a tap without a chosen model, the picker opens. With one, `ImageDetailsModel` calls
-   `ColorizationModel.colorize(image:)` on the photo without the watermark strip. Its default
-   implementation runs `ColorizationPipeline.run(_:image:)` with the model.
+   `colorize(image:with:)` on the photo without the watermark strip, with the model from the store.
 3. The model comes from `ColorizationModelStore.localModel(id:)`. It already finds the installed
    `Application Support/ColorizationModels/<model ID>.mlmodelc` but does not create the model yet.
 
 ## The pipeline
 
-`ColorizationPipeline.run(_:image:)` takes one photo through the whole diagram: prepare with the
-model's `claheClip`, the model's `predict(gray:)`, then `finish`. As a nonisolated `async`
-function it runs the pixel work off the main actor the tap came from.
+`colorize(image:with:)` in `Colorize.swift` takes one photo through the whole diagram, one stage a
+line: prepare with the model's `claheClip`, the model's `predict(gray:)`, then compose. Every new
+stage lands in it as one more line, so the function always shows the whole order. As a nonisolated
+`async` function it runs the pixel work off the main actor the tap came from.
 
 ```
 UIImage (the photo without the watermark)
   │
-  │  PREPARE ─ ColorizationPipeline.prepare
+  │  PREPARE
   │  RGBPlanes(image:maxSide:)      pixels as floats, long side at most 2048
   │  Lab.lightness(of:)             L of every pixel ─────────────────────────┐
   │  Lab.neutralGray(lightness:)    the same L as a gray sRGB frame           │
@@ -74,7 +74,7 @@ ab, ABPlanes, full size                                                       �
   │                                                                           │
   │  POST-PROCESS (not yet): edge-aware blur → boldness → chroma ceiling      │
   │                                                                           │
-  │  COMPOSE ─ ColorizationPipeline.finish                                    │
+  │  COMPOSE                                                                  │
   │  Lab.rgb(lightness:ab:)         Lab → sRGB  ◄─────────────────────────────┘
   │  RGBPlanes.makeUIImage()        rounded to bytes
   ▼
@@ -83,13 +83,12 @@ UIImage (colorized)
 
 ### 1. Prepare
 
-`ColorizationPipeline.prepare(image:claheClip:)` returns `Input { gray, lightness }`, both at the
+The first three lines of `colorize(image:with:)` make the gray frame and the lightness, both at the
 size the photo was read at.
 
 1. **Read.** `RGBPlanes(image:maxSide:)` draws the photo into an 8-bit RGB context with its
-   orientation applied, scaled down so the long side is at most `ColorizationPipeline.maxSide`
-   (2048), and stores each channel as floats in 0...1. The cap bounds the memory and time of every
-   full-size stage after it.
+   orientation applied, scaled down so the long side is at most `maxSide` (2048), and stores each
+   channel as floats in 0...1. The cap bounds the memory and time of every full-size stage after it.
 2. **Lightness.** `Lab.lightness(of:)` computes L\* of every pixel: sRGB gamma decoded, weighted
    into luminance Y, then `116 f(Y) - 16`. This plane is kept until the end: the result's brightness
    comes from here, not from the model.
@@ -121,7 +120,7 @@ input. An 800×698 photo goes through it like this:
 
 | Step | Code | Size |
 |---|---|---|
-| Gray frame | `prepare` | 800×698 |
+| Gray frame | `colorize(image:with:)` | 800×698 |
 | 1. Fit | `Plane<UInt8>.resized(target:)` | 384×335 |
 | 2. Pad | `Plane<UInt8>.padded(target:)` | 384×384 |
 | 3. Inference | `DDColorLarge.infer` | ab 384×384 |
@@ -169,7 +168,7 @@ this:
 
 | Step | Code | Size |
 |---|---|---|
-| Gray frame | `prepare` | 800×533 |
+| Gray frame | `colorize(image:with:)` | 800×533 |
 | 1. Squash | `Plane<UInt8>.bicubicResized(target:)` | 256×256 |
 | 2. Lightness | `Lab.lightness(ofGray:)` | L 256×256 |
 | 3. Inference | `ECCV16.infer` | ab 256×256 |
@@ -200,9 +199,9 @@ this:
 
 ### 3. Compose
 
-`ColorizationPipeline.finish` makes the result from the full-size lightness of prepare and the ab of
-the model: `Lab.rgb(lightness:ab:)`, then `RGBPlanes.makeUIImage()`. The formulas and constants are
-OpenCV's float `COLOR_Lab2RGB`, like the rest of `Lab.swift`.
+The last line of `colorize(image:with:)` makes the result from the full-size lightness of prepare
+and the ab of the model: `Lab.rgb(lightness:ab:)`, then `RGBPlanes.makeUIImage()`. The formulas and
+constants are OpenCV's float `COLOR_Lab2RGB`, like the rest of `Lab.swift`.
 
 1. **Lab → XYZ.** L gives `fy = (L + 16) / 116`, a and b shift it to `fx` and `fz`, and the inverse
    of `f` (a cube, with the straight segment near zero) turns them into X, Y and Z. X and Z are
@@ -218,9 +217,9 @@ OpenCV's float `COLOR_Lab2RGB`, like the rest of `Lab.swift`.
    `ColorizationHelpers.makeCGImage(bytes:size:)`, the same helpers that make the gray frame and
    DDColor's input image.
 
-With a = b = 0 the result is the neutral gray frame within one level. `ColorizationPipelineTests`
-runs `run` on every parity frame with each model's clip limit and a model that predicts no color,
-and checks exactly that, together with the result's size and the CLAHE'd frame the model
+With a = b = 0 the result is the neutral gray frame within one level. `ColorizeTests` runs
+`colorize(image:with:)` on every parity frame with each model's clip limit and a model that predicts
+no color, and checks exactly that, together with the result's size and the CLAHE'd frame the model
 received.
 
 ### 4. Post-process (not yet)
@@ -261,8 +260,8 @@ order. Each is added only after looking at real photos on a phone.
 
 | File | What it holds |
 |---|---|
-| `ColorizationModel.swift` | the model protocol (`claheClip`, `predict(gray:)`, `colorize(image:)` running the pipeline by default) and `ColorizationModelID` |
-| `ColorizationPipeline.swift` | the pipeline's stages in order: `run`, `prepare`, `finish` |
+| `ColorizationModel.swift` | the model protocol (`claheClip`, `predict(gray:)`) and `ColorizationModelID` |
+| `Colorize.swift` | `colorize(image:with:)`, the pipeline stage by stage, and `maxSide` |
 | `ColorizationHelpers.swift` | helpers shared by several stages (`mirroredIndex`, `byte(sRGB:)`, `makeCGImage`) |
 | `Image/Plane.swift` | `Plane<Value>`: one channel of values with its `PlaneSize` |
 | `Image/RGBPlanes.swift` | a photo as three float channels, read from a `UIImage` and written back to one |

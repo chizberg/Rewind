@@ -30,15 +30,12 @@ struct ColorizationParityTests {
     let reference = try ParityReference.load()
     let expected = try reference.expected(frame: frame, model: model)
 
-    let input = try ColorizationPipeline.prepare(
-      image: reference.input(frame: frame),
-      claheClip: expected.claheClip,
-    )
+    let prepared = try reference.prepared(frame: frame, claheClip: expected.claheClip)
 
-    try expected.check("3_clahe_rgb", ParityStatistics(bytes: input.gray.values))
+    try expected.check("3_clahe_rgb", ParityStatistics(bytes: prepared.gray.values))
     try expected.check(
       "5_L",
-      ParityStatistics(input.lightness.values),
+      ParityStatistics(prepared.lightness.values),
       momentTolerance: Self.lightnessTolerance,
     )
   }
@@ -64,16 +61,13 @@ struct ColorizationParityTests {
   ) async throws {
     let reference = try ParityReference.load()
     let expected = try reference.expected(frame: frame, model: model)
-    let input = try ColorizationPipeline.prepare(
-      image: reference.input(frame: frame),
-      claheClip: expected.claheClip,
-    )
+    let gray = try reference.prepared(frame: frame, claheClip: expected.claheClip).gray
     let compiled = try await TestModel.compile(model)
     defer { try? FileManager.default.removeItem(at: compiled) }
 
-    let ab = try await predict(compiled, input.gray)
+    let ab = try await predict(compiled, gray)
 
-    #expect(ab.size == input.gray.size)
+    #expect(ab.size == gray.size)
     expected.checkModelMean("4_model_ab_a", ParityStatistics(ab.a))
     expected.checkModelMean("4_model_ab_b", ParityStatistics(ab.b))
     expected.checkModelMean(
@@ -150,6 +144,15 @@ struct ParityReference: Decodable {
   func gray(frame: String) throws -> Plane<UInt8> {
     let source = try RGBPlanes(image: input(frame: frame), maxSide: longSide)
     return Lab.neutralGray(lightness: Lab.lightness(of: source))
+  }
+
+  func prepared(
+    frame: String,
+    claheClip: Double,
+  ) throws -> (gray: Plane<UInt8>, lightness: Plane<Float>) {
+    let source = try RGBPlanes(image: input(frame: frame), maxSide: longSide)
+    let lightness = Lab.lightness(of: source)
+    return (CLAHE.apply(to: Lab.neutralGray(lightness: lightness), clip: claheClip), lightness)
   }
 }
 

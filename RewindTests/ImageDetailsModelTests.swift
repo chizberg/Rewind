@@ -161,18 +161,11 @@ struct ImageDetailsModelTests {
     #expect(harness.requestedCids == [Model.Image.mock.cid])
   }
 
-  @Test func colorizeRunsTheModelOnTheContentAndKeepsTheResult() async {
+  @Test func colorizeRunsTheModelOnTheContentAndKeepsTheResult() async throws {
     let harness = Harness()
-    let source = WatermarkedImage(content: UIImage(), watermark: UIImage())
-    let colorized = UIImage()
-    var received: [UIImage] = []
-    let model = harness.makeModel(
-      cachedDetails: nil,
-      colorizationModel: StubColorizationModel { image in
-        received.append(image)
-        return colorized
-      },
-    )
+    let source = try WatermarkedImage(content: makeTinyPhoto(), watermark: UIImage())
+    let colorizationModel = ColorlessModel(claheClip: 1.0)
+    let model = harness.makeModel(cachedDetails: nil, colorizationModel: colorizationModel)
     model(.internal(.bwDetectionCompleted(isBW: true, image: source)))
 
     model(.colorize)
@@ -183,18 +176,19 @@ struct ImageDetailsModelTests {
       return false
     })
     guard case let .ready(result) = model.state.colorizationState else { return }
-    #expect(result === colorized)
-    #expect(received.count == 1)
-    #expect(received.first === source.content)
+    #expect(result.size == source.content.size)
+    let received = try #require(await colorizationModel.receivedGray)
+    #expect(received.size.width == Int(source.content.size.width))
+    #expect(received.size.height == Int(source.content.size.height))
     #expect(model.state.colorizationPicker == nil)
   }
 
-  @Test func failedColorizationRestoresTheButtonAndReportsTheError() async {
+  @Test func failedColorizationRestoresTheButtonAndReportsTheError() async throws {
     let harness = Harness()
-    let source = WatermarkedImage(content: UIImage(), watermark: nil)
+    let source = try WatermarkedImage(content: makeTinyPhoto(), watermark: nil)
     let model = harness.makeModel(
       cachedDetails: nil,
-      colorizationModel: StubColorizationModel { _ in throw HandlingError("no color") },
+      colorizationModel: ThrowingColorizationModel(),
     )
     model(.internal(.bwDetectionCompleted(isBW: true, image: source)))
 
@@ -205,22 +199,16 @@ struct ImageDetailsModelTests {
   }
 }
 
-@MainActor
-private final class StubColorizationModel: ColorizationModel {
-  nonisolated let claheClip = 0.0
-  private let run: (UIImage) throws -> UIImage
-
-  init(_ run: @escaping (UIImage) throws -> UIImage) {
-    self.run = run
-  }
-
-  func colorize(image: UIImage) async throws -> UIImage {
-    try run(image)
-  }
+private struct ThrowingColorizationModel: ColorizationModel {
+  let claheClip = 1.0
 
   func predict(gray _: Plane<UInt8>) throws -> ABPlanes {
-    throw HandlingError("The stub colorizes whole images")
+    throw HandlingError("no color")
   }
+}
+
+private func makeTinyPhoto() throws -> UIImage {
+  try UIImage(cgImage: makeGrayImage(width: 2, height: 2, values: [0, 85, 170, 255]))
 }
 
 private func pastvuPhotoURL(_ cid: Int) -> URL {
