@@ -1,5 +1,5 @@
 //
-//  PlaneConversion.swift
+//  RGBPlanes.swift
 //  Rewind
 //
 //  Created by Aleksei Sherstnev on 12. 9. 2026.
@@ -8,7 +8,20 @@
 import Accelerate
 import UIKit
 
-extension RGBPlanes {
+struct RGBPlanes {
+  var size: PlaneSize
+  var r: [Float]
+  var g: [Float]
+  var b: [Float]
+
+  init(size: PlaneSize, r: [Float], g: [Float], b: [Float]) {
+    assert(r.count == size.pixelCount && g.count == size.pixelCount && b.count == size.pixelCount)
+    self.size = size
+    self.r = r
+    self.g = g
+    self.b = b
+  }
+
   init(image: UIImage, maxSide: Int) throws {
     guard image.size.width > 0, image.size.height > 0 else {
       throw HandlingError("Image has zero size")

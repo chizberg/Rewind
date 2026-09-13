@@ -1,5 +1,5 @@
 //
-//  PlaneConversionTests.swift
+//  RGBPlanesTests.swift
 //  RewindTests
 //
 //  Created by Aleksei Sherstnev on 12. 9. 2026.
@@ -10,7 +10,7 @@ import CoreGraphics
 import Testing
 import UIKit
 
-struct PlaneConversionTests {
+struct RGBPlanesTests {
   @Test func channelsAreReadAsBytesOverTwoFiftyFive() throws {
     let image = try makeRGBImage(width: 2, height: 1, pixels: [
       [255, 0, 51],
