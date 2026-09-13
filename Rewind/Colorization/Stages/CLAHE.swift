@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import VGSL
 
 // Contrast Limited Adaptive Histogram Equalization (Zuiderveld, Graphics Gems IV, 1994): the frame
 // is cut into a grid of tiles, each tile's histogram is equalized on its own, the stretch of any
@@ -73,17 +74,17 @@ enum CLAHE {
         func table(_ row: Int, _ column: Int) -> Float {
           Float(tables[(row * gridSize + column) * histogramSize + value])
         }
-        let fromFirstRow = blend(
-          table(tileRows.first, tileColumn.first),
+        let fromFirstRow = lerp(
+          at: tileColumn.weight,
+          between: table(tileRows.first, tileColumn.first),
           table(tileRows.first, tileColumn.second),
-          weight: tileColumn.weight,
         )
-        let fromSecondRow = blend(
-          table(tileRows.second, tileColumn.first),
+        let fromSecondRow = lerp(
+          at: tileColumn.weight,
+          between: table(tileRows.second, tileColumn.first),
           table(tileRows.second, tileColumn.second),
-          weight: tileColumn.weight,
         )
-        let blended = blend(fromFirstRow, fromSecondRow, weight: tileRows.weight)
+        let blended = lerp(at: tileRows.weight, between: fromFirstRow, fromSecondRow)
         // Halves round away from zero, where OpenCV's saturate_cast rounds them to even: about
         // 0.2% of pixels come out one level lighter, the parity mean moves by 0.002.
         equalized[y * width + x] = UInt8(blended.rounded())
@@ -149,9 +150,5 @@ enum CLAHE {
       second: min(first + 1, gridSize - 1),
       weight: centered - Float(first),
     )
-  }
-
-  private static func blend(_ a: Float, _ b: Float, weight: Float) -> Float {
-    a * (1 - weight) + b * weight
   }
 }

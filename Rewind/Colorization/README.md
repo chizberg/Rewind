@@ -32,7 +32,7 @@ Lab formulas and constants: [OpenCV, RGB ↔ CIE L\*a\*b\*](https://docs.opencv.
 | Download and install models | `ColorizationModelStore.swift` and around | done |
 | Prepare: read, lightness, gray frame, CLAHE | `ColorizationPipeline.prepare` | done |
 | DDColor: fit, pad, inference, crop | `Models/DDColorLarge.swift` | done |
-| DDColor: back to full size | | not yet |
+| DDColor: back to full size | `ABPlanes.bilinearResized(target:)` | done |
 | ECCV16 | | not yet |
 | Compose L + ab into the result | | not yet |
 | The store hands out a model, result on screen | | not yet |
@@ -117,7 +117,7 @@ input. An 800×698 photo goes through it like this:
 | 2. Pad | `Plane<UInt8>.padded(target:)` | 384×384 |
 | 3. Inference | `DDColorLarge.infer` | ab 384×384 |
 | 4. Crop | `ABPlanes.cropped(target:)` | ab 384×335 |
-| 5. Back to full size (not yet) | | ab 800×698 |
+| 5. Back to full size | `ABPlanes.bilinearResized(target:)` | ab 800×698 |
 
 1. **Fit.** The long side is scaled to 384, the short side keeps the proportion. Resizing averages
    the source pixels each output pixel covers, the way
@@ -140,9 +140,11 @@ input. An 800×698 photo goes through it like this:
 4. **Crop.** The model returned color for the whole square, the mirrored margin included. The crop
    keeps the top-left 384×335 and drops the color of the margin.
 5. **Back to full size.** ab is scaled up to the gray frame's size bilinearly, as
-   [`F.interpolate(mode="bilinear", align_corners=False)`](https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.interpolate.html).
-   DDColor's own inference used nearest, which leaves 3–5 px color blocks; bilinear reduced color
-   bleeding on all 19 frames the reference measured.
+   [`F.interpolate(mode="bilinear", align_corners=False)`](https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.interpolate.html):
+   each pixel blends the four nearest pixels of the cropped ab, pixel centers sit half a pixel in,
+   and past the outermost centers the edge value holds. DDColor's own inference used nearest,
+   which leaves 3–5 px color blocks; bilinear reduced color bleeding on all 19 frames the reference
+   measured.
 
 **Does padding and then cropping give back the original?** No. Padding adds margins to the gray
 frame; cropping removes them from the color the model made. In between, the model turns gray into
@@ -181,8 +183,13 @@ order. Each is added only after looking at real photos on a phone.
 - The reference is a Python pipeline on OpenCV and PyTorch. Its per-stage statistics for two
   800 px frames live in `RewindTests/Fixtures/ios-parity/reference.json`, next to the input PNGs.
 - `ColorizationParityTests` runs the Swift stages on those frames and compares mean, standard
-  deviation, min and max of each stage (`1_to_gray_rgb`, `3_clahe_rgb`, `5_L` so far). Models are
-  not in the repo: the model stages will be checked with models read from the host.
+  deviation, min and max of each stage (`1_to_gray_rgb`, `3_clahe_rgb`, `5_L` so far).
+- The model stage (`4_model_ab_a`, `4_model_ab_b`, `4_model_chroma`, DDColor so far) compares the
+  mean only, within 1.5 or 25% of the reference mean, whichever is larger: the square padding
+  differs from the reference's and Core ML runs the graph in fp16. Models are not in the repo: each
+  test case compiles `~/Junk/models/<package>.mlpackage` from the host, found through
+  `SIMULATOR_HOST_HOME`, removes the compiled copy afterwards, and is skipped without the package.
+  The suite is serialized so graphs never load side by side.
 - Unit tests take their expected numbers from cv2, numpy or torch, not from the Swift code.
 - Where it matters for the numbers, the code follows OpenCV's arithmetic rather than a textbook
   version: area resize, reflect padding, CLAHE, Lab constants and the 8-bit Lab tables CLAHE runs
@@ -199,7 +206,7 @@ order. Each is added only after looking at real photos on a phone.
 | `ColorizationHelpers.swift` | helpers shared by several stages (`mirroredIndex`) |
 | `Image/Plane.swift` | `Plane<Value>`: one channel of values with its `PlaneSize` |
 | `Image/RGBPlanes.swift` | a photo as three float channels |
-| `Image/ABPlanes.swift` | the model's a and b channels, read from Core ML, cropped |
+| `Image/ABPlanes.swift` | the model's a and b channels, read from Core ML, cropped, resized |
 | `Image/Lab.swift` | sRGB ↔ Lab: lightness, neutral gray, the 8-bit tables CLAHE runs in |
 | `Image/Resampling.swift` | area resize and reflect padding of the gray frame |
 | `Stages/CLAHE.swift` | contrast limited adaptive histogram equalization |

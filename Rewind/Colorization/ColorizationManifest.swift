@@ -27,7 +27,7 @@ extension ColorizationManifest {
 }
 
 extension ColorizationModelID {
-  fileprivate var packageName: String {
+  var packageName: String {
     switch self {
     case .ddColorLarge: "DDColorLarge.mlpackage"
     case .eccv16: "ECCV16.mlpackage"

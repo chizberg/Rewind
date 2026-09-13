@@ -5,10 +5,12 @@
 //  Created by Aleksei Sherstnev on 12. 9. 2026.
 //
 
+import CoreML
 @testable import Rewind
 import Testing
 import UIKit
 
+@Suite(.serialized)
 struct ColorizationParityTests {
   static let frames = ["2209460", "2504212"]
   static let lightnessTolerance = 0.15
@@ -39,6 +41,44 @@ struct ColorizationParityTests {
       ParityStatistics(input.lightness.values),
       momentTolerance: Self.lightnessTolerance,
     )
+  }
+
+  @Test(.enabled(if: TestModel.isAvailable(.ddColorLarge)), arguments: frames)
+  func ddColorLargePrediction(_ frame: String) async throws {
+    let reference = try ParityReference.load()
+    let expected = try reference.expected(frame: frame, model: .ddColorLarge)
+    let input = try ColorizationPipeline.prepare(
+      image: reference.input(frame: frame),
+      claheClip: expected.claheClip,
+    )
+    let compiled = try await TestModel.compile(.ddColorLarge)
+    defer { try? FileManager.default.removeItem(at: compiled) }
+
+    let ab = try await DDColorLarge(modelURL: compiled).predict(gray: input.gray)
+
+    #expect(ab.size == input.gray.size)
+    expected.checkModelMean("4_model_ab_a", ParityStatistics(ab.a))
+    expected.checkModelMean("4_model_ab_b", ParityStatistics(ab.b))
+    expected.checkModelMean(
+      "4_model_chroma",
+      ParityStatistics(zip(ab.a, ab.b).map { hypot($0, $1) }),
+    )
+  }
+}
+
+enum TestModel {
+  static func isAvailable(_ id: ColorizationModelID) -> Bool {
+    packageURL(id).map { FileManager.default.fileExists(atPath: $0.path) } ?? false
+  }
+
+  static func compile(_ id: ColorizationModelID) async throws -> URL {
+    try await MLModel.compileModel(at: #require(packageURL(id)))
+  }
+
+  private static func packageURL(_ id: ColorizationModelID) -> URL? {
+    ProcessInfo.processInfo.environment["SIMULATOR_HOST_HOME"].map { home in
+      URL(filePath: home).appending(path: "Junk/models").appending(path: id.packageName)
+    }
   }
 }
 
@@ -99,6 +139,8 @@ struct ParityReference: Decodable {
 extension ParityReference.Case {
   static let momentTolerance = 0.05
   static let extremeTolerance = 1.0
+  static let modelMeanAbsoluteTolerance = 1.5
+  static let modelMeanRelativeTolerance = 0.25
 
   func check(
     _ stage: String,
@@ -141,6 +183,26 @@ extension ParityReference.Case {
     #expect(
       abs(measured.maximum - expected.maximum) < Self.extremeTolerance,
       "\(stage) max \(measured.maximum) against \(expected.maximum)",
+      sourceLocation: sourceLocation,
+    )
+  }
+
+  func checkModelMean(
+    _ stage: String,
+    _ measured: ParityStatistics,
+    sourceLocation: SourceLocation = #_sourceLocation,
+  ) {
+    guard case let .statistics(expected)? = stages[stage] else {
+      Issue.record("no \(stage) statistics in the reference", sourceLocation: sourceLocation)
+      return
+    }
+    let tolerance = max(
+      Self.modelMeanAbsoluteTolerance,
+      Self.modelMeanRelativeTolerance * abs(expected.mean),
+    )
+    #expect(
+      abs(measured.mean - expected.mean) < tolerance,
+      "\(stage) mean \(measured.mean) against \(expected.mean)",
       sourceLocation: sourceLocation,
     )
   }
