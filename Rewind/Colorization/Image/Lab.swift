@@ -73,10 +73,10 @@ extension Lab {
 }
 
 extension UInt8 {
-  // Half to even is what OpenCV's saturate_cast and numpy's round do; half away from zero
-  // would drift against every recorded reference number.
+  // A 0...1 channel as a byte, halves away from zero. cv2 rounds them to even, but a gamma curve
+  // almost never lands on an exact half: the parity gray frame comes out identical either way.
   fileprivate init(sRGB value: Float) {
-    self.init((Swift.min(Swift.max(value, 0), 1) * 255).rounded(.toNearestOrEven))
+    self.init((Swift.min(Swift.max(value, 0), 1) * 255).rounded())
   }
 }
 

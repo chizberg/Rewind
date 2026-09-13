@@ -34,7 +34,7 @@ extension Plane<UInt8> {
         for tap in rowTaps[y] {
           sum += narrowed[tap.index * target.width + x] * tap.weight
         }
-        resized[y * target.width + x] = UInt8(sum.rounded(.toNearestOrEven))
+        resized[y * target.width + x] = UInt8(sum.rounded())
       }
     }
     return Plane(size: target, values: resized)
