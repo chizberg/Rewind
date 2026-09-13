@@ -28,13 +28,14 @@ Lab formulas and constants: [OpenCV, RGB ↔ CIE L\*a\*b\*](https://docs.opencv.
 
 | Stage | Code | State |
 |---|---|---|
-| Split the watermark, detect monochrome | `WatermarkSeparation.swift`, `MonochromeDetection.swift` | done |
+| Split the watermark, detect monochrome | `WatermarkedImage.swift`, `MonochromeDetection.swift` | done |
 | Download and install models | `ColorizationModelStore.swift` and around | done |
 | Prepare: read, lightness, gray frame, CLAHE | `colorize(image:with:)` | done |
 | DDColor: fit, pad, inference, crop | `Models/DDColorLarge.swift` | done |
 | DDColor: back to full size | `ABPlanes.bilinearResized(target:)` | done |
 | ECCV16: squash, lightness, inference, back to full size | `Models/ECCV16.swift` | done |
 | Compose L + ab into the result | `colorize(image:with:)`, `Lab.rgb(lightness:ab:)` | done |
+| Stitch the watermark strip back | `WatermarkedImage.stitched()` | done |
 | The store hands out a model, result on screen | | not yet |
 | Post-process: edge-aware blur, boldness, chroma ceiling | | not yet, each after looking at real photos |
 
@@ -45,6 +46,9 @@ Lab formulas and constants: [OpenCV, RGB ↔ CIE L\*a\*b\*](https://docs.opencv.
    button offered.
 2. On a tap without a chosen model, the picker opens. With one, `ImageDetailsModel` calls
    `colorize(image:with:)` on the photo without the watermark strip, with the model from the store.
+   The screen then puts the result in place of the content and stitches the strip back under it
+   with `WatermarkedImage.stitched()`. The strip is fitted to the result's width: a photo larger
+   than `maxSide` comes back at the size `colorize` read it, with the strip in proportion.
 3. The model comes from `ColorizationModelStore.localModel(id:)`. It already finds the installed
    `Application Support/ColorizationModels/<model ID>.mlmodelc` but does not create the model yet.
 
@@ -274,7 +278,7 @@ order. Each is added only after looking at real photos on a phone.
 | `Models/ECCV16.swift` | ECCV16 as a `ColorizationModel`: its clip limit, geometry and inference |
 | `ColorizationModelStore.swift`, `ColorizationManifest.swift`, `ColorizationFileState.swift`, `DownloadRequest+Colorization.swift` | downloading, installing and deleting models |
 | `MonochromeDetection.swift` | whether a photo needs colorization |
-| `WatermarkSeparation.swift` | the archive's watermark strip split off before colorization |
+| `WatermarkedImage.swift` | the archive's watermark strip split off before colorization and stitched back after |
 
 New methods and properties in this folder get a short comment: what they do, why the pipeline
 needs them, and the specification they follow, with a link where one exists.

@@ -163,7 +163,8 @@ struct ImageDetailsModelTests {
 
   @Test func colorizeRunsTheModelOnTheContentAndKeepsTheResult() async throws {
     let harness = Harness()
-    let source = try WatermarkedImage(content: makeTinyPhoto(), watermark: UIImage())
+    let watermark = try UIImage(cgImage: makeGrayImage(width: 2, height: 1, values: [40, 220]))
+    let source = try WatermarkedImage(content: makeTinyPhoto(), watermark: watermark)
     let colorizationModel = ColorlessModel(claheClip: 1.0)
     let model = harness.makeModel(cachedDetails: nil, colorizationModel: colorizationModel)
     model(.internal(.bwDetectionCompleted(isBW: true, image: source)))
@@ -176,7 +177,10 @@ struct ImageDetailsModelTests {
       return false
     })
     guard case let .ready(result) = model.state.colorizationState else { return }
-    #expect(result.size == source.content.size)
+    #expect(result.size == CGSize(
+      width: source.content.size.width,
+      height: source.content.size.height + watermark.size.height,
+    ))
     let received = try #require(await colorizationModel.receivedGray)
     #expect(received.size.width == Int(source.content.size.width))
     #expect(received.size.height == Int(source.content.size.height))

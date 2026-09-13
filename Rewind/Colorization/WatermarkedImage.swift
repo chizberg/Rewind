@@ -1,5 +1,5 @@
 //
-//  WatermarkSeparation.swift
+//  WatermarkedImage.swift
 //  Rewind
 //
 //  Created by Aleksei Sherstnev on 23. 8. 2026.
@@ -10,6 +10,27 @@ import UIKit
 struct WatermarkedImage: Equatable {
   var content: UIImage
   var watermark: UIImage?
+
+  func stitched() async -> UIImage {
+    let format = UIGraphicsImageRendererFormat()
+    format.scale = content.scale
+    format.opaque = true
+    format.preferredRange = .standard
+    let stripHeight = watermark.map { strip in
+      let pixels = strip.size.height * content.size.width / strip.size.width * content.scale
+      return pixels.rounded() / content.scale
+    } ?? 0
+    let size = CGSize(width: content.size.width, height: content.size.height + stripHeight)
+    return UIGraphicsImageRenderer(size: size, format: format).image { _ in
+      content.draw(at: .zero)
+      watermark?.draw(in: CGRect(
+        x: 0,
+        y: content.size.height,
+        width: content.size.width,
+        height: stripHeight,
+      ))
+    }
+  }
 }
 
 func splitWatermark(
