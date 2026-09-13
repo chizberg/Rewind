@@ -8,13 +8,18 @@
 import Foundation
 import VGSL
 
+@MainActor
 final class ColorizationModelStore {
   typealias DownloadJob = Job<DownloadPerformer.Progress, Void>
 
   private let downloadPerformer: DownloadPerformer
   private let manifest: Remote<Void, ColorizationManifest>
-  @MainActor
   private var jobs: [ColorizationModelID: DownloadJob] = [:]
+
+  // The model handed out last, kept so the next colorize reuses the graph its actor already
+  // loaded; one at a time, because DDColor's weights alone run to hundreds of megabytes.
+  // https://developer.apple.com/videos/play/wwdc2023/10049/
+  private var loadedModel: (ColorizationModelID, ColorizationModel)?
 
   init(
     downloadPerformer: DownloadPerformer,
@@ -24,7 +29,6 @@ final class ColorizationModelStore {
     self.manifest = manifest
   }
 
-  @MainActor
   func fileState(id: ColorizationModelID) -> ColorizationFileState {
     switch jobs[id]?.state.value {
     case let .running(.downloading(progress))?:
@@ -37,17 +41,30 @@ final class ColorizationModelStore {
   }
 
   func deleteFile(id: ColorizationModelID) throws {
+    if loadedModel?.0 == id {
+      loadedModel = nil
+    }
     guard let url = localModelURL(id) else { return }
     try FileManager.default.removeItem(at: url)
   }
 
-  func localModel(id: ColorizationModelID) -> ColorizationModel? {
-    guard let url = localModelURL(id) else { return nil }
-    print("chzbrg TODO: read the compiled model at \(url)")
-    return nil
+  func clearCache() {
+    loadedModel = nil
   }
 
-  @MainActor
+  func localModel(id: ColorizationModelID) -> ColorizationModel? {
+    guard let url = localModelURL(id) else { return nil }
+    if case let (loadedID, model)? = loadedModel, loadedID == id {
+      return model
+    }
+    let model: ColorizationModel = switch id {
+    case .ddColorLarge: DDColorLarge(modelURL: url)
+    case .eccv16: ECCV16(modelURL: url)
+    }
+    loadedModel = (id, model)
+    return model
+  }
+
   func download(id: ColorizationModelID) -> DownloadJob {
     if let job = jobs[id] {
       return job

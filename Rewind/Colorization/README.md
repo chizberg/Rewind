@@ -36,7 +36,8 @@ Lab formulas and constants: [OpenCV, RGB ↔ CIE L\*a\*b\*](https://docs.opencv.
 | ECCV16: squash, lightness, inference, back to full size | `Models/ECCV16.swift` | done |
 | Compose L + ab into the result | `colorize(image:with:)`, `Lab.rgb(lightness:ab:)` | done |
 | Stitch the watermark strip back | `WatermarkedImage.stitched()` | done |
-| The store hands out a model, result on screen | | not yet |
+| The store hands out the picked model, one loaded at a time | `ColorizationModelStore.localModel(id:)` | done |
+| Result on screen: switch between the original and the colorized photo | | not yet |
 | Post-process: edge-aware blur, boldness, chroma ceiling | | not yet, each after looking at real photos |
 
 ## From the tap to the pipeline
@@ -49,8 +50,11 @@ Lab formulas and constants: [OpenCV, RGB ↔ CIE L\*a\*b\*](https://docs.opencv.
    The screen then puts the result in place of the content and stitches the strip back under it
    with `WatermarkedImage.stitched()`. The strip is fitted to the result's width: a photo larger
    than `maxSide` comes back at the size `colorize` read it, with the strip in proportion.
-3. The model comes from `ColorizationModelStore.localModel(id:)`. It already finds the installed
-   `Application Support/ColorizationModels/<model ID>.mlmodelc` but does not create the model yet.
+3. The model comes from `ColorizationModelStore.localModel(id:)`, on the main actor. It creates
+   `DDColorLarge` or `ECCV16` for the installed
+   `Application Support/ColorizationModels/<model ID>.mlmodelc` and keeps that one instance for its
+   id, so the graph loads once; a different id replaces it, and deleting the model's file or a
+   memory warning drops it.
 
 ## The pipeline
 
@@ -276,7 +280,7 @@ order. Each is added only after looking at real photos on a phone.
 | `Models/CoreMLLoader.swift` | lazy Core ML loading with the file and memory checks |
 | `Models/DDColorLarge.swift` | DDColor-large as a `ColorizationModel`: its clip limit, geometry and inference |
 | `Models/ECCV16.swift` | ECCV16 as a `ColorizationModel`: its clip limit, geometry and inference |
-| `ColorizationModelStore.swift`, `ColorizationManifest.swift`, `ColorizationFileState.swift`, `DownloadRequest+Colorization.swift` | downloading, installing and deleting models |
+| `ColorizationModelStore.swift`, `ColorizationManifest.swift`, `ColorizationFileState.swift`, `DownloadRequest+Colorization.swift` | downloading, installing and deleting models; the store also keeps the one model it hands out |
 | `MonochromeDetection.swift` | whether a photo needs colorization |
 | `WatermarkedImage.swift` | the archive's watermark strip split off before colorization and stitched back after |
 

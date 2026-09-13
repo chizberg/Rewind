@@ -179,15 +179,16 @@ final class AppGraph {
     }.dispose(in: disposePool)
     filters.current = mapModel.$state.filters.skipRepeats()
 
-    // React to memory warnings by clearing cached images and image details
+    // React to memory warnings by clearing cached images, image details and the colorization model
     memoryWarningObserver = NotificationCenter.default.addObserver(
       forName: UIApplication.didReceiveMemoryWarningNotification,
       object: nil,
       queue: .main,
-    ) { [imageLoader, imageDetailsLoader] _ in
+    ) { [imageLoader, imageDetailsLoader, colorizationModelStore] _ in
       Task {
         await imageLoader.clearCache()
         await imageDetailsLoader.clearCache()
+        await colorizationModelStore.clearCache()
       }
     }
     storeReview.appLaunched()
