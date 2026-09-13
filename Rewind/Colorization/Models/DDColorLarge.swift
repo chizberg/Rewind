@@ -35,9 +35,8 @@ actor DDColorLarge {
     )
   }
 
-  // ab on the graph's square: long side fitted, the rest reflect-padded. The reference pads to a
-  // multiple of 32, which a fixed-shape graph cannot take.
-  // https://developer.apple.com/documentation/coreml/mlimageconstraint
+  // ab of the frame fitted into the graph's square: reflect-padded for inference, cropped after.
+  // The reference pads to a multiple of 32, which a fixed-shape graph cannot take.
   func predict(gray: Plane<UInt8>) throws -> ABPlanes {
     let scale = Double(Self.inputSide) / Double(max(gray.size.width, gray.size.height))
     let fitted = PlaneSize(
@@ -45,7 +44,7 @@ actor DDColorLarge {
       height: max(1, Int((Double(gray.size.height) * scale).rounded())),
     )
     let square = PlaneSize(width: Self.inputSide, height: Self.inputSide)
-    return try infer(gray.resized(target: fitted).padded(target: square))
+    return try infer(gray.resized(target: fitted).padded(target: square)).cropped(target: fitted)
   }
 
   // One prediction through the graph's image input.

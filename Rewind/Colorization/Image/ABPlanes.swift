@@ -43,4 +43,15 @@ struct ABPlanes {
       b: scalars[count...].map(Float.init),
     )
   }
+
+  // Keeps the top-left `target` of the model's ab, undoing padded(target:) (the reference's
+  // ab[:, :, :uh, :uw]).
+  // https://numpy.org/doc/stable/user/basics.indexing.html#slicing-and-striding
+  func cropped(target: PlaneSize) -> ABPlanes {
+    assert(target.width <= size.width && target.height <= size.height)
+    func crop(_ values: [Float]) -> [Float] {
+      (0..<target.height).flatMap { y in values[y * size.width..<y * size.width + target.width] }
+    }
+    return ABPlanes(size: target, a: crop(a), b: crop(b))
+  }
 }

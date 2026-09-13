@@ -42,6 +42,7 @@
 		2226F2F42D593DA20042601C /* Exceptions for "Rewind" folder in "Rewind" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Colorization/README.md,
 				Info.plist,
 			);
 			target = 22291C872D50106600F2FEBE /* Rewind */;

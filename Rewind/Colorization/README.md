@@ -1,0 +1,213 @@
+# Colorization
+
+> Vibe-coded: this README was written by Claude Opus 5 (`claude-opus-5`) in Claude Code, not by
+> hand. Check a claim against the code before relying on it.
+
+On-device colorization of monochrome photos. A colorization model predicts the color. Everything
+around it (reading the photo, lightness, contrast, geometry, composing the result) is plain image
+processing, written after a reference Python pipeline so every stage can be checked against its
+numbers.
+
+## The idea: keep the photo's lightness, predict only the color
+
+The pipeline works in CIE L\*a\*b\*, which splits a pixel into three independent parts:
+
+- **L**: lightness, 0 (black) to 100 (white);
+- **a**: green (negative) to red (positive);
+- **b**: blue (negative) to yellow (positive).
+
+A monochrome photo already has the right L. Only a and b are missing, and they are all the model
+predicts. The result takes L from the original photo at full resolution and ab from the model,
+which works at a few hundred pixels. The eye resolves detail in brightness far better than in color
+(the same reason JPEG stores color at a lower resolution), so low-resolution color on
+full-resolution lightness still looks sharp, and the model never touches the photo's brightness.
+
+Lab formulas and constants: [OpenCV, RGB ↔ CIE L\*a\*b\*](https://docs.opencv.org/4.x/de/d25/imgproc_color_conversions.html#color_convert_rgb_lab).
+
+## Status
+
+| Stage | Code | State |
+|---|---|---|
+| Split the watermark, detect monochrome | `WatermarkSeparation.swift`, `MonochromeDetection.swift` | done |
+| Download and install models | `ColorizationModelStore.swift` and around | done |
+| Prepare: read, lightness, gray frame, CLAHE | `ColorizationPipeline.prepare` | done |
+| DDColor: fit, pad, inference, crop | `Models/DDColorLarge.swift` | done |
+| DDColor: back to full size | | not yet |
+| ECCV16 | | not yet |
+| Compose L + ab into the result | | not yet |
+| The store hands out a model, result on screen | | not yet |
+| Post-process: edge-aware blur, boldness, chroma ceiling | | not yet, each after looking at real photos |
+
+## From the tap to the pipeline
+
+1. The image details screen opens a photo. `splitWatermark` cuts off the archive's watermark
+   strip, and `isMonochrome` decides whether the photo has no color. Only then is the colorize
+   button offered.
+2. On a tap without a chosen model, the picker opens. With one, `ImageDetailsModel` calls
+   `ColorizationModel.colorize(image:)` on the photo without the watermark strip.
+3. The model comes from `ColorizationModelStore.localModel(id:)`. It already finds the installed
+   `Application Support/ColorizationModels/<model ID>.mlmodelc` but does not create the model yet.
+
+## The pipeline
+
+```
+UIImage (the photo without the watermark)
+  │
+  │  PREPARE ─ ColorizationPipeline.prepare
+  │  RGBPlanes(image:maxSide:)      pixels as floats, long side at most 2048
+  │  Lab.lightness(of:)             L of every pixel ─────────────────────────┐
+  │  Lab.neutralGray(lightness:)    the same L as a gray sRGB frame           │
+  │  CLAHE.apply(to:clip:)          local contrast restored for the model     │
+  ▼                                                                           │
+gray frame, Plane<UInt8>, full size                                           │ lightness,
+  │                                                                           │ Plane<Float>,
+  │  MODEL ─ model.predict(gray:), geometry differs per model                 │ full size
+  │  fit → pad → Core ML → crop → back to full size                           │
+  ▼                                                                           │
+ab, ABPlanes, full size                                                       │
+  │                                                                           │
+  │  POST-PROCESS (not yet): edge-aware blur → boldness → chroma ceiling      │
+  │                                                                           │
+  │  COMPOSE (not yet): Lab → sRGB  ◄─────────────────────────────────────────┘
+  ▼
+UIImage (colorized)
+```
+
+### 1. Prepare
+
+`ColorizationPipeline.prepare(image:claheClip:)` returns `Input { gray, lightness }`, both at the
+size the photo was read at.
+
+1. **Read.** `RGBPlanes(image:maxSide:)` draws the photo into an 8-bit RGB context with its
+   orientation applied, scaled down so the long side is at most `ColorizationPipeline.maxSide`
+   (2048), and stores each channel as floats in 0...1. The cap bounds the memory and time of every
+   full-size stage after it.
+2. **Lightness.** `Lab.lightness(of:)` computes L\* of every pixel: sRGB gamma decoded, weighted
+   into luminance Y, then `116 f(Y) - 16`. This plane is kept until the end: the result's brightness
+   comes from here, not from the model.
+3. **Gray frame.** `Lab.neutralGray(lightness:)` turns each L back into sRGB with a = b = 0. Many
+   archive scans are sepia or tinted rather than truly gray; the model must see a neutral frame, and
+   the tint must not leak into its color.
+4. **CLAHE.** `CLAHE.apply(to:clip:)` is Contrast Limited Adaptive Histogram Equalization on the L
+   of 8-bit Lab, 8×8 tiles, written after OpenCV's `clahe.cpp` step by step. Faded scans get their
+   local contrast back before the model reads them. The clip limit is a per-model constant measured
+   in the reference: DDColor 1.0, ECCV16 1.5. CLAHE only steers the color: it changes what the model
+   sees, never the result's brightness, which still comes from step 2.
+
+### 2. Model
+
+`ColorizationModel.predict(gray:)` takes the full-size gray frame and returns ab of the same size.
+The input geometry lives inside each model, because each model was measured with its own.
+
+Models are actors: a prediction takes seconds, and the `MLModel` never leaves its actor.
+`CoreMLLoader` loads the compiled graph on the first prediction rather than when the model is
+picked, checks the file is still on disk and that enough memory is available, and keeps the graph
+for the next prediction. Errors a user can hit are `HandlingError` sentences, because the alert
+shows the error's description.
+
+#### DDColor-large
+
+[DDColor](https://arxiv.org/abs/2212.11613), converted to Core ML at fp16, with a fixed 384×384
+input. An 800×698 photo goes through it like this:
+
+| Step | Code | Size |
+|---|---|---|
+| Gray frame | `prepare` | 800×698 |
+| 1. Fit | `Plane<UInt8>.resized(target:)` | 384×335 |
+| 2. Pad | `Plane<UInt8>.padded(target:)` | 384×384 |
+| 3. Inference | `DDColorLarge.infer` | ab 384×384 |
+| 4. Crop | `ABPlanes.cropped(target:)` | ab 384×335 |
+| 5. Back to full size (not yet) | | ab 800×698 |
+
+1. **Fit.** The long side is scaled to 384, the short side keeps the proportion. Resizing averages
+   the source pixels each output pixel covers, the way
+   [`cv2.INTER_AREA`](https://docs.opencv.org/4.x/da/d54/group__imgproc__transform.html#ga47a974309e9102f5f08231edc7e7529d)
+   does. In the reference, the model's chroma correlates with the fine contrast of its input
+   (+0.24), and bilinear or Lanczos resizing changes that contrast; no system resize matches
+   `INTER_AREA`.
+2. **Pad.** The graph takes only a square. Squashing the frame into it would distort every shape;
+   DDColor's own inference did that, and the reference fixed it by keeping the proportions and
+   padding instead. The padding goes to the right and bottom and mirrors the frame without
+   repeating the edge pixel,
+   [`BORDER_REFLECT_101`](https://docs.opencv.org/4.x/d2/de8/group__core__array.html#ga209f2f4869e304c82d07739337eae7c5)
+   (`abcd → abcd|cba`), so the margin continues the picture instead of making a hard border.
+   The reference pads to a multiple of 32, which a fixed-shape graph cannot take.
+3. **Inference.** The gray square becomes an 8-bit RGB image for the graph's `grayRGB` input (the
+   graph applies its own normalization) and comes out as `ab` `(1, 2, 384, 384)` float16, already in
+   Lab units. Compute units are `.cpuAndGPU`: on the Neural Engine, fp16 arithmetic of this
+   ConvNeXt-L breaks down (mean |Δab| 8.56 against the reference). In the Simulator it runs on the
+   CPU only, because the Simulator's GPU path returns all-zero ab.
+4. **Crop.** The model returned color for the whole square, the mirrored margin included. The crop
+   keeps the top-left 384×335 and drops the color of the margin.
+5. **Back to full size.** ab is scaled up to the gray frame's size bilinearly, as
+   [`F.interpolate(mode="bilinear", align_corners=False)`](https://docs.pytorch.org/docs/stable/generated/torch.nn.functional.interpolate.html).
+   DDColor's own inference used nearest, which leaves 3–5 px color blocks; bilinear reduced color
+   bleeding on all 19 frames the reference measured.
+
+**Does padding and then cropping give back the original?** No. Padding adds margins to the gray
+frame; cropping removes them from the color the model made. In between, the model turns gray into
+color. The crop matters because step 5 stretches the color: without it, the whole square would be
+stretched over the photo together with the margin, and every pixel would get the color of a
+different place.
+
+#### ECCV16 (not yet)
+
+[Colorful Image Colorization](https://arxiv.org/abs/1603.08511) (Zhang et al., ECCV 2016). The
+frame is squashed into 256×256 without padding, as the reference runs it, so there is nothing to
+crop. The graph takes L in Lab units and a `rebalance` weight, and its ab is scaled up to full
+size bilinearly, as in DDColor's step 5.
+
+### 3. Compose (not yet)
+
+Every pixel's L from prepare and ab from the model are converted Lab → XYZ → sRGB with the
+constants from the same OpenCV page, clamped to 0...1, and written into a `UIImage`. With a = b = 0
+the result is the neutral gray frame within one level, which is how the composition is tested
+without a model.
+
+### 4. Post-process (not yet)
+
+The reference tunes the color after the model in three stages, inserted before compose in this
+order. Each is added only after looking at real photos on a phone.
+
+1. **Edge-aware blur.** A bilateral filter on ab that reads L, a and b to decide which neighbors
+   count, so color stops at edges instead of spilling over them.
+2. **Boldness.** A color gain weighted by lightness, so near-black and near-white areas are not
+   boosted, and rolled back on frames the model covered with one global cast.
+3. **Chroma ceiling.** If the 99th percentile of chroma, `hypot(a, b)`, exceeds a ceiling, all of
+   ab is scaled down to it.
+
+## Checking against the reference
+
+- The reference is a Python pipeline on OpenCV and PyTorch. Its per-stage statistics for two
+  800 px frames live in `RewindTests/Fixtures/ios-parity/reference.json`, next to the input PNGs.
+- `ColorizationParityTests` runs the Swift stages on those frames and compares mean, standard
+  deviation, min and max of each stage (`1_to_gray_rgb`, `3_clahe_rgb`, `5_L` so far). Models are
+  not in the repo: the model stages will be checked with models read from the host.
+- Unit tests take their expected numbers from cv2, numpy or torch, not from the Swift code.
+- Where it matters for the numbers, the code follows OpenCV's arithmetic rather than a textbook
+  version: area resize, reflect padding, CLAHE, Lab constants and the 8-bit Lab tables CLAHE runs
+  in.
+- Rounding is `.rounded()` (halves away from zero) everywhere. cv2 rounds halves to even; the
+  difference moves the parity means by at most 0.002.
+
+## Files
+
+| File | What it holds |
+|---|---|
+| `ColorizationModel.swift` | the model protocol and `ColorizationModelID` |
+| `ColorizationPipeline.swift` | the pipeline's stages in order; `prepare` so far |
+| `ColorizationHelpers.swift` | helpers shared by several stages (`mirroredIndex`) |
+| `Image/Plane.swift` | `Plane<Value>`: one channel of values with its `PlaneSize` |
+| `Image/RGBPlanes.swift` | a photo as three float channels |
+| `Image/ABPlanes.swift` | the model's a and b channels, read from Core ML, cropped |
+| `Image/Lab.swift` | sRGB ↔ Lab: lightness, neutral gray, the 8-bit tables CLAHE runs in |
+| `Image/Resampling.swift` | area resize and reflect padding of the gray frame |
+| `Stages/CLAHE.swift` | contrast limited adaptive histogram equalization |
+| `Models/CoreMLLoader.swift` | lazy Core ML loading with the file and memory checks |
+| `Models/DDColorLarge.swift` | DDColor-large: its geometry and inference |
+| `ColorizationModelStore.swift`, `ColorizationManifest.swift`, `ColorizationFileState.swift`, `DownloadRequest+Colorization.swift` | downloading, installing and deleting models |
+| `MonochromeDetection.swift` | whether a photo needs colorization |
+| `WatermarkSeparation.swift` | the archive's watermark strip split off before colorization |
+
+New methods and properties in this folder get a short comment: what they do, why the pipeline
+needs them, and the specification they follow, with a link where one exists.
