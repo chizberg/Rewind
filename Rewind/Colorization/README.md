@@ -33,7 +33,7 @@ Lab formulas and constants: [OpenCV, RGB ↔ CIE L\*a\*b\*](https://docs.opencv.
 | Prepare: read, lightness, gray frame, CLAHE | `ColorizationPipeline.prepare` | done |
 | DDColor: fit, pad, inference, crop | `Models/DDColorLarge.swift` | done |
 | DDColor: back to full size | `ABPlanes.bilinearResized(target:)` | done |
-| ECCV16 | | not yet |
+| ECCV16: squash, lightness, inference, back to full size | `Models/ECCV16.swift` | done |
 | Compose L + ab into the result | | not yet |
 | The store hands out a model, result on screen | | not yet |
 | Post-process: edge-aware blur, boldness, chroma ceiling | | not yet, each after looking at real photos |
@@ -62,7 +62,8 @@ UIImage (the photo without the watermark)
 gray frame, Plane<UInt8>, full size                                           │ lightness,
   │                                                                           │ Plane<Float>,
   │  MODEL ─ model.predict(gray:), geometry differs per model                 │ full size
-  │  fit → pad → Core ML → crop → back to full size                           │
+  │  DDColor: fit → pad → Core ML → crop → back to full size                  │
+  │  ECCV16:  squash → lightness → Core ML → back to full size                │
   ▼                                                                           │
 ab, ABPlanes, full size                                                       │
   │                                                                           │
@@ -152,12 +153,42 @@ color. The crop matters because step 5 stretches the color: without it, the whol
 stretched over the photo together with the margin, and every pixel would get the color of a
 different place.
 
-#### ECCV16 (not yet)
+#### ECCV16
 
-[Colorful Image Colorization](https://arxiv.org/abs/1603.08511) (Zhang et al., ECCV 2016). The
-frame is squashed into 256×256 without padding, as the reference runs it, so there is nothing to
-crop. The graph takes L in Lab units and a `rebalance` weight, and its ab is scaled up to full
-size bilinearly, as in DDColor's step 5.
+[Colorful Image Colorization](https://arxiv.org/abs/1603.08511) (Zhang et al., ECCV 2016),
+converted to Core ML at fp32, with a fixed 256×256 input. An 800×533 photo goes through it like
+this:
+
+| Step | Code | Size |
+|---|---|---|
+| Gray frame | `prepare` | 800×533 |
+| 1. Squash | `Plane<UInt8>.bicubicResized(target:)` | 256×256 |
+| 2. Lightness | `Lab.lightness(ofGray:)` | L 256×256 |
+| 3. Inference | `ECCV16.infer` | ab 256×256 |
+| 4. Back to full size | `ABPlanes.bilinearResized(target:)` | ab 800×533 |
+
+1. **Squash.** The frame is resized to the square with its proportions ignored, the geometry of
+   the [upstream code](https://github.com/richzhang/colorization/blob/master/colorizers/util.py)
+   that every number for this model was measured on; above 256 the model invents colors. There is
+   no padding, so nothing to crop. The resize is Pillow's
+   [`BICUBIC`](https://pillow.readthedocs.io/en/stable/handbook/concepts.html#filters), as the
+   reference makes this model's input: a cubic kernel widened by the scale when shrinking, a
+   horizontal pass and then a vertical one, each rounded to bytes. The model's color follows the
+   fine contrast of its input, so the filter has to be the reference's: DDColor's area resize here
+   moves the mean a of one parity frame by 5.
+2. **Lightness.** The graph takes L, not an image. `Lab.lightness(ofGray:)` puts every byte of the
+   squashed frame through the same L formula with R = G = B, after the resize, as the reference's
+   [`skimage.color.rgb2lab`](https://scikit-image.org/docs/stable/api/skimage.color.html#skimage.color.rgb2lab)
+   does.
+3. **Inference.** `lightness` `(1, 1, 256, 256)` in Lab units (the graph normalizes it) and
+   `rebalance` `(1)` go in, `ab` `(1, 2, 256, 256)` float32 in Lab units comes out. The model
+   predicts a distribution over 313 ab bins; the reference's decode of it (temperature 0.3, the
+   violet wedge masked, each bin weighted by its chroma to the power `rebalance` before the mean)
+   is converted into the graph, so `rebalance`, 2, is a graph input. Compute units are `.all`: at
+   fp32, CPU, GPU and the Neural Engine all agree with torch, while fp16 overflows into NaN on the
+   CPU. In the Simulator it runs on the CPU only, as every model does.
+4. **Back to full size.** The same bilinear scaling as DDColor's step 5, with a different scale
+   on each axis.
 
 ### 3. Compose (not yet)
 
@@ -184,16 +215,17 @@ order. Each is added only after looking at real photos on a phone.
   800 px frames live in `RewindTests/Fixtures/ios-parity/reference.json`, next to the input PNGs.
 - `ColorizationParityTests` runs the Swift stages on those frames and compares mean, standard
   deviation, min and max of each stage (`1_to_gray_rgb`, `3_clahe_rgb`, `5_L` so far).
-- The model stage (`4_model_ab_a`, `4_model_ab_b`, `4_model_chroma`, DDColor so far) compares the
-  mean only, within 1.5 or 25% of the reference mean, whichever is larger: the square padding
-  differs from the reference's and Core ML runs the graph in fp16. Models are not in the repo: each
-  test case compiles `~/Junk/models/<package>.mlpackage` from the host, found through
-  `SIMULATOR_HOST_HOME`, removes the compiled copy afterwards, and is skipped without the package.
-  The suite is serialized so graphs never load side by side.
-- Unit tests take their expected numbers from cv2, numpy or torch, not from the Swift code.
+- The model stage (`4_model_ab_a`, `4_model_ab_b`, `4_model_chroma`, both models) compares the
+  mean only, within 1.5 or 25% of the reference mean, whichever is larger: DDColor's square
+  padding differs from the reference's and Core ML runs it in fp16. ECCV16 lands within 0.07 of
+  every reference mean. Models are not in the repo: each test case compiles
+  `~/Junk/models/<package>.mlpackage` from the host, found through `SIMULATOR_HOST_HOME`, removes
+  the compiled copy afterwards, and is skipped without the package. The suite is serialized so
+  graphs never load side by side.
+- Unit tests take their expected numbers from cv2, numpy, Pillow or torch, not from the Swift code.
 - Where it matters for the numbers, the code follows OpenCV's arithmetic rather than a textbook
   version: area resize, reflect padding, CLAHE, Lab constants and the 8-bit Lab tables CLAHE runs
-  in.
+  in; ECCV16's input follows Pillow's bicubic resize.
 - Rounding is `.rounded()` (halves away from zero) everywhere. cv2 rounds halves to even; the
   difference moves the parity means by at most 0.002.
 
@@ -206,12 +238,13 @@ order. Each is added only after looking at real photos on a phone.
 | `ColorizationHelpers.swift` | helpers shared by several stages (`mirroredIndex`) |
 | `Image/Plane.swift` | `Plane<Value>`: one channel of values with its `PlaneSize` |
 | `Image/RGBPlanes.swift` | a photo as three float channels |
-| `Image/ABPlanes.swift` | the model's a and b channels, read from Core ML, cropped, resized |
-| `Image/Lab.swift` | sRGB ↔ Lab: lightness, neutral gray, the 8-bit tables CLAHE runs in |
-| `Image/Resampling.swift` | area resize and reflect padding of the gray frame |
+| `Image/ABPlanes.swift` | the model's a and b channels, read from Core ML at fp16 or fp32, cropped, resized |
+| `Image/Lab.swift` | sRGB ↔ Lab: lightness of a photo and of a gray frame, neutral gray, the 8-bit tables CLAHE runs in |
+| `Image/Resampling.swift` | area and bicubic resize and reflect padding of the gray frame |
 | `Stages/CLAHE.swift` | contrast limited adaptive histogram equalization |
 | `Models/CoreMLLoader.swift` | lazy Core ML loading with the file and memory checks |
 | `Models/DDColorLarge.swift` | DDColor-large: its geometry and inference |
+| `Models/ECCV16.swift` | ECCV16: its geometry and inference |
 | `ColorizationModelStore.swift`, `ColorizationManifest.swift`, `ColorizationFileState.swift`, `DownloadRequest+Colorization.swift` | downloading, installing and deleting models |
 | `MonochromeDetection.swift` | whether a photo needs colorization |
 | `WatermarkSeparation.swift` | the archive's watermark strip split off before colorization |

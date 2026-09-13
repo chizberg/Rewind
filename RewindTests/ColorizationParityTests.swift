@@ -45,16 +45,33 @@ struct ColorizationParityTests {
 
   @Test(.enabled(if: TestModel.isAvailable(.ddColorLarge)), arguments: frames)
   func ddColorLargePrediction(_ frame: String) async throws {
+    try await checkPrediction(frame: frame, model: .ddColorLarge) { url, gray in
+      try await DDColorLarge(modelURL: url).predict(gray: gray)
+    }
+  }
+
+  @Test(.enabled(if: TestModel.isAvailable(.eccv16)), arguments: frames)
+  func eccv16Prediction(_ frame: String) async throws {
+    try await checkPrediction(frame: frame, model: .eccv16) { url, gray in
+      try await ECCV16(modelURL: url).predict(gray: gray)
+    }
+  }
+
+  private func checkPrediction(
+    frame: String,
+    model: ColorizationModelID,
+    predict: (URL, Plane<UInt8>) async throws -> ABPlanes,
+  ) async throws {
     let reference = try ParityReference.load()
-    let expected = try reference.expected(frame: frame, model: .ddColorLarge)
+    let expected = try reference.expected(frame: frame, model: model)
     let input = try ColorizationPipeline.prepare(
       image: reference.input(frame: frame),
       claheClip: expected.claheClip,
     )
-    let compiled = try await TestModel.compile(.ddColorLarge)
+    let compiled = try await TestModel.compile(model)
     defer { try? FileManager.default.removeItem(at: compiled) }
 
-    let ab = try await DDColorLarge(modelURL: compiled).predict(gray: input.gray)
+    let ab = try await predict(compiled, input.gray)
 
     #expect(ab.size == input.gray.size)
     expected.checkModelMean("4_model_ab_a", ParityStatistics(ab.a))

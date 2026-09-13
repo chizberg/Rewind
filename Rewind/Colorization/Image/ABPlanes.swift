@@ -27,22 +27,17 @@ struct ABPlanes {
     self.b = b
   }
 
-  // The graph's (1, 2, h, w) float16 output, a then b. Type and shape are checked: MLShapedArray
-  // traps on a wrong type; its scalars honour strides, a raw buffer read does not.
-  // https://developer.apple.com/documentation/coreml/mlshapedarrayprotocol/scalars
+  // The graph's (1, 2, h, w) output, a then b, read as Float at any precision the model was
+  // converted at (DDColor fp16, ECCV16 fp32). Only the shape is checked: the conversion takes any
+  // numeric type, and MLShapedArray honours strides where a raw buffer read does not.
+  // https://developer.apple.com/documentation/coreml/mlshapedarrayprotocol/init(converting:)
   init(_ array: MLMultiArray, size: PlaneSize) throws {
-    guard array.dataType == .float16,
-          array.shape == [1, 2, size.height, size.width].map(NSNumber.init(value:))
-    else {
+    guard array.shape == [1, 2, size.height, size.width].map(NSNumber.init(value:)) else {
       throw HandlingError("The colorization model returned colors in an unexpected format")
     }
-    let scalars = MLShapedArray<Float16>(array).scalars
+    let scalars = MLShapedArray<Float>(converting: array).scalars
     let count = size.pixelCount
-    self.init(
-      size: size,
-      a: scalars[..<count].map(Float.init),
-      b: scalars[count...].map(Float.init),
-    )
+    self.init(size: size, a: Array(scalars[..<count]), b: Array(scalars[count...]))
   }
 
   // Keeps the top-left `target` of the model's ab, undoing padded(target:) (the reference's

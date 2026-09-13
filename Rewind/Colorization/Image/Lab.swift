@@ -14,6 +14,16 @@ enum Lab {
     })
   }
 
+  // L of a gray frame, the input ECCV16 takes instead of an image. The reference converts the
+  // squashed gray bytes with skimage's rgb2lab, which agrees with OpenCV's L for R = G = B.
+  // https://scikit-image.org/docs/stable/api/skimage.color.html#skimage.color.rgb2lab
+  static func lightness(ofGray gray: Plane<UInt8>) -> Plane<Float> {
+    gray.map { byte in
+      let value = Float(byte) / 255
+      return lightness(r: value, g: value, b: value)
+    }
+  }
+
   static func neutralGray(lightness: Plane<Float>) -> Plane<UInt8> {
     lightness.map { UInt8(sRGB: neutralGray(lightness: $0)) }
   }
