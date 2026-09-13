@@ -12,18 +12,18 @@ struct WatermarkedImage: Equatable {
   var watermark: UIImage?
 
   func stitched() async -> UIImage {
+    guard let watermark else { return content }
+    let stripAspect = watermark.size.height / watermark.size.width
+    let stripPixelHeight = (content.size.width * content.scale * stripAspect).rounded()
+    let stripHeight = stripPixelHeight / content.scale
+    let size = CGSize(width: content.size.width, height: content.size.height + stripHeight)
     let format = UIGraphicsImageRendererFormat()
     format.scale = content.scale
     format.opaque = true
     format.preferredRange = .standard
-    let stripHeight = watermark.map { strip in
-      let pixels = strip.size.height * content.size.width / strip.size.width * content.scale
-      return pixels.rounded() / content.scale
-    } ?? 0
-    let size = CGSize(width: content.size.width, height: content.size.height + stripHeight)
     return UIGraphicsImageRenderer(size: size, format: format).image { _ in
       content.draw(at: .zero)
-      watermark?.draw(in: CGRect(
+      watermark.draw(in: CGRect(
         x: 0,
         y: content.size.height,
         width: content.size.width,
