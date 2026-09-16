@@ -22,6 +22,10 @@ struct ImageDetailsView: View {
   private var namespace
   @Environment(\.horizontalSizeClass)
   private var horizontalSizeClass
+  @State
+  private var colorizeButtonFrame = CGRect.zero
+  @State
+  private var pictureFrame = CGRect.zero
 
   private var isSplitView: Bool { horizontalSizeClass == .regular }
 
@@ -40,7 +44,9 @@ struct ImageDetailsView: View {
               state: state,
             ) {
               viewStore(.colorize)
-            }.transition(.scale)
+            }
+            .readFrame(in: .named(spaceName)) { colorizeButtonFrame = $0 }
+            .transition(.scale)
           }
 
           if isSplitView {
@@ -51,6 +57,7 @@ struct ImageDetailsView: View {
         .padding()
         .animation(.spring, value: viewStore.colorizationState)
       }
+      .coordinateSpace(.named(spaceName))
       .task {
         viewStore(.willBePresented)
       }
@@ -170,6 +177,18 @@ struct ImageDetailsView: View {
                 .resizable()
             }
           }
+          .overlay {
+            MagicOverlay(
+              image: image,
+              origin: CGPoint(
+                x: colorizeButtonFrame.midX - pictureFrame.minX,
+                y: colorizeButtonFrame.midY - pictureFrame.minY,
+              ),
+              isActive: viewStore.isColorizing,
+              tuning: .default,
+            )
+          }
+          .readFrame(in: .named(spaceName)) { pictureFrame = $0 }
           .animation(.default, value: viewStore.colorizationState)
       } else {
         if let cachedPreview = viewStore.cachedLowResImage {
@@ -335,6 +354,7 @@ struct ImageDetailsView: View {
 }
 
 private let splitViewScrollWidth = 325.0
+private let spaceName = "image-details"
 
 private struct LabeledText: View {
   var label: LocalizedStringKey
