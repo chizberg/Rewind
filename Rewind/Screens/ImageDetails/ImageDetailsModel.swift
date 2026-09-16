@@ -34,12 +34,17 @@ struct ImageDetailsState {
   }
 
   enum ColorizationState: Equatable {
+    enum Showing {
+      case original
+      case colorized
+    }
+
     case none
     case detecting
     case notAvailable
     case available(WatermarkedImage)
     case colorizing(WatermarkedImage)
-    case ready(colorized: UIImage)
+    case ready(colorized: UIImage, showing: Showing)
   }
 
   var image: Model.Image
@@ -50,7 +55,7 @@ struct ImageDetailsState {
 
   var uiImage: UIImage?
   var cachedLowResImage: UIImage?
-  var imageSaveCount: Int
+  var imageSaveCounts: [ColorizationState.Showing: Int]
   var openSource: String
   var isFavorite: Bool
   var mapOptionsPresented: Bool
@@ -95,7 +100,7 @@ enum ImageDetailsAction {
 
   enum Internal {
     case saveImage
-    case imageSaved
+    case imageSaved(ImageDetailsState.ColorizationState.Showing)
     case shareSheetLoaded(UIViewController)
     case anotherImageLoadFailed(Error)
     case detailsLoaded(Model.ImageDetails)
@@ -163,7 +168,7 @@ func makeImageDetailsModel(
     details: nil,
     uiImage: nil,
     cachedLowResImage: nil,
-    imageSaveCount: 0,
+    imageSaveCounts: [:],
     openSource: openSource,
     isFavorite: favoriteModel.state.wrappedValue,
     mapOptionsPresented: false,
@@ -261,7 +266,7 @@ func makeImageDetailsModel(
       case let .comparison(comparisonAction):
         switch comparisonAction {
         case let .present(mode):
-          guard let image = state.uiImage else {
+          guard let image = state.displayedImage else {
             UINotificationFeedbackGenerator().notificationOccurred(.error)
             return
           }
@@ -316,7 +321,7 @@ func makeImageDetailsModel(
           asyncEffect(.anotherAction(.internal(.saveImage)))
         case .share:
           guard let attrDetails = state.attributedDetails,
-                let image = state.uiImage
+                let image = state.displayedImage
           else { return }
           let title = state.attributedTitle
           let cid = state.image.cid
@@ -363,21 +368,30 @@ func makeImageDetailsModel(
       case .showTranslationOriginal:
         state.translationState = .available
       case .colorize:
-        guard case let .available(image) = state.colorizationState else { return }
-        guard let model = colorizationModel.value else {
-          asyncEffect(.anotherAction(.colorizationPicker(.present)))
-          return
-        }
-        state.colorizationState = .colorizing(image)
-        asyncEffect(.perform { anotherAction in
-          do {
-            let colorized = try await colorize(image: image.content, with: model)
-            let stitched = await modified(image) { $0.content = colorized }.stitched()
-            await anotherAction(.internal(.colorizationCompleted(stitched)))
-          } catch {
-            await anotherAction(.internal(.colorizationFailed(error)))
+        switch state.colorizationState {
+        case let .available(image):
+          guard let model = colorizationModel.value else {
+            asyncEffect(.anotherAction(.colorizationPicker(.present)))
+            return
           }
-        })
+          state.colorizationState = .colorizing(image)
+          asyncEffect(.perform { anotherAction in
+            do {
+              let colorized = try await colorize(image: image.content, with: model)
+              let stitched = await modified(image) { $0.content = colorized }.stitched()
+              await anotherAction(.internal(.colorizationCompleted(stitched)))
+            } catch {
+              await anotherAction(.internal(.colorizationFailed(error)))
+            }
+          })
+        case let .ready(colorized, showing):
+          state.colorizationState = .ready(
+            colorized: colorized,
+            showing: showing == .colorized ? .original : .colorized,
+          )
+        case .none, .detecting, .notAvailable, .colorizing:
+          break
+        }
       case .colorizationPicker(.present):
         state.colorizationPicker = Identified(value: makeColorizationPicker {
           modelRef?(.colorizationPicker(.dismiss))
@@ -401,7 +415,7 @@ func makeImageDetailsModel(
           UINotificationFeedbackGenerator().notificationOccurred(.error)
         }
       case .fullscreenPreview(.present):
-        if let image = state.uiImage {
+        if let image = state.displayedImage {
           state.fullscreenPreview = Identified(value: image)
         }
       case .fullscreenPreview(.dismiss):
@@ -437,11 +451,12 @@ func makeImageDetailsModel(
       case let .internal(internalAction):
         switch internalAction {
         case .saveImage:
-          guard let image = state.uiImage else { return }
+          guard let image = state.displayedImage else { return }
+          let version = state.displayedVersion
           asyncEffect(.perform { anotherAction in
             do {
               try await save(image: image)
-              await anotherAction(.internal(.imageSaved))
+              await anotherAction(.internal(.imageSaved(version)))
             } catch {
               await anotherAction(.alert(.present(.error(
                 title: "Unable to save image",
@@ -449,9 +464,9 @@ func makeImageDetailsModel(
               ))))
             }
           })
-        case .imageSaved:
+        case let .imageSaved(version):
           UINotificationFeedbackGenerator().notificationOccurred(.success)
-          state.imageSaveCount += 1
+          state.imageSaveCounts[version, default: 0] += 1
         case let .shareSheetLoaded(vc):
           state.shareVC = Identified(value: vc)
         case let .detailsLoaded(details):
@@ -473,7 +488,8 @@ func makeImageDetailsModel(
         case let .bwDetectionCompleted(isBW, image):
           state.colorizationState = isBW ? .available(image) : .notAvailable
         case let .colorizationCompleted(colorized):
-          state.colorizationState = .ready(colorized: colorized)
+          state.colorizationState = .ready(colorized: colorized, showing: .colorized)
+          UINotificationFeedbackGenerator().notificationOccurred(.success)
         case let .colorizationFailed(error):
           if case let .colorizing(image) = state.colorizationState {
             state.colorizationState = .available(image)
@@ -531,7 +547,21 @@ private func apply(details: Model.ImageDetails, to state: inout ImageDetailsStat
 }
 
 extension ImageDetailsState {
+  var displayedVersion: ColorizationState.Showing {
+    if case .ready(_, .colorized) = colorizationState { .colorized } else { .original }
+  }
+
+  var imageSaveCount: Int { imageSaveCounts[displayedVersion, default: 0] }
+
   var isImageSaved: Bool { imageSaveCount > 0 }
+
+  var displayedImage: UIImage? {
+    colorizedImage ?? uiImage
+  }
+
+  var colorizedImage: UIImage? {
+    if case let .ready(colorized, .colorized) = colorizationState { colorized } else { nil }
+  }
 }
 
 func pastVuURL(cid: Int) -> URL? {

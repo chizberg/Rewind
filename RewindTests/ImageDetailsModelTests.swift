@@ -176,7 +176,7 @@ struct ImageDetailsModelTests {
       if case .ready = model.state.colorizationState { return true }
       return false
     })
-    guard case let .ready(result) = model.state.colorizationState else { return }
+    guard case let .ready(result, _) = model.state.colorizationState else { return }
     #expect(result.size == CGSize(
       width: source.content.size.width,
       height: source.content.size.height + watermark.size.height,
@@ -185,6 +185,39 @@ struct ImageDetailsModelTests {
     #expect(received.size.width == Int(source.content.size.width))
     #expect(received.size.height == Int(source.content.size.height))
     #expect(model.state.colorizationPicker == nil)
+  }
+
+  @Test func colorizeOnTheResultTogglesTheOriginalWithoutRunningTheModel() throws {
+    let harness = Harness()
+    let original = try makeTinyPhoto()
+    let colorized = try makeTinyPhoto()
+    let model = harness.makeModel(cachedDetails: nil)
+    model(.imageLoaded(original))
+    model(.internal(.colorizationCompleted(colorized)))
+    #expect(model.state.colorizationState == .ready(colorized: colorized, showing: .colorized))
+    #expect(model.state.displayedImage === colorized)
+
+    model(.colorize)
+    #expect(model.state.colorizationState == .ready(colorized: colorized, showing: .original))
+    #expect(model.state.displayedImage === original)
+
+    model(.colorize)
+    #expect(model.state.colorizationState == .ready(colorized: colorized, showing: .colorized))
+    #expect(model.state.displayedImage === colorized)
+  }
+
+  @Test func savingTheOriginalDoesNotMarkTheColorizedPhotoSaved() throws {
+    let harness = Harness()
+    let colorized = try makeTinyPhoto()
+    let model = harness.makeModel(cachedDetails: nil)
+    model(.internal(.imageSaved(.original)))
+    #expect(model.state.isImageSaved)
+
+    model(.internal(.colorizationCompleted(colorized)))
+    #expect(!model.state.isImageSaved)
+
+    model(.colorize)
+    #expect(model.state.isImageSaved)
   }
 
   @Test func failedColorizationRestoresTheButtonAndReportsTheError() async throws {

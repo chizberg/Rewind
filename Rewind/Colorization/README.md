@@ -37,7 +37,7 @@ Lab formulas and constants: [OpenCV, RGB ↔ CIE L\*a\*b\*](https://docs.opencv.
 | Compose L + ab into the result | `colorize(image:with:)`, `Lab.rgb(lightness:ab:)` | done |
 | Stitch the watermark strip back | `WatermarkedImage.stitched()` | done |
 | The store hands out the picked model, one loaded at a time | `ColorizationModelStore.localModel(id:)` | done |
-| Result on screen: switch between the original and the colorized photo | | not yet |
+| Result on screen: switch between the original and the colorized photo | `ImageDetailsState.displayedImage` | done |
 | Post-process: edge-aware blur, boldness, chroma ceiling | | not yet, each after looking at real photos |
 
 ## From the tap to the pipeline
@@ -55,6 +55,11 @@ Lab formulas and constants: [OpenCV, RGB ↔ CIE L\*a\*b\*](https://docs.opencv.
    `Application Support/ColorizationModels/<model ID>.mlmodelc` and keeps that one instance for its
    id, so the graph loads once; a different id replaces it, and deleting the model's file or a
    memory warning drops it.
+4. The result replaces the original on screen with a crossfade and a success haptic. The
+   colorize button then becomes a switch between the original and the colorized photo; switching
+   never runs the model again. Full-screen preview, share, save and comparison take the photo on
+   screen, `ImageDetailsState.displayedImage`. Both versions are shown aspect fit, so a result read
+   at `maxSide` covers the same area as the larger original.
 
 ## The pipeline
 

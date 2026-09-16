@@ -34,14 +34,13 @@ struct ImageDetailsView: View {
 
           Spacer()
 
-          switch viewStore.colorizationState {
-          case .available, .colorizing:
-            ColorizeButton(namespace: namespace, isColorizing: viewStore.isColorizing) {
+          if let state = viewStore.colorizationState.button {
+            ColorizeButton(
+              namespace: namespace,
+              state: state,
+            ) {
               viewStore(.colorize)
-            }
-            .transition(.scale)
-          case .none, .detecting, .notAvailable, .ready:
-            EmptyView()
+            }.transition(.scale)
           }
 
           if isSplitView {
@@ -162,9 +161,16 @@ struct ImageDetailsView: View {
 
   private var picture: some View {
     ZStack {
-      if let uiImage = viewStore.uiImage {
-        Image(uiImage: uiImage)
+      if let image = viewStore.uiImage {
+        Image(uiImage: image)
           .resizable()
+          .overlay {
+            if let colorized = viewStore.colorizedImage {
+              Image(uiImage: colorized)
+                .resizable()
+            }
+          }
+          .animation(.default, value: viewStore.colorizationState)
       } else {
         if let cachedPreview = viewStore.cachedLowResImage {
           Image(uiImage: cachedPreview)
@@ -320,7 +326,7 @@ struct ImageDetailsView: View {
 
   private func showFullscreenPreview() {
     guard viewStore.fullscreenPreview == nil,
-          viewStore.uiImage != nil
+          viewStore.displayedImage != nil
     else {
       return
     }
@@ -427,30 +433,33 @@ private struct TextAccessoryButton: View {
 }
 
 private struct ColorizeButton: View {
+  enum State: String, CaseIterable {
+    case available
+    case colorizing
+    case done
+  }
+
   var namespace: Namespace.ID
-  var isColorizing: Bool
+  var state: State
   var action: () -> Void
 
-  var exposureAdjust = 2.0
-  var rainbowDuration = 4.0
-  var rainbowRotationDuration = 2.0
+  var shadowExposure = 2.0
+  var rainbowShadowDuration = 4.0
+  var rainbowShadowRotationDuration = 2.0
 
   @State
   private var showsRainbow = false
   @State
   private var rainbowAngle = Angle.zero
+  @ScaledMetric(relativeTo: .title2)
+  private var radius = 44
 
   var body: some View {
     Button(action: action, label: {
-      Text("🎨")
-        .font(.title2)
-        .padding(10)
-        .opacity(isColorizing ? 0 : 1)
-        .overlay {
-          if isColorizing {
-            ProgressView()
-          }
-        }
+      content
+        .frame(squareSize: radius)
+        .transition(.blurReplace)
+
     })
     .matchedTransitionSource(
       id: ImageDetailsView.TransitionSource.colorizeButton,
@@ -460,34 +469,58 @@ private struct ColorizeButton: View {
     .blurBackground(in: Circle())
     .background {
       if showsRainbow {
-        AngularGradient(
-          gradient: makeRainbowGradient(exposureAdjust: exposureAdjust),
-          center: .center
-        )
-        .clipShape(Circle())
-        .blur(radius: 10)
-        .rotationEffect(rainbowAngle)
-        .scaleEffect(1.3)
-        .mask {
-          Circle()
-            .inset(by: -100)
-            .stroke(.black, lineWidth: 200)
-            .blur(radius: 20)
-        }
+        makeRainbow(exposure: shadowExposure)
+          .clipShape(Circle())
+          .blur(radius: 10)
+          .rotationEffect(rainbowAngle)
+          .scaleEffect(1.3)
+          .mask {
+            Circle()
+              .inset(by: -100)
+              .stroke(.black, lineWidth: 200)
+              .blur(radius: 20)
+          }
       }
     }
     .animation(.default, value: showsRainbow)
+    .animation(.default, value: state)
     .task {
       showsRainbow = true
       withAnimation(
-        .linear(duration: rainbowRotationDuration).repeatForever(autoreverses: false)
+        .linear(duration: rainbowShadowRotationDuration)
+          .repeatForever(autoreverses: false)
       ) {
         rainbowAngle = .degrees(360)
       }
-      try? await Task.sleep(for: .seconds(rainbowDuration))
+      try? await Task.sleep(for: .seconds(rainbowShadowDuration))
       showsRainbow = false
       rainbowAngle = .degrees(0)
     }
+  }
+
+  @ViewBuilder
+  private var content: some View {
+    switch state {
+    case .available:
+      Text("🎨")
+        .font(.title2)
+    case .colorizing:
+      ProgressView()
+    case .done:
+      ZStack {
+        makeRainbow(exposure: 0)
+
+        Image(systemName: "paintpalette.fill")
+          .foregroundStyle(.white)
+      }
+    }
+  }
+
+  private func makeRainbow(exposure: CGFloat) -> some View {
+    AngularGradient(
+      gradient: makeRainbowGradient(exposureAdjust: exposure),
+      center: .center
+    )
   }
 }
 
@@ -498,6 +531,22 @@ extension ImageDetailsState {
 
   fileprivate var isColorizing: Bool {
     if case .colorizing = colorizationState { true } else { false }
+  }
+}
+
+extension ImageDetailsState.ColorizationState {
+  fileprivate var button: ColorizeButton.State? {
+    switch self {
+    case .available: .available
+    case .colorizing: .colorizing
+    case let .ready(_, showing):
+      switch showing {
+      case .colorized: .done
+      case .original: .available
+      }
+    case .none, .detecting, .notAvailable:
+      nil
+    }
   }
 }
 
@@ -588,11 +637,13 @@ extension FavoritesModel {
 
 private struct ColorizationButtonPreview: View {
   @State
-  var isShown = false
+  var isShown = true
   @State
   var duration = 4.0
   @State
   var exposure = 2.0
+  @State
+  var buttonState = ColorizeButton.State.available
   @Namespace
   var namespace
 
@@ -612,10 +663,10 @@ private struct ColorizationButtonPreview: View {
         if isShown {
           ColorizeButton(
             namespace: namespace,
-            isColorizing: false,
+            state: buttonState,
             action: action,
-            exposureAdjust: exposure,
-            rainbowDuration: duration
+            shadowExposure: exposure,
+            rainbowShadowDuration: duration
           )
           .transition(.scale)
         }
@@ -632,6 +683,13 @@ private struct ColorizationButtonPreview: View {
 
       Text("duration \(duration)")
       Slider(value: $duration, in: 0...10)
+
+      Picker("", selection: $buttonState, content: {
+        ForEach(ColorizeButton.State.allCases, id: \.self) { s in
+          Text(s.rawValue).tag(s)
+        }
+      })
+      .pickerStyle(.segmented)
     }.padding()
   }
 }
