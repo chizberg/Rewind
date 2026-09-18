@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MagicTuning {
+struct MagicTuning: Equatable {
   var blur: Double
   var glow: Double
   var blobSize: Double
@@ -18,30 +18,34 @@ struct MagicTuning {
   var dustAmount: Double
   var dustGap: Double
   var dustSize: Double
+  var dustLife: Double
   var dustSpeed: Double
   var dustWander: Double
   var dustFlow: Double
-  var dustSparkle: Double
+  var sparkleShare: Double
+  var sparkleLife: Double
   var exposure: Double
   var wind: Double
   var edge: Double
   var duration: Double
 
   static let `default` = MagicTuning(
-    blur: 20,
-    glow: 0.375,
+    blur: 10,
+    glow: 0.38,
     blobSize: 0.25,
     blobSpread: 0.36,
-    blobSpeed: 1.2,
-    hueSpeed: 0.23,
+    blobSpeed: 0.79,
+    hueSpeed: 0.33,
     dustGray: 0.55,
     dustAmount: 1,
     dustGap: 60,
-    dustSize: 1.3,
-    dustSpeed: 1,
-    dustWander: 0.5,
-    dustFlow: 460,
-    dustSparkle: 8,
+    dustSize: 2.2,
+    dustLife: 6.2,
+    dustSpeed: 0.39,
+    dustWander: 51,
+    dustFlow: 595,
+    sparkleShare: 0.27,
+    sparkleLife: 0.75,
     exposure: 2,
     wind: 120,
     edge: 400,

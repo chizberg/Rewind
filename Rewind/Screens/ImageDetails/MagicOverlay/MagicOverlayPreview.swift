@@ -55,10 +55,12 @@ private struct MagicOverlayPreview: View {
           slider("Dust amount", $tuning.dustAmount, 0...1)
           slider("Dust gap", $tuning.dustGap, 15...200)
           slider("Dust size", $tuning.dustSize, 0.2...4)
+          slider("Dust life", $tuning.dustLife, 0.5...10)
           slider("Dust speed", $tuning.dustSpeed, 0...3)
-          slider("Dust wander", $tuning.dustWander, 0...0.5)
+          slider("Dust wander", $tuning.dustWander, 0...100)
           slider("Dust flow", $tuning.dustFlow, 0...600)
-          slider("Sparkle", $tuning.dustSparkle, 1...8)
+          slider("Sparkle share", $tuning.sparkleShare, 0...1)
+          slider("Sparkle life", $tuning.sparkleLife, 0.1...2)
           slider("Exposure", $tuning.exposure, 0...4)
           slider("Wind", $tuning.wind, 0...300)
           slider("Edge", $tuning.edge, 1...400)
@@ -76,7 +78,7 @@ private struct MagicOverlayPreview: View {
   ) -> some View {
     HStack {
       Text(name)
-        .frame(width: 90, alignment: .leading)
+        .frame(width: 100, alignment: .leading)
       Slider(value: value, in: range)
       Text(value.wrappedValue.formatted(.number.precision(.fractionLength(2))))
         .monospacedDigit()
