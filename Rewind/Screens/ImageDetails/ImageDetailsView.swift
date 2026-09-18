@@ -464,8 +464,8 @@ private struct ColorizeButton: View {
   var action: () -> Void
 
   var shadowExposure = 2.0
-  var rainbowShadowDuration = 4.0
-  var rainbowShadowRotationDuration = 2.0
+  var rainbowShadowDuration = 2.0
+  var rainbowShadowRotationDuration = 1.0
 
   @State
   private var showsRainbow = false
@@ -473,6 +473,9 @@ private struct ColorizeButton: View {
   private var rainbowAngle = Angle.zero
   @ScaledMetric(relativeTo: .title2)
   private var radius = 44
+
+  @Environment(\.colorScheme)
+  private var colorScheme
 
   var body: some View {
     Button(action: action, label: {
@@ -494,12 +497,6 @@ private struct ColorizeButton: View {
           .blur(radius: 10)
           .rotationEffect(rainbowAngle)
           .scaleEffect(1.3)
-          .mask {
-            Circle()
-              .inset(by: -100)
-              .stroke(.black, lineWidth: 200)
-              .blur(radius: 20)
-          }
       }
     }
     .animation(.default, value: showsRainbow)
@@ -524,6 +521,10 @@ private struct ColorizeButton: View {
     case .available:
       Text("🎨")
         .font(.title2)
+        .shadow(
+          color: .white.opacity(colorScheme == .dark ? 0.7 : 0),
+          radius: 10
+        )
     case .colorizing:
       ProgressView()
     case .done:
