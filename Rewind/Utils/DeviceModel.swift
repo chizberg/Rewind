@@ -94,6 +94,9 @@ enum PhoneModel {
   case iPhone17
   case iPhoneAir
   case iPhone17e
+  case iPhone18Pro
+  case iPhone18ProMax
+  case iPhoneDuo
   case unknown
 
   init(deviceID: String) {
@@ -150,6 +153,9 @@ enum PhoneModel {
     case "iPhone18,3": self = .iPhone17
     case "iPhone18,4": self = .iPhoneAir
     case "iPhone18,5": self = .iPhone17e
+    case "iPhone19,2": self = .iPhone18Pro
+    case "iPhone19,3", "iPhone19,7": self = .iPhone18ProMax
+    case "iPhone19,4": self = .iPhoneDuo
     default: self = .unknown
     }
   }
