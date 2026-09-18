@@ -14,6 +14,7 @@ import MapKit
 import Testing
 import VGSL
 
+@Suite(.serialized)
 @MainActor
 struct MapModelTests {
   /// A burst of region changes inside the debounce window triggers exactly one load.
@@ -224,7 +225,9 @@ struct MapModelTests {
     model(.external(.map(.userDragged(bottomTouch, frame))))
     #expect(model.state.controls.minimization == .minimized(byUser: false))
 
-    #expect(await eventually { model.state.controls.minimization == .normal })
+    #expect(await eventually(timeout: .seconds(30)) {
+      model.state.controls.minimization == .normal
+    })
 
     model(.external(.ui(.controls(.setMinimization(.minimized(byUser: true))))))
     model(.external(.map(.userDragged(bottomTouch, frame))))

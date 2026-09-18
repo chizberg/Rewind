@@ -90,6 +90,7 @@ struct ReducerSyncTests {
 
 // MARK: - Synchronous effects
 
+@Suite(.serialized)
 @MainActor
 struct ReducerSyncEffectTests {
   @Test func syncEffectRunsImmediatelyAfterReduce() {
@@ -137,6 +138,7 @@ struct ReducerSyncEffectTests {
 
 // MARK: - Asynchronous effects
 
+@Suite(.serialized)
 @MainActor
 struct ReducerAsyncEffectTests {
   @Test func multipleEffectsPerActionAllRun() async {
@@ -174,6 +176,7 @@ struct ReducerAsyncEffectTests {
 
 // MARK: - Cancellation / deduplication by effect id
 
+@Suite(.serialized)
 @MainActor
 struct ReducerCancellationTests {
   @Test func sameIdReplacesPendingEffect() async {
@@ -222,6 +225,7 @@ struct ReducerCancellationTests {
 
 // MARK: - Debounce
 
+@Suite(.serialized)
 @MainActor
 struct ReducerDebounceTests {
   @Test func debouncedCollapsesRapidDispatches() async {

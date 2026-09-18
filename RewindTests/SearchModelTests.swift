@@ -12,6 +12,7 @@ import CoreLocation
 @testable import Rewind
 import Testing
 
+@Suite(.serialized)
 @MainActor
 struct SearchModelTests {
   /// Tapping a suggest resolves that suggest, not the first one in the list.
