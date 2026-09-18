@@ -120,7 +120,7 @@ struct ImageDetailsView: View {
       }
     }
     .background {
-      Color.secondarySystemBackground.edgesIgnoringSafeArea(
+      SwiftUI.Color.secondarySystemBackground.edgesIgnoringSafeArea(
         isSplitView ? .bottom : .vertical,
       )
     }
@@ -136,7 +136,7 @@ struct ImageDetailsView: View {
           Image(uiImage: cachedPreview)
             .resizable()
         } else {
-          Color.clear
+          SwiftUI.Color.clear
         }
 
         ProgressView()
@@ -384,7 +384,7 @@ private struct TextAccessoryButton: View {
         .padding(.horizontal, 8)
         .padding(.vertical, 6)
         .background {
-          Capsule().fill(Color.secondarySystemBackground)
+          Capsule().fill(SwiftUI.Color.secondarySystemBackground)
         }
     }).foregroundStyle(.primary)
   }
