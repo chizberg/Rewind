@@ -19,6 +19,7 @@ final class Reducer<State, Action> {
   @ObservableProperty
   private(set) var state: State
   private let reduce: ActionHandler
+  private let tetheredEffects: [String]
   @Property
   private var asyncEffects: [String: (Task<Void, Error>, UUID)]
   private let disposePool = AutodisposePool()
@@ -34,10 +35,12 @@ final class Reducer<State, Action> {
   init(
     initial: State,
     reduce: @escaping ActionHandler,
+    tetheredEffects: [String] = [],
   ) {
     _state = ObservableProperty(initialValue: initial)
     _asyncEffects = Property(initialValue: [:])
     self.reduce = reduce
+    self.tetheredEffects = tetheredEffects
   }
 
   func callAsFunction(_ action: Action) {
@@ -62,6 +65,12 @@ final class Reducer<State, Action> {
           asyncEffects[ae.id] = nil
         }
       }, taskID)
+    }
+  }
+
+  deinit {
+    for id in tetheredEffects {
+      asyncEffects[id]?.0.cancel()
     }
   }
 

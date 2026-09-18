@@ -38,6 +38,7 @@ Lab formulas and constants: [OpenCV, RGB ↔ CIE L\*a\*b\*](https://docs.opencv.
 | Stitch the watermark strip back | `WatermarkedImage.stitched()` | done |
 | The store hands out the picked model, one loaded at a time | `ColorizationModelStore.localModel(id:)` | done |
 | Result on screen: switch between the original and the colorized photo | `ImageDetailsState.displayedImage` | done |
+| Stop the run when the user closes the photo | `Colorize.swift`, `ImageDetailsModel`, `Reducer.swift` | done |
 | Post-process: edge-aware blur, boldness, chroma ceiling | | not yet, each after looking at real photos |
 
 ## From the tap to the pipeline
@@ -55,7 +56,12 @@ Lab formulas and constants: [OpenCV, RGB ↔ CIE L\*a\*b\*](https://docs.opencv.
    `Application Support/ColorizationModels/<model ID>.mlmodelc` and keeps that one instance for its
    id, so the graph loads once; a different id replaces it, and deleting the model's file or a
    memory warning drops it.
-4. The result replaces the original on screen with a crossfade and a success haptic. The
+4. Closing the photo stops the run. The details screen names its colorization effect when it
+   builds the reducer, and the reducer cancels that effect in its own `deinit`, which is when the
+   dismissed screen is released. `colorize(image:with:)` checks cancellation between the stages,
+   so the result of a screen nobody can see is never built. The synchronous Core ML prediction
+   cannot be interrupted once started: that one finishes, and its color is dropped.
+5. The result replaces the original on screen with a crossfade and a success haptic. The
    colorize button then becomes a switch between the original and the colorized photo; switching
    never runs the model again. Full-screen preview, share, save and comparison take the photo on
    screen, `ImageDetailsState.displayedImage`. Both versions are shown aspect fit, so a result read

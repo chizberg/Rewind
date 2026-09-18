@@ -37,4 +37,29 @@ struct ColorizeTests {
       #expect((deviations.max() ?? 0) <= 1)
     }
   }
+
+  @MainActor
+  @Test func cancellingBeforeTheRunStartsLeavesTheModelUntouched() async throws {
+    let model = ColorlessModel(claheClip: 1)
+    let image = try makeTinyPhoto()
+
+    let run = Task { try await colorize(image: image, with: model) }
+    run.cancel()
+
+    await #expect(throws: CancellationError.self) { try await run.value }
+    #expect(await model.receivedGray == nil)
+  }
+
+  @MainActor
+  @Test func cancellingDuringThePredictionSkipsTheStagesAfterIt() async throws {
+    let model = BlockingModel()
+    let image = try makeTinyPhoto()
+
+    let run = Task { try await colorize(image: image, with: model) }
+    try #require(await eventually { model.isPredicting })
+    run.cancel()
+    model.finishPrediction()
+
+    await #expect(throws: CancellationError.self) { try await run.value }
+  }
 }

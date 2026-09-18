@@ -12,10 +12,14 @@ import UIKit
 // rather than on the main actor the tap came from.
 // https://github.com/swiftlang/swift-evolution/blob/main/proposals/0338-clarify-execution-non-actor-async.md
 func colorize(image: UIImage, with model: some ColorizationModel) async throws -> UIImage {
+  try Task.checkCancellation()
   let source = try RGBPlanes(image: image, maxSide: maxSide)
   let lightness = Lab.lightness(of: source)
+  try Task.checkCancellation()
   let gray = CLAHE.apply(to: Lab.neutralGray(lightness: lightness), clip: model.claheClip)
+  try Task.checkCancellation()
   let ab = try await model.predict(gray: gray)
+  try Task.checkCancellation()
   return try Lab.rgb(lightness: lightness, ab: ab).makeUIImage()
 }
 

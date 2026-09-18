@@ -220,6 +220,24 @@ struct ImageDetailsModelTests {
     #expect(model.state.isImageSaved)
   }
 
+  @Test func closingTheScreenCancelsTheRunningColorization() async throws {
+    let harness = Harness()
+    let source = try WatermarkedImage(content: makeTinyPhoto(), watermark: nil)
+    let colorizationModel = BlockingModel()
+    var model: ImageDetailsModel? = harness.makeModel(
+      cachedDetails: nil,
+      colorizationModel: colorizationModel,
+    )
+    model?(.internal(.bwDetectionCompleted(isBW: true, image: source)))
+    model?(.colorize)
+    try #require(await eventually { colorizationModel.isPredicting })
+
+    model = nil
+    colorizationModel.finishPrediction()
+
+    #expect(await eventually { colorizationModel.wasCancelled })
+  }
+
   @Test func failedColorizationRestoresTheButtonAndReportsTheError() async throws {
     let harness = Harness()
     let source = try WatermarkedImage(content: makeTinyPhoto(), watermark: nil)
@@ -242,10 +260,6 @@ private struct ThrowingColorizationModel: ColorizationModel {
   func predict(gray _: Plane<UInt8>) throws -> ABPlanes {
     throw HandlingError("no color")
   }
-}
-
-private func makeTinyPhoto() throws -> UIImage {
-  try UIImage(cgImage: makeGrayImage(width: 2, height: 2, values: [0, 85, 170, 255]))
 }
 
 private func pastvuPhotoURL(_ cid: Int) -> URL {

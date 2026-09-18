@@ -375,9 +375,10 @@ func makeImageDetailsModel(
             return
           }
           state.colorizationState = .colorizing(image)
-          asyncEffect(.perform { anotherAction in
+          asyncEffect(.perform(id: colorizationEffectID) { anotherAction in
             do {
               let colorized = try await colorize(image: image.content, with: model)
+              try Task.checkCancellation()
               let stitched = await modified(image) { $0.content = colorized }.stitched()
               await anotherAction(.internal(.colorizationCompleted(stitched)))
             } catch {
@@ -494,16 +495,19 @@ func makeImageDetailsModel(
           if case let .colorizing(image) = state.colorizationState {
             state.colorizationState = .available(image)
           }
-          asyncEffect(.anotherAction(.alert(.present(.error(
+          asyncEffect(.anotherAction(.alert(.present(.nonCancelledError(
             title: "Unable to colorize image", error: error,
           )))))
         }
       }
     },
+    tetheredEffects: [colorizationEffectID],
   )
   modelRef = model
   return model
 }
+
+private let colorizationEffectID = "colorization"
 
 private func checkColorizationAvailability(
   state: inout ImageDetailsState,
