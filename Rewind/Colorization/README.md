@@ -39,7 +39,8 @@ Lab formulas and constants: [OpenCV, RGB ↔ CIE L\*a\*b\*](https://docs.opencv.
 | The store hands out the picked model, one loaded at a time | `ColorizationModelStore.localModel(id:)` | done |
 | Result on screen: switch between the original and the colorized photo | `ImageDetailsState.displayedImage` | done |
 | Stop the run when the user closes the photo | `Colorize.swift`, `ImageDetailsModel`, `Reducer.swift` | done |
-| Post-process: edge-aware blur, boldness, chroma ceiling | | not yet, each after looking at real photos |
+| Post-process: edge-aware blur | `Stages/EdgeAwareBlur.swift`, `Stages/LabBilateral.metal` | done |
+| Post-process: boldness, chroma ceiling | | not yet, each after looking at real photos |
 
 ## From the tap to the pipeline
 
@@ -91,7 +92,9 @@ gray frame, Plane<UInt8>, full size                                           �
   ▼                                                                           │
 ab, ABPlanes, full size                                                       │
   │                                                                           │
-  │  POST-PROCESS (not yet): edge-aware blur → boldness → chroma ceiling      │
+  │  POST-PROCESS                                                             │
+  │  EdgeAwareBlur.apply(to:lightness:)  color held inside an outline  ◄──────┤
+  │  (not yet: boldness → chroma ceiling)                                     │
   │                                                                           │
   │  COMPOSE                                                                  │
   │  Lab.rgb(lightness:ab:)         Lab → sRGB  ◄─────────────────────────────┘
@@ -241,17 +244,51 @@ With a = b = 0 the result is the neutral gray frame within one level. `ColorizeT
 no color, and checks exactly that, together with the result's size and the CLAHE'd frame the model
 received.
 
-### 4. Post-process (not yet)
+### 4. Post-process
 
 The reference tunes the color after the model in three stages, inserted before compose in this
-order. Each is added only after looking at real photos on a phone.
+order. The first one is in; the other two are added one at a time, each after looking at real
+photos on a phone.
 
-1. **Edge-aware blur.** A bilateral filter on ab that reads L, a and b to decide which neighbors
-   count, so color stops at edges instead of spilling over them.
-2. **Boldness.** A color gain weighted by lightness, so near-black and near-white areas are not
-   boosted, and rolled back on frames the model covered with one global cast.
-3. **Chroma ceiling.** If the 99th percentile of chroma, `hypot(a, b)`, exceeds a ceiling, all of
-   ab is scaled down to it.
+1. **Edge-aware blur**, in, and described below.
+2. **Boldness** (not yet). A color gain weighted by lightness, so near-black and near-white areas
+   are not boosted, and rolled back on frames the model covered with one global cast.
+3. **Chroma ceiling** (not yet). If the 99th percentile of chroma, `hypot(a, b)`, exceeds a
+   ceiling, all of ab is scaled down to it.
+
+#### Edge-aware blur
+
+`EdgeAwareBlur.apply(to:lightness:)` is a
+[bilateral filter](https://doi.org/10.1109/ICCV.1998.710815) over the Lab triple: every neighbor
+inside a circle contributes to the pixel's new ab, weighted by two things at once — how far away it
+is, and how different the three channels are there. A neighbor across an outline differs, so it
+counts for almost nothing, and the color is averaged inside an object instead of across its border.
+The artifact these models leave is exactly that: a patch of color spilling past the thing it
+belongs to.
+
+- **L is read, never written.** Only ab leaves the stage, so the photo's brightness is the same
+  after it as before. Lightness is in the weight because that is where the edges are: the model's
+  own ab is too soft to find an outline in.
+- **The weight** of a neighbor at distance d is
+  `exp(-d² / 2σs² - (|ΔL| + |Δa| + |Δb|)² / 2σc²)`, with σc 25 and σs 12: the reference's
+  [`cv2.bilateralFilter(d, sigmaColor: 25, sigmaSpace: 12)`](https://docs.opencv.org/4.x/d4/d86/group__imgproc__filter.html#ga9d7064d478c95d60003cf839430737ed)
+  on a three-channel float frame. The color term is the summed absolute difference of the three
+  channels and then squared, which is what OpenCV computes for three channels — not the euclidean
+  distance one would assume.
+- **The size.** The window is 15 px wide on a 1600 px long side, scaled with the frame by
+  `PlaneSize.pixelWindowDiameter(atReference:)` and forced odd so that it has a center pixel:
+  19 px across at `maxSide`, 9 px on the 800 px parity frames. A fixed width would be a different
+  filter on a small scan than on a large one, and the misplaced color it has to reach is itself
+  proportional to the frame: a model predicts at a few hundred pixels whatever the photo's size,
+  so the larger the frame, the more pixels one of its pixels is stretched over. σs is *not*
+  scaled: OpenCV lets an explicit diameter win and leaves σs as the falloff inside it, and every
+  reference number was measured that way. The support is the circle inscribed in the diameter,
+  again OpenCV's.
+- **On the GPU.** 19 px across is 253 neighbors a pixel, so a full frame is a billion weights;
+  `LabBilateral.metal` does them as a compute kernel, and `EdgeAwareBlur.Shader` keeps the device,
+  the queue and the pipeline state it needs for that. There is no bilateral in vImage, MPS or Core
+  Image to use instead. The kernel mirrors the frame's edges by the same `BORDER_REFLECT_101` rule
+  as the rest of the folder, spelled out a second time because a Metal kernel cannot call Swift.
 
 ## Checking against the reference
 
@@ -259,13 +296,22 @@ order. Each is added only after looking at real photos on a phone.
   800 px frames live in `RewindTests/Fixtures/ios-parity/reference.json`, next to the input PNGs.
 - `ColorizationParityTests` runs the Swift stages on those frames and compares mean, standard
   deviation, min and max of each stage (`1_to_gray_rgb`, `3_clahe_rgb`, `5_L` so far).
-- The model stage (`4_model_ab_a`, `4_model_ab_b`, `4_model_chroma`, both models) compares the
-  mean only, within 1.5 or 25% of the reference mean, whichever is larger: DDColor's square
-  padding differs from the reference's and Core ML runs it in fp16. ECCV16 lands within 0.07 of
-  every reference mean. Models are not in the repo: each test case compiles
-  `~/Junk/models/<package>.mlpackage` from the host, found through `SIMULATOR_HOST_HOME`, removes
-  the compiled copy afterwards, and is skipped without the package. The suite is serialized so
+- The model stage (`4_model_ab_a`, `4_model_ab_b`, `4_model_chroma`, both models) and the blur
+  after it (`6_bilateral_chroma`) compare the mean only, within 1.5 or 25% of the reference mean,
+  whichever is larger: DDColor's square padding differs from the reference's and Core ML runs it in
+  fp16. ECCV16 lands within 0.07 of every reference mean. Models are not in the repo: each test
+  case compiles `~/Junk/models/<package>.mlpackage` from the host, found through
+  `SIMULATOR_HOST_HOME`, removes the compiled copy afterwards, and is skipped without the package. The suite is serialized so
   graphs never load side by side.
+- A mean that loose cannot tell the blur from doing nothing at all, so the same test also checks
+  what the blur unmistakably does on each model: it takes the top off the chroma peaks, on the
+  parity frames by 10-13% for DDColor and 0.3-0.8% for ECCV16.
+- `EdgeAwareBlurTests` checks the filter itself on 1600×16 frames made for it, against
+  `cv2.bilateralFilter(d: 15, sigmaColor: 25, sigmaSpace: 12)` on the same frames: a flat color
+  comes back unchanged whatever the lightness does, and a step of ±5 in a lands on cv2's value
+  within 0.01 both where the lightness is flat (0.7095, smoothed away) and where the lightness has
+  an edge under it (4.8411, held). The first of those two also pins the circular support: over a
+  square one the same pixel would come out 0.5534.
 - Unit tests take their expected numbers from cv2, numpy, Pillow or torch, not from the Swift code.
 - Where it matters for the numbers, the code follows OpenCV's arithmetic rather than a textbook
   version: area resize, reflect padding, CLAHE, Lab constants and the 8-bit Lab tables CLAHE runs
@@ -288,6 +334,7 @@ order. Each is added only after looking at real photos on a phone.
 | `Image/Lab.swift` | sRGB ↔ Lab: lightness of a photo and of a gray frame, neutral gray, Lab → sRGB for compose, the 8-bit tables CLAHE runs in |
 | `Image/Resampling.swift` | area and bicubic resize and reflect padding of the gray frame |
 | `Stages/CLAHE.swift` | contrast limited adaptive histogram equalization |
+| `Stages/EdgeAwareBlur.swift`, `Stages/LabBilateral.metal` | the bilateral filter that holds the model's color inside the outlines the lightness shows |
 | `Models/CoreMLLoader.swift` | lazy Core ML loading with the file and memory checks |
 | `Models/DDColorLarge.swift` | DDColor-large as a `ColorizationModel`: its clip limit, geometry and inference |
 | `Models/ECCV16.swift` | ECCV16 as a `ColorizationModel`: its clip limit, geometry and inference |

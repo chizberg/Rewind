@@ -42,14 +42,22 @@ struct ColorizationParityTests {
 
   @Test(.enabled(if: TestModel.isAvailable(.ddColorLarge)), arguments: frames)
   func ddColorLargePrediction(_ frame: String) async throws {
-    try await checkPrediction(frame: frame, model: .ddColorLarge) { url, gray in
+    try await checkPrediction(
+      frame: frame,
+      model: .ddColorLarge,
+      peakChromaDrop: 0.03,
+    ) { url, gray in
       try await DDColorLarge(modelURL: url).predict(gray: gray)
     }
   }
 
   @Test(.enabled(if: TestModel.isAvailable(.eccv16)), arguments: frames)
   func eccv16Prediction(_ frame: String) async throws {
-    try await checkPrediction(frame: frame, model: .eccv16) { url, gray in
+    try await checkPrediction(
+      frame: frame,
+      model: .eccv16,
+      peakChromaDrop: 0.001,
+    ) { url, gray in
       try await ECCV16(modelURL: url).predict(gray: gray)
     }
   }
@@ -57,23 +65,34 @@ struct ColorizationParityTests {
   private func checkPrediction(
     frame: String,
     model: ColorizationModelID,
+    peakChromaDrop: Double,
     predict: (URL, Plane<UInt8>) async throws -> ABPlanes,
   ) async throws {
     let reference = try ParityReference.load()
     let expected = try reference.expected(frame: frame, model: model)
-    let gray = try reference.prepared(frame: frame, claheClip: expected.claheClip).gray
+    let prepared = try reference.prepared(frame: frame, claheClip: expected.claheClip)
     let compiled = try await TestModel.compile(model)
     defer { try? FileManager.default.removeItem(at: compiled) }
 
-    let ab = try await predict(compiled, gray)
+    let ab = try await predict(compiled, prepared.gray)
 
-    #expect(ab.size == gray.size)
+    #expect(ab.size == prepared.gray.size)
     expected.checkModelMean("4_model_ab_a", ParityStatistics(ab.a))
     expected.checkModelMean("4_model_ab_b", ParityStatistics(ab.b))
-    expected.checkModelMean(
-      "4_model_chroma",
-      ParityStatistics(zip(ab.a, ab.b).map { hypot($0, $1) }),
+    let chroma = ParityStatistics(Self.chroma(of: ab))
+    expected.checkModelMean("4_model_chroma", chroma)
+
+    let smoothed = try EdgeAwareBlur.apply(to: ab, lightness: prepared.lightness)
+    let smoothedChroma = ParityStatistics(Self.chroma(of: smoothed))
+    expected.checkModelMean("6_bilateral_chroma", smoothedChroma)
+    #expect(
+      smoothedChroma.maximum < chroma.maximum * (1 - peakChromaDrop),
+      "peak chroma \(chroma.maximum) -> \(smoothedChroma.maximum)",
     )
+  }
+
+  private static func chroma(of ab: ABPlanes) -> [Float] {
+    zip(ab.a, ab.b).map { hypot($0, $1) }
   }
 }
 

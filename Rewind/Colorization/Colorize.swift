@@ -20,7 +20,9 @@ func colorize(image: UIImage, model: some ColorizationModel) async throws -> UII
   try Task.checkCancellation()
   let ab = try await model.predict(gray: gray)
   try Task.checkCancellation()
-  return try Lab.rgb(lightness: lightness, ab: ab).makeUIImage()
+  let anchored = try EdgeAwareBlur.apply(to: ab, lightness: lightness)
+  try Task.checkCancellation()
+  return try Lab.rgb(lightness: lightness, ab: anchored).makeUIImage()
 }
 
 // The cap on the long side the photo is read at; the model's own geometry starts from here.
