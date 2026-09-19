@@ -55,4 +55,4 @@ extension Network.Request {
 }
 
 private let colorizationModelSource =
-  URL(string: "https://rewind-models.y2nkvndwk7.workers.dev/models/test1")!
+  URL(string: "https://rewind-models.y2nkvndwk7.workers.dev/models/v1")!
