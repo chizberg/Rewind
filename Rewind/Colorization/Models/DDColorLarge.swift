@@ -25,6 +25,9 @@ actor DDColorLarge: ColorizationModel {
   // The clip limit the reference measured for DDColor.
   nonisolated let claheClip = 1.0
 
+  // The gain the reference measured for DDColor: left alone, its color is pale.
+  nonisolated let boldness: Float = 1.5
+
   // The graph, loaded on the first prediction.
   private var loader: CoreMLLoader
 

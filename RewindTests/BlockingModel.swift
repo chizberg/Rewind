@@ -10,6 +10,7 @@
 @MainActor
 final class BlockingModel: ColorizationModel {
   nonisolated let claheClip = 1.0
+  nonisolated let boldness: Float = 1
 
   private(set) var isPredicting = false
   private(set) var wasCancelled = false

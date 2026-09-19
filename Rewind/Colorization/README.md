@@ -40,7 +40,8 @@ Lab formulas and constants: [OpenCV, RGB ↔ CIE L\*a\*b\*](https://docs.opencv.
 | Result on screen: switch between the original and the colorized photo | `ImageDetailsState.displayedImage` | done |
 | Stop the run when the user closes the photo | `Colorize.swift`, `ImageDetailsModel`, `Reducer.swift` | done |
 | Post-process: edge-aware blur | `Stages/EdgeAwareBlur.swift`, `Stages/LabBilateral.metal` | done |
-| Post-process: boldness, chroma ceiling | | not yet, each after looking at real photos |
+| Post-process: boldness | `Stages/Boldness.swift` | done |
+| Post-process: chroma ceiling | | not yet, after looking at real photos |
 
 ## From the tap to the pipeline
 
@@ -94,7 +95,8 @@ ab, ABPlanes, full size                                                       �
   │                                                                           │
   │  POST-PROCESS                                                             │
   │  EdgeAwareBlur.apply(to:lightness:)  color held inside an outline  ◄──────┤
-  │  (not yet: boldness → chroma ceiling)                                     │
+  │  Boldness.apply(to:lightness:boldness:)  gain where L can hold it  ◄──────┤
+  │  (not yet: chroma ceiling)                                                │
   │                                                                           │
   │  COMPOSE                                                                  │
   │  Lab.rgb(lightness:ab:)         Lab → sRGB  ◄─────────────────────────────┘
@@ -247,12 +249,10 @@ received.
 ### 4. Post-process
 
 The reference tunes the color after the model in three stages, inserted before compose in this
-order. The first one is in; the other two are added one at a time, each after looking at real
-photos on a phone.
+order. Two are in; the last is added after looking at real photos on a phone.
 
 1. **Edge-aware blur**, in, and described below.
-2. **Boldness** (not yet). A color gain weighted by lightness, so near-black and near-white areas
-   are not boosted, and rolled back on frames the model covered with one global cast.
+2. **Boldness**, in, and described below.
 3. **Chroma ceiling** (not yet). If the 99th percentile of chroma, `hypot(a, b)`, exceeds a
    ceiling, all of ab is scaled down to it.
 
@@ -276,7 +276,7 @@ belongs to.
   channels and then squared, which is what OpenCV computes for three channels — not the euclidean
   distance one would assume.
 - **The size.** The window is 15 px wide on a 1600 px long side, scaled with the frame by
-  `PlaneSize.pixelWindowDiameter(atReference:)` and forced odd so that it has a center pixel:
+  `PlaneSize.scaleFromReference` and forced odd so that it has a center pixel:
   19 px across at `maxSide`, 9 px on the 800 px parity frames. A fixed width would be a different
   filter on a small scan than on a large one, and the misplaced color it has to reach is itself
   proportional to the frame: a model predicts at a few hundred pixels whatever the photo's size,
@@ -290,12 +290,34 @@ belongs to.
   Image to use instead. The kernel mirrors the frame's edges by the same `BORDER_REFLECT_101` rule
   as the rest of the folder, spelled out a second time because a Metal kernel cannot call Swift.
 
+#### Boldness
+
+`Boldness.apply(to:lightness:boldness:)` multiplies ab by a gain — the one color control this
+pipeline offers. The models predict pale color, DDColor especially, and the gain is neither flat
+across the frame nor always the one that was asked for.
+
+- **How much to ask for is the model's own constant**, `ColorizationModel.boldness`: DDColor 1.5,
+  ECCV16 1. ECCV16 has its lever inside the graph instead — the `rebalance` exponent its `predict`
+  passes in — so there is nothing left for a gain to do here. At 1 the stage hands back the frame
+  it was given and never builds the weight map below, which is the expensive half of it.
+- **Weighted by lightness.** The gain is off at or below L=20, full between L=35 and L=75, and off
+  again at or above L=90: deep shadow and blown highlight cannot hold chroma, so a gain there only
+  pushes pixels out of sRGB. That map is then blurred by a box of radius 24 px at the reference's
+  long side, 63 px across at `maxSide` — unblurred it is a function of L, and multiplying it into
+  ab prints the lightness texture onto the color.
+- **Withdrawn on a frame that already leans one way.** The cast ratio is `|mean ab| / mean chroma`:
+  at 1 every pixel points the same way in color space, which is a tint laid over the photo rather
+  than a colorization, and a saturation control on that is a sepia-strength control. Between 0.75
+  and 0.95 the requested gain fades to 1. The guard only ever attenuates, so the color can never
+  end up further from the model's own prediction than the model asked for.
+
 ## Checking against the reference
 
 - The reference is a Python pipeline on OpenCV and PyTorch. Its per-stage statistics for two
   800 px frames live in `RewindTests/Fixtures/ios-parity/reference.json`, next to the input PNGs.
 - `ColorizationParityTests` runs the Swift stages on those frames and compares mean, standard
-  deviation, min and max of each stage (`1_to_gray_rgb`, `3_clahe_rgb`, `5_L` so far).
+  deviation, min and max of each stage (`1_to_gray_rgb`, `3_clahe_rgb`, `5_L`, `7_lum_weight`
+  so far).
 - The model stage (`4_model_ab_a`, `4_model_ab_b`, `4_model_chroma`, both models) and the blur
   after it (`6_bilateral_chroma`) compare the mean only, within 1.5 or 25% of the reference mean,
   whichever is larger: DDColor's square padding differs from the reference's and Core ML runs it in
@@ -306,6 +328,24 @@ belongs to.
 - A mean that loose cannot tell the blur from doing nothing at all, so the same test also checks
   what the blur unmistakably does on each model: it takes the top off the chroma peaks, on the
   parity frames by 10-13% for DDColor and 0.3-0.8% for ECCV16.
+- Boldness splits the same way. `7_lum_weight` comes from the frame alone, so it is checked in
+  full next to `5_L`; `7_cast_ratio` and `7_bold_effective` are read off the model's own ab, so
+  they are checked within 25% of the reference value, like its means; `7_bold_chroma` compares the
+  mean. The gain itself comes from the reference's `7_bold_in`, not from the model's constant — as
+  with `claheClip`, that constant is where the two could still drift apart unnoticed.
+- The same test also checks what boldness unmistakably does: mean chroma comes out at least 5%
+  above the blur's for DDColor, and no lower than it for ECCV16, which asks for no gain at all.
+  The reference lifts it by 16% and 33% on the two DDColor frames.
+- `BoldnessTests` checks the stage on 200×16 frames made for it: the weight map lands on numpy and
+  [`cv2.blur`](https://docs.opencv.org/4.x/d4/d86/group__imgproc__filter.html#ga8c45db9afe636703801b0b2e440fce37)
+  within 0.0005 at the top-left corner, the middle and the bottom-right corner (0.566255, 0.605761,
+  0.883951). The last two are what pin the running sums: an index off by one leaves the first
+  pixel where it was and moves those two by 0.002 and 0.02-0.08. A replicated border instead of a
+  reflected one would miss the two corners by 0.29 and 0.43 and leave the middle untouched, eight
+  rows from either edge as it is. Then: half the gain is left in the middle of
+  the guard (1.5 at a cast ratio of 0.85 becomes 1.25), a frame painted in one tint comes back
+  untouched at a cast ratio of exactly 1, and a frame whose ab averages to zero takes the whole
+  gain, ±10 becoming ±15.
 - `EdgeAwareBlurTests` checks the filter itself on 1600×16 frames made for it, against
   `cv2.bilateralFilter(d: 15, sigmaColor: 25, sigmaSpace: 12)` on the same frames: a flat color
   comes back unchanged whatever the lightness does, and a step of ±5 in a lands on cv2's value
@@ -325,7 +365,7 @@ belongs to.
 
 | File | What it holds |
 |---|---|
-| `ColorizationModel.swift` | the model protocol (`claheClip`, `predict(gray:)`) and `ColorizationModelID` |
+| `ColorizationModel.swift` | the model protocol (`claheClip`, `predict(gray:)`, `boldness`) and `ColorizationModelID` |
 | `Colorize.swift` | `colorize(image:model:)`, the pipeline stage by stage, and `maxSide` |
 | `ColorizationHelpers.swift` | helpers shared by several stages (`mirroredIndex`, `byte(sRGB:)`, `makeCGImage`) |
 | `Image/Plane.swift` | `Plane<Value>`: one channel of values with its `PlaneSize` |
@@ -334,7 +374,8 @@ belongs to.
 | `Image/Lab.swift` | sRGB ↔ Lab: lightness of a photo and of a gray frame, neutral gray, Lab → sRGB for compose, the 8-bit tables CLAHE runs in |
 | `Image/Resampling.swift` | area and bicubic resize and reflect padding of the gray frame |
 | `Stages/CLAHE.swift` | contrast limited adaptive histogram equalization |
-| `Stages/EdgeAwareBlur.swift`, `Stages/LabBilateral.metal` | the bilateral filter that holds the model's color inside the outlines the lightness shows |
+| `Stages/EdgeAwareBlur.swift`, `Stages/LabBilateral.metal` | the bilateral filter that holds the model's color inside the outlines the lightness shows, and `PlaneSize.scaleFromReference`, which both filters take their sizes through |
+| `Stages/Boldness.swift` | the gain on the model's color, weighted by lightness and withdrawn on a tinted frame |
 | `Models/CoreMLLoader.swift` | lazy Core ML loading with the file and memory checks |
 | `Models/DDColorLarge.swift` | DDColor-large as a `ColorizationModel`: its clip limit, geometry and inference |
 | `Models/ECCV16.swift` | ECCV16 as a `ColorizationModel`: its clip limit, geometry and inference |

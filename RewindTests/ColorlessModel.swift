@@ -9,6 +9,7 @@
 
 actor ColorlessModel: ColorizationModel {
   nonisolated let claheClip: Double
+  nonisolated let boldness: Float = 1
   private(set) var receivedGray: Plane<UInt8>?
 
   init(claheClip: Double) {

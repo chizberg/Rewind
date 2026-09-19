@@ -38,6 +38,8 @@ struct ColorizationParityTests {
       ParityStatistics(prepared.lightness.values),
       momentTolerance: Self.lightnessTolerance,
     )
+    let weight = Boldness.lightnessWeight(prepared.lightness)
+    try expected.check("7_lum_weight", ParityStatistics(weight.values))
   }
 
   @Test(.enabled(if: TestModel.isAvailable(.ddColorLarge)), arguments: frames)
@@ -46,6 +48,7 @@ struct ColorizationParityTests {
       frame: frame,
       model: .ddColorLarge,
       peakChromaDrop: 0.03,
+      boldChromaLift: 0.05,
     ) { url, gray in
       try await DDColorLarge(modelURL: url).predict(gray: gray)
     }
@@ -57,6 +60,7 @@ struct ColorizationParityTests {
       frame: frame,
       model: .eccv16,
       peakChromaDrop: 0.001,
+      boldChromaLift: 0,
     ) { url, gray in
       try await ECCV16(modelURL: url).predict(gray: gray)
     }
@@ -66,6 +70,7 @@ struct ColorizationParityTests {
     frame: String,
     model: ColorizationModelID,
     peakChromaDrop: Double,
+    boldChromaLift: Double,
     predict: (URL, Plane<UInt8>) async throws -> ABPlanes,
   ) async throws {
     let reference = try ParityReference.load()
@@ -82,12 +87,28 @@ struct ColorizationParityTests {
     let chroma = ParityStatistics(Self.chroma(of: ab))
     expected.checkModelMean("4_model_chroma", chroma)
 
-    let smoothed = try EdgeAwareBlur.apply(to: ab, lightness: prepared.lightness)
-    let smoothedChroma = ParityStatistics(Self.chroma(of: smoothed))
-    expected.checkModelMean("6_bilateral_chroma", smoothedChroma)
+    let anchored = try EdgeAwareBlur.apply(to: ab, lightness: prepared.lightness)
+    let anchoredChroma = ParityStatistics(Self.chroma(of: anchored))
+    expected.checkModelMean("6_bilateral_chroma", anchoredChroma)
     #expect(
-      smoothedChroma.maximum < chroma.maximum * (1 - peakChromaDrop),
-      "peak chroma \(chroma.maximum) -> \(smoothedChroma.maximum)",
+      anchoredChroma.maximum < chroma.maximum * (1 - peakChromaDrop),
+      "peak chroma \(chroma.maximum) -> \(anchoredChroma.maximum)",
+    )
+
+    let castRatio = Boldness.castRatio(of: anchored)
+    try expected.checkModelScalar("7_cast_ratio", Double(castRatio))
+    let requested = try Float(expected.scalar("7_bold_in"))
+    try expected.checkModelScalar(
+      "7_bold_effective",
+      Double(Boldness.effectiveBoldness(requested, castRatio: castRatio)),
+    )
+
+    let bolder = Boldness.apply(to: anchored, lightness: prepared.lightness, boldness: requested)
+    let bolderChroma = ParityStatistics(Self.chroma(of: bolder))
+    expected.checkModelMean("7_bold_chroma", bolderChroma)
+    #expect(
+      bolderChroma.mean >= anchoredChroma.mean * (1 + boldChromaLift),
+      "mean chroma \(anchoredChroma.mean) -> \(bolderChroma.mean)",
     )
   }
 
@@ -115,12 +136,15 @@ enum TestModel {
 struct ParityReference: Decodable {
   enum Stage: Decodable {
     case statistics(ParityStatistics)
+    case scalar(Double)
     case other
 
     init(from decoder: Decoder) throws {
       let container = try decoder.singleValueContainer()
       if let value = try? container.decode(ParityStatistics.self) {
         self = .statistics(value)
+      } else if let value = try? container.decode(Double.self) {
+        self = .scalar(value)
       } else {
         self = .other
       }
@@ -179,7 +203,7 @@ extension ParityReference.Case {
   static let momentTolerance = 0.05
   static let extremeTolerance = 1.0
   static let modelMeanAbsoluteTolerance = 1.5
-  static let modelMeanRelativeTolerance = 0.25
+  static let modelRelativeTolerance = 0.25
 
   func check(
     _ stage: String,
@@ -226,6 +250,27 @@ extension ParityReference.Case {
     )
   }
 
+  func checkModelScalar(
+    _ stage: String,
+    _ measured: Double,
+    sourceLocation: SourceLocation = #_sourceLocation,
+  ) throws {
+    let expected = try scalar(stage)
+    #expect(
+      abs(measured - expected) < Self.modelRelativeTolerance * abs(expected),
+      "\(stage) \(measured) against \(expected)",
+      sourceLocation: sourceLocation,
+    )
+  }
+
+  func scalar(_ stage: String) throws -> Double {
+    var value: Double?
+    if case let .scalar(number)? = stages[stage] {
+      value = number
+    }
+    return try #require(value, "no \(stage) value in the reference")
+  }
+
   func checkModelMean(
     _ stage: String,
     _ measured: ParityStatistics,
@@ -237,7 +282,7 @@ extension ParityReference.Case {
     }
     let tolerance = max(
       Self.modelMeanAbsoluteTolerance,
-      Self.modelMeanRelativeTolerance * abs(expected.mean),
+      Self.modelRelativeTolerance * abs(expected.mean),
     )
     #expect(
       abs(measured.mean - expected.mean) < tolerance,

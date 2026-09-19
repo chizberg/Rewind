@@ -19,7 +19,7 @@ enum EdgeAwareBlur {
   // https://docs.opencv.org/4.x/d4/d86/group__imgproc__filter.html#ga9d7064d478c95d60003cf839430737ed
   private static let sigmaColor: Float = 25
   private static let sigmaSpace: Float = 12
-  // How wide the window is on a frame of referenceLongSide, in pixels.
+  // How wide the window is on a frame of the reference's long side, in pixels.
   private static let windowAtReference = 15.0
   // This port's own floor, above OpenCV's radius of at least 1: it binds at 373 px and below,
   // where the scaled window rounds to 3 px and the filter all but stops reaching past the pixel.
@@ -27,7 +27,7 @@ enum EdgeAwareBlur {
 
   static func apply(to ab: ABPlanes, lightness: Plane<Float>) throws -> ABPlanes {
     assert(ab.size == lightness.size)
-    let window = ab.size.pixelWindowDiameter(atReference: windowAtReference)
+    let window = windowAtReference * ab.size.scaleFromReference
     let diameter = max(minimumDiameter, odd(window))
     return try Shader.shared.run(ab: ab, lightness: lightness, radius: diameter / 2)
   }
@@ -145,14 +145,17 @@ enum EdgeAwareBlur {
   }
 }
 
+// Declared here with the first filter that needed it, and read by Boldness too: both stages take
+// their sizes from the same reference frame.
 extension PlaneSize {
-  // The long side of the frames the reference measured its window sizes on.
-  fileprivate static let referenceLongSide = 1600.0
+  // The long side of the frames the reference measured its filter sizes on.
+  private static let referenceLongSide = 1600.0
 
-  // How wide the filter's window is on this frame, for a window of this many pixels on a frame of
-  // referenceLongSide. It scales with the frame so that the window covers the same part of the
-  // picture whatever size the photo was read at.
-  fileprivate func pixelWindowDiameter(atReference pixels: Double) -> Double {
-    pixels * Double(max(width, height)) / Self.referenceLongSide
+  // How much larger this frame is than the one the reference measured on. Every length it states
+  // in pixels is multiplied by this: the same radius reaches three times further across a 600 px
+  // photo than across a 2048 px one, so an unscaled length would make the color depend on how big
+  // the file happened to be.
+  var scaleFromReference: Double {
+    Double(max(width, height)) / Self.referenceLongSide
   }
 }

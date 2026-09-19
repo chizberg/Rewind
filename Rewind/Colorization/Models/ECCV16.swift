@@ -29,6 +29,10 @@ actor ECCV16: ColorizationModel {
   // The clip limit the reference measured for ECCV16.
   nonisolated let claheClip = 1.5
 
+  // No gain: this model's color strength is the rebalance exponent above, already at the value
+  // the reference measured.
+  nonisolated let boldness: Float = 1
+
   // The graph, loaded on the first prediction.
   private var loader: CoreMLLoader
 

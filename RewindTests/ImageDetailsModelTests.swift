@@ -256,6 +256,7 @@ struct ImageDetailsModelTests {
 
 private struct ThrowingColorizationModel: ColorizationModel {
   let claheClip = 1.0
+  let boldness: Float = 1
 
   func predict(gray _: Plane<UInt8>) throws -> ABPlanes {
     throw HandlingError("no color")

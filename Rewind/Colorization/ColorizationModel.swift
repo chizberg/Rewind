@@ -16,6 +16,10 @@ protocol ColorizationModel: Sendable {
   // is the model's own. A model actor's synchronous method satisfies it, called through await.
   // https://github.com/swiftlang/swift-evolution/blob/main/proposals/0306-actors.md#protocol-conformances
   func predict(gray: Plane<UInt8>) async throws -> ABPlanes
+
+  // How much the color this model predicts is amplified afterwards, the value the reference
+  // measured; 1 for a model that needs none.
+  var boldness: Float { get }
 }
 
 enum ColorizationModelID: String, Codable, CaseIterable {
