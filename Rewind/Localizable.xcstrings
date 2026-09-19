@@ -940,61 +940,120 @@
         }
       }
     },
-    "colorization-feature-free" : {
-      "comment" : "Colorization picker bullet: the feature costs nothing and needs no sign-in",
+    "colorization_description" : {
+      "comment" : "Onboarding card description for colorization, under its title",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kostenlos, kein Konto nötig"
+            "value" : "Bring Farbe in Schwarz-Weiß-Fotos – direkt auf deinem Gerät. Kostenlos, kein Konto nötig."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Free, no account needed"
+            "value" : "Add color to black-and-white photos right on your device. Free, no account needed."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gratis, sin registro"
+            "value" : "Añade color a las fotos en blanco y negro en tu dispositivo. Gratis, sin registro."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gratuit, sans inscription"
+            "value" : "Ajoutez de la couleur aux photos en noir et blanc directement sur votre appareil. Gratuit, sans inscription."
           }
         },
         "kk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Тегін, тіркелудің қажеті жоқ"
+            "value" : "Ақ-қара суреттерге құрылғыңызда түс қосыңыз. Тегін, тіркелудің қажеті жоқ."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Бесплатно, аккаунт не нужен"
+            "value" : "Добавьте цвет чёрно-белым фотографиям прямо на устройстве. Бесплатно, аккаунт не нужен."
           }
         },
         "sr-Latn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Besplatno, bez naloga"
+            "value" : "Dodajte boju crno-belim fotografijama direktno na uređaju. Besplatno, bez naloga."
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Безкоштовно, акаунт не потрібен"
+            "value" : "Додайте колір чорно-білим фотографіям просто на пристрої. Безкоштовно, акаунт не потрібен."
           }
         },
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bepul, ro'yxatdan o'tish shart emas"
+            "value" : "Oq-qora fotosuratlarga qurilmangizda rang qo'shing. Bepul, ro'yxatdan o'tish shart emas."
+          }
+        }
+      }
+    },
+    "colorization_title" : {
+      "comment" : "Onboarding card title for colorization, next to the palette icon",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bilder kolorieren"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Image colorization"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Colorear fotos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coloriser les photos"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Суреттерді бояу"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Раскраска картинок"
+          }
+        },
+        "sr-Latn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bojenje fotografija"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Розфарбовування фото"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotosuratlarni ranglash"
           }
         }
       }
@@ -1113,6 +1172,65 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Model faqat bir marta yuklab olinadi"
+          }
+        }
+      }
+    },
+    "colorization-feature-free" : {
+      "comment" : "Colorization picker bullet: the feature costs nothing and needs no sign-in",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kostenlos, kein Konto nötig"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Free, no account needed"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gratis, sin registro"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gratuit, sans inscription"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тегін, тіркелудің қажеті жоқ"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Бесплатно, аккаунт не нужен"
+          }
+        },
+        "sr-Latn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Besplatno, bez naloga"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Безкоштовно, акаунт не потрібен"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bepul, ro'yxatdan o'tish shart emas"
           }
         }
       }
@@ -1408,124 +1526,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rasm avvalgidan rangliroq bo'lmaganga o'xshaydi. Modellar xato qilishi mumkin, boshqasini sinab ko'ring."
-          }
-        }
-      }
-    },
-    "colorization_description" : {
-      "comment" : "Onboarding card description for colorization, under its title",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bring Farbe in Schwarz-Weiß-Fotos – direkt auf deinem Gerät. Kostenlos, kein Konto nötig."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add color to black-and-white photos right on your device. Free, no account needed."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Añade color a las fotos en blanco y negro en tu dispositivo. Gratis, sin registro."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ajoutez de la couleur aux photos en noir et blanc directement sur votre appareil. Gratuit, sans inscription."
-          }
-        },
-        "kk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ақ-қара суреттерге құрылғыңызда түс қосыңыз. Тегін, тіркелудің қажеті жоқ."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Добавьте цвет чёрно-белым фотографиям прямо на устройстве. Бесплатно, аккаунт не нужен."
-          }
-        },
-        "sr-Latn" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dodajte boju crno-belim fotografijama direktno na uređaju. Besplatno, bez naloga."
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Додайте колір чорно-білим фотографіям просто на пристрої. Безкоштовно, акаунт не потрібен."
-          }
-        },
-        "uz" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Oq-qora fotosuratlarga qurilmangizda rang qo'shing. Bepul, ro'yxatdan o'tish shart emas."
-          }
-        }
-      }
-    },
-    "colorization_title" : {
-      "comment" : "Onboarding card title for colorization, next to the palette icon",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bilder kolorieren"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Image colorization"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Colorear fotos"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Coloriser les photos"
-          }
-        },
-        "kk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Суреттерді бояу"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Раскраска картинок"
-          }
-        },
-        "sr-Latn" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bojenje fotografija"
-          }
-        },
-        "uk" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Розфарбовування фото"
-          }
-        },
-        "uz" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fotosuratlarni ranglash"
           }
         }
       }
