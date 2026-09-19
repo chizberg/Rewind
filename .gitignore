@@ -124,3 +124,5 @@ CONTEXT.md
 /.claude/
 # Localization workflow scratch (drafts, patches, style guides)
 /.loc-workflow/
+# Local release tooling (fastlane lanes, App Store metadata, TestFlight notes)
+/fastlane/
