@@ -29,7 +29,7 @@ struct ChromaCeilingTests {
       (Float(index % 41) * 2.5, Float(index * 7 % 23))
     }
 
-    let peak = ChromaCeiling.peakChroma(of: mixed)
+    let peak = mixed.peakChroma
 
     #expect(abs(peak - Self.mixedPeak) < Self.histogramTolerance)
   }
@@ -39,9 +39,9 @@ struct ChromaCeilingTests {
 
     let capped = ChromaCeiling.apply(to: ramp, boldness: Self.boldness)
 
-    #expect(abs(ChromaCeiling.peakChroma(of: ramp) - Self.rampPeak) < Self.rankTolerance)
+    #expect(abs(ramp.peakChroma - Self.rampPeak) < Self.rankTolerance)
     #expect(abs(capped.a[Self.lastIndex] - Self.cappedTop) < Self.tolerance)
-    #expect(abs(ChromaCeiling.peakChroma(of: capped) - Self.ceiling) < Self.tolerance)
+    #expect(abs(capped.peakChroma - Self.ceiling) < Self.tolerance)
   }
 
   @Test func aFrameUnderTheCeilingKeepsTheColorTheModelPredicted() {
@@ -60,7 +60,7 @@ struct ChromaCeilingTests {
       (index == Self.gapIndex ? Float.nan : Float(index), 0)
     }
 
-    let peak = ChromaCeiling.peakChroma(of: ramp)
+    let peak = ramp.peakChroma
 
     #expect(abs(peak - Self.rampPeakPastTheGap) < Self.histogramTolerance)
   }

@@ -22,6 +22,8 @@ struct ColorizationParityTests {
   private static let tintedStrongClaheTolerance = 2.5
   private static let tintedStrongClaheExtremeTolerance = 2.5
   private static let crushedShare = 0.005...0.015
+  private static let onlyTintFrame = "2504212"
+  private static let onlyTintModel = ColorizationModelID.eccv16
   private static let scaleBottom: Float = 0
   private static let scaleTop: Float = 100
 
@@ -135,6 +137,9 @@ struct ColorizationParityTests {
     let ab = try await predict(compiled, prepared.gray)
 
     #expect(ab.size == prepared.gray.size)
+    let paintedOneTint = frame == Self.onlyTintFrame && model == Self.onlyTintModel
+    let check = ab.checkColorization()
+    #expect(check == (paintedOneTint ? .onlyTint : .ok), "\(check)")
     expected.checkModelMean("4_model_ab_a", ParityStatistics(ab.a))
     expected.checkModelMean("4_model_ab_b", ParityStatistics(ab.b))
     let chroma = ParityStatistics(ab.chroma.values)
@@ -168,10 +173,10 @@ struct ColorizationParityTests {
     try #expect(Double(ceiling) == expected.scalar("8_cap"))
     let capped = ChromaCeiling.apply(to: bolder, boldness: requested)
     expected.checkModelMean("8_cap_chroma", ParityStatistics(capped.chroma.values))
-    let cappedPeak = ChromaCeiling.peakChroma(of: capped)
+    let cappedPeak = capped.peakChroma
     #expect(
       abs(cappedPeak - ceiling) < Self.peakTolerance,
-      "peak chroma \(ChromaCeiling.peakChroma(of: bolder)) -> \(cappedPeak) against \(ceiling)",
+      "peak chroma \(bolder.peakChroma) -> \(cappedPeak) against \(ceiling)",
     )
 
     let composed = Lab.rgb(lightness: prepared.lightness, ab: capped)

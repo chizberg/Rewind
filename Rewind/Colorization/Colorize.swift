@@ -9,9 +9,13 @@ import UIKit
 
 // The whole pipeline in the order of README's diagram, one stage a line: every new stage lands
 // here as one more line. Nonisolated and async, so the pixel work runs on the global executor
-// rather than on the main actor the tap came from.
+// rather than on the main actor the tap came from. Out comes the colorized photo and whether the
+// model colored it or failed it.
 // https://github.com/swiftlang/swift-evolution/blob/main/proposals/0338-clarify-execution-non-actor-async.md
-func colorize(image: UIImage, model: some ColorizationModel) async throws -> UIImage {
+func colorize(
+  image: UIImage,
+  model: some ColorizationModel,
+) async throws -> (image: UIImage, check: ColorizationCheck) {
   try Task.checkCancellation()
   let source = try RGBPlanes(image: image, maxSide: maxSide)
   let lightness = Lab.lightness(of: source)
@@ -24,6 +28,9 @@ func colorize(image: UIImage, model: some ColorizationModel) async throws -> UII
   let ab = try await model.predict(gray: gray)
   try Task.checkCancellation()
 
+  let check = ab.checkColorization()
+  try Task.checkCancellation()
+
   // post-processing
   let anchored = try EdgeAwareBlur.apply(to: ab, lightness: stretched)
   try Task.checkCancellation()
@@ -32,7 +39,8 @@ func colorize(image: UIImage, model: some ColorizationModel) async throws -> UII
   let capped = ChromaCeiling.apply(to: bolder, boldness: model.boldness)
   try Task.checkCancellation()
 
-  return try Lab.rgb(lightness: stretched, ab: capped).makeUIImage()
+  let colorized = try Lab.rgb(lightness: stretched, ab: capped).makeUIImage()
+  return (image: colorized, check: check)
 }
 
 // The cap on the long side the photo is read at; the model's own geometry starts from here.

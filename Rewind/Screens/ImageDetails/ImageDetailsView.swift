@@ -560,7 +560,7 @@ extension ImageDetailsState.ColorizationState {
     switch self {
     case .available: .available
     case .colorizing: .colorizing
-    case let .ready(_, showing):
+    case let .ready(_, showing, _):
       switch showing {
       case .colorized: .done
       case .original: .available

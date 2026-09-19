@@ -176,7 +176,7 @@ struct ImageDetailsModelTests {
       if case .ready = model.state.colorizationState { return true }
       return false
     })
-    guard case let .ready(result, _) = model.state.colorizationState else { return }
+    guard case let .ready(result, _, _) = model.state.colorizationState else { return }
     #expect(result.size == CGSize(
       width: source.content.size.width,
       height: source.content.size.height + watermark.size.height,
@@ -193,16 +193,28 @@ struct ImageDetailsModelTests {
     let colorized = try makeTinyPhoto()
     let model = harness.makeModel(cachedDetails: nil)
     model(.imageLoaded(original))
-    model(.internal(.colorizationCompleted(colorized)))
-    #expect(model.state.colorizationState == .ready(colorized: colorized, showing: .colorized))
+    model(.internal(.colorizationCompleted(colorized: colorized, check: .ok)))
+    #expect(model.state.colorizationState == .ready(
+      colorized: colorized,
+      showing: .colorized,
+      check: .ok,
+    ))
     #expect(model.state.displayedImage === colorized)
 
     model(.colorize)
-    #expect(model.state.colorizationState == .ready(colorized: colorized, showing: .original))
+    #expect(model.state.colorizationState == .ready(
+      colorized: colorized,
+      showing: .original,
+      check: .ok,
+    ))
     #expect(model.state.displayedImage === original)
 
     model(.colorize)
-    #expect(model.state.colorizationState == .ready(colorized: colorized, showing: .colorized))
+    #expect(model.state.colorizationState == .ready(
+      colorized: colorized,
+      showing: .colorized,
+      check: .ok,
+    ))
     #expect(model.state.displayedImage === colorized)
   }
 
@@ -213,7 +225,7 @@ struct ImageDetailsModelTests {
     model(.internal(.imageSaved(.original)))
     #expect(model.state.isImageSaved)
 
-    model(.internal(.colorizationCompleted(colorized)))
+    model(.internal(.colorizationCompleted(colorized: colorized, check: .ok)))
     #expect(!model.state.isImageSaved)
 
     model(.colorize)

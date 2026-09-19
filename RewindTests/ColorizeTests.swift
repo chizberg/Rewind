@@ -21,7 +21,7 @@ struct ColorizeTests {
       claheClip: reference.expected(frame: frame, model: measuredModel).claheClip,
     )
 
-    let colorized = try await colorize(image: image, model: model)
+    let (colorized, _) = try await colorize(image: image, model: model)
 
     let prepared = try reference.prepared(
       frame: frame,

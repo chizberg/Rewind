@@ -49,6 +49,23 @@ struct ABPlanes {
     Plane(size: size, values: vDSP.hypot(a, b))
   }
 
+  // The frame is read at its 99th percentile of chroma rather than at its maximum. The maximum is
+  // one pixel, and on the parity frames it runs to three and a half times the percentile: letting
+  // it speak for the frame would put the answer far above the color the picture actually carries.
+  private static let peakPercentile = 99.0
+
+  // How finely the chroma is binned to find that percentile. What a model predicts is not bounded
+  // by anything, but it tops out around 160 on the reference's frames, which puts a bin at a
+  // hundredth or two of a chroma unit: far under what either reader of this number argues about.
+  private static let histogramBins = 8192
+
+  // How much color the frame has where it is all but at its most colorful: the reference's
+  // np.percentile(chroma, 99). The ceiling holds a frame down to it, and the diagnostic asks it
+  // whether the model found any color at all.
+  var peakChroma: Float {
+    chroma.percentile(Self.peakPercentile, bins: Self.histogramBins)
+  }
+
   // The same colors, weaker or stronger by one factor: multiplying both channels by it multiplies
   // every pixel's chroma by exactly it, and leaves every pixel's hue, the direction of (a, b),
   // where it was.

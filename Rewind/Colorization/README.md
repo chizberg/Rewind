@@ -48,6 +48,7 @@ Lab formulas and constants: [OpenCV, RGB ↔ CIE L\*a\*b\*](https://docs.opencv.
 | Post-process: edge-aware blur | `Stages/EdgeAwareBlur.swift`, `Stages/LabBilateral.metal` | done |
 | Post-process: boldness | `Stages/Boldness.swift` | done |
 | Post-process: chroma ceiling | `Stages/ChromaCeiling.swift` | done |
+| Tell a failed run from a good one | `ColorizationCheck.swift` | done, no UI for it yet |
 
 ## From the tap to the pipeline
 
@@ -100,6 +101,9 @@ gray frame, Plane<UInt8>, full size                                           �
   ▼                                                                           │
 ab, ABPlanes, full size                                                       │
   │                                                                           │
+  │  DID IT WORK                                                              │
+  │  ab.checkColorization()          ok, no color, or only a tint             │
+  │                                                                           │
   │  POST-PROCESS                                                             │
   │  EdgeAwareBlur.apply(to:lightness:)  color held inside an outline  ◄──────┤
   │  Boldness.apply(to:lightness:boldness:)  gain where L can hold it  ◄──────┤
@@ -109,7 +113,7 @@ ab, ABPlanes, full size                                                       �
   │  Lab.rgb(lightness:ab:)         Lab → sRGB  ◄─────────────────────────────┘
   │  RGBPlanes.makeUIImage()        rounded to bytes
   ▼
-UIImage (colorized)
+UIImage (colorized), and what the check made of the model's color
 ```
 
 ### 1. Prepare
@@ -364,6 +368,45 @@ region far past everything else in the picture, and a gain that has just multipl
   number are left out of both the count and the range: a single one of them cannot be binned at
   all, and must not be allowed to decide the whole frame's color.
 
+### 5. Did the model do its job
+
+A model handed a photograph it can make nothing of does not refuse it. It comes back with a frame
+that is all but gray, or with one tint laid over the whole picture, and to a user either of those
+reads as a broken app rather than as the limit of a model. `ABPlanes.checkColorization()` answers
+`ok`, `noColor` or `onlyTint`, and `colorize(image:model:)` returns that beside the photo, so the
+screen can say what happened and point at the other model. The answer travels in
+`ImageDetailsState.ColorizationState.ready`; nothing shows it yet.
+
+- **No color** is `ABPlanes.peakChroma` under 8, the 99th percentile of chroma the ceiling measures
+  a frame against. Over the six parity runs that peak lands between 32 and 87, so a working
+  colorization is nowhere near the bound.
+- **One tint** is more than 85% of the colored pixels inside one 60° window of hue. The circle is
+  counted in 36 bins of 10°, a window is 6 of them, and the windows wrap around the end of the
+  circle, so a tint sitting on 0° is caught like any other. Only pixels with chroma above 5 are
+  counted: the hue of a gray pixel is the direction of a rounding error.
+- **The bound of 0.85 is the reference's**, and the parity runs fall either side of it: the five
+  that come back colored measure 0.38 to 0.70, and ECCV16 on 2504212, which comes back a flat wash,
+  measures 0.99. Boldness's cast guard reads that frame the same way — its cast ratio there is
+  0.994, past the 0.95 where the guard takes the whole gain back — but the two are not the same
+  measure: the cast ratio weighs every pixel by how much color it carries, this one counts pixels
+  and ignores how strong their color is.
+- **Asked of the model's own ab**, not of the frame compose is handed, because both bounds are
+  absolute — a pixel counts as colored at chroma 5, a frame as colorless under 8 — while the
+  post-process rescales the whole frame by constants of ours: the ceiling divides it by whatever it
+  takes to fit (×0.41 on 166360) and boldness multiplies it by the model's gain. Measured after
+  that, the same six frames come out with 0.004 to 0.18 more of their color inside one window of
+  hue, because the pixels the scaling pushed under chroma 5 stop counting at all, and every one of
+  them sits exactly on the ceiling, 36 for DDColor and 24 for ECCV16. The reference's bounds were
+  measured where this asks them. What the two places do not do is disagree: over the six runs they
+  return the same answer, and the one case that separates them had to be built by hand — a faint
+  prediction of chroma 6 that the gain lifts to 9, over the bound of 8.
+- **What it costs** is three passes over a full-size frame: the chroma of every pixel twice, once
+  for the peak and once to tell the colored pixels from the gray ones, and `atan2` of every pixel
+  once. Taking the angle of the whole frame at once and binning only the colored ones costs 9 ms at
+  `swiftc -O` over 3.1 M pixels that are all colored, where calling `atan2` for the colored pixels
+  alone costs 38; the percentile on top of that is the same 9 ms the ceiling pays. Next to an
+  inference measured in seconds, none of it shows.
+
 ## Checking against the reference
 
 - The reference is a Python pipeline on OpenCV and PyTorch. Its per-stage statistics for three
@@ -450,6 +493,20 @@ region far past everything else in the picture, and a gain that has just multipl
   0.2551, and the pixels outside the band flat at 0 and 100), a ramp with one stray pixel at each
   end is stretched on the percentiles and not on the strays (24.49 where the extremes would have
   given 37.5), and a frame of one flat tone comes back as it went in rather than as solid black.
+- `ColorizationCheckTests` checks the two judgements on 3600-pixel frames made for them: a frame
+  whose chroma is 7 everywhere is reported as having no color, while colors that run around the
+  circle at chroma 20 come back ok; one hue over the whole frame is reported as a tint, and so is
+  a tint split across 355° and 5°, which a window that did not wrap around the end of the circle
+  would read as two halves of 50%; and a frame where nine pixels in ten are gray at one hue while
+  every tenth carries a color of its own comes back ok, which is what counting the gray pixels
+  would break; and forty colored pixels are too few to measure a spread over, so that frame is
+  called a tint without measuring, which is the guard the reference has. What pins the order is a
+  stub model whose faint color the gain would lift over the bound — two opposite hues at chroma 6
+  against a bound of 8, ×1.5 to 9 after boldness — put through `colorize(image:model:)` over a flat
+  gray photo: the run is reported as having no color, and the same ab taken through the three
+  post-process stages comes back ok. The parity test makes the same judgement on real model output,
+  where it has to agree with what the frames look like: five of its six runs come back ok and
+  ECCV16 on 2504212 is reported as a tint.
 - `BoldnessTests` checks the stage on 200×16 frames made for it: the weight map lands on numpy and
   [`cv2.blur`](https://docs.opencv.org/4.x/d4/d86/group__imgproc__filter.html#ga8c45db9afe636703801b0b2e440fce37)
   within 0.0005 at the top-left corner, the middle and the bottom-right corner (0.566255, 0.605761,
@@ -482,7 +539,7 @@ region far past everything else in the picture, and a gain that has just multipl
 | `ColorizationHelpers.swift` | helpers shared by several stages (`mirroredIndex`, `byte(sRGB:)`, `makeCGImage`) |
 | `Image/Plane.swift` | `Plane<Value>`: one channel of values with its `PlaneSize`, and the percentile of a float one |
 | `Image/RGBPlanes.swift` | a photo as three float channels, read from a `UIImage` and written back to one |
-| `Image/ABPlanes.swift` | the model's a and b channels, read from Core ML at fp16 or fp32, cropped, resized, measured as chroma and scaled by it |
+| `Image/ABPlanes.swift` | the model's a and b channels, read from Core ML at fp16 or fp32, cropped, resized, measured as chroma and its peak, and scaled by it |
 | `Image/Lab.swift` | sRGB ↔ Lab: lightness of a photo and of a gray frame, neutral gray, Lab → sRGB for compose, the 8-bit tables CLAHE runs in |
 | `Image/Resampling.swift` | area and bicubic resize and reflect padding of the gray frame |
 | `Stages/Levels.swift` | the lightness stretched to fill the scale |
@@ -490,6 +547,7 @@ region far past everything else in the picture, and a gain that has just multipl
 | `Stages/EdgeAwareBlur.swift`, `Stages/LabBilateral.metal` | the bilateral filter that holds the model's color inside the outlines the lightness shows, and `PlaneSize.scaleFromReference`, which both filters take their sizes through |
 | `Stages/Boldness.swift` | the gain on the model's color, weighted by lightness and withdrawn on a tinted frame |
 | `Stages/ChromaCeiling.swift` | the limit on how much color a result may carry |
+| `ColorizationCheck.swift` | whether a colorization is worth showing, and the two ways it fails, read off the model's ab |
 | `Models/CoreMLLoader.swift` | lazy Core ML loading with the file and memory checks |
 | `Models/DDColorLarge.swift` | DDColor-large as a `ColorizationModel`: its clip limit, geometry and inference |
 | `Models/ECCV16.swift` | ECCV16 as a `ColorizationModel`: its clip limit, geometry and inference |
