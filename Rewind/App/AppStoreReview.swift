@@ -48,3 +48,11 @@ final class AppStoreReview {
     #endif
   }
 }
+
+extension UIApplication {
+  fileprivate var activeWindowScene: UIWindowScene? {
+    connectedScenes
+      .compactMap { $0 as? UIWindowScene }
+      .first { $0.activationState == .foregroundActive }
+  }
+}

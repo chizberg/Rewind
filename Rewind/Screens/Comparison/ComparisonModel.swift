@@ -39,7 +39,6 @@ struct ComparisonState {
   var captureState: CaptureState?
   var style: Style
   var captureMode: CaptureMode
-  var orientation: Orientation
   var alert: Identified<AlertParams>?
   var shareVC: Identified<UIViewController>?
   var streetViewAvailability: StreetViewAvailability?
@@ -87,7 +86,6 @@ enum ComparisonAction {
     case videoAccessGranted
     case imageTaken(UIImage)
     case imageSaved
-    case orientationChanged(Orientation)
     case shareSheetLoaded(UIViewController)
     case streetViewAvailabilityLoaded(StreetViewAvailability)
     case setupCapture
@@ -103,7 +101,6 @@ func makeComparisonViewDeps(
   oldImageData: Model.Image,
   streetViewAvailability: Remote<Void, StreetViewAvailability>,
 ) -> ComparisonViewDeps {
-  let orientationTracker = OrientationTracker()
   weak var comparisonVC: UIViewController?
   let model = ComparisonModel(
     initial: ComparisonState(
@@ -112,7 +109,6 @@ func makeComparisonViewDeps(
       captureState: nil,
       style: .sideBySide,
       captureMode: captureMode,
-      orientation: orientationTracker.orientation,
       shouldDismiss: false,
       shotsCount: 0,
       savesCount: 0,
@@ -276,8 +272,6 @@ func makeComparisonViewDeps(
           })
         case .imageSaved:
           state.savesCount += 1
-        case let .orientationChanged(orientation):
-          state.orientation = orientation
         case let .shareSheetLoaded(vc):
           state.shareVC = Identified(value: vc)
         case .setupCapture:
@@ -303,9 +297,6 @@ func makeComparisonViewDeps(
         }
       }
     },
-  ).adding(
-    signal: orientationTracker.$orientation.newValues.retaining(object: orientationTracker),
-    makeAction: { .internal(.orientationChanged($0)) },
   )
 
   let vc = UIHostingController(

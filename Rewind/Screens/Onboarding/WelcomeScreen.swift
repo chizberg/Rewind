@@ -40,18 +40,16 @@ struct WelcomeScreen: View {
           title: "images_saving_title",
           description: "images_saving_description",
         )
-        if UIDevice.current.userInterfaceIdiom == .phone {
-          makeFeatureDescription(
-            iconName: "camera.viewfinder",
-            title: "comparison_title",
-            description: "comparison_description",
-          )
-          makeFeatureDescription(
-            iconName: "pano",
-            title: "street_view_title",
-            description: "street_view_description",
-          )
-        }
+        makeFeatureDescription(
+          iconName: "camera.viewfinder",
+          title: "comparison_title",
+          description: "comparison_description",
+        )
+        makeFeatureDescription(
+          iconName: "pano",
+          title: "street_view_title",
+          description: "street_view_description",
+        )
         makeFeatureDescription(
           iconName: "character.bubble",
           title: "translate_title",

@@ -128,7 +128,6 @@ func makeImageDetailsModel(
   showOnMap: @escaping (Coordinate) -> Void,
   canOpenURL: @escaping (URL) -> Bool,
   urlOpener: @escaping (URL) -> Void,
-  setOrientationLock: @escaping ResultAction<OrientationLock?>,
   streetViewAvailability: Remote<Coordinate, StreetViewAvailability>,
   translate: Remote<TranslateParams, String>,
   extractModelImage: @escaping (Model.ImageDetails) -> (Model.Image),
@@ -152,12 +151,11 @@ func makeImageDetailsModel(
     shareVC: nil,
     anotherImageModel: nil,
     alertModel: nil,
-    actionButtons: Array.build {
-      ImageDetailsAction.Button.favorite
-      withUIIdiom(phone: ImageDetailsAction.Button.compareCamera, pad: nil)
-      withUIIdiom(phone: ImageDetailsAction.Button.compareStreetView, pad: nil)
-      [ImageDetailsAction.Button.showOnMap, .share, .saveImage, .viewOnWeb, .route]
-    },
+    actionButtons: [
+      ImageDetailsAction.Button.favorite,
+      .compareCamera, .compareStreetView, .showOnMap,
+      .share, .saveImage, .viewOnWeb, .route
+    ],
   )
   if let cachedDetails {
     apply(details: cachedDetails, to: &initialState)
@@ -234,7 +232,6 @@ func makeImageDetailsModel(
             UINotificationFeedbackGenerator().notificationOccurred(.error)
             return
           }
-          effect { setOrientationLock(.portrait) }
           state.comparisonDeps = Identified(
             value: makeComparisonViewDeps(
               captureMode: mode,
@@ -246,7 +243,6 @@ func makeImageDetailsModel(
             ),
           )
         case .dismiss:
-          effect { setOrientationLock(nil) }
           state.comparisonDeps = nil
         }
       case let .alert(alert):
@@ -363,7 +359,6 @@ func makeImageDetailsModel(
               showOnMap: showOnMap,
               canOpenURL: canOpenURL,
               urlOpener: urlOpener,
-              setOrientationLock: setOrientationLock,
               streetViewAvailability: streetViewAvailability,
               translate: translate,
               extractModelImage: extractModelImage,

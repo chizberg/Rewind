@@ -65,7 +65,6 @@ struct ComparisonScreen: View {
             .foregroundStyle(
               isSelected ? .yellow : .primary.opacity(0.7),
             )
-            .rotating(on: .phone, with: store.orientation)
         },
       )
 
@@ -83,7 +82,6 @@ struct ComparisonScreen: View {
               .foregroundStyle(
                 isSelected ? .yellow : .primary.opacity(0.7),
               )
-              .rotating(on: .phone, with: store.orientation)
           },
         )
       }
@@ -175,34 +173,6 @@ private struct PickedStyleBackground: View {
       Color.clear.glassEffect(in: Circle())
     } else {
       BlurView().clipShape(Circle())
-    }
-  }
-}
-
-extension View {
-  // phone and pad have different orientation lock logic
-  fileprivate func rotating(
-    on idiom: UIUserInterfaceIdiom,
-    with orientation: Orientation,
-  ) -> some View {
-    modifyWithUIIdiom(idiom, transform: { $0.rotating(with: orientation) })
-  }
-
-  fileprivate func rotating(
-    with orientation: Orientation,
-  ) -> some View {
-    rotationEffect(.degrees(orientation.rotationAngle))
-      .animation(.default, value: orientation)
-  }
-}
-
-extension Orientation {
-  var rotationAngle: CGFloat {
-    switch self {
-    case .portrait: 0
-    case .landscapeLeft: 90
-    case .landscapeRight: -90
-    case .upsideDown: 180
     }
   }
 }
