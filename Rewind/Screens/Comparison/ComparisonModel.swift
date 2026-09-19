@@ -39,11 +39,11 @@ struct ComparisonState {
   var captureState: CaptureState?
   var style: Style
   var captureMode: CaptureMode
-  var orientation: Orientation
   var alert: Identified<AlertParams>?
   var shareVC: Identified<UIViewController>?
   var streetViewAvailability: StreetViewAvailability?
   var shouldDismiss: Bool
+  var aspectRatio: CGFloat
 
   var shotsCount: Int
   var savesCount: Int
@@ -87,7 +87,6 @@ enum ComparisonAction {
     case videoAccessGranted
     case imageTaken(UIImage)
     case imageSaved
-    case orientationChanged(Orientation)
     case shareSheetLoaded(UIViewController)
     case streetViewAvailabilityLoaded(StreetViewAvailability)
     case setupCapture
@@ -103,7 +102,6 @@ func makeComparisonViewDeps(
   oldImageData: Model.Image,
   streetViewAvailability: Remote<Void, StreetViewAvailability>,
 ) -> ComparisonViewDeps {
-  let orientationTracker = OrientationTracker()
   weak var comparisonVC: UIViewController?
   let model = ComparisonModel(
     initial: ComparisonState(
@@ -112,8 +110,8 @@ func makeComparisonViewDeps(
       captureState: nil,
       style: .sideBySide,
       captureMode: captureMode,
-      orientation: orientationTracker.orientation,
       shouldDismiss: false,
+      aspectRatio: aspectRatio(style: .sideBySide, oldImage: oldUIImage),
       shotsCount: 0,
       savesCount: 0,
       cameraSession: nil,
@@ -124,6 +122,7 @@ func makeComparisonViewDeps(
         switch externalAction {
         case let .setStyle(style):
           state.style = style
+          state.aspectRatio = aspectRatio(style: style, oldImage: state.oldUIImage)
         case .shoot:
           state.shotsCount += 1
           UINotificationFeedbackGenerator().notificationOccurred(.success)
@@ -276,8 +275,6 @@ func makeComparisonViewDeps(
           })
         case .imageSaved:
           state.savesCount += 1
-        case let .orientationChanged(orientation):
-          state.orientation = orientation
         case let .shareSheetLoaded(vc):
           state.shareVC = Identified(value: vc)
         case .setupCapture:
@@ -303,9 +300,6 @@ func makeComparisonViewDeps(
         }
       }
     },
-  ).adding(
-    signal: orientationTracker.$orientation.newValues.retaining(object: orientationTracker),
-    makeAction: { .internal(.orientationChanged($0)) },
   )
 
   let vc = UIHostingController(
@@ -327,6 +321,13 @@ func makeComparisonViewDeps(
     store: model.viewStore.bimap(state: { $0 }, action: { .external($0) }),
     comparisonVC: vc,
   )
+}
+
+private func aspectRatio(style: ComparisonState.Style, oldImage: UIImage) -> CGFloat {
+  switch style {
+  case .sideBySide: 4 / 6 // two 4/3 images
+  case .cardOnCard: oldImage.size.aspectRatio ?? 1
+  }
 }
 
 @MainActor

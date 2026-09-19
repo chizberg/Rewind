@@ -20,6 +20,8 @@ final class CameraSession {
   private let captureSession: AVCaptureSession
   private let photoOutput: AVCapturePhotoOutput
   private let capturedImages = SignalPipe<Result<UIImage, Error>>()
+  private var rotationCoordinator: AVCaptureDevice.RotationCoordinator?
+  private var previewRotationObservation: NSKeyValueObservation?
 
   init() throws {
     guard let device = makeDevice() else {
@@ -27,7 +29,9 @@ final class CameraSession {
     }
     self.device = device
 
-    let (lens, wide) = try getAvailableLens(device: device)
+    let (lens, wide) = try device.isVirtualDevice
+      ? getAvailableLens(virtualDevice: device)
+      : physicalLens()
     availableLens = lens
     mainLens = wide
 
@@ -61,6 +65,17 @@ final class CameraSession {
     let preview = CameraPreview()
     preview.videoPreviewLayer?.session = captureSession
     preview.videoPreviewLayer?.videoGravity = .resizeAspectFill
+    let coordinator = AVCaptureDevice.RotationCoordinator(
+      device: device,
+      previewLayer: preview.videoPreviewLayer,
+    )
+    previewRotationObservation = coordinator.observe(
+      \.videoRotationAngleForHorizonLevelPreview,
+      options: [.initial, .new],
+    ) { [weak layer = preview.videoPreviewLayer] coordinator, _ in
+      layer?.connection?.videoRotationAngle = coordinator.videoRotationAngleForHorizonLevelPreview
+    }
+    rotationCoordinator = coordinator
     return preview
   }
 
@@ -78,6 +93,10 @@ final class CameraSession {
   }
 
   func capturePhoto() async throws -> UIImage {
+    if let rotationCoordinator {
+      photoOutput.connection(with: .video)?.videoRotationAngle =
+        rotationCoordinator.videoRotationAngleForHorizonLevelCapture
+    }
     let photo = try await photoOutput.capturePhoto(with: AVCapturePhotoSettings())
     if let data = photo.fileDataRepresentation(),
        let image = UIImage(data: data) {

@@ -176,7 +176,6 @@ private final class Harness {
       showOnMap: { _ in },
       canOpenURL: { _ in true },
       urlOpener: { [weak self] in self?.openedURLs.append($0) },
-      setOrientationLock: { _ in },
       streetViewAvailability: .mock(.unavailable),
       translate: translate,
       extractModelImage: { _ in .mock },

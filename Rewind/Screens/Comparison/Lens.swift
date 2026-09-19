@@ -19,7 +19,7 @@ struct Lens: Identifiable, Equatable {
 }
 
 // ai-generated
-func getAvailableLens(device: AVCaptureDevice) throws -> ([Lens], wide: Lens) {
+func getAvailableLens(virtualDevice device: AVCaptureDevice) throws -> ([Lens], wide: Lens) {
   guard device.isVirtualDevice else {
     throw HandlingError("Expected virtual device")
   }
@@ -76,6 +76,11 @@ func getAvailableLens(device: AVCaptureDevice) throws -> ([Lens], wide: Lens) {
     }
 
   return (lenses, wideLens)
+}
+
+func physicalLens() -> ([Lens], wide: Lens) {
+  let wideLens = Lens(title: makeZoomLabel(1), zoomValue: 1)
+  return ([wideLens], wideLens)
 }
 
 private func makeZoomLabel(_ x: Double) -> String {

@@ -19,8 +19,6 @@ final class AppGraph {
   let map: Lazy<RewindMap>
   let urlOpener: UrlOpener
 
-  var orientationLock: Property<OrientationLock?>?
-
   private let mapModel: MapModel
   private let disposePool = AutodisposePool()
   private let favoritesStorage: FavoritesStorage
@@ -61,7 +59,6 @@ final class AppGraph {
 
     weak var mapModelRef: MapModel?
     weak var appModelRef: AppModel?
-    weak var weakSelf: AppGraph?
     let urlOpener: UrlOpener = { $0.map { UIApplication.shared.open($0) } }
     self.urlOpener = urlOpener
     mapModel = makeMapModel(
@@ -96,7 +93,6 @@ final class AppGraph {
         },
         canOpenURL: { UIApplication.shared.canOpenURL($0) },
         urlOpener: urlOpener,
-        setOrientationLock: { weakSelf?.orientationLock?.value = $0 },
         streetViewAvailability: remotes.streetViewAvailability,
         translate: remotes.translate,
         extractModelImage: { [imageLoader] details in
@@ -142,7 +138,6 @@ final class AppGraph {
     )
     self.map = map
     self.favoritesStorage = favoritesStorage
-    weakSelf = self
 
     map.future.asSignal().flatMap(\.events).addObserver {
       mapModelRef?(.external(.map($0)))
