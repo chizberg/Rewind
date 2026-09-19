@@ -44,7 +44,11 @@ struct ImageDetailsState {
     case notAvailable
     case available(WatermarkedImage)
     case colorizing(WatermarkedImage)
-    case ready(colorized: UIImage, showing: Showing, check: ColorizationCheck)
+    case ready(
+      colorized: UIImage,
+      showing: Showing,
+      check: ColorizationCheck
+    )
   }
 
   var image: Model.Image
@@ -144,6 +148,7 @@ enum ImageDetailsAction {
   case translate
   case showTranslationOriginal
   case colorize
+  case dismissColorizationCheck
 }
 
 func makeImageDetailsModel(
@@ -397,6 +402,12 @@ func makeImageDetailsModel(
         case .none, .detecting, .notAvailable, .colorizing:
           break
         }
+      case .dismissColorizationCheck:
+        guard case let .ready(image, showing, _) = state.colorizationState else {
+          assertionFailure("trying to dismiss nonexistent check")
+          return
+        }
+        state.colorizationState = .ready(colorized: image, showing: showing, check: .ok)
       case .colorizationPicker(.present):
         state.colorizationPicker = Identified(value: makeColorizationPicker {
           modelRef?(.colorizationPicker(.dismiss))

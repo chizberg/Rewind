@@ -150,6 +150,11 @@ struct ImageDetailsView: View {
         if !isSplitView {
           picture
         }
+
+        if let check = viewStore.colorizationState.check {
+          colorizationDescription(check: check)
+        }
+
         textDetails
           .padding()
           .background {
@@ -159,6 +164,7 @@ struct ImageDetailsView: View {
           .padding()
       }
     }
+    .animation(.default, value: viewStore.colorizationState.check)
     .background {
       SwiftUI.Color.secondarySystemBackground.edgesIgnoringSafeArea(
         isSplitView ? .bottom : .vertical,
@@ -209,6 +215,36 @@ struct ImageDetailsView: View {
         .onChanged { _ in showFullscreenPreview() },
     )
     .matchedTransitionSource(id: TransitionSource.titleImage, in: namespace)
+  }
+
+  @ViewBuilder
+  private func colorizationDescription(
+    check: ColorizationCheck
+  ) -> some View {
+    let desc: LocalizedStringKey? = switch check {
+    case .ok: nil
+    case .noColor: "colorization-noColor"
+    case .onlyTint: "colorization-onlyTint"
+    }
+    let emoji: String? = switch check {
+    case .ok: nil
+    case .noColor, .onlyTint: "🫤"
+    }
+
+    if let desc, let emoji {
+      HStack {
+        Text(emoji)
+        Text(desc)
+          .font(.caption)
+        Spacer()
+        Button {
+          viewStore(.dismissColorizationCheck)
+        } label: {
+          Image(systemName: "xmark")
+        }
+      }
+      .padding()
+    }
   }
 
   private var textDetails: some View {
@@ -587,6 +623,12 @@ func makeRainbowGradient(exposureAdjust: Double = 2.0) -> SwiftUI.Gradient {
   return SwiftUI.Gradient(stops: stops)
 }
 
+extension ImageDetailsState.ColorizationState {
+  fileprivate var check: ColorizationCheck? {
+    if case let .ready(_, _, check) = self { check } else { nil }
+  }
+}
+
 #if DEBUG
 extension FavoritesModel {
   static var mock: FavoritesModel {
@@ -641,6 +683,34 @@ extension FavoritesModel {
     colorizationModel: .constant(nil),
     extractModelImage: { _ in .mock },
     makeColorizationPicker: { _ in .mock(.mock) },
+  ).viewStore
+
+  ImageDetailsView(
+    viewStore: store,
+  )
+}
+
+#Preview("colorized") {
+  @Previewable @State
+  var store = ImageDetailsModel(
+    initial: ImageDetailsState(
+      image: .mock,
+      attributedTitle: Model.Image.mock.title.makeAttrString(),
+      uiImage: UIImage(resource: .colorizationDemoBefore),
+      imageSaveCounts: [:],
+      openSource: "",
+      isFavorite: false,
+      mapOptionsPresented: false,
+      loadingAnotherImage: false,
+      translationState: .notAvailable,
+      colorizationState: .ready(
+        colorized: UIImage(resource: .colorizationDemoAfter),
+        showing: .colorized,
+        check: .onlyTint,
+      ),
+      actionButtons: [.favorite, .showOnMap, .share, .saveImage, .viewOnWeb, .route],
+    ),
+    reduce: { _, _, _, _ in },
   ).viewStore
 
   ImageDetailsView(

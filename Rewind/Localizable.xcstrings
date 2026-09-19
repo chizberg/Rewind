@@ -1058,6 +1058,124 @@
         }
       }
     },
+    "colorization-noColor" : {
+      "comment" : "message under the photo when the model came back with almost no color. Offers trying another model",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es sieht so aus, als hätte das Modell keine Farbe hinzufügen können. Modelle machen Fehler, du kannst ein anderes ausprobieren."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It looks like the model couldn't add color. Models make mistakes, you can try another one."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parece que el modelo no ha podido añadir color. Los modelos se equivocan, puedes probar con otro."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il semble que le modèle n'ait pas réussi à ajouter de la couleur. Les modèles font des erreurs, vous pouvez en essayer un autre."
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Модель түс қоса алмаған сияқты. Модельдер қателесуі мүмкін, басқасын байқап көріңіз."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Кажется, у модели не получилось добавить цвет. Модели могут совершать ошибки, можете попробовать другую."
+          }
+        },
+        "sr-Latn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Izgleda da model nije uspeo da doda boju. Modeli greše, možete probati drugi."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Здається, моделі не вдалося додати колір. Моделі можуть помилятися, ви можете спробувати іншу."
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Model rang qo'sha olmaganga o'xshaydi. Modellar xato qilishi mumkin, boshqasini sinab ko'ring."
+          }
+        }
+      }
+    },
+    "colorization-onlyTint" : {
+      "comment" : "message under the photo when the model came back with one flat tint instead of a colorization. Offers trying another model",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es sieht aus, als wäre das Bild nicht farbiger geworden. Modelle machen Fehler, du kannst ein anderes ausprobieren."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It looks like the picture didn't get any more colorful. Models make mistakes, you can try another one."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parece que la imagen no ha ganado color. Los modelos se equivocan, puedes probar con otro."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On dirait que l'image n'est pas devenue plus colorée. Les modèles font des erreurs, vous pouvez en essayer un autre."
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сурет бұрынғыдан қанық бола қойған жоқ сияқты. Модельдер қателесуі мүмкін, басқасын байқап көріңіз."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выглядит, как будто картинка не стала насыщеннее. Модели могут совершать ошибки, можете попробовать другую."
+          }
+        },
+        "sr-Latn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Izgleda da slika nije postala bogatija bojama. Modeli greše, možete probati drugi."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Виглядає так, ніби зображення не стало насиченішим. Моделі можуть помилятися, ви можете спробувати іншу."
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rasm avvalgidan rangliroq bo'lmaganga o'xshaydi. Modellar xato qilishi mumkin, boshqasini sinab ko'ring."
+          }
+        }
+      }
+    },
     "Colorize" : {
       "comment" : "button at the bottom of the colorization picker. Starts colorizing the current image with the picked model",
       "localizations" : {
