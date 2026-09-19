@@ -70,7 +70,7 @@ final class Reducer<State, Action> {
 
   deinit {
     for id in tetheredEffects {
-      asyncEffects[id]?.0.cancel()
+      _asyncEffects.wrappedValue[id]?.0.cancel()
     }
   }
 
