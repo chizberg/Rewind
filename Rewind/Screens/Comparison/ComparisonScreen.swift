@@ -11,9 +11,11 @@ import SwiftUI
 struct ComparisonScreen: View {
   var deps: ComparisonViewDeps
   var store: ComparisonViewStore { deps.store }
+
   @Environment(\.dismiss)
   private var dismiss
-
+  @Environment(\.horizontalSizeClass)
+  private var horizontalSizeClass
   @State
   private var viewSize = CGSize.zero
 
