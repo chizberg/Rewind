@@ -41,6 +41,11 @@ struct WelcomeScreen: View {
           description: "images_saving_description",
         )
         makeFeatureDescription(
+          iconName: "paintpalette",
+          title: "colorization_title",
+          description: "colorization_description",
+        )
+        makeFeatureDescription(
           iconName: "camera.viewfinder",
           title: "comparison_title",
           description: "comparison_description",
