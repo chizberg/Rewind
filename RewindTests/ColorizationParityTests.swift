@@ -14,6 +14,7 @@ import UIKit
 struct ColorizationParityTests {
   static let frames = ["2209460", "2504212"]
   static let lightnessTolerance = 0.15
+  static let peakTolerance: Float = 0.05
 
   @Test(arguments: frames)
   func grayFrame(_ frame: String) throws {
@@ -84,11 +85,11 @@ struct ColorizationParityTests {
     #expect(ab.size == prepared.gray.size)
     expected.checkModelMean("4_model_ab_a", ParityStatistics(ab.a))
     expected.checkModelMean("4_model_ab_b", ParityStatistics(ab.b))
-    let chroma = ParityStatistics(Self.chroma(of: ab))
+    let chroma = ParityStatistics(ab.chroma.values)
     expected.checkModelMean("4_model_chroma", chroma)
 
     let anchored = try EdgeAwareBlur.apply(to: ab, lightness: prepared.lightness)
-    let anchoredChroma = ParityStatistics(Self.chroma(of: anchored))
+    let anchoredChroma = ParityStatistics(anchored.chroma.values)
     expected.checkModelMean("6_bilateral_chroma", anchoredChroma)
     #expect(
       anchoredChroma.maximum < chroma.maximum * (1 - peakChromaDrop),
@@ -104,16 +105,35 @@ struct ColorizationParityTests {
     )
 
     let bolder = Boldness.apply(to: anchored, lightness: prepared.lightness, boldness: requested)
-    let bolderChroma = ParityStatistics(Self.chroma(of: bolder))
+    let bolderChroma = ParityStatistics(bolder.chroma.values)
     expected.checkModelMean("7_bold_chroma", bolderChroma)
     #expect(
       bolderChroma.mean >= anchoredChroma.mean * (1 + boldChromaLift),
       "mean chroma \(anchoredChroma.mean) -> \(bolderChroma.mean)",
     )
+
+    let ceiling = ChromaCeiling.limit(boldness: requested)
+    try #expect(Double(ceiling) == expected.scalar("8_cap"))
+    let capped = ChromaCeiling.apply(to: bolder, boldness: requested)
+    expected.checkModelMean("8_cap_chroma", ParityStatistics(capped.chroma.values))
+    let cappedPeak = ChromaCeiling.peakChroma(of: capped)
+    #expect(
+      abs(cappedPeak - ceiling) < Self.peakTolerance,
+      "peak chroma \(ChromaCeiling.peakChroma(of: bolder)) -> \(cappedPeak) against \(ceiling)",
+    )
+
+    let composed = Lab.rgb(lightness: prepared.lightness, ab: capped)
+    let red = Self.bytes(of: composed.r)
+    let green = Self.bytes(of: composed.g)
+    let blue = Self.bytes(of: composed.b)
+    expected.checkModelMean("10_final_R", ParityStatistics(red))
+    expected.checkModelMean("10_final_G", ParityStatistics(green))
+    expected.checkModelMean("10_final_B", ParityStatistics(blue))
+    expected.checkModelMean("10_final_rgb", ParityStatistics(red + green + blue))
   }
 
-  private static func chroma(of ab: ABPlanes) -> [Float] {
-    zip(ab.a, ab.b).map { hypot($0, $1) }
+  private static func bytes(of channel: [Float]) -> [Float] {
+    channel.map { Float(ColorizationHelpers.byte(sRGB: $0)) }
   }
 }
 

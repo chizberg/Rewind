@@ -5,6 +5,7 @@
 //  Created by Aleksei Sherstnev on 13. 9. 2026.
 //
 
+import Accelerate
 import CoreML
 import VGSL
 
@@ -38,6 +39,21 @@ struct ABPlanes {
     let scalars = MLShapedArray<Float>(converting: array).scalars
     let count = size.pixelCount
     self.init(size: size, a: Array(scalars[..<count]), b: Array(scalars[count...]))
+  }
+
+  // How far from gray every pixel's color sits, the length of its (a, b), which is how the
+  // post-process stages measure the strength of the color. The reference's np.hypot of the two
+  // channels, here in one vectorized pass over the frame.
+  // https://developer.apple.com/documentation/accelerate/vdsp/hypot(_:_:)-3zzqr
+  var chroma: Plane<Float> {
+    Plane(size: size, values: vDSP.hypot(a, b))
+  }
+
+  // The same colors, weaker or stronger by one factor: multiplying both channels by it multiplies
+  // every pixel's chroma by exactly it, and leaves every pixel's hue, the direction of (a, b),
+  // where it was.
+  func chromaScaled(by factor: Float) -> ABPlanes {
+    ABPlanes(size: size, a: vDSP.multiply(factor, a), b: vDSP.multiply(factor, b))
   }
 
   // Keeps the top-left `target` of the model's ab, undoing padded(target:) (the reference's

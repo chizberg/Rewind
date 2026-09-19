@@ -27,7 +27,9 @@ func colorize(image: UIImage, model: some ColorizationModel) async throws -> UII
   try Task.checkCancellation()
   let bolder = Boldness.apply(to: anchored, lightness: lightness, boldness: model.boldness)
   try Task.checkCancellation()
-  return try Lab.rgb(lightness: lightness, ab: bolder).makeUIImage()
+  let capped = ChromaCeiling.apply(to: bolder, boldness: model.boldness)
+  try Task.checkCancellation()
+  return try Lab.rgb(lightness: lightness, ab: capped).makeUIImage()
 }
 
 // The cap on the long side the photo is read at; the model's own geometry starts from here.

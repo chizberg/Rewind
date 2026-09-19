@@ -41,7 +41,7 @@ Lab formulas and constants: [OpenCV, RGB ↔ CIE L\*a\*b\*](https://docs.opencv.
 | Stop the run when the user closes the photo | `Colorize.swift`, `ImageDetailsModel`, `Reducer.swift` | done |
 | Post-process: edge-aware blur | `Stages/EdgeAwareBlur.swift`, `Stages/LabBilateral.metal` | done |
 | Post-process: boldness | `Stages/Boldness.swift` | done |
-| Post-process: chroma ceiling | | not yet, after looking at real photos |
+| Post-process: chroma ceiling | `Stages/ChromaCeiling.swift` | done |
 
 ## From the tap to the pipeline
 
@@ -96,7 +96,7 @@ ab, ABPlanes, full size                                                       �
   │  POST-PROCESS                                                             │
   │  EdgeAwareBlur.apply(to:lightness:)  color held inside an outline  ◄──────┤
   │  Boldness.apply(to:lightness:boldness:)  gain where L can hold it  ◄──────┤
-  │  (not yet: chroma ceiling)                                                │
+  │  ChromaCeiling.apply(to:boldness:)     the whole frame under a limit      │
   │                                                                           │
   │  COMPOSE                                                                  │
   │  Lab.rgb(lightness:ab:)         Lab → sRGB  ◄─────────────────────────────┘
@@ -249,12 +249,13 @@ received.
 ### 4. Post-process
 
 The reference tunes the color after the model in three stages, inserted before compose in this
-order. Two are in; the last is added after looking at real photos on a phone.
+fixed order, each of them added only after the one before it had been looked at on real photos on a
+phone. All three are in.
 
-1. **Edge-aware blur**, in, and described below.
-2. **Boldness**, in, and described below.
-3. **Chroma ceiling** (not yet). If the 99th percentile of chroma, `hypot(a, b)`, exceeds a
-   ceiling, all of ab is scaled down to it.
+1. **Edge-aware blur**: the color is held inside the outlines the lightness shows.
+2. **Boldness**: a gain on the color, where the lightness can hold one.
+3. **Chroma ceiling**: if the frame's color reaches past a ceiling, all of ab is scaled down under
+   it.
 
 #### Edge-aware blur
 
@@ -311,6 +312,34 @@ across the frame nor always the one that was asked for.
   and 0.95 the requested gain fades to 1. The guard only ever attenuates, so the color can never
   end up further from the model's own prediction than the model asked for.
 
+#### Chroma ceiling
+
+`ChromaCeiling.apply(to:boldness:)` is the last thing that happens to the color before it meets the
+lightness again: a frame whose color reaches past a ceiling is scaled down as a whole until it fits
+under it. This is what keeps a result from coming out in acid colors — a model that paints one
+region far past everything else in the picture, and a gain that has just multiplied it.
+
+- **One factor for the whole frame, and never above 1.** Every pixel is multiplied by the same
+  number, so nothing changes hue and no part of the picture loses color relative to another; a
+  frame already under the ceiling is handed back untouched. The stage can only take color away.
+- **Where the ceiling sits** is 24 chroma units times the gain the model asked for: 36 for DDColor,
+  24 for ECCV16. It has to move with the gain, or boldness would raise the color and the ceiling
+  would take the same color straight back. It is the model's own constant, not what boldness's cast
+  guard was left with: withdrawing the gain on a tinted frame lowers that frame's color without
+  also lowering the ceiling it is judged against.
+- **Measured at the 99th percentile of chroma**, not at the maximum. The last percent of pixels
+  reaches well past the rest of the frame — on the parity frames the maximum is 1.1 to 3.4 times
+  the percentile — and fitting the frame under the ceiling by those few would drain the color out
+  of everything else.
+- **The percentile is read off a histogram**, 8192 bins over the chroma the frame actually has,
+  rather than off a sorted copy: sorting three million floats to read one of them costs about forty
+  times what binning them does, 380 ms against 9. Inside the bin that holds the rank the values are
+  taken to be evenly spread, and on a frame of millions of pixels, where the two sorted values the
+  rank falls between land in the same bin, that puts the answer within a bin's width — a hundredth
+  or two of a chroma unit — of what `numpy.percentile` returns. Pixels whose chroma is not a finite
+  number are left out of both the count and the range: a single one of them cannot be binned at
+  all, and must not be allowed to decide the whole frame's color.
+
 ## Checking against the reference
 
 - The reference is a Python pipeline on OpenCV and PyTorch. Its per-stage statistics for two
@@ -336,6 +365,39 @@ across the frame nor always the one that was asked for.
 - The same test also checks what boldness unmistakably does: mean chroma comes out at least 5%
   above the blur's for DDColor, and no lower than it for ECCV16, which asks for no gain at all.
   The reference lifts it by 16% and 33% on the two DDColor frames.
+- The ceiling is pinned in three places. `8_cap`, the ceiling itself, is compared exactly rather
+  than within a tolerance: it is arithmetic on the reference's own `7_bold_in`, with no model in
+  it. `8_cap_chroma` compares the mean like every stage after the model does, and where the ceiling
+  really binds that has teeth — the reference takes 37% of the mean chroma off one DDColor frame
+  and 63% off one ECCV16 frame. And the stage's own contract is checked directly: the 99th
+  percentile of the frame it hands back lands on the ceiling, neither above it nor short of it,
+  which is what a stage measuring the maximum instead would fail.
+- The percentile itself is the one number of this stage the reference does not record, but it can
+  be divided back out of two it does: `8_cap_chroma / 7_bold_chroma` is the factor the stage
+  applied, and the ceiling over that factor is the percentile it was measured at. On three of the
+  four cases ours lands within 0.3% of that — 36.67 against 36.70, 36.86 against 36.95, 65.68
+  against 65.74 — and on the fourth, the DDColor frame whose prediction differs most from the
+  reference's to begin with, 61.73 against 57.06.
+- With the ceiling in, the chain reaches the composed frame, so `10_final_R`, `10_final_G`,
+  `10_final_B` and `10_final_rgb` are compared for the first time. The tolerance is the model's
+  own 25%, which on a byte channel proves little by itself; what the comparison shows is that the
+  whole chain ends up within 0.1 to 2.1 of the reference's bytes. `LabTests` is what pins compose
+  itself, on single pixels against cv2's `COLOR_Lab2RGB`.
+- Between the ceiling and that frame the reference has one more stage which is not ported,
+  `9_gamut_chroma`: its per-pixel gamut fit degenerated into a flat ×255/256 (its numbers are
+  `8_cap_chroma` × 255/256 to four decimals). Composing with that multiplier moves the channel
+  means by at most 0.09 of a byte here, against the 0.1 to 2.1 the models' own spread already puts
+  between us and the reference — the parity numbers cannot tell the two apart, and a node that
+  does nothing is not worth carrying.
+- `ChromaCeilingTests` checks the stage on 401-pixel frames whose chroma is known: the 99th
+  percentile of a mixed frame lands within a bin of `np.percentile`'s 100.080; a ramp of 0...400 is
+  measured at 396 and comes back scaled so that its top pixel is 400 × 24/396 = 24.2424 and its own
+  percentile is the ceiling exactly; a ramp that never reaches the ceiling comes back as it went
+  in; and a pixel whose chroma is not a number drops out of the count instead of taking the frame's
+  percentile with it (396.01 on the 400 that are left). 401 pixels is what puts the rank on a whole
+  number, so the ramp separates numpy's convention, `p/100 × (n - 1)`, from the off-by-one one:
+  within the histogram that one answers 396.044 instead of 396, which is why the ramp is checked to
+  0.01 and its scaled top pixel to 0.001.
 - `BoldnessTests` checks the stage on 200×16 frames made for it: the weight map lands on numpy and
   [`cv2.blur`](https://docs.opencv.org/4.x/d4/d86/group__imgproc__filter.html#ga8c45db9afe636703801b0b2e440fce37)
   within 0.0005 at the top-left corner, the middle and the bottom-right corner (0.566255, 0.605761,
@@ -356,8 +418,6 @@ across the frame nor always the one that was asked for.
 - Where it matters for the numbers, the code follows OpenCV's arithmetic rather than a textbook
   version: area resize, reflect padding, CLAHE, Lab constants and the 8-bit Lab tables CLAHE runs
   in; ECCV16's input follows Pillow's bicubic resize.
-- The final frame (`10_final_*`) is not compared yet: the reference recorded it after the
-  post-process stages. `LabTests` pins compose to cv2's `COLOR_Lab2RGB` on single pixels instead.
 - Rounding is `.rounded()` (halves away from zero) everywhere. cv2 rounds halves to even; the
   difference moves the parity means by at most 0.002.
 
@@ -370,12 +430,13 @@ across the frame nor always the one that was asked for.
 | `ColorizationHelpers.swift` | helpers shared by several stages (`mirroredIndex`, `byte(sRGB:)`, `makeCGImage`) |
 | `Image/Plane.swift` | `Plane<Value>`: one channel of values with its `PlaneSize` |
 | `Image/RGBPlanes.swift` | a photo as three float channels, read from a `UIImage` and written back to one |
-| `Image/ABPlanes.swift` | the model's a and b channels, read from Core ML at fp16 or fp32, cropped, resized |
+| `Image/ABPlanes.swift` | the model's a and b channels, read from Core ML at fp16 or fp32, cropped, resized, measured as chroma and scaled by it |
 | `Image/Lab.swift` | sRGB ↔ Lab: lightness of a photo and of a gray frame, neutral gray, Lab → sRGB for compose, the 8-bit tables CLAHE runs in |
 | `Image/Resampling.swift` | area and bicubic resize and reflect padding of the gray frame |
 | `Stages/CLAHE.swift` | contrast limited adaptive histogram equalization |
 | `Stages/EdgeAwareBlur.swift`, `Stages/LabBilateral.metal` | the bilateral filter that holds the model's color inside the outlines the lightness shows, and `PlaneSize.scaleFromReference`, which both filters take their sizes through |
 | `Stages/Boldness.swift` | the gain on the model's color, weighted by lightness and withdrawn on a tinted frame |
+| `Stages/ChromaCeiling.swift` | the limit on how much color a result may carry, and the percentile it is measured at |
 | `Models/CoreMLLoader.swift` | lazy Core ML loading with the file and memory checks |
 | `Models/DDColorLarge.swift` | DDColor-large as a `ColorizationModel`: its clip limit, geometry and inference |
 | `Models/ECCV16.swift` | ECCV16 as a `ColorizationModel`: its clip limit, geometry and inference |
