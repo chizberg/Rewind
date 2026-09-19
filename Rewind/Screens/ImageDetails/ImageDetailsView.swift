@@ -489,14 +489,14 @@ private struct TextAccessoryButton: View {
 }
 
 private struct ColorizeButton: View {
-  enum State: String, CaseIterable {
+  enum Phase: String, CaseIterable {
     case available
     case colorizing
     case done
   }
 
   var namespace: Namespace.ID
-  var state: State
+  var state: Phase
   var action: () -> Void
 
   var shadowExposure = 2.0
@@ -592,7 +592,7 @@ extension ImageDetailsState {
 }
 
 extension ImageDetailsState.ColorizationState {
-  fileprivate var button: ColorizeButton.State? {
+  fileprivate var button: ColorizeButton.Phase? {
     switch self {
     case .available: .available
     case .colorizing: .colorizing
@@ -734,7 +734,7 @@ private struct ColorizationButtonPreview: View {
   @State
   var exposure = 2.0
   @State
-  var buttonState = ColorizeButton.State.available
+  var buttonState = ColorizeButton.Phase.available
   @Namespace
   var namespace
 
@@ -749,7 +749,7 @@ private struct ColorizationButtonPreview: View {
       ZStack {
         Image(.lyskovo)
           .resizable()
-          .aspectRatio(contentMode: .fit)
+          .scaledToFit()
 
         if isShown {
           ColorizeButton(
@@ -776,7 +776,7 @@ private struct ColorizationButtonPreview: View {
       Slider(value: $duration, in: 0...10)
 
       Picker("", selection: $buttonState, content: {
-        ForEach(ColorizeButton.State.allCases, id: \.self) { s in
+        ForEach(ColorizeButton.Phase.allCases, id: \.self) { s in
           Text(s.rawValue).tag(s)
         }
       })
