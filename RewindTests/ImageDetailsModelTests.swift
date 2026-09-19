@@ -16,6 +16,7 @@ import Foundation
 import Testing
 import VGSL
 
+@Suite(.serialized)
 @MainActor
 struct ImageDetailsModelTests {
   /// A link to a pastvu photo loads that photo's details from the remote and presents them as a

@@ -20,7 +20,7 @@ extension SwiftUI.Color {
 
 extension VGSL.Color {
   var swiftUIColor: SwiftUI.Color {
-    Color(uiColor: systemColor)
+    SwiftUI.Color(uiColor: systemColor)
   }
 }
 

@@ -38,8 +38,10 @@ extension PhoneModel {
          .iPhone15Pro, .iPhone15ProMax, .iPhone16, .iPhone16Plus:
       return 55
     case .iPhone16Pro, .iPhone16ProMax, .iPhone17, .iPhone17Pro, .iPhone17ProMax,
-         .iPhoneAir:
+         .iPhoneAir, .iPhone18Pro, .iPhone18ProMax:
       return 62
+    case .iPhoneDuo:
+      return 59
     case .unknown:
       assertionFailure("unknown phone model")
       return 62 // assume the newest devices will keep the radius

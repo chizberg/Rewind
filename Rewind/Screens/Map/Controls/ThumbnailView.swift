@@ -44,7 +44,7 @@ struct ThumbnailCardView: View {
           .scaledToFill()
           .frame(size: size)
       } placeholder: {
-        Color.clear.overlay {
+        SwiftUI.Color.clear.overlay {
           DelayedProgressView()
         }
       }
