@@ -14,13 +14,20 @@ struct ComparisonScreen: View {
   @Environment(\.dismiss)
   private var dismiss
 
+  @State
+  private var viewSize = CGSize.zero
+
   var body: some View {
     ZStack {
       Color.systemBackground.ignoresSafeArea()
+        .readSize {
+          viewSize = $0
+        }
 
-      VStack {
+      AxisStack(axis: axis) {
+        Spacer(minLength: 0)
         Color.clear
-          .aspectRatio(4 / 6, contentMode: .fit) // two 4/3 images
+          .aspectRatio(store.aspectRatio, contentMode: .fit)
           .overlay {
             ComparisonViewRepresentable(vc: deps.comparisonVC)
           }
@@ -30,10 +37,15 @@ struct ComparisonScreen: View {
       VStack {
         SavedBanner(savesCount: store.savesCount)
         Spacer()
+      }
+
+      AxisStack(axis: axis) {
+        Spacer()
+
         pickers
-          .padding(.bottom, 20)
+          .padding(axis == .vertical ? .bottom : .trailing, 20)
         bottomControls
-          .padding(.bottom, 75)
+          .padding(axis == .vertical ? .bottom : .trailing, 75)
       }
     }
     .alert(store.binding(\.alert, send: { _ in .alert(.dismiss) }))
@@ -55,8 +67,9 @@ struct ComparisonScreen: View {
   }
 
   private var pickers: some View {
-    HStack {
+    AxisStack(axis: axis.perpendicular) {
       CustomSegmentedControl(
+        axis: axis.perpendicular,
         items: ComparisonState.Style.allCases,
         pickedItem: store.binding(\.style, send: { .setStyle($0) }),
         content: { style, isSelected in
@@ -73,6 +86,7 @@ struct ComparisonScreen: View {
          store.captureState.isViewfinder,
          store.availableLens.count > 1 {
         CustomSegmentedControl(
+          axis: axis.perpendicular,
           items: store.availableLens,
           pickedItem: Binding(get: { currentLens }, set: { store(.setLens($0)) }),
           content: { lens, isSelected in
@@ -90,7 +104,7 @@ struct ComparisonScreen: View {
 
   private var bottomControls: some View {
     ZStack {
-      HStack {
+      AxisStack(axis: axis.perpendicular) {
         BackButton()
         Spacer()
 
@@ -100,7 +114,7 @@ struct ComparisonScreen: View {
           }
         }
       }
-      .padding(.horizontal, 35)
+      .padding(axis == .horizontal ? .vertical : .horizontal, 35)
 
       makeShutterButton(retake: store.captureState.isTaken)
     }
@@ -133,6 +147,14 @@ struct ComparisonScreen: View {
     .foregroundStyle(.primary)
     .frame(squareSize: shutterButtonSize)
   }
+
+  private var axis: Axis {
+    if let viewRatio = viewSize.aspectRatio, viewRatio > store.aspectRatio {
+      .horizontal
+    } else {
+      .vertical
+    }
+  }
 }
 
 private struct ComparisonViewRepresentable: UIViewControllerRepresentable {
@@ -163,6 +185,15 @@ extension ComparisonState.Style: Identifiable {
     switch self {
     case .sideBySide: "rectangle.split.1x2"
     case .cardOnCard: "rectangle.on.rectangle"
+    }
+  }
+}
+
+extension Axis {
+  fileprivate var perpendicular: Axis {
+    switch self {
+    case .horizontal: .vertical
+    case .vertical: .horizontal
     }
   }
 }

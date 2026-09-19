@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CustomSegmentedControl<Item: Identifiable, Content: View>: View {
+  var axis: Axis = .horizontal
   var items: [Item]
   @Binding
   var pickedItem: Item
@@ -17,7 +18,7 @@ struct CustomSegmentedControl<Item: Identifiable, Content: View>: View {
   private var namespace
 
   var body: some View {
-    HStack(spacing: spacing) {
+    AxisStack(axis: axis, spacing: spacing) {
       ForEach(items) { item in
         let isSelected = item.id == pickedItem.id
         content(item, isSelected)
@@ -52,10 +53,14 @@ private var items = ["foo", "bar", "baz"].map { Identified(value: $0) }
   @Previewable @State
   var pickedItem = items[0]
 
+  @Previewable @State
+  var axis = Axis.horizontal
+
   ZStack {
     Image(uiImage: .cat).resizable().ignoresSafeArea()
 
     CustomSegmentedControl(
+      axis: axis,
       items: items,
       pickedItem: $pickedItem,
     ) { item, isSelected in
@@ -66,4 +71,5 @@ private var items = ["foo", "bar", "baz"].map { Identified(value: $0) }
     }
   }
 }
+
 #endif

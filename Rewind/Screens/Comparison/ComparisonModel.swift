@@ -43,6 +43,7 @@ struct ComparisonState {
   var shareVC: Identified<UIViewController>?
   var streetViewAvailability: StreetViewAvailability?
   var shouldDismiss: Bool
+  var aspectRatio: CGFloat
 
   var shotsCount: Int
   var savesCount: Int
@@ -110,6 +111,7 @@ func makeComparisonViewDeps(
       style: .sideBySide,
       captureMode: captureMode,
       shouldDismiss: false,
+      aspectRatio: aspectRatio(style: .sideBySide, oldImage: oldUIImage),
       shotsCount: 0,
       savesCount: 0,
       cameraSession: nil,
@@ -120,6 +122,7 @@ func makeComparisonViewDeps(
         switch externalAction {
         case let .setStyle(style):
           state.style = style
+          state.aspectRatio = aspectRatio(style: style, oldImage: state.oldUIImage)
         case .shoot:
           state.shotsCount += 1
           UINotificationFeedbackGenerator().notificationOccurred(.success)
@@ -318,6 +321,13 @@ func makeComparisonViewDeps(
     store: model.viewStore.bimap(state: { $0 }, action: { .external($0) }),
     comparisonVC: vc,
   )
+}
+
+private func aspectRatio(style: ComparisonState.Style, oldImage: UIImage) -> CGFloat {
+  switch style {
+  case .sideBySide: 4 / 6 // two 4/3 images
+  case .cardOnCard: oldImage.size.aspectRatio ?? 1
+  }
 }
 
 @MainActor
