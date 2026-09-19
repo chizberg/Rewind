@@ -9,6 +9,7 @@ Also in TestFlight: https://testflight.apple.com/join/vbJFFZgD
 ### Features
 
 - **Vintage photos and paintings near you:** the app uses PastVu API to fetch photos, paintings, and their metadata and shows them on an Apple MapKit map
+- **Colorize:** bring black-and-white photos to life in a few seconds. Runs entirely on device with Core ML: pick a model ([DDColor](https://arxiv.org/abs/2212.11613) or [ECCV16](https://arxiv.org/abs/1603.08511)), download it once, and nothing ever leaves your phone. Free, no account. *How the pipeline works: [Rewind/Colorization/README.md](Rewind/Colorization/README.md)*
 - **Favorites:** save what you like to view later
 - **Compare:** take a photo to compare how a place looks like today and how it looked in the past. You can use either the camera or Google Street View.
 - **Search:** quickly find places you know with a simple query. *Uses Apple MapKit search*
@@ -35,6 +36,7 @@ All photos and paintings in the app come from the [PastVu API](https://docs.past
 
 - SwiftUI
 - Apple MapKit
+- Core ML
 - TCA-inspired Reducer
 - [VGSL](https://github.com/yandex/vgsl)
 
