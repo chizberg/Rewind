@@ -59,7 +59,7 @@ extension AnnotationValue {
 }
 
 protocol Locatable {
-  var coordinate: Coordinate { get }
+  var location: Coordinate { get }
 }
 
 final class Annotation<T: Locatable>: NSObject, MKAnnotation {
@@ -70,7 +70,7 @@ final class Annotation<T: Locatable>: NSObject, MKAnnotation {
   }
 
   var coordinate: Coordinate {
-    value.coordinate
+    value.location
   }
 
   static func withoutStore(value: T) -> Annotation<T> {
@@ -78,6 +78,14 @@ final class Annotation<T: Locatable>: NSObject, MKAnnotation {
   }
 }
 
-extension Model.Image: Locatable {}
-extension Model.Cluster: Locatable {}
-extension Model.LocalCluster: Locatable {}
+extension Model.Image: Locatable {
+  var location: Coordinate { forcedCoordinate }
+}
+
+extension Model.Cluster: Locatable {
+  var location: Coordinate { coordinate }
+}
+
+extension Model.LocalCluster: Locatable {
+  var location: Coordinate { coordinate }
+}

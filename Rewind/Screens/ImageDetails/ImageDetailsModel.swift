@@ -151,11 +151,16 @@ func makeImageDetailsModel(
     shareVC: nil,
     anotherImageModel: nil,
     alertModel: nil,
-    actionButtons: [
-      ImageDetailsAction.Button.favorite,
-      .compareCamera, .compareStreetView, .showOnMap,
-      .share, .saveImage, .viewOnWeb, .route
-    ],
+    actionButtons: Array.build {
+      [ImageDetailsAction.Button.favorite, .compareCamera]
+      if modelImage.coordinate != nil {
+        [ImageDetailsAction.Button.compareStreetView, .showOnMap]
+      }
+      [ImageDetailsAction.Button.share, .saveImage, .viewOnWeb]
+      if modelImage.coordinate != nil {
+        ImageDetailsAction.Button.route
+      }
+    },
   )
   if let cachedDetails {
     apply(details: cachedDetails, to: &initialState)
@@ -237,8 +242,12 @@ func makeImageDetailsModel(
               captureMode: mode,
               oldUIImage: image,
               oldImageData: modelImage,
-              streetViewAvailability: streetViewAvailability.mapArgs {
-                modelImage.coordinate
+              streetViewAvailability: Remote {
+                guard let coordinate = modelImage.coordinate else {
+                  assertionFailure("should not be called on images without geo")
+                  return .unavailable
+                }
+                return try await streetViewAvailability.load(coordinate)
               },
             ),
           )
@@ -270,7 +279,11 @@ func makeImageDetailsModel(
         case .compareStreetView:
           asyncEffect(.anotherAction(.comparison(.present(.streetView))))
         case .showOnMap:
-          effect { showOnMap(modelImage.coordinate) }
+          guard let coordinate = modelImage.coordinate else {
+            assertionFailure("should not be called on images without geo")
+            return
+          }
+          effect { showOnMap(coordinate) }
         case .saveImage:
           asyncEffect(.anotherAction(.internal(.saveImage)))
         case .share:
@@ -326,11 +339,12 @@ func makeImageDetailsModel(
       case let .setMapOptionsVisibility(visible):
         state.mapOptionsPresented = visible
       case let .mapAppSelected(app):
-        if let link = app.coordinateLink(
-          latitude: modelImage.coordinate.latitude,
-          longitude: modelImage.coordinate.longitude,
-        ),
-          canOpenURL(link) {
+        if let coordinate = modelImage.coordinate,
+           let link = app.coordinateLink(
+             latitude: coordinate.latitude,
+             longitude: coordinate.longitude,
+           ),
+           canOpenURL(link) {
           effect { urlOpener(link) }
         } else {
           UINotificationFeedbackGenerator().notificationOccurred(.error)

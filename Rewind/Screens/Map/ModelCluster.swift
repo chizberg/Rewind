@@ -16,7 +16,7 @@ extension Model {
 
     init(nc: Network.Cluster, image: LoadableUIImage) {
       preview = modified(Model.Image(nc.preview, image: image)) {
-        $0.coordinate = $0.coordinate.reversed() // 🩼
+        $0.coordinate = $0.coordinate?.reversed() // 🩼
       }
       coordinate = Coordinate(nc.geo)
       count = nc.count

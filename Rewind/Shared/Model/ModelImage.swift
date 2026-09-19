@@ -16,7 +16,7 @@ extension Model {
     var imagePath: String // used for persistence
     var title: String
     var dir: Direction?
-    var coordinate: Coordinate
+    var coordinate: Coordinate?
     var date: ImageDate
 
     init(_ ni: Network.Image, image: LoadableUIImage) {
@@ -63,6 +63,16 @@ extension Model.Image: Hashable {
 
 extension Model.Image: Identifiable {
   var id: Int { cid }
+}
+
+extension Model.Image {
+  var forcedCoordinate: Coordinate {
+    guard let coordinate else {
+      assertionFailure("image \(cid) has no coordinate")
+      return .zero
+    }
+    return coordinate
+  }
 }
 
 #if DEBUG

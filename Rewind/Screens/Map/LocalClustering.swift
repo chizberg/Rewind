@@ -148,8 +148,8 @@ private func groupImages(
   let size = delta(zoom: zoom, mapSize: mapSize) / clusteringCellRatio
   return images.reduce(into: [:]) { result, image in
     let cell = ClusteringCell(
-      latIndex: Int(floor(image.coordinate.latitude / size)),
-      lonIndex: Int(floor(image.coordinate.longitude / size)),
+      latIndex: Int(floor(image.forcedCoordinate.latitude / size)),
+      lonIndex: Int(floor(image.forcedCoordinate.longitude / size)),
       size: size,
     )
     result[cell, default: []].insert(image)
