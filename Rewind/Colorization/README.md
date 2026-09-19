@@ -30,11 +30,11 @@ Lab formulas and constants: [OpenCV, RGB ↔ CIE L\*a\*b\*](https://docs.opencv.
 |---|---|---|
 | Split the watermark, detect monochrome | `WatermarkedImage.swift`, `MonochromeDetection.swift` | done |
 | Download and install models | `ColorizationModelStore.swift` and around | done |
-| Prepare: read, lightness, gray frame, CLAHE | `colorize(image:with:)` | done |
+| Prepare: read, lightness, gray frame, CLAHE | `colorize(image:model:)` | done |
 | DDColor: fit, pad, inference, crop | `Models/DDColorLarge.swift` | done |
 | DDColor: back to full size | `ABPlanes.bilinearResized(target:)` | done |
 | ECCV16: squash, lightness, inference, back to full size | `Models/ECCV16.swift` | done |
-| Compose L + ab into the result | `colorize(image:with:)`, `Lab.rgb(lightness:ab:)` | done |
+| Compose L + ab into the result | `colorize(image:model:)`, `Lab.rgb(lightness:ab:)` | done |
 | Stitch the watermark strip back | `WatermarkedImage.stitched()` | done |
 | The store hands out the picked model, one loaded at a time | `ColorizationModelStore.localModel(id:)` | done |
 | Result on screen: switch between the original and the colorized photo | `ImageDetailsState.displayedImage` | done |
@@ -47,7 +47,7 @@ Lab formulas and constants: [OpenCV, RGB ↔ CIE L\*a\*b\*](https://docs.opencv.
    strip, and `isMonochrome` decides whether the photo has no color. Only then is the colorize
    button offered.
 2. On a tap without a chosen model, the picker opens. With one, `ImageDetailsModel` calls
-   `colorize(image:with:)` on the photo without the watermark strip, with the model from the store.
+   `colorize(image:model:)` on the photo without the watermark strip, with the model from the store.
    The screen then puts the result in place of the content and stitches the strip back under it
    with `WatermarkedImage.stitched()`. The strip is fitted to the result's width: a photo larger
    than `maxSide` comes back at the size `colorize` read it, with the strip in proportion.
@@ -58,7 +58,7 @@ Lab formulas and constants: [OpenCV, RGB ↔ CIE L\*a\*b\*](https://docs.opencv.
    memory warning drops it.
 4. Closing the photo stops the run. The details screen names its colorization effect when it
    builds the reducer, and the reducer cancels that effect in its own `deinit`, which is when the
-   dismissed screen is released. `colorize(image:with:)` checks cancellation between the stages,
+   dismissed screen is released. `colorize(image:model:)` checks cancellation between the stages,
    so the result of a screen nobody can see is never built. The synchronous Core ML prediction
    cannot be interrupted once started: that one finishes, and its color is dropped.
 5. The result replaces the original on screen with a crossfade and a success haptic. The
@@ -69,7 +69,7 @@ Lab formulas and constants: [OpenCV, RGB ↔ CIE L\*a\*b\*](https://docs.opencv.
 
 ## The pipeline
 
-`colorize(image:with:)` in `Colorize.swift` takes one photo through the whole diagram, one stage a
+`colorize(image:model:)` in `Colorize.swift` takes one photo through the whole diagram, one stage a
 line: prepare with the model's `claheClip`, the model's `predict(gray:)`, then compose. Every new
 stage lands in it as one more line, so the function always shows the whole order. As a nonisolated
 `async` function it runs the pixel work off the main actor the tap came from.
@@ -102,7 +102,7 @@ UIImage (colorized)
 
 ### 1. Prepare
 
-The first three lines of `colorize(image:with:)` make the gray frame and the lightness, both at the
+The first three lines of `colorize(image:model:)` make the gray frame and the lightness, both at the
 size the photo was read at.
 
 1. **Read.** `RGBPlanes(image:maxSide:)` draws the photo into an 8-bit RGB context with its
@@ -139,7 +139,7 @@ input. An 800×698 photo goes through it like this:
 
 | Step | Code | Size |
 |---|---|---|
-| Gray frame | `colorize(image:with:)` | 800×698 |
+| Gray frame | `colorize(image:model:)` | 800×698 |
 | 1. Fit | `Plane<UInt8>.resized(target:)` | 384×335 |
 | 2. Pad | `Plane<UInt8>.padded(target:)` | 384×384 |
 | 3. Inference | `DDColorLarge.infer` | ab 384×384 |
@@ -187,7 +187,7 @@ this:
 
 | Step | Code | Size |
 |---|---|---|
-| Gray frame | `colorize(image:with:)` | 800×533 |
+| Gray frame | `colorize(image:model:)` | 800×533 |
 | 1. Squash | `Plane<UInt8>.bicubicResized(target:)` | 256×256 |
 | 2. Lightness | `Lab.lightness(ofGray:)` | L 256×256 |
 | 3. Inference | `ECCV16.infer` | ab 256×256 |
@@ -218,7 +218,7 @@ this:
 
 ### 3. Compose
 
-The last line of `colorize(image:with:)` makes the result from the full-size lightness of prepare
+The last line of `colorize(image:model:)` makes the result from the full-size lightness of prepare
 and the ab of the model: `Lab.rgb(lightness:ab:)`, then `RGBPlanes.makeUIImage()`. The formulas and
 constants are OpenCV's float `COLOR_Lab2RGB`, like the rest of `Lab.swift`.
 
@@ -237,7 +237,7 @@ constants are OpenCV's float `COLOR_Lab2RGB`, like the rest of `Lab.swift`.
    DDColor's input image.
 
 With a = b = 0 the result is the neutral gray frame within one level. `ColorizeTests` runs
-`colorize(image:with:)` on every parity frame with each model's clip limit and a model that predicts
+`colorize(image:model:)` on every parity frame with each model's clip limit and a model that predicts
 no color, and checks exactly that, together with the result's size and the CLAHE'd frame the model
 received.
 
@@ -280,7 +280,7 @@ order. Each is added only after looking at real photos on a phone.
 | File | What it holds |
 |---|---|
 | `ColorizationModel.swift` | the model protocol (`claheClip`, `predict(gray:)`) and `ColorizationModelID` |
-| `Colorize.swift` | `colorize(image:with:)`, the pipeline stage by stage, and `maxSide` |
+| `Colorize.swift` | `colorize(image:model:)`, the pipeline stage by stage, and `maxSide` |
 | `ColorizationHelpers.swift` | helpers shared by several stages (`mirroredIndex`, `byte(sRGB:)`, `makeCGImage`) |
 | `Image/Plane.swift` | `Plane<Value>`: one channel of values with its `PlaneSize` |
 | `Image/RGBPlanes.swift` | a photo as three float channels, read from a `UIImage` and written back to one |

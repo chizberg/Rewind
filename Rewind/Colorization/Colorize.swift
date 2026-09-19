@@ -11,7 +11,7 @@ import UIKit
 // here as one more line. Nonisolated and async, so the pixel work runs on the global executor
 // rather than on the main actor the tap came from.
 // https://github.com/swiftlang/swift-evolution/blob/main/proposals/0338-clarify-execution-non-actor-async.md
-func colorize(image: UIImage, with model: some ColorizationModel) async throws -> UIImage {
+func colorize(image: UIImage, model: some ColorizationModel) async throws -> UIImage {
   try Task.checkCancellation()
   let source = try RGBPlanes(image: image, maxSide: maxSide)
   let lightness = Lab.lightness(of: source)

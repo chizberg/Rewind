@@ -21,7 +21,7 @@ struct ColorizeTests {
       claheClip: reference.expected(frame: frame, model: measuredModel).claheClip,
     )
 
-    let colorized = try await colorize(image: image, with: model)
+    let colorized = try await colorize(image: image, model: model)
 
     let prepared = try reference.prepared(frame: frame, claheClip: model.claheClip)
     let received = try #require(await model.receivedGray)
@@ -43,7 +43,7 @@ struct ColorizeTests {
     let model = ColorlessModel(claheClip: 1)
     let image = try makeTinyPhoto()
 
-    let run = Task { try await colorize(image: image, with: model) }
+    let run = Task { try await colorize(image: image, model: model) }
     run.cancel()
 
     await #expect(throws: CancellationError.self) { try await run.value }
@@ -55,7 +55,7 @@ struct ColorizeTests {
     let model = BlockingModel()
     let image = try makeTinyPhoto()
 
-    let run = Task { try await colorize(image: image, with: model) }
+    let run = Task { try await colorize(image: image, model: model) }
     try #require(await eventually { model.isPredicting })
     run.cancel()
     model.finishPrediction()

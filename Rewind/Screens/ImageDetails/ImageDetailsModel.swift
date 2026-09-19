@@ -377,7 +377,7 @@ func makeImageDetailsModel(
           state.colorizationState = .colorizing(image)
           asyncEffect(.perform(id: colorizationEffectID) { anotherAction in
             do {
-              let colorized = try await colorize(image: image.content, with: model)
+              let colorized = try await colorize(image: image.content, model: model)
               try Task.checkCancellation()
               let stitched = await modified(image) { $0.content = colorized }.stitched()
               await anotherAction(.internal(.colorizationCompleted(stitched)))
