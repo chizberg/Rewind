@@ -112,7 +112,7 @@ struct ColorizationPickerScreen: View {
 
   private func makeFeatureLine(_ text: LocalizedStringKey) -> some View {
     HStack(alignment: .firstTextBaseline, spacing: 6) {
-      Text("•")
+      Text(verbatim: "•")
       Text(text)
       Spacer(minLength: 0)
     }
