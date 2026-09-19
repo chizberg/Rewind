@@ -775,7 +775,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Eine große Gruppe von Bildern. Um alle anzuzeigen, müssen Sie hineinzoomen"
+            "value" : "Eine große Gruppe von Bildern. Um alle anzuzeigen, musst du hineinzoomen"
           }
         },
         "en" : {
@@ -940,61 +940,238 @@
         }
       }
     },
-    "colorization-feature-description" : {
-      "comment" : "Colorization picker description under the promo line. Explains the feature in one sentence",
+    "colorization-feature-free" : {
+      "comment" : "Colorization picker bullet: the feature costs nothing and needs no sign-in",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bring Farbe in jedes Schwarz-Weiß-Foto – in Sekunden. Kostenlos, kein Konto nötig."
+            "value" : "Kostenlos, kein Konto nötig"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bring color to any black-and-white photo in seconds. Free, no account needed."
+            "value" : "Free, no account needed"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Añade color a cualquier foto en blanco y negro en segundos. Gratis, sin registro."
+            "value" : "Gratis, sin registro"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ajoutez de la couleur à n'importe quelle photo en noir et blanc en quelques secondes. Gratuit, sans inscription."
+            "value" : "Gratuit, sans inscription"
           }
         },
         "kk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Кез келген ақ-қара суретке бірнеше секундта түс беріңіз. Тегін, тіркелудің қажеті жоқ."
+            "value" : "Тегін, тіркелудің қажеті жоқ"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Добавьте цвет любому чёрно-белому фото за считанные секунды. Бесплатно и без регистрации."
+            "value" : "Бесплатно, аккаунт не нужен"
           }
         },
         "sr-Latn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Obojite bilo koju crno-belu fotografiju za nekoliko sekundi. Besplatno, bez naloga."
+            "value" : "Besplatno, bez naloga"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Додайте колір будь-якому чорно-білому фото за лічені секунди. Безкоштовно і без реєстрації."
+            "value" : "Безкоштовно, акаунт не потрібен"
           }
         },
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Istalgan oq-qora fotosuratni soniyalar ichida rangli qiling. Bepul, ro'yxatdan o'tish shart emas."
+            "value" : "Bepul, ro'yxatdan o'tish shart emas"
+          }
+        }
+      }
+    },
+    "colorization-feature-delete-anytime" : {
+      "comment" : "Colorization picker perk line with a trash icon. The downloaded model can be deleted at any time",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lösche das Modell, wann immer du willst"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete the model whenever you want"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Borra el modelo cuando quieras"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimez le modèle quand vous voulez"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Модельді қалаған уақытта жоюға болады"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить модель можно в любой момент"
+          }
+        },
+        "sr-Latn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Model možete obrisati kad god želite"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Видалити модель можна будь-коли"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modelni istalgan vaqtda o'chirib tashlashingiz mumkin"
+          }
+        }
+      }
+    },
+    "colorization-feature-download-once" : {
+      "comment" : "Colorization picker perk line with a download icon. The model is a one-time download",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Modell lädst du nur einmal herunter"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You download the model only once"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El modelo se descarga una sola vez"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous ne téléchargez le modèle qu'une seule fois"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Модель бір рет қана жүктеледі"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Модель скачивается всего один раз"
+          }
+        },
+        "sr-Latn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Model se preuzima samo jednom"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Модель завантажується лише один раз"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Model faqat bir marta yuklab olinadi"
+          }
+        }
+      }
+    },
+    "colorization-feature-lead" : {
+      "comment" : "Colorization picker lead sentence above the bullet list",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bring Farbe in jedes Schwarz-Weiß-Foto – in Sekunden."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bring color to any black-and-white photo in seconds."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Añade color a cualquier foto en blanco y negro en segundos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajoutez de la couleur à n'importe quelle photo en noir et blanc en quelques secondes."
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Кез келген ақ-қара суретке бірнеше секундта түс беріңіз."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавьте цвет любому чёрно-белому фото за считанные секунды."
+          }
+        },
+        "sr-Latn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Obojite bilo koju crno-belu fotografiju za nekoliko sekundi."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Додайте колір будь-якому чорно-білому фото за лічені секунди."
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Istalgan oq-qora fotosuratni soniyalar ichida rangli qiling."
           }
         }
       }
@@ -1054,6 +1231,65 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "bepul | qurilmada | ochiq kod"
+          }
+        }
+      }
+    },
+    "colorization-feature-seconds" : {
+      "comment" : "Colorization picker perk line with a clock icon. How long one photo takes",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein Foto dauert etwa 3–10 Sekunden"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Each photo takes about 3–10 seconds"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cada foto tarda entre 3 y 10 segundos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chaque photo prend environ 3 à 10 secondes"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Бір сурет шамамен 3–10 секундта боялады"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Одно фото раскрашивается за 3–10 секунд"
+          }
+        },
+        "sr-Latn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jedna fotografija traje oko 3–10 sekundi"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Одне фото розфарбовується за 3–10 секунд"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bitta fotosurat 3–10 soniya oladi"
           }
         }
       }
@@ -1172,6 +1408,124 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rasm avvalgidan rangliroq bo'lmaganga o'xshaydi. Modellar xato qilishi mumkin, boshqasini sinab ko'ring."
+          }
+        }
+      }
+    },
+    "colorization_description" : {
+      "comment" : "Onboarding card description for colorization, under its title",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bring Farbe in Schwarz-Weiß-Fotos – direkt auf deinem Gerät. Kostenlos, kein Konto nötig."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add color to black-and-white photos right on your device. Free, no account needed."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Añade color a las fotos en blanco y negro en tu dispositivo. Gratis, sin registro."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajoutez de la couleur aux photos en noir et blanc directement sur votre appareil. Gratuit, sans inscription."
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ақ-қара суреттерге құрылғыңызда түс қосыңыз. Тегін, тіркелудің қажеті жоқ."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавьте цвет чёрно-белым фотографиям прямо на устройстве. Бесплатно, аккаунт не нужен."
+          }
+        },
+        "sr-Latn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dodajte boju crno-belim fotografijama direktno na uređaju. Besplatno, bez naloga."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Додайте колір чорно-білим фотографіям просто на пристрої. Безкоштовно, акаунт не потрібен."
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oq-qora fotosuratlarga qurilmangizda rang qo'shing. Bepul, ro'yxatdan o'tish shart emas."
+          }
+        }
+      }
+    },
+    "colorization_title" : {
+      "comment" : "Onboarding card title for colorization, next to the palette icon",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bilder kolorieren"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Image colorization"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Colorear fotos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coloriser les photos"
+          }
+        },
+        "kk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Суреттерді бояу"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Раскраска картинок"
+          }
+        },
+        "sr-Latn" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bojenje fotografija"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Розфарбовування фото"
+          }
+        },
+        "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotosuratlarni ranglash"
           }
         }
       }
@@ -1394,7 +1748,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nutzen Sie Ihre Kamera, um denselben Ort im Laufe der Zeit zu vergleichen"
+            "value" : "Nutze deine Kamera, um denselben Ort im Laufe der Zeit zu vergleichen"
           }
         },
         "en" : {
@@ -2661,7 +3015,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sie können alte&nbsp;Fotos und&nbsp;Gemälde von&nbsp;Orten auf&nbsp;der&nbsp;Karte ansehen"
+            "value" : "Du kannst alte&nbsp;Fotos und&nbsp;Gemälde von&nbsp;Orten auf&nbsp;der&nbsp;Karte ansehen"
           }
         },
         "en" : {
@@ -4829,7 +5183,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zeigt die Richtung an. Tippen Sie darauf, um die Bilddetails anzuzeigen"
+            "value" : "Zeigt die Richtung an. Tippe darauf, um die Bilddetails anzuzeigen"
           }
         },
         "en" : {
@@ -5212,7 +5566,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sehen Sie, wie der Ort heute aussieht – mit Google Street View"
+            "value" : "Schau dir an, wie der Ort heute aussieht – mit Google Street View"
           }
         },
         "en" : {
@@ -5542,7 +5896,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Beschreibungen in einer Fremdsprache können mit einem Fingertipp in Ihre Sprache übersetzt werden"
+            "value" : "Beschreibungen in einer Fremdsprache können mit einem Fingertipp in deine Sprache übersetzt werden"
           }
         },
         "en" : {
@@ -7157,7 +7511,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sie können die Kameraberechtigungen in den Einstellungen überprüfen"
+            "value" : "Du kannst die Kameraberechtigungen in den Einstellungen überprüfen"
           }
         },
         "es" : {

@@ -48,8 +48,16 @@ struct ColorizationPickerScreen: View {
             )
           )
           .padding(.bottom, 3)
-        Text("colorization-feature-description")
-          .font(.callout)
+        VStack(alignment: .leading, spacing: 6) {
+          Text("colorization-feature-lead")
+          VStack(alignment: .leading, spacing: 2) {
+            makeFeatureLine("colorization-feature-free")
+            makeFeatureLine("colorization-feature-download-once")
+            makeFeatureLine("colorization-feature-seconds")
+            makeFeatureLine("colorization-feature-delete-anytime")
+          }
+        }
+        .font(.callout)
       }.padding()
     }
     .listRowInsets(EdgeInsets())
@@ -99,6 +107,14 @@ struct ColorizationPickerScreen: View {
       .listRowInsets(EdgeInsets())
       .listRowBackground(EmptyView())
       .id(colorizeButtonID)
+    }
+  }
+
+  private func makeFeatureLine(_ text: LocalizedStringKey) -> some View {
+    HStack(alignment: .firstTextBaseline, spacing: 6) {
+      Text("•")
+      Text(text)
+      Spacer(minLength: 0)
     }
   }
 }
