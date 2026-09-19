@@ -12,9 +12,18 @@ import UIKit
 
 @Suite(.serialized)
 struct ColorizationParityTests {
-  static let frames = ["2209460", "2504212"]
+  static let frames = ["2209460", "2504212", "166360"]
   static let lightnessTolerance = 0.15
   static let peakTolerance: Float = 0.05
+  private static let tintedFrame = "166360"
+  private static let tintedGrayTolerance = 0.25
+  private static let tintedStretchTolerance = 0.75
+  private static let tintedClaheTolerance = 1.25
+  private static let tintedStrongClaheTolerance = 2.5
+  private static let tintedStrongClaheExtremeTolerance = 2.5
+  private static let crushedShare = 0.005...0.015
+  private static let scaleBottom: Float = 0
+  private static let scaleTop: Float = 100
 
   @Test(arguments: frames)
   func grayFrame(_ frame: String) throws {
@@ -23,7 +32,13 @@ struct ColorizationParityTests {
 
     let gray = try reference.gray(frame: frame)
 
-    try expected.check("1_to_gray_rgb", ParityStatistics(bytes: gray.values))
+    try expected.check(
+      "1_to_gray_rgb",
+      ParityStatistics(bytes: gray.values),
+      momentTolerance: frame == Self.tintedFrame
+        ? Self.tintedGrayTolerance
+        : ParityReference.Case.momentTolerance,
+    )
   }
 
   @Test(arguments: frames, ColorizationModelID.allCases)
@@ -31,9 +46,42 @@ struct ColorizationParityTests {
     let reference = try ParityReference.load()
     let expected = try reference.expected(frame: frame, model: model)
 
-    let prepared = try reference.prepared(frame: frame, claheClip: expected.claheClip)
+    let tinted = frame == Self.tintedFrame
+    let claheTolerance = switch (tinted, model) {
+    case (false, _): ParityReference.Case.momentTolerance
+    case (true, .ddColorLarge): Self.tintedClaheTolerance
+    case (true, .eccv16): Self.tintedStrongClaheTolerance
+    }
+    let claheExtremeTolerance = tinted && model == .eccv16
+      ? Self.tintedStrongClaheExtremeTolerance
+      : ParityReference.Case.extremeTolerance
 
-    try expected.check("3_clahe_rgb", ParityStatistics(bytes: prepared.gray.values))
+    let prepared = try reference.prepared(
+      frame: frame,
+      claheClip: expected.claheClip,
+      levels: expected.levels,
+    )
+
+    if expected.levels {
+      try expected.check(
+        "2_levels_rgb",
+        ParityStatistics(bytes: Lab.neutralGray(lightness: prepared.lightness).values),
+        momentTolerance: tinted
+          ? Self.tintedStretchTolerance
+          : ParityReference.Case.momentTolerance,
+      )
+      let atTheBottom = Self.share(of: prepared.lightness, at: Self.scaleBottom)
+      let atTheTop = Self.share(of: prepared.lightness, at: Self.scaleTop)
+      #expect(Self.crushedShare.contains(atTheBottom), "share at 0 \(atTheBottom)")
+      #expect(Self.crushedShare.contains(atTheTop), "share at 100 \(atTheTop)")
+    }
+
+    try expected.check(
+      "3_clahe_rgb",
+      ParityStatistics(bytes: prepared.gray.values),
+      momentTolerance: claheTolerance,
+      extremeTolerance: claheExtremeTolerance,
+    )
     try expected.check(
       "5_L",
       ParityStatistics(prepared.lightness.values),
@@ -76,7 +124,11 @@ struct ColorizationParityTests {
   ) async throws {
     let reference = try ParityReference.load()
     let expected = try reference.expected(frame: frame, model: model)
-    let prepared = try reference.prepared(frame: frame, claheClip: expected.claheClip)
+    let prepared = try reference.prepared(
+      frame: frame,
+      claheClip: expected.claheClip,
+      levels: expected.levels,
+    )
     let compiled = try await TestModel.compile(model)
     defer { try? FileManager.default.removeItem(at: compiled) }
 
@@ -135,6 +187,10 @@ struct ColorizationParityTests {
   private static func bytes(of channel: [Float]) -> [Float] {
     channel.map { Float(ColorizationHelpers.byte(sRGB: $0)) }
   }
+
+  private static func share(of plane: Plane<Float>, at value: Float) -> Double {
+    Double(plane.values.count { $0 == value }) / Double(plane.size.pixelCount)
+  }
 }
 
 enum TestModel {
@@ -173,10 +229,12 @@ struct ParityReference: Decodable {
 
   struct Case: Decodable {
     var claheClip: Double
+    var levels: Bool
     var stages: [String: Stage]
 
     enum CodingKeys: String, CodingKey {
       case claheClip = "clahe"
+      case levels
       case stages
     }
   }
@@ -212,10 +270,12 @@ struct ParityReference: Decodable {
   func prepared(
     frame: String,
     claheClip: Double,
+    levels: Bool,
   ) throws -> (gray: Plane<UInt8>, lightness: Plane<Float>) {
     let source = try RGBPlanes(image: input(frame: frame), maxSide: longSide)
     let lightness = Lab.lightness(of: source)
-    return (CLAHE.apply(to: Lab.neutralGray(lightness: lightness), clip: claheClip), lightness)
+    let stretched = levels ? Levels.stretch(lightness: lightness) : lightness
+    return (CLAHE.apply(to: Lab.neutralGray(lightness: stretched), clip: claheClip), stretched)
   }
 }
 
@@ -244,6 +304,22 @@ extension ParityReference.Case {
     momentTolerance: Double,
     sourceLocation: SourceLocation = #_sourceLocation,
   ) throws {
+    try check(
+      stage,
+      measured,
+      momentTolerance: momentTolerance,
+      extremeTolerance: Self.extremeTolerance,
+      sourceLocation: sourceLocation,
+    )
+  }
+
+  func check(
+    _ stage: String,
+    _ measured: ParityStatistics,
+    momentTolerance: Double,
+    extremeTolerance: Double,
+    sourceLocation: SourceLocation = #_sourceLocation,
+  ) throws {
     guard case let .statistics(expected)? = stages[stage] else {
       Issue.record("no \(stage) statistics in the reference", sourceLocation: sourceLocation)
       return
@@ -259,12 +335,12 @@ extension ParityReference.Case {
       sourceLocation: sourceLocation,
     )
     #expect(
-      abs(measured.minimum - expected.minimum) < Self.extremeTolerance,
+      abs(measured.minimum - expected.minimum) < extremeTolerance,
       "\(stage) min \(measured.minimum) against \(expected.minimum)",
       sourceLocation: sourceLocation,
     )
     #expect(
-      abs(measured.maximum - expected.maximum) < Self.extremeTolerance,
+      abs(measured.maximum - expected.maximum) < extremeTolerance,
       "\(stage) max \(measured.maximum) against \(expected.maximum)",
       sourceLocation: sourceLocation,
     )

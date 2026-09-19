@@ -17,10 +17,15 @@ The pipeline works in CIE L\*a\*b\*, which splits a pixel into three independent
 - **b**: blue (negative) to yellow (positive).
 
 A monochrome photo already has the right L. Only a and b are missing, and they are all the model
-predicts. The result takes L from the original photo at full resolution and ab from the model,
-which works at a few hundred pixels. The eye resolves detail in brightness far better than in color
-(the same reason JPEG stores color at a lower resolution), so low-resolution color on
-full-resolution lightness still looks sharp, and the model never touches the photo's brightness.
+predicts. The result takes L from the photo at full resolution and ab from the model, which works
+at a few hundred pixels. The eye resolves detail in brightness far better than in color (the same
+reason JPEG stores color at a lower resolution), so low-resolution color on full-resolution
+lightness still looks sharp, and the model never touches the photo's brightness.
+
+One stage does change it: **Levels** stretches the lightness to fill the scale before anything else
+reads it, so a faded scan gets the contrast of a photograph back. It is the single deliberate
+exception, and everything after it — the model, the post-process, compose — still only decides
+color.
 
 Lab formulas and constants: [OpenCV, RGB ↔ CIE L\*a\*b\*](https://docs.opencv.org/4.x/de/d25/imgproc_color_conversions.html#color_convert_rgb_lab).
 
@@ -31,6 +36,7 @@ Lab formulas and constants: [OpenCV, RGB ↔ CIE L\*a\*b\*](https://docs.opencv.
 | Split the watermark, detect monochrome | `WatermarkedImage.swift`, `MonochromeDetection.swift` | done |
 | Download and install models | `ColorizationModelStore.swift` and around | done |
 | Prepare: read, lightness, gray frame, CLAHE | `colorize(image:model:)` | done |
+| Prepare: levels | `Stages/Levels.swift` | done |
 | DDColor: fit, pad, inference, crop | `Models/DDColorLarge.swift` | done |
 | DDColor: back to full size | `ABPlanes.bilinearResized(target:)` | done |
 | ECCV16: squash, lightness, inference, back to full size | `Models/ECCV16.swift` | done |
@@ -81,7 +87,8 @@ UIImage (the photo without the watermark)
   │
   │  PREPARE
   │  RGBPlanes(image:maxSide:)      pixels as floats, long side at most 2048
-  │  Lab.lightness(of:)             L of every pixel ─────────────────────────┐
+  │  Lab.lightness(of:)             L of every pixel
+  │  Levels.stretch(lightness:)     L stretched to fill the scale ────────────┐
   │  Lab.neutralGray(lightness:)    the same L as a gray sRGB frame           │
   │  CLAHE.apply(to:clip:)          local contrast restored for the model     │
   ▼                                                                           │
@@ -107,7 +114,7 @@ UIImage (colorized)
 
 ### 1. Prepare
 
-The first three lines of `colorize(image:model:)` make the gray frame and the lightness, both at the
+The first four lines of `colorize(image:model:)` make the gray frame and the lightness, both at the
 size the photo was read at.
 
 1. **Read.** `RGBPlanes(image:maxSide:)` draws the photo into an 8-bit RGB context with its
@@ -116,15 +123,32 @@ size the photo was read at.
 2. **Lightness.** `Lab.lightness(of:)` computes L\* of every pixel: sRGB gamma decoded, weighted
    into luminance Y, then `116 f(Y) - 16`. This plane is kept until the end: the result's brightness
    comes from here, not from the model.
-3. **Gray frame.** `Lab.neutralGray(lightness:)` turns each L back into sRGB with a = b = 0. Many
+3. **Levels.** `Levels.stretch(lightness:)` stretches the band between the 1st and the 99th
+   percentile of L onto 0...100. Most archive scans need little of it — over the reference's sample
+   of 19 the tonal span was already 56 to 99 of 100 — and the stretch is self-limiting, its gain
+   being 100 over the band's width: ×1.02 and ×1.08 on the two full-range parity frames. The class
+   it exists for is the photographed reproduction rather than the scan, dark and flat (×1.42 on the
+   parity frame of that kind), where every model returns a flat sepia tint instead of a
+   colorization and this is the one operator that fixes it. Everything downstream is stretched with
+   it: the frame the model reads, the two post-process stages that weigh color by lightness, and
+   the composed result, which gets the contrast of a photograph. The band is taken at percentiles
+   rather than at the darkest and brightest pixel, so one speck of dust cannot set the range for
+   the whole frame. What it costs: the outer percent at each end is crushed flat onto the end of
+   the scale; every lightness difference is multiplied by the same gain, so the blur's fixed
+   `sigmaColor` covers relatively less of a stretched frame than of the original (the reference has
+   the same coupling, and the parity frames are measured through it); and this is the one stage
+   that changes the photo's own brightness rather than only steering color. The reference measured
+   the stretch as a loss when it is not needed — over those 19 scans mean chroma drops 1.15 while
+   the cast ratio improves only 0.035 — and as the only rescue for the dark flat class.
+4. **Gray frame.** `Lab.neutralGray(lightness:)` turns each L back into sRGB with a = b = 0. Many
    archive scans are sepia or tinted rather than truly gray; the model must see a neutral frame, and
    the tint must not leak into its color.
-4. **CLAHE.** `CLAHE.apply(to:clip:)` is Contrast Limited Adaptive Histogram Equalization on the L
+5. **CLAHE.** `CLAHE.apply(to:clip:)` is Contrast Limited Adaptive Histogram Equalization on the L
    of 8-bit Lab, 8×8 tiles, written after OpenCV's `clahe.cpp` step by step. Faded scans get their
    local contrast back before the model reads them. The clip limit is a per-model constant measured
    in the reference, `ColorizationModel.claheClip`: DDColor 1.0, ECCV16 1.5. CLAHE only steers the
-   color: it changes what the model sees, never the result's brightness, which still comes from
-   step 2.
+   color: it changes what the model sees, never the result's brightness, which comes from steps 2
+   and 3.
 
 ### 2. Model
 
@@ -342,11 +366,34 @@ region far past everything else in the picture, and a gain that has just multipl
 
 ## Checking against the reference
 
-- The reference is a Python pipeline on OpenCV and PyTorch. Its per-stage statistics for two
+- The reference is a Python pipeline on OpenCV and PyTorch. Its per-stage statistics for three
   800 px frames live in `RewindTests/Fixtures/ios-parity/reference.json`, next to the input PNGs.
 - `ColorizationParityTests` runs the Swift stages on those frames and compares mean, standard
-  deviation, min and max of each stage (`1_to_gray_rgb`, `3_clahe_rgb`, `5_L`, `7_lum_weight`
-  so far).
+  deviation, min and max of each stage (`1_to_gray_rgb`, `2_levels_rgb`, `3_clahe_rgb`, `5_L`,
+  `7_lum_weight` so far).
+- Two of the three frames were recorded with the levels stretch off, and the test runs each frame
+  the way it was recorded, from the case's own `levels` flag. The third, 166360, is the one
+  recorded with it on — on both consumers, which its `5_L` gives away: the lightness the reference
+  composed from is the stretched plane (39.16 mean, 27.33 std) and not the original (37.78 /
+  19.37). It is also the only fixture whose source carries a tint, and the two facts together are
+  why its input stages are given tolerances of their own: cv2 decodes the sRGB gamma through a
+  spline table in its float Lab path, so its L sits 0.084 under the exact formula on this frame,
+  and the ×1.42 stretch and CLAHE after it magnify that. Measured, ours against the reference's:
+  `1_to_gray_rgb` 91.13 against 90.93, `2_levels_rgb` 96.19 against 95.67, `3_clahe_rgb` 99.33
+  against 98.17 at a clip of 1.0 and 101.47 against 99.52 at 1.5. Each tolerance is its own gap
+  rounded up — 0.20 to 0.25, 0.52 to 0.75, 1.15 to 1.25, 1.95 to 2.5 — rather than slack picked to
+  make the test pass. The last row is the widest because of its extremes rather than its mean: at a
+  clip of 1.5 the stretched frame reaches true black where the reference stops at 2, so that one
+  case gets 2.5 on min and max as well and every other case keeps the usual 1.0. On the two
+  untinted frames the gray round-trip cancels the bias out and they keep the reference's own 0.05.
+- The stretch is applied once, to the float lightness plane, where the reference applies it twice —
+  to the 8-bit gray the model reads and to the RGB the result is composed from, each through its own
+  Lab round-trip. Taking the reference's route does not land closer to it (96.09 against our 96.19,
+  for its 95.67): the gap is the spline above, not the quantisation. So the pipeline keeps the
+  single stretch, which is also what makes both consumers get it by construction.
+- What the stage does regardless of the reference is checked directly: the share of the stretched
+  plane sitting exactly at 0 and exactly at 100 is between 0.5% and 1.5% each (0.97% and 1.01%
+  here). A stretch taken between the darkest and the brightest pixel would leave both at zero.
 - The model stage (`4_model_ab_a`, `4_model_ab_b`, `4_model_chroma`, both models) and the blur
   after it (`6_bilateral_chroma`) compare the mean only, within 1.5 or 25% of the reference mean,
   whichever is larger: DDColor's square padding differs from the reference's and Core ML runs it in
@@ -398,6 +445,11 @@ region far past everything else in the picture, and a gain that has just multipl
   number, so the ramp separates numpy's convention, `p/100 × (n - 1)`, from the off-by-one one:
   within the histogram that one answers 396.044 instead of 396, which is why the ramp is checked to
   0.01 and its scaled top pixel to 0.001.
+- `LevelsTests` checks the stage on 401-pixel ramps: the band between the percentiles fills the
+  scale (a ramp of 20...70 comes back with its 200th pixel at 50 and its 5th at `np.percentile`'s
+  0.2551, and the pixels outside the band flat at 0 and 100), a ramp with one stray pixel at each
+  end is stretched on the percentiles and not on the strays (24.49 where the extremes would have
+  given 37.5), and a frame of one flat tone comes back as it went in rather than as solid black.
 - `BoldnessTests` checks the stage on 200×16 frames made for it: the weight map lands on numpy and
   [`cv2.blur`](https://docs.opencv.org/4.x/d4/d86/group__imgproc__filter.html#ga8c45db9afe636703801b0b2e440fce37)
   within 0.0005 at the top-left corner, the middle and the bottom-right corner (0.566255, 0.605761,
@@ -428,15 +480,16 @@ region far past everything else in the picture, and a gain that has just multipl
 | `ColorizationModel.swift` | the model protocol (`claheClip`, `predict(gray:)`, `boldness`) and `ColorizationModelID` |
 | `Colorize.swift` | `colorize(image:model:)`, the pipeline stage by stage, and `maxSide` |
 | `ColorizationHelpers.swift` | helpers shared by several stages (`mirroredIndex`, `byte(sRGB:)`, `makeCGImage`) |
-| `Image/Plane.swift` | `Plane<Value>`: one channel of values with its `PlaneSize` |
+| `Image/Plane.swift` | `Plane<Value>`: one channel of values with its `PlaneSize`, and the percentile of a float one |
 | `Image/RGBPlanes.swift` | a photo as three float channels, read from a `UIImage` and written back to one |
 | `Image/ABPlanes.swift` | the model's a and b channels, read from Core ML at fp16 or fp32, cropped, resized, measured as chroma and scaled by it |
 | `Image/Lab.swift` | sRGB ↔ Lab: lightness of a photo and of a gray frame, neutral gray, Lab → sRGB for compose, the 8-bit tables CLAHE runs in |
 | `Image/Resampling.swift` | area and bicubic resize and reflect padding of the gray frame |
+| `Stages/Levels.swift` | the lightness stretched to fill the scale |
 | `Stages/CLAHE.swift` | contrast limited adaptive histogram equalization |
 | `Stages/EdgeAwareBlur.swift`, `Stages/LabBilateral.metal` | the bilateral filter that holds the model's color inside the outlines the lightness shows, and `PlaneSize.scaleFromReference`, which both filters take their sizes through |
 | `Stages/Boldness.swift` | the gain on the model's color, weighted by lightness and withdrawn on a tinted frame |
-| `Stages/ChromaCeiling.swift` | the limit on how much color a result may carry, and the percentile it is measured at |
+| `Stages/ChromaCeiling.swift` | the limit on how much color a result may carry |
 | `Models/CoreMLLoader.swift` | lazy Core ML loading with the file and memory checks |
 | `Models/DDColorLarge.swift` | DDColor-large as a `ColorizationModel`: its clip limit, geometry and inference |
 | `Models/ECCV16.swift` | ECCV16 as a `ColorizationModel`: its clip limit, geometry and inference |

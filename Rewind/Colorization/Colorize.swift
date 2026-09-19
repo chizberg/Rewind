@@ -16,20 +16,23 @@ func colorize(image: UIImage, model: some ColorizationModel) async throws -> UII
   let source = try RGBPlanes(image: image, maxSide: maxSide)
   let lightness = Lab.lightness(of: source)
   try Task.checkCancellation()
-  let gray = CLAHE.apply(to: Lab.neutralGray(lightness: lightness), clip: model.claheClip)
+  let stretched = Levels.stretch(lightness: lightness)
+  try Task.checkCancellation()
+  let gray = CLAHE.apply(to: Lab.neutralGray(lightness: stretched), clip: model.claheClip)
   try Task.checkCancellation()
 
   let ab = try await model.predict(gray: gray)
   try Task.checkCancellation()
 
   // post-processing
-  let anchored = try EdgeAwareBlur.apply(to: ab, lightness: lightness)
+  let anchored = try EdgeAwareBlur.apply(to: ab, lightness: stretched)
   try Task.checkCancellation()
-  let bolder = Boldness.apply(to: anchored, lightness: lightness, boldness: model.boldness)
+  let bolder = Boldness.apply(to: anchored, lightness: stretched, boldness: model.boldness)
   try Task.checkCancellation()
   let capped = ChromaCeiling.apply(to: bolder, boldness: model.boldness)
   try Task.checkCancellation()
-  return try Lab.rgb(lightness: lightness, ab: capped).makeUIImage()
+
+  return try Lab.rgb(lightness: stretched, ab: capped).makeUIImage()
 }
 
 // The cap on the long side the photo is read at; the model's own geometry starts from here.

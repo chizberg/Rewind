@@ -23,7 +23,11 @@ struct ColorizeTests {
 
     let colorized = try await colorize(image: image, model: model)
 
-    let prepared = try reference.prepared(frame: frame, claheClip: model.claheClip)
+    let prepared = try reference.prepared(
+      frame: frame,
+      claheClip: model.claheClip,
+      levels: true,
+    )
     let received = try #require(await model.receivedGray)
     #expect(received.size == prepared.gray.size)
     #expect(received.values == prepared.gray.values)
