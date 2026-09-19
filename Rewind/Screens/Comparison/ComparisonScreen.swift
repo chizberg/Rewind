@@ -14,8 +14,6 @@ struct ComparisonScreen: View {
 
   @Environment(\.dismiss)
   private var dismiss
-  @Environment(\.horizontalSizeClass)
-  private var horizontalSizeClass
   @State
   private var viewSize = CGSize.zero
 
