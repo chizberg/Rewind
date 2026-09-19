@@ -13,7 +13,7 @@ extension Storage {
     var imagePath: String
     var title: String
     var dir: Direction?
-    var coordinate: Coordinate
+    var coordinate: Coordinate?
     var date: ImageDate
 
     init(_ mi: Model.Image) {

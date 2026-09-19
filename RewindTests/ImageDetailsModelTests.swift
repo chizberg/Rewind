@@ -36,6 +36,18 @@ struct ImageDetailsModelTests {
     #expect(harness.openedURLs.isEmpty) // recursion, not a browser hand-off
   }
 
+  @Test func linkedPhotoWithoutCoordinateHidesLocationButtons() async throws {
+    let harness = Harness()
+    let model = harness.makeModel(cachedDetails: nil, linkedCoordinate: nil)
+    #expect(model.state.actionButtons.contains(.showOnMap))
+
+    model(.descriptionLink(pastvuPhotoURL(2_394_944)))
+
+    #expect(await eventually { model.state.anotherImageModel != nil })
+    let linked = try #require(model.state.anotherImageModel?.value)
+    #expect(linked.actionButtons == [.favorite, .compareCamera, .share, .saveImage, .viewOnWeb])
+  }
+
   /// A link to an external host is opened in the browser rather than recursing.
   @Test func externalLinkOpensInBrowser() async throws {
     let harness = Harness()
@@ -163,12 +175,16 @@ private final class Harness {
   func makeModel(
     cachedDetails: Model.ImageDetails?,
     translate: Remote<TranslateParams, String> = .mock("translated"),
+    linkedCoordinate: Coordinate? = Model.ImageDetails.mock.coordinate,
   ) -> ImageDetailsModel {
     makeImageDetailsModel(
       modelImage: .mock,
       remote: Remote { [weak self] cid in
         self?.requestedCids.append(cid)
-        return modified(.mock) { $0.cid = cid }
+        return modified(.mock) {
+          $0.cid = cid
+          $0.coordinate = linkedCoordinate
+        }
       },
       cachedDetails: cachedDetails,
       openSource: "",
@@ -178,7 +194,7 @@ private final class Harness {
       urlOpener: { [weak self] in self?.openedURLs.append($0) },
       streetViewAvailability: .mock(.unavailable),
       translate: translate,
-      extractModelImage: { _ in .mock },
+      extractModelImage: { Model.Image($0, image: .mock) },
     )
   }
 }

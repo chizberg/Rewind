@@ -1,0 +1,125 @@
+{
+  "result": {
+    "photo": {
+      "type": 1,
+      "user": {
+        "login": "NetJorika",
+        "disp": "NetJorika",
+        "ranks": []
+      },
+      "s": 5,
+      "cid": 2394944,
+      "file": "l/x/j/lxjud6ucms64vf1i7p.jpeg",
+      "ldate": "2025-06-27T07:56:24.944Z",
+      "mime": "image/jpeg",
+      "size": 318502,
+      "r2d": [
+        63.50284187468256,
+        39.360197685194144
+      ],
+      "title": "Трамвај број 21 за Топчидер са приколицом",
+      "frags": [],
+      "h": 928,
+      "hs": 684,
+      "w": 1280,
+      "waterh": 22,
+      "waterhs": 16,
+      "ws": 966,
+      "desc": "Latin: Tramvaj broj 21 za Topčider sa prikolicom.<br><br>&quot;Beograd - 1917. - K.u.K vojnici - vožnja tramvajem&quot; <br>K.u.K - Сокращение для Австро-Венгрии<br><br>Не нашел место. <br>Скорей всего фото сделано на сегодняшней Макензевой или Светозара Марковића (временная ветка до больницы времён оккупации австрийцами). В обоих случая такой застройки не сохранилось и даже трамвайных путей",
+      "source": "<a href=\"https://pin.it/1cdZiFUQS\" rel=\"nofollow noopener\" target=\"_blank\">https://pin.it/1cdZiFUQS</a>",
+      "y": "1917",
+      "year": 1917,
+      "year2": 1917,
+      "cdate": "2025-10-19T17:01:37.982Z",
+      "stdate": "2025-10-19T17:01:37.982Z",
+      "ucdate": "2025-09-25T08:29:28.791Z",
+      "adate": "2025-10-19T17:01:37.982Z",
+      "vcount": 106,
+      "vdcount": 4,
+      "vwcount": 10,
+      "regions": [
+        {
+          "title_local": "Сербия",
+          "title_en": "Serbia",
+          "center": [
+            20.910651,
+            44.023961
+          ],
+          "cid": 2394,
+          "bboxhome": [],
+          "bbox": [
+            18.814994,
+            41.85764,
+            23.006309,
+            46.190283
+          ],
+          "phc": 4722,
+          "pac": 20,
+          "cc": 5318
+        },
+        {
+          "title_local": "Центральная Сербия",
+          "title_en": "Central Serbia",
+          "center": [
+            21.054548,
+            43.665707
+          ],
+          "cid": 2395,
+          "bboxhome": [],
+          "bbox": [
+            19.102787,
+            42.235735,
+            23.006309,
+            45.095681
+          ],
+          "phc": 4426,
+          "pac": 19,
+          "cc": 5147
+        },
+        {
+          "title_local": "Белград",
+          "title_en": "Belgrade",
+          "center": [
+            20.417387,
+            44.646655
+          ],
+          "cid": 2396,
+          "bboxhome": [],
+          "bbox": [
+            19.969752,
+            44.263168,
+            20.855779,
+            45.095681
+          ],
+          "phc": 4095,
+          "pac": 19,
+          "cc": 4958
+        },
+        {
+          "bbox": [
+            20.424794,
+            44.754511,
+            20.473807,
+            44.815441
+          ],
+          "bboxhome": [],
+          "cid": 8820,
+          "center": [
+            20.452042,
+            44.784532
+          ],
+          "title_en": "Savski Venac Urban Municipality",
+          "title_local": "Савски-Венац (Белград)",
+          "phc": 720,
+          "pac": 5,
+          "cc": 808
+        }
+      ]
+    },
+    "can": {
+      "download": "login"
+    },
+    "forEdit": false
+  },
+  "rid": "7ld4t3tql2"
+}

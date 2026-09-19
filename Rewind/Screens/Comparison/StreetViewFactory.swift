@@ -30,6 +30,10 @@ func makeStreetView(
 private func makeStreetViewURL(
   image: Model.Image,
 ) -> URL? {
+  guard let coordinate = image.coordinate else {
+    assertionFailure("should not be called on images without geo")
+    return nil
+  }
   var components = URLComponents()
   components.scheme = "https"
   components.host = "www.google.com"
@@ -38,7 +42,7 @@ private func makeStreetViewURL(
     URLQueryItem(name: "key", value: Secrets.googleApiKey)
     URLQueryItem(
       name: "location",
-      value: "\(image.coordinate.latitude),\(image.coordinate.longitude)",
+      value: "\(coordinate.latitude),\(coordinate.longitude)",
     )
     if let heading = image.dir?.angleDegrees {
       URLQueryItem(name: "heading", value: "\(heading)")

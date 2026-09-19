@@ -173,14 +173,14 @@ extension Model.Image {
 extension Model.LocalCluster {
   fileprivate static let demo = Model.LocalCluster(
     images: [.demo, .demo, .demo],
-    coordinate: Model.Image.demo.coordinate,
+    coordinate: Model.Image.demo.forcedCoordinate,
   )
 }
 
 extension Model.Cluster {
   fileprivate static let demo = Model.Cluster(
     preview: .demo,
-    coordinate: Model.Image.demo.coordinate,
+    coordinate: Model.Image.demo.forcedCoordinate,
     count: 150,
   )
 }

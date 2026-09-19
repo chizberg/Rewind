@@ -13,7 +13,7 @@ extension Network {
     let file: String // local path to image
     let title: String
     let dir: String? // direction
-    let geo: [Double] // location, has two values: latitude and longitude
+    let geo: [Double]? // location, has two values: latitude and longitude
     let year: Int // lower time boundary
     let year2: Int // upper time boundary
 

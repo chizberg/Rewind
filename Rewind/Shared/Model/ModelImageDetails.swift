@@ -12,7 +12,7 @@ extension Model {
     var cid: Int
     var title: String
     var direction: Direction?
-    var coordinate: Coordinate
+    var coordinate: Coordinate?
     var date: ImageDate
 
     var description: String?
@@ -29,7 +29,7 @@ extension Model {
       cid = ni.cid
       title = ni.title
       direction = Direction(ni.dir)
-      coordinate = Coordinate(ni.geo)
+      coordinate = ni.geo.map { Coordinate($0) }
       date = ImageDate(year: ni.year, year2: ni.year2)
       description = ni.desc
       source = ni.source

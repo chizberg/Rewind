@@ -116,8 +116,16 @@ struct NetworkParsingTests {
     #expect(details.watersignText == "uploaded by nb92")
     // The HTML <a href=...> source is kept as-is.
     #expect(details.source?.contains("<a href=") == true)
-    #expect(details.geo[0].isApproximatelyEqualTo(44.813047))
-    #expect(details.geo[1].isApproximatelyEqualTo(20.460579))
+    let geo = try #require(details.geo)
+    #expect(geo[0].isApproximatelyEqualTo(44.813047))
+    #expect(geo[1].isApproximatelyEqualTo(20.460579))
+  }
+
+  @Test func detailsWithoutGeoDecodeToNilCoordinate() throws {
+    let details = try decodeDetails("imageDetails_noGeo.json")
+    #expect(details.cid == 2_394_944)
+    #expect(details.geo == nil)
+    #expect(Model.ImageDetails(details).coordinate == nil)
   }
 
   // MARK: - Model.Cluster mapping (reversed preview coordinate quirk)
@@ -129,7 +137,8 @@ struct NetworkParsingTests {
     #expect(cluster.coordinate.latitude.isApproximatelyEqualTo(50.072674))
     #expect(cluster.coordinate.longitude.isApproximatelyEqualTo(14.443844))
     // Preview coordinate IS reversed: server sent [lon, lat] -> reversed to (lat, lon).
-    #expect(cluster.preview.coordinate.latitude.isApproximatelyEqualTo(50.072229))
-    #expect(cluster.preview.coordinate.longitude.isApproximatelyEqualTo(14.444176))
+    let previewCoordinate = try #require(cluster.preview.coordinate)
+    #expect(previewCoordinate.latitude.isApproximatelyEqualTo(50.072229))
+    #expect(previewCoordinate.longitude.isApproximatelyEqualTo(14.444176))
   }
 }
