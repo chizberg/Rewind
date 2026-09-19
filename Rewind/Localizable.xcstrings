@@ -775,7 +775,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Eine große Gruppe von Bildern. Um alle anzuzeigen, müssen Sie hineinzoomen"
+            "value" : "Eine große Gruppe von Bildern. Um alle anzuzeigen, musst du hineinzoomen"
           }
         },
         "en" : {
@@ -1748,7 +1748,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nutzen Sie Ihre Kamera, um denselben Ort im Laufe der Zeit zu vergleichen"
+            "value" : "Nutze deine Kamera, um denselben Ort im Laufe der Zeit zu vergleichen"
           }
         },
         "en" : {
@@ -3015,7 +3015,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sie können alte&nbsp;Fotos und&nbsp;Gemälde von&nbsp;Orten auf&nbsp;der&nbsp;Karte ansehen"
+            "value" : "Du kannst alte&nbsp;Fotos und&nbsp;Gemälde von&nbsp;Orten auf&nbsp;der&nbsp;Karte ansehen"
           }
         },
         "en" : {
@@ -5183,7 +5183,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zeigt die Richtung an. Tippen Sie darauf, um die Bilddetails anzuzeigen"
+            "value" : "Zeigt die Richtung an. Tippe darauf, um die Bilddetails anzuzeigen"
           }
         },
         "en" : {
@@ -5566,7 +5566,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sehen Sie, wie der Ort heute aussieht – mit Google Street View"
+            "value" : "Schau dir an, wie der Ort heute aussieht – mit Google Street View"
           }
         },
         "en" : {
@@ -5896,7 +5896,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Beschreibungen in einer Fremdsprache können mit einem Fingertipp in Ihre Sprache übersetzt werden"
+            "value" : "Beschreibungen in einer Fremdsprache können mit einem Fingertipp in deine Sprache übersetzt werden"
           }
         },
         "en" : {
@@ -7511,7 +7511,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sie können die Kameraberechtigungen in den Einstellungen überprüfen"
+            "value" : "Du kannst die Kameraberechtigungen in den Einstellungen überprüfen"
           }
         },
         "es" : {
