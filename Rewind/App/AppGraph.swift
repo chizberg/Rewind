@@ -79,6 +79,18 @@ final class AppGraph {
     )
     mapControlsStore = mapStore.makeControlsStore()
     rootViewMapStore = makeRootMapStore(mapStore: mapStore)
+    let colorizationModelStore = ColorizationModelStore(
+      downloadPerformer: DownloadPerformer(session: .shared),
+      manifest: remotes.colorizationManifest,
+    )
+    let makeColorizationPicker = { colorization in
+      makeColorizationPickerScreenStore(
+        modelStore: colorizationModelStore,
+        pickedModel: settings.colorizationModel.asProperty(),
+        manifest: remotes.colorizationManifest,
+        colorize: colorization
+      )
+    }
     let imageDetailsFactory = { image, source in
       makeImageDetailsModel(
         modelImage: image,
@@ -95,8 +107,14 @@ final class AppGraph {
         urlOpener: urlOpener,
         streetViewAvailability: remotes.streetViewAvailability,
         translate: remotes.translate,
+        colorizationModel: Variable {
+          settings.value.colorizationModel.flatMap { colorizationModelStore.localModel(id: $0) }
+        },
         extractModelImage: { [imageLoader] details in
           Model.Image(details, image: imageLoader.makeImage(path: details.file))
+        },
+        makeColorizationPicker: {
+          makeColorizationPicker($0)
         },
       )
     }
@@ -117,10 +135,11 @@ final class AppGraph {
     let appModel = makeAppModel(
       imageDetailsFactory: imageDetailsFactory,
       searchModelFactory: searchModelFactory,
-      settingsViewModelFactory: {
-        makeSettingsViewModel(
+      settingsViewStoreFactory: {
+        makeSettingsViewStore(
           settings: settings,
           urlOpener: urlOpener,
+          makeColorizationPicker: { makeColorizationPicker(nil) },
         )
       },
       performMapAction: { mapModelRef?(.external($0)) },
@@ -160,15 +179,16 @@ final class AppGraph {
     }.dispose(in: disposePool)
     filters.current = mapModel.$state.filters.skipRepeats()
 
-    // React to memory warnings by clearing cached images and image details
+    // React to memory warnings by clearing cached images, image details and the colorization model
     memoryWarningObserver = NotificationCenter.default.addObserver(
       forName: UIApplication.didReceiveMemoryWarningNotification,
       object: nil,
       queue: .main,
-    ) { [imageLoader, imageDetailsLoader] _ in
+    ) { [imageLoader, imageDetailsLoader, colorizationModelStore] _ in
       Task {
         await imageLoader.clearCache()
         await imageDetailsLoader.clearCache()
+        await colorizationModelStore.clearCache()
       }
     }
     storeReview.appLaunched()

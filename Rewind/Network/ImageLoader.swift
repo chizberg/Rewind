@@ -101,7 +101,7 @@ extension LoadableUIImage {
 
 #if DEBUG
 extension LoadableUIImage {
-  static let mock = LoadableUIImage { _ in .cat }
+  static let mock = LoadableUIImage { _ in .lyskovo }
   static let panorama = LoadableUIImage { _ in .panorama }
 }
 #endif

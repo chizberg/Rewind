@@ -13,6 +13,7 @@ struct ImageDetailsView: View {
     static let titleImage = "fullscreenPreview"
     static let compareCameraButton = "compareCameraButton"
     static let descriptionLink = "descriptionLink"
+    static let colorizeButton = "colorizeButton"
   }
 
   var viewStore: ImageDetailsModel.Store
@@ -21,6 +22,10 @@ struct ImageDetailsView: View {
   private var namespace
   @Environment(\.horizontalSizeClass)
   private var horizontalSizeClass
+  @State
+  private var colorizeButtonFrame = CGRect.zero
+  @State
+  private var pictureFrame = CGRect.zero
 
   private var isSplitView: Bool { horizontalSizeClass == .regular }
 
@@ -28,9 +33,31 @@ struct ImageDetailsView: View {
     content
       .animation(.smooth, value: viewStore.translationState)
       .overlay(alignment: .topLeading) {
-        BackButton()
-          .padding()
+        HStack {
+          DismissButton()
+
+          Spacer()
+
+          if let state = viewStore.colorizationState.button {
+            ColorizeButton(
+              namespace: namespace,
+              state: state,
+            ) {
+              viewStore(.colorize)
+            }
+            .readFrame(in: .named(spaceName)) { colorizeButtonFrame = $0 }
+            .transition(.scale)
+          }
+
+          if isSplitView {
+            Spacer()
+              .frame(width: splitViewScrollWidth)
+          }
+        }
+        .padding()
+        .animation(.spring, value: viewStore.colorizationState)
       }
+      .coordinateSpace(.named(spaceName))
       .task {
         viewStore(.willBePresented)
       }
@@ -80,6 +107,19 @@ struct ImageDetailsView: View {
             )
         },
       )
+      .sheet(
+        item: viewStore.binding(\.colorizationPicker, send: { _ in .colorizationPicker(.dismiss) }),
+        content: { picker in
+          ColorizationPickerScreen(store: picker.value)
+            .overlay(alignment: .topLeading) {
+              DismissButton().padding()
+            }
+            .navigationTransition(
+              .zoom(sourceID: TransitionSource.colorizeButton, in: namespace),
+            )
+            .environment(\.dismissButtonKind, .close)
+        },
+      )
       .alert(
         Binding(
           get: { viewStore.alertModel },
@@ -97,7 +137,7 @@ struct ImageDetailsView: View {
           picture
         }
         scroll
-          .frame(width: 325)
+          .frame(width: splitViewScrollWidth)
       }
     } else {
       scroll
@@ -110,6 +150,11 @@ struct ImageDetailsView: View {
         if !isSplitView {
           picture
         }
+
+        if let check = viewStore.colorizationState.check {
+          colorizationDescription(check: check)
+        }
+
         textDetails
           .padding()
           .background {
@@ -119,6 +164,7 @@ struct ImageDetailsView: View {
           .padding()
       }
     }
+    .animation(.default, value: viewStore.colorizationState.check)
     .background {
       SwiftUI.Color.secondarySystemBackground.edgesIgnoringSafeArea(
         isSplitView ? .bottom : .vertical,
@@ -128,9 +174,28 @@ struct ImageDetailsView: View {
 
   private var picture: some View {
     ZStack {
-      if let uiImage = viewStore.uiImage {
-        Image(uiImage: uiImage)
+      if let image = viewStore.uiImage {
+        Image(uiImage: image)
           .resizable()
+          .overlay {
+            if let colorized = viewStore.colorizedImage {
+              Image(uiImage: colorized)
+                .resizable()
+            }
+          }
+          .overlay {
+            MagicOverlay(
+              image: image,
+              origin: CGPoint(
+                x: colorizeButtonFrame.midX - pictureFrame.minX,
+                y: colorizeButtonFrame.midY - pictureFrame.minY,
+              ),
+              isActive: viewStore.isColorizing,
+              tuning: .default,
+            )
+          }
+          .readFrame(in: .named(spaceName)) { pictureFrame = $0 }
+          .animation(.default, value: viewStore.colorizationState)
       } else {
         if let cachedPreview = viewStore.cachedLowResImage {
           Image(uiImage: cachedPreview)
@@ -150,6 +215,36 @@ struct ImageDetailsView: View {
         .onChanged { _ in showFullscreenPreview() },
     )
     .matchedTransitionSource(id: TransitionSource.titleImage, in: namespace)
+  }
+
+  @ViewBuilder
+  private func colorizationDescription(
+    check: ColorizationCheck
+  ) -> some View {
+    let desc: LocalizedStringKey? = switch check {
+    case .ok: nil
+    case .noColor: "colorization-noColor"
+    case .onlyTint: "colorization-onlyTint"
+    }
+    let emoji: String? = switch check {
+    case .ok: nil
+    case .noColor, .onlyTint: "🫤"
+    }
+
+    if let desc, let emoji {
+      HStack {
+        Text(emoji)
+        Text(desc)
+          .font(.caption)
+        Spacer()
+        Button {
+          viewStore(.dismissColorizationCheck)
+        } label: {
+          Image(systemName: "xmark")
+        }
+      }
+      .padding()
+    }
   }
 
   private var textDetails: some View {
@@ -286,13 +381,16 @@ struct ImageDetailsView: View {
 
   private func showFullscreenPreview() {
     guard viewStore.fullscreenPreview == nil,
-          viewStore.uiImage != nil
+          viewStore.displayedImage != nil
     else {
       return
     }
     viewStore(.fullscreenPreview(.present))
   }
 }
+
+private let splitViewScrollWidth = 325.0
+private let spaceName = "image-details"
 
 private struct LabeledText: View {
   var label: LocalizedStringKey
@@ -390,9 +488,144 @@ private struct TextAccessoryButton: View {
   }
 }
 
+private struct ColorizeButton: View {
+  enum Phase: String, CaseIterable {
+    case available
+    case colorizing
+    case done
+  }
+
+  var namespace: Namespace.ID
+  var state: Phase
+  var action: () -> Void
+
+  var shadowExposure = 2.0
+  var rainbowShadowDuration = 2.0
+  var rainbowShadowRotationDuration = 1.0
+
+  @State
+  private var showsRainbow = false
+  @State
+  private var rainbowAngle = Angle.zero
+  @ScaledMetric(relativeTo: .title2)
+  private var radius = 44
+
+  @Environment(\.colorScheme)
+  private var colorScheme
+
+  var body: some View {
+    Button(action: action, label: {
+      content
+        .frame(squareSize: radius)
+        .transition(.blurReplace)
+
+    })
+    .matchedTransitionSource(
+      id: ImageDetailsView.TransitionSource.colorizeButton,
+      in: namespace
+    )
+    .clipShape(Circle())
+    .blurBackground(in: Circle())
+    .background {
+      if showsRainbow {
+        makeRainbow(exposure: shadowExposure)
+          .clipShape(Circle())
+          .blur(radius: 10)
+          .rotationEffect(rainbowAngle)
+          .scaleEffect(1.3)
+      }
+    }
+    .animation(.default, value: showsRainbow)
+    .animation(.default, value: state)
+    .task {
+      showsRainbow = true
+      withAnimation(
+        .linear(duration: rainbowShadowRotationDuration)
+          .repeatForever(autoreverses: false)
+      ) {
+        rainbowAngle = .degrees(360)
+      }
+      try? await Task.sleep(for: .seconds(rainbowShadowDuration))
+      showsRainbow = false
+      rainbowAngle = .degrees(0)
+    }
+  }
+
+  @ViewBuilder
+  private var content: some View {
+    switch state {
+    case .available:
+      Text("🎨")
+        .font(.title2)
+        .shadow(
+          color: .white.opacity(colorScheme == .dark ? 0.7 : 0),
+          radius: 10
+        )
+    case .colorizing:
+      ProgressView()
+    case .done:
+      ZStack {
+        makeRainbow(exposure: 0)
+
+        Image(systemName: "paintpalette.fill")
+          .foregroundStyle(.white)
+      }
+    }
+  }
+
+  private func makeRainbow(exposure: CGFloat) -> some View {
+    AngularGradient(
+      gradient: makeRainbowGradient(exposureAdjust: exposure),
+      center: .center
+    )
+  }
+}
+
 extension ImageDetailsState {
   fileprivate var translation: ImageDetailsState.Translation? {
     if case let .translated(translation) = translationState { translation } else { nil }
+  }
+
+  fileprivate var isColorizing: Bool {
+    if case .colorizing = colorizationState { true } else { false }
+  }
+}
+
+extension ImageDetailsState.ColorizationState {
+  fileprivate var button: ColorizeButton.Phase? {
+    switch self {
+    case .available: .available
+    case .colorizing: .colorizing
+    case let .ready(_, showing, _):
+      switch showing {
+      case .colorized: .done
+      case .original: .available
+      }
+    case .none, .detecting, .notAvailable:
+      nil
+    }
+  }
+}
+
+func makeRainbowGradient(exposureAdjust: Double = 2.0) -> SwiftUI.Gradient {
+  let colors = [
+    SwiftUI.Color.red, .orange, .yellow, .green, .blue, .purple, .red
+  ].map {
+    if #available(iOS 26.0, *) {
+      $0.exposureAdjust(exposureAdjust)
+    } else {
+      $0
+    }
+  }
+  let stops = colors.enumerated().map { index, color in
+    SwiftUI.Gradient.Stop(color: color, location: Double(index) / Double(colors.count - 1))
+  }
+  return SwiftUI.Gradient(stops: stops)
+}
+
+extension ImageDetailsState.ColorizationState {
+  fileprivate var check: ColorizationCheck? {
+    if case let .ready(_, _, check) = self { check } else { nil }
   }
 }
 
@@ -419,7 +652,9 @@ extension FavoritesModel {
     urlOpener: { _ in },
     streetViewAvailability: .mock(.unavailable),
     translate: .mock("translated text"),
+    colorizationModel: .constant(nil),
     extractModelImage: { _ in .mock },
+    makeColorizationPicker: { _ in .mock(.mock) },
   ).viewStore
 
   ImageDetailsView(
@@ -445,7 +680,37 @@ extension FavoritesModel {
     urlOpener: { _ in },
     streetViewAvailability: .mock(.unavailable),
     translate: .mock("translated text").delayed(delay: 1),
+    colorizationModel: .constant(nil),
     extractModelImage: { _ in .mock },
+    makeColorizationPicker: { _ in .mock(.mock) },
+  ).viewStore
+
+  ImageDetailsView(
+    viewStore: store,
+  )
+}
+
+#Preview("colorized") {
+  @Previewable @State
+  var store = ImageDetailsModel(
+    initial: ImageDetailsState(
+      image: .mock,
+      attributedTitle: Model.Image.mock.title.makeAttrString(),
+      uiImage: UIImage(resource: .colorizationDemoBefore),
+      imageSaveCounts: [:],
+      openSource: "",
+      isFavorite: false,
+      mapOptionsPresented: false,
+      loadingAnotherImage: false,
+      translationState: .notAvailable,
+      colorizationState: .ready(
+        colorized: UIImage(resource: .colorizationDemoAfter),
+        showing: .colorized,
+        check: .onlyTint,
+      ),
+      actionButtons: [.favorite, .showOnMap, .share, .saveImage, .viewOnWeb, .route],
+    ),
+    reduce: { _, _, _, _ in },
   ).viewStore
 
   ImageDetailsView(
@@ -456,4 +721,68 @@ extension FavoritesModel {
 #Preview("text accessory button") {
   TextAccessoryButton("Translate", action: { print("foo") })
 }
+
+#Preview("colorize button") {
+  ColorizationButtonPreview()
+}
+
+private struct ColorizationButtonPreview: View {
+  @State
+  var isShown = true
+  @State
+  var duration = 4.0
+  @State
+  var exposure = 2.0
+  @State
+  var buttonState = ColorizeButton.Phase.available
+  @Namespace
+  var namespace
+
+  var body: some View {
+    VStack {
+      let action = {
+        withAnimation {
+          isShown.toggle()
+        }
+      }
+
+      ZStack {
+        Image(.lyskovo)
+          .resizable()
+          .scaledToFit()
+
+        if isShown {
+          ColorizeButton(
+            namespace: namespace,
+            state: buttonState,
+            action: action,
+            shadowExposure: exposure,
+            rainbowShadowDuration: duration
+          )
+          .transition(.scale)
+        }
+      }
+
+      Button(action: action) {
+        Text("toggle")
+      }.buttonStyle(.bordered)
+        .padding(.bottom, 20)
+
+      Text("exposure \(exposure)")
+      Slider(value: $exposure, in: 0...5)
+        .padding(.bottom, 10)
+
+      Text("duration \(duration)")
+      Slider(value: $duration, in: 0...10)
+
+      Picker("", selection: $buttonState, content: {
+        ForEach(ColorizeButton.Phase.allCases, id: \.self) { s in
+          Text(s.rawValue).tag(s)
+        }
+      })
+      .pickerStyle(.segmented)
+    }.padding()
+  }
+}
+
 #endif

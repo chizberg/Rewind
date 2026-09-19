@@ -113,6 +113,7 @@ XcodeBuild/
 
 # Claude Code configuration
 CLAUDE.md
+CONTEXT.md
 
 .DS_Store
 

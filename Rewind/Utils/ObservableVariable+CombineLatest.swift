@@ -41,3 +41,16 @@ extension ObservableVariable {
     )
   }
 }
+
+extension ObservableVariable {
+  static func combineLatest<Key: Hashable, U>(
+    _ variables: [Key: ObservableVariable<U>]
+  ) -> ObservableVariable where T == [Key: U] {
+    ObservableVariable(
+      initialValue: variables.mapValues(\.value),
+      newValues: .merge(variables.values.map { variable in
+        variable.newValues.map { _ in variables.mapValues(\.value) }
+      })
+    )
+  }
+}

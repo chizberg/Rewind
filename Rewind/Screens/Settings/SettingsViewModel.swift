@@ -8,14 +8,18 @@
 import UIKit
 import VGSL
 
-typealias SettingsViewModel = Reducer<SettingsViewState, SettingsViewAction>
 typealias SettingsViewStore = ViewStore<SettingsViewState, SettingsViewAction.UI>
 
 struct SettingsViewState {
+  struct UI {
+    var supportsAlternateIcons: Bool
+    var icon: Icon
+    var alert: Identified<AlertParams>?
+    var colorizationPicker: Identified<ColorizationPickerScreenStore>?
+  }
+
   var stored: SettingsState
-  var supportsAlternateIcons: Bool
-  var icon: Icon
-  var alert: Identified<AlertParams>?
+  var ui: UI
 }
 
 // new fields should be added carefully
@@ -25,35 +29,7 @@ struct SettingsState: Codable, Equatable {
 
   var sorting: ImageSorting
   var gradientScheme: GradientScheme
-
-  init(
-    openClusterPreviews: Bool,
-    sorting: ImageSorting,
-    gradientScheme: GradientScheme,
-  ) {
-    self.openClusterPreviews = openClusterPreviews
-    self.sorting = sorting
-    self.gradientScheme = gradientScheme
-  }
-
-  enum CodingKeys: String, CodingKey {
-    case openClusterPreviews
-    case sorting
-    case gradientScheme
-  }
-
-  init(from decoder: any Decoder) throws {
-    let container = try decoder.container(keyedBy: CodingKeys.self)
-    self.openClusterPreviews = try container.decode(Bool.self, forKey: .openClusterPreviews)
-
-    // 29.3.26: optionality of these fields should be removed in 3 months, then fallback to default
-    self.sorting = try container.decodeIfPresent(
-      ImageSorting.self, forKey: .sorting,
-    ) ?? SettingsState.default.sorting
-    self.gradientScheme = try container.decodeIfPresent(
-      GradientScheme.self, forKey: .gradientScheme,
-    ) ?? SettingsState.default.gradientScheme
-  }
+  var colorizationModel: ColorizationModelID?
 }
 
 enum SettingsViewAction {
@@ -63,12 +39,18 @@ enum SettingsViewAction {
       case dismiss
     }
 
+    enum ColorizationPicker {
+      case present
+      case dismiss
+    }
+
     case setOpenClusterPreviews(Bool)
 
     case iconSelected(Icon)
     case gradientSchemeSelected(GradientScheme)
 
     case alert(Alert)
+    case colorizationPicker(ColorizationPicker)
 
     case contact
     case openRepo
@@ -96,25 +78,26 @@ func makeSettings(
   return property.unsafeMakeObservable()
 }
 
-func makeSettingsViewModel(
+func makeSettingsViewStore(
   settings: ObservableProperty<SettingsState>,
   urlOpener: @escaping UrlOpener,
-) -> SettingsViewModel {
-  Reducer<SettingsViewState, SettingsViewAction>(
-    initial: SettingsViewState(
-      stored: settings.value,
+  makeColorizationPicker: @escaping () -> ColorizationPickerScreenStore,
+) -> SettingsViewStore {
+  let model = Reducer<SettingsViewState.UI, SettingsViewAction>(
+    initial: SettingsViewState.UI(
       supportsAlternateIcons: UIApplication.shared.supportsAlternateIcons,
       icon: Icon(
         alternateIconName: UIApplication.shared.alternateIconName,
       ),
       alert: nil,
+      colorizationPicker: nil,
     ),
     reduce: { state, action, effect, asyncEffect in
       switch action {
       case let .ui(ui):
         switch ui {
         case let .setOpenClusterPreviews(value):
-          state.stored.openClusterPreviews = value
+          effect { settings.value.openClusterPreviews = value }
         case let .iconSelected(icon):
           asyncEffect(.perform { anotherAction in
             do {
@@ -125,7 +108,7 @@ func makeSettingsViewModel(
             }
           })
         case let .gradientSchemeSelected(scheme):
-          state.stored.gradientScheme = scheme
+          effect { settings.value.gradientScheme = scheme }
           UISelectionFeedbackGenerator().selectionChanged()
         case .contact:
           effect { urlOpener(URL(string: "mailto:a.chizberg@proton.me")) }
@@ -151,6 +134,13 @@ func makeSettingsViewModel(
           case .dismiss:
             state.alert = nil
           }
+        case let .colorizationPicker(picker):
+          switch picker {
+          case .present:
+            state.colorizationPicker = Identified(value: makeColorizationPicker())
+          case .dismiss:
+            state.colorizationPicker = nil
+          }
         }
       case let .internal(internalAction):
         switch internalAction {
@@ -161,9 +151,15 @@ func makeSettingsViewModel(
       }
     },
   )
-  .onStateUpdate { newState in
-    settings.value = newState.stored
-  }
+  return ViewStore(
+    state: ObservableVariable.combineLatest(
+      settings.asObservableVariable(),
+      model.$state
+    ).map { stored, ui in
+      SettingsViewState(stored: stored, ui: ui)
+    }.asObservedVariable(),
+    actionPerformer: { model(.ui($0)) },
+  )
 }
 
 let pastvuCom = URL(string: "https://pastvu.com")!
@@ -173,5 +169,6 @@ extension SettingsState {
     openClusterPreviews: false,
     sorting: .dateAscending,
     gradientScheme: .rewind,
+    colorizationModel: nil,
   )
 }

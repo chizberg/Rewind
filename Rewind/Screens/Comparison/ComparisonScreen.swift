@@ -105,7 +105,7 @@ struct ComparisonScreen: View {
   private var bottomControls: some View {
     ZStack {
       AxisStack(axis: axis.perpendicular) {
-        BackButton()
+        DismissButton()
         Spacer()
 
         if store.captureState.isTaken {

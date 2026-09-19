@@ -11,6 +11,7 @@
 		22291CB92D5011DC00F2FEBE /* VGSLFundamentals in Frameworks */ = {isa = PBXBuildFile; productRef = 22291CB82D5011DC00F2FEBE /* VGSLFundamentals */; };
 		22291CBB2D5011DC00F2FEBE /* VGSLNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = 22291CBA2D5011DC00F2FEBE /* VGSLNetworking */; };
 		22291CBD2D5011DC00F2FEBE /* VGSLUI in Frameworks */ = {isa = PBXBuildFile; productRef = 22291CBC2D5011DC00F2FEBE /* VGSLUI */; };
+		2A1F00032E00000001000003 /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = 2A1F00022E00000001000002 /* ZIPFoundation */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +42,7 @@
 		2226F2F42D593DA20042601C /* Exceptions for "Rewind" folder in "Rewind" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Colorization/README.md,
 				Info.plist,
 			);
 			target = 22291C872D50106600F2FEBE /* Rewind */;
@@ -72,6 +74,7 @@
 				22291CB92D5011DC00F2FEBE /* VGSLFundamentals in Frameworks */,
 				22291CBB2D5011DC00F2FEBE /* VGSLNetworking in Frameworks */,
 				22291CB72D5011DC00F2FEBE /* VGSL in Frameworks */,
+				2A1F00032E00000001000003 /* ZIPFoundation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,6 +147,7 @@
 				22291CB82D5011DC00F2FEBE /* VGSLFundamentals */,
 				22291CBA2D5011DC00F2FEBE /* VGSLNetworking */,
 				22291CBC2D5011DC00F2FEBE /* VGSLUI */,
+				2A1F00022E00000001000002 /* ZIPFoundation */,
 			);
 			productName = Rewind;
 			productReference = 22291C882D50106600F2FEBE /* Rewind.app */;
@@ -227,6 +231,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				22291CB52D5011DC00F2FEBE /* XCRemoteSwiftPackageReference "vgsl" */,
+				2A1F00012E00000001000001 /* XCRemoteSwiftPackageReference "ZIPFoundation" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 22291C892D50106600F2FEBE /* Products */;
@@ -443,7 +448,11 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Rewind/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Rewind;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Camera access is needed to take comparison photos";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location is needed to show photos and paintings around you";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "App needs this access to save images to your library";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -479,7 +488,11 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Rewind/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Rewind;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Camera access is needed to take comparison photos";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location is needed to show photos and paintings around you";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "App needs this access to save images to your library";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -621,6 +634,14 @@
 				minimumVersion = 8.1.0;
 			};
 		};
+		2A1F00012E00000001000001 /* XCRemoteSwiftPackageReference "ZIPFoundation" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/weichsel/ZIPFoundation.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.20;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -643,6 +664,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 22291CB52D5011DC00F2FEBE /* XCRemoteSwiftPackageReference "vgsl" */;
 			productName = VGSLUI;
+		};
+		2A1F00022E00000001000002 /* ZIPFoundation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2A1F00012E00000001000001 /* XCRemoteSwiftPackageReference "ZIPFoundation" */;
+			productName = ZIPFoundation;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
