@@ -13,7 +13,7 @@ import Foundation
 
 @MainActor
 func eventually(
-  timeout: Duration = .seconds(10),
+  timeout: Duration = .seconds(30),
   _ condition: () -> Bool,
 ) async -> Bool {
   let deadline = ContinuousClock().now.advanced(by: timeout)

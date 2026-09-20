@@ -9,6 +9,7 @@
 import Testing
 import UIKit
 
+@Suite(.serialized)
 struct ColorizeTests {
   @Test(arguments: ColorizationParityTests.frames, ColorizationModelID.allCases)
   func colorlessPredictionComposesTheFrameNeutralGray(
