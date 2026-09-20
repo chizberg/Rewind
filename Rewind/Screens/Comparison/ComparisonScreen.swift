@@ -31,6 +31,7 @@ struct ComparisonScreen: View {
           .overlay {
             ComparisonViewRepresentable(vc: deps.comparisonVC)
           }
+          .modifier(BlinkingModifier(trigger: store.shotsCount))
         Spacer(minLength: 0)
       }
 

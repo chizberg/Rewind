@@ -310,7 +310,6 @@ func makeComparisonViewDeps(
         oldImage: state.oldUIImage,
         captureState: state.captureState,
         streetViewYear: state.streetViewAvailability?.year,
-        shotsCount: state.shotsCount,
       )
     },
   )
