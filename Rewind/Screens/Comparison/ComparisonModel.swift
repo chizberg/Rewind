@@ -261,13 +261,16 @@ func makeComparisonViewDeps(
         case let .imageTaken(image):
           state.captureState = .taken(capture: image)
           state.cameraSession?.stop()
-          asyncEffect(.perform { anotherAction in
+          asyncEffect(.perform { [state] anotherAction in
             do {
               guard let comparisonVC else {
                 assertionFailure()
                 throw HandlingError("Comparison VC is missing")
               }
-              try await save(image: renderView(view: comparisonVC.view))
+              let comparison = renderView(view: comparisonVC.view)
+              try await save(image: state.oldUIImage)
+              try await save(image: image)
+              try await save(image: comparison)
               await anotherAction(.internal(.imageSaved))
             } catch {
               await anotherAction(.external(.alert(.presentSavingImageError(error))))
