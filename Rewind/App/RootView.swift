@@ -86,10 +86,10 @@ struct RootView: View {
       value: appStore.anyOverlayPresented,
       delay: appStore.anyOverlayPresented ? 0 : 1,
     ) { view, hasOverlays in
-      view.mask(
-        RoundedRectangle(cornerRadius: hasOverlays ? screenRadius : 0)
-          .ignoresSafeArea(),
-      )
+      view.mask {
+        makeMask(hasOverlays: hasOverlays)
+          .ignoresSafeArea()
+      }
     }
     .fullScreenCover(
       item: appStore.binding(\.previewedImage, send: { _ in .imageDetails(.dismiss) }),
@@ -144,6 +144,19 @@ struct RootView: View {
       store: floatingMenuStore,
       namespace: rootView
     )
+  }
+
+  @ViewBuilder
+  private func makeMask(hasOverlays: Bool) -> some View {
+    if hasOverlays {
+      if #available(iOS 26.0, *) {
+        ConcentricRectangle()
+      } else {
+        RoundedRectangle(cornerRadius: hasOverlays ? screenRadius : 0)
+      }
+    } else {
+      Color.white
+    }
   }
 }
 
