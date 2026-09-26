@@ -61,6 +61,9 @@ final class AppGraph {
     weak var appModelRef: AppModel?
     let urlOpener: UrlOpener = { $0.map { UIApplication.shared.open($0) } }
     self.urlOpener = urlOpener
+    let pushScreen: (Screen) -> Void = {
+      appModelRef?(.navigation(.pushScreen($0)))
+    }
     mapModel = makeMapModel(
       map: map,
       annotationsRemote: remotes.annotations,
@@ -96,11 +99,10 @@ final class AppGraph {
         modelImage: image,
         remote: remotes.imageDetails,
         cachedDetails: imageDetailsLoader.cached(cid: image.cid),
-        openSource: source,
+        source: source,
         favoritesModel: favoritesModel,
         showOnMap: { coordinate in
-          appModelRef?(.imageList(.dismiss))
-          appModelRef?(.imageDetails(.dismiss))
+          appModelRef?(.navigation(.setPath([])))
           mapModelRef?(.external(.focusOn(coordinate, zoom: 17)))
         },
         canOpenURL: { UIApplication.shared.canOpenURL($0) },
@@ -116,6 +118,7 @@ final class AppGraph {
         makeColorizationPicker: {
           makeColorizationPicker($0)
         },
+        pushScreen: pushScreen,
       )
     }
     let searchModelFactory = {
@@ -148,6 +151,7 @@ final class AppGraph {
       currentRegionImages: Variable { mapModelRef?.state.currentRegionImages ?? [] },
       settings: settings.asProperty(),
       requestAppStoreReview: { storeReview.request() },
+      pushScreen: pushScreen,
     )
     appModelRef = appModel
     appStore = appModel.viewStore

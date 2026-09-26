@@ -29,22 +29,21 @@ struct RootView: View {
   let appStore: AppModel.Store
   let mapStore: Map.Store
 
-  enum TransitionSource {
-    static let settings = "settings"
-    static let thumbnail = "thumbnail"
-    static let viewAsListButton = "view as list button"
-    static let favoritesButton = "favorites button"
-    static let pullUpCard = "pull up card"
-    static let search = "search"
-  }
-
   @Namespace
   private var rootView
 
   var body: some View {
-    content
-      .environment(\.gradientScheme, appStore.gradientScheme)
-      .environment(\.maxRange, mapStore.selectedImageKind.maxRange)
+    NavigationStack(
+      path: appStore.binding(\.navigationPath, send: { .navigation(.setPath($0)) })
+    ) {
+      content
+        .navigationDestination(for: Screen.self) { screen in
+          screen.view(namespace: rootView)
+        }
+    }
+    .environment(\.gradientScheme, appStore.gradientScheme)
+    .environment(\.maxRange, mapStore.selectedImageKind.maxRange)
+    .environment(\.rootNamespace, rootView)
   }
 
   private var content: some View {
@@ -74,14 +73,8 @@ struct RootView: View {
         }.ignoresSafeArea(edges: .bottom)
       }
     }
-    .overlay(alignment: .topTrailing) {
-      Text("Rewind <<")
-        .font(.caption.weight(.semibold))
-        .opacity(0.3)
-        .padding(3)
-        .padding(.horizontal, 2)
-    }
-    .alert(appStore.binding(\.alertModel, send: { _ in .alert(.dismiss) }))
+    .navigationTitle("Rewind")
+    .navigationBarTitleDisplayMode(.inline) // TODO: remove navbar background (or make is smooth)
     .delayedModifier(
       value: appStore.anyOverlayPresented,
       delay: appStore.anyOverlayPresented ? 0 : 1,
@@ -91,29 +84,7 @@ struct RootView: View {
           .ignoresSafeArea()
       }
     }
-    .fullScreenCover(
-      item: appStore.binding(\.previewedImage, send: { _ in .imageDetails(.dismiss) }),
-      content: { identified in
-        let viewStore = identified.value
-        ImageDetailsView(
-          viewStore: viewStore,
-        )
-        .navigationTransition(
-          .zoom(
-            sourceID: "\(viewStore.image.cid) \(viewStore.openSource)", in: rootView,
-          ),
-        )
-      },
-    )
-    .fullScreenCover(
-      item: appStore.binding(\.previewedList, send: { _ in .imageList(.dismiss) }),
-      content: { identified in
-        let viewStore = identified.value
-        ImageList(
-          viewStore: viewStore,
-        ).navigationTransition(.zoom(sourceID: viewStore.matchedTransitionSourceName, in: rootView))
-      },
-    )
+    .alert(appStore.binding(\.alertModel, send: { _ in .alert(.dismiss) }))
     .fullScreenCover(
       item: appStore.binding(\.onboardingStore, send: { _ in .onboarding(.dismiss) }),
       content: { identified in
@@ -125,24 +96,21 @@ struct RootView: View {
       content: { identified in
         let viewStore = identified.value
         SearchView(store: viewStore)
-          .navigationTransition(.zoom(sourceID: TransitionSource.search, in: rootView))
+          .zoomed(from: .searchButton, namespace: rootView)
       },
     )
     .sheet(
       item: appStore.binding(\.settingsStore, send: { _ in .settings(.dismiss) }),
       content: { identified in
         SettingsView(store: identified.value)
-          .navigationTransition(
-            .zoom(sourceID: TransitionSource.settings, in: rootView),
-          )
+          .zoomed(from: .settingsButton, namespace: rootView)
       },
     )
   }
 
   var floatingMenu: FloatingMenu {
     FloatingMenu(
-      store: floatingMenuStore,
-      namespace: rootView
+      store: floatingMenuStore
     )
   }
 
@@ -184,11 +152,10 @@ private let screenRadius = DeviceModel.getCurrent().screenRadius()
 
 extension AppState {
   fileprivate var anyOverlayPresented: Bool {
-    previewedImage != nil
-      || previewedList != nil
-      || onboardingStore != nil
+    onboardingStore != nil
       || settingsStore != nil
       || searchStore != nil
+      || navigationPath.count > 0
   }
 }
 

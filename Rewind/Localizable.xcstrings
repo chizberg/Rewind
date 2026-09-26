@@ -116,18 +116,6 @@
         }
       }
     },
-    "🎨" : {
-      "comment" : "image colorization icon",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "🎨"
-          }
-        }
-      },
-      "shouldTranslate" : false
-    },
     "👀" : {
       "localizations" : {
         "de" : {

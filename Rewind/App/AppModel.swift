@@ -12,26 +12,24 @@ import VGSL
 typealias AppModel = Reducer<AppState, AppAction>
 
 struct AppState {
-  var previewedImage: Identified<ImageDetailsModel.Store>?
-  var previewedList: Identified<ImageListModel.Store>?
   var settingsStore: Identified<SettingsViewStore>?
   var onboardingStore: Identified<OnboardingViewModel.Store>?
   var searchStore: Identified<SearchViewStore>?
   var alertModel: Identified<AlertParams>?
   var gradientScheme: GradientScheme
+
+  var navigationPath: [Screen]
 }
 
 enum AppAction {
   enum ImageDetails {
-    case present(Model.Image, source: String)
-    case dismiss
+    case present(Model.Image, source: TransitionSource)
   }
 
   enum ImageList {
-    case presentFavorites(source: String)
-    case presentCurrentRegionImages(source: String)
-    case present([Model.Image], source: String, title: LocalizedStringKey)
-    case dismiss
+    case presentFavorites(source: TransitionSource)
+    case presentCurrentRegionImages(source: TransitionSource)
+    case present([Model.Image], source: TransitionSource, title: LocalizedStringKey)
   }
 
   enum Settings {
@@ -53,6 +51,16 @@ enum AppAction {
     case dismiss
   }
 
+  enum Navigation {
+    case setPath([Screen])
+    case pushScreen(Screen)
+  }
+
+  enum Internal {
+    case imagePreviewClosed
+    case imageListClosed
+  }
+
   case imageDetails(ImageDetails)
   case imageList(ImageList)
   case settings(Settings)
@@ -60,10 +68,12 @@ enum AppAction {
   case search(Search)
   case alert(Alert)
   case setGradientScheme(GradientScheme)
+  case navigation(Navigation)
+  case `internal`(Internal)
 }
 
 typealias UrlOpener = (URL?) -> Void
-typealias ImageDetailsFactory = (Model.Image, String) -> ImageDetailsModel
+typealias ImageDetailsFactory = (Model.Image, TransitionSource) -> ImageDetailsModel
 
 func makeAppModel(
   imageDetailsFactory: @escaping ImageDetailsFactory,
@@ -75,103 +85,117 @@ func makeAppModel(
   currentRegionImages: Variable<[Model.Image]>,
   settings: Property<SettingsState>,
   requestAppStoreReview: @escaping () -> Void,
+  pushScreen: @escaping (Screen) -> Void,
 ) -> AppModel {
-  AppModel(
-    initial: .makeInitial(
-      onboardingViewModel: onboardingViewModel,
-      settingsState: settings.value,
-    ),
-    reduce: { state, action, effect, _ in
-      switch action {
-      case let .imageDetails(detailsAction):
-        switch detailsAction {
-        case let .present(image, source):
-          state.previewedImage = Identified(
-            value: imageDetailsFactory(image, source).viewStore,
-          )
-        case .dismiss:
-          state.previewedImage = nil
-          effect {
-            performMapAction(.previewClosed)
-            requestAppStoreReview()
+  AppModel(initial: .makeInitial(
+    onboardingViewModel: onboardingViewModel,
+    settingsState: settings.value,
+  )) { state, action, effect, asyncEffect in
+    switch action {
+    case let .imageDetails(detailsAction):
+      switch detailsAction {
+      case let .present(image, source):
+        state.navigationPath.append(
+          Screen(.image(imageDetailsFactory(image, source).viewStore))
+        )
+      }
+    case let .imageList(listAction):
+      switch listAction {
+      case let .presentFavorites(source):
+        let store = makeImageListModel(
+          title: "Favorites",
+          source: source,
+          images: favoritesModel.state.reversed(), // new -> old
+          listUpdates: favoritesModel.$state.newValues,
+          imageDetailsFactory: imageDetailsFactory,
+          sorting: nil,
+          pushScreen: pushScreen,
+        ).viewStore
+        state.navigationPath.append(Screen(.list(store)))
+      case let .presentCurrentRegionImages(source):
+        let store = makeImageListModel(
+          title: "On the map",
+          source: source,
+          images: currentRegionImages.value,
+          listUpdates: .empty,
+          imageDetailsFactory: imageDetailsFactory,
+          sorting: settings.sorting,
+          pushScreen: pushScreen,
+        ).viewStore
+        state.navigationPath.append(Screen(.list(store)))
+      case let .present(images, source, title):
+        let store = makeImageListModel(
+          title: title,
+          source: source,
+          images: images,
+          listUpdates: .empty,
+          imageDetailsFactory: imageDetailsFactory,
+          sorting: settings.sorting,
+          pushScreen: pushScreen,
+        ).viewStore
+        state.navigationPath.append(Screen(.list(store)))
+      }
+    case let .settings(settingsAction):
+      switch settingsAction {
+      case .present:
+        state.settingsStore = Identified(value: settingsViewStoreFactory())
+      case .dismiss:
+        state.settingsStore = nil
+      }
+    case let .onboarding(onboardingAction):
+      switch onboardingAction {
+      case .dismiss:
+        state.onboardingStore = nil
+      }
+    case let .search(searchAction):
+      switch searchAction {
+      case .present:
+        state.searchStore = Identified(
+          value: searchModelFactory().viewStore.bimap(
+            state: { $0 },
+            action: { .external($0) },
+          ),
+        )
+      case .dismiss:
+        state.searchStore = nil
+      }
+    case let .alert(alertAction):
+      switch alertAction {
+      case let .present(alertModel):
+        guard let alertModel else { return }
+        state.alertModel = Identified(value: alertModel)
+      case .dismiss:
+        state.alertModel = nil
+      }
+    case let .setGradientScheme(gradientScheme):
+      state.gradientScheme = gradientScheme
+    case let .navigation(navigation):
+      switch navigation {
+      case let .setPath(path):
+        if state.navigationPath.count == 1,
+           path.isEmpty,
+           let screen = state.navigationPath.first {
+          switch screen.kind {
+          case .image: asyncEffect(.anotherAction(.internal(.imagePreviewClosed)))
+          case .list: asyncEffect(.anotherAction(.internal(.imageListClosed)))
+          default: break
           }
         }
-      case let .imageList(listAction):
-        switch listAction {
-        case let .presentFavorites(source):
-          state.previewedList = Identified(
-            value: makeImageListModel(
-              title: "Favorites",
-              matchedTransitionSourceName: source,
-              images: favoritesModel.state.reversed(), // new -> old
-              listUpdates: favoritesModel.$state.newValues,
-              imageDetailsFactory: imageDetailsFactory,
-              sorting: nil,
-            ).viewStore,
-          )
-        case let .presentCurrentRegionImages(source):
-          state.previewedList = Identified(
-            value: makeImageListModel(
-              title: "On the map",
-              matchedTransitionSourceName: source,
-              images: currentRegionImages.value,
-              listUpdates: .empty,
-              imageDetailsFactory: imageDetailsFactory,
-              sorting: settings.sorting,
-            ).viewStore,
-          )
-        case let .present(images, source, title):
-          state.previewedList = Identified(
-            value: makeImageListModel(
-              title: title,
-              matchedTransitionSourceName: source,
-              images: images,
-              listUpdates: .empty,
-              imageDetailsFactory: imageDetailsFactory,
-              sorting: settings.sorting,
-            ).viewStore,
-          )
-        case .dismiss:
-          state.previewedList = nil
-          effect { performMapAction(.previewClosed) }
-        }
-      case let .settings(settingsAction):
-        switch settingsAction {
-        case .present:
-          state.settingsStore = Identified(value: settingsViewStoreFactory())
-        case .dismiss:
-          state.settingsStore = nil
-        }
-      case let .onboarding(onboardingAction):
-        switch onboardingAction {
-        case .dismiss:
-          state.onboardingStore = nil
-        }
-      case let .search(searchAction):
-        switch searchAction {
-        case .present:
-          state.searchStore = Identified(
-            value: searchModelFactory().viewStore.bimap(
-              state: { $0 },
-              action: { .external($0) },
-            ),
-          )
-        case .dismiss:
-          state.searchStore = nil
-        }
-      case let .alert(alertAction):
-        switch alertAction {
-        case let .present(alertModel):
-          guard let alertModel else { return }
-          state.alertModel = Identified(value: alertModel)
-        case .dismiss:
-          state.alertModel = nil
-        }
-      case let .setGradientScheme(gradientScheme):
-        state.gradientScheme = gradientScheme
+
+        state.navigationPath = path
+      case let .pushScreen(screen):
+        state.navigationPath.append(screen)
       }
-    },
-  )
+    case let .internal(`internal`):
+      switch `internal` {
+      case .imagePreviewClosed, .imageListClosed:
+        effect {
+          performMapAction(.previewClosed)
+          requestAppStoreReview()
+        }
+      }
+    }
+  }
 }
 
 extension AlertParams {
@@ -227,8 +251,6 @@ extension AppState {
     settingsState: SettingsState,
   ) -> AppState {
     AppState(
-      previewedImage: nil,
-      previewedList: nil,
       settingsStore: nil,
       onboardingStore: onboardingViewModel.map {
         Identified(value: $0.viewStore)
@@ -236,6 +258,7 @@ extension AppState {
       searchStore: nil,
       alertModel: nil,
       gradientScheme: settingsState.gradientScheme,
+      navigationPath: [],
     )
   }
 }

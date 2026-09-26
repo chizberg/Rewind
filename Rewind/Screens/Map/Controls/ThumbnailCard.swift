@@ -10,13 +10,15 @@ enum ThumbnailCard: Equatable, Identifiable {
   case image(Model.Image)
   case viewAsList
 
-  var id: String {
+  var source: TransitionSource? {
     switch self {
-    case .noImages: "noImages"
-    case let .image(image): "\(image.cid)"
-    case .viewAsList: "viewAsList"
+    case .noImages: nil
+    case let .image(image): .image(.thumbnail(image.cid))
+    case .viewAsList: .imageList(.viewAsListButton)
     }
   }
+
+  var id: TransitionSource? { source }
 
   var image: Model.Image? {
     if case let .image(image) = self { image } else { nil }

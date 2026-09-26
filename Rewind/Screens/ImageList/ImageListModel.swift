@@ -13,43 +13,38 @@ typealias ImageListModel = Reducer<ImageListState, ImageListAction>
 
 struct ImageListState {
   var title: LocalizedStringKey
-  var matchedTransitionSourceName: String
+  var source: TransitionSource
   var images: [Model.Image]
-  var imageDetails: Identified<ImageDetailsModel.Store>?
   var sorting: ImageSorting?
 }
 
 enum ImageListAction {
   case presentImage(Model.Image)
-  case dismissImage
   case updateImages([Model.Image])
   case setSorting(ImageSorting)
 }
 
 func makeImageListModel(
   title: LocalizedStringKey,
-  matchedTransitionSourceName: String,
+  source: TransitionSource,
   images: [Model.Image],
   listUpdates: Signal<[Model.Image]>,
   imageDetailsFactory: @escaping ImageDetailsFactory,
   sorting: Property<ImageSorting>?,
+  pushScreen: @escaping (Screen) -> Void,
 ) -> ImageListModel {
   ImageListModel(
     initial: ImageListState(
       title: title,
-      matchedTransitionSourceName: matchedTransitionSourceName,
+      source: source,
       images: images,
-      imageDetails: nil,
       sorting: sorting?.value,
     ),
     reduce: { state, action, effect, _ in
       switch action {
       case let .presentImage(image):
-        state.imageDetails = Identified(
-          value: imageDetailsFactory(image, "image_list").viewStore,
-        )
-      case .dismissImage:
-        state.imageDetails = nil
+        let store = imageDetailsFactory(image, .image(.listRow(image.cid))).viewStore
+        pushScreen(Screen(.image(store)))
       case let .updateImages(images):
         state.images = images
       case let .setSorting(newSorting):
