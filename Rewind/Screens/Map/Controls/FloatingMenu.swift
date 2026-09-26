@@ -39,8 +39,10 @@ struct FloatingMenu: View {
 
   typealias Store = ViewStore<State, Action>
 
+  @RootNamespace
+  var namespace
+
   var store: Store
-  var namespace: Namespace.ID
 
   var body: some View {
     FloatingMenuImpl(expandedItems: store.expandedItems) {
@@ -88,9 +90,9 @@ struct FloatingMenu: View {
       .background { // 🩼 otherwise transitionSource conflicts with liquid glass effect
         Circle()
           .opacity(0.0001) // 🩼 Color.clear is ignored
-          .matchedTransitionSource(
-            id: RootView.TransitionSource.search,
-            in: namespace
+          .zoomTransitionSource(
+            .searchButton,
+            namespace: namespace
           )
       }
 
@@ -455,8 +457,7 @@ private let buttonFgColor = Color.primary.opacity(0.8)
     Image(.cat).resizable().ignoresSafeArea()
 
     FloatingMenu(
-      store: store,
-      namespace: namespace
+      store: store
     ).padding()
   }
 }

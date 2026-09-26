@@ -108,14 +108,14 @@ func makeMapModel(
             if let imageAnn = mkAnn as? Annotation<Model.Image> {
               effect { performAppAction(.imageDetails(.present(
                 imageAnn.value,
-                source: "annotation"
+                source: .image(.annotation(imageAnn.value.cid))
               ))) }
             } else if let clusterAnn = mkAnn as? Annotation<Model.Cluster> {
               let cluster = clusterAnn.value
               if settings.value.openClusterPreviews {
                 effect { performAppAction(.imageDetails(.present(
                   cluster.preview,
-                  source: "annotation"
+                  source: .image(.annotation(cluster.preview.cid))
                 ))) }
               } else {
                 let mapSize = map.value.size
@@ -144,7 +144,7 @@ func makeMapModel(
             if !listToPresent.isEmpty {
               effect { performAppAction(
                 .imageList(
-                  .present(listToPresent, source: "local cluster", title: "Cluster"),
+                  .present(listToPresent, source: .imageList(.clusterAnnotation), title: "Cluster"),
                 ),
               ) }
             }

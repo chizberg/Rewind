@@ -31,7 +31,7 @@ struct ImageDetailsModelTests {
     model(.descriptionLink(pastvuPhotoURL(linkedCid)))
     #expect(model.state.loadingAnotherImage) // set synchronously, before the load returns
 
-    #expect(await eventually { model.state.anotherImageModel != nil })
+    #expect(await eventually { harness.lastPushedImage != nil })
     #expect(!model.state.loadingAnotherImage) // cleared once the nested model is presented
     #expect(harness.requestedCids == [linkedCid]) // the remote was asked for the linked photo
     #expect(harness.openedURLs.isEmpty) // recursion, not a browser hand-off
@@ -44,8 +44,8 @@ struct ImageDetailsModelTests {
 
     model(.descriptionLink(pastvuPhotoURL(2_394_944)))
 
-    #expect(await eventually { model.state.anotherImageModel != nil })
-    let linked = try #require(model.state.anotherImageModel?.value)
+    #expect(await eventually { harness.lastPushedImage != nil })
+    let linked = try #require(harness.lastPushedImage)
     #expect(linked.actionButtons == [.favorite, .compareCamera, .share, .saveImage, .viewOnWeb])
   }
 
@@ -59,7 +59,7 @@ struct ImageDetailsModelTests {
 
     #expect(await eventually { harness.openedURLs == [external] })
     #expect(!model.state.loadingAnotherImage)
-    #expect(model.state.anotherImageModel == nil)
+    #expect(harness.lastPushedImage == nil)
     #expect(harness.requestedCids.isEmpty)
   }
 
@@ -73,7 +73,7 @@ struct ImageDetailsModelTests {
     model(.descriptionLink(userPage))
 
     #expect(await eventually { harness.openedURLs == [userPage] })
-    #expect(model.state.anotherImageModel == nil)
+    #expect(harness.lastPushedImage == nil)
     #expect(harness.requestedCids.isEmpty)
   }
 
@@ -283,6 +283,13 @@ private func pastvuPhotoURL(_ cid: Int) -> URL {
 private final class Harness {
   private(set) var openedURLs: [URL] = []
   private(set) var requestedCids: [Int] = []
+  private(set) var pushedScreens: [Screen] = []
+
+  var lastPushedImage: ImageDetailsModel.Store? {
+    pushedScreens.compactMap {
+      if case let .image(store) = $0.value { store } else { nil }
+    }.last
+  }
 
   // Both closures below are non-Sendable and formed in this @MainActor context, so they inherit
   // main-actor isolation — their bodies hop back to the main actor before touching harness state.
@@ -302,7 +309,7 @@ private final class Harness {
         }
       },
       cachedDetails: cachedDetails,
-      openSource: "",
+      source: .mock,
       favoritesModel: .mock,
       showOnMap: { _ in },
       canOpenURL: { _ in true },
@@ -312,6 +319,7 @@ private final class Harness {
       colorizationModel: .constant(colorizationModel),
       extractModelImage: { Model.Image($0, image: .mock) },
       makeColorizationPicker: { _ in .mock(.mock) },
+      pushScreen: { [weak self] in self?.pushedScreens.append($0) },
     )
   }
 }

@@ -69,7 +69,7 @@ struct MapControls<Menu: View>: View {
         pullingProgress: $pullingProgress,
         minPullLength: 300,
         onPull: { appAction(.imageList(.presentCurrentRegionImages(
-          source: RootView.TransitionSource.pullUpCard,
+          source: .imageList(.pullUpCard),
         )))
         },
       )
@@ -105,9 +105,9 @@ struct MapControls<Menu: View>: View {
         .opacity(0.7)
         .padding()
       }
-      .matchedTransitionSource(
-        id: RootView.TransitionSource.pullUpCard,
-        in: namespace,
+      .zoomTransitionSource(
+        .imageList(.pullUpCard),
+        namespace: namespace
       )
       .padding(.horizontal, containerPadding)
       .frame(height: 700)
@@ -137,53 +137,51 @@ struct MapControls<Menu: View>: View {
       VStack {
         makeBottomScrollButton(
           iconName: "star",
-          sourceID: RootView.TransitionSource.favoritesButton,
+          source: .imageList(.favoritesButton),
         ) {
           appAction(.imageList(.presentFavorites(
-            source: RootView.TransitionSource.favoritesButton,
+            source: .imageList(.favoritesButton),
           )))
         }
 
         makeBottomScrollButton(
           iconName: "list.bullet",
-          sourceID: RootView.TransitionSource.viewAsListButton,
+          source: .imageList(.viewAsListButton),
           action: {
             appAction(.imageList(.presentCurrentRegionImages(
-              source: RootView.TransitionSource.viewAsListButton,
+              source: .imageList(.viewAsListButton),
             )))
           },
         )
 
         makeBottomScrollButton(
           iconName: "gearshape",
-          sourceID: RootView.TransitionSource.settings,
+          source: .settingsButton,
         ) {
           appAction(.settings(.present))
         }
       }.frame(width: 75)
 
       ForEach(store.previews) { card in
-        let transitionID = "\(card.id) \(RootView.TransitionSource.thumbnail)"
         ThumbnailCardView(
           card: card,
           size: thumbnailSize,
           radius: mapControlRadius,
         )
-        .matchedTransitionSource(
-          id: transitionID,
-          in: namespace,
-        )
+        .ifLet(card.source) { view, source in
+          view.zoomTransitionSource(source, namespace: namespace)
+        }
         .cornerRadius(mapControlRadius) // for transitions
         .onTapGesture {
           switch card {
           case let .image(image):
             appAction(.imageDetails(.present(
               image,
-              source: RootView.TransitionSource.thumbnail,
+              source: .image(.thumbnail(image.cid)),
             )))
           case .viewAsList:
             appAction(.imageList(.presentCurrentRegionImages(
-              source: transitionID,
+              source: .imageList(.viewAsListButton),
             )))
           case .noImages: break
           }
@@ -195,7 +193,7 @@ struct MapControls<Menu: View>: View {
 
   private func makeBottomScrollButton(
     iconName: String,
-    sourceID: String,
+    source: TransitionSource,
     action: @escaping () -> Void,
   ) -> some View {
     ZStack {
@@ -204,7 +202,7 @@ struct MapControls<Menu: View>: View {
       Image(systemName: iconName)
         .font(.title2.bold())
     }
-    .matchedTransitionSource(id: sourceID, in: namespace)
+    .zoomTransitionSource(source, namespace: namespace)
     .cornerRadius(mapControlRadius)
     .onTapGesture(perform: action)
   }

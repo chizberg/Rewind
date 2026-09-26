@@ -53,6 +53,8 @@ struct ComparisonState {
     cameraSession?.availableLens ?? []
   }
 
+  var source: TransitionSource?
+
   fileprivate var cameraSession: CameraSession?
 }
 
@@ -101,6 +103,7 @@ func makeComparisonViewDeps(
   oldUIImage: UIImage,
   oldImageData: Model.Image,
   streetViewAvailability: Remote<Void, StreetViewAvailability>,
+  source: TransitionSource?,
 ) -> ComparisonViewDeps {
   weak var comparisonVC: UIViewController?
   let model = ComparisonModel(
@@ -114,6 +117,7 @@ func makeComparisonViewDeps(
       aspectRatio: aspectRatio(style: .sideBySide, oldImage: oldUIImage),
       shotsCount: 0,
       savesCount: 0,
+      source: source,
       cameraSession: nil,
     ),
     reduce: { state, action, _, asyncEffect in

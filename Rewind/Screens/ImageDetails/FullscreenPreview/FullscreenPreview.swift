@@ -1,5 +1,5 @@
 //
-//  ZoomableImageScreen.swift
+//  FullscreenPreview.swift
 //  Rewind
 //
 //  Created by Aleksei Sherstnev on 23.2.25.
@@ -8,13 +8,9 @@
 import SwiftUI
 import UIKit
 
-struct ZoomableImageScreen: View {
-  var image: UIImage
-  var savesCount: Int
-  var saveImage: () -> Void
+struct FullscreenPreview: View {
+  var store: FullscreenPreviewStore
 
-  @Environment(\.dismiss)
-  private var dismiss
   @State
   private var zoomValue: CGFloat = 1
   @State
@@ -26,36 +22,33 @@ struct ZoomableImageScreen: View {
         .ignoresSafeArea()
 
       ZoomableImageView(
-        image: image,
+        image: store.image,
         zoomValue: $zoomValue,
-        onTap: { controlsHidden.toggle() },
+        onTap: { withAnimation { controlsHidden.toggle() } },
       )
       .ignoresSafeArea()
       .onChange(of: zoomValue) { old, new in
         if old == 1, new > 1 {
-          controlsHidden = true
+          withAnimation { controlsHidden = true }
         } else if old != 1, new == 1 {
-          controlsHidden = false
+          withAnimation { controlsHidden = false }
         }
       }
 
-      SavedBanner(savesCount: savesCount)
-
-      HStack {
-        DismissButton()
-        Spacer()
-        OverlayButton(
-          iconName: savesCount > 0
-            ? "square.and.arrow.down.badge.checkmark"
-            : "square.and.arrow.down",
-          action: saveImage,
-        )
-      }
-      .padding()
-      .opacity(controlsHidden ? 0 : 1)
-      .allowsHitTesting(!controlsHidden)
-      .animation(.default, value: controlsHidden)
+      SavedBanner(savesCount: store.savesCount)
     }
+    .toolbar {
+      ToolbarItem(placement: .topBarTrailing) {
+        Button(action: { store(.saveImage) }, label: {
+          Image(
+            systemName: store.savesCount > 0
+              ? "square.and.arrow.down.badge.checkmark"
+              : "square.and.arrow.down",
+          )
+        })
+      }
+    }
+    .toolbarVisibility(controlsHidden ? .hidden : .visible, for: .navigationBar)
   }
 }
 
@@ -78,14 +71,16 @@ struct ZoomableImageView: View {
 }
 
 #Preview {
-  @Previewable @State
-  var savesCount = 0
-
-  ZoomableImageScreen(
-    image: UIImage(named: "cat")!,
-    savesCount: savesCount,
-    saveImage: { savesCount += 1 },
-  )
+  NavigationStack {
+    FullscreenPreview(
+      store: makeFullscreenPreviewStore(
+        image: UIImage(named: "cat")!,
+        savesCount: 0,
+        saveImage: {},
+        source: .mock,
+      ),
+    )
+  }
 }
 
 private final class ZoomableImageViewImpl: UIScrollView, UIScrollViewDelegate {
@@ -105,6 +100,7 @@ private final class ZoomableImageViewImpl: UIScrollView, UIScrollViewDelegate {
     addSubview(imageView)
 
     delegate = self
+    contentInsetAdjustmentBehavior = .never
     showsVerticalScrollIndicator = false
     showsHorizontalScrollIndicator = false
     minimumZoomScale = 1

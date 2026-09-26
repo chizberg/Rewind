@@ -92,6 +92,22 @@ extension View {
       },
     )
   }
+
+  func zoomed(
+    from source: TransitionSource,
+    namespace: Namespace.ID
+  ) -> some View {
+    navigationTransition(
+      .zoom(sourceID: source, in: namespace)
+    )
+  }
+
+  func zoomTransitionSource(
+    _ source: TransitionSource,
+    namespace: Namespace.ID
+  ) -> some View {
+    matchedTransitionSource(id: source, in: namespace)
+  }
 }
 
 extension SwiftUI.ScrollView {

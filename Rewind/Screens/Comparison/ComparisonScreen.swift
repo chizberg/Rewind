@@ -49,6 +49,7 @@ struct ComparisonScreen: View {
           .padding(axis == .vertical ? .bottom : .trailing, 75)
       }
     }
+    .toolbarVisibility(.hidden, for: .navigationBar)
     .alert(store.binding(\.alert, send: { _ in .alert(.dismiss) }))
     .environment(\.colorScheme, .dark)
     .sheet(store.binding(\.shareVC, send: { _ in .shareSheet(.dismiss) }))
@@ -219,6 +220,7 @@ private let shutterButtonSize: CGFloat = 80
     oldUIImage: .panorama,
     oldImageData: .mock,
     streetViewAvailability: .mock(.unavailable),
+    source: nil,
   )
 
   ComparisonScreen(deps: deps)
@@ -231,6 +233,7 @@ private let shutterButtonSize: CGFloat = 80
     oldUIImage: .panorama,
     oldImageData: .mock,
     streetViewAvailability: .mock(.available(year: 1826)),
+    source: nil,
   )
 
   ComparisonScreen(deps: deps)

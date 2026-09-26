@@ -9,16 +9,9 @@ import SwiftUI
 import VGSL
 
 struct ImageDetailsView: View {
-  enum TransitionSource {
-    static let titleImage = "fullscreenPreview"
-    static let compareCameraButton = "compareCameraButton"
-    static let descriptionLink = "descriptionLink"
-    static let colorizeButton = "colorizeButton"
-  }
-
   var viewStore: ImageDetailsModel.Store
 
-  @Namespace
+  @RootNamespace
   private var namespace
   @Environment(\.horizontalSizeClass)
   private var horizontalSizeClass
@@ -32,81 +25,11 @@ struct ImageDetailsView: View {
   var body: some View {
     content
       .animation(.smooth, value: viewStore.translationState)
-      .overlay(alignment: .topLeading) {
-        HStack {
-          DismissButton()
-
-          Spacer()
-
-          if let state = viewStore.colorizationState.button {
-            ColorizeButton(
-              namespace: namespace,
-              state: state,
-            ) {
-              viewStore(.colorize)
-            }
-            .readFrame(in: .named(spaceName)) { colorizeButtonFrame = $0 }
-            .transition(.scale)
-          }
-
-          if isSplitView {
-            Spacer()
-              .frame(width: splitViewScrollWidth)
-          }
-        }
-        .padding()
-        .animation(.spring, value: viewStore.colorizationState)
-      }
       .coordinateSpace(.named(spaceName))
       .task {
         viewStore(.willBePresented)
       }
       .sheet(viewStore.binding(\.shareVC, send: { _ in .shareSheetDismissed }))
-      .fullScreenCover(
-        item: viewStore.binding(\.comparisonDeps, send: { _ in .comparison(.dismiss) }),
-        content: { identified in
-          let deps = identified.value
-          ComparisonScreen(
-            deps: deps,
-          ).modify { view in
-            switch deps.store.captureMode {
-            case .camera:
-              view.navigationTransition(.zoom(
-                sourceID: TransitionSource.compareCameraButton,
-                in: namespace,
-              ))
-            case .streetView:
-              view
-            }
-          }
-        },
-      )
-      .fullScreenCover(
-        item: viewStore.binding(\.fullscreenPreview, send: { _ in
-          .fullscreenPreview(.dismiss)
-        }),
-        content: { identifiedImage in
-          ZoomableImageScreen(
-            image: identifiedImage.value,
-            savesCount: viewStore.imageSaveCount,
-            saveImage: { viewStore(.fullscreenPreview(.saveImage)) },
-          )
-          .navigationTransition(.zoom(sourceID: TransitionSource.titleImage, in: namespace))
-        },
-      )
-      .fullScreenCover(
-        item: viewStore.binding(\.anotherImageModel, send: { _ in .anotherImage(.dismiss) }),
-        content: { anotherImage in
-          let store = anotherImage.value
-          ImageDetailsView(viewStore: store)
-            .navigationTransition(
-              .zoom(
-                sourceID: store.openSource,
-                in: namespace,
-              ),
-            )
-        },
-      )
       .sheet(
         item: viewStore.binding(\.colorizationPicker, send: { _ in .colorizationPicker(.dismiss) }),
         content: { picker in
@@ -114,9 +37,7 @@ struct ImageDetailsView: View {
             .overlay(alignment: .topLeading) {
               DismissButton().padding()
             }
-            .navigationTransition(
-              .zoom(sourceID: TransitionSource.colorizeButton, in: namespace),
-            )
+            .zoomed(from: .colorizeButton, namespace: namespace)
             .environment(\.dismissButtonKind, .close)
         },
       )
@@ -214,7 +135,20 @@ struct ImageDetailsView: View {
       MagnificationGesture(minimumScaleDelta: 1.3)
         .onChanged { _ in showFullscreenPreview() },
     )
-    .matchedTransitionSource(id: TransitionSource.titleImage, in: namespace)
+    .zoomTransitionSource(.fullscreenPreview, namespace: namespace)
+    .toolbar {
+      if let state = viewStore.colorizationState.button {
+        ToolbarItem {
+          ColorizeButton(
+            namespace: namespace,
+            state: state,
+          ) {
+            viewStore(.colorize)
+          }
+          .readFrame(in: .named(spaceName)) { colorizeButtonFrame = $0 }
+        }
+      }
+    }
   }
 
   @ViewBuilder
@@ -287,7 +221,7 @@ struct ImageDetailsView: View {
     VStack(alignment: .leading, spacing: 3) {
       Text(viewStore.translation?.description ?? desc)
         .font(.body)
-        .matchedTransitionSource(id: TransitionSource.descriptionLink, in: namespace)
+        .zoomTransitionSource(.image(.link), namespace: namespace)
         .environment(\.openURL, OpenURLAction {
           viewStore(.descriptionLink($0))
           return .handled
@@ -351,8 +285,8 @@ struct ImageDetailsView: View {
     .foregroundStyle(spec.foreground)
     .background(spec.background)
     .cornerRadius(15)
-    .ifLet(spec.transitionSource) { view, sourceID in
-      view.matchedTransitionSource(id: sourceID, in: namespace)
+    .ifLet(spec.transitionSource) { view, source in
+      view.zoomTransitionSource(source, namespace: namespace)
     }
     .if(action == .route) {
       $0.confirmationDialog(
@@ -380,12 +314,8 @@ struct ImageDetailsView: View {
   }
 
   private func showFullscreenPreview() {
-    guard viewStore.fullscreenPreview == nil,
-          viewStore.displayedImage != nil
-    else {
-      return
-    }
-    viewStore(.fullscreenPreview(.present))
+    guard viewStore.displayedImage != nil else { return }
+    viewStore(.fullscreenPreview)
   }
 }
 
@@ -413,7 +343,7 @@ private struct ButtonSpec {
   var iconName: String
   var foreground: SwiftUI.Color
   var background: SwiftUI.Color
-  var transitionSource: String?
+  var transitionSource: TransitionSource?
 
   init(
     button: ImageDetailsAction.Button,
@@ -458,7 +388,7 @@ private struct ButtonSpec {
     }
 
     transitionSource = switch button {
-    case .compareCamera: ImageDetailsView.TransitionSource.compareCameraButton
+    case .compareCamera: .compareCamera
     case .compareStreetView: nil // zoom gesture conflicts with matched transition
     case .favorite, .showOnMap, .share, .saveImage, .viewOnWeb, .route:
       nil
@@ -507,25 +437,30 @@ private struct ColorizeButton: View {
   private var showsRainbow = false
   @State
   private var rainbowAngle = Angle.zero
-  @ScaledMetric(relativeTo: .title2)
-  private var radius = 44
-
-  @Environment(\.colorScheme)
-  private var colorScheme
+  @State
+  private var platterFrame: CGRect?
 
   var body: some View {
     Button(action: action, label: {
       content
-        .frame(squareSize: radius)
         .transition(.blurReplace)
-
     })
-    .matchedTransitionSource(
-      id: ImageDetailsView.TransitionSource.colorizeButton,
-      in: namespace
+    .readToolbarPlatterFrame { platterFrame = $0 }
+    .background {
+      if state == .done {
+        makeRainbow(exposure: 0)
+          .clipShape(Capsule())
+          .ifLet(platterFrame) { rainbow, frame in
+            rainbow
+              .frame(size: frame.size)
+              .position(x: frame.midX, y: frame.midY)
+          }
+      }
+    }
+    .zoomTransitionSource(
+      .colorizeButton,
+      namespace: namespace
     )
-    .clipShape(Circle())
-    .blurBackground(in: Circle())
     .background {
       if showsRainbow {
         makeRainbow(exposure: shadowExposure)
@@ -555,23 +490,24 @@ private struct ColorizeButton: View {
   private var content: some View {
     switch state {
     case .available:
-      Text("🎨")
-        .font(.title2)
-        .shadow(
-          color: .white.opacity(colorScheme == .dark ? 0.7 : 0),
-          radius: 10
-        )
+      Image(uiImage: Self.paletteEmoji)
     case .colorizing:
       ProgressView()
     case .done:
-      ZStack {
-        makeRainbow(exposure: 0)
-
-        Image(systemName: "paintpalette.fill")
-          .foregroundStyle(.white)
-      }
+      Image(systemName: "paintpalette.fill")
+        .foregroundStyle(.white)
     }
   }
+
+  private static let paletteEmoji: UIImage = {
+    let emoji = NSAttributedString(
+      string: "🎨",
+      attributes: [.font: UIFont.preferredFont(forTextStyle: .title2)]
+    )
+    return UIGraphicsImageRenderer(size: emoji.size()).image { _ in
+      emoji.draw(at: .zero)
+    }
+  }()
 
   private func makeRainbow(exposure: CGFloat) -> some View {
     AngularGradient(
@@ -645,7 +581,7 @@ extension FavoritesModel {
     modelImage: .mock,
     remote: Remote { _ in Model.ImageDetails(.mock) },
     cachedDetails: nil,
-    openSource: "",
+    source: .mock,
     favoritesModel: .mock,
     showOnMap: { _ in },
     canOpenURL: { _ in true },
@@ -655,6 +591,7 @@ extension FavoritesModel {
     colorizationModel: .constant(nil),
     extractModelImage: { _ in .mock },
     makeColorizationPicker: { _ in .mock(.mock) },
+    pushScreen: { _ in },
   ).viewStore
 
   ImageDetailsView(
@@ -673,7 +610,7 @@ extension FavoritesModel {
       return Model.ImageDetails(.mock)
     },
     cachedDetails: nil,
-    openSource: "",
+    source: .mock,
     favoritesModel: .mock,
     showOnMap: { _ in },
     canOpenURL: { _ in true },
@@ -683,11 +620,14 @@ extension FavoritesModel {
     colorizationModel: .constant(nil),
     extractModelImage: { _ in .mock },
     makeColorizationPicker: { _ in .mock(.mock) },
+    pushScreen: { _ in },
   ).viewStore
 
-  ImageDetailsView(
-    viewStore: store,
-  )
+  NavigationStack {
+    ImageDetailsView(
+      viewStore: store,
+    )
+  }
 }
 
 #Preview("colorized") {
@@ -698,7 +638,7 @@ extension FavoritesModel {
       attributedTitle: Model.Image.mock.title.makeAttrString(),
       uiImage: UIImage(resource: .colorizationDemoBefore),
       imageSaveCounts: [:],
-      openSource: "",
+      source: .mock,
       isFavorite: false,
       mapOptionsPresented: false,
       loadingAnotherImage: false,
@@ -723,7 +663,9 @@ extension FavoritesModel {
 }
 
 #Preview("colorize button") {
-  ColorizationButtonPreview()
+  NavigationStack {
+    ColorizationButtonPreview()
+  }
 }
 
 private struct ColorizationButtonPreview: View {
@@ -746,22 +688,23 @@ private struct ColorizationButtonPreview: View {
         }
       }
 
-      ZStack {
-        Image(.lyskovo)
-          .resizable()
-          .scaledToFit()
-
-        if isShown {
-          ColorizeButton(
-            namespace: namespace,
-            state: buttonState,
-            action: action,
-            shadowExposure: exposure,
-            rainbowShadowDuration: duration
-          )
-          .transition(.scale)
+      Image(.lyskovo)
+        .resizable()
+        .scaledToFit()
+        .toolbar {
+          if isShown {
+            ToolbarItem(id: "colorize") {
+              ColorizeButton(
+                namespace: namespace,
+                state: buttonState,
+                action: action,
+                shadowExposure: exposure,
+                rainbowShadowDuration: duration
+              )
+              .transition(.scale)
+            }
+          }
         }
-      }
 
       Button(action: action) {
         Text("toggle")
@@ -775,13 +718,15 @@ private struct ColorizationButtonPreview: View {
       Text("duration \(duration)")
       Slider(value: $duration, in: 0...10)
 
-      Picker("", selection: $buttonState, content: {
+      Picker("", selection: $buttonState.animation(), content: {
         ForEach(ColorizeButton.Phase.allCases, id: \.self) { s in
           Text(s.rawValue).tag(s)
         }
       })
       .pickerStyle(.segmented)
-    }.padding()
+    }
+    .animation(.default, value: buttonState)
+    .padding()
   }
 }
 

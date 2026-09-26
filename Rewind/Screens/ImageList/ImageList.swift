@@ -11,29 +11,17 @@ import VGSL
 struct ImageList: View {
   var viewStore: ImageListModel.Store
 
-  @Namespace
+  @RootNamespace
   private var namespace
 
   @State
   private var scrollPosition = ScrollPosition()
 
   var body: some View {
-    NavigationStack {
-      content
-        .animation(.default, value: viewStore.sorting)
-        .navigationTitle(viewStore.title)
-        .toolbar { toolbar }
-        .fullScreenCover(
-          item: viewStore.binding(\.imageDetails, send: { _ in .dismissImage }),
-          content: { identified in
-            let viewStore = identified.value
-            ImageDetailsView(viewStore: viewStore)
-              .navigationTransition(
-                .zoom(sourceID: viewStore.image.cid, in: namespace),
-              )
-          },
-        )
-    }
+    content
+      .animation(.default, value: viewStore.sorting)
+      .navigationTitle(viewStore.title)
+      .toolbar { toolbar }
   }
 
   @ViewBuilder
@@ -70,15 +58,15 @@ struct ImageList: View {
         ImageListCell(value: image)
       }
       .foregroundStyle(.primary)
-      .matchedTransitionSource(id: image.cid, in: namespace)
+      .zoomTransitionSource(
+        .image(.listRow(image.cid)),
+        namespace: namespace
+      )
     }
   }
 
   @ToolbarContentBuilder
   private var toolbar: some ToolbarContent {
-    ToolbarItem(placement: .topBarLeading) {
-      ToolbarBackButton()
-    }
     if let sorting = viewStore.sorting {
       ToolbarItem(placement: .topBarTrailing) {
         Menu(content: {
@@ -144,7 +132,7 @@ private let imageDetailsFactoryMock: ImageDetailsFactory = { _, source in
     modelImage: .mock,
     remote: Remote { _ in .mock },
     cachedDetails: nil,
-    openSource: source,
+    source: source,
     favoritesModel: .mock,
     showOnMap: { _ in },
     canOpenURL: { _ in false },
@@ -154,6 +142,7 @@ private let imageDetailsFactoryMock: ImageDetailsFactory = { _, source in
     colorizationModel: .constant(nil),
     extractModelImage: { _ in .mock },
     makeColorizationPicker: { _ in .mock(.mock) },
+    pushScreen: { _ in },
   )
 }
 
@@ -161,7 +150,7 @@ private let imageDetailsFactoryMock: ImageDetailsFactory = { _, source in
   @Previewable @State
   var store = makeImageListModel(
     title: "Images",
-    matchedTransitionSourceName: "",
+    source: .mock,
     images: (0..<10).map { idx in
       modified(.mock) {
         let year = Int.random(in: 1826...1995)
@@ -176,6 +165,7 @@ private let imageDetailsFactoryMock: ImageDetailsFactory = { _, source in
     listUpdates: .empty,
     imageDetailsFactory: imageDetailsFactoryMock,
     sorting: .constant(.dateAscending),
+    pushScreen: { _ in },
   ).viewStore
 
   ImageList(viewStore: store)
@@ -185,11 +175,12 @@ private let imageDetailsFactoryMock: ImageDetailsFactory = { _, source in
   @Previewable @State
   var store = makeImageListModel(
     title: "Images",
-    matchedTransitionSourceName: "",
+    source: .mock,
     images: [],
     listUpdates: .empty,
     imageDetailsFactory: imageDetailsFactoryMock,
     sorting: .constant(.dateAscending),
+    pushScreen: { _ in },
   ).viewStore
 
   ImageList(viewStore: store)

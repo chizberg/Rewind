@@ -60,7 +60,7 @@ struct ImageDetailsState {
   var uiImage: UIImage?
   var cachedLowResImage: UIImage?
   var imageSaveCounts: [ColorizationState.Showing: Int]
-  var openSource: String
+  var source: TransitionSource
   var isFavorite: Bool
   var mapOptionsPresented: Bool
   var loadingAnotherImage: Bool
@@ -70,10 +70,7 @@ struct ImageDetailsState {
 
   var colorizationState: ColorizationState
 
-  var fullscreenPreview: Identified<UIImage>?
-  var comparisonDeps: Identified<ComparisonViewDeps>?
   var shareVC: Identified<UIViewController>?
-  var anotherImageModel: Identified<ImageDetailsModel.Store>?
   var colorizationPicker: Identified<ColorizationPickerScreenStore>?
   var alertModel: Identified<AlertParams>?
   var actionButtons: [ImageDetailsAction.Button]
@@ -96,12 +93,6 @@ enum ImageDetailsAction {
     case route
   }
 
-  enum FullscreenPreview {
-    case present
-    case dismiss
-    case saveImage
-  }
-
   enum Internal {
     case saveImage
     case imageSaved(ImageDetailsState.ColorizationState.Showing)
@@ -115,16 +106,6 @@ enum ImageDetailsAction {
     case colorizationFailed(Error)
   }
 
-  enum ImageComparison {
-    case present(ComparisonState.CaptureMode)
-    case dismiss
-  }
-
-  enum AnotherImage {
-    case present(Model.ImageDetails, String)
-    case dismiss
-  }
-
   enum ColorizationPicker {
     case present
     case dismiss
@@ -136,9 +117,9 @@ enum ImageDetailsAction {
   }
 
   case button(Button)
-  case fullscreenPreview(FullscreenPreview)
-  case comparison(ImageComparison)
-  case anotherImage(AnotherImage)
+  case fullscreenPreview
+  case comparison(ComparisonState.CaptureMode)
+  case anotherImage(Model.ImageDetails, TransitionSource)
   case colorizationPicker(ColorizationPicker)
   case alert(Alert)
   case `internal`(Internal)
@@ -155,7 +136,7 @@ func makeImageDetailsModel(
   modelImage: Model.Image,
   remote: Remote<Int, Model.ImageDetails>,
   cachedDetails: Model.ImageDetails?,
-  openSource: String,
+  source: TransitionSource,
   favoritesModel: FavoritesModel,
   showOnMap: @escaping (Coordinate) -> Void,
   canOpenURL: @escaping (URL) -> Bool,
@@ -165,6 +146,7 @@ func makeImageDetailsModel(
   colorizationModel: Variable<ColorizationModel?>,
   extractModelImage: @escaping (Model.ImageDetails) -> (Model.Image),
   makeColorizationPicker: @escaping (@escaping () -> Void) -> ColorizationPickerScreenStore,
+  pushScreen: @escaping (Screen) -> Void,
 ) -> ImageDetailsModel {
   let favoriteModel = favoritesModel.isFavorite(modelImage)
   var initialState = ImageDetailsState(
@@ -174,17 +156,14 @@ func makeImageDetailsModel(
     uiImage: nil,
     cachedLowResImage: nil,
     imageSaveCounts: [:],
-    openSource: openSource,
+    source: source,
     isFavorite: favoriteModel.state.wrappedValue,
     mapOptionsPresented: false,
     loadingAnotherImage: false,
     translationState: .notAvailable,
     cachedTranslation: nil,
     colorizationState: .none,
-    fullscreenPreview: nil,
-    comparisonDeps: nil,
     shareVC: nil,
-    anotherImageModel: nil,
     colorizationPicker: nil,
     alertModel: nil,
     actionButtons: Array.build {
@@ -258,9 +237,9 @@ func makeImageDetailsModel(
           asyncEffect(.perform { anotherAction in
             do {
               let details = try await remote.load(cid)
-              await anotherAction(.anotherImage(.present(
-                details, ImageDetailsView.TransitionSource.descriptionLink,
-              )))
+              await anotherAction(.anotherImage(
+                details, .image(.link),
+              ))
             } catch {
               await anotherAction(.internal(.anotherImageLoadFailed(error)))
             }
@@ -268,30 +247,29 @@ func makeImageDetailsModel(
         } else {
           effect { urlOpener(link) }
         }
-      case let .comparison(comparisonAction):
-        switch comparisonAction {
-        case let .present(mode):
-          guard let image = state.displayedImage else {
-            UINotificationFeedbackGenerator().notificationOccurred(.error)
-            return
-          }
-          state.comparisonDeps = Identified(
-            value: makeComparisonViewDeps(
-              captureMode: mode,
-              oldUIImage: image,
-              oldImageData: modelImage,
-              streetViewAvailability: Remote {
-                guard let coordinate = modelImage.coordinate else {
-                  assertionFailure("should not be called on images without geo")
-                  return .unavailable
-                }
-                return try await streetViewAvailability.load(coordinate)
-              },
-            ),
-          )
-        case .dismiss:
-          state.comparisonDeps = nil
+      case let .comparison(mode):
+        guard let image = state.displayedImage else {
+          UINotificationFeedbackGenerator().notificationOccurred(.error)
+          return
         }
+        let source: TransitionSource? = switch mode {
+        case .camera: TransitionSource.compareCamera
+        case .streetView: nil
+        }
+        let comparisonDeps = makeComparisonViewDeps(
+          captureMode: mode,
+          oldUIImage: image,
+          oldImageData: modelImage,
+          streetViewAvailability: Remote {
+            guard let coordinate = modelImage.coordinate else {
+              assertionFailure("should not be called on images without geo")
+              return .unavailable
+            }
+            return try await streetViewAvailability.load(coordinate)
+          },
+          source: source,
+        )
+        pushScreen(Screen(.comparison(comparisonDeps)))
       case let .alert(alert):
         switch alert {
         case let .present(alertParams):
@@ -313,9 +291,9 @@ func makeImageDetailsModel(
             UIImpactFeedbackGenerator(style: .light).impactOccurred()
           })
         case .compareCamera:
-          asyncEffect(.anotherAction(.comparison(.present(.camera))))
+          asyncEffect(.anotherAction(.comparison(.camera)))
         case .compareStreetView:
-          asyncEffect(.anotherAction(.comparison(.present(.streetView))))
+          asyncEffect(.anotherAction(.comparison(.streetView)))
         case .showOnMap:
           guard let coordinate = modelImage.coordinate else {
             assertionFailure("should not be called on images without geo")
@@ -430,40 +408,40 @@ func makeImageDetailsModel(
         } else {
           UINotificationFeedbackGenerator().notificationOccurred(.error)
         }
-      case .fullscreenPreview(.present):
+      case .fullscreenPreview:
         if let image = state.displayedImage {
-          state.fullscreenPreview = Identified(value: image)
-        }
-      case .fullscreenPreview(.dismiss):
-        state.fullscreenPreview = nil
-      case .fullscreenPreview(.saveImage):
-        asyncEffect(.anotherAction(.internal(.saveImage)))
-      case let .anotherImage(anotherImageAction):
-        switch anotherImageAction {
-        case let .present(details, source):
-          state.loadingAnotherImage = false
-          let anotherModelImage = extractModelImage(details)
-          state.anotherImageModel = Identified(
-            value:
-            makeImageDetailsModel(
-              modelImage: anotherModelImage,
-              remote: remote,
-              cachedDetails: details,
-              openSource: source,
-              favoritesModel: favoritesModel,
-              showOnMap: showOnMap,
-              canOpenURL: canOpenURL,
-              urlOpener: urlOpener,
-              streetViewAvailability: streetViewAvailability,
-              translate: translate,
-              colorizationModel: colorizationModel,
-              extractModelImage: extractModelImage,
-              makeColorizationPicker: makeColorizationPicker,
-            ).viewStore,
+          let showing = state.displayedVersion
+          let store = makeFullscreenPreviewStore(
+            image: image,
+            savesCount: state.imageSaveCount,
+            saveImage: {
+              try await save(image: image)
+              modelRef?(.internal(.imageSaved(showing)))
+            },
+            source: .fullscreenPreview
           )
-        case .dismiss:
-          state.anotherImageModel = nil
+          pushScreen(Screen(.fullscreenPreview(store)))
         }
+      case let .anotherImage(details, source):
+        state.loadingAnotherImage = false
+        let anotherModelImage = extractModelImage(details)
+        let store = makeImageDetailsModel(
+          modelImage: anotherModelImage,
+          remote: remote,
+          cachedDetails: details,
+          source: source,
+          favoritesModel: favoritesModel,
+          showOnMap: showOnMap,
+          canOpenURL: canOpenURL,
+          urlOpener: urlOpener,
+          streetViewAvailability: streetViewAvailability,
+          translate: translate,
+          colorizationModel: colorizationModel,
+          extractModelImage: extractModelImage,
+          makeColorizationPicker: makeColorizationPicker,
+          pushScreen: pushScreen,
+        ).viewStore
+        pushScreen(Screen(.image(store)))
       case let .internal(internalAction):
         switch internalAction {
         case .saveImage:
