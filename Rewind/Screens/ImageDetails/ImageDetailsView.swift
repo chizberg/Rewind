@@ -24,6 +24,9 @@ struct ImageDetailsView: View {
 
   var body: some View {
     content
+      .overlay {
+        RainbowShadow(frame: colorizeButtonFrame)
+      }
       .animation(.smooth, value: viewStore.translationState)
       .coordinateSpace(.named(spaceName))
       .task {
@@ -435,14 +438,6 @@ private struct ColorizeButton: View {
   var state: Phase
   var action: () -> Void
 
-  var shadowExposure = 2.0
-  var rainbowShadowDuration = 2.0
-  var rainbowShadowRotationDuration = 1.0
-
-  @State
-  private var showsRainbow = false
-  @State
-  private var rainbowAngle = Angle.zero
   @State
   private var platterFrame: CGRect?
   @State
@@ -466,31 +461,11 @@ private struct ColorizeButton: View {
       .colorizeButton,
       namespace: namespace
     )
-    .background {
-      if showsRainbow {
-        makeRainbow(exposure: shadowExposure)
-          .clipShape(Circle())
-          .blur(radius: 10)
-          .rotationEffect(rainbowAngle)
-          .scaleEffect(1.3)
-      }
-    }
-    .animation(.default, value: showsRainbow)
     .animation(.default, value: state)
     .task {
       withAnimation(.spring) {
         isShown = true
       }
-      showsRainbow = true
-      withAnimation(
-        .linear(duration: rainbowShadowRotationDuration)
-          .repeatForever(autoreverses: false)
-      ) {
-        rainbowAngle = .degrees(360)
-      }
-      try? await Task.sleep(for: .seconds(rainbowShadowDuration))
-      showsRainbow = false
-      rainbowAngle = .degrees(0)
     }
   }
 
@@ -542,13 +517,67 @@ private struct ColorizeButton: View {
       emoji.draw(at: .zero)
     }
   }()
+}
 
-  private func makeRainbow(exposure: CGFloat) -> some View {
-    AngularGradient(
-      gradient: makeRainbowGradient(exposureAdjust: exposure),
-      center: .center
-    )
+private struct RainbowShadow: View {
+  var frame: CGRect?
+
+  var shadowExposure = 2.0
+  var rainbowShadowDuration = 2.0
+  var rainbowShadowRotationDuration = 1.0
+
+  @State
+  private var showsRainbow = false
+  @State
+  private var rainbowAngle = Angle.zero
+
+  var body: some View {
+    ZStack(alignment: .topLeading) {
+      Rectangle().fill(.clear)
+
+      if let frame, !frame.isEmpty {
+        Rectangle().fill(.clear)
+          .frame(size: frame.size)
+          .background {
+            if showsRainbow {
+              shadow
+            }
+          }
+          .position(x: frame.midX, y: frame.midY)
+          .task {
+            showsRainbow = true
+            withAnimation(
+              .linear(duration: rainbowShadowRotationDuration)
+                .repeatForever(autoreverses: false)
+            ) {
+              rainbowAngle = .degrees(360)
+            }
+            try? await Task.sleep(for: .seconds(rainbowShadowDuration))
+            showsRainbow = false
+            rainbowAngle = .degrees(0)
+          }
+      }
+    }
+    .animation(.default, value: showsRainbow)
+    .animation(.default, value: frame)
+    .allowsHitTesting(false)
+    .ignoresSafeArea()
   }
+
+  private var shadow: some View {
+    makeRainbow(exposure: shadowExposure)
+      .clipShape(Circle())
+      .blur(radius: 10)
+      .rotationEffect(rainbowAngle)
+      .scaleEffect(1.3)
+  }
+}
+
+private func makeRainbow(exposure: CGFloat) -> some View {
+  AngularGradient(
+    gradient: makeRainbowGradient(exposureAdjust: exposure),
+    center: .center
+  )
 }
 
 extension ImageDetailsState {
@@ -609,7 +638,7 @@ extension FavoritesModel {
   }
 }
 
-#Preview("instant") {
+#Preview("instant", traits: .navigationStack) {
   @Previewable @State
   var store = makeImageDetailsModel(
     modelImage: .mock,
@@ -635,7 +664,7 @@ extension FavoritesModel {
   )
 }
 
-#Preview("loading") {
+#Preview("loading", traits: .navigationStack) {
   @Previewable @State
   var store = makeImageDetailsModel(
     modelImage: modified(.mock) {
@@ -661,14 +690,12 @@ extension FavoritesModel {
     isLastScreen: .constant(true),
   ).viewStore
 
-  NavigationStack {
-    ImageDetailsView(
-      viewStore: store,
-    )
-  }
+  ImageDetailsView(
+    viewStore: store,
+  )
 }
 
-#Preview("colorized") {
+#Preview("colorized", traits: .navigationStack) {
   @Previewable @State
   var store = ImageDetailsModel(
     initial: ImageDetailsState(
@@ -700,10 +727,8 @@ extension FavoritesModel {
   TextAccessoryButton("Translate", action: { print("foo") })
 }
 
-#Preview("colorize button") {
-  NavigationStack {
-    ColorizationButtonPreview()
-  }
+#Preview("colorize button", traits: .navigationStack) {
+  ColorizationButtonPreview()
 }
 
 private struct ColorizationButtonPreview: View {
@@ -736,8 +761,6 @@ private struct ColorizationButtonPreview: View {
                 namespace: namespace,
                 state: buttonState,
                 action: action,
-                shadowExposure: exposure,
-                rainbowShadowDuration: duration
               )
               .transition(.scale)
             }
