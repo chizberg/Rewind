@@ -257,7 +257,6 @@ struct ImageDetailsView: View {
 
           if let direction = viewStore.image.dir {
             DirectionView(date: viewStore.image.date, direction: direction)
-              .fontDesign(.serif)
           }
         }
       }
