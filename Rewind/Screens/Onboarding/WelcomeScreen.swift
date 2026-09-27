@@ -17,7 +17,7 @@ struct WelcomeScreen: View {
           Text("Hi!")
             .font(.largeTitle.bold())
           HStack {
-            (Text("This is ") + Text("Rewind").foregroundStyle(rewindRed))
+            (Text("This is ") + Text("Rewind").fontDesign(.serif).foregroundStyle(rewindRed))
               .font(.largeTitle.bold())
             RewindCapsule()
             Spacer(minLength: 0)

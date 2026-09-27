@@ -33,7 +33,7 @@ struct ImageListCell: View {
             .lineLimit(2)
             .multilineTextAlignment(.leading)
             .foregroundColor(.white)
-            .font(.title3)
+            .font(.system(.title3, design: .serif))
             .bold()
 
           ImageDateView(date: value.date)

@@ -23,6 +23,7 @@ struct AnnotationsScreen: View {
             Text("History on a map")
               .multilineTextAlignment(.leading)
               .font(.largeTitle.bold())
+              .fontDesign(.serif)
 
             Text("What do the images look like?")
               .fontWeight(.semibold)
