@@ -162,6 +162,7 @@ final class AppGraph {
       settings: settings.asProperty(),
       requestAppStoreReview: { storeReview.request() },
       pushScreen: pushScreen,
+      openedScreens: openedScreens,
     )
     appModelRef = appModel
     appStore = appModel.viewStore

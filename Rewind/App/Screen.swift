@@ -17,13 +17,6 @@ struct Screen: Hashable {
     case fullscreenPreview(FullscreenPreviewStore)
   }
 
-  enum Kind {
-    case image
-    case list
-    case comparison
-    case fullscreenPreview
-  }
-
   let value: Value
   let id: ID
 
@@ -60,15 +53,6 @@ struct Screen: Hashable {
       ComparisonScreen(deps: deps)
     case let .fullscreenPreview(store):
       FullscreenPreview(store: store)
-    }
-  }
-
-  var kind: Kind {
-    switch value {
-    case .image: .image
-    case .list: .list
-    case .comparison: .comparison
-    case .fullscreenPreview: .fullscreenPreview
     }
   }
 
