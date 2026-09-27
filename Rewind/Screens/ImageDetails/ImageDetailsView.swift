@@ -136,16 +136,21 @@ struct ImageDetailsView: View {
         .onChanged { _ in showFullscreenPreview() },
     )
     .zoomTransitionSource(.fullscreenPreview, namespace: namespace)
-    .toolbar {
-      if let state = viewStore.colorizationState.button {
-        ToolbarItem {
-          ColorizeButton(
-            namespace: namespace,
-            state: state,
-          ) {
-            viewStore(.colorize)
+    .withAnimatedValue(
+      viewStore.colorizationState.button != nil,
+      animation: .spring,
+    ) { view, isButtonShown in
+      view.toolbar {
+        if isButtonShown == true, let state = viewStore.colorizationState.button {
+          ToolbarItem {
+            ColorizeButton(
+              namespace: namespace,
+              state: state,
+            ) {
+              viewStore(.colorize)
+            }
+            .readFrame(in: .named(spaceName)) { colorizeButtonFrame = $0 }
           }
-          .readFrame(in: .named(spaceName)) { colorizeButtonFrame = $0 }
         }
       }
     }
@@ -440,22 +445,21 @@ private struct ColorizeButton: View {
   private var rainbowAngle = Angle.zero
   @State
   private var platterFrame: CGRect?
+  @State
+  private var isShown = false
 
   var body: some View {
     Button(action: action, label: {
       content
         .transition(.blurReplace)
     })
-    .readToolbarPlatterFrame { platterFrame = $0 }
-    .background {
-      if state == .done {
-        makeRainbow(exposure: 0)
-          .clipShape(Capsule())
-          .ifLet(platterFrame) { rainbow, frame in
-            rainbow
-              .frame(size: frame.size)
-              .position(x: frame.midX, y: frame.midY)
-          }
+    .modify { button in
+      if #available(iOS 26, *) {
+        button
+          .readToolbarPlatterFrame { platterFrame = $0 }
+      } else {
+        button
+          .scaleEffect(isShown ? 1 : 0)
       }
     }
     .zoomTransitionSource(
@@ -474,6 +478,9 @@ private struct ColorizeButton: View {
     .animation(.default, value: showsRainbow)
     .animation(.default, value: state)
     .task {
+      withAnimation(.spring) {
+        isShown = true
+      }
       showsRainbow = true
       withAnimation(
         .linear(duration: rainbowShadowRotationDuration)
@@ -490,13 +497,39 @@ private struct ColorizeButton: View {
   @ViewBuilder
   private var content: some View {
     switch state {
-    case .available:
+    case .available, .colorizing:
+      let isColorizing = state == .colorizing
       Image(uiImage: Self.paletteEmoji)
-    case .colorizing:
-      ProgressView()
+        .opacity(isColorizing ? 0 : 1)
+        .overlay {
+          if isColorizing {
+            ProgressView()
+          }
+        }
     case .done:
       Image(systemName: "paintpalette.fill")
         .foregroundStyle(.white)
+        .modify { icon in
+          if #available(iOS 26, *) {
+            icon
+              .background {
+                makeRainbow(exposure: 0)
+                  .clipShape(Capsule())
+                  .ifLet(platterFrame) { rainbow, frame in
+                    rainbow
+                      .frame(size: frame.size)
+                  }
+              }
+          } else {
+            icon
+              .imageScale(.small)
+              .frame(squareSize: 28)
+              .background {
+                makeRainbow(exposure: 0)
+                  .clipShape(Circle())
+              }
+          }
+        }
     }
   }
 

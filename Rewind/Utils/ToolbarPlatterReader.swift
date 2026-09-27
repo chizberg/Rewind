@@ -8,6 +8,9 @@
 import SwiftUI
 
 extension View {
+  // toolbar items on iOS 26+ have glass appearance,
+  // but unfortunately can't be filled entirely out of the box
+  // so here we read its frame to fill it with gradient
   func readToolbarPlatterFrame(
     action: @escaping (CGRect) -> Void,
   ) -> some View {
@@ -47,6 +50,7 @@ private final class ToolbarPlatterReaderView: UIView {
 
   private func reportPlatterFrame() {
     guard let platter else { return }
+    unclipAncestors(below: platter) // iOS 26.x
     let frame = platter.convert(platter.bounds, to: self)
     guard frame != lastFrame else { return }
     lastFrame = frame
@@ -56,8 +60,19 @@ private final class ToolbarPlatterReaderView: UIView {
   }
 
   private var platter: UIView? {
-    sequence(first: self, next: \.superview)
-      .dropFirst()
-      .first { String(describing: type(of: $0)).contains("GlassInteractionView") }
+    ancestors.first { ancestor in
+      let name = String(describing: type(of: ancestor))
+      return name.contains("GlassInteractionView") || name.contains("PlatterGlassView")
+    }
+  }
+
+  private var ancestors: some Sequence<UIView> {
+    sequence(first: self, next: \.superview).dropFirst()
+  }
+
+  private func unclipAncestors(below platter: UIView) {
+    for ancestor in ancestors.prefix(while: { $0 !== platter }) where ancestor.clipsToBounds {
+      ancestor.clipsToBounds = false
+    }
   }
 }
