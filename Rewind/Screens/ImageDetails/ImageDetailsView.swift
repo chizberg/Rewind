@@ -81,19 +81,21 @@ struct ImageDetailsView: View {
 
         textDetails
           .padding()
-          .background {
-            Rectangle().fill(.background).ignoresSafeArea()
-          }
+
+        let actionButtonPadding = 10.0
         actionButtons
-          .padding()
+          .padding(actionButtonPadding)
+          .background {
+            SwiftUI.Color.secondarySystemBackground
+          }
+          .clipShape(RoundedRectangle(
+            cornerRadius: actionButtonPadding + actionButtonCornerRadius
+          ))
+          .padding(.horizontal, 5)
       }
+      .padding(.bottom, 30)
     }
     .animation(.default, value: viewStore.colorizationState.check)
-    .background {
-      SwiftUI.Color.secondarySystemBackground.edgesIgnoringSafeArea(
-        isSplitView ? .bottom : .vertical,
-      )
-    }
   }
 
   private var picture: some View {
@@ -285,7 +287,6 @@ struct ImageDetailsView: View {
       HStack {
         Image(systemName: spec.iconName)
         Text(spec.title)
-          .lineLimit(1)
         Spacer()
       }
       .padding(10)
@@ -293,7 +294,7 @@ struct ImageDetailsView: View {
     }
     .foregroundStyle(spec.foreground)
     .background(spec.background)
-    .cornerRadius(15)
+    .cornerRadius(actionButtonCornerRadius)
     .ifLet(spec.transitionSource) { view, source in
       view.zoomTransitionSource(source, namespace: namespace)
     }
@@ -329,6 +330,7 @@ struct ImageDetailsView: View {
 }
 
 private let splitViewScrollWidth = 325.0
+private let actionButtonCornerRadius = 15.0
 private let spaceName = "image-details"
 
 private struct LabeledText: View {
