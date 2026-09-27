@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct Screen: Hashable {
+  typealias ID = UUID
+
   enum Value {
     case image(ImageDetailsModel.Store)
     case list(ImageListModel.Store)
-    case onboarding(OnboardingViewModel.Store)
     case comparison(ComparisonViewDeps)
     case fullscreenPreview(FullscreenPreviewStore)
   }
@@ -19,15 +20,14 @@ struct Screen: Hashable {
   enum Kind {
     case image
     case list
-    case onboarding
     case comparison
     case fullscreenPreview
   }
 
   let value: Value
-  let id: UUID
+  let id: ID
 
-  init(_ value: Value, id: UUID = UUID()) {
+  init(_ value: Value, id: ID = UUID()) {
     self.value = value
     self.id = id
   }
@@ -56,8 +56,6 @@ struct Screen: Hashable {
       ImageDetailsView(viewStore: store)
     case let .list(store):
       ImageList(viewStore: store)
-    case let .onboarding(store):
-      OnboardingView(store: store)
     case let .comparison(deps):
       ComparisonScreen(deps: deps)
     case let .fullscreenPreview(store):
@@ -69,7 +67,6 @@ struct Screen: Hashable {
     switch value {
     case .image: .image
     case .list: .list
-    case .onboarding: .onboarding
     case .comparison: .comparison
     case .fullscreenPreview: .fullscreenPreview
     }
@@ -79,7 +76,6 @@ struct Screen: Hashable {
     switch value {
     case let .image(store): store.source
     case let .list(store): store.source
-    case let .onboarding(store): nil
     case let .comparison(deps): deps.store.source
     case let .fullscreenPreview(store): store.source
     }

@@ -299,27 +299,38 @@ private final class Harness {
     linkedCoordinate: Coordinate? = Model.ImageDetails.mock.coordinate,
     colorizationModel: ColorizationModel? = nil,
   ) -> ImageDetailsModel {
-    makeImageDetailsModel(
-      modelImage: .mock,
-      remote: Remote { [weak self] cid in
-        self?.requestedCids.append(cid)
-        return modified(.mock) {
-          $0.cid = cid
-          $0.coordinate = linkedCoordinate
-        }
-      },
-      cachedDetails: cachedDetails,
-      source: .mock,
-      favoritesModel: .mock,
-      showOnMap: { _ in },
-      canOpenURL: { _ in true },
-      urlOpener: { [weak self] in self?.openedURLs.append($0) },
-      streetViewAvailability: .mock(.unavailable),
-      translate: translate,
-      colorizationModel: .constant(colorizationModel),
-      extractModelImage: { Model.Image($0, image: .mock) },
-      makeColorizationPicker: { _ in .mock(.mock) },
-      pushScreen: { [weak self] in self?.pushedScreens.append($0) },
-    )
+    func build(
+      _ image: Model.Image,
+      cachedDetails: Model.ImageDetails?,
+      source: TransitionSource,
+    ) -> ImageDetailsModel {
+      makeImageDetailsModel(
+        modelImage: image,
+        remote: Remote { [weak self] cid in
+          self?.requestedCids.append(cid)
+          return modified(.mock) {
+            $0.cid = cid
+            $0.coordinate = linkedCoordinate
+          }
+        },
+        cachedDetails: cachedDetails,
+        source: source,
+        favoritesModel: .mock,
+        showOnMap: { _ in },
+        canOpenURL: { _ in true },
+        urlOpener: { [weak self] in self?.openedURLs.append($0) },
+        streetViewAvailability: .mock(.unavailable),
+        translate: translate,
+        colorizationModel: .constant(colorizationModel),
+        extractModelImage: { Model.Image($0, image: .mock) },
+        makeColorizationPicker: { _ in .mock(.mock) },
+        pushScreen: { [weak self] in self?.pushedScreens.append($0) },
+        imageDetailsFactory: { image, source in
+          Screen(.image(build(image, cachedDetails: nil, source: source).viewStore))
+        },
+        isLastScreen: Variable { [weak self] in self?.pushedScreens.isEmpty ?? true },
+      )
+    }
+    return build(.mock, cachedDetails: cachedDetails, source: .mock)
   }
 }

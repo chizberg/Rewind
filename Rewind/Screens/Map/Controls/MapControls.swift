@@ -181,7 +181,7 @@ struct MapControls<Menu: View>: View {
             )))
           case .viewAsList:
             appAction(.imageList(.presentCurrentRegionImages(
-              source: .imageList(.viewAsListButton),
+              source: .imageList(.thumbnail),
             )))
           case .noImages: break
           }

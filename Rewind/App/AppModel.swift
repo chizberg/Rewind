@@ -73,7 +73,7 @@ enum AppAction {
 }
 
 typealias UrlOpener = (URL?) -> Void
-typealias ImageDetailsFactory = (Model.Image, TransitionSource) -> ImageDetailsModel
+typealias ImageDetailsFactory = (Model.Image, TransitionSource) -> Screen
 
 func makeAppModel(
   imageDetailsFactory: @escaping ImageDetailsFactory,
@@ -87,7 +87,11 @@ func makeAppModel(
   requestAppStoreReview: @escaping () -> Void,
   pushScreen: @escaping (Screen) -> Void,
 ) -> AppModel {
-  AppModel(initial: .makeInitial(
+  weak var weakSelf: AppModel?
+  let openedScreens = Variable {
+    weakSelf?.state.navigationPath ?? []
+  }
+  let model = AppModel(initial: .makeInitial(
     onboardingViewModel: onboardingViewModel,
     settingsState: settings.value,
   )) { state, action, effect, asyncEffect in
@@ -95,14 +99,12 @@ func makeAppModel(
     case let .imageDetails(detailsAction):
       switch detailsAction {
       case let .present(image, source):
-        state.navigationPath.append(
-          Screen(.image(imageDetailsFactory(image, source).viewStore))
-        )
+        state.navigationPath.append(imageDetailsFactory(image, source))
       }
     case let .imageList(listAction):
       switch listAction {
       case let .presentFavorites(source):
-        let store = makeImageListModel(
+        let screen = makeImageListScreen(
           title: "Favorites",
           source: source,
           images: favoritesModel.state.reversed(), // new -> old
@@ -110,10 +112,11 @@ func makeAppModel(
           imageDetailsFactory: imageDetailsFactory,
           sorting: nil,
           pushScreen: pushScreen,
-        ).viewStore
-        state.navigationPath.append(Screen(.list(store)))
+          openedScreens: openedScreens,
+        )
+        state.navigationPath.append(screen)
       case let .presentCurrentRegionImages(source):
-        let store = makeImageListModel(
+        let screen = makeImageListScreen(
           title: "On the map",
           source: source,
           images: currentRegionImages.value,
@@ -121,10 +124,11 @@ func makeAppModel(
           imageDetailsFactory: imageDetailsFactory,
           sorting: settings.sorting,
           pushScreen: pushScreen,
-        ).viewStore
-        state.navigationPath.append(Screen(.list(store)))
+          openedScreens: openedScreens,
+        )
+        state.navigationPath.append(screen)
       case let .present(images, source, title):
-        let store = makeImageListModel(
+        let screen = makeImageListScreen(
           title: title,
           source: source,
           images: images,
@@ -132,8 +136,9 @@ func makeAppModel(
           imageDetailsFactory: imageDetailsFactory,
           sorting: settings.sorting,
           pushScreen: pushScreen,
-        ).viewStore
-        state.navigationPath.append(Screen(.list(store)))
+          openedScreens: openedScreens,
+        )
+        state.navigationPath.append(screen)
       }
     case let .settings(settingsAction):
       switch settingsAction {
@@ -172,10 +177,9 @@ func makeAppModel(
     case let .navigation(navigation):
       switch navigation {
       case let .setPath(path):
-        if state.navigationPath.count == 1,
-           path.isEmpty,
-           let screen = state.navigationPath.first {
-          switch screen.kind {
+        if let lastScreen = state.navigationPath.last,
+           path.isEmpty {
+          switch lastScreen.kind {
           case .image: asyncEffect(.anotherAction(.internal(.imagePreviewClosed)))
           case .list: asyncEffect(.anotherAction(.internal(.imageListClosed)))
           default: break
@@ -196,6 +200,8 @@ func makeAppModel(
       }
     }
   }
+  weakSelf = model
+  return model
 }
 
 extension AlertParams {

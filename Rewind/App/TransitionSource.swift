@@ -55,3 +55,42 @@ struct RootNamespace: DynamicProperty {
     root ?? fallback
   }
 }
+
+extension View {
+  @ViewBuilder
+  func zoomed(
+    from source: TransitionSource,
+    namespace: Namespace.ID
+  ) -> some View {
+    if zoomAvailable {
+      self.navigationTransition(
+        .zoom(sourceID: source, in: namespace)
+      )
+    } else {
+      self
+    }
+  }
+
+  @ViewBuilder
+  func zoomTransitionSource(
+    _ source: TransitionSource,
+    namespace: Namespace.ID
+  ) -> some View {
+    if zoomAvailable {
+      self.matchedTransitionSource(id: source, in: namespace)
+    } else {
+      self
+    }
+  }
+}
+
+// 🩼 on iOS 26.0 - 26.3 zoomTransitions + NavigationStacks are broken
+private let zoomAvailable: Bool = if #available(iOS 26.0, *) {
+  if #available(iOS 26.4, *) {
+    true
+  } else {
+    false
+  }
+} else {
+  true
+}

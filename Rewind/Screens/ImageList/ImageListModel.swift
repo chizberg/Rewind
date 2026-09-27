@@ -24,6 +24,30 @@ enum ImageListAction {
   case setSorting(ImageSorting)
 }
 
+func makeImageListScreen(
+  title: LocalizedStringKey,
+  source: TransitionSource,
+  images: [Model.Image],
+  listUpdates: Signal<[Model.Image]>,
+  imageDetailsFactory: @escaping ImageDetailsFactory,
+  sorting: Property<ImageSorting>?,
+  pushScreen: @escaping (Screen) -> Void,
+  openedScreens: Variable<[Screen]>,
+) -> Screen {
+  let id = Screen.ID()
+  let model = makeImageListModel(
+    title: title,
+    source: source,
+    images: images,
+    listUpdates: listUpdates,
+    imageDetailsFactory: imageDetailsFactory,
+    sorting: sorting,
+    pushScreen: pushScreen,
+    isLastScreen: openedScreens.map { $0.last?.id == id }
+  )
+  return Screen(.list(model.viewStore), id: id)
+}
+
 func makeImageListModel(
   title: LocalizedStringKey,
   source: TransitionSource,
@@ -32,6 +56,7 @@ func makeImageListModel(
   imageDetailsFactory: @escaping ImageDetailsFactory,
   sorting: Property<ImageSorting>?,
   pushScreen: @escaping (Screen) -> Void,
+  isLastScreen: Variable<Bool>,
 ) -> ImageListModel {
   ImageListModel(
     initial: ImageListState(
@@ -43,8 +68,8 @@ func makeImageListModel(
     reduce: { state, action, effect, _ in
       switch action {
       case let .presentImage(image):
-        let store = imageDetailsFactory(image, .image(.listRow(image.cid))).viewStore
-        pushScreen(Screen(.image(store)))
+        guard isLastScreen.value else { return }
+        effect { pushScreen(imageDetailsFactory(image, .image(.listRow(image.cid)))) }
       case let .updateImages(images):
         state.images = images
       case let .setSorting(newSorting):

@@ -11,15 +11,18 @@ struct FullscreenPreviewState {
   var image: UIImage
   var savesCount: Int
   var source: TransitionSource
+  var alert: Identified<AlertParams>?
 }
 
 enum FullscreenPreviewAction {
   enum UI {
     case saveImage
+    case dismissAlert
   }
 
   enum Internal {
     case imageSaved
+    case saveFailed(Error)
   }
 
   case ui(UI)
@@ -50,13 +53,22 @@ func makeFullscreenPreviewStore(
           do {
             try await saveImage()
             await anotherAction(.internal(.imageSaved))
-          } catch {}
+          } catch {
+            await anotherAction(.internal(.saveFailed(error)))
+          }
         }))
+      case .dismissAlert:
+        state.alert = nil
       }
     case let .internal(`internal`):
       switch `internal` {
       case .imageSaved:
         state.savesCount += 1
+      case let .saveFailed(error):
+        state.alert = Identified(value: .error(
+          title: "Unable to save image",
+          error: error,
+        ))
       }
     }
   }

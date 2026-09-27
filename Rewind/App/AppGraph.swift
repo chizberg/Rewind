@@ -64,6 +64,9 @@ final class AppGraph {
     let pushScreen: (Screen) -> Void = {
       appModelRef?(.navigation(.pushScreen($0)))
     }
+    let openedScreens = Variable {
+      appModelRef?.state.navigationPath ?? []
+    }
     mapModel = makeMapModel(
       map: map,
       annotationsRemote: remotes.annotations,
@@ -94,8 +97,12 @@ final class AppGraph {
         colorize: colorization
       )
     }
-    let imageDetailsFactory = { image, source in
-      makeImageDetailsModel(
+    func makeImageDetailsScreen(
+      image: Model.Image,
+      source: TransitionSource,
+    ) -> Screen {
+      let screenID = Screen.ID()
+      let model = makeImageDetailsModel(
         modelImage: image,
         remote: remotes.imageDetails,
         cachedDetails: imageDetailsLoader.cached(cid: image.cid),
@@ -119,7 +126,10 @@ final class AppGraph {
           makeColorizationPicker($0)
         },
         pushScreen: pushScreen,
+        imageDetailsFactory: makeImageDetailsScreen,
+        isLastScreen: openedScreens.map { $0.last?.id == screenID },
       )
+      return Screen(.image(model.viewStore), id: screenID)
     }
     let searchModelFactory = {
       makeSearchModel(onLocationFound: { location in
@@ -136,7 +146,7 @@ final class AppGraph {
     )
     let storeReview = AppStoreReview(storage: storage)
     let appModel = makeAppModel(
-      imageDetailsFactory: imageDetailsFactory,
+      imageDetailsFactory: makeImageDetailsScreen,
       searchModelFactory: searchModelFactory,
       settingsViewStoreFactory: {
         makeSettingsViewStore(

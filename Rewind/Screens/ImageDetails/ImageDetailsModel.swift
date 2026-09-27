@@ -147,6 +147,8 @@ func makeImageDetailsModel(
   extractModelImage: @escaping (Model.ImageDetails) -> (Model.Image),
   makeColorizationPicker: @escaping (@escaping () -> Void) -> ColorizationPickerScreenStore,
   pushScreen: @escaping (Screen) -> Void,
+  imageDetailsFactory: @escaping ImageDetailsFactory,
+  isLastScreen: Variable<Bool>,
 ) -> ImageDetailsModel {
   let favoriteModel = favoritesModel.isFavorite(modelImage)
   var initialState = ImageDetailsState(
@@ -227,6 +229,7 @@ func makeImageDetailsModel(
         state.uiImage = image
         checkColorizationAvailability(state: &state, asyncEffect: asyncEffect)
       case let .descriptionLink(link):
+        guard isLastScreen.value else { return }
         let pathComponents = link.pathComponents
 
         // example: https://pastvu.com/p/2223969
@@ -248,6 +251,7 @@ func makeImageDetailsModel(
           effect { urlOpener(link) }
         }
       case let .comparison(mode):
+        guard isLastScreen.value else { return }
         guard let image = state.displayedImage else {
           UINotificationFeedbackGenerator().notificationOccurred(.error)
           return
@@ -269,7 +273,7 @@ func makeImageDetailsModel(
           },
           source: source,
         )
-        pushScreen(Screen(.comparison(comparisonDeps)))
+        effect { pushScreen(Screen(.comparison(comparisonDeps))) }
       case let .alert(alert):
         switch alert {
         case let .present(alertParams):
@@ -387,6 +391,7 @@ func makeImageDetailsModel(
         }
         state.colorizationState = .ready(colorized: image, showing: showing, check: .ok)
       case .colorizationPicker(.present):
+        guard state.colorizationPicker == nil else { return }
         state.colorizationPicker = Identified(value: makeColorizationPicker {
           modelRef?(.colorizationPicker(.dismiss))
           modelRef?(.colorize)
@@ -409,6 +414,7 @@ func makeImageDetailsModel(
           UINotificationFeedbackGenerator().notificationOccurred(.error)
         }
       case .fullscreenPreview:
+        guard isLastScreen.value else { return }
         if let image = state.displayedImage {
           let showing = state.displayedVersion
           let store = makeFullscreenPreviewStore(
@@ -420,28 +426,14 @@ func makeImageDetailsModel(
             },
             source: .fullscreenPreview
           )
-          pushScreen(Screen(.fullscreenPreview(store)))
+          effect { pushScreen(Screen(.fullscreenPreview(store))) }
         }
       case let .anotherImage(details, source):
         state.loadingAnotherImage = false
         let anotherModelImage = extractModelImage(details)
-        let store = makeImageDetailsModel(
-          modelImage: anotherModelImage,
-          remote: remote,
-          cachedDetails: details,
-          source: source,
-          favoritesModel: favoritesModel,
-          showOnMap: showOnMap,
-          canOpenURL: canOpenURL,
-          urlOpener: urlOpener,
-          streetViewAvailability: streetViewAvailability,
-          translate: translate,
-          colorizationModel: colorizationModel,
-          extractModelImage: extractModelImage,
-          makeColorizationPicker: makeColorizationPicker,
-          pushScreen: pushScreen,
-        ).viewStore
-        pushScreen(Screen(.image(store)))
+        effect {
+          pushScreen(imageDetailsFactory(anotherModelImage, source))
+        }
       case let .internal(internalAction):
         switch internalAction {
         case .saveImage:
