@@ -74,7 +74,7 @@ struct RootView: View {
       }
     }
     .navigationTitle("Rewind")
-    .navigationBarTitleDisplayMode(.inline) // TODO: remove navbar background (or make is smooth)
+    .navigationBarTitleDisplayMode(.inline)
     .delayedModifier(
       value: appStore.anyOverlayPresented,
       delay: appStore.anyOverlayPresented ? 0 : 1,
