@@ -430,6 +430,7 @@ func makeImageDetailsModel(
         }
       case let .anotherImage(details, source):
         state.loadingAnotherImage = false
+        guard isLastScreen.value else { return }
         let anotherModelImage = extractModelImage(details)
         effect {
           pushScreen(imageDetailsFactory(anotherModelImage, source))

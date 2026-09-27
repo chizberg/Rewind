@@ -49,6 +49,19 @@ struct ImageDetailsModelTests {
     #expect(linked.actionButtons == [.favorite, .compareCamera, .share, .saveImage, .viewOnWeb])
   }
 
+  /// Going back while the linked photo loads leaves the screen off the top of the stack, so the
+  /// loaded photo is dropped instead of being pushed over whatever is shown now.
+  @Test func linkedPhotoLoadedAfterPopIsNotPushed() async {
+    let harness = Harness()
+    let model = harness.makeModel(cachedDetails: nil)
+
+    model(.descriptionLink(pastvuPhotoURL(2_223_969)))
+    harness.isPopped = true
+
+    #expect(await eventually { !model.state.loadingAnotherImage })
+    #expect(harness.lastPushedImage == nil)
+  }
+
   /// A link to an external host is opened in the browser rather than recursing.
   @Test func externalLinkOpensInBrowser() async throws {
     let harness = Harness()
@@ -284,6 +297,7 @@ private final class Harness {
   private(set) var openedURLs: [URL] = []
   private(set) var requestedCids: [Int] = []
   private(set) var pushedScreens: [Screen] = []
+  var isPopped = false
 
   var lastPushedImage: ImageDetailsModel.Store? {
     pushedScreens.compactMap {
@@ -328,7 +342,10 @@ private final class Harness {
         imageDetailsFactory: { image, source in
           Screen(.image(build(image, cachedDetails: nil, source: source).viewStore))
         },
-        isLastScreen: Variable { [weak self] in self?.pushedScreens.isEmpty ?? true },
+        isLastScreen: Variable { [weak self] in
+          guard let self else { return true }
+          return !isPopped && pushedScreens.isEmpty
+        },
       )
     }
     return build(.mock, cachedDetails: cachedDetails, source: .mock)

@@ -57,8 +57,7 @@ enum AppAction {
   }
 
   enum Internal {
-    case imagePreviewClosed
-    case imageListClosed
+    case navigatedToRoot
   }
 
   case imageDetails(ImageDetails)
@@ -86,22 +85,21 @@ func makeAppModel(
   settings: Property<SettingsState>,
   requestAppStoreReview: @escaping () -> Void,
   pushScreen: @escaping (Screen) -> Void,
+  openedScreens: Variable<[Screen]>,
 ) -> AppModel {
-  weak var weakSelf: AppModel?
-  let openedScreens = Variable {
-    weakSelf?.state.navigationPath ?? []
-  }
-  let model = AppModel(initial: .makeInitial(
+  AppModel(initial: .makeInitial(
     onboardingViewModel: onboardingViewModel,
     settingsState: settings.value,
   )) { state, action, effect, asyncEffect in
     switch action {
     case let .imageDetails(detailsAction):
+      guard state.navigationPath.isEmpty else { return }
       switch detailsAction {
       case let .present(image, source):
         state.navigationPath.append(imageDetailsFactory(image, source))
       }
     case let .imageList(listAction):
+      guard state.navigationPath.isEmpty else { return }
       switch listAction {
       case let .presentFavorites(source):
         let screen = makeImageListScreen(
@@ -177,13 +175,8 @@ func makeAppModel(
     case let .navigation(navigation):
       switch navigation {
       case let .setPath(path):
-        if let lastScreen = state.navigationPath.last,
-           path.isEmpty {
-          switch lastScreen.kind {
-          case .image: asyncEffect(.anotherAction(.internal(.imagePreviewClosed)))
-          case .list: asyncEffect(.anotherAction(.internal(.imageListClosed)))
-          default: break
-          }
+        if !state.navigationPath.isEmpty, path.isEmpty {
+          asyncEffect(.anotherAction(.internal(.navigatedToRoot)))
         }
 
         state.navigationPath = path
@@ -192,7 +185,7 @@ func makeAppModel(
       }
     case let .internal(`internal`):
       switch `internal` {
-      case .imagePreviewClosed, .imageListClosed:
+      case .navigatedToRoot:
         effect {
           performMapAction(.previewClosed)
           requestAppStoreReview()
@@ -200,8 +193,6 @@ func makeAppModel(
       }
     }
   }
-  weakSelf = model
-  return model
 }
 
 extension AlertParams {
