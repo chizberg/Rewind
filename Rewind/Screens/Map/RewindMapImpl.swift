@@ -143,6 +143,11 @@ private final class RewindMapView: MKMapView, UIGestureRecognizerDelegate {
     fatalError("init(coder:) has not been implemented")
   }
 
+  override func didMoveToWindow() {
+    super.didMoveToWindow()
+    softenTopEdgeEffect()
+  }
+
   @objc
   func handlePan(_ recognizer: UIPanGestureRecognizer) {
     pipe.send(.userDragged(recognizer.location(in: self), frame))
@@ -153,6 +158,16 @@ private final class RewindMapView: MKMapView, UIGestureRecognizerDelegate {
     shouldRecognizeSimultaneouslyWith _: UIGestureRecognizer,
   ) -> Bool {
     true
+  }
+
+  private func softenTopEdgeEffect() {
+    guard #available(iOS 26.0, *) else { return }
+    let key = "topEdgeEffect"
+    let edgeEffect = interactions
+      .compactMap { $0 as? NSObject }
+      .first { $0.responds(to: NSSelectorFromString(key)) }?
+      .value(forKey: key) as? UIScrollEdgeEffect
+    edgeEffect?.style = .soft
   }
 }
 
