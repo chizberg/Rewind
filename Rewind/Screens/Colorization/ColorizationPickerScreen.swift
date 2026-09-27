@@ -37,7 +37,7 @@ struct ColorizationPickerScreen: View {
 
       VStack(alignment: .leading) {
         Text("Image Colorization")
-          .font(.system(.title2, design: .serif).bold())
+          .font(.title2.bold())
         Text("colorization-feature-promo")
           .font(.footnote.smallCaps().bold())
           .foregroundStyle(

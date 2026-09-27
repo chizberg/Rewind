@@ -30,7 +30,7 @@ struct DirectionView: View {
     ColoredContainer(date: date) {
       HStack(spacing: 5) {
         Text(direction.rawValue.uppercased())
-          .bold().monospaced()
+          .bold()
         Image(systemName: "arrowtriangle.up.fill")
           .resizable()
           .frame(width: 8, height: 10)
