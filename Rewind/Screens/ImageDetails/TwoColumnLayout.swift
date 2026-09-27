@@ -13,132 +13,94 @@ struct TwoColumnLayout: Layout {
   var columnSpacing: CGFloat = 8
   var rowSpacing: CGFloat = 8
 
-  struct Cache {
-    var size: CGSize = .zero
-    var frames: [CGRect] = []
-    var width: CGFloat = 0
-  }
-
-  func makeCache(subviews _: Subviews) -> Cache { .init() }
-
   func sizeThatFits(
     proposal: ProposedViewSize,
     subviews: Subviews,
-    cache: inout Cache,
+    cache _: inout (),
   ) -> CGSize {
     guard let width = proposal.width else { return .zero }
-
-    if cache.width != width || cache.frames.count != subviews.count {
-      let (size, frames) = computeLayout(width: width, subviews: subviews)
-      cache.width = width
-      cache.size = size
-      cache.frames = frames
-    }
-
-    return cache.size
+    let frames = makeFrames(width: width, subviews: subviews)
+    return CGSize(width: width, height: frames.map(\.maxY).max() ?? 0)
   }
 
   func placeSubviews(
     in bounds: CGRect,
     proposal _: ProposedViewSize,
     subviews: Subviews,
-    cache: inout Cache,
+    cache _: inout (),
   ) {
-    for (i, subview) in subviews.enumerated() {
-      let f = cache.frames[i]
+    let frames = makeFrames(width: bounds.width, subviews: subviews)
+    for (subview, frame) in zip(subviews, frames) {
       subview.place(
         at: CGPoint(
-          x: bounds.minX + f.minX,
-          y: bounds.minY + f.minY,
+          x: bounds.minX + frame.minX,
+          y: bounds.minY + frame.minY,
         ),
-        proposal: ProposedViewSize(width: f.width, height: f.height),
+        proposal: ProposedViewSize(frame.size),
       )
     }
   }
 
-  private func computeLayout(
+  private func makeFrames(
     width: CGFloat,
     subviews: Subviews,
-  ) -> (CGSize, [CGRect]) {
-    var frames = Array(repeating: CGRect.zero, count: subviews.count)
-
+  ) -> [CGRect] {
     let columnWidth = (width - columnSpacing) / 2
+    let fitsColumn = subviews.map {
+      $0.sizeThatFits(.unspecified).width <= columnWidth
+    }
+
+    var frames: [CGRect] = []
     var y: CGFloat = 0
     var index = 0
-
-    func isWide(_ idx: Int) -> Bool {
-      let natural = subviews[idx].sizeThatFits(.unspecified)
-      return natural.width > columnWidth
-    }
-
     while index < subviews.count {
-      // last element
-      if index == subviews.count - 1 {
-        let size = subviews[index]
-          .sizeThatFits(.init(width: width, height: nil))
-        frames[index] = CGRect(x: 0, y: y, width: width, height: size.height)
-        y += size.height
-        break
+      let isPair = index + 1 < subviews.count
+        && fitsColumn[index] && fitsColumn[index + 1]
+      let row = isPair ? [index, index + 1] : [index]
+      let itemWidth = isPair ? columnWidth : width
+      let rowHeight = row.map {
+        subviews[$0].sizeThatFits(.init(width: itemWidth, height: nil)).height
+      }.max() ?? 0
+
+      for column in row.indices {
+        frames.append(CGRect(
+          x: CGFloat(column) * (columnWidth + columnSpacing),
+          y: y,
+          width: itemWidth,
+          height: rowHeight,
+        ))
       }
-
-      let left = index
-      let right = index + 1
-
-      // if the left one doesn't fit in the column — left on a full-width row
-      if isWide(left) {
-        let size = subviews[left]
-          .sizeThatFits(.init(width: width, height: nil))
-        frames[left] = CGRect(x: 0, y: y, width: width, height: size.height)
-        y += size.height + rowSpacing
-        index += 1
-        continue
-      }
-
-      // if the right one doesn't fit in the column —
-      // both left and right on separate full-width rows
-      if isWide(right) {
-        let leftSize = subviews[left]
-          .sizeThatFits(.init(width: width, height: nil))
-        frames[left] = CGRect(x: 0, y: y, width: width, height: leftSize.height)
-        y += leftSize.height + rowSpacing
-
-        let rightSize = subviews[right]
-          .sizeThatFits(.init(width: width, height: nil))
-        frames[right] = CGRect(x: 0, y: y, width: width, height: rightSize.height)
-        y += rightSize.height + rowSpacing
-
-        index += 2
-        continue
-      }
-
-      // regular row
-      let leftSize = subviews[left]
-        .sizeThatFits(.init(width: columnWidth, height: nil))
-      let rightSize = subviews[right]
-        .sizeThatFits(.init(width: columnWidth, height: nil))
-
-      let rowHeight = max(leftSize.height, rightSize.height)
-
-      frames[left] = CGRect(
-        x: 0,
-        y: y,
-        width: columnWidth,
-        height: rowHeight,
-      )
-
-      frames[right] = CGRect(
-        x: columnWidth + columnSpacing,
-        y: y,
-        width: columnWidth,
-        height: rowHeight,
-      )
-
       y += rowHeight + rowSpacing
-      index += 2
+      index += row.count
     }
+    return frames
+  }
+}
 
-    if y > 0 { y -= rowSpacing } // remove last spacing
-
-    return (CGSize(width: width, height: y), frames)
+#Preview {
+  let titles = [
+    "Favorite", "Compare", "Compare with Google Street View",
+    "Show on map", "Share", "Save image", "View on Web",
+    "A very long button title that surely doesn't fit in one line of the screen width",
+    "Find route",
+  ]
+  ScrollView {
+    TwoColumnLayout {
+      ForEach(titles, id: \.self) { title in
+        HStack {
+          Image(systemName: "star")
+          Text(title)
+          Spacer()
+        }
+        .padding(10)
+        .frame(minHeight: 50)
+        .background(Color.white)
+        .cornerRadius(15)
+      }
+    }
+    .background(.yellow)
+    .padding(10)
+    .background(Color.gray)
+    .padding(.horizontal, 5)
   }
 }
