@@ -14,7 +14,7 @@ enum ThumbnailCard: Equatable, Identifiable {
     switch self {
     case .noImages: nil
     case let .image(image): .image(.thumbnail(image.cid))
-    case .viewAsList: .imageList(.viewAsListButton)
+    case .viewAsList: .imageList(.thumbnail)
     }
   }
 

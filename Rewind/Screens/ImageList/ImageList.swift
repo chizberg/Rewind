@@ -128,7 +128,8 @@ extension ImageSorting: Identifiable {
 
 #if DEBUG
 private let imageDetailsFactoryMock: ImageDetailsFactory = { _, source in
-  makeImageDetailsModel(
+  let screenID = Screen.ID()
+  let model = makeImageDetailsModel(
     modelImage: .mock,
     remote: Remote { _ in .mock },
     cachedDetails: nil,
@@ -143,7 +144,10 @@ private let imageDetailsFactoryMock: ImageDetailsFactory = { _, source in
     extractModelImage: { _ in .mock },
     makeColorizationPicker: { _ in .mock(.mock) },
     pushScreen: { _ in },
+    imageDetailsFactory: { _, _ in fatalError() },
+    isLastScreen: .constant(true),
   )
+  return Screen(.image(model.viewStore), id: screenID)
 }
 
 #Preview {
@@ -166,6 +170,7 @@ private let imageDetailsFactoryMock: ImageDetailsFactory = { _, source in
     imageDetailsFactory: imageDetailsFactoryMock,
     sorting: .constant(.dateAscending),
     pushScreen: { _ in },
+    isLastScreen: .constant(true),
   ).viewStore
 
   ImageList(viewStore: store)
@@ -181,6 +186,7 @@ private let imageDetailsFactoryMock: ImageDetailsFactory = { _, source in
     imageDetailsFactory: imageDetailsFactoryMock,
     sorting: .constant(.dateAscending),
     pushScreen: { _ in },
+    isLastScreen: .constant(true),
   ).viewStore
 
   ImageList(viewStore: store)

@@ -250,12 +250,14 @@ struct ImageDetailsView: View {
       VStack(alignment: .leading, spacing: 5) {
         Text(viewStore.translation?.title ?? viewStore.attributedTitle)
           .font(.title.bold())
+          .fontDesign(.serif)
 
         HStack {
           ImageDateView(date: viewStore.image.date)
 
           if let direction = viewStore.image.dir {
             DirectionView(date: viewStore.image.date, direction: direction)
+              .fontDesign(.serif)
           }
         }
       }
@@ -592,6 +594,8 @@ extension FavoritesModel {
     extractModelImage: { _ in .mock },
     makeColorizationPicker: { _ in .mock(.mock) },
     pushScreen: { _ in },
+    imageDetailsFactory: { _, _ in fatalError() },
+    isLastScreen: .constant(true),
   ).viewStore
 
   ImageDetailsView(
@@ -621,6 +625,8 @@ extension FavoritesModel {
     extractModelImage: { _ in .mock },
     makeColorizationPicker: { _ in .mock(.mock) },
     pushScreen: { _ in },
+    imageDetailsFactory: { _, _ in fatalError() },
+    isLastScreen: .constant(true),
   ).viewStore
 
   NavigationStack {

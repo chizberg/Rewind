@@ -49,6 +49,7 @@ struct FullscreenPreview: View {
       }
     }
     .toolbarVisibility(controlsHidden ? .hidden : .visible, for: .navigationBar)
+    .alert(store.binding(\.alert, send: { _ in .dismissAlert }))
   }
 }
 
@@ -70,6 +71,7 @@ struct ZoomableImageView: View {
   }
 }
 
+#if DEBUG
 #Preview {
   NavigationStack {
     FullscreenPreview(
@@ -82,6 +84,7 @@ struct ZoomableImageView: View {
     )
   }
 }
+#endif
 
 private final class ZoomableImageViewImpl: UIScrollView, UIScrollViewDelegate {
   private let imageView: UIImageView
