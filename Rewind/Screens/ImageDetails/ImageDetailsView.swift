@@ -287,6 +287,7 @@ struct ImageDetailsView: View {
       HStack {
         Image(systemName: spec.iconName)
         Text(spec.title)
+          .multilineTextAlignment(.leading)
         Spacer()
       }
       .padding(10)
