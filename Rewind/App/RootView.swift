@@ -33,17 +33,10 @@ struct RootView: View {
   private var rootView
 
   var body: some View {
-    NavigationStack(
-      path: appStore.binding(\.navigationPath, send: { .navigation(.setPath($0)) })
-    ) {
-      content
-        .navigationDestination(for: Screen.self) { screen in
-          screen.view(namespace: rootView)
-        }
-    }
-    .environment(\.gradientScheme, appStore.gradientScheme)
-    .environment(\.maxRange, mapStore.selectedImageKind.maxRange)
-    .environment(\.rootNamespace, rootView)
+    content
+      .environment(\.gradientScheme, appStore.gradientScheme)
+      .environment(\.maxRange, mapStore.selectedImageKind.maxRange)
+      .environment(\.rootNamespace, rootView)
   }
 
   private var content: some View {

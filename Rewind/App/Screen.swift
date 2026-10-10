@@ -33,17 +33,8 @@ struct Screen: Hashable {
     hasher.combine(id)
   }
 
-  func view(
-    namespace: Namespace.ID
-  ) -> some View {
-    view()
-      .ifLet(transitionSource) { view, source in
-        view.zoomed(from: source, namespace: namespace)
-      }
-  }
-
   @ViewBuilder
-  private func view() -> some View {
+  func view() -> some View {
     switch value {
     case let .image(store):
       ImageDetailsView(viewStore: store)

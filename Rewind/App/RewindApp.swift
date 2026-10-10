@@ -16,17 +16,23 @@ struct RewindApp: App {
 
   var body: some Scene {
     WindowGroup {
-      RootView(
-        rawMap: graph.map.value.view,
-        mapControlsStore: graph.mapControlsStore,
-        floatingMenuStore: graph.floatingMenuStore,
-        appStore: graph.appStore,
-        mapStore: graph.rootViewMapStore,
-      )
-      .environment(\.openURL, OpenURLAction {
-        graph.urlOpener($0)
-        return .handled
+      ViewControllerRepresentable(factory: {
+        graph.navigator.setRoot(
+          RootView(
+            rawMap: graph.map.value.view,
+            mapControlsStore: graph.mapControlsStore,
+            floatingMenuStore: graph.floatingMenuStore,
+            appStore: graph.appStore,
+            mapStore: graph.rootViewMapStore,
+          )
+          .environment(\.openURL, OpenURLAction {
+            graph.urlOpener($0)
+            return .handled
+          })
+        )
+        return graph.navigator.navigationController
       })
+      .ignoresSafeArea()
     }
   }
 }
