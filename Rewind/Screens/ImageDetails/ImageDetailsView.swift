@@ -11,7 +11,7 @@ import VGSL
 struct ImageDetailsView: View {
   var viewStore: ImageDetailsModel.Store
 
-  @RootNamespace
+  @Namespace
   private var namespace
   @Environment(\.horizontalSizeClass)
   private var horizontalSizeClass
@@ -140,7 +140,7 @@ struct ImageDetailsView: View {
       MagnificationGesture(minimumScaleDelta: 1.3)
         .onChanged { _ in showFullscreenPreview() },
     )
-    .zoomTransitionSource(.fullscreenPreview, namespace: namespace)
+    .zoomTransitionSource(.fullscreenPreview)
     .withAnimatedValue(
       viewStore.colorizationState.button != nil,
       animation: .spring,
@@ -231,7 +231,7 @@ struct ImageDetailsView: View {
     VStack(alignment: .leading, spacing: 3) {
       Text(viewStore.translation?.description ?? desc)
         .font(.body)
-        .zoomTransitionSource(.image(.link), namespace: namespace)
+        .zoomTransitionSource(.image(.link))
         .environment(\.openURL, OpenURLAction {
           viewStore(.descriptionLink($0))
           return .handled
@@ -297,7 +297,7 @@ struct ImageDetailsView: View {
     .background(spec.background)
     .cornerRadius(actionButtonCornerRadius)
     .ifLet(spec.transitionSource) { view, source in
-      view.zoomTransitionSource(source, namespace: namespace)
+      view.zoomTransitionSource(source)
     }
     .if(action == .route) {
       $0.confirmationDialog(
