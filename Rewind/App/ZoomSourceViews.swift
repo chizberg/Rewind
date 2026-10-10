@@ -47,6 +47,7 @@ struct ZoomSourceModifier: ViewModifier {
   func body(content: Content) -> some View {
     if let zoomSourceViews {
       content
+        .buttonStyle(StillButtonStyle())
         .opacity(frozen ? 0 : 1)
         .background {
           ViewRepresentable(
@@ -60,6 +61,12 @@ struct ZoomSourceModifier: ViewModifier {
     } else {
       content
     }
+  }
+}
+
+private struct StillButtonStyle: ButtonStyle {
+  func makeBody(configuration: Configuration) -> some View {
+    configuration.label
   }
 }
 
