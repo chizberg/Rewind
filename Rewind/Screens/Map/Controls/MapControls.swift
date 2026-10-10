@@ -105,10 +105,7 @@ struct MapControls<Menu: View>: View {
         .opacity(0.7)
         .padding()
       }
-      .zoomTransitionSource(
-        .imageList(.pullUpCard),
-        namespace: namespace
-      )
+      .zoomTransitionSource(.imageList(.pullUpCard))
       .padding(.horizontal, containerPadding)
       .frame(height: 700)
     }
@@ -135,31 +132,24 @@ struct MapControls<Menu: View>: View {
   private var horizontalScrollContent: some View {
     LazyHStack(spacing: 8) {
       VStack {
-        makeBottomScrollButton(
-          iconName: "star",
-          source: .imageList(.favoritesButton),
-        ) {
+        makeBottomScrollButton(iconName: "star") {
           appAction(.imageList(.presentFavorites(
             source: .imageList(.favoritesButton),
           )))
         }
+        .zoomTransitionSource(.imageList(.favoritesButton))
 
-        makeBottomScrollButton(
-          iconName: "list.bullet",
-          source: .imageList(.viewAsListButton),
-          action: {
-            appAction(.imageList(.presentCurrentRegionImages(
-              source: .imageList(.viewAsListButton),
-            )))
-          },
-        )
+        makeBottomScrollButton(iconName: "list.bullet") {
+          appAction(.imageList(.presentCurrentRegionImages(
+            source: .imageList(.viewAsListButton),
+          )))
+        }
+        .zoomTransitionSource(.imageList(.viewAsListButton))
 
-        makeBottomScrollButton(
-          iconName: "gearshape",
-          source: .settingsButton,
-        ) {
+        makeBottomScrollButton(iconName: "gearshape") {
           appAction(.settings(.present))
         }
+        .zoomTransitionSource(.settingsButton, namespace: namespace)
       }.frame(width: 75)
 
       ForEach(store.previews) { card in
@@ -169,7 +159,7 @@ struct MapControls<Menu: View>: View {
           radius: mapControlRadius,
         )
         .ifLet(card.source) { view, source in
-          view.zoomTransitionSource(source, namespace: namespace)
+          view.zoomTransitionSource(source)
         }
         .cornerRadius(mapControlRadius) // for transitions
         .onTapGesture {
@@ -193,7 +183,6 @@ struct MapControls<Menu: View>: View {
 
   private func makeBottomScrollButton(
     iconName: String,
-    source: TransitionSource,
     action: @escaping () -> Void,
   ) -> some View {
     ZStack {
@@ -202,7 +191,6 @@ struct MapControls<Menu: View>: View {
       Image(systemName: iconName)
         .font(.title2.bold())
     }
-    .zoomTransitionSource(source, namespace: namespace)
     .cornerRadius(mapControlRadius)
     .onTapGesture(perform: action)
   }

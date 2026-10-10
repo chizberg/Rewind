@@ -11,9 +11,6 @@ import VGSL
 struct ImageList: View {
   var viewStore: ImageListModel.Store
 
-  @RootNamespace
-  private var namespace
-
   @State
   private var scrollPosition = ScrollPosition()
 
@@ -58,10 +55,7 @@ struct ImageList: View {
         ImageListCell(value: image)
       }
       .foregroundStyle(.primary)
-      .zoomTransitionSource(
-        .image(.listRow(image.cid)),
-        namespace: namespace
-      )
+      .zoomTransitionSource(.image(.listRow(image.cid)))
     }
   }
 
