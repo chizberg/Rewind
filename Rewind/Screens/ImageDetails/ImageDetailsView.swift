@@ -24,8 +24,10 @@ struct ImageDetailsView: View {
 
   var body: some View {
     content
-      .overlay {
-        RainbowShadow(frame: colorizeButtonFrame)
+      .delayedModifier(value: colorizeButtonFrame, delay: 0.3) { view, frame in
+        view.overlay {
+          RainbowShadow(frame: frame)
+        }
       }
       .animation(.smooth, value: viewStore.translationState)
       .coordinateSpace(.named(spaceName))
@@ -147,17 +149,26 @@ struct ImageDetailsView: View {
     ) { view, isButtonShown in
       view.toolbar {
         if isButtonShown == true, let state = viewStore.colorizationState.button {
-          ToolbarItem {
-            ColorizeButton(
-              namespace: namespace,
-              state: state,
-            ) {
-              viewStore(.colorize)
-            }
-            .readFrame(in: .named(spaceName)) { colorizeButtonFrame = $0 }
+          if #available(iOS 26, *) {
+            makeColorizeItem(state: state)
+              .sharedBackgroundVisibility(state == .done ? .hidden : .automatic)
+          } else {
+            makeColorizeItem(state: state)
           }
         }
       }
+    }
+  }
+
+  private func makeColorizeItem(state: ColorizeButton.Phase) -> some ToolbarContent {
+    ToolbarItem {
+      ColorizeButton(
+        namespace: namespace,
+        state: state,
+      ) {
+        viewStore(.colorize)
+      }
+      .readFrame(in: .named(spaceName)) { colorizeButtonFrame = $0 }
     }
   }
 
@@ -442,8 +453,6 @@ private struct ColorizeButton: View {
   var action: () -> Void
 
   @State
-  private var platterFrame: CGRect?
-  @State
   private var isShown = false
 
   var body: some View {
@@ -454,7 +463,6 @@ private struct ColorizeButton: View {
     .modify { button in
       if #available(iOS 26, *) {
         button
-          .readToolbarPlatterFrame { platterFrame = $0 }
       } else {
         button
           .scaleEffect(isShown ? 1 : 0)
@@ -490,14 +498,13 @@ private struct ColorizeButton: View {
         .modify { icon in
           if #available(iOS 26, *) {
             icon
+              .frame(squareSize: 36)
               .background {
                 makeRainbow(exposure: 0)
-                  .clipShape(Capsule())
-                  .ifLet(platterFrame) { rainbow, frame in
-                    rainbow
-                      .frame(size: frame.size)
-                  }
+                  .clipShape(Circle())
+                  .padding(-4) // fill the 44pt platter around the 36pt item
               }
+              .padding(.horizontal, -6) // cancel the toolbar's button inset without the platter
           } else {
             icon
               .imageScale(.small)
@@ -532,6 +539,8 @@ private struct RainbowShadow: View {
   @State
   private var showsRainbow = false
   @State
+  private var rainbowShown = false
+  @State
   private var rainbowAngle = Angle.zero
 
   var body: some View {
@@ -548,6 +557,8 @@ private struct RainbowShadow: View {
           }
           .position(x: frame.midX, y: frame.midY)
           .task {
+            guard !rainbowShown else { return }
+            rainbowShown = true
             showsRainbow = true
             withAnimation(
               .linear(duration: rainbowShadowRotationDuration)
