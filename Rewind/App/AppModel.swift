@@ -52,8 +52,8 @@ enum AppAction {
   }
 
   enum Navigation {
-    case setPath([Screen])
-    case pushScreen(Screen)
+    case stackChanged([Screen])
+    case popToRoot
   }
 
   enum Internal {
@@ -85,6 +85,7 @@ func makeAppModel(
   settings: Property<SettingsState>,
   requestAppStoreReview: @escaping () -> Void,
   pushScreen: @escaping (Screen) -> Void,
+  popToRoot: @escaping () -> Void,
   openedScreens: Variable<[Screen]>,
 ) -> AppModel {
   AppModel(initial: .makeInitial(
@@ -93,13 +94,14 @@ func makeAppModel(
   )) { state, action, effect, asyncEffect in
     switch action {
     case let .imageDetails(detailsAction):
-      guard state.navigationPath.isEmpty else { return }
+      guard openedScreens.value.isEmpty else { return }
       switch detailsAction {
       case let .present(image, source):
-        state.navigationPath.append(imageDetailsFactory(image, source))
+        let screen = imageDetailsFactory(image, source)
+        effect { pushScreen(screen) }
       }
     case let .imageList(listAction):
-      guard state.navigationPath.isEmpty else { return }
+      guard openedScreens.value.isEmpty else { return }
       switch listAction {
       case let .presentFavorites(source):
         let screen = makeImageListScreen(
@@ -112,7 +114,7 @@ func makeAppModel(
           pushScreen: pushScreen,
           openedScreens: openedScreens,
         )
-        state.navigationPath.append(screen)
+        effect { pushScreen(screen) }
       case let .presentCurrentRegionImages(source):
         let screen = makeImageListScreen(
           title: "On the map",
@@ -124,7 +126,7 @@ func makeAppModel(
           pushScreen: pushScreen,
           openedScreens: openedScreens,
         )
-        state.navigationPath.append(screen)
+        effect { pushScreen(screen) }
       case let .present(images, source, title):
         let screen = makeImageListScreen(
           title: title,
@@ -136,7 +138,7 @@ func makeAppModel(
           pushScreen: pushScreen,
           openedScreens: openedScreens,
         )
-        state.navigationPath.append(screen)
+        effect { pushScreen(screen) }
       }
     case let .settings(settingsAction):
       switch settingsAction {
@@ -174,14 +176,14 @@ func makeAppModel(
       state.gradientScheme = gradientScheme
     case let .navigation(navigation):
       switch navigation {
-      case let .setPath(path):
+      case let .stackChanged(path):
         if !state.navigationPath.isEmpty, path.isEmpty {
           asyncEffect(.anotherAction(.internal(.navigatedToRoot)))
         }
 
         state.navigationPath = path
-      case let .pushScreen(screen):
-        state.navigationPath.append(screen)
+      case .popToRoot:
+        effect { popToRoot() }
       }
     case let .internal(`internal`):
       switch `internal` {

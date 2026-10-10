@@ -76,10 +76,11 @@ extension View {
     _ source: TransitionSource,
     namespace: Namespace.ID
   ) -> some View {
+    let view = modifier(ZoomSourceModifier(source: source))
     if zoomAvailable {
-      self.matchedTransitionSource(id: source, in: namespace)
+      view.matchedTransitionSource(id: source, in: namespace)
     } else {
-      self
+      view
     }
   }
 }

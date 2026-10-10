@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 import UIKit
 import VGSL
 
@@ -15,6 +16,7 @@ final class AppGraph {
   let floatingMenuStore: FloatingMenu.Store
   let rootViewMapStore: RootView.Map.Store
   let appStore: AppModel.Store
+  let navigator: Navigator
 
   let map: Lazy<RewindMap>
   let urlOpener: UrlOpener
@@ -59,13 +61,14 @@ final class AppGraph {
 
     weak var mapModelRef: MapModel?
     weak var appModelRef: AppModel?
+    weak var navigatorRef: Navigator?
     let urlOpener: UrlOpener = { $0.map { UIApplication.shared.open($0) } }
     self.urlOpener = urlOpener
     let pushScreen: (Screen) -> Void = {
-      appModelRef?(.navigation(.pushScreen($0)))
+      navigatorRef?.push($0)
     }
     let openedScreens = Variable {
-      appModelRef?.state.navigationPath ?? []
+      navigatorRef?.screens.value ?? []
     }
     mapModel = makeMapModel(
       map: map,
@@ -109,7 +112,7 @@ final class AppGraph {
         source: source,
         favoritesModel: favoritesModel,
         showOnMap: { coordinate in
-          appModelRef?(.navigation(.setPath([])))
+          appModelRef?(.navigation(.popToRoot))
           mapModelRef?(.external(.focusOn(coordinate, zoom: 17)))
         },
         canOpenURL: { UIApplication.shared.canOpenURL($0) },
@@ -162,10 +165,21 @@ final class AppGraph {
       settings: settings.asProperty(),
       requestAppStoreReview: { storeReview.request() },
       pushScreen: pushScreen,
+      popToRoot: { navigatorRef?.popToRoot() },
       openedScreens: openedScreens,
     )
     appModelRef = appModel
     appStore = appModel.viewStore
+    navigator = Navigator { [appStore, rootViewMapStore] screen in
+      screen.view()
+        .environment(\.gradientScheme, appStore.gradientScheme)
+        .environment(\.maxRange, rootViewMapStore.selectedImageKind.maxRange)
+        .environment(\.openURL, OpenURLAction {
+          urlOpener($0)
+          return .handled
+        })
+    }
+    navigatorRef = navigator
     floatingMenuStore = makeFloatingMenuStore(
       appStore: appStore,
       mapStore: mapStore
@@ -193,6 +207,9 @@ final class AppGraph {
       map.value.updateBottomInset(size.height - hiddenPart)
     }.dispose(in: disposePool)
     filters.current = mapModel.$state.filters.skipRepeats()
+    navigator.screens.newValues.addObserver {
+      appModelRef?(.navigation(.stackChanged($0)))
+    }.dispose(in: disposePool)
 
     // React to memory warnings by clearing cached images, image details and the colorization model
     memoryWarningObserver = NotificationCenter.default.addObserver(
