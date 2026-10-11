@@ -87,6 +87,12 @@
             "state" : "translated",
             "value" : "Aplikacja potrzebuje tego dostępu, aby zapisywać obrazy w Twojej bibliotece zdjęć"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikace potřebuje tento přístup k ukládání obrázků do knihovny fotek"
+          }
         }
       }
     },
@@ -173,6 +179,12 @@
           }
         },
         "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind"
+          }
+        },
+        "cs" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rewind"
@@ -267,6 +279,12 @@
             "state" : "translated",
             "value" : "Rewind"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind"
+          }
         }
       }
     },
@@ -357,6 +375,12 @@
             "state" : "translated",
             "value" : "Dostęp do aparatu jest potrzebny, aby robić zdjęcia porównawcze"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přístup k fotoaparátu je potřeba k pořízení srovnávacích fotografií"
+          }
         }
       }
     },
@@ -445,6 +469,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Twoje położenie służy do pokazywania zdjęć i obrazów w Twojej okolicy"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poloha se používá k zobrazení fotografií a obrazů ve vašem okolí"
           }
         }
       }
@@ -535,6 +565,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aplikacja potrzebuje tego dostępu, aby zapisywać obrazy w Twojej bibliotece zdjęć"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikace potřebuje tento přístup k ukládání obrázků do knihovny fotek"
           }
         }
       }
