@@ -118,15 +118,15 @@ func makeMapModel(
                   source: .image(.annotation(cluster.preview.cid))
                 ))) }
               } else {
-                let mapSize = map.value.size
-                let currentZoom = Rewind.zoom(region: state.region, mapSize: mapSize)
-                effect {
+                effect { [region = state.region] in
                   map.value.set(
-                    region: Region(
-                      center: cluster.coordinate,
-                      zoom: currentZoom + 1,
-                      mapSize: mapSize,
-                    ),
+                    region: modified(region) {
+                      $0.center = cluster.coordinate
+                      $0.span = MKCoordinateSpan(
+                        latitudeDelta: region.span.latitudeDelta / 2,
+                        longitudeDelta: region.span.longitudeDelta / 2,
+                      )
+                    },
                     animated: true,
                   )
                 }
