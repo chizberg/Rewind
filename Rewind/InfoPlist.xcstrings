@@ -69,6 +69,12 @@
             "state" : "translated",
             "value" : "L'app ha bisogno di questo accesso per salvare le immagini nella tua libreria di foto"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De app heeft deze toegang nodig om afbeeldingen in je fotobibliotheek te bewaren"
+          }
         }
       }
     },
@@ -137,6 +143,12 @@
           }
         },
         "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind"
+          }
+        },
+        "nl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rewind"
@@ -213,6 +225,12 @@
             "state" : "translated",
             "value" : "Rewind"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind"
+          }
         }
       }
     },
@@ -285,6 +303,12 @@
             "state" : "translated",
             "value" : "L'accesso alla fotocamera serve per scattare foto di confronto"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cameratoegang is nodig om vergelijkingsfoto's te maken"
+          }
         }
       }
     },
@@ -355,6 +379,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "La tua posizione viene usata per mostrare foto e dipinti vicino a te"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je locatie is nodig om foto's en schilderijen in de buurt te tonen"
           }
         }
       }
@@ -427,6 +457,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "L'app ha bisogno di questo accesso per salvare le immagini nella tua libreria di foto"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De app heeft deze toegang nodig om afbeeldingen in je fotobibliotheek te bewaren"
           }
         }
       }
