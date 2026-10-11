@@ -4253,7 +4253,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Відкрити налаштування"
+            "value" : "Відкрити Параметри"
           }
         },
         "uz" : {
@@ -12449,13 +12449,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Puedes cambiarlo en Configuración.\nVe a Aplicaciones -> Rewind -> Ubicación -> Mientras se usa la app"
+            "value" : "Puedes cambiarlo en Ajustes.\nVe a Aplicaciones -> Rewind -> Ubicación -> Cuando se use la app"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vous pouvez modifier cela dans Réglages.\nAllez dans Applications -> Rewind -> Localisation -> Lors de l’utilisation"
+            "value" : "Vous pouvez modifier cela dans Réglages.\nAllez dans Applications -> Rewind -> Localisation -> Lorsque l’app est active"
           }
         },
         "kk" : {
@@ -12467,7 +12467,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Вы можете изменить это в Настройках. Приложения -> Rewind -> Геолокация -> Во время использования"
+            "value" : "Вы можете изменить это в Настройках.\nПерейдите в Приложения -> Rewind -> Геопозиция -> При использовании приложения"
           }
         },
         "sr-Latn" : {
@@ -12479,7 +12479,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ви можете змінити це в Налаштуваннях.\nПерейдіть до Програми -> Rewind -> Геолокація -> Під час використання"
+            "value" : "Ви можете змінити це в Параметрах.\nПерейдіть до Програми -> Rewind -> Геопозиція -> За використання програми"
           }
         },
         "uz" : {
@@ -12627,7 +12627,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Puedes verificar los permisos de la cámara en Configuración"
+            "value" : "Puedes verificar los permisos de la cámara en Ajustes"
           }
         },
         "fr" : {
@@ -12657,7 +12657,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ви можете перевірити доступ до камери в Налаштуваннях"
+            "value" : "Ви можете перевірити доступ до камери в Параметрах"
           }
         },
         "uz" : {
