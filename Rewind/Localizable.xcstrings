@@ -1404,7 +1404,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rasmlarning katta guruhi. Ularning barchasini ko'rish uchun yaqinlashtirish kerak"
+            "value" : "Rasmlarning katta guruhi. Ularning barchasini koʻrish uchun yaqinlashtirish kerak"
           }
         },
         "zh-Hans" : {
@@ -1683,7 +1683,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Oq-qora fotosuratlarga qurilmangizda rang qo'shing. Bepul, ro'yxatdan o'tish shart emas."
+            "value" : "Oq-qora fotosuratlarga qurilmangizda rang qoʻshing. Bepul, roʻyxatdan oʻtish shart emas."
           }
         },
         "zh-Hans" : {
@@ -1873,7 +1873,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Modelni istalgan vaqtda o'chirib tashlashingiz mumkin"
+            "value" : "Modelni istalgan vaqtda oʻchirib tashlashingiz mumkin"
           }
         },
         "zh-Hans" : {
@@ -2063,7 +2063,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bepul, ro'yxatdan o'tish shart emas"
+            "value" : "Bepul, roʻyxatdan oʻtish shart emas"
           }
         },
         "zh-Hans" : {
@@ -2443,7 +2443,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Model rang qo'sha olmaganga o'xshaydi. Modellar xato qilishi mumkin, boshqasini sinab ko'ring."
+            "value" : "Model rang qoʻsha olmaganga oʻxshaydi. Modellar xato qilishi mumkin, boshqasini sinab koʻring."
           }
         },
         "zh-Hans" : {
@@ -2538,7 +2538,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rasm avvalgidan rangliroq bo'lmaganga o'xshaydi. Modellar xato qilishi mumkin, boshqasini sinab ko'ring."
+            "value" : "Rasm avvalgidan rangliroq boʻlmaganga oʻxshaydi. Modellar xato qilishi mumkin, boshqasini sinab koʻring."
           }
         },
         "zh-Hans" : {
@@ -2989,7 +2989,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bir joyni vaqt o'tishi bilan solishtirish uchun kamerangizdan foydalaning"
+            "value" : "Bir joyni vaqt oʻtishi bilan solishtirish uchun kamerangizdan foydalaning"
           }
         },
         "zh-Hans" : {
@@ -3084,7 +3084,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O'tmish va hozirni solishtiring"
+            "value" : "Oʻtmish va hozirni solishtiring"
           }
         },
         "zh-Hans" : {
@@ -3173,7 +3173,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dasturchi bilan bog'lanish"
+            "value" : "Dasturchi bilan bogʻlanish"
           }
         },
         "zh-Hans" : {
@@ -3351,7 +3351,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sana bo'yicha (eskidan yangiga)"
+            "value" : "Sana boʻyicha (eskidan yangiga)"
           }
         },
         "zh-Hans" : {
@@ -3538,7 +3538,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Yorqin, tabiiy ranglar. Ko'pchilik fotosuratlar uchun yaxshi ishlaydi."
+            "value" : "Yorqin, tabiiy ranglar. Koʻpchilik fotosuratlar uchun yaxshi ishlaydi."
           }
         },
         "zh-Hans" : {
@@ -3716,7 +3716,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O'chirish"
+            "value" : "Oʻchirish"
           }
         },
         "zh-Hans" : {
@@ -4081,7 +4081,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Yo'nalishni topish"
+            "value" : "Yoʻnalishni topish"
           }
         },
         "zh-Hans" : {
@@ -4710,7 +4710,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bir-biriga yaqin joylashgan bir nechta rasm. Bosilganda to'liq ro'yxat ochiladi"
+            "value" : "Bir-biriga yaqin joylashgan bir nechta rasm. Bosilganda toʻliq roʻyxat ochiladi"
           }
         },
         "zh-Hans" : {
@@ -5084,7 +5084,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Xaritadagi joylarning eski fotosuratlari va rasmlarini ko'ring"
+            "value" : "Xaritadagi joylarning eski fotosuratlari va rasmlarini koʻring"
           }
         },
         "zh-Hans" : {
@@ -5547,7 +5547,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Qani ko'raylik!"
+            "value" : "Qani koʻraylik!"
           }
         },
         "zh-Hans" : {
@@ -5909,7 +5909,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bu yerda hali hech narsa yo'q"
+            "value" : "Bu yerda hali hech narsa yoʻq"
           }
         },
         "zh-Hans" : {
@@ -6550,7 +6550,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Katta klaster oldindan ko'rishlarini bosish orqali ochish"
+            "value" : "Katta klaster oldindan koʻrishlarini bosish orqali ochish"
           }
         },
         "zh-Hans" : {
@@ -7262,7 +7262,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Iltimos, keyinroq qayta urinib ko'ring"
+            "value" : "Iltimos, keyinroq qayta urinib koʻring"
           }
         },
         "zh-Hans" : {
@@ -8247,7 +8247,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Yo'nalishni topish uchun xarita ilovasini tanlang"
+            "value" : "Yoʻnalishni topish uchun xarita ilovasini tanlang"
           }
         },
         "zh-Hans" : {
@@ -8514,7 +8514,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Xaritada ko'rsatish"
+            "value" : "Xaritada koʻrsatish"
           }
         },
         "zh-Hans" : {
@@ -8603,7 +8603,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Asl nusxani ko'rsatish"
+            "value" : "Asl nusxani koʻrsatish"
           }
         },
         "zh-Hans" : {
@@ -8787,7 +8787,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Yo'nalishni ko'rsatadi. Rasm tafsilotlarini ko'rish uchun unga bosing"
+            "value" : "Yoʻnalishni koʻrsatadi. Rasm tafsilotlarini koʻrish uchun unga bosing"
           }
         },
         "zh-Hans" : {
@@ -9238,7 +9238,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Qidiruv so'zini kiriting"
+            "value" : "Qidiruv soʻzini kiriting"
           }
         },
         "zh-Hans" : {
@@ -9422,7 +9422,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Google Street View yordamida joyning bugungi ko'rinishini ko'ring"
+            "value" : "Google Street View yordamida joyning bugungi koʻrinishini koʻring"
           }
         },
         "zh-Hans" : {
@@ -9695,7 +9695,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bu ilova PastVu-siz mumkin bo'lmas edi"
+            "value" : "Bu ilova PastVu-siz mumkin boʻlmas edi"
           }
         },
         "zh-Hans" : {
@@ -9968,7 +9968,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Chet tildagi tavsiflarni bitta bosish bilan o'z tilingizga tarjima qilish mumkin"
+            "value" : "Chet tildagi tavsiflarni bitta bosish bilan oʻz tilingizga tarjima qilish mumkin"
           }
         },
         "zh-Hans" : {
@@ -10241,7 +10241,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rasmni ranglab bo'lmadi"
+            "value" : "Rasmni ranglab boʻlmadi"
           }
         },
         "zh-Hans" : {
@@ -10419,7 +10419,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Siz izlayotgan narsani topib bo'lmadi"
+            "value" : "Siz izlayotgan narsani topib boʻlmadi"
           }
         },
         "zh-Hans" : {
@@ -10603,7 +10603,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rasmni yuqori aniqlikda yuklab bo'lmadi"
+            "value" : "Rasmni yuqori aniqlikda yuklab boʻlmadi"
           }
         },
         "zh-Hans" : {
@@ -10870,7 +10870,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bu so'rov uchun tavsiyalarni yuklab bo'lmadi"
+            "value" : "Bu soʻrov uchun tavsiyalarni yuklab boʻlmadi"
           }
         },
         "zh-Hans" : {
@@ -10959,7 +10959,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Modellar ro'yxatini yuklab bo'lmadi"
+            "value" : "Modellar roʻyxatini yuklab boʻlmadi"
           }
         },
         "zh-Hans" : {
@@ -11048,7 +11048,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rasmni saqlab bo'lmadi"
+            "value" : "Rasmni saqlab boʻlmadi"
           }
         },
         "zh-Hans" : {
@@ -11493,7 +11493,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kameradan foydalanib bo'lmadi"
+            "value" : "Kameradan foydalanib boʻlmadi"
           }
         },
         "zh-Hans" : {
@@ -11767,7 +11767,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App Store'da ko'rish"
+            "value" : "App Storeʼda koʻrish"
           }
         },
         "zh-Hans" : {
@@ -11856,7 +11856,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vebda ko'rish"
+            "value" : "Vebda koʻrish"
           }
         },
         "zh-Hans" : {
@@ -12034,7 +12034,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Manba kodini ko'rish"
+            "value" : "Manba kodini koʻrish"
           }
         },
         "zh-Hans" : {
@@ -12218,7 +12218,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rasmlar qanday ko'rinadi?"
+            "value" : "Rasmlar qanday koʻrinadi?"
           }
         },
         "zh-Hans" : {
@@ -12307,7 +12307,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Yordam ko'rsatganlar:"
+            "value" : "Yordam koʻrsatganlar:"
           }
         },
         "zh-Hans" : {
@@ -12485,7 +12485,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Buni Sozlamalardan o'zgartirishingiz mumkin.\nIlovalar -> Rewind -> Joylashuv -> Ilova ishlatilayotganda bo'limiga o'ting"
+            "value" : "Buni Sozlamalardan oʻzgartirishingiz mumkin.\nIlovalar -> Rewind -> Joylashuv -> Ilova ishlatilayotganda boʻlimiga oʻting"
           }
         },
         "zh-Hans" : {
@@ -12574,7 +12574,7 @@
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Modelni keyinroq Sozlamalardan o'zgartirishingiz mumkin."
+            "value" : "Modelni keyinroq Sozlamalardan oʻzgartirishingiz mumkin."
           }
         },
         "zh-Hans" : {
