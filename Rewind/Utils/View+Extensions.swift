@@ -103,11 +103,15 @@ extension ToolbarContent {
 
   func verticalPreferred() -> some ToolbarContent {
     modify { content in
+      #if canImport(SwiftUI, _version: 8.0.85)
       if #available(iOS 27.1, *) {
         content.axisBehavior(.verticalPreferred)
       } else {
         content
       }
+      #else
+      content
+      #endif
     }
   }
 }
