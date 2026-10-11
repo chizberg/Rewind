@@ -117,7 +117,7 @@ private final class ZoomSourceView<HostedContent: View>: FreezableView {
 
   override func freeze() {
     guard host == nil,
-          let parent = sequence(first: next, next: \.?.next)
+          let parent = sequence(first: self as UIResponder, next: \.next)
           .lazy.compactMap({ $0 as? UIViewController }).first
     else { return }
     let host = UIHostingController(rootView: hostedContent)
