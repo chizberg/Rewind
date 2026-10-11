@@ -76,13 +76,7 @@ struct RootView: View {
       }
     }
     .toolbar {
-      searchAndLocation.modify { content in
-        if #available(iOS 27.1, *) {
-          content.axisBehavior(.verticalPreferred)
-        } else {
-          content
-        }
-      }
+      searchAndLocation.verticalPreferred()
     }
     .delayedModifier(
       value: appStore.anyOverlayPresented,

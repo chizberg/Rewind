@@ -31,6 +31,7 @@ struct SearchView: View {
         ToolbarItem(placement: .topBarLeading) {
           ToolbarBackButton()
         }
+        .verticalPreferred()
       }
       .safeAreaInset(edge: .bottom) { searchBar }
       .alert(store.binding(\.alertModel, send: { _ in .dismissAlert }))

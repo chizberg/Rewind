@@ -92,11 +92,8 @@ struct ToolbarBackButton: View {
     Button {
       dismiss()
     } label: {
-      Image(systemName: "chevron.left")
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+      Label("Back", systemImage: "chevron.left")
     }
-    .foregroundStyle(.primary)
-    .buttonStyle(.plain)
   }
 }
 

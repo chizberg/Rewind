@@ -100,6 +100,16 @@ extension ToolbarContent {
   ) -> some ToolbarContent {
     transform(self)
   }
+
+  func verticalPreferred() -> some ToolbarContent {
+    modify { content in
+      if #available(iOS 27.1, *) {
+        content.axisBehavior(.verticalPreferred)
+      } else {
+        content
+      }
+    }
+  }
 }
 
 extension SwiftUI.ScrollView {
