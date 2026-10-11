@@ -24,29 +24,25 @@ struct ComparisonScreen: View {
           viewSize = $0
         }
 
-      AxisStack(axis: axis) {
-        Spacer(minLength: 0)
+      ComparisonLayout(axis: axis) {
         Color.clear
           .aspectRatio(store.aspectRatio, contentMode: .fit)
           .overlay {
             ComparisonViewRepresentable(vc: deps.comparisonVC)
           }
           .modifier(BlinkingModifier(trigger: store.shotsCount))
-        Spacer(minLength: 0)
+
+        AxisStack(axis: axis) {
+          pickers
+            .padding(axis == .vertical ? .bottom : .trailing, 20)
+          bottomControls
+            .padding(axis == .vertical ? .bottom : .trailing, 75)
+        }
       }
 
       VStack {
         SavedBanner(savesCount: store.savesCount)
         Spacer()
-      }
-
-      AxisStack(axis: axis) {
-        Spacer()
-
-        pickers
-          .padding(axis == .vertical ? .bottom : .trailing, 20)
-        bottomControls
-          .padding(axis == .vertical ? .bottom : .trailing, 75)
       }
     }
     .toolbarVisibility(.hidden, for: .navigationBar)
@@ -196,6 +192,68 @@ extension Axis {
     switch self {
     case .horizontal: .vertical
     case .vertical: .horizontal
+    }
+  }
+}
+
+private struct ComparisonLayout: Layout {
+  var axis: Axis
+
+  func sizeThatFits(
+    proposal: ProposedViewSize,
+    subviews _: Subviews,
+    cache _: inout (),
+  ) -> CGSize {
+    proposal.replacingUnspecifiedDimensions()
+  }
+
+  func placeSubviews(
+    in bounds: CGRect,
+    proposal _: ProposedViewSize,
+    subviews: Subviews,
+    cache _: inout (),
+  ) {
+    let image = subviews[0]
+    let controls = subviews[1]
+    let imageSize = image.sizeThatFits(ProposedViewSize(bounds.size))
+    let controlsSize = controls.sizeThatFits(
+      axis == .vertical
+        ? ProposedViewSize(width: bounds.width, height: nil)
+        : ProposedViewSize(width: nil, height: bounds.height)
+    )
+    let freeSpace = length(bounds.size) - length(imageSize)
+    let imageOffset = max(0, min(freeSpace / 2, freeSpace - length(controlsSize)))
+
+    switch axis {
+    case .vertical:
+      image.place(
+        at: CGPoint(x: bounds.midX, y: bounds.minY + imageOffset),
+        anchor: .top,
+        proposal: ProposedViewSize(imageSize),
+      )
+      controls.place(
+        at: CGPoint(x: bounds.midX, y: bounds.maxY),
+        anchor: .bottom,
+        proposal: ProposedViewSize(controlsSize),
+      )
+    case .horizontal:
+      image.place(
+        at: CGPoint(x: bounds.minX + imageOffset, y: bounds.midY),
+        anchor: .leading,
+        proposal: ProposedViewSize(imageSize),
+      )
+      controls.place(
+        at: CGPoint(x: bounds.maxX, y: bounds.midY),
+        anchor: .trailing,
+        proposal: ProposedViewSize(controlsSize),
+      )
+    }
+  }
+
+  private func length(_ size: CGSize) -> CGFloat {
+    switch axis {
+    case .vertical: size.height
+    case .horizontal: size.width
     }
   }
 }
