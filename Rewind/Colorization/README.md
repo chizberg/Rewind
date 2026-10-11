@@ -41,7 +41,7 @@ Lab formulas and constants: [OpenCV, RGB ↔ CIE L\*a\*b\*](https://docs.opencv.
 | DDColor: back to full size | `ABPlanes.bilinearResized(target:)` | done |
 | ECCV16: squash, lightness, inference, back to full size | `Models/ECCV16.swift` | done |
 | Compose L + ab into the result | `colorize(image:model:)`, `Lab.rgb(lightness:ab:)` | done |
-| Stitch the watermark strip back | `WatermarkedImage.stitched()` | done |
+| Stitch the watermark strip back, mark the photo as colorized | `WatermarkedImage.stitched()` | done |
 | The store hands out the picked model, one loaded at a time | `ColorizationModelStore.localModel(id:)` | done |
 | Result on screen: switch between the original and the colorized photo | `ImageDetailsState.displayedImage` | done |
 | Stop the run when the user closes the photo | `Colorize.swift`, `ImageDetailsModel`, `Reducer.swift` | done |
@@ -59,7 +59,11 @@ Lab formulas and constants: [OpenCV, RGB ↔ CIE L\*a\*b\*](https://docs.opencv.
    `colorize(image:model:)` on the photo without the watermark strip, with the model from the store.
    The screen then puts the result in place of the content and stitches the strip back under it
    with `WatermarkedImage.stitched()`. The strip is fitted to the result's width: a photo larger
-   than `maxSide` comes back at the size `colorize` read it, with the strip in proportion.
+   than `maxSide` comes back at the size `colorize` read it, with the strip in proportion. Under it
+   goes one more strip of the same height: a black one with "colorized with rewind: history on a
+   map", the app's name and slogan in the system rainbow, set where the archive sets its caption,
+   and a rainbow emoji at the other edge. A photo without a watermark gets the strip at the
+   archive's proportion, 14 px for every 600 px of height and no less than 14 px.
 3. The model comes from `ColorizationModelStore.localModel(id:)`, on the main actor. It creates
    `DDColorLarge` or `ECCV16` for the installed
    `Application Support/ColorizationModels/<model ID>.mlmodelc` and keeps that one instance for its
@@ -553,7 +557,7 @@ screen can say what happened and point at the other model. The answer travels in
 | `Models/ECCV16.swift` | ECCV16 as a `ColorizationModel`: its clip limit, geometry and inference |
 | `ColorizationModelStore.swift`, `ColorizationManifest.swift`, `ColorizationFileState.swift`, `DownloadRequest+Colorization.swift` | downloading, installing and deleting models; the store also keeps the one model it hands out |
 | `MonochromeDetection.swift` | whether a photo needs colorization |
-| `WatermarkedImage.swift` | the archive's watermark strip split off before colorization and stitched back after |
+| `WatermarkedImage.swift` | the archive's watermark strip split off before colorization and stitched back after, with the "colorized with rewind" strip under it |
 
 New methods and properties in this folder get a short comment: what they do, why the pipeline
 needs them, and the specification they follow, with a link where one exists.
