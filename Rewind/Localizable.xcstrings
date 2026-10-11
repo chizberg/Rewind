@@ -72,6 +72,12 @@
             "state" : "translated",
             "value" : "• "
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• "
+          }
         }
       }
     },
@@ -133,6 +139,12 @@
           }
         },
         "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "☮️ & ❤️"
+          }
+        },
+        "nl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "☮️ & ❤️"
@@ -201,6 +213,12 @@
             "state" : "translated",
             "value" : "👀"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "👀"
+          }
         }
       }
     },
@@ -262,6 +280,12 @@
           }
         },
         "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "💔"
+          }
+        },
+        "nl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "💔"
@@ -337,6 +361,12 @@
             "state" : "translated",
             "value" : "2026"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2026"
+          }
         }
       }
     },
@@ -401,6 +431,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Un'app per viaggiare nel tempo"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een tijdreisapp"
           }
         }
       }
@@ -467,6 +503,12 @@
             "state" : "translated",
             "value" : "Informazioni"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Info"
+          }
         }
       }
     },
@@ -531,6 +573,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "indirizzo"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "adres"
           }
         }
       }
@@ -597,6 +645,12 @@
             "state" : "translated",
             "value" : "Icona dell'app"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appsymbool"
+          }
         }
       }
     },
@@ -662,6 +716,12 @@
             "state" : "translated",
             "value" : "Apple Mappe"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple Kaarten"
+          }
         }
       }
     },
@@ -726,6 +786,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "autore"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "auteur"
           }
         }
       }
@@ -845,6 +911,12 @@
             "state" : "translated",
             "value" : "Bianco e nero"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zwart-wit"
+          }
         }
       }
     },
@@ -910,6 +982,12 @@
             "state" : "translated",
             "value" : "Rullino"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filmrol"
+          }
         }
       }
     },
@@ -971,6 +1049,12 @@
           }
         },
         "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cluster"
+          }
+        },
+        "nl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cluster"
@@ -1046,6 +1130,12 @@
             "state" : "translated",
             "value" : "Un gruppo molto grande di immagini. Per vederle tutte devi ingrandire la mappa"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een grote groep afbeeldingen. Zoom in om ze allemaal te zien"
+          }
         }
       }
     },
@@ -1117,6 +1207,12 @@
             "state" : "translated",
             "value" : "Cluster di immagini"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cluster met afbeeldingen"
+          }
         }
       }
     },
@@ -1181,6 +1277,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Modello di colorizzazione"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inkleurmodel"
           }
         }
       }
@@ -1253,6 +1355,12 @@
             "state" : "translated",
             "value" : "Aggiungi colore alle foto in bianco e nero direttamente sul tuo dispositivo. Gratis, senza account."
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geef zwart-witfoto's kleur, direct op je apparaat. Gratis, geen account nodig."
+          }
         }
       }
     },
@@ -1323,6 +1431,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Colorizzazione delle immagini"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afbeeldingen inkleuren"
           }
         }
       }
@@ -1395,6 +1509,12 @@
             "state" : "translated",
             "value" : "Elimina il modello quando vuoi"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwijder het model wanneer je wilt"
+          }
         }
       }
     },
@@ -1465,6 +1585,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Scarichi il modello una sola volta"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je downloadt het model maar één keer"
           }
         }
       }
@@ -1537,6 +1663,12 @@
             "state" : "translated",
             "value" : "Gratis, senza account"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gratis, geen account nodig"
+          }
         }
       }
     },
@@ -1607,6 +1739,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dai colore a qualsiasi foto in bianco e nero in pochi secondi."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geef elke zwart-witfoto kleur in enkele seconden."
           }
         }
       }
@@ -1679,6 +1817,12 @@
             "state" : "translated",
             "value" : "gratis | sul dispositivo | open source"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "gratis | op je apparaat | open source"
+          }
         }
       }
     },
@@ -1749,6 +1893,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ogni foto richiede da 3 a 10 secondi"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elke foto duurt ongeveer 3–10 seconden"
           }
         }
       }
@@ -1821,6 +1971,12 @@
             "state" : "translated",
             "value" : "Sembra che il modello non sia riuscito ad aggiungere colore. I modelli sbagliano, puoi provarne un altro."
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het lijkt erop dat het model geen kleur heeft kunnen toevoegen. Modellen maken fouten, je kunt een ander model proberen."
+          }
         }
       }
     },
@@ -1892,6 +2048,12 @@
             "state" : "translated",
             "value" : "Sembra che l'immagine non sia diventata più colorata. I modelli sbagliano, puoi provarne un altro."
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het lijkt erop dat de afbeelding niet kleurrijker is geworden. Modellen maken fouten, je kunt een ander model proberen."
+          }
         }
       }
     },
@@ -1956,6 +2118,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Colorizza"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kleur in"
           }
         }
       }
@@ -2022,6 +2190,12 @@
             "state" : "translated",
             "value" : "Compatto"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compact"
+          }
         }
       }
     },
@@ -2087,6 +2261,12 @@
             "state" : "translated",
             "value" : "Confronta"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vergelijk"
+          }
         }
       }
     },
@@ -2151,6 +2331,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Confronta con Google Street View"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vergelijk met Google Street View"
           }
         }
       }
@@ -2223,6 +2409,12 @@
             "state" : "translated",
             "value" : "Usa la fotocamera per confrontare lo stesso luogo nel tempo"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gebruik je camera om dezelfde plek door de tijd te vergelijken"
+          }
         }
       }
     },
@@ -2294,6 +2486,12 @@
             "state" : "translated",
             "value" : "Confronta passato e presente"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vergelijk toen en nu"
+          }
         }
       }
     },
@@ -2358,6 +2556,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Contatta lo sviluppatore"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neem contact op met de ontwikkelaar"
           }
         }
       }
@@ -2424,6 +2628,12 @@
             "state" : "translated",
             "value" : "Copia negli appunti"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopieer naar klembord"
+          }
         }
       }
     },
@@ -2489,6 +2699,12 @@
             "state" : "translated",
             "value" : "Data crescente"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Datum oplopend"
+          }
         }
       }
     },
@@ -2553,6 +2769,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Data decrescente"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Datum aflopend"
           }
         }
       }
@@ -2628,6 +2850,12 @@
             "state" : "translated",
             "value" : "Colori vivaci e naturali. Funziona bene con la maggior parte delle foto."
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Levendige, natuurlijke kleuren. Werkt goed voor de meeste foto's."
+          }
         }
       }
     },
@@ -2693,6 +2921,12 @@
             "state" : "translated",
             "value" : "Standard"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Standaard"
+          }
         }
       }
     },
@@ -2757,6 +2991,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Elimina"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwijder"
           }
         }
       }
@@ -2832,6 +3072,12 @@
             "state" : "translated",
             "value" : "Più piccolo e veloce. I colori sono più tenui e meno accurati."
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kleiner en sneller. De kleuren zijn zachter en minder nauwkeurig."
+          }
         }
       }
     },
@@ -2896,6 +3142,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Preferito"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favoriet"
           }
         }
       }
@@ -2962,6 +3214,12 @@
             "state" : "translated",
             "value" : "Preferiti"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favorieten"
+          }
         }
       }
     },
@@ -3026,6 +3284,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ottieni indicazioni"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan route"
           }
         }
       }
@@ -3092,6 +3356,12 @@
             "state" : "translated",
             "value" : "Inizia"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aan de slag"
+          }
         }
       }
     },
@@ -3157,6 +3427,12 @@
             "state" : "translated",
             "value" : "Apri Impostazioni"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Instellingen"
+          }
         }
       }
     },
@@ -3218,6 +3494,12 @@
           }
         },
         "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Google Maps"
+          }
+        },
+        "nl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Google Maps"
@@ -3287,6 +3569,12 @@
             "state" : "translated",
             "value" : "Google Street View non è disponibile per questo luogo."
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Google Street View is niet beschikbaar voor deze locatie."
+          }
         }
       }
     },
@@ -3352,6 +3640,12 @@
             "state" : "translated",
             "value" : "Google Street View non disponibile"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Google Street View niet beschikbaar"
+          }
         }
       }
     },
@@ -3416,6 +3710,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Selettore del gradiente"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kleurverloop"
           }
         }
       }
@@ -3488,6 +3788,12 @@
             "state" : "translated",
             "value" : "Diverse immagini vicine tra loro. Toccandole si apre l'elenco completo"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Meerdere afbeeldingen die dicht bij elkaar liggen. Opent een volledige lijst als je erop tikt"
+          }
         }
       }
     },
@@ -3559,6 +3865,12 @@
             "state" : "translated",
             "value" : "Gruppo di immagini"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Groep afbeeldingen"
+          }
         }
       }
     },
@@ -3623,6 +3935,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ciao!"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hoi!"
           }
         }
       }
@@ -3695,6 +4013,12 @@
             "state" : "translated",
             "value" : "La storia su una mappa"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geschiedenis op de kaart"
+          }
         }
       }
     },
@@ -3765,6 +4089,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sfoglia vecchie foto e dipinti dei luoghi sulla mappa"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bekijk oude foto's en schilderijen van plekken op de kaart"
           }
         }
       }
@@ -3837,6 +4167,12 @@
             "state" : "translated",
             "value" : "La storia vicino a te"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geschiedenis in de buurt"
+          }
         }
       }
     },
@@ -3901,6 +4237,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Colorizzazione delle immagini"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afbeeldingen inkleuren"
           }
         }
       }
@@ -3973,6 +4315,12 @@
             "state" : "translated",
             "value" : "Puoi creare una raccolta dei tuoi momenti e luoghi più spettacolari"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stel een collectie samen van je mooiste momenten en plekken"
+          }
         }
       }
     },
@@ -4044,6 +4392,12 @@
             "state" : "translated",
             "value" : "Salva i tuoi preferiti"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bewaar je favorieten"
+          }
         }
       }
     },
@@ -4108,6 +4462,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Andiamo!"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daar gaan we!"
           }
         }
       }
@@ -4174,6 +4534,12 @@
             "state" : "translated",
             "value" : "Realizzata da "
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gemaakt door "
+          }
         }
       }
     },
@@ -4238,6 +4604,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mappa"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kaart"
           }
         }
       }
@@ -4357,6 +4729,12 @@
             "state" : "translated",
             "value" : "Qui non c'è ancora nulla"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hier is nog niets"
+          }
         }
       }
     },
@@ -4422,6 +4800,12 @@
             "state" : "translated",
             "value" : "Oceano"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oceaan"
+          }
         }
       }
     },
@@ -4483,6 +4867,12 @@
           }
         },
         "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "nl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "OK"
@@ -4551,6 +4941,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sulla mappa"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Op de kaart"
           }
         }
       }
@@ -4623,6 +5019,12 @@
             "state" : "translated",
             "value" : "Ogni immagine ha una posizione e una data. A ogni data corrisponde un colore"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elke afbeelding heeft een locatie en een datum. Bij elke datum hoort een kleur"
+          }
         }
       }
     },
@@ -4693,6 +5095,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rewind ha bisogno della tua posizione per mostrarti foto e dipinti vicino a te. Senza di essa puoi comunque usare l'app"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind heeft je locatie nodig om foto's en schilderijen bij je in de buurt te laten zien. Zonder locatie kun je de app ook gebruiken"
           }
         }
       }
@@ -4765,6 +5173,12 @@
             "state" : "translated",
             "value" : "Rewind usa l'API di PastVu per ottenere tutte le foto storiche, i dipinti e i dati associati."
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind gebruikt de PastVu-API om alle historische foto's, schilderijen en bijbehorende gegevens op te halen."
+          }
         }
       }
     },
@@ -4829,6 +5243,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Apri le anteprime grandi dei cluster al tocco"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grote voorvertoning openen bij tikken op een cluster"
           }
         }
       }
@@ -4895,6 +5315,12 @@
             "state" : "translated",
             "value" : "Dipinti"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schilderijen"
+          }
         }
       }
     },
@@ -4956,6 +5382,12 @@
           }
         },
         "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PastVu"
+          }
+        },
+        "nl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "PastVu"
@@ -5025,6 +5457,12 @@
             "state" : "translated",
             "value" : "Regole di PastVu"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PastVu-regels"
+          }
         }
       }
     },
@@ -5089,6 +5527,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Foto"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foto's"
           }
         }
       }
@@ -5155,6 +5599,12 @@
             "state" : "translated",
             "value" : "Scegli un modello"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kies een model"
+          }
         }
       }
     },
@@ -5219,6 +5669,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Segnaposto"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spelden"
           }
         }
       }
@@ -5285,6 +5741,12 @@
             "state" : "translated",
             "value" : "Segnaposto e mappa"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spelden en kaart"
+          }
         }
       }
     },
@@ -5349,6 +5811,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Riprova più tardi"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Probeer het later opnieuw"
           }
         }
       }
@@ -5415,6 +5883,12 @@
             "state" : "translated",
             "value" : "Trascina per vedere le immagini in elenco"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trek omhoog voor de lijstweergave"
+          }
         }
       }
     },
@@ -5480,6 +5954,12 @@
             "state" : "translated",
             "value" : "Rewind"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind"
+          }
         }
       }
     },
@@ -5541,6 +6021,12 @@
           }
         },
         "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind <<"
+          }
+        },
+        "nl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rewind <<"
@@ -5616,6 +6102,12 @@
             "state" : "translated",
             "value" : "Rewind usa l'API di PastVu per ottenere foto e dipinti"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind gebruikt de PastVu-API om foto's en schilderijen op te halen"
+          }
         }
       }
     },
@@ -5680,6 +6172,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Satellite"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Satelliet"
           }
         }
       }
@@ -5746,6 +6244,12 @@
             "state" : "translated",
             "value" : "Salva immagine"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bewaar afbeelding"
+          }
         }
       }
     },
@@ -5810,6 +6314,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Immagine salvata in Foto"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bewaard in Foto's"
           }
         }
       }
@@ -5876,6 +6386,12 @@
             "state" : "translated",
             "value" : "Mappa"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Standaard"
+          }
         }
       }
     },
@@ -5940,6 +6456,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cerca"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoeken"
           }
         }
       }
@@ -6006,6 +6528,12 @@
             "state" : "translated",
             "value" : "Cerca una località"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoek een locatie"
+          }
         }
       }
     },
@@ -6070,6 +6598,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Scegli l'app di mappe per le indicazioni"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kies een kaartenapp om een route te plannen"
           }
         }
       }
@@ -6136,6 +6670,12 @@
             "state" : "translated",
             "value" : "Impostazioni"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instellingen"
+          }
         }
       }
     },
@@ -6200,6 +6740,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Condividi"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deel"
           }
         }
       }
@@ -6266,6 +6812,12 @@
             "state" : "translated",
             "value" : "Mostra sulla mappa"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toon op de kaart"
+          }
         }
       }
     },
@@ -6331,6 +6883,12 @@
             "state" : "translated",
             "value" : "Mostra originale"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toon origineel"
+          }
         }
       }
     },
@@ -6395,6 +6953,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Casuale"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Willekeurig"
           }
         }
       }
@@ -6467,6 +7031,12 @@
             "state" : "translated",
             "value" : "Indica la direzione. Tocca per vedere i dettagli dell'immagine"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toont de richting. Tik erop om de details van de afbeelding te bekijken"
+          }
         }
       }
     },
@@ -6538,6 +7108,12 @@
             "state" : "translated",
             "value" : "Immagine singola"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eén afbeelding"
+          }
         }
       }
     },
@@ -6602,6 +7178,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Si è verificato un problema durante la ricerca"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Er is iets misgegaan bij het zoeken"
           }
         }
       }
@@ -6668,6 +7250,12 @@
             "state" : "translated",
             "value" : "Ordinamento"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sortering"
+          }
         }
       }
     },
@@ -6732,6 +7320,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "fonte"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "bron"
           }
         }
       }
@@ -6798,6 +7392,12 @@
             "state" : "translated",
             "value" : "Inizia a scrivere"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Begin met typen"
+          }
         }
       }
     },
@@ -6862,6 +7462,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Errore di Street View"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Street View-fout"
           }
         }
       }
@@ -6934,6 +7540,12 @@
             "state" : "translated",
             "value" : "Scopri com'è il luogo oggi con Google Street View"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bekijk met Google Street View hoe de plek er nu uitziet"
+          }
         }
       }
     },
@@ -7005,6 +7617,12 @@
             "state" : "translated",
             "value" : "Street View"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Street View"
+          }
         }
       }
     },
@@ -7069,6 +7687,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "L'app non ha accesso alla tua posizione"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De app heeft geen toegang tot je locatie"
           }
         }
       }
@@ -7135,6 +7759,12 @@
             "state" : "translated",
             "value" : "Questa app non esisterebbe senza PastVu"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deze app zou niet bestaan zonder PastVu"
+          }
         }
       }
     },
@@ -7200,6 +7830,12 @@
             "state" : "translated",
             "value" : "Questo è "
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dit is "
+          }
         }
       }
     },
@@ -7264,6 +7900,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Traduci"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vertaal"
           }
         }
       }
@@ -7336,6 +7978,12 @@
             "state" : "translated",
             "value" : "Le descrizioni in lingua straniera possono essere tradotte nella tua con un solo tocco"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beschrijvingen in een andere taal vertaal je met één tik naar je eigen taal"
+          }
         }
       }
     },
@@ -7407,6 +8055,12 @@
             "state" : "translated",
             "value" : "Traduci"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vertalen"
+          }
         }
       }
     },
@@ -7471,6 +8125,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Prova a modificare la ricerca e riprova"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wijzig je zoekopdracht en probeer het opnieuw"
           }
         }
       }
@@ -7537,6 +8197,12 @@
             "state" : "translated",
             "value" : "Impossibile colorizzare l'immagine"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kan de afbeelding niet inkleuren"
+          }
         }
       }
     },
@@ -7601,6 +8267,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Impossibile determinare la posizione"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kan de locatie niet bepalen"
           }
         }
       }
@@ -7667,6 +8339,12 @@
             "state" : "translated",
             "value" : "Impossibile trovare quello che cerchi"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kan niet vinden wat je zoekt"
+          }
         }
       }
     },
@@ -7731,6 +8409,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Impossibile caricare i dati dell'immagine"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kan de afbeeldingsgegevens niet laden"
           }
         }
       }
@@ -7797,6 +8481,12 @@
             "state" : "translated",
             "value" : "Impossibile caricare l'immagine in alta risoluzione"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kan de afbeelding niet in hoge resolutie laden"
+          }
         }
       }
     },
@@ -7861,6 +8551,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Impossibile caricare le informazioni dell'immagine"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kan de afbeeldingsinfo niet laden"
           }
         }
       }
@@ -7927,6 +8623,12 @@
             "state" : "translated",
             "value" : "Impossibile caricare i segnaposto della mappa"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kan de kaartmarkeringen niet laden"
+          }
         }
       }
     },
@@ -7991,6 +8693,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Impossibile caricare i suggerimenti per questa ricerca"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kan geen suggesties laden voor deze zoekopdracht"
           }
         }
       }
@@ -8057,6 +8765,12 @@
             "state" : "translated",
             "value" : "Impossibile caricare l'elenco dei modelli"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kan de modellenlijst niet laden"
+          }
         }
       }
     },
@@ -8121,6 +8835,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Impossibile salvare l'immagine"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kan de afbeelding niet bewaren"
           }
         }
       }
@@ -8187,6 +8907,12 @@
             "state" : "translated",
             "value" : "Impossibile impostare l'icona"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kan het appsymbool niet instellen"
+          }
         }
       }
     },
@@ -8251,6 +8977,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Impossibile condividere l'immagine"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kan de afbeelding niet delen"
           }
         }
       }
@@ -8317,6 +9049,12 @@
             "state" : "translated",
             "value" : "Impossibile cambiare obiettivo"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kan niet van lens wisselen"
+          }
         }
       }
     },
@@ -8382,6 +9120,12 @@
             "state" : "translated",
             "value" : "Impossibile tradurre la descrizione"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kan de beschrijving niet vertalen"
+          }
         }
       }
     },
@@ -8446,6 +9190,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Impossibile usare la fotocamera"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kan de camera niet gebruiken"
           }
         }
       }
@@ -8519,6 +9269,12 @@
             "state" : "translated",
             "value" : "caricata da"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "geüpload door"
+          }
         }
       }
     },
@@ -8583,6 +9339,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Visualizza come elenco"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bekijk als lijst"
           }
         }
       }
@@ -8649,6 +9411,12 @@
             "state" : "translated",
             "value" : "Apri nell'App Store"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bekijk in de App Store"
+          }
         }
       }
     },
@@ -8713,6 +9481,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Apri sul web"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bekijk op het web"
           }
         }
       }
@@ -8779,6 +9553,12 @@
             "state" : "translated",
             "value" : "Apri il sito di PastVu"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bekijk de PastVu-website"
+          }
         }
       }
     },
@@ -8844,6 +9624,12 @@
             "state" : "translated",
             "value" : "Vedi il codice sorgente"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bekijk de broncode"
+          }
         }
       }
     },
@@ -8908,6 +9694,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Caldo"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Warm"
           }
         }
       }
@@ -8980,6 +9772,12 @@
             "state" : "translated",
             "value" : "Che aspetto hanno le immagini?"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hoe zien de afbeeldingen eruit?"
+          }
         }
       }
     },
@@ -9045,6 +9843,12 @@
             "state" : "translated",
             "value" : "con un piccolo aiuto di:"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "met een beetje hulp van:"
+          }
         }
       }
     },
@@ -9106,6 +9910,12 @@
           }
         },
         "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yandex Maps"
+          }
+        },
+        "nl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Yandex Maps"
@@ -9175,6 +9985,12 @@
             "state" : "translated",
             "value" : "Puoi modificarlo in Impostazioni.\nVai in App -> Rewind -> Posizione -> Mentre usi l'app"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je kunt dit wijzigen in Instellingen.\nGa naar Apps -> Rewind -> Locatie -> Bij gebruik van app"
+          }
         }
       }
     },
@@ -9240,6 +10056,12 @@
             "state" : "translated",
             "value" : "Puoi cambiare modello in seguito nelle impostazioni"
           }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je kunt het model later in de instellingen wijzigen"
+          }
         }
       }
     },
@@ -9304,6 +10126,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Puoi controllare le autorizzazioni della fotocamera in Impostazioni"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je kunt de cameratoegang controleren in Instellingen"
           }
         }
       }
