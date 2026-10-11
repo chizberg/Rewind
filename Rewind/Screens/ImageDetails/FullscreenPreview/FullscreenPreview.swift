@@ -13,8 +13,6 @@ struct FullscreenPreview: View {
 
   @State
   private var zoomValue: CGFloat = 1
-  @State
-  private var controlsHidden = false
 
   var body: some View {
     ZStack(alignment: .top) {
@@ -24,14 +22,14 @@ struct FullscreenPreview: View {
       ZoomableImageView(
         image: store.image,
         zoomValue: $zoomValue,
-        onTap: { withAnimation { controlsHidden.toggle() } },
+        onTap: { withAnimation { store(.setControlsHidden(!store.controlsHidden)) } },
       )
       .ignoresSafeArea()
       .onChange(of: zoomValue) { old, new in
         if old == 1, new > 1 {
-          withAnimation { controlsHidden = true }
+          withAnimation { store(.setControlsHidden(true)) }
         } else if old != 1, new == 1 {
-          withAnimation { controlsHidden = false }
+          withAnimation { store(.setControlsHidden(false)) }
         }
       }
 
@@ -48,7 +46,7 @@ struct FullscreenPreview: View {
         })
       }
     }
-    .toolbarVisibility(controlsHidden ? .hidden : .visible, for: .navigationBar)
+    .toolbarVisibility(store.controlsHidden ? .hidden : .visible, for: .navigationBar)
     .alert(store.binding(\.alert, send: { _ in .dismissAlert }))
   }
 }
