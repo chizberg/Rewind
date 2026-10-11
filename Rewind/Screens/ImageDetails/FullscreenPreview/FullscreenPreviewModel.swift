@@ -12,12 +12,14 @@ struct FullscreenPreviewState {
   var savesCount: Int
   var source: TransitionSource
   var alert: Identified<AlertParams>?
+  var controlsHidden: Bool
 }
 
 enum FullscreenPreviewAction {
   enum UI {
     case saveImage
     case dismissAlert
+    case setControlsHidden(Bool)
   }
 
   enum Internal {
@@ -43,6 +45,7 @@ func makeFullscreenPreviewStore(
       image: image,
       savesCount: savesCount,
       source: source,
+      controlsHidden: false,
     )
   ) { state, action, _, asyncEffect in
     switch action {
@@ -59,6 +62,8 @@ func makeFullscreenPreviewStore(
         }))
       case .dismissAlert:
         state.alert = nil
+      case let .setControlsHidden(hidden):
+        state.controlsHidden = hidden
       }
     case let .internal(`internal`):
       switch `internal` {

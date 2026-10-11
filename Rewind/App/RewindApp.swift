@@ -33,6 +33,9 @@ struct RewindApp: App {
         return graph.navigator.navigationController
       })
       .ignoresSafeArea()
+      .statusBarHidden(
+        graph.appStore.navigationPath.last?.statusBarHidden ?? false
+      )
     }
   }
 }
