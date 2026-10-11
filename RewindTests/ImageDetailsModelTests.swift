@@ -46,7 +46,7 @@ struct ImageDetailsModelTests {
 
     #expect(await eventually { harness.lastPushedImage != nil })
     let linked = try #require(harness.lastPushedImage)
-    #expect(linked.actionButtons == [.favorite, .compareCamera, .share, .saveImage, .viewOnWeb])
+    #expect(linked.actionButtons == [.compareCamera, .viewOnWeb])
   }
 
   /// Going back while the linked photo loads leaves the screen off the top of the stack, so the

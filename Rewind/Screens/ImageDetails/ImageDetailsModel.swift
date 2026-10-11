@@ -74,6 +74,7 @@ struct ImageDetailsState {
   var shareVC: Identified<UIViewController>?
   var colorizationPicker: Identified<ColorizationPickerScreenStore>?
   var alertModel: Identified<AlertParams>?
+  var toolbarButtons: [ImageDetailsAction.Button]
   var actionButtons: [ImageDetailsAction.Button]
 }
 
@@ -171,12 +172,13 @@ func makeImageDetailsModel(
     shareVC: nil,
     colorizationPicker: nil,
     alertModel: nil,
+    toolbarButtons: [.favorite, .saveImage, .share],
     actionButtons: Array.build {
-      [ImageDetailsAction.Button.favorite, .compareCamera]
+      ImageDetailsAction.Button.compareCamera
       if modelImage.coordinate != nil {
         [ImageDetailsAction.Button.compareStreetView, .showOnMap]
       }
-      [ImageDetailsAction.Button.share, .saveImage, .viewOnWeb]
+      ImageDetailsAction.Button.viewOnWeb
       if modelImage.coordinate != nil {
         ImageDetailsAction.Button.route
       }
