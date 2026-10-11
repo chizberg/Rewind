@@ -47,32 +47,30 @@ struct FloatingMenu: View {
       )
 
       let mapType = store.mapType
-      TitledFloatingMenuButton(
+      FloatingMenuPicker(
         item: .mapType,
         iconName: mapType.isScheme ? "map" : "globe.europe.africa",
-        title: mapType.isScheme ? "Scheme" : "Satellite",
-        action: {
-          switch mapType {
-          case .scheme: store(.setMapType(.hybrid))
-          case .hybrid: store(.setMapType(.scheme))
-          }
-        }
+        selection: store.binding(\.mapType, send: { .setMapType($0) }),
+        options: [
+          .init(value: .scheme, title: "Scheme", iconName: "map"),
+          .init(value: .hybrid, title: "Satellite", iconName: "globe.europe.africa"),
+        ]
       )
 
       let imageKind = store.filters.imageKind
-      TitledFloatingMenuButton(
+      FloatingMenuPicker(
         item: .imageKind,
         iconName: imageKind.isPhoto ? "paintbrush.pointed" : "paintbrush.pointed.fill",
-        title: imageKind.isPhoto ? "Photos" : "Paintings",
         iconColor: imageKind.isPhoto ? buttonFgColor : .accentColor,
-        action: {
+        selection: store.binding(\.filters.imageKind, send: { kind in
           var filters = store.filters
-          switch imageKind {
-          case .painting: filters.imageKind = .photo
-          case .photo: filters.imageKind = .painting
-          }
-          store(.setFilters(filters))
-        }
+          filters.imageKind = kind
+          return .setFilters(filters)
+        }),
+        options: [
+          .init(value: .photo, title: "Photos", iconName: "camera"),
+          .init(value: .painting, title: "Paintings", iconName: "paintbrush.pointed"),
+        ]
       )
     }
   }
@@ -196,81 +194,47 @@ private struct FloatingMenuButton: View {
   }
 }
 
-private struct TitledFloatingMenuButton: View {
+private struct FloatingMenuPicker<Value: Hashable>: View {
+  struct Option {
+    var value: Value
+    var title: LocalizedStringKey
+    var iconName: String
+  }
+
   var item: FloatingMenu.Item
 
   var iconName: String
-  var title: LocalizedStringKey
   var iconColor: Color = buttonFgColor
-  var titleColor: Color = buttonFgColor
-  var action: () -> Void
+  @Binding
+  var selection: Value
+  var options: [Option]
 
   @ScaledMetric(relativeTo: .title2)
   private var iconHeight: CGFloat = 27
 
   var body: some View {
-    Button(action: action) {
-      HStack {
-        Image(systemName: iconName)
-          .font(.title2.weight(.semibold))
-          .frame(width: iconHeight, height: iconHeight)
-          .foregroundStyle(iconColor)
-
-        ValueChangeIndicator(value: title, duration: 1) { t in
-          Text(t)
-            .bold()
-            .transition(
-              .blurReplace.combined(with: .scale(0, anchor: .leading))
-            )
+    Menu {
+      Picker(selection: $selection) {
+        ForEach(options, id: \.value) { option in
+          Label(option.title, systemImage: option.iconName)
+            .tag(option.value)
         }
-        .foregroundStyle(titleColor)
+      } label: {
+        EmptyView()
       }
+    } label: {
+      Image(systemName: iconName)
+        .font(.title2.weight(.semibold))
+        .frame(width: iconHeight, height: iconHeight)
+        .foregroundStyle(iconColor)
     }
     .padding(10)
     .contentShape(Rectangle())
     .modifier(
       BackgroundModifier(isInteractive: true)
     )
-    .animation(.default, value: title)
     .containerValue(\.itemID, item)
     .containerValue(\.kind, .fixed)
-  }
-}
-
-private struct ValueChangeIndicator<Value: Equatable, Indicator: View>: View {
-  var value: Value
-  var duration: TimeInterval
-  @ViewBuilder
-  var indicator: (Value) -> Indicator
-
-  @State
-  private var isVisible = false
-  @State
-  private var task: Task<Void, Never>? = nil
-
-  var body: some View {
-    content
-      .onChange(of: value) {
-        task?.cancel()
-        withAnimation {
-          isVisible = true
-        }
-        task = Task { @MainActor in
-          do {
-            try await Task.sleep(for: .seconds(duration))
-            withAnimation {
-              isVisible = false
-            }
-          } catch {}
-        }
-      }
-  }
-
-  @ViewBuilder
-  var content: some View {
-    if isVisible {
-      indicator(value)
-    }
   }
 }
 
@@ -435,21 +399,18 @@ private let buttonFgColor = Color.primary.opacity(0.8)
   }
 }
 
-#Preview("Titled Button") {
+#Preview("Picker") {
   @Previewable @State
-  var showTitle = false
+  var mapType = MapType.scheme
 
-  VStack {
-    TitledFloatingMenuButton(
-      item: .imageKind,
-      iconName: "paintbrush.pointed",
-      title: showTitle ? "Painting" : "Photo",
-      action: { showTitle.toggle() }
-    )
-
-    Button("title") {
-      showTitle.toggle()
-    }
-  }
+  FloatingMenuPicker(
+    item: .mapType,
+    iconName: mapType.isScheme ? "map" : "globe.europe.africa",
+    selection: $mapType,
+    options: [
+      .init(value: .scheme, title: "Scheme", iconName: "map"),
+      .init(value: .hybrid, title: "Satellite", iconName: "globe.europe.africa"),
+    ]
+  )
 }
 #endif
