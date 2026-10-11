@@ -84,6 +84,12 @@
             "state" : "translated",
             "value" : "• "
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• "
+          }
         }
       }
     },
@@ -157,6 +163,12 @@
           }
         },
         "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "☮️ & ❤️"
+          }
+        },
+        "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "☮️ & ❤️"
@@ -237,6 +249,12 @@
             "state" : "translated",
             "value" : "👀"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "👀"
+          }
         }
       }
     },
@@ -310,6 +328,12 @@
           }
         },
         "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "💔"
+          }
+        },
+        "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "💔"
@@ -397,6 +421,12 @@
             "state" : "translated",
             "value" : "2026"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2026"
+          }
         }
       }
     },
@@ -473,6 +503,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "En tidsrejseapp"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikacja do podróży w czasie"
           }
         }
       }
@@ -551,6 +587,12 @@
             "state" : "translated",
             "value" : "Om"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O aplikacji"
+          }
         }
       }
     },
@@ -627,6 +669,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "adresse"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "adres"
           }
         }
       }
@@ -705,6 +753,12 @@
             "state" : "translated",
             "value" : "Appsymbol"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ikona aplikacji"
+          }
         }
       }
     },
@@ -782,6 +836,12 @@
             "state" : "translated",
             "value" : "Apple Kort"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mapy Apple"
+          }
         }
       }
     },
@@ -858,6 +918,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ophavsperson"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "autor"
           }
         }
       }
@@ -989,6 +1055,12 @@
             "state" : "translated",
             "value" : "Sort-hvid"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Czarno-biały"
+          }
         }
       }
     },
@@ -1066,6 +1138,12 @@
             "state" : "translated",
             "value" : "Kamerarulle"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klisza"
+          }
         }
       }
     },
@@ -1142,6 +1220,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Klynge"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klaster"
           }
         }
       }
@@ -1226,6 +1310,12 @@
             "state" : "translated",
             "value" : "En stor gruppe billeder. Hvis du vil se dem alle, skal du zoome ind"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duża grupa obrazów. Aby zobaczyć wszystkie, przybliż mapę"
+          }
         }
       }
     },
@@ -1309,6 +1399,12 @@
             "state" : "translated",
             "value" : "Billedklynge"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klaster obrazów"
+          }
         }
       }
     },
@@ -1385,6 +1481,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Farvelægningsmodel"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Model koloryzacji"
           }
         }
       }
@@ -1469,6 +1571,12 @@
             "state" : "translated",
             "value" : "Farvelæg sort-hvide fotos direkte på din enhed. Gratis og uden konto."
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dodawaj kolor czarno-białym zdjęciom bezpośrednio na urządzeniu. Bezpłatnie, bez konta."
+          }
         }
       }
     },
@@ -1551,6 +1659,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Farvelægning af billeder"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Koloryzacja zdjęć"
           }
         }
       }
@@ -1635,6 +1749,12 @@
             "state" : "translated",
             "value" : "Slet modellen, når du vil"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Model możesz usunąć, kiedy chcesz"
+          }
         }
       }
     },
@@ -1717,6 +1837,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Du downloader kun modellen én gang"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Model pobierasz tylko raz"
           }
         }
       }
@@ -1801,6 +1927,12 @@
             "state" : "translated",
             "value" : "Gratis og uden konto"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bezpłatnie, bez konta"
+          }
         }
       }
     },
@@ -1883,6 +2015,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Farvelæg ethvert sort-hvidt foto på få sekunder."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dodaj kolor dowolnemu czarno-białemu zdjęciu w kilka sekund."
           }
         }
       }
@@ -1967,6 +2105,12 @@
             "state" : "translated",
             "value" : "gratis | på enheden | open source"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "bezpłatnie | na urządzeniu | open source"
+          }
         }
       }
     },
@@ -2049,6 +2193,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hvert foto tager cirka 3–10 sekunder"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jedno zdjęcie zajmuje około 3–10 sekund"
           }
         }
       }
@@ -2133,6 +2283,12 @@
             "state" : "translated",
             "value" : "Det ser ud, som om modellen ikke kunne tilføje farve. Modeller laver fejl, så du kan prøve en anden."
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wygląda na to, że model nie dodał koloru. Modele się mylą — możesz spróbować innego."
+          }
         }
       }
     },
@@ -2216,6 +2372,12 @@
             "state" : "translated",
             "value" : "Det ser ud, som om billedet ikke er blevet mere farverigt. Modeller laver fejl, så du kan prøve en anden."
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wygląda na to, że obraz nie stał się bardziej kolorowy. Modele się mylą — możesz spróbować innego."
+          }
         }
       }
     },
@@ -2292,6 +2454,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Farvelæg"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pokoloruj"
           }
         }
       }
@@ -2370,6 +2538,12 @@
             "state" : "translated",
             "value" : "Kompakt"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kompaktowy"
+          }
         }
       }
     },
@@ -2447,6 +2621,12 @@
             "state" : "translated",
             "value" : "Sammenlign"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Porównaj"
+          }
         }
       }
     },
@@ -2523,6 +2703,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sammenlign med Google Street View"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Porównaj ze Street View"
           }
         }
       }
@@ -2607,6 +2793,12 @@
             "state" : "translated",
             "value" : "Brug dit kamera til at sammenligne det samme sted over tid"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Użyj aparatu, aby porównać to samo miejsce w różnych czasach"
+          }
         }
       }
     },
@@ -2690,6 +2882,12 @@
             "state" : "translated",
             "value" : "Sammenlign fortid og nutid"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Porównaj przeszłość z teraźniejszością"
+          }
         }
       }
     },
@@ -2766,6 +2964,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kontakt udvikleren"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skontaktuj się z twórcą"
           }
         }
       }
@@ -2844,6 +3048,12 @@
             "state" : "translated",
             "value" : "Kopier til udklipsholder"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skopiuj do schowka"
+          }
         }
       }
     },
@@ -2921,6 +3131,12 @@
             "state" : "translated",
             "value" : "Ældste først"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Od najstarszych"
+          }
         }
       }
     },
@@ -2997,6 +3213,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nyeste først"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Od najnowszych"
           }
         }
       }
@@ -3084,6 +3306,12 @@
             "state" : "translated",
             "value" : "Levende, naturlige farver. Fungerer godt til de fleste fotos."
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Żywe, naturalne kolory. Dobrze radzi sobie z większością zdjęć."
+          }
         }
       }
     },
@@ -3161,6 +3389,12 @@
             "state" : "translated",
             "value" : "Standard"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Domyślny"
+          }
         }
       }
     },
@@ -3237,6 +3471,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Slet"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usuń"
           }
         }
       }
@@ -3324,6 +3564,12 @@
             "state" : "translated",
             "value" : "Mindre og hurtigere. Farverne er blødere og mindre præcise."
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mniejszy i szybszy. Kolory są delikatniejsze i mniej dokładne."
+          }
         }
       }
     },
@@ -3400,6 +3646,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Favorit"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ulubione"
           }
         }
       }
@@ -3478,6 +3730,12 @@
             "state" : "translated",
             "value" : "Favoritter"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ulubione"
+          }
         }
       }
     },
@@ -3554,6 +3812,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Find rute"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wyznacz trasę"
           }
         }
       }
@@ -3632,6 +3896,12 @@
             "state" : "translated",
             "value" : "Kom i gang"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zaczynamy!"
+          }
         }
       }
     },
@@ -3708,6 +3978,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Åbn Indstillinger"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otwórz Ustawienia"
           }
         }
       }
@@ -3786,6 +4062,12 @@
             "state" : "translated",
             "value" : "Google Maps"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mapy Google"
+          }
         }
       }
     },
@@ -3862,6 +4144,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Google Street View er ikke tilgængelig for denne lokalitet."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Google Street View jest niedostępny w tym miejscu."
           }
         }
       }
@@ -3940,6 +4228,12 @@
             "state" : "translated",
             "value" : "Google Street View er ikke tilgængelig"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Google Street View niedostępny"
+          }
         }
       }
     },
@@ -4016,6 +4310,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Farveovergang"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wybór gradientu"
           }
         }
       }
@@ -4100,6 +4400,12 @@
             "state" : "translated",
             "value" : "Flere billeder tæt på hinanden. Åbner hele listen ved tryk"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kilka obrazów blisko siebie. Po stuknięciu otwiera pełną listę"
+          }
         }
       }
     },
@@ -4183,6 +4489,12 @@
             "state" : "translated",
             "value" : "Billedgruppe"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grupa obrazów"
+          }
         }
       }
     },
@@ -4259,6 +4571,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hej!"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cześć!"
           }
         }
       }
@@ -4343,6 +4661,12 @@
             "state" : "translated",
             "value" : "Historie på et kort"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historia na mapie"
+          }
         }
       }
     },
@@ -4425,6 +4749,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Se gamle fotos og malerier af steder på kortet"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Przeglądaj na mapie dawne zdjęcia i obrazy miejsc"
           }
         }
       }
@@ -4509,6 +4839,12 @@
             "state" : "translated",
             "value" : "Historie i nærheden"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historia w pobliżu"
+          }
         }
       }
     },
@@ -4585,6 +4921,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Farvelægning af billeder"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Koloryzacja zdjęć"
           }
         }
       }
@@ -4669,6 +5011,12 @@
             "state" : "translated",
             "value" : "Du kan lave en samling af dine mest spektakulære øjeblikke og steder"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Możesz stworzyć kolekcję swoich najbardziej niesamowitych chwil i miejsc"
+          }
         }
       }
     },
@@ -4752,6 +5100,12 @@
             "state" : "translated",
             "value" : "Gem dine favoritter"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zapisuj ulubione"
+          }
         }
       }
     },
@@ -4828,6 +5182,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Lad os se!"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zobaczmy!"
           }
         }
       }
@@ -4906,6 +5266,12 @@
             "state" : "translated",
             "value" : "Lavet af "
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Twórca: "
+          }
         }
       }
     },
@@ -4982,6 +5348,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kort"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mapa"
           }
         }
       }
@@ -5113,6 +5485,12 @@
             "state" : "translated",
             "value" : "Her er der ikke noget endnu"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jeszcze nic tu nie ma"
+          }
         }
       }
     },
@@ -5186,6 +5564,12 @@
           }
         },
         "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ocean"
+          }
+        },
+        "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ocean"
@@ -5267,6 +5651,12 @@
             "state" : "translated",
             "value" : "OK"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
         }
       }
     },
@@ -5343,6 +5733,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "På kortet"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Na mapie"
           }
         }
       }
@@ -5427,6 +5823,12 @@
             "state" : "translated",
             "value" : "Alt har en lokalitet og en dato. Hver dato har sin egen farve"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wszystko ma lokalizację i datę. Każdej dacie odpowiada kolor"
+          }
         }
       }
     },
@@ -5509,6 +5911,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rewind skal bruge din lokalitet for at vise fotos og malerier i nærheden af dig. Uden den kan du stadig bruge appen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind potrzebuje Twojej lokalizacji, aby pokazywać zdjęcia i obrazy w pobliżu. Bez niej też możesz korzystać z aplikacji"
           }
         }
       }
@@ -5593,6 +6001,12 @@
             "state" : "translated",
             "value" : "Rewind bruger PastVu-API’et til at hente alle historiske fotos, malerier og tilhørende data."
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind korzysta z API PastVu, aby pozyskiwać wszystkie historyczne zdjęcia, obrazy i powiązane z nimi dane."
+          }
         }
       }
     },
@@ -5669,6 +6083,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Åbn store forhåndsvisninger af klynger ved tryk"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otwieraj duże podglądy klastrów po stuknięciu"
           }
         }
       }
@@ -5747,6 +6167,12 @@
             "state" : "translated",
             "value" : "Malerier"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Malarstwo"
+          }
         }
       }
     },
@@ -5820,6 +6246,12 @@
           }
         },
         "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PastVu"
+          }
+        },
+        "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "PastVu"
@@ -5901,6 +6333,12 @@
             "state" : "translated",
             "value" : "PastVu-reglerne"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zasady PastVu"
+          }
         }
       }
     },
@@ -5977,6 +6415,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fotos"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zdjęcia"
           }
         }
       }
@@ -6055,6 +6499,12 @@
             "state" : "translated",
             "value" : "Vælg en model"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wybierz model"
+          }
         }
       }
     },
@@ -6131,6 +6581,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Knappenåle"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pinezki"
           }
         }
       }
@@ -6209,6 +6665,12 @@
             "state" : "translated",
             "value" : "Knappenåle og kort"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pinezki i mapa"
+          }
         }
       }
     },
@@ -6285,6 +6747,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Prøv igen senere"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spróbuj ponownie później"
           }
         }
       }
@@ -6363,6 +6831,12 @@
             "state" : "translated",
             "value" : "Træk for at se billederne som liste"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pociągnij, aby wyświetlić listę"
+          }
         }
       }
     },
@@ -6440,6 +6914,12 @@
             "state" : "translated",
             "value" : "Rewind"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind"
+          }
         }
       }
     },
@@ -6513,6 +6993,12 @@
           }
         },
         "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind <<"
+          }
+        },
+        "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rewind <<"
@@ -6600,6 +7086,12 @@
             "state" : "translated",
             "value" : "Rewind bruger PastVu-API’et til at hente fotos og malerier"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind korzysta z API PastVu, aby pobierać zdjęcia i obrazy"
+          }
         }
       }
     },
@@ -6676,6 +7168,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Satellit"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Satelita"
           }
         }
       }
@@ -6754,6 +7252,12 @@
             "state" : "translated",
             "value" : "Gem billede"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zapisz obraz"
+          }
         }
       }
     },
@@ -6830,6 +7334,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gemt i Fotos"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zapisano w Zdjęciach"
           }
         }
       }
@@ -6908,6 +7418,12 @@
             "state" : "translated",
             "value" : "Standard"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mapa"
+          }
         }
       }
     },
@@ -6984,6 +7500,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Søg"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Szukaj"
           }
         }
       }
@@ -7062,6 +7584,12 @@
             "state" : "translated",
             "value" : "Søg efter et sted"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Szukaj miejsca"
+          }
         }
       }
     },
@@ -7138,6 +7666,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vælg en kortapp til at finde ruten"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wybierz aplikację do wyznaczenia trasy"
           }
         }
       }
@@ -7216,6 +7750,12 @@
             "state" : "translated",
             "value" : "Indstillinger"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ustawienia"
+          }
         }
       }
     },
@@ -7292,6 +7832,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Del"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Udostępnij"
           }
         }
       }
@@ -7370,6 +7916,12 @@
             "state" : "translated",
             "value" : "Vis på kort"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pokaż na mapie"
+          }
         }
       }
     },
@@ -7447,6 +7999,12 @@
             "state" : "translated",
             "value" : "Vis original"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pokaż oryginał"
+          }
         }
       }
     },
@@ -7523,6 +8081,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tilfældig"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Losowo"
           }
         }
       }
@@ -7607,6 +8171,12 @@
             "state" : "translated",
             "value" : "Viser retningen. Åbner oplysninger om billedet ved tryk"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pokazuje kierunek. Stuknij, aby zobaczyć szczegóły obrazu"
+          }
         }
       }
     },
@@ -7690,6 +8260,12 @@
             "state" : "translated",
             "value" : "Et enkelt billede"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jeden obraz"
+          }
         }
       }
     },
@@ -7766,6 +8342,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Der gik noget galt under søgningen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coś poszło nie tak podczas wyszukiwania"
           }
         }
       }
@@ -7844,6 +8426,12 @@
             "state" : "translated",
             "value" : "Sortering"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sortowanie"
+          }
         }
       }
     },
@@ -7920,6 +8508,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "kilde"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "źródło"
           }
         }
       }
@@ -7998,6 +8592,12 @@
             "state" : "translated",
             "value" : "Begynd at skrive"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zacznij pisać"
+          }
         }
       }
     },
@@ -8074,6 +8674,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Street View-fejl"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Błąd Street View"
           }
         }
       }
@@ -8158,6 +8764,12 @@
             "state" : "translated",
             "value" : "Se, hvordan stedet ser ud i dag, med Google Street View"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sprawdź, jak miejsce wygląda dziś, dzięki Google Street View"
+          }
         }
       }
     },
@@ -8241,6 +8853,12 @@
             "state" : "translated",
             "value" : "Street View"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Street View"
+          }
         }
       }
     },
@@ -8317,6 +8935,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Appen har ikke adgang til din lokalitet"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikacja nie ma dostępu do Twojej lokalizacji"
           }
         }
       }
@@ -8395,6 +9019,12 @@
             "state" : "translated",
             "value" : "Denne app ville ikke findes uden PastVu"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta aplikacja nie powstałaby bez PastVu"
+          }
         }
       }
     },
@@ -8472,6 +9102,12 @@
             "state" : "translated",
             "value" : "Dette er "
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To "
+          }
         }
       }
     },
@@ -8548,6 +9184,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Oversæt"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Przetłumacz"
           }
         }
       }
@@ -8632,6 +9274,12 @@
             "state" : "translated",
             "value" : "Beskrivelser på et fremmedsprog kan oversættes til dit eget sprog med et enkelt tryk"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opisy w obcym języku przetłumaczysz na swój jednym stuknięciem"
+          }
         }
       }
     },
@@ -8715,6 +9363,12 @@
             "state" : "translated",
             "value" : "Oversæt"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tłumaczenie"
+          }
         }
       }
     },
@@ -8791,6 +9445,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Prøv at ændre søgningen og søg igen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zmień zapytanie i spróbuj ponownie"
           }
         }
       }
@@ -8869,6 +9529,12 @@
             "state" : "translated",
             "value" : "Kan ikke farvelægge billedet"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie można pokolorować obrazu"
+          }
         }
       }
     },
@@ -8945,6 +9611,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kan ikke bestemme lokaliteten"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie można określić lokalizacji"
           }
         }
       }
@@ -9023,6 +9695,12 @@
             "state" : "translated",
             "value" : "Kan ikke finde det, du søger efter"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie można znaleźć tego, czego szukasz"
+          }
         }
       }
     },
@@ -9099,6 +9777,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kan ikke indlæse billeddataene"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie można wczytać danych obrazu"
           }
         }
       }
@@ -9177,6 +9861,12 @@
             "state" : "translated",
             "value" : "Kan ikke indlæse billedet i høj opløsning"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie można wczytać obrazu w wysokiej rozdzielczości"
+          }
         }
       }
     },
@@ -9253,6 +9943,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kan ikke indlæse billedoplysningerne"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie można wczytać informacji o obrazie"
           }
         }
       }
@@ -9331,6 +10027,12 @@
             "state" : "translated",
             "value" : "Kan ikke indlæse kortmarkeringerne"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie można wczytać pinezek na mapie"
+          }
         }
       }
     },
@@ -9407,6 +10109,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kan ikke indlæse forslag til denne søgning"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie można wczytać podpowiedzi dla tego zapytania"
           }
         }
       }
@@ -9485,6 +10193,12 @@
             "state" : "translated",
             "value" : "Kan ikke indlæse modellisten"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie można wczytać listy modeli"
+          }
         }
       }
     },
@@ -9561,6 +10275,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kan ikke gemme billedet"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie można zapisać obrazu"
           }
         }
       }
@@ -9639,6 +10359,12 @@
             "state" : "translated",
             "value" : "Kan ikke skifte appsymbolet"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie można ustawić ikony"
+          }
         }
       }
     },
@@ -9715,6 +10441,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kan ikke dele billedet"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie można udostępnić obrazu"
           }
         }
       }
@@ -9793,6 +10525,12 @@
             "state" : "translated",
             "value" : "Kan ikke skifte objektiv"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie można przełączyć obiektywu"
+          }
         }
       }
     },
@@ -9870,6 +10608,12 @@
             "state" : "translated",
             "value" : "Kan ikke oversætte beskrivelsen"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie można przetłumaczyć opisu"
+          }
         }
       }
     },
@@ -9946,6 +10690,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kan ikke bruge kameraet"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nie można użyć aparatu"
           }
         }
       }
@@ -10031,6 +10781,12 @@
             "state" : "translated",
             "value" : "uploadet af"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "przesłane przez"
+          }
         }
       }
     },
@@ -10107,6 +10863,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vis som liste"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wyświetl jako listę"
           }
         }
       }
@@ -10185,6 +10947,12 @@
             "state" : "translated",
             "value" : "Se i App Store"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zobacz w App Store"
+          }
         }
       }
     },
@@ -10261,6 +11029,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Se på nettet"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otwórz w przeglądarce"
           }
         }
       }
@@ -10339,6 +11113,12 @@
             "state" : "translated",
             "value" : "Åbn PastVus hjemmeside"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otwórz stronę PastVu"
+          }
         }
       }
     },
@@ -10416,6 +11196,12 @@
             "state" : "translated",
             "value" : "Se kildekoden"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zobacz kod źródłowy"
+          }
         }
       }
     },
@@ -10492,6 +11278,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Varm"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ciepły"
           }
         }
       }
@@ -10576,6 +11368,12 @@
             "state" : "translated",
             "value" : "Hvordan ser billederne ud?"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jak wyglądają obrazy?"
+          }
         }
       }
     },
@@ -10653,6 +11451,12 @@
             "state" : "translated",
             "value" : "med en smule hjælp fra:"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "przy niewielkiej pomocy:"
+          }
         }
       }
     },
@@ -10726,6 +11530,12 @@
           }
         },
         "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yandex Maps"
+          }
+        },
+        "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Yandex Maps"
@@ -10807,6 +11617,12 @@
             "state" : "translated",
             "value" : "Du kan ændre det i Indstillinger.\nGå til Apps -> Rewind -> Lokalitet -> Ved brug af appen"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Możesz to zmienić w Ustawieniach.\nOtwórz Aplikacje -> Rewind -> Lokalizacja -> Gdy używam aplikacji"
+          }
         }
       }
     },
@@ -10884,6 +11700,12 @@
             "state" : "translated",
             "value" : "Du kan ændre modellen senere i indstillingerne"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Model możesz zmienić później w ustawieniach"
+          }
         }
       }
     },
@@ -10960,6 +11782,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Du kan tjekke adgangen til kameraet i Indstillinger"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uprawnienia aparatu możesz sprawdzić w Ustawieniach"
           }
         }
       }
