@@ -2300,55 +2300,55 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ein Foto dauert etwa 3–10 Sekunden"
+            "value" : "Ein Foto dauert etwa 3–10 Sekunden"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Each photo takes about 3–10 seconds"
+            "value" : "Each photo takes about 3–10 seconds"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cada foto tarda entre 3 y 10 segundos"
+            "value" : "Cada foto tarda entre 3 y 10 segundos"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Chaque photo prend environ 3 à 10 secondes"
+            "value" : "Chaque photo prend environ 3 à 10 secondes"
           }
         },
         "kk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Бір сурет шамамен 3–10 секундта боялады"
+            "value" : "Бір сурет шамамен 3–10 секундта боялады"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Одно фото раскрашивается за 3–10 секунд"
+            "value" : "Одно фото раскрашивается за 3–10 секунд"
           }
         },
         "sr-Latn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jedna fotografija traje oko 3–10 sekundi"
+            "value" : "Jedna fotografija traje oko 3–10 sekundi"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Одне фото розфарбовується за 3–10 секунд"
+            "value" : "Одне фото розфарбовується за 3–10 секунд"
           }
         },
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bitta fotosurat 3–10 soniya oladi"
+            "value" : "Bitta fotosurat 3–10 soniya oladi"
           }
         },
         "zh-Hans" : {
@@ -2360,31 +2360,31 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ogni foto richiede da 3 a 10 secondi"
+            "value" : "Ogni foto richiede da 3 a 10 secondi"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Elke foto duurt ongeveer 3–10 seconden"
+            "value" : "Elke foto duurt ongeveer 3–10 seconden"
           }
         },
         "da" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hvert foto tager cirka 3–10 sekunder"
+            "value" : "Hvert foto tager cirka 3–10 sekunder"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jedno zdjęcie zajmuje około 3–10 sekund"
+            "value" : "Jedno zdjęcie zajmuje około 3–10 sekund"
           }
         },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Jedna fotografie zabere asi 3–10 sekund"
+            "value" : "Jedna fotografie zabere asi 3–10 sekund"
           }
         }
       }
@@ -4864,7 +4864,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Salut !"
+            "value" : "Salut !"
           }
         },
         "kk" : {
@@ -5517,7 +5517,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Allons-y !"
+            "value" : "Allons-y !"
           }
         },
         "kk" : {
@@ -12188,7 +12188,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Comment les images apparaissent-elles ?"
+            "value" : "Comment les images apparaissent-elles ?"
           }
         },
         "kk" : {
@@ -12277,7 +12277,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "avec un peu d’aide de :"
+            "value" : "avec un peu d’aide de :"
           }
         },
         "kk" : {
