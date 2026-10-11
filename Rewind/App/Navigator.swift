@@ -20,9 +20,14 @@ final class Navigator: NSObject {
   @ObservableProperty
   private var stack: [Screen] = []
   private let makeController: (Screen) -> NavigationScreen
+  private let uiKitSources: (TransitionSource) -> UIView?
 
-  init(content: @escaping (Screen) -> some View) {
+  init(
+    uiKitSources: @escaping (TransitionSource) -> UIView?,
+    content: @escaping (Screen) -> some View,
+  ) {
     makeController = { makeScreenController(screen: $0, content: content($0)) }
+    self.uiKitSources = uiKitSources
     super.init()
 
     navigationController.delegate = self
@@ -41,7 +46,9 @@ final class Navigator: NSObject {
       let controller = makeController(screen)
       if let source = screen.transitionSource,
          let sourceViews = screenControllers.last?.zoomSourceViews {
-        controller.preferredTransition = .zoom { _ in sourceViews.view(for: source) }
+        controller.preferredTransition = .zoom { [uiKitSources] _ in
+          sourceViews.view(for: source) ?? uiKitSources(source)
+        }
         sourceViews.freeze(source)
       }
       navigationController.pushViewController(controller, animated: true)

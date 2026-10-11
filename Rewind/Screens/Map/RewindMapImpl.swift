@@ -47,6 +47,16 @@ final class RewindMapImpl: RewindMap {
     )
   }
 
+  func annotationView(cid: Int) -> UIView? {
+    map.annotations.first { annotation in
+      switch annotation {
+      case let image as Annotation<Model.Image>: image.value.cid == cid
+      case let cluster as Annotation<Model.Cluster>: cluster.value.preview.cid == cid
+      default: false
+      }
+    }.flatMap(map.view(for:))
+  }
+
   func add(annotations: [MKAnnotation]) {
     map.addAnnotations(annotations)
   }
