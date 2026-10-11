@@ -95,6 +95,21 @@ private func drawEmoji(_ emoji: NSString, in rect: CGRect) {
   )
 }
 
+private func lighter(_ hex: UInt32, stops: CGFloat) -> CGColor? {
+  var red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0
+  VGSL.Color.colorWithHexCode(hex).systemColor.getRed(&red, green: &green, blue: &blue, alpha: nil)
+  return CGColorSpace(name: CGColorSpace.linearSRGB).flatMap { space in
+    CGColor(
+      colorSpace: space,
+      components: [red, green, blue].map { min(1, pow(2, stops) * linear(sRGB: $0)) } + [1],
+    )
+  }
+}
+
+private func linear(sRGB value: CGFloat) -> CGFloat {
+  value <= 0.04045 ? value / 12.92 : pow((value + 0.055) / 1.055, 2.4)
+}
+
 private func drawInRainbow(_ text: NSString, font: UIFont, scale: CGFloat, at origin: CGPoint) {
   let colors: [UInt32] = [
     0xFF_38_3C_FF,
@@ -107,7 +122,7 @@ private func drawInRainbow(_ text: NSString, font: UIFont, scale: CGFloat, at or
   let locations: [CGFloat] = [0.096, 0.26, 0.394, 0.553, 0.736, 0.904]
   guard let gradient = CGGradient(
     colorsSpace: CGColorSpace(name: CGColorSpace.sRGB),
-    colors: colors.map { VGSL.Color.colorWithHexCode($0).systemColor.cgColor } as CFArray,
+    colors: colors.compactMap { lighter($0, stops: 1.5) } as CFArray,
     locations: locations,
   ) else { return }
   let size = text.size(withAttributes: [.font: font])
