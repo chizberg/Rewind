@@ -11621,7 +11621,7 @@
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Możesz to zmienić w Ustawieniach.\nOtwórz Aplikacje -> Rewind -> Lokalizacja -> Gdy używam aplikacji"
+            "value" : "Możesz to zmienić w Ustawieniach.\nOtwórz Aplikacje -> Rewind -> Położenie -> Gdy używam aplikacji"
           }
         }
       }

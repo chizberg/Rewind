@@ -81,6 +81,12 @@
             "state" : "translated",
             "value" : "Appen skal bruge denne adgang for at gemme billeder i dit fotobibliotek"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikacja potrzebuje tego dostępu, aby zapisywać obrazy w Twojej bibliotece zdjęć"
+          }
         }
       }
     },
@@ -161,6 +167,12 @@
           }
         },
         "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind"
+          }
+        },
+        "pl" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rewind"
@@ -249,6 +261,12 @@
             "state" : "translated",
             "value" : "Rewind"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind"
+          }
         }
       }
     },
@@ -333,6 +351,12 @@
             "state" : "translated",
             "value" : "Kameraet bruges til at tage sammenligningsfotos"
           }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dostęp do aparatu jest potrzebny, aby robić zdjęcia porównawcze"
+          }
         }
       }
     },
@@ -415,6 +439,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Din lokalitet bruges til at vise fotos og malerier i nærheden"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Twoje położenie służy do pokazywania zdjęć i obrazów w Twojej okolicy"
           }
         }
       }
@@ -499,6 +529,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Appen skal bruge denne adgang for at gemme billeder i dit fotobibliotek"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikacja potrzebuje tego dostępu, aby zapisywać obrazy w Twojej bibliotece zdjęć"
           }
         }
       }
