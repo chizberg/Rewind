@@ -75,6 +75,12 @@
             "state" : "translated",
             "value" : "De app heeft deze toegang nodig om afbeeldingen in je fotobibliotheek te bewaren"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appen skal bruge denne adgang for at gemme billeder i dit fotobibliotek"
+          }
         }
       }
     },
@@ -149,6 +155,12 @@
           }
         },
         "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind"
+          }
+        },
+        "da" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rewind"
@@ -231,6 +243,12 @@
             "state" : "translated",
             "value" : "Rewind"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind"
+          }
         }
       }
     },
@@ -309,6 +327,12 @@
             "state" : "translated",
             "value" : "Cameratoegang is nodig om vergelijkingsfoto's te maken"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kameraet bruges til at tage sammenligningsfotos"
+          }
         }
       }
     },
@@ -385,6 +409,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Je locatie is nodig om foto's en schilderijen in de buurt te tonen"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Din lokalitet bruges til at vise fotos og malerier i nærheden"
           }
         }
       }
@@ -463,6 +493,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "De app heeft deze toegang nodig om afbeeldingen in je fotobibliotheek te bewaren"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appen skal bruge denne adgang for at gemme billeder i dit fotobibliotek"
           }
         }
       }
