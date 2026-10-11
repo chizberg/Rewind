@@ -90,6 +90,12 @@
             "state" : "translated",
             "value" : "• "
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• "
+          }
         }
       }
     },
@@ -169,6 +175,12 @@
           }
         },
         "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "☮️ & ❤️"
+          }
+        },
+        "cs" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "☮️ & ❤️"
@@ -255,6 +267,12 @@
             "state" : "translated",
             "value" : "👀"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "👀"
+          }
         }
       }
     },
@@ -334,6 +352,12 @@
           }
         },
         "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "💔"
+          }
+        },
+        "cs" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "💔"
@@ -427,6 +451,12 @@
             "state" : "translated",
             "value" : "2026"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2026"
+          }
         }
       }
     },
@@ -509,6 +539,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aplikacja do podróży w czasie"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikace pro cestování v čase"
           }
         }
       }
@@ -593,6 +629,12 @@
             "state" : "translated",
             "value" : "O aplikacji"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O aplikaci"
+          }
         }
       }
     },
@@ -675,6 +717,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "adres"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "adresa"
           }
         }
       }
@@ -759,6 +807,12 @@
             "state" : "translated",
             "value" : "Ikona aplikacji"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ikona aplikace"
+          }
         }
       }
     },
@@ -842,6 +896,12 @@
             "state" : "translated",
             "value" : "Mapy Apple"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mapy Apple"
+          }
         }
       }
     },
@@ -921,6 +981,12 @@
           }
         },
         "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "autor"
+          }
+        },
+        "cs" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "autor"
@@ -1061,6 +1127,12 @@
             "state" : "translated",
             "value" : "Czarno-biały"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Černobílý"
+          }
         }
       }
     },
@@ -1144,6 +1216,12 @@
             "state" : "translated",
             "value" : "Klisza"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kinofilm"
+          }
         }
       }
     },
@@ -1226,6 +1304,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Klaster"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klastr"
           }
         }
       }
@@ -1316,6 +1400,12 @@
             "state" : "translated",
             "value" : "Duża grupa obrazów. Aby zobaczyć wszystkie, przybliż mapę"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Velká skupina obrázků. Abyste viděli všechny, přibližte mapu"
+          }
         }
       }
     },
@@ -1405,6 +1495,12 @@
             "state" : "translated",
             "value" : "Klaster obrazów"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klastr obrázků"
+          }
         }
       }
     },
@@ -1487,6 +1583,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Model koloryzacji"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Model kolorizace"
           }
         }
       }
@@ -1577,6 +1679,12 @@
             "state" : "translated",
             "value" : "Dodawaj kolor czarno-białym zdjęciom bezpośrednio na urządzeniu. Bezpłatnie, bez konta."
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Barvu do černobílých fotografií přidáte přímo v zařízení. Zdarma a bez účtu."
+          }
         }
       }
     },
@@ -1665,6 +1773,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Koloryzacja zdjęć"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kolorizace fotografií"
           }
         }
       }
@@ -1755,6 +1869,12 @@
             "state" : "translated",
             "value" : "Model możesz usunąć, kiedy chcesz"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Model můžete kdykoli smazat"
+          }
         }
       }
     },
@@ -1843,6 +1963,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Model pobierasz tylko raz"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Model si stáhnete jen jednou"
           }
         }
       }
@@ -1933,6 +2059,12 @@
             "state" : "translated",
             "value" : "Bezpłatnie, bez konta"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zdarma a bez účtu"
+          }
         }
       }
     },
@@ -2021,6 +2153,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dodaj kolor dowolnemu czarno-białemu zdjęciu w kilka sekund."
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kolorizujte černobílé fotografie v řádu sekund."
           }
         }
       }
@@ -2111,6 +2249,12 @@
             "state" : "translated",
             "value" : "bezpłatnie | na urządzeniu | open source"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zdarma | v zařízení | open source"
+          }
         }
       }
     },
@@ -2199,6 +2343,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Jedno zdjęcie zajmuje około 3–10 sekund"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jedna fotografie zabere asi 3–10 sekund"
           }
         }
       }
@@ -2289,6 +2439,12 @@
             "state" : "translated",
             "value" : "Wygląda na to, że model nie dodał koloru. Modele się mylą — możesz spróbować innego."
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zdá se, že model barvu nepřidal. Modely dělají chyby – zkuste jiný."
+          }
         }
       }
     },
@@ -2378,6 +2534,12 @@
             "state" : "translated",
             "value" : "Wygląda na to, że obraz nie stał się bardziej kolorowy. Modele się mylą — możesz spróbować innego."
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zdá se, že obrázek nezískal více barev. Modely dělají chyby – zkuste jiný."
+          }
         }
       }
     },
@@ -2460,6 +2622,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pokoloruj"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kolorizovat"
           }
         }
       }
@@ -2544,6 +2712,12 @@
             "state" : "translated",
             "value" : "Kompaktowy"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kompaktní"
+          }
         }
       }
     },
@@ -2627,6 +2801,12 @@
             "state" : "translated",
             "value" : "Porównaj"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Porovnat"
+          }
         }
       }
     },
@@ -2709,6 +2889,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Porównaj ze Street View"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Porovnat s Google Street View"
           }
         }
       }
@@ -2799,6 +2985,12 @@
             "state" : "translated",
             "value" : "Użyj aparatu, aby porównać to samo miejsce w różnych czasach"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoaparátem porovnáte stejné místo v různých dobách"
+          }
         }
       }
     },
@@ -2888,6 +3080,12 @@
             "state" : "translated",
             "value" : "Porównaj przeszłość z teraźniejszością"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Porovnání minulosti a přítomnosti"
+          }
         }
       }
     },
@@ -2970,6 +3168,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Skontaktuj się z twórcą"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kontaktovat vývojáře"
           }
         }
       }
@@ -3054,6 +3258,12 @@
             "state" : "translated",
             "value" : "Skopiuj do schowka"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopírovat do schránky"
+          }
         }
       }
     },
@@ -3137,6 +3347,12 @@
             "state" : "translated",
             "value" : "Od najstarszych"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Od nejstarších"
+          }
         }
       }
     },
@@ -3219,6 +3435,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Od najnowszych"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Od nejnovějších"
           }
         }
       }
@@ -3312,6 +3534,12 @@
             "state" : "translated",
             "value" : "Żywe, naturalne kolory. Dobrze radzi sobie z większością zdjęć."
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Živé, přirozené barvy. Dobře funguje u většiny fotografií."
+          }
         }
       }
     },
@@ -3395,6 +3623,12 @@
             "state" : "translated",
             "value" : "Domyślny"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Výchozí"
+          }
         }
       }
     },
@@ -3477,6 +3711,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Usuń"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Smazat"
           }
         }
       }
@@ -3570,6 +3810,12 @@
             "state" : "translated",
             "value" : "Mniejszy i szybszy. Kolory są delikatniejsze i mniej dokładne."
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menší a rychlejší. Barvy jsou jemnější a méně přesné."
+          }
         }
       }
     },
@@ -3652,6 +3898,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ulubione"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přidat k oblíbeným"
           }
         }
       }
@@ -3736,6 +3988,12 @@
             "state" : "translated",
             "value" : "Ulubione"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oblíbené"
+          }
         }
       }
     },
@@ -3818,6 +4076,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Wyznacz trasę"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Najít trasu"
           }
         }
       }
@@ -3902,6 +4166,12 @@
             "state" : "translated",
             "value" : "Zaczynamy!"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Začínáme!"
+          }
         }
       }
     },
@@ -3985,6 +4255,12 @@
             "state" : "translated",
             "value" : "Otwórz Ustawienia"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otevřít Nastavení"
+          }
         }
       }
     },
@@ -4064,6 +4340,12 @@
           }
         },
         "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mapy Google"
+          }
+        },
+        "cs" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mapy Google"
@@ -4151,6 +4433,12 @@
             "state" : "translated",
             "value" : "Google Street View jest niedostępny w tym miejscu."
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Google Street View není pro toto místo k dispozici."
+          }
         }
       }
     },
@@ -4234,6 +4522,12 @@
             "state" : "translated",
             "value" : "Google Street View niedostępny"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Google Street View není k dispozici"
+          }
         }
       }
     },
@@ -4316,6 +4610,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Wybór gradientu"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Výběr gradientu"
           }
         }
       }
@@ -4406,6 +4706,12 @@
             "state" : "translated",
             "value" : "Kilka obrazów blisko siebie. Po stuknięciu otwiera pełną listę"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Několik obrázků blízko sebe. Klepnutím se otevře celý seznam"
+          }
         }
       }
     },
@@ -4495,6 +4801,12 @@
             "state" : "translated",
             "value" : "Grupa obrazów"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skupina obrázků"
+          }
         }
       }
     },
@@ -4577,6 +4889,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cześć!"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ahoj!"
           }
         }
       }
@@ -4667,6 +4985,12 @@
             "state" : "translated",
             "value" : "Historia na mapie"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historie na mapě"
+          }
         }
       }
     },
@@ -4755,6 +5079,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Przeglądaj na mapie dawne zdjęcia i obrazy miejsc"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Na mapě si můžete prohlížet staré fotografie a obrazy míst"
           }
         }
       }
@@ -4845,6 +5175,12 @@
             "state" : "translated",
             "value" : "Historia w pobliżu"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historie ve vašem okolí"
+          }
         }
       }
     },
@@ -4927,6 +5263,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Koloryzacja zdjęć"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kolorizace fotografií"
           }
         }
       }
@@ -5017,6 +5359,12 @@
             "state" : "translated",
             "value" : "Możesz stworzyć kolekcję swoich najbardziej niesamowitych chwil i miejsc"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Můžete si vytvořit kolekci svých nejpozoruhodnějších okamžiků a míst"
+          }
         }
       }
     },
@@ -5106,6 +5454,12 @@
             "state" : "translated",
             "value" : "Zapisuj ulubione"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ukládání oblíbených"
+          }
         }
       }
     },
@@ -5188,6 +5542,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zobaczmy!"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pojďme se podívat!"
           }
         }
       }
@@ -5272,6 +5632,12 @@
             "state" : "translated",
             "value" : "Twórca: "
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autor: "
+          }
         }
       }
     },
@@ -5351,6 +5717,12 @@
           }
         },
         "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mapa"
+          }
+        },
+        "cs" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mapa"
@@ -5491,6 +5863,12 @@
             "state" : "translated",
             "value" : "Jeszcze nic tu nie ma"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zatím tu nic není"
+          }
         }
       }
     },
@@ -5574,6 +5952,12 @@
             "state" : "translated",
             "value" : "Ocean"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oceán"
+          }
         }
       }
     },
@@ -5653,6 +6037,12 @@
           }
         },
         "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "cs" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "OK"
@@ -5739,6 +6129,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Na mapie"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Na mapě"
           }
         }
       }
@@ -5829,6 +6225,12 @@
             "state" : "translated",
             "value" : "Wszystko ma lokalizację i datę. Każdej dacie odpowiada kolor"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Všechno má polohu a datum. Každému datu odpovídá určitá barva"
+          }
         }
       }
     },
@@ -5917,6 +6319,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rewind potrzebuje Twojej lokalizacji, aby pokazywać zdjęcia i obrazy w pobliżu. Bez niej też możesz korzystać z aplikacji"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind potřebuje vaši polohu, aby vám mohl ukazovat fotografie a obrazy v okolí. I bez ní můžete aplikaci používat"
           }
         }
       }
@@ -6007,6 +6415,12 @@
             "state" : "translated",
             "value" : "Rewind korzysta z API PastVu, aby pozyskiwać wszystkie historyczne zdjęcia, obrazy i powiązane z nimi dane."
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind získává všechny historické fotografie, obrazy a související data přes API PastVu."
+          }
         }
       }
     },
@@ -6089,6 +6503,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Otwieraj duże podglądy klastrów po stuknięciu"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otevírat velké náhledy klastrů klepnutím"
           }
         }
       }
@@ -6173,6 +6593,12 @@
             "state" : "translated",
             "value" : "Malarstwo"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Obrazy"
+          }
         }
       }
     },
@@ -6252,6 +6678,12 @@
           }
         },
         "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PastVu"
+          }
+        },
+        "cs" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "PastVu"
@@ -6339,6 +6771,12 @@
             "state" : "translated",
             "value" : "Zasady PastVu"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pravidla PastVu"
+          }
         }
       }
     },
@@ -6421,6 +6859,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zdjęcia"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotografie"
           }
         }
       }
@@ -6505,6 +6949,12 @@
             "state" : "translated",
             "value" : "Wybierz model"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Výběr modelu"
+          }
         }
       }
     },
@@ -6587,6 +7037,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pinezki"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Špendlíky"
           }
         }
       }
@@ -6671,6 +7127,12 @@
             "state" : "translated",
             "value" : "Pinezki i mapa"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Špendlíky a mapa"
+          }
         }
       }
     },
@@ -6753,6 +7215,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Spróbuj ponownie później"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zkuste to prosím později"
           }
         }
       }
@@ -6837,6 +7305,12 @@
             "state" : "translated",
             "value" : "Pociągnij, aby wyświetlić listę"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přetažením zobrazíte seznam"
+          }
         }
       }
     },
@@ -6920,6 +7394,12 @@
             "state" : "translated",
             "value" : "Rewind"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind"
+          }
         }
       }
     },
@@ -6999,6 +7479,12 @@
           }
         },
         "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind <<"
+          }
+        },
+        "cs" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rewind <<"
@@ -7092,6 +7578,12 @@
             "state" : "translated",
             "value" : "Rewind korzysta z API PastVu, aby pobierać zdjęcia i obrazy"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind získává fotografie a obrazy přes API PastVu"
+          }
         }
       }
     },
@@ -7174,6 +7666,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Satelita"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Satelitní"
           }
         }
       }
@@ -7258,6 +7756,12 @@
             "state" : "translated",
             "value" : "Zapisz obraz"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uložit obrázek"
+          }
         }
       }
     },
@@ -7341,6 +7845,12 @@
             "state" : "translated",
             "value" : "Zapisano w Zdjęciach"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uloženo do Fotek"
+          }
         }
       }
     },
@@ -7420,6 +7930,12 @@
           }
         },
         "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mapa"
+          }
+        },
+        "cs" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mapa"
@@ -7507,6 +8023,12 @@
             "state" : "translated",
             "value" : "Szukaj"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hledání"
+          }
         }
       }
     },
@@ -7589,6 +8111,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Szukaj miejsca"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hledat místo"
           }
         }
       }
@@ -7673,6 +8201,12 @@
             "state" : "translated",
             "value" : "Wybierz aplikację do wyznaczenia trasy"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vyberte aplikaci pro nalezení trasy"
+          }
         }
       }
     },
@@ -7755,6 +8289,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ustawienia"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nastavení"
           }
         }
       }
@@ -7839,6 +8379,12 @@
             "state" : "translated",
             "value" : "Udostępnij"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sdílet"
+          }
         }
       }
     },
@@ -7921,6 +8467,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pokaż na mapie"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zobrazit na mapě"
           }
         }
       }
@@ -8005,6 +8557,12 @@
             "state" : "translated",
             "value" : "Pokaż oryginał"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zobrazit originál"
+          }
         }
       }
     },
@@ -8087,6 +8645,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Losowo"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Náhodně"
           }
         }
       }
@@ -8177,6 +8741,12 @@
             "state" : "translated",
             "value" : "Pokazuje kierunek. Stuknij, aby zobaczyć szczegóły obrazu"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ukazuje směr. Klepnutím zobrazíte detaily obrázku"
+          }
         }
       }
     },
@@ -8266,6 +8836,12 @@
             "state" : "translated",
             "value" : "Jeden obraz"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jeden obrázek"
+          }
         }
       }
     },
@@ -8348,6 +8924,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Coś poszło nie tak podczas wyszukiwania"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Při hledání došlo k chybě"
           }
         }
       }
@@ -8432,6 +9014,12 @@
             "state" : "translated",
             "value" : "Sortowanie"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Řazení"
+          }
         }
       }
     },
@@ -8514,6 +9102,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "źródło"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "zdroj"
           }
         }
       }
@@ -8598,6 +9192,12 @@
             "state" : "translated",
             "value" : "Zacznij pisać"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Začněte psát"
+          }
         }
       }
     },
@@ -8680,6 +9280,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Błąd Street View"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chyba Street View"
           }
         }
       }
@@ -8770,6 +9376,12 @@
             "state" : "translated",
             "value" : "Sprawdź, jak miejsce wygląda dziś, dzięki Google Street View"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jak místo vypadá dnes, uvidíte v Google Street View"
+          }
         }
       }
     },
@@ -8859,6 +9471,12 @@
             "state" : "translated",
             "value" : "Street View"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Street View"
+          }
         }
       }
     },
@@ -8941,6 +9559,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aplikacja nie ma dostępu do Twojej lokalizacji"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikace nemá přístup k poloze"
           }
         }
       }
@@ -9025,6 +9649,12 @@
             "state" : "translated",
             "value" : "Ta aplikacja nie powstałaby bez PastVu"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bez PastVu by tato aplikace nemohla vzniknout"
+          }
         }
       }
     },
@@ -9108,6 +9738,12 @@
             "state" : "translated",
             "value" : "To "
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tohle je "
+          }
         }
       }
     },
@@ -9190,6 +9826,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Przetłumacz"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přeložit"
           }
         }
       }
@@ -9280,6 +9922,12 @@
             "state" : "translated",
             "value" : "Opisy w obcym języku przetłumaczysz na swój jednym stuknięciem"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Popisy v cizím jazyce přeložíte jedním klepnutím"
+          }
         }
       }
     },
@@ -9369,6 +10017,12 @@
             "state" : "translated",
             "value" : "Tłumaczenie"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Překlad"
+          }
         }
       }
     },
@@ -9451,6 +10105,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zmień zapytanie i spróbuj ponownie"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zkuste změnit dotaz a hledat znovu"
           }
         }
       }
@@ -9535,6 +10195,12 @@
             "state" : "translated",
             "value" : "Nie można pokolorować obrazu"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Obrázek nelze kolorizovat"
+          }
         }
       }
     },
@@ -9617,6 +10283,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nie można określić lokalizacji"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Polohu nelze určit"
           }
         }
       }
@@ -9701,6 +10373,12 @@
             "state" : "translated",
             "value" : "Nie można znaleźć tego, czego szukasz"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Žádné výsledky"
+          }
         }
       }
     },
@@ -9783,6 +10461,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nie można wczytać danych obrazu"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Data obrázku nelze načíst"
           }
         }
       }
@@ -9867,6 +10551,12 @@
             "state" : "translated",
             "value" : "Nie można wczytać obrazu w wysokiej rozdzielczości"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Obrázek nelze načíst ve vysokém rozlišení"
+          }
         }
       }
     },
@@ -9949,6 +10639,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nie można wczytać informacji o obrazie"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Informace o obrázku nelze načíst"
           }
         }
       }
@@ -10033,6 +10729,12 @@
             "state" : "translated",
             "value" : "Nie można wczytać pinezek na mapie"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Značky na mapě nelze načíst"
+          }
         }
       }
     },
@@ -10115,6 +10817,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nie można wczytać podpowiedzi dla tego zapytania"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pro tento dotaz nelze načíst návrhy"
           }
         }
       }
@@ -10199,6 +10907,12 @@
             "state" : "translated",
             "value" : "Nie można wczytać listy modeli"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seznam modelů nelze načíst"
+          }
         }
       }
     },
@@ -10281,6 +10995,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nie można zapisać obrazu"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Obrázek nelze uložit"
           }
         }
       }
@@ -10365,6 +11085,12 @@
             "state" : "translated",
             "value" : "Nie można ustawić ikony"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ikonu nelze nastavit"
+          }
         }
       }
     },
@@ -10447,6 +11173,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nie można udostępnić obrazu"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Obrázek nelze sdílet"
           }
         }
       }
@@ -10531,6 +11263,12 @@
             "state" : "translated",
             "value" : "Nie można przełączyć obiektywu"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Objektiv nelze přepnout"
+          }
         }
       }
     },
@@ -10614,6 +11352,12 @@
             "state" : "translated",
             "value" : "Nie można przetłumaczyć opisu"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Popis nelze přeložit"
+          }
         }
       }
     },
@@ -10696,6 +11440,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nie można użyć aparatu"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotoaparát nelze použít"
           }
         }
       }
@@ -10787,6 +11537,12 @@
             "state" : "translated",
             "value" : "przesłane przez"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "nahráno"
+          }
         }
       }
     },
@@ -10869,6 +11625,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Wyświetl jako listę"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zobrazit jako seznam"
           }
         }
       }
@@ -10953,6 +11715,12 @@
             "state" : "translated",
             "value" : "Zobacz w App Store"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zobrazit v App Storu"
+          }
         }
       }
     },
@@ -11035,6 +11803,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Otwórz w przeglądarce"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otevřít na webu"
           }
         }
       }
@@ -11119,6 +11893,12 @@
             "state" : "translated",
             "value" : "Otwórz stronę PastVu"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otevřít web PastVu"
+          }
         }
       }
     },
@@ -11202,6 +11982,12 @@
             "state" : "translated",
             "value" : "Zobacz kod źródłowy"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zobrazit zdrojový kód"
+          }
         }
       }
     },
@@ -11284,6 +12070,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ciepły"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teplý"
           }
         }
       }
@@ -11374,6 +12166,12 @@
             "state" : "translated",
             "value" : "Jak wyglądają obrazy?"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jak vypadají obrázky?"
+          }
         }
       }
     },
@@ -11457,6 +12255,12 @@
             "state" : "translated",
             "value" : "przy niewielkiej pomocy:"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "s malou pomocí od:"
+          }
         }
       }
     },
@@ -11536,6 +12340,12 @@
           }
         },
         "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yandex Maps"
+          }
+        },
+        "cs" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Yandex Maps"
@@ -11623,6 +12433,12 @@
             "state" : "translated",
             "value" : "Możesz to zmienić w Ustawieniach.\nOtwórz Aplikacje -> Rewind -> Położenie -> Gdy używam aplikacji"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Změnit to můžete v Nastavení.\nPřejděte na Aplikace -> Rewind -> Poloha -> Při používání aplikace"
+          }
         }
       }
     },
@@ -11706,6 +12522,12 @@
             "state" : "translated",
             "value" : "Model możesz zmienić później w ustawieniach"
           }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Model můžete později změnit v nastavení"
+          }
         }
       }
     },
@@ -11788,6 +12610,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Uprawnienia aparatu możesz sprawdzić w Ustawieniach"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oprávnění k fotoaparátu zkontrolujete v Nastavení"
           }
         }
       }
