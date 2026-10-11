@@ -10,14 +10,7 @@ import VGSLFundamentals
 
 struct FloatingMenu: View {
   enum Item {
-    enum Kind {
-      case expandable
-      case fixed
-    }
-
     case timePicker
-    case mapType
-    case imageKind
   }
 
   struct State: Equatable {
@@ -40,7 +33,7 @@ struct FloatingMenu: View {
   var store: Store
 
   var body: some View {
-    FloatingMenuImpl(expandedItems: store.expandedItems) {
+    FloatingMenuImpl {
       makeTimePicker(
         items: store.binding(\.expandedItems, send: { .setExpandedItems($0) }),
         filters: store.binding(\.filters, send: { .setFilters($0) })
@@ -48,7 +41,6 @@ struct FloatingMenu: View {
 
       let mapType = store.mapType
       FloatingMenuPicker(
-        item: .mapType,
         iconName: mapType.isScheme ? "map" : "globe.europe.africa",
         selection: store.binding(\.mapType, send: { .setMapType($0) }),
         options: [
@@ -59,7 +51,6 @@ struct FloatingMenu: View {
 
       let imageKind = store.filters.imageKind
       FloatingMenuPicker(
-        item: .imageKind,
         iconName: imageKind.isPhoto ? "paintbrush.pointed" : "paintbrush.pointed.fill",
         iconColor: imageKind.isPhoto ? buttonFgColor : .accentColor,
         selection: store.binding(\.filters.imageKind, send: { kind in
@@ -114,41 +105,12 @@ extension Either where T == AppAction, U == MapAction.External.UI {
 }
 
 private struct FloatingMenuImpl<Content: View>: View {
-  var expandedItems: [FloatingMenu.Item]
   @ViewBuilder
   var content: Content
 
-  @Namespace
-  private var namespace
-
   var body: some View {
-    VStack(alignment: .leading) {
-      HStack {
-        ForEach(subviews: content) { subview in
-          let id = subview.containerValues.itemID
-          switch subview.containerValues.kind {
-          case .fixed:
-            subview
-              .ifLet(id) { view, id in
-                view.glassID(id, in: namespace)
-              }
-          case .expandable:
-            if let id, !expandedItems.contains(id) {
-              subview
-                .glassID(id, in: namespace)
-                .matchedGeometryEffect(id: id, in: namespace)
-            }
-          }
-        }
-      }
-      ForEach(subviews: content) { subview in
-        if let id = subview.containerValues.itemID,
-           expandedItems.contains(id) {
-          subview
-            .glassID(id, in: namespace)
-            .matchedGeometryEffect(id: id, in: namespace)
-        }
-      }
+    HStack {
+      content
     }
     .modify { view in
       if #available(iOS 26, *) {
@@ -157,19 +119,10 @@ private struct FloatingMenuImpl<Content: View>: View {
         view
       }
     }
-    .animation(mapControlsAnimation, value: expandedItems)
   }
 }
 
-extension ContainerValues {
-  @Entry
-  fileprivate var itemID: FloatingMenu.Item? = nil
-  @Entry
-  fileprivate var kind: FloatingMenu.Item.Kind = .fixed
-}
-
 private struct FloatingMenuButton: View {
-  var item: FloatingMenu.Item
   var iconName: String
   var foregroundColor: Color = buttonFgColor
   var action: () -> Void
@@ -189,8 +142,6 @@ private struct FloatingMenuButton: View {
     .modifier(
       BackgroundModifier(isInteractive: true)
     )
-    .containerValue(\.itemID, item)
-    .containerValue(\.kind, .fixed)
   }
 }
 
@@ -200,8 +151,6 @@ private struct FloatingMenuPicker<Value: Hashable>: View {
     var title: LocalizedStringKey
     var iconName: String
   }
-
-  var item: FloatingMenu.Item
 
   var iconName: String
   var iconColor: Color = buttonFgColor
@@ -233,51 +182,6 @@ private struct FloatingMenuPicker<Value: Hashable>: View {
     .modifier(
       BackgroundModifier(isInteractive: true)
     )
-    .containerValue(\.itemID, item)
-    .containerValue(\.kind, .fixed)
-  }
-}
-
-private struct ExpandableMenuButton<Expanded: View>: View {
-  var item: FloatingMenu.Item
-  var iconName: String
-  var foregroundColor: Color = buttonFgColor
-  @Binding
-  var isExpanded: Bool
-  @ViewBuilder
-  var expandedView: (Binding<Bool>) -> Expanded
-
-  var body: some View {
-    VStack {
-      if isExpanded {
-        expandedView($isExpanded)
-      } else {
-        FloatingMenuButton(
-          item: item,
-          iconName: iconName,
-          foregroundColor: foregroundColor
-        ) { isExpanded = true }
-      }
-    }
-    .containerValue(\.itemID, item)
-    .containerValue(\.kind, .expandable)
-  }
-}
-
-private struct CloseButton: View {
-  var action: () -> Void
-
-  var body: some View {
-    Button(action: action) {
-      Image(systemName: "xmark")
-        .font(.title2)
-        .padding()
-        .contentShape(Rectangle())
-        .background {
-          Capsule()
-            .fill(Color.systemBackground.opacity(0.5))
-        }
-    }.foregroundStyle(buttonFgColor)
   }
 }
 
@@ -285,30 +189,18 @@ private func makeTimePicker(
   items: Binding<[FloatingMenu.Item]>,
   filters: Binding<ImageRequestFilters>,
 ) -> some View {
-  ExpandableMenuButton(
-    item: .timePicker,
+  let isPresented = makeExpansionBinding(expandedItems: items, item: .timePicker)
+  return FloatingMenuButton(
     iconName: "clock",
     foregroundColor: filters.wrappedValue.isRangeModified ? .accentColor : buttonFgColor,
-    isExpanded: makeExpansionBinding(
-      expandedItems: items,
-      item: .timePicker
-    ),
-    expandedView: { isExpanded in
-      HStack {
-        YearSelector(
-          yearRange: filters.yearRange
-        )
-        CloseButton(
-          action: { isExpanded.wrappedValue = false }
-        )
-      }
-      .padding(.leading, 10)
-      .padding(3)
-      .modifier(
-        BackgroundModifier(isInteractive: false)
-      )
-    }
+    action: { isPresented.wrappedValue = true }
   )
+  .popover(isPresented: isPresented, arrowEdge: .bottom) {
+    YearSelector(yearRange: filters.yearRange)
+      .frame(width: 320)
+      .padding()
+      .presentationCompactAdaptation(.popover)
+  }
 }
 
 private func makeExpansionBinding(
@@ -329,19 +221,6 @@ private func makeExpansionBinding(
       }
     },
   )
-}
-
-extension View {
-  @ViewBuilder
-  fileprivate func glassID<ID: Hashable>(
-    _ id: ID, in namespace: Namespace.ID
-  ) -> some View {
-    if #available(iOS 26, *) {
-      self.glassEffectID(id, in: namespace)
-    } else {
-      self
-    }
-  }
 }
 
 private struct BackgroundModifier: ViewModifier {
@@ -404,7 +283,6 @@ private let buttonFgColor = Color.primary.opacity(0.8)
   var mapType = MapType.scheme
 
   FloatingMenuPicker(
-    item: .mapType,
     iconName: mapType.isScheme ? "map" : "globe.europe.africa",
     selection: $mapType,
     options: [
