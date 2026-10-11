@@ -768,7 +768,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apple Mappe"
+            "value" : "Mappe"
           }
         },
         "nl" : {
@@ -6894,7 +6894,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mappa"
+            "value" : "Standard"
           }
         },
         "nl" : {
