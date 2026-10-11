@@ -78,6 +78,12 @@
             "state" : "translated",
             "value" : "• "
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• "
+          }
         }
       }
     },
@@ -145,6 +151,12 @@
           }
         },
         "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "☮️ & ❤️"
+          }
+        },
+        "da" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "☮️ & ❤️"
@@ -219,6 +231,12 @@
             "state" : "translated",
             "value" : "👀"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "👀"
+          }
         }
       }
     },
@@ -286,6 +304,12 @@
           }
         },
         "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "💔"
+          }
+        },
+        "da" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "💔"
@@ -367,6 +391,12 @@
             "state" : "translated",
             "value" : "2026"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2026"
+          }
         }
       }
     },
@@ -437,6 +467,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Een tijdreisapp"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En tidsrejseapp"
           }
         }
       }
@@ -509,6 +545,12 @@
             "state" : "translated",
             "value" : "Info"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Om"
+          }
         }
       }
     },
@@ -579,6 +621,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "adres"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "adresse"
           }
         }
       }
@@ -651,6 +699,12 @@
             "state" : "translated",
             "value" : "Appsymbool"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appsymbol"
+          }
         }
       }
     },
@@ -722,6 +776,12 @@
             "state" : "translated",
             "value" : "Apple Kaarten"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple Kort"
+          }
         }
       }
     },
@@ -792,6 +852,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "auteur"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ophavsmand"
           }
         }
       }
@@ -917,6 +983,12 @@
             "state" : "translated",
             "value" : "Zwart-wit"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sort-hvid"
+          }
         }
       }
     },
@@ -988,6 +1060,12 @@
             "state" : "translated",
             "value" : "Filmrol"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kamerarulle"
+          }
         }
       }
     },
@@ -1058,6 +1136,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cluster"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klynge"
           }
         }
       }
@@ -1136,6 +1220,12 @@
             "state" : "translated",
             "value" : "Een grote groep afbeeldingen. Zoom in om ze allemaal te zien"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En stor gruppe billeder. Hvis du vil se dem alle, skal du zoome ind"
+          }
         }
       }
     },
@@ -1213,6 +1303,12 @@
             "state" : "translated",
             "value" : "Cluster met afbeeldingen"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Billedklynge"
+          }
         }
       }
     },
@@ -1283,6 +1379,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Inkleurmodel"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Farvelægningsmodel"
           }
         }
       }
@@ -1361,6 +1463,12 @@
             "state" : "translated",
             "value" : "Geef zwart-witfoto's kleur, direct op je apparaat. Gratis, geen account nodig."
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Farvelæg sort-hvide fotos direkte på din enhed. Gratis og uden konto."
+          }
         }
       }
     },
@@ -1437,6 +1545,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Afbeeldingen inkleuren"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Farvelægning af billeder"
           }
         }
       }
@@ -1515,6 +1629,12 @@
             "state" : "translated",
             "value" : "Verwijder het model wanneer je wilt"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Slet modellen, når du vil"
+          }
         }
       }
     },
@@ -1591,6 +1711,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Je downloadt het model maar één keer"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Du downloader kun modellen én gang"
           }
         }
       }
@@ -1669,6 +1795,12 @@
             "state" : "translated",
             "value" : "Gratis, geen account nodig"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gratis og uden konto"
+          }
         }
       }
     },
@@ -1745,6 +1877,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Geef elke zwart-witfoto kleur in enkele seconden."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Farvelæg ethvert sort-hvidt foto på få sekunder."
           }
         }
       }
@@ -1823,6 +1961,12 @@
             "state" : "translated",
             "value" : "gratis | op je apparaat | open source"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "gratis | på enheden | open source"
+          }
         }
       }
     },
@@ -1899,6 +2043,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Elke foto duurt ongeveer 3–10 seconden"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hvert foto tager cirka 3–10 sekunder"
           }
         }
       }
@@ -1977,6 +2127,12 @@
             "state" : "translated",
             "value" : "Het lijkt erop dat het model geen kleur heeft kunnen toevoegen. Modellen maken fouten, je kunt een ander model proberen."
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det ser ud, som om modellen ikke kunne tilføje farve. Modeller laver fejl, så du kan prøve en anden."
+          }
         }
       }
     },
@@ -2054,6 +2210,12 @@
             "state" : "translated",
             "value" : "Het lijkt erop dat de afbeelding niet kleurrijker is geworden. Modellen maken fouten, je kunt een ander model proberen."
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det ser ud, som om billedet ikke er blevet mere farverigt. Modeller laver fejl, så du kan prøve en anden."
+          }
         }
       }
     },
@@ -2124,6 +2286,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kleur in"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Farvelæg"
           }
         }
       }
@@ -2196,6 +2364,12 @@
             "state" : "translated",
             "value" : "Compact"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kompakt"
+          }
         }
       }
     },
@@ -2267,6 +2441,12 @@
             "state" : "translated",
             "value" : "Vergelijk"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sammenlign"
+          }
         }
       }
     },
@@ -2337,6 +2517,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vergelijk met Google Street View"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sammenlign med Google Street View"
           }
         }
       }
@@ -2415,6 +2601,12 @@
             "state" : "translated",
             "value" : "Gebruik je camera om dezelfde plek door de tijd te vergelijken"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Brug dit kamera til at sammenligne det samme sted over tid"
+          }
         }
       }
     },
@@ -2492,6 +2684,12 @@
             "state" : "translated",
             "value" : "Vergelijk toen en nu"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sammenlign fortid og nutid"
+          }
         }
       }
     },
@@ -2562,6 +2760,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Neem contact op met de ontwikkelaar"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kontakt udvikleren"
           }
         }
       }
@@ -2634,6 +2838,12 @@
             "state" : "translated",
             "value" : "Kopieer naar klembord"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopier til udklipsholder"
+          }
         }
       }
     },
@@ -2705,6 +2915,12 @@
             "state" : "translated",
             "value" : "Datum oplopend"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ældste først"
+          }
         }
       }
     },
@@ -2775,6 +2991,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Datum aflopend"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nyeste først"
           }
         }
       }
@@ -2856,6 +3078,12 @@
             "state" : "translated",
             "value" : "Levendige, natuurlijke kleuren. Werkt goed voor de meeste foto's."
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Levende, naturlige farver. Fungerer godt til de fleste fotos."
+          }
         }
       }
     },
@@ -2927,6 +3155,12 @@
             "state" : "translated",
             "value" : "Standaard"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Standard"
+          }
         }
       }
     },
@@ -2997,6 +3231,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Verwijder"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Slet"
           }
         }
       }
@@ -3078,6 +3318,12 @@
             "state" : "translated",
             "value" : "Kleiner en sneller. De kleuren zijn zachter en minder nauwkeurig."
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mindre og hurtigere. Farverne er blødere og mindre præcise."
+          }
         }
       }
     },
@@ -3148,6 +3394,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Favoriet"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favorit"
           }
         }
       }
@@ -3220,6 +3472,12 @@
             "state" : "translated",
             "value" : "Favorieten"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favoritter"
+          }
         }
       }
     },
@@ -3290,6 +3548,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Plan route"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Find rute"
           }
         }
       }
@@ -3362,6 +3626,12 @@
             "state" : "translated",
             "value" : "Aan de slag"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kom i gang"
+          }
         }
       }
     },
@@ -3433,6 +3703,12 @@
             "state" : "translated",
             "value" : "Open Instellingen"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Åbn Indstillinger"
+          }
         }
       }
     },
@@ -3500,6 +3776,12 @@
           }
         },
         "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Google Maps"
+          }
+        },
+        "da" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Google Maps"
@@ -3575,6 +3857,12 @@
             "state" : "translated",
             "value" : "Google Street View is niet beschikbaar voor deze locatie."
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Google Street View er ikke tilgængelig for denne lokalitet."
+          }
         }
       }
     },
@@ -3646,6 +3934,12 @@
             "state" : "translated",
             "value" : "Google Street View niet beschikbaar"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Google Street View er ikke tilgængelig"
+          }
         }
       }
     },
@@ -3716,6 +4010,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kleurverloop"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Farveovergang"
           }
         }
       }
@@ -3794,6 +4094,12 @@
             "state" : "translated",
             "value" : "Meerdere afbeeldingen die dicht bij elkaar liggen. Opent een volledige lijst als je erop tikt"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Flere billeder tæt på hinanden. Åbner hele listen ved tryk"
+          }
         }
       }
     },
@@ -3871,6 +4177,12 @@
             "state" : "translated",
             "value" : "Groep afbeeldingen"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Billedgruppe"
+          }
         }
       }
     },
@@ -3941,6 +4253,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hoi!"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hej!"
           }
         }
       }
@@ -4019,6 +4337,12 @@
             "state" : "translated",
             "value" : "Geschiedenis op de kaart"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historie på et kort"
+          }
         }
       }
     },
@@ -4095,6 +4419,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bekijk oude foto's en schilderijen van plekken op de kaart"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se gamle fotos og malerier af steder på kortet"
           }
         }
       }
@@ -4173,6 +4503,12 @@
             "state" : "translated",
             "value" : "Geschiedenis in de buurt"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historie i nærheden"
+          }
         }
       }
     },
@@ -4243,6 +4579,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Afbeeldingen inkleuren"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Farvelægning af billeder"
           }
         }
       }
@@ -4321,6 +4663,12 @@
             "state" : "translated",
             "value" : "Stel een collectie samen van je mooiste momenten en plekken"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Du kan lave en samling af dine mest spektakulære øjeblikke og steder"
+          }
         }
       }
     },
@@ -4398,6 +4746,12 @@
             "state" : "translated",
             "value" : "Bewaar je favorieten"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gem dine favoritter"
+          }
         }
       }
     },
@@ -4468,6 +4822,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Daar gaan we!"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lad os se!"
           }
         }
       }
@@ -4540,6 +4900,12 @@
             "state" : "translated",
             "value" : "Gemaakt door "
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lavet af "
+          }
         }
       }
     },
@@ -4610,6 +4976,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kaart"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kort"
           }
         }
       }
@@ -4735,6 +5107,12 @@
             "state" : "translated",
             "value" : "Hier is nog niets"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Her er der ikke noget endnu"
+          }
         }
       }
     },
@@ -4806,6 +5184,12 @@
             "state" : "translated",
             "value" : "Oceaan"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ocean"
+          }
         }
       }
     },
@@ -4873,6 +5257,12 @@
           }
         },
         "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "da" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "OK"
@@ -4947,6 +5337,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Op de kaart"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "På kortet"
           }
         }
       }
@@ -5025,6 +5421,12 @@
             "state" : "translated",
             "value" : "Elke afbeelding heeft een locatie en een datum. Bij elke datum hoort een kleur"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alt har en lokalitet og en dato. Hver dato har sin egen farve"
+          }
         }
       }
     },
@@ -5101,6 +5503,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rewind heeft je locatie nodig om foto's en schilderijen bij je in de buurt te laten zien. Zonder locatie kun je de app ook gebruiken"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind skal bruge din lokalitet for at vise fotos og malerier i nærheden af dig. Uden den kan du stadig bruge appen"
           }
         }
       }
@@ -5179,6 +5587,12 @@
             "state" : "translated",
             "value" : "Rewind gebruikt de PastVu-API om alle historische foto's, schilderijen en bijbehorende gegevens op te halen."
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind bruger PastVu-API’et til at hente alle historiske fotos, malerier og tilhørende data."
+          }
         }
       }
     },
@@ -5249,6 +5663,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Grote voorvertoning openen bij tikken op een cluster"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Åbn store forhåndsvisninger af klynger ved tryk"
           }
         }
       }
@@ -5321,6 +5741,12 @@
             "state" : "translated",
             "value" : "Schilderijen"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Malerier"
+          }
         }
       }
     },
@@ -5388,6 +5814,12 @@
           }
         },
         "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PastVu"
+          }
+        },
+        "da" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "PastVu"
@@ -5463,6 +5895,12 @@
             "state" : "translated",
             "value" : "PastVu-regels"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PastVu-reglerne"
+          }
         }
       }
     },
@@ -5533,6 +5971,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Foto's"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotos"
           }
         }
       }
@@ -5605,6 +6049,12 @@
             "state" : "translated",
             "value" : "Kies een model"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vælg en model"
+          }
         }
       }
     },
@@ -5675,6 +6125,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Spelden"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Knappenåle"
           }
         }
       }
@@ -5747,6 +6203,12 @@
             "state" : "translated",
             "value" : "Spelden en kaart"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Knappenåle og kort"
+          }
         }
       }
     },
@@ -5817,6 +6279,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Probeer het later opnieuw"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prøv igen senere"
           }
         }
       }
@@ -5889,6 +6357,12 @@
             "state" : "translated",
             "value" : "Trek omhoog voor de lijstweergave"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Træk for at se billederne som liste"
+          }
         }
       }
     },
@@ -5960,6 +6434,12 @@
             "state" : "translated",
             "value" : "Rewind"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind"
+          }
         }
       }
     },
@@ -6027,6 +6507,12 @@
           }
         },
         "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind <<"
+          }
+        },
+        "da" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rewind <<"
@@ -6108,6 +6594,12 @@
             "state" : "translated",
             "value" : "Rewind gebruikt de PastVu-API om foto's en schilderijen op te halen"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind bruger PastVu-API’et til at hente fotos og malerier"
+          }
         }
       }
     },
@@ -6178,6 +6670,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Satelliet"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Satellit"
           }
         }
       }
@@ -6250,6 +6748,12 @@
             "state" : "translated",
             "value" : "Bewaar afbeelding"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gem billede"
+          }
         }
       }
     },
@@ -6320,6 +6824,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bewaard in Foto's"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gemt i Fotos"
           }
         }
       }
@@ -6392,6 +6902,12 @@
             "state" : "translated",
             "value" : "Standaard"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Standard"
+          }
         }
       }
     },
@@ -6462,6 +6978,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Zoeken"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Søg"
           }
         }
       }
@@ -6534,6 +7056,12 @@
             "state" : "translated",
             "value" : "Zoek een locatie"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Søg efter et sted"
+          }
         }
       }
     },
@@ -6604,6 +7132,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kies een kaartenapp om een route te plannen"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vælg en kortapp til at finde ruten"
           }
         }
       }
@@ -6676,6 +7210,12 @@
             "state" : "translated",
             "value" : "Instellingen"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indstillinger"
+          }
         }
       }
     },
@@ -6746,6 +7286,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Deel"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Del"
           }
         }
       }
@@ -6818,6 +7364,12 @@
             "state" : "translated",
             "value" : "Toon op de kaart"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vis på kort"
+          }
         }
       }
     },
@@ -6889,6 +7441,12 @@
             "state" : "translated",
             "value" : "Toon origineel"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vis original"
+          }
         }
       }
     },
@@ -6959,6 +7517,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Willekeurig"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tilfældig"
           }
         }
       }
@@ -7037,6 +7601,12 @@
             "state" : "translated",
             "value" : "Toont de richting. Tik erop om de details van de afbeelding te bekijken"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Viser retningen. Åbner oplysninger om billedet ved tryk"
+          }
         }
       }
     },
@@ -7114,6 +7684,12 @@
             "state" : "translated",
             "value" : "Eén afbeelding"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Et enkelt billede"
+          }
         }
       }
     },
@@ -7185,6 +7761,12 @@
             "state" : "translated",
             "value" : "Er is iets misgegaan bij het zoeken"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der gik noget galt under søgningen"
+          }
         }
       }
     },
@@ -7252,6 +7834,12 @@
           }
         },
         "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sortering"
+          }
+        },
+        "da" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sortering"
@@ -7327,6 +7915,12 @@
             "state" : "translated",
             "value" : "bron"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "kilde"
+          }
         }
       }
     },
@@ -7398,6 +7992,12 @@
             "state" : "translated",
             "value" : "Begin met typen"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Begynd at skrive"
+          }
         }
       }
     },
@@ -7468,6 +8068,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Street View-fout"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Street View-fejl"
           }
         }
       }
@@ -7546,6 +8152,12 @@
             "state" : "translated",
             "value" : "Bekijk met Google Street View hoe de plek er nu uitziet"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se, hvordan stedet ser ud i dag, med Google Street View"
+          }
         }
       }
     },
@@ -7623,6 +8235,12 @@
             "state" : "translated",
             "value" : "Street View"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Street View"
+          }
         }
       }
     },
@@ -7693,6 +8311,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "De app heeft geen toegang tot je locatie"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appen har ikke adgang til din lokalitet"
           }
         }
       }
@@ -7765,6 +8389,12 @@
             "state" : "translated",
             "value" : "Deze app zou niet bestaan zonder PastVu"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Denne app ville ikke findes uden PastVu"
+          }
         }
       }
     },
@@ -7836,6 +8466,12 @@
             "state" : "translated",
             "value" : "Dit is "
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dette er "
+          }
         }
       }
     },
@@ -7906,6 +8542,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vertaal"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oversæt"
           }
         }
       }
@@ -7984,6 +8626,12 @@
             "state" : "translated",
             "value" : "Beschrijvingen in een andere taal vertaal je met één tik naar je eigen taal"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beskrivelser på et fremmedsprog kan oversættes til dit eget sprog med et enkelt tryk"
+          }
         }
       }
     },
@@ -8061,6 +8709,12 @@
             "state" : "translated",
             "value" : "Vertalen"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oversæt"
+          }
         }
       }
     },
@@ -8131,6 +8785,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Wijzig je zoekopdracht en probeer het opnieuw"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prøv at ændre søgningen og søg igen"
           }
         }
       }
@@ -8203,6 +8863,12 @@
             "state" : "translated",
             "value" : "Kan de afbeelding niet inkleuren"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kan ikke farvelægge billedet"
+          }
         }
       }
     },
@@ -8273,6 +8939,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kan de locatie niet bepalen"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kan ikke bestemme lokaliteten"
           }
         }
       }
@@ -8345,6 +9017,12 @@
             "state" : "translated",
             "value" : "Kan niet vinden wat je zoekt"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kan ikke finde det, du søger efter"
+          }
         }
       }
     },
@@ -8415,6 +9093,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kan de afbeeldingsgegevens niet laden"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kan ikke indlæse billeddataene"
           }
         }
       }
@@ -8487,6 +9171,12 @@
             "state" : "translated",
             "value" : "Kan de afbeelding niet in hoge resolutie laden"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kan ikke indlæse billedet i høj opløsning"
+          }
         }
       }
     },
@@ -8557,6 +9247,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kan de afbeeldingsinfo niet laden"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kan ikke indlæse billedoplysningerne"
           }
         }
       }
@@ -8629,6 +9325,12 @@
             "state" : "translated",
             "value" : "Kan de kaartmarkeringen niet laden"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kan ikke indlæse kortmarkeringerne"
+          }
         }
       }
     },
@@ -8699,6 +9401,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kan geen suggesties laden voor deze zoekopdracht"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kan ikke indlæse forslag til denne søgning"
           }
         }
       }
@@ -8771,6 +9479,12 @@
             "state" : "translated",
             "value" : "Kan de modellenlijst niet laden"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kan ikke indlæse modellisten"
+          }
         }
       }
     },
@@ -8841,6 +9555,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kan de afbeelding niet bewaren"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kan ikke gemme billedet"
           }
         }
       }
@@ -8913,6 +9633,12 @@
             "state" : "translated",
             "value" : "Kan het appsymbool niet instellen"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kan ikke skifte appsymbolet"
+          }
         }
       }
     },
@@ -8983,6 +9709,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kan de afbeelding niet delen"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kan ikke dele billedet"
           }
         }
       }
@@ -9055,6 +9787,12 @@
             "state" : "translated",
             "value" : "Kan niet van lens wisselen"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kan ikke skifte objektiv"
+          }
         }
       }
     },
@@ -9126,6 +9864,12 @@
             "state" : "translated",
             "value" : "Kan de beschrijving niet vertalen"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kan ikke oversætte beskrivelsen"
+          }
         }
       }
     },
@@ -9196,6 +9940,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kan de camera niet gebruiken"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kan ikke bruge kameraet"
           }
         }
       }
@@ -9275,6 +10025,12 @@
             "state" : "translated",
             "value" : "geüpload door"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "uploadet af"
+          }
         }
       }
     },
@@ -9345,6 +10101,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bekijk als lijst"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vis som liste"
           }
         }
       }
@@ -9417,6 +10179,12 @@
             "state" : "translated",
             "value" : "Bekijk in de App Store"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se i App Store"
+          }
         }
       }
     },
@@ -9487,6 +10255,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bekijk op het web"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se på nettet"
           }
         }
       }
@@ -9559,6 +10333,12 @@
             "state" : "translated",
             "value" : "Bekijk de PastVu-website"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Åbn PastVus hjemmeside"
+          }
         }
       }
     },
@@ -9630,6 +10410,12 @@
             "state" : "translated",
             "value" : "Bekijk de broncode"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se kildekoden"
+          }
         }
       }
     },
@@ -9700,6 +10486,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Warm"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Varm"
           }
         }
       }
@@ -9778,6 +10570,12 @@
             "state" : "translated",
             "value" : "Hoe zien de afbeeldingen eruit?"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hvordan ser billederne ud?"
+          }
         }
       }
     },
@@ -9849,6 +10647,12 @@
             "state" : "translated",
             "value" : "met een beetje hulp van:"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "med en smule hjælp fra:"
+          }
         }
       }
     },
@@ -9916,6 +10720,12 @@
           }
         },
         "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yandex Maps"
+          }
+        },
+        "da" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Yandex Maps"
@@ -9991,6 +10801,12 @@
             "state" : "translated",
             "value" : "Je kunt dit wijzigen in Instellingen.\nGa naar Apps -> Rewind -> Locatie -> Bij gebruik van app"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Du kan ændre det i Indstillinger.\nGå til Apps -> Rewind -> Lokalitet -> Ved brug af appen"
+          }
         }
       }
     },
@@ -10062,6 +10878,12 @@
             "state" : "translated",
             "value" : "Je kunt het model later in de instellingen wijzigen"
           }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Du kan ændre modellen senere i indstillingerne"
+          }
         }
       }
     },
@@ -10132,6 +10954,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Je kunt de cameratoegang controleren in Instellingen"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Du kan tjekke adgangen til kameraet i Indstillinger"
           }
         }
       }
