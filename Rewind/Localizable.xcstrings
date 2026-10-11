@@ -541,7 +541,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App 图标"
+            "value" : "App图标"
           }
         }
       }
@@ -600,7 +600,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apple 地图"
+            "value" : "Apple地图"
           }
         }
       }
@@ -1964,7 +1964,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "与 Google 街景对比"
+            "value" : "与Google街景对比"
           }
         }
       }
@@ -2938,7 +2938,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Google 地图"
+            "value" : "Google地图"
           }
         }
       }
@@ -2997,7 +2997,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "此地点没有 Google 街景。"
+            "value" : "此地点没有Google街景。"
           }
         }
       }
@@ -3056,7 +3056,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "无法使用 Google 街景"
+            "value" : "Google街景不可用"
           }
         }
       }
@@ -3806,7 +3806,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "制作者： "
+            "value" : "制作者："
           }
         }
       }
@@ -6320,7 +6320,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "通过 Google 街景看看这里如今的样子"
+            "value" : "通过Google街景看看这里如今的样子"
           }
         }
       }
@@ -6444,7 +6444,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App 无法访问你的位置"
+            "value" : "App无法访问你的位置"
           }
         }
       }
@@ -6562,7 +6562,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "这是 "
+            "value" : "这是"
           }
         }
       }
@@ -8298,7 +8298,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Yandex 地图"
+            "value" : "Yandex地图"
           }
         }
       }
