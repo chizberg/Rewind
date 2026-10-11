@@ -422,6 +422,14 @@ private final class FakeMap: RewindMap {
   private(set) var setRegionCalls: [SetRegionCall] = []
   private(set) var deselectCount = 0
 
+  func annotationView(cid _: Int) -> UIView? {
+    nil
+  }
+
+  func annotationView(localClusterID _: UUID) -> UIView? {
+    nil
+  }
+
   func add(annotations: [MKAnnotation]) {
     visibleAnnotations += annotations
   }

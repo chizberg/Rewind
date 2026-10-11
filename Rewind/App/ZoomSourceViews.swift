@@ -15,7 +15,7 @@ extension EnvironmentValues {
 
 @MainActor
 final class ZoomSourceViews {
-  private var views: [TransitionSource: WeakRef<ZoomSourceView>] = [:]
+  private var views: [TransitionSource: WeakRef<FreezableView>] = [:]
 
   func view(for source: TransitionSource) -> UIView? {
     views[source]?.value
@@ -31,36 +31,57 @@ final class ZoomSourceViews {
     }
   }
 
-  fileprivate func register(_ view: ZoomSourceView, for source: TransitionSource) {
+  fileprivate func register(_ view: FreezableView, for source: TransitionSource) {
     views[source] = WeakRef(view)
   }
 }
 
-struct ZoomSourceModifier: ViewModifier {
+struct ZoomSource<Content: View>: View {
   let source: TransitionSource
+  let content: Content
 
+  @Environment(\.self)
+  private var environment
   @Environment(\.zoomSourceViews)
   private var zoomSourceViews
   @State
   private var frozen = false
 
-  func body(content: Content) -> some View {
-    if let zoomSourceViews {
-      content
-        .buttonStyle(StillButtonStyle())
-        .opacity(frozen ? 0 : 1)
-        .background {
+  var body: some View {
+    content
+      .buttonStyle(StillButtonStyle())
+      .opacity(frozen ? 0 : 1)
+      .background {
+        if let zoomSourceViews {
           ViewRepresentable(
-            factory: { ZoomSourceView() },
+            factory: { ZoomSourceView(hostedContent: hostedContent) },
             updater: {
+              $0.hostedContent = hostedContent
               $0.onFrozenChange = { frozen = $0 }
               zoomSourceViews.register($0, for: source)
             },
           )
         }
-    } else {
-      content
-    }
+      }
+  }
+
+  private var hostedContent: HostedZoomSource<Content> {
+    HostedZoomSource(content: content, environment: environment)
+  }
+}
+
+private struct HostedZoomSource<Content: View>: View {
+  let content: Content
+  let environment: EnvironmentValues
+
+  var body: some View {
+    content
+      .buttonStyle(StillButtonStyle())
+      .transformEnvironment(\.self) { hosted in
+        let colorScheme = hosted.colorScheme
+        hosted = environment
+        hosted.colorScheme = colorScheme
+      }
   }
 }
 
@@ -70,12 +91,22 @@ private struct StillButtonStyle: ButtonStyle {
   }
 }
 
-private final class ZoomSourceView: UIView {
-  var onFrozenChange: (Bool) -> Void = { _ in }
-  private var snapshot: UIView?
+private class FreezableView: UIView {
+  func freeze() {}
+  func unfreeze() {}
+}
 
-  override init(frame: CGRect) {
-    super.init(frame: frame)
+private final class ZoomSourceView<HostedContent: View>: FreezableView {
+  var hostedContent: HostedContent {
+    didSet { host?.rootView = hostedContent }
+  }
+
+  var onFrozenChange: (Bool) -> Void = { _ in }
+  private var host: UIHostingController<HostedContent>?
+
+  init(hostedContent: HostedContent) {
+    self.hostedContent = hostedContent
+    super.init(frame: .zero)
     isUserInteractionEnabled = false
   }
 
@@ -84,26 +115,30 @@ private final class ZoomSourceView: UIView {
     fatalError("init(coder:) has not been implemented")
   }
 
-  func freeze() {
-    guard snapshot == nil,
-          let window,
-          let snapshot = window.resizableSnapshotView(
-            from: convert(bounds, to: window),
-            afterScreenUpdates: false,
-            withCapInsets: .zero,
-          )
+  override func freeze() {
+    guard host == nil,
+          let parent = sequence(first: self as UIResponder, next: \.next)
+          .lazy.compactMap({ $0 as? UIViewController }).first
     else { return }
-    snapshot.frame = bounds
-    snapshot.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-    addSubview(snapshot)
-    self.snapshot = snapshot
+    let host = UIHostingController(rootView: hostedContent)
+    host.view.backgroundColor = .clear
+    host.safeAreaRegions = []
+    parent.addChild(host)
+    host.view.frame = bounds
+    host.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    addSubview(host.view)
+    host.didMove(toParent: parent)
+    host.view.layoutIfNeeded()
+    self.host = host
     onFrozenChange(true)
   }
 
-  func unfreeze() {
-    guard let snapshot else { return }
-    snapshot.removeFromSuperview()
-    self.snapshot = nil
+  override func unfreeze() {
+    guard let host else { return }
+    host.willMove(toParent: nil)
+    host.view.removeFromSuperview()
+    host.removeFromParent()
+    self.host = nil
     onFrozenChange(false)
   }
 }

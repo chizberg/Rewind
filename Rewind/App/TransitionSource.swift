@@ -15,13 +15,14 @@ enum TransitionSource: Hashable {
     case link
   }
 
-  enum ImageList {
+  enum ImageList: Hashable {
     case favoritesButton
     case viewAsListButton
     case pullUpCard
     case thumbnail
 
     case clusterAnnotation
+    case localCluster(UUID)
   }
 
   case imageList(ImageList)
@@ -39,23 +40,6 @@ enum TransitionSource: Hashable {
   #endif
 }
 
-extension EnvironmentValues {
-  @Entry
-  var rootNamespace: Namespace.ID?
-}
-
-@propertyWrapper
-struct RootNamespace: DynamicProperty {
-  @Environment(\.rootNamespace)
-  private var root
-  @Namespace
-  private var fallback
-
-  var wrappedValue: Namespace.ID {
-    root ?? fallback
-  }
-}
-
 extension View {
   func zoomed(
     from source: TransitionSource,
@@ -65,7 +49,7 @@ extension View {
   }
 
   func zoomTransitionSource(_ source: TransitionSource) -> some View {
-    modifier(ZoomSourceModifier(source: source))
+    ZoomSource(source: source, content: self)
   }
 
   func zoomTransitionSource(

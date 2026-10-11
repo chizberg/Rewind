@@ -24,9 +24,35 @@ struct ImageDetailsView: View {
 
   var body: some View {
     content
+      .withAnimatedValue(
+        viewStore.colorizationState.button != nil,
+        animation: .spring,
+      ) { view, isButtonShown in
+        view.toolbar {
+          ToolbarItemGroup(placement: .topBarTrailing) {
+            ForEach(viewStore.toolbarButtons, id: \.self) {
+              makeToolbarButton(action: $0)
+            }
+          }
+          if #available(iOS 26, *) {
+            ToolbarSpacer(.fixed, placement: .topBarTrailing)
+          }
+          if isButtonShown == true, let state = viewStore.colorizationState.button {
+            if #available(iOS 26, *) {
+              makeColorizeItem(state: state)
+                .sharedBackgroundVisibility(state == .done ? .hidden : .automatic)
+            } else {
+              makeColorizeItem(state: state)
+            }
+          }
+        }
+      }
       .delayedModifier(value: colorizeButtonFrame, delay: 0.3) { view, frame in
         view.overlay {
-          RainbowShadow(frame: frame)
+          RainbowShadow(
+            frame: frame,
+            isPlayed: viewStore.binding(\.rainbowPlayed, send: { _ in .rainbowPlayed }),
+          )
         }
       }
       .animation(.smooth, value: viewStore.translationState)
@@ -143,25 +169,10 @@ struct ImageDetailsView: View {
         .onChanged { _ in showFullscreenPreview() },
     )
     .zoomTransitionSource(.fullscreenPreview)
-    .withAnimatedValue(
-      viewStore.colorizationState.button != nil,
-      animation: .spring,
-    ) { view, isButtonShown in
-      view.toolbar {
-        if isButtonShown == true, let state = viewStore.colorizationState.button {
-          if #available(iOS 26, *) {
-            makeColorizeItem(state: state)
-              .sharedBackgroundVisibility(state == .done ? .hidden : .automatic)
-          } else {
-            makeColorizeItem(state: state)
-          }
-        }
-      }
-    }
   }
 
   private func makeColorizeItem(state: ColorizeButton.Phase) -> some ToolbarContent {
-    ToolbarItem {
+    ToolbarItem(placement: .topBarTrailing) {
       ColorizeButton(
         namespace: namespace,
         state: state,
@@ -304,8 +315,8 @@ struct ImageDetailsView: View {
       .padding(10)
       .frame(minHeight: 50)
     }
-    .foregroundStyle(spec.foreground)
-    .background(spec.background)
+    .foregroundStyle(spec.foreground ?? .primary)
+    .background(spec.tint ?? .systemBackground)
     .cornerRadius(actionButtonCornerRadius)
     .ifLet(spec.transitionSource) { view, source in
       view.zoomTransitionSource(source)
@@ -325,6 +336,20 @@ struct ImageDetailsView: View {
         },
       )
     }
+  }
+
+  private func makeToolbarButton(action: ImageDetailsAction.Button) -> some View {
+    let spec = ButtonSpec(
+      button: action,
+      isFavorite: viewStore.isFavorite,
+      isImageSaved: viewStore.isImageSaved,
+    )
+    return Button {
+      viewStore(.button(action))
+    } label: {
+      Label(spec.title, systemImage: spec.iconName)
+    }
+    .tint(spec.tint)
   }
 
   private var actionButtons: some View {
@@ -364,8 +389,8 @@ private struct LabeledText: View {
 private struct ButtonSpec {
   var title: LocalizedStringKey
   var iconName: String
-  var foreground: SwiftUI.Color
-  var background: SwiftUI.Color
+  var foreground: SwiftUI.Color?
+  var tint: SwiftUI.Color?
   var transitionSource: TransitionSource?
 
   init(
@@ -389,7 +414,7 @@ private struct ButtonSpec {
     case .compareCamera: "camera.viewfinder"
     case .compareStreetView: "pano"
     case .showOnMap: "mappin.and.ellipse"
-    case .share: "square.and.arrow.up"
+    case .share: "paperplane"
     case .saveImage: isImageSaved
       ? "square.and.arrow.down.badge.checkmark"
       : "square.and.arrow.down"
@@ -398,16 +423,19 @@ private struct ButtonSpec {
     }
 
     foreground = switch button {
-    case .favorite: isFavorite ? .white : .primary
-    case .saveImage: isImageSaved ? .white : .primary
-    case .showOnMap, .share, .viewOnWeb, .route, .compareCamera, .compareStreetView: .primary
+    case .favorite: isFavorite ? .white : nil
+    case .saveImage: isImageSaved ? .white : nil
+    case .showOnMap, .share, .viewOnWeb, .route, .compareCamera, .compareStreetView: nil
     }
 
-    background = switch button {
-    case .favorite: isFavorite ? .yellow.mix(with: .black, by: 0.1) : .systemBackground
-    case .saveImage: isImageSaved ? .green.mix(with: .black, by: 0.1) : .systemBackground
+    let favoriteBg = Color.yellow.mix(with: .black, by: 0.1)
+    let saveBg = Color.green.mix(with: .black, by: 0.1)
+
+    tint = switch button {
+    case .favorite: isFavorite ? favoriteBg : nil
+    case .saveImage: isImageSaved ? saveBg : nil
     case .showOnMap, .share, .viewOnWeb, .route, .compareCamera,
-         .compareStreetView: .systemBackground
+         .compareStreetView: nil
     }
 
     transitionSource = switch button {
@@ -531,6 +559,8 @@ private struct ColorizeButton: View {
 
 private struct RainbowShadow: View {
   var frame: CGRect?
+  @Binding
+  var isPlayed: Bool
 
   var shadowExposure = 2.0
   var rainbowShadowDuration = 2.0
@@ -538,8 +568,6 @@ private struct RainbowShadow: View {
 
   @State
   private var showsRainbow = false
-  @State
-  private var rainbowShown = false
   @State
   private var rainbowAngle = Angle.zero
 
@@ -557,8 +585,8 @@ private struct RainbowShadow: View {
           }
           .position(x: frame.midX, y: frame.midY)
           .task {
-            guard !rainbowShown else { return }
-            rainbowShown = true
+            guard !isPlayed else { return }
+            isPlayed = true
             showsRainbow = true
             withAnimation(
               .linear(duration: rainbowShadowRotationDuration)
@@ -727,7 +755,9 @@ extension FavoritesModel {
         showing: .colorized,
         check: .onlyTint,
       ),
-      actionButtons: [.favorite, .showOnMap, .share, .saveImage, .viewOnWeb, .route],
+      rainbowPlayed: false,
+      toolbarButtons: [.favorite, .saveImage, .share],
+      actionButtons: [.showOnMap, .viewOnWeb, .route],
     ),
     reduce: { _, _, _, _ in },
   ).viewStore

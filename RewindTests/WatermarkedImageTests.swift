@@ -10,7 +10,7 @@ import Testing
 import UIKit
 
 struct WatermarkedImageTests {
-  @Test func stitchingTheSplitContentBackGivesTheOriginal() async throws {
+  @Test func stitchingTheSplitContentBackGivesTheOriginalAboveTheMark() async throws {
     let original: [[UInt8]] = [
       [255, 0, 51], [0, 128, 255],
       [17, 34, 68], [136, 204, 85],
@@ -28,8 +28,8 @@ struct WatermarkedImageTests {
 
     #expect(stitched.scale == image.scale)
     #expect(stitched.cgImage?.width == 2)
-    #expect(stitched.cgImage?.height == 3)
-    #expect(try pixels(of: stitched) == original)
+    #expect(stitched.cgImage?.height == 4)
+    #expect(try pixels(of: stitched).prefix(original.count) == original[...])
   }
 
   @Test func stripIsFittedToANarrowerContent() async throws {
@@ -47,8 +47,27 @@ struct WatermarkedImageTests {
     let stitched = await source.stitched()
 
     #expect(stitched.cgImage?.width == 2)
-    #expect(stitched.cgImage?.height == 2)
-    #expect(try pixels(of: stitched) == [color, color, stripColor, stripColor])
+    #expect(stitched.cgImage?.height == 3)
+    #expect(try pixels(of: stitched).prefix(4) == [color, color, stripColor, stripColor])
+  }
+
+  @Test func colorizationMarkWithoutWatermarkFollowsTheArchiveProportion() async throws {
+    let color: [UInt8] = [200, 120, 40]
+    let tall = try WatermarkedImage(
+      content: UIImage(cgImage: makeRGBImage(
+        width: 1,
+        height: 1200,
+        pixels: Array(repeating: color, count: 1200),
+      )),
+      watermark: nil,
+    )
+    let short = try WatermarkedImage(
+      content: UIImage(cgImage: makeRGBImage(width: 1, height: 1, pixels: [color])),
+      watermark: nil,
+    )
+
+    #expect(await tall.stitched().cgImage?.height == 1228)
+    #expect(await short.stitched().cgImage?.height == 15)
   }
 }
 

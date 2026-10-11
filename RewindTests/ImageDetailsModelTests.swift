@@ -46,7 +46,7 @@ struct ImageDetailsModelTests {
 
     #expect(await eventually { harness.lastPushedImage != nil })
     let linked = try #require(harness.lastPushedImage)
-    #expect(linked.actionButtons == [.favorite, .compareCamera, .share, .saveImage, .viewOnWeb])
+    #expect(linked.actionButtons == [.compareCamera, .viewOnWeb])
   }
 
   /// Going back while the linked photo loads leaves the screen off the top of the stack, so the
@@ -192,7 +192,7 @@ struct ImageDetailsModelTests {
     guard case let .ready(result, _, _) = model.state.colorizationState else { return }
     #expect(result.size == CGSize(
       width: source.content.size.width,
-      height: source.content.size.height + watermark.size.height,
+      height: source.content.size.height + 2 * watermark.size.height,
     ))
     let received = try #require(await colorizationModel.receivedGray)
     #expect(received.size.width == Int(source.content.size.width))

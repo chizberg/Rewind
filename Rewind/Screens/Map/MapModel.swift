@@ -105,6 +105,7 @@ func makeMapModel(
             ))
           case let .annotationSelected(mkAnn):
             var listToPresent: [Model.Image] = []
+            var listSource: TransitionSource.ImageList?
             if let imageAnn = mkAnn as? Annotation<Model.Image> {
               effect { performAppAction(.imageDetails(.present(
                 imageAnn.value,
@@ -118,21 +119,22 @@ func makeMapModel(
                   source: .image(.annotation(cluster.preview.cid))
                 ))) }
               } else {
-                let mapSize = map.value.size
-                let currentZoom = Rewind.zoom(region: state.region, mapSize: mapSize)
-                effect {
+                effect { [region = state.region] in
                   map.value.set(
-                    region: Region(
-                      center: cluster.coordinate,
-                      zoom: currentZoom + 1,
-                      mapSize: mapSize,
-                    ),
+                    region: modified(region) {
+                      $0.center = cluster.coordinate
+                      $0.span = MKCoordinateSpan(
+                        latitudeDelta: region.span.latitudeDelta / 2,
+                        longitudeDelta: region.span.longitudeDelta / 2,
+                      )
+                    },
                     animated: true,
                   )
                 }
               }
             } else if let localClusterAnn = mkAnn as? Annotation<Model.LocalCluster> {
               listToPresent = localClusterAnn.value.images
+              listSource = .localCluster(localClusterAnn.value.id)
             } else if let mkCluster = mkAnn as? MKClusterAnnotation {
               listToPresent = mkCluster.memberAnnotations.compactMap { ann in
                 if let imageAnn = ann as? Annotation<Model.Image> {
@@ -144,7 +146,11 @@ func makeMapModel(
             if !listToPresent.isEmpty {
               effect { performAppAction(
                 .imageList(
-                  .present(listToPresent, source: .imageList(.clusterAnnotation), title: "Cluster"),
+                  .present(
+                    listToPresent,
+                    source: .imageList(listSource ?? .clusterAnnotation),
+                    title: "Cluster"
+                  ),
                 ),
               ) }
             }

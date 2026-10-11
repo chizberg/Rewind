@@ -170,15 +170,24 @@ final class AppGraph {
     )
     appModelRef = appModel
     appStore = appModel.viewStore
-    navigator = Navigator { [appStore, rootViewMapStore] screen in
-      screen.view()
-        .environment(\.gradientScheme, appStore.gradientScheme)
-        .environment(\.maxRange, rootViewMapStore.selectedImageKind.maxRange)
-        .environment(\.openURL, OpenURLAction {
-          urlOpener($0)
-          return .handled
-        })
-    }
+    navigator = Navigator(
+      uiKitSources: { source in
+        switch source {
+        case let .image(.annotation(cid)): map.value.annotationView(cid: cid)
+        case let .imageList(.localCluster(id)): map.value.annotationView(localClusterID: id)
+        default: nil
+        }
+      },
+      content: { [appStore, rootViewMapStore] screen in
+        screen.view()
+          .environment(\.gradientScheme, appStore.gradientScheme)
+          .environment(\.maxRange, rootViewMapStore.selectedImageKind.maxRange)
+          .environment(\.openURL, OpenURLAction {
+            urlOpener($0)
+            return .handled
+          })
+      },
+    )
     navigatorRef = navigator
     floatingMenuStore = makeFloatingMenuStore(
       appStore: appStore,

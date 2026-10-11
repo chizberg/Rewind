@@ -94,6 +94,28 @@ extension View {
   }
 }
 
+extension ToolbarContent {
+  func modify(
+    @ToolbarContentBuilder transform: (Self) -> some ToolbarContent,
+  ) -> some ToolbarContent {
+    transform(self)
+  }
+
+  func verticalPreferred() -> some ToolbarContent {
+    modify { content in
+      #if canImport(SwiftUI, _version: 8.0.85)
+      if #available(iOS 27.1, *) {
+        content.axisBehavior(.verticalPreferred)
+      } else {
+        content
+      }
+      #else
+      content
+      #endif
+    }
+  }
+}
+
 extension SwiftUI.ScrollView {
   func showsIndicators(_ shows: Bool) -> some View {
     modified(self) {
