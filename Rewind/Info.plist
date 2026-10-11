@@ -70,6 +70,11 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>UIApplicationSceneManifest</key>
+	<dict>
+		<key>UIApplicationSupportsMultipleScenes</key>
+		<false/>
+	</dict>
 	<key>GOOGLE_API_KEY</key>
 	<string>$(GOOGLE_API_KEY)</string>
 </dict>
