@@ -26,7 +26,10 @@ struct ImageDetailsView: View {
     content
       .delayedModifier(value: colorizeButtonFrame, delay: 0.3) { view, frame in
         view.overlay {
-          RainbowShadow(frame: frame)
+          RainbowShadow(
+            frame: frame,
+            isPlayed: viewStore.binding(\.rainbowPlayed, send: { _ in .rainbowPlayed }),
+          )
         }
       }
       .animation(.smooth, value: viewStore.translationState)
@@ -531,6 +534,8 @@ private struct ColorizeButton: View {
 
 private struct RainbowShadow: View {
   var frame: CGRect?
+  @Binding
+  var isPlayed: Bool
 
   var shadowExposure = 2.0
   var rainbowShadowDuration = 2.0
@@ -538,8 +543,6 @@ private struct RainbowShadow: View {
 
   @State
   private var showsRainbow = false
-  @State
-  private var rainbowShown = false
   @State
   private var rainbowAngle = Angle.zero
 
@@ -557,8 +560,8 @@ private struct RainbowShadow: View {
           }
           .position(x: frame.midX, y: frame.midY)
           .task {
-            guard !rainbowShown else { return }
-            rainbowShown = true
+            guard !isPlayed else { return }
+            isPlayed = true
             showsRainbow = true
             withAnimation(
               .linear(duration: rainbowShadowRotationDuration)
@@ -727,6 +730,7 @@ extension FavoritesModel {
         showing: .colorized,
         check: .onlyTint,
       ),
+      rainbowPlayed: false,
       actionButtons: [.favorite, .showOnMap, .share, .saveImage, .viewOnWeb, .route],
     ),
     reduce: { _, _, _, _ in },

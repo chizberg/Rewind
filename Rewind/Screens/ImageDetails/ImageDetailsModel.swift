@@ -69,6 +69,7 @@ struct ImageDetailsState {
   var cachedTranslation: Translation?
 
   var colorizationState: ColorizationState
+  var rainbowPlayed: Bool
 
   var shareVC: Identified<UIViewController>?
   var colorizationPicker: Identified<ColorizationPickerScreenStore>?
@@ -130,6 +131,7 @@ enum ImageDetailsAction {
   case showTranslationOriginal
   case colorize
   case dismissColorizationCheck
+  case rainbowPlayed
 }
 
 func makeImageDetailsModel(
@@ -165,6 +167,7 @@ func makeImageDetailsModel(
     translationState: .notAvailable,
     cachedTranslation: nil,
     colorizationState: .none,
+    rainbowPlayed: false,
     shareVC: nil,
     colorizationPicker: nil,
     alertModel: nil,
@@ -390,6 +393,8 @@ func makeImageDetailsModel(
           return
         }
         state.colorizationState = .ready(colorized: image, showing: showing, check: .ok)
+      case .rainbowPlayed:
+        state.rainbowPlayed = true
       case .colorizationPicker(.present):
         guard state.colorizationPicker == nil else { return }
         state.colorizationPicker = Identified(value: makeColorizationPicker {
