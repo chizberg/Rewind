@@ -520,7 +520,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Un'app per viaggiare nel tempo"
+            "value" : "Un’app per viaggiare nel tempo"
           }
         },
         "nl" : {
@@ -745,7 +745,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Icône de l'app"
+            "value" : "Icône de l’app"
           }
         },
         "kk" : {
@@ -787,7 +787,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Icona dell'app"
+            "value" : "Icona dell’app"
           }
         },
         "nl" : {
@@ -1338,7 +1338,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Un grand groupe d'images. Pour toutes les voir, vous devez zoomer"
+            "value" : "Un grand groupe d’images. Pour toutes les voir, vous devez zoomer"
           }
         },
         "kk" : {
@@ -1433,7 +1433,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Groupe d'images"
+            "value" : "Groupe d’images"
           }
         },
         "kk" : {
@@ -1902,7 +1902,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vous ne téléchargez le modèle qu'une seule fois"
+            "value" : "Vous ne téléchargez le modèle qu’une seule fois"
           }
         },
         "kk" : {
@@ -2092,7 +2092,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ajoutez de la couleur à n'importe quelle photo en noir et blanc en quelques secondes."
+            "value" : "Ajoutez de la couleur à n’importe quelle photo en noir et blanc en quelques secondes."
           }
         },
         "kk" : {
@@ -2187,7 +2187,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "gratuit | sur l'appareil | open source"
+            "value" : "gratuit | sur l’appareil | open source"
           }
         },
         "kk" : {
@@ -2365,7 +2365,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "It looks like the model couldn't add color. Models make mistakes, you can try another one."
+            "value" : "It looks like the model couldn’t add color. Models make mistakes, you can try another one."
           }
         },
         "es" : {
@@ -2377,7 +2377,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Il semble que le modèle n'ait pas réussi à ajouter de la couleur. Les modèles font des erreurs, vous pouvez en essayer un autre."
+            "value" : "Il semble que le modèle n’ait pas réussi à ajouter de la couleur. Les modèles font des erreurs, vous pouvez en essayer un autre."
           }
         },
         "kk" : {
@@ -2460,7 +2460,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "It looks like the picture didn't get any more colorful. Models make mistakes, you can try another one."
+            "value" : "It looks like the picture didn’t get any more colorful. Models make mistakes, you can try another one."
           }
         },
         "es" : {
@@ -2472,7 +2472,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "On dirait que l'image n'est pas devenue plus colorée. Les modèles font des erreurs, vous pouvez en essayer un autre."
+            "value" : "On dirait que l’image n’est pas devenue plus colorée. Les modèles font des erreurs, vous pouvez en essayer un autre."
           }
         },
         "kk" : {
@@ -2514,7 +2514,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sembra che l'immagine non sia diventata più colorata. I modelli sbagliano, puoi provarne un altro."
+            "value" : "Sembra che l’immagine non sia diventata più colorata. I modelli sbagliano, puoi provarne un altro."
           }
         },
         "nl" : {
@@ -3131,7 +3131,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Зв'язатися з розробником"
+            "value" : "Звʼязатися з розробником"
           }
         },
         "uz" : {
@@ -3374,7 +3374,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Plus récentes d'abord"
+            "value" : "Plus récentes d’abord"
           }
         },
         "kk" : {
@@ -3772,7 +3772,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Менша і швидша. Кольори м'якші та менш точні."
+            "value" : "Менша і швидша. Кольори мʼякші та менш точні."
           }
         },
         "uz" : {
@@ -4015,7 +4015,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Trouver l'itinéraire"
+            "value" : "Trouver l’itinéraire"
           }
         },
         "kk" : {
@@ -4092,7 +4092,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Los geht's"
+            "value" : "Los geht’s"
           }
         },
         "es" : {
@@ -4371,7 +4371,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Google Street View n'est pas disponible pour ce lieu."
+            "value" : "Google Street View n’est pas disponible pour ce lieu."
           }
         },
         "kk" : {
@@ -4644,7 +4644,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Plusieurs images proches les unes des autres. Ouvre une liste complète lorsqu'on appuie dessus"
+            "value" : "Plusieurs images proches les unes des autres. Ouvre une liste complète lorsqu’on appuie dessus"
           }
         },
         "kk" : {
@@ -4686,7 +4686,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Diverse immagini vicine tra loro. Toccandole si apre l'elenco completo"
+            "value" : "Diverse immagini vicine tra loro. Toccandole si apre l’elenco completo"
           }
         },
         "nl" : {
@@ -4739,7 +4739,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Groupe d'images"
+            "value" : "Groupe d’images"
           }
         },
         "kk" : {
@@ -4828,7 +4828,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Salut !"
+            "value" : "Salut !"
           }
         },
         "kk" : {
@@ -5018,7 +5018,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Parcourez d'anciennes photos et peintures de lieux sur la carte"
+            "value" : "Parcourez d’anciennes photos et peintures de lieux sur la carte"
           }
         },
         "kk" : {
@@ -5113,7 +5113,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "L'histoire près de chez vous"
+            "value" : "L’histoire près de chez vous"
           }
         },
         "kk" : {
@@ -5202,7 +5202,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Colorisation d'images"
+            "value" : "Colorisation d’images"
           }
         },
         "kk" : {
@@ -5469,7 +5469,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Los geht's!"
+            "value" : "Los geht’s!"
           }
         },
         "es" : {
@@ -5481,7 +5481,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Allons-y !"
+            "value" : "Allons-y !"
           }
         },
         "kk" : {
@@ -5548,6 +5548,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pojďme se podívat!"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Let’s see!"
           }
         }
       }
@@ -5801,7 +5807,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rien ici pour l'instant"
+            "value" : "Rien ici pour l’instant"
           }
         },
         "kk" : {
@@ -5843,7 +5849,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Qui non c'è ancora nulla"
+            "value" : "Qui non c’è ancora nulla"
           }
         },
         "nl" : {
@@ -6258,7 +6264,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rewind a besoin de votre position pour afficher les photos et peintures près de vous. Sans cela, vous pouvez quand même utiliser l'app"
+            "value" : "Rewind a besoin de votre position pour afficher les photos et peintures près de vous. Sans cela, vous pouvez quand même utiliser l’app"
           }
         },
         "kk" : {
@@ -6300,7 +6306,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rewind ha bisogno della tua posizione per mostrarti foto e dipinti vicino a te. Senza di essa puoi comunque usare l'app"
+            "value" : "Rewind ha bisogno della tua posizione per mostrarti foto e dipinti vicino a te. Senza di essa puoi comunque usare l’app"
           }
         },
         "nl" : {
@@ -6353,7 +6359,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rewind utilise l'API PastVu pour obtenir toutes les photos historiques, peintures et leurs données associées."
+            "value" : "Rewind utilise l’API PastVu pour obtenir toutes les photos historiques, peintures et leurs données associées."
           }
         },
         "kk" : {
@@ -6377,7 +6383,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rewind використовує PastVu API для отримання всіх історичних фотографій, картин та пов'язаних з ними даних."
+            "value" : "Rewind використовує PastVu API для отримання всіх історичних фотографій, картин та повʼязаних з ними даних."
           }
         },
         "uz" : {
@@ -6395,7 +6401,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rewind usa l'API di PastVu per ottenere tutte le foto storiche, i dipinti e i dati associati."
+            "value" : "Rewind usa l’API di PastVu per ottenere tutte le foto storiche, i dipinti e i dati associati."
           }
         },
         "nl" : {
@@ -7516,7 +7522,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rewind utilise l'API PastVu pour obtenir des photos et des peintures"
+            "value" : "Rewind utilise l’API PastVu pour obtenir des photos et des peintures"
           }
         },
         "kk" : {
@@ -7558,7 +7564,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rewind usa l'API di PastVu per ottenere foto e dipinti"
+            "value" : "Rewind usa l’API di PastVu per ottenere foto e dipinti"
           }
         },
         "nl" : {
@@ -7694,7 +7700,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Enregistrer l'image"
+            "value" : "Enregistrer l’image"
           }
         },
         "kk" : {
@@ -8139,7 +8145,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sélectionnez l'app de cartes pour trouver l'itinéraire"
+            "value" : "Sélectionnez l’app de cartes pour trouver l’itinéraire"
           }
         },
         "kk" : {
@@ -8181,7 +8187,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Scegli l'app di mappe per le indicazioni"
+            "value" : "Scegli l’app di mappe per le indicazioni"
           }
         },
         "nl" : {
@@ -8495,7 +8501,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Afficher l'original"
+            "value" : "Afficher l’original"
           }
         },
         "kk" : {
@@ -8679,7 +8685,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Indique la direction. Vous pouvez voir les détails de l'image en appuyant dessus"
+            "value" : "Indique la direction. Vous pouvez voir les détails de l’image en appuyant dessus"
           }
         },
         "kk" : {
@@ -8721,7 +8727,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Indica la direzione. Tocca per vedere i dettagli dell'immagine"
+            "value" : "Indica la direzione. Tocca per vedere i dettagli dell’immagine"
           }
         },
         "nl" : {
@@ -9314,7 +9320,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Découvrez à quoi ressemble le lieu aujourd'hui grâce à Google Street View"
+            "value" : "Découvrez à quoi ressemble le lieu aujourd’hui grâce à Google Street View"
           }
         },
         "kk" : {
@@ -9356,7 +9362,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Scopri com'è il luogo oggi con Google Street View"
+            "value" : "Scopri com’è il luogo oggi con Google Street View"
           }
         },
         "nl" : {
@@ -9498,7 +9504,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "L'app n'a pas accès à votre position"
+            "value" : "L’app n’a pas accès à votre position"
           }
         },
         "kk" : {
@@ -9540,7 +9546,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "L'app non ha accesso alla tua posizione"
+            "value" : "L’app non ha accesso alla tua posizione"
           }
         },
         "nl" : {
@@ -9587,7 +9593,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cette application n'aurait pas été possible sans PastVu"
+            "value" : "Cette application n’aurait pas été possible sans PastVu"
           }
         },
         "kk" : {
@@ -9676,7 +9682,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "C'est "
+            "value" : "C’est "
           }
         },
         "kk" : {
@@ -10133,7 +10139,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Impossible de coloriser l'image"
+            "value" : "Impossible de coloriser l’image"
           }
         },
         "kk" : {
@@ -10175,7 +10181,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Impossibile colorizzare l'immagine"
+            "value" : "Impossibile colorizzare l’immagine"
           }
         },
         "nl" : {
@@ -10379,6 +10385,12 @@
             "state" : "translated",
             "value" : "Žádné výsledky"
           }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unable to find what you’re looking for"
+          }
         }
       }
     },
@@ -10400,7 +10412,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Impossible de charger les données de l'image"
+            "value" : "Impossible de charger les données de l’image"
           }
         },
         "kk" : {
@@ -10442,7 +10454,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Impossibile caricare i dati dell'immagine"
+            "value" : "Impossibile caricare i dati dell’immagine"
           }
         },
         "nl" : {
@@ -10489,7 +10501,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Impossible de charger l'image en haute résolution"
+            "value" : "Impossible de charger l’image en haute résolution"
           }
         },
         "kk" : {
@@ -10531,7 +10543,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Impossibile caricare l'immagine in alta risoluzione"
+            "value" : "Impossibile caricare l’immagine in alta risoluzione"
           }
         },
         "nl" : {
@@ -10578,7 +10590,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Impossible de charger les informations de l'image"
+            "value" : "Impossible de charger les informations de l’image"
           }
         },
         "kk" : {
@@ -10620,7 +10632,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Impossibile caricare le informazioni dell'immagine"
+            "value" : "Impossibile caricare le informazioni dell’immagine"
           }
         },
         "nl" : {
@@ -10887,7 +10899,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Impossibile caricare l'elenco dei modelli"
+            "value" : "Impossibile caricare l’elenco dei modelli"
           }
         },
         "nl" : {
@@ -10934,7 +10946,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Impossible d'enregistrer l'image"
+            "value" : "Impossible d’enregistrer l’image"
           }
         },
         "kk" : {
@@ -10976,7 +10988,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Impossibile salvare l'immagine"
+            "value" : "Impossibile salvare l’immagine"
           }
         },
         "nl" : {
@@ -11023,7 +11035,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Impossible de définir l'icône"
+            "value" : "Impossible de définir l’icône"
           }
         },
         "kk" : {
@@ -11065,7 +11077,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Impossibile impostare l'icona"
+            "value" : "Impossibile impostare l’icona"
           }
         },
         "nl" : {
@@ -11112,7 +11124,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Impossible de partager l'image"
+            "value" : "Impossible de partager l’image"
           }
         },
         "kk" : {
@@ -11154,7 +11166,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Impossibile condividere l'immagine"
+            "value" : "Impossibile condividere l’immagine"
           }
         },
         "nl" : {
@@ -11201,7 +11213,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Impossible de changer d'objectif"
+            "value" : "Impossible de changer d’objectif"
           }
         },
         "kk" : {
@@ -11225,7 +11237,7 @@
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Не вдалося переключити об'єктив"
+            "value" : "Не вдалося переключити обʼєктив"
           }
         },
         "uz" : {
@@ -11379,7 +11391,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Impossible d'utiliser l'appareil photo"
+            "value" : "Impossible d’utiliser l’appareil photo"
           }
         },
         "kk" : {
@@ -11653,7 +11665,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voir dans l'App Store"
+            "value" : "Voir dans l’App Store"
           }
         },
         "kk" : {
@@ -11695,7 +11707,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apri nell'App Store"
+            "value" : "Apri nell’App Store"
           }
         },
         "nl" : {
@@ -12104,7 +12116,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Comment les images apparaissent-elles ?"
+            "value" : "Comment les images apparaissent-elles ?"
           }
         },
         "kk" : {
@@ -12193,7 +12205,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "avec un peu d'aide de :"
+            "value" : "avec un peu d’aide de :"
           }
         },
         "kk" : {
@@ -12371,7 +12383,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vous pouvez modifier cela dans Réglages.\nAllez dans Applications -> Rewind -> Localisation -> Lors de l'utilisation"
+            "value" : "Vous pouvez modifier cela dans Réglages.\nAllez dans Applications -> Rewind -> Localisation -> Lors de l’utilisation"
           }
         },
         "kk" : {
@@ -12413,7 +12425,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Puoi modificarlo in Impostazioni.\nVai in App -> Rewind -> Posizione -> Mentre usi l'app"
+            "value" : "Puoi modificarlo in Impostazioni.\nVai in App -> Rewind -> Posizione -> Mentre usi l’app"
           }
         },
         "nl" : {
