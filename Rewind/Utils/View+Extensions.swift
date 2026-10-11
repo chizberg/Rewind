@@ -94,6 +94,14 @@ extension View {
   }
 }
 
+extension ToolbarContent {
+  func modify(
+    @ToolbarContentBuilder transform: (Self) -> some ToolbarContent,
+  ) -> some ToolbarContent {
+    transform(self)
+  }
+}
+
 extension SwiftUI.ScrollView {
   func showsIndicators(_ shows: Bool) -> some View {
     modified(self) {

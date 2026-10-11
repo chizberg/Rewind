@@ -39,23 +39,6 @@ enum TransitionSource: Hashable {
   #endif
 }
 
-extension EnvironmentValues {
-  @Entry
-  var rootNamespace: Namespace.ID?
-}
-
-@propertyWrapper
-struct RootNamespace: DynamicProperty {
-  @Environment(\.rootNamespace)
-  private var root
-  @Namespace
-  private var fallback
-
-  var wrappedValue: Namespace.ID {
-    root ?? fallback
-  }
-}
-
 extension View {
   func zoomed(
     from source: TransitionSource,

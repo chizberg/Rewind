@@ -18,8 +18,6 @@ struct FloatingMenu: View {
     case timePicker
     case mapType
     case imageKind
-    case search
-    case location
   }
 
   struct State: Equatable {
@@ -38,9 +36,6 @@ struct FloatingMenu: View {
   }
 
   typealias Store = ViewStore<State, Action>
-
-  @RootNamespace
-  var namespace
 
   var store: Store
 
@@ -78,28 +73,6 @@ struct FloatingMenu: View {
           }
           store(.setFilters(filters))
         }
-      )
-
-      Spacer()
-
-      FloatingMenuButton(
-        item: .search,
-        iconName: "magnifyingglass",
-        action: { store(.searchTap) }
-      )
-      .background { // 🩼 otherwise transitionSource conflicts with liquid glass effect
-        Circle()
-          .opacity(0.0001) // 🩼 Color.clear is ignored
-          .zoomTransitionSource(
-            .searchButton,
-            namespace: namespace
-          )
-      }
-
-      FloatingMenuButton(
-        item: .location,
-        iconName: store.locationAccessGranted ? "location" : "location.slash",
-        action: { store(.locationTap) }
       )
     }
   }

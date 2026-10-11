@@ -36,7 +36,6 @@ struct RootView: View {
     content
       .environment(\.gradientScheme, appStore.gradientScheme)
       .environment(\.maxRange, mapStore.selectedImageKind.maxRange)
-      .environment(\.rootNamespace, rootView)
   }
 
   private var content: some View {
@@ -68,6 +67,23 @@ struct RootView: View {
     }
     .navigationTitle("Rewind")
     .navigationBarTitleDisplayMode(.inline)
+    .toolbarRole(.editor)
+    .modify { view in
+      if #available(iOS 26, *) {
+        view
+      } else {
+        view.toolbarBackground(.visible, for: .navigationBar)
+      }
+    }
+    .toolbar {
+      searchAndLocation.modify { content in
+        if #available(iOS 27.1, *) {
+          content.axisBehavior(.verticalPreferred)
+        } else {
+          content
+        }
+      }
+    }
     .delayedModifier(
       value: appStore.anyOverlayPresented,
       delay: appStore.anyOverlayPresented ? 0 : 1,
@@ -99,6 +115,26 @@ struct RootView: View {
           .zoomed(from: .settingsButton, namespace: rootView)
       },
     )
+  }
+
+  private var searchAndLocation: some ToolbarContent {
+    ToolbarItemGroup(placement: .topBarTrailing) {
+      Button {
+        floatingMenuStore(.searchTap)
+      } label: {
+        Label("Search", systemImage: "magnifyingglass")
+      }
+      .zoomTransitionSource(.searchButton, namespace: rootView)
+
+      Button {
+        floatingMenuStore(.locationTap)
+      } label: {
+        Label(
+          "My location",
+          systemImage: floatingMenuStore.locationAccessGranted ? "location" : "location.slash",
+        )
+      }
+    }
   }
 
   var floatingMenu: FloatingMenu {
