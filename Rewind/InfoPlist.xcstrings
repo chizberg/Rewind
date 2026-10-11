@@ -63,6 +63,12 @@
             "state" : "translated",
             "value" : "需要此权限才能将图片保存到你的照片图库。"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'app ha bisogno di questo accesso per salvare le immagini nella tua libreria di foto"
+          }
         }
       }
     },
@@ -125,6 +131,12 @@
           }
         },
         "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind"
+          }
+        },
+        "it" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rewind"
@@ -195,6 +207,12 @@
             "state" : "translated",
             "value" : "Rewind"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind"
+          }
         }
       }
     },
@@ -261,6 +279,12 @@
             "state" : "translated",
             "value" : "需要使用相机才能拍摄对比照片。"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'accesso alla fotocamera serve per scattare foto di confronto"
+          }
         }
       }
     },
@@ -325,6 +349,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "需要你的位置才能显示附近的照片和画作。"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La tua posizione viene usata per mostrare foto e dipinti vicino a te"
           }
         }
       }
@@ -391,6 +421,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "需要此权限才能将图片保存到你的照片图库。"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'app ha bisogno di questo accesso per salvare le immagini nella tua libreria di foto"
           }
         }
       }
