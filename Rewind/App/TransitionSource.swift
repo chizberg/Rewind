@@ -65,7 +65,7 @@ extension View {
   }
 
   func zoomTransitionSource(_ source: TransitionSource) -> some View {
-    modifier(ZoomSourceModifier(source: source))
+    ZoomSource(source: source, content: self)
   }
 
   func zoomTransitionSource(
