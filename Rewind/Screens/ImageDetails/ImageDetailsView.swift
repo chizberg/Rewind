@@ -336,7 +336,7 @@ struct ImageDetailsView: View {
   }
 
   private func showFullscreenPreview() {
-    guard viewStore.displayedImage != nil else { return }
+    guard viewStore.displayedImage != nil, !viewStore.isColorizing else { return }
     viewStore(.fullscreenPreview)
   }
 }
