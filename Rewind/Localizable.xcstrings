@@ -60,6 +60,12 @@
             "state" : "translated",
             "value" : "• "
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• "
+          }
         }
       }
     },
@@ -109,6 +115,12 @@
           }
         },
         "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "☮️ & ❤️"
+          }
+        },
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "☮️ & ❤️"
@@ -165,6 +177,12 @@
             "state" : "translated",
             "value" : "👀"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "👀"
+          }
         }
       }
     },
@@ -214,6 +232,12 @@
           }
         },
         "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "💔"
+          }
+        },
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "💔"
@@ -277,6 +301,12 @@
             "state" : "translated",
             "value" : "2026"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2026"
+          }
         }
       }
     },
@@ -329,6 +359,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vaqtda sayohat qilish ilovasi"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一款时空穿越App"
           }
         }
       }
@@ -383,6 +419,12 @@
             "state" : "translated",
             "value" : "Dastur haqida"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "关于"
+          }
         }
       }
     },
@@ -435,6 +477,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "manzil"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "地址"
           }
         }
       }
@@ -489,6 +537,12 @@
             "state" : "translated",
             "value" : "Ilova belgisi"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App 图标"
+          }
         }
       }
     },
@@ -542,6 +596,12 @@
             "state" : "translated",
             "value" : "Apple Xaritalar"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple 地图"
+          }
         }
       }
     },
@@ -594,6 +654,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "muallif"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "作者"
           }
         }
       }
@@ -701,6 +767,12 @@
             "state" : "translated",
             "value" : "Oq & Qora"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "黑白"
+          }
         }
       }
     },
@@ -754,6 +826,12 @@
             "state" : "translated",
             "value" : "Fotolenta"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "相机胶卷"
+          }
         }
       }
     },
@@ -806,6 +884,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Klaster"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "聚合点"
           }
         }
       }
@@ -866,6 +950,12 @@
             "state" : "translated",
             "value" : "Rasmlarning katta guruhi. Ularning barchasini ko'rish uchun yaqinlashtirish kerak"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "大量图片的聚合。要查看全部，请放大地图"
+          }
         }
       }
     },
@@ -925,6 +1015,12 @@
             "state" : "translated",
             "value" : "Rasmlar klasteri"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "图片聚合点"
+          }
         }
       }
     },
@@ -977,6 +1073,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rangli qilish modeli"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上色模型"
           }
         }
       }
@@ -1037,6 +1139,12 @@
             "state" : "translated",
             "value" : "Oq-qora fotosuratlarga qurilmangizda rang qo'shing. Bepul, ro'yxatdan o'tish shart emas."
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在设备本地为黑白照片上色。免费，无需账户。"
+          }
         }
       }
     },
@@ -1095,6 +1203,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fotosuratlarni ranglash"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "图片上色"
           }
         }
       }
@@ -1155,6 +1269,12 @@
             "state" : "translated",
             "value" : "Modelni istalgan vaqtda o'chirib tashlashingiz mumkin"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可随时删除模型"
+          }
         }
       }
     },
@@ -1213,6 +1333,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Model faqat bir marta yuklab olinadi"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模型只需下载一次"
           }
         }
       }
@@ -1273,6 +1399,12 @@
             "state" : "translated",
             "value" : "Bepul, ro'yxatdan o'tish shart emas"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "免费，无需账户"
+          }
         }
       }
     },
@@ -1331,6 +1463,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Istalgan oq-qora fotosuratni soniyalar ichida rangli qiling."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "几秒钟就能为任意黑白照片上色。"
           }
         }
       }
@@ -1391,6 +1529,12 @@
             "state" : "translated",
             "value" : "bepul | qurilmada | ochiq kod"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "免费 | 本地运行 | 开源"
+          }
         }
       }
     },
@@ -1449,6 +1593,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bitta fotosurat 3–10 soniya oladi"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每张照片约需3～10秒"
           }
         }
       }
@@ -1509,6 +1659,12 @@
             "state" : "translated",
             "value" : "Model rang qo'sha olmaganga o'xshaydi. Modellar xato qilishi mumkin, boshqasini sinab ko'ring."
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这个模型似乎没能添加色彩。模型会出错，可以换一个试试。"
+          }
         }
       }
     },
@@ -1568,6 +1724,12 @@
             "state" : "translated",
             "value" : "Rasm avvalgidan rangliroq bo'lmaganga o'xshaydi. Modellar xato qilishi mumkin, boshqasini sinab ko'ring."
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这张图片的色彩似乎没有变得更丰富。模型会出错，可以换一个试试。"
+          }
         }
       }
     },
@@ -1620,6 +1782,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rangli qilish"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上色"
           }
         }
       }
@@ -1674,6 +1842,12 @@
             "state" : "translated",
             "value" : "Ixcham"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "轻量"
+          }
         }
       }
     },
@@ -1727,6 +1901,12 @@
             "state" : "translated",
             "value" : "Solishtirish"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "对比"
+          }
         }
       }
     },
@@ -1779,6 +1959,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Google Street View bilan solishtirish"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与 Google 街景对比"
           }
         }
       }
@@ -1839,6 +2025,12 @@
             "state" : "translated",
             "value" : "Bir joyni vaqt o'tishi bilan solishtirish uchun kamerangizdan foydalaning"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用相机对比同一地点的今昔"
+          }
         }
       }
     },
@@ -1898,6 +2090,12 @@
             "state" : "translated",
             "value" : "O'tmish va hozirni solishtiring"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "对比今昔"
+          }
         }
       }
     },
@@ -1950,6 +2148,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dasturchi bilan bog'lanish"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "联系开发者"
           }
         }
       }
@@ -2004,6 +2208,12 @@
             "state" : "translated",
             "value" : "Vaqtinchalik xotiraga nusxalash"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拷贝到剪贴板"
+          }
         }
       }
     },
@@ -2057,6 +2267,12 @@
             "state" : "translated",
             "value" : "Sana bo'yicha (eskidan yangiga)"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按日期（从旧到新）"
+          }
         }
       }
     },
@@ -2109,6 +2325,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Avval yangilari"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按日期（从新到旧）"
           }
         }
       }
@@ -2172,6 +2394,12 @@
             "state" : "translated",
             "value" : "Yorqin, tabiiy ranglar. Ko'pchilik fotosuratlar uchun yaxshi ishlaydi."
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "色彩鲜艳自然，适用于大多数照片。"
+          }
         }
       }
     },
@@ -2225,6 +2453,12 @@
             "state" : "translated",
             "value" : "Standart"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "默认"
+          }
         }
       }
     },
@@ -2277,6 +2511,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "O'chirish"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "删除"
           }
         }
       }
@@ -2340,6 +2580,12 @@
             "state" : "translated",
             "value" : "Kichikroq va tezroq. Ranglar yumshoqroq va aniqligi kamroq."
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "体积更小、速度更快。色彩更柔和，准确度略低。"
+          }
         }
       }
     },
@@ -2392,6 +2638,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sevimli"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收藏"
           }
         }
       }
@@ -2446,6 +2698,12 @@
             "state" : "translated",
             "value" : "Sevimlilar"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "个人收藏"
+          }
         }
       }
     },
@@ -2498,6 +2756,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Yo'nalishni topish"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "获取路线"
           }
         }
       }
@@ -2552,6 +2816,12 @@
             "state" : "translated",
             "value" : "Boshlash"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开始使用"
+          }
         }
       }
     },
@@ -2604,6 +2874,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sozlamalarni ochish"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "前往“设置”"
           }
         }
       }
@@ -2658,6 +2934,12 @@
             "state" : "translated",
             "value" : "Google Maps"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Google 地图"
+          }
         }
       }
     },
@@ -2710,6 +2992,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Google Street View bu joy uchun mavjud emas."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此地点没有 Google 街景。"
           }
         }
       }
@@ -2764,6 +3052,12 @@
             "state" : "translated",
             "value" : "Google Street View mavjud emas"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法使用 Google 街景"
+          }
         }
       }
     },
@@ -2816,6 +3110,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gradient tanlash"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "渐变配色"
           }
         }
       }
@@ -2876,6 +3176,12 @@
             "state" : "translated",
             "value" : "Bir-biriga yaqin joylashgan bir nechta rasm. Bosilganda to'liq ro'yxat ochiladi"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "彼此靠近的几张图片。轻点即可打开完整列表"
+          }
         }
       }
     },
@@ -2935,6 +3241,12 @@
             "state" : "translated",
             "value" : "Rasmlar guruhi"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "图片组"
+          }
         }
       }
     },
@@ -2987,6 +3299,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Salom!"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你好！"
           }
         }
       }
@@ -3047,6 +3365,12 @@
             "state" : "translated",
             "value" : "Xaritadagi tarix"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "地图上的历史"
+          }
         }
       }
     },
@@ -3105,6 +3429,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Xaritadagi joylarning eski fotosuratlari va rasmlarini ko'ring"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "浏览地图上各地的老照片和画作"
           }
         }
       }
@@ -3165,6 +3495,12 @@
             "state" : "translated",
             "value" : "Yaqin atrofingizdagi tarix"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "身边的历史"
+          }
         }
       }
     },
@@ -3217,6 +3553,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rasmlarni rangli qilish"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "图片上色"
           }
         }
       }
@@ -3277,6 +3619,12 @@
             "state" : "translated",
             "value" : "Eng ajoyib lahzalaringiz va joylaringizning kolleksiyasini yaratishingiz mumkin"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可以收藏最精彩的瞬间和地点"
+          }
         }
       }
     },
@@ -3336,6 +3684,12 @@
             "state" : "translated",
             "value" : "Sevimlilarni saqlang"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收藏喜欢的图片"
+          }
         }
       }
     },
@@ -3388,6 +3742,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Qani ko'raylik!"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "去看看！"
           }
         }
       }
@@ -3442,6 +3802,12 @@
             "state" : "translated",
             "value" : "Yaratgan: "
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "制作者： "
+          }
         }
       }
     },
@@ -3494,6 +3860,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Xarita"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "地图"
           }
         }
       }
@@ -3601,6 +3973,12 @@
             "state" : "translated",
             "value" : "Bu yerda hali hech narsa yo'q"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这里还没有内容"
+          }
         }
       }
     },
@@ -3653,6 +4031,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Okean"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "海洋"
           }
         }
       }
@@ -3707,6 +4091,12 @@
             "state" : "translated",
             "value" : "OK"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "好"
+          }
         }
       }
     },
@@ -3759,6 +4149,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Xaritada"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "地图上的图片"
           }
         }
       }
@@ -3819,6 +4215,12 @@
             "state" : "translated",
             "value" : "Har bir rasmning joylashuvi va sanasi bor. Sanaga mos rang tayinlangan"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每张图片都有地点和日期。每个日期对应一种颜色"
+          }
         }
       }
     },
@@ -3877,6 +4279,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rewind sizga yaqin joylardagi fotosuratlar va rasmlarni koʻrsatish uchun joylashuvingizni bilishi kerak. Busiz ham ilovadan foydalanishingiz mumkin"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind需要访问你的位置，以显示附近的照片和画作。即使不允许，也仍然可以使用App"
           }
         }
       }
@@ -3937,6 +4345,12 @@
             "state" : "translated",
             "value" : "Rewind barcha tarixiy fotosuratlar, rasmlar va ular bilan bogʻliq maʼlumotlarni olish uchun PastVu API dan foydalanadi."
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind使用PastVu API获取所有历史照片、画作及相关数据。"
+          }
         }
       }
     },
@@ -3989,6 +4403,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Katta klaster oldindan ko'rishlarini bosish orqali ochish"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "轻点大聚合点时打开预览"
           }
         }
       }
@@ -4043,6 +4463,12 @@
             "state" : "translated",
             "value" : "Rasmlar"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "画作"
+          }
         }
       }
     },
@@ -4092,6 +4518,12 @@
           }
         },
         "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PastVu"
+          }
+        },
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "PastVu"
@@ -4149,6 +4581,12 @@
             "state" : "translated",
             "value" : "PastVu qoidalari"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PastVu规则"
+          }
         }
       }
     },
@@ -4201,6 +4639,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fotosuratlar"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "照片"
           }
         }
       }
@@ -4255,6 +4699,12 @@
             "state" : "translated",
             "value" : "Model tanlash"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择模型"
+          }
         }
       }
     },
@@ -4307,6 +4757,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pinlar"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "大头针"
           }
         }
       }
@@ -4361,6 +4817,12 @@
             "state" : "translated",
             "value" : "Pinlar va xarita"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "大头针与地图"
+          }
         }
       }
     },
@@ -4413,6 +4875,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Iltimos, keyinroq qayta urinib ko'ring"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请稍后重试"
           }
         }
       }
@@ -4467,6 +4935,12 @@
             "state" : "translated",
             "value" : "Roʻyxat koʻrinishida koʻrish uchun torting"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上拉以列表查看图片"
+          }
         }
       }
     },
@@ -4520,6 +4994,12 @@
             "state" : "translated",
             "value" : "Rewind"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind"
+          }
         }
       }
     },
@@ -4569,6 +5049,12 @@
           }
         },
         "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind <<"
+          }
+        },
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rewind <<"
@@ -4632,6 +5118,12 @@
             "state" : "translated",
             "value" : "Rewind fotosuratlar va rasmlarni olish uchun PastVu API dan foydalanadi"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind使用PastVu API获取照片和画作"
+          }
         }
       }
     },
@@ -4684,6 +5176,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sputnik"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "卫星"
           }
         }
       }
@@ -4738,6 +5236,12 @@
             "state" : "translated",
             "value" : "Rasmni saqlash"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存图片"
+          }
         }
       }
     },
@@ -4790,6 +5294,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fotolarga saqlandi"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已保存到“照片”"
           }
         }
       }
@@ -4844,6 +5354,12 @@
             "state" : "translated",
             "value" : "Sxema"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "标准"
+          }
         }
       }
     },
@@ -4896,6 +5412,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Qidiruv"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搜索"
           }
         }
       }
@@ -4950,6 +5472,12 @@
             "state" : "translated",
             "value" : "Joylashuvni qidirish"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搜索地点"
+          }
         }
       }
     },
@@ -5002,6 +5530,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Yo'nalishni topish uchun xarita ilovasini tanlang"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择用于导航的地图App"
           }
         }
       }
@@ -5056,6 +5590,12 @@
             "state" : "translated",
             "value" : "Sozlamalar"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设置"
+          }
         }
       }
     },
@@ -5108,6 +5648,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ulashish"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "共享"
           }
         }
       }
@@ -5162,6 +5708,12 @@
             "state" : "translated",
             "value" : "Xaritada ko'rsatish"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在地图上显示"
+          }
         }
       }
     },
@@ -5215,6 +5767,12 @@
             "state" : "translated",
             "value" : "Asl nusxani ko'rsatish"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示原文"
+          }
         }
       }
     },
@@ -5267,6 +5825,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aralashtirish"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "随机排序"
           }
         }
       }
@@ -5327,6 +5891,12 @@
             "state" : "translated",
             "value" : "Yo'nalishni ko'rsatadi. Rasm tafsilotlarini ko'rish uchun unga bosing"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示拍摄方向。轻点即可查看图片详情"
+          }
         }
       }
     },
@@ -5386,6 +5956,12 @@
             "state" : "translated",
             "value" : "Bitta rasm"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "单张图片"
+          }
         }
       }
     },
@@ -5438,6 +6014,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Qidiruv paytida xatolik yuz berdi"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搜索时出错"
           }
         }
       }
@@ -5492,6 +6074,12 @@
             "state" : "translated",
             "value" : "Saralash"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "排序"
+          }
         }
       }
     },
@@ -5544,6 +6132,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "manba"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "来源"
           }
         }
       }
@@ -5598,6 +6192,12 @@
             "state" : "translated",
             "value" : "Qidiruv so'zini kiriting"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开始输入"
+          }
         }
       }
     },
@@ -5650,6 +6250,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Street View xatosi"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "街景出错"
           }
         }
       }
@@ -5710,6 +6316,12 @@
             "state" : "translated",
             "value" : "Google Street View yordamida joyning bugungi ko'rinishini ko'ring"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通过 Google 街景看看这里如今的样子"
+          }
         }
       }
     },
@@ -5769,6 +6381,12 @@
             "state" : "translated",
             "value" : "Street View"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "街景"
+          }
         }
       }
     },
@@ -5821,6 +6439,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ilova joylashuvingizga kirish huquqiga ega emas"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App 无法访问你的位置"
           }
         }
       }
@@ -5875,6 +6499,12 @@
             "state" : "translated",
             "value" : "Bu ilova PastVu-siz mumkin bo'lmas edi"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "没有PastVu，就没有这款App"
+          }
         }
       }
     },
@@ -5928,6 +6558,12 @@
             "state" : "translated",
             "value" : "Bu "
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这是 "
+          }
         }
       }
     },
@@ -5980,6 +6616,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tarjima qilish"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "翻译"
           }
         }
       }
@@ -6040,6 +6682,12 @@
             "state" : "translated",
             "value" : "Chet tildagi tavsiflarni bitta bosish bilan o'z tilingizga tarjima qilish mumkin"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "外语描述轻点即可翻译成中文"
+          }
         }
       }
     },
@@ -6099,6 +6747,12 @@
             "state" : "translated",
             "value" : "Tarjima"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "翻译"
+          }
         }
       }
     },
@@ -6151,6 +6805,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Qidiruv soʻrovini oʻzgartirib, qaytadan urinib koʻring"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请修改搜索内容后重试"
           }
         }
       }
@@ -6205,6 +6865,12 @@
             "state" : "translated",
             "value" : "Rasmni ranglab bo'lmadi"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法为图片上色"
+          }
         }
       }
     },
@@ -6257,6 +6923,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Joylashuvni aniqlash imkonsiz"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法确定位置"
           }
         }
       }
@@ -6311,6 +6983,12 @@
             "state" : "translated",
             "value" : "Siz izlayotgan narsani topib bo'lmadi"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "没有找到你想找的内容"
+          }
         }
       }
     },
@@ -6363,6 +7041,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rasm maʼlumotlarini yuklab boʻlmadi"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法加载图片数据"
           }
         }
       }
@@ -6417,6 +7101,12 @@
             "state" : "translated",
             "value" : "Rasmni yuqori aniqlikda yuklab bo'lmadi"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法加载高分辨率图片"
+          }
         }
       }
     },
@@ -6469,6 +7159,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rasm haqidagi maʼlumotni yuklab boʻlmadi"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法加载图片信息"
           }
         }
       }
@@ -6523,6 +7219,12 @@
             "state" : "translated",
             "value" : "Xarita belgilarini yuklash imkonsiz"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法加载地图大头针"
+          }
         }
       }
     },
@@ -6575,6 +7277,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bu so'rov uchun tavsiyalarni yuklab bo'lmadi"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法加载搜索建议"
           }
         }
       }
@@ -6629,6 +7337,12 @@
             "state" : "translated",
             "value" : "Modellar ro'yxatini yuklab bo'lmadi"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法加载模型列表"
+          }
         }
       }
     },
@@ -6681,6 +7395,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rasmni saqlab bo'lmadi"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法保存图片"
           }
         }
       }
@@ -6735,6 +7455,12 @@
             "state" : "translated",
             "value" : "Belgini oʻrnatib boʻlmadi"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法设置图标"
+          }
         }
       }
     },
@@ -6787,6 +7513,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rasmni ulashib boʻlmadi"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法共享图片"
           }
         }
       }
@@ -6841,6 +7573,12 @@
             "state" : "translated",
             "value" : "Obyektivni almashtirib boʻlmadi"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法切换镜头"
+          }
         }
       }
     },
@@ -6894,6 +7632,12 @@
             "state" : "translated",
             "value" : "Tavsifni tarjima qilib boʻlmadi"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法翻译描述"
+          }
         }
       }
     },
@@ -6946,6 +7690,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kameradan foydalanib bo'lmadi"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法使用相机"
           }
         }
       }
@@ -7007,6 +7757,12 @@
             "state" : "translated",
             "value" : "yuklagan"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上传者"
+          }
         }
       }
     },
@@ -7059,6 +7815,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Roʻyxat koʻrinishida koʻrish"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "以列表查看"
           }
         }
       }
@@ -7113,6 +7875,12 @@
             "state" : "translated",
             "value" : "App Store'da ko'rish"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在App Store中查看"
+          }
         }
       }
     },
@@ -7165,6 +7933,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vebda ko'rish"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在网页中查看"
           }
         }
       }
@@ -7219,6 +7993,12 @@
             "state" : "translated",
             "value" : "PastVu veb-saytini ochish"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "访问PastVu网站"
+          }
         }
       }
     },
@@ -7272,6 +8052,12 @@
             "state" : "translated",
             "value" : "Manba kodini ko'rish"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "查看源代码"
+          }
         }
       }
     },
@@ -7324,6 +8110,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Iliq"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暖色"
           }
         }
       }
@@ -7384,6 +8176,12 @@
             "state" : "translated",
             "value" : "Rasmlar qanday ko'rinadi?"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "图片长什么样？"
+          }
         }
       }
     },
@@ -7436,6 +8234,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Yordam ko'rsatganlar:"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "协助："
           }
         }
       }
@@ -7490,6 +8294,12 @@
             "state" : "translated",
             "value" : "Yandex Maps"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yandex 地图"
+          }
         }
       }
     },
@@ -7542,6 +8352,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Buni Sozlamalardan o'zgartirishingiz mumkin.\nIlovalar -> Rewind -> Joylashuv -> Ilova ishlatilayotganda bo'limiga o'ting"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可以在“设置”中更改。\n前往“App”->“Rewind”->“位置”->“使用App期间”"
           }
         }
       }
@@ -7596,6 +8412,12 @@
             "state" : "translated",
             "value" : "Modelni keyinroq Sozlamalardan o'zgartirishingiz mumkin."
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "稍后可以在“设置”中更改模型"
+          }
         }
       }
     },
@@ -7648,6 +8470,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Kamera ruxsatlarini Sozlamalarda tekshirishingiz mumkin"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可以在“设置”中查看相机权限"
           }
         }
       }
