@@ -426,6 +426,10 @@ private final class FakeMap: RewindMap {
     nil
   }
 
+  func annotationView(localClusterID _: UUID) -> UIView? {
+    nil
+  }
+
   func add(annotations: [MKAnnotation]) {
     visibleAnnotations += annotations
   }

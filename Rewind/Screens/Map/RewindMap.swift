@@ -21,6 +21,7 @@ protocol RewindMap {
   var visibleAnnotations: [MKAnnotation] { get }
 
   func annotationView(cid: Int) -> UIView?
+  func annotationView(localClusterID: UUID) -> UIView?
 
   func add(annotations: [MKAnnotation])
   func remove(annotations: [MKAnnotation]) async

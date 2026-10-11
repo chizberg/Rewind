@@ -172,10 +172,10 @@ final class AppGraph {
     appStore = appModel.viewStore
     navigator = Navigator(
       uiKitSources: { source in
-        if case let .image(.annotation(cid)) = source {
-          map.value.annotationView(cid: cid)
-        } else {
-          nil
+        switch source {
+        case let .image(.annotation(cid)): map.value.annotationView(cid: cid)
+        case let .imageList(.localCluster(id)): map.value.annotationView(localClusterID: id)
+        default: nil
         }
       },
       content: { [appStore, rootViewMapStore] screen in

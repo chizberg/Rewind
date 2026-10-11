@@ -57,6 +57,12 @@ final class RewindMapImpl: RewindMap {
     }.flatMap(map.view(for:))
   }
 
+  func annotationView(localClusterID: UUID) -> UIView? {
+    map.annotations.first { annotation in
+      (annotation as? Annotation<Model.LocalCluster>)?.value.id == localClusterID
+    }.flatMap(map.view(for:))
+  }
+
   func add(annotations: [MKAnnotation]) {
     map.addAnnotations(annotations)
   }

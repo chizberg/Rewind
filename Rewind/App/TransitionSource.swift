@@ -15,13 +15,14 @@ enum TransitionSource: Hashable {
     case link
   }
 
-  enum ImageList {
+  enum ImageList: Hashable {
     case favoritesButton
     case viewAsListButton
     case pullUpCard
     case thumbnail
 
     case clusterAnnotation
+    case localCluster(UUID)
   }
 
   case imageList(ImageList)
