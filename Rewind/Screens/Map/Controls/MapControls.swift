@@ -27,15 +27,10 @@ struct MapControls<Menu: View>: View {
   private var offset: CGFloat = 0
   @State
   private var pullingProgress: CGFloat = 0
-  @Environment(\.horizontalSizeClass)
-  private var horizontalSizeClass
 
   var body: some View {
     VStack(alignment: .leading) {
       floatingMenu
-        .if(horizontalSizeClass == .regular) {
-          $0.frame(maxWidth: 450)
-        }
         .padding(.horizontal, 25)
         .padding(.bottom, 2)
         .offset(y: offset)
