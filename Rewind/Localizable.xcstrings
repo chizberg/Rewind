@@ -3056,7 +3056,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Du kannst alte&nbsp;Fotos und&nbsp;Gemälde von&nbsp;Orten auf&nbsp;der&nbsp;Karte ansehen"
+            "value" : "Du kannst alte Fotos und Gemälde von Orten auf der Karte ansehen"
           }
         },
         "en" : {
@@ -3068,19 +3068,19 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Explora fotos y pinturas antiguas de&nbsp;lugares en&nbsp;el&nbsp;mapa"
+            "value" : "Explora fotos y pinturas antiguas de lugares en el mapa"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Parcourez d'anciennes photos et&nbsp;peintures de&nbsp;lieux sur&nbsp;la&nbsp;carte"
+            "value" : "Parcourez d'anciennes photos et peintures de lieux sur la carte"
           }
         },
         "kk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Картадағы орындардың ескі&nbsp;фотосуреттері мен&nbsp;картиналарын қараңыз"
+            "value" : "Картадағы орындардың ескі фотосуреттері мен картиналарын қараңыз"
           }
         },
         "ru" : {
@@ -3092,13 +3092,13 @@
         "sr-Latn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pregledajte stare fotografije i&nbsp;slike mesta na&nbsp;mapi"
+            "value" : "Pregledajte stare fotografije i slike mesta na mapi"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Переглядайте старі фотографії та&nbsp;картини місць на&nbsp;карті"
+            "value" : "Переглядайте старі фотографії та картини місць на карті"
           }
         },
         "uz" : {
@@ -3227,31 +3227,31 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Erstelle eine&nbsp;Sammlung deiner spektakulärsten Momente und&nbsp;Orte"
+            "value" : "Erstelle eine Sammlung deiner spektakulärsten Momente und Orte"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You can create a&nbsp;collection of&nbsp;your most&nbsp;spectacular moments and&nbsp;places"
+            "value" : "You can create a collection of your most spectacular moments and places"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Crea una&nbsp;colección de&nbsp;tus momentos y&nbsp;lugares más&nbsp;espectaculares"
+            "value" : "Crea una colección de tus momentos y lugares más espectaculares"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Créez une&nbsp;collection de&nbsp;vos moments et&nbsp;lieux les&nbsp;plus spectaculaires"
+            "value" : "Créez une collection de vos moments et lieux les plus spectaculaires"
           }
         },
         "kk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ең керемет сәттеріңіз бен&nbsp;орындарыңыздың коллекциясын жасай&nbsp;аласыз"
+            "value" : "Ең керемет сәттеріңіз бен орындарыңыздың коллекциясын жасай аласыз"
           }
         },
         "ru" : {
@@ -3263,19 +3263,19 @@
         "sr-Latn" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Možete napraviti kolekciju svojih nezaboravnih trenutaka i&nbsp;mesta"
+            "value" : "Možete napraviti kolekciju svojih nezaboravnih trenutaka i mesta"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Створіть колекцію найяскравіших моментів і&nbsp;місць"
+            "value" : "Створіть колекцію найяскравіших моментів і місць"
           }
         },
         "uz" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Eng ajoyib lahzalaringiz va&nbsp;joylaringizning kolleksiyasini yaratishingiz mumkin"
+            "value" : "Eng ajoyib lahzalaringiz va joylaringizning kolleksiyasini yaratishingiz mumkin"
           }
         }
       }
