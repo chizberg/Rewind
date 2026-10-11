@@ -294,7 +294,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Der Standort wird benötigt, um Fotos und Gemälde in Ihrer Nähe anzuzeigen"
+            "value" : "Der Standort wird benötigt, um Fotos und Gemälde in deiner Nähe anzuzeigen"
           }
         },
         "en" : {
@@ -366,7 +366,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Die App benötigt diesen Zugriff, um Bilder in Ihrer Mediathek zu speichern"
+            "value" : "Die App benötigt diesen Zugriff, um Bilder in deiner Mediathek zu speichern"
           }
         },
         "en" : {
