@@ -57,6 +57,12 @@
             "state" : "translated",
             "value" : "Ilova rasmlarni kutubxonangizga saqlash uchun ushbu ruxsatga muhtoj"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "需要此权限才能将图片保存到你的照片图库。"
+          }
         }
       }
     },
@@ -113,6 +119,12 @@
           }
         },
         "uz" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind"
+          }
+        },
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rewind"
@@ -177,6 +189,12 @@
             "state" : "translated",
             "value" : "Rewind"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rewind"
+          }
         }
       }
     },
@@ -237,6 +255,12 @@
             "state" : "translated",
             "value" : "Taqqoslash suratlarini olish uchun kameraga ruxsat kerak"
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "需要使用相机才能拍摄对比照片。"
+          }
         }
       }
     },
@@ -295,6 +319,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Joylashuv atrofingizdagi fotosuratlar va rasmlarni ko'rsatish uchun kerak"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "需要你的位置才能显示附近的照片和画作。"
           }
         }
       }
@@ -355,6 +385,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ilova rasmlarni galereyangizdagi saqlash uchun ushbu ruxsat kerak"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "需要此权限才能将图片保存到你的照片图库。"
           }
         }
       }
