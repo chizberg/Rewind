@@ -18,11 +18,12 @@ Also in TestFlight: https://testflight.apple.com/join/vbJFFZgD
 ### Screenshots
 
 <p align="leading">
-  <img src="screenshots/phone/en/jpgs/time-travel-app.jpeg" width="19%" />
-  <img src="screenshots/phone/en/jpgs/what-was-here.jpeg" width="19%" />
-  <img src="screenshots/phone/en/jpgs/explore-the-past.jpeg" width="19%" />
-  <img src="screenshots/phone/en/jpgs/moments-you-love.jpeg" width="19%" />
-  <img src="screenshots/phone/en/jpgs/compare.jpeg" width="19%" />
+  <img src="screenshots/phone/en/jpgs/what-was-here.jpeg" width="15%" />
+  <img src="screenshots/phone/en/jpgs/colorize.jpeg" width="15%" />
+  <img src="screenshots/phone/en/jpgs/then-and-now.jpeg" width="15%" />
+  <img src="screenshots/phone/en/jpgs/time-travel.jpeg" width="15%" />
+  <img src="screenshots/phone/en/jpgs/translate.jpeg" width="15%" />
+  <img src="screenshots/phone/en/jpgs/paintings.jpeg" width="15%" />
 </p>
 
 ### Availability
