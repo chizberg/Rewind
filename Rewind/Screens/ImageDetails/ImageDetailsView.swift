@@ -127,42 +127,47 @@ struct ImageDetailsView: View {
   }
 
   private var picture: some View {
-    ZStack {
+    Group {
       if let image = viewStore.uiImage {
-        Image(uiImage: image)
-          .resizable()
-          .overlay {
-            if let colorized = viewStore.colorizedImage {
-              Image(uiImage: colorized)
-                .resizable()
-            }
-          }
-          .overlay {
-            MagicOverlay(
-              image: image,
-              origin: CGPoint(
-                x: colorizeButtonFrame.midX - pictureFrame.minX,
-                y: colorizeButtonFrame.midY - pictureFrame.minY,
-              ),
-              isActive: viewStore.isColorizing,
-              tuning: .default,
-            )
-          }
-          .readFrame(in: .named(spaceName)) { pictureFrame = $0 }
-          .animation(.default, value: viewStore.colorizationState)
-      } else {
-        if let cachedPreview = viewStore.cachedLowResImage {
-          Image(uiImage: cachedPreview)
+        ZStack(alignment: .top) {
+          Image(uiImage: image)
             .resizable()
-        } else {
-          SwiftUI.Color.clear
+            .scaledToFit()
+            .overlay {
+              MagicOverlay(
+                image: image,
+                origin: CGPoint(
+                  x: colorizeButtonFrame.midX - pictureFrame.minX,
+                  y: colorizeButtonFrame.midY - pictureFrame.minY,
+                ),
+                isActive: viewStore.isColorizing,
+                tuning: .default,
+              )
+            }
+          if let colorized = viewStore.colorizedImage {
+            Image(uiImage: colorized)
+              .resizable()
+              .scaledToFit()
+          }
         }
+        .aspectRatio((viewStore.colorizedImage ?? image).size.aspectRatio, contentMode: .fit)
+        .readFrame(in: .named(spaceName)) { pictureFrame = $0 }
+        .animation(.default, value: viewStore.colorizationState)
+      } else {
+        ZStack {
+          if let cachedPreview = viewStore.cachedLowResImage {
+            Image(uiImage: cachedPreview)
+              .resizable()
+          } else {
+            SwiftUI.Color.clear
+          }
 
-        ProgressView()
-          .scaleEffect(1.5)
+          ProgressView()
+            .scaleEffect(1.5)
+        }
+        .scaledToFit()
       }
     }
-    .scaledToFit()
     .onTapGesture { showFullscreenPreview() }
     .gesture(
       MagnificationGesture(minimumScaleDelta: 1.3)

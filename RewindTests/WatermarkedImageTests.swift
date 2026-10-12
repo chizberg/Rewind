@@ -32,6 +32,27 @@ struct WatermarkedImageTests {
     #expect(try pixels(of: stitched).prefix(original.count) == original[...])
   }
 
+  @Test(arguments: [(30, 20), (20, 30)])
+  func stitchingKeepsTheContentProportions(width: Int, height: Int) async throws {
+    let content = (0..<width * height).map { i in
+      [UInt8(i % 251), UInt8(i * 7 % 253), UInt8(i * 13 % 255)]
+    }
+    let source = try WatermarkedImage(
+      content: UIImage(cgImage: makeRGBImage(width: width, height: height, pixels: content)),
+      watermark: UIImage(cgImage: makeRGBImage(
+        width: width,
+        height: 2,
+        pixels: Array(repeating: [10, 20, 30], count: width * 2),
+      )),
+    )
+
+    let stitched = await source.stitched()
+
+    #expect(stitched.cgImage?.width == width)
+    #expect(stitched.cgImage?.height == height + 4)
+    #expect(try pixels(of: stitched).prefix(content.count) == content[...])
+  }
+
   @Test func stripIsFittedToANarrowerContent() async throws {
     let color: [UInt8] = [200, 120, 40]
     let stripColor: [UInt8] = [10, 20, 30]
