@@ -24,21 +24,30 @@ struct ComparisonScreen: View {
           viewSize = $0
         }
 
-      ComparisonLayout(axis: axis) {
-        Color.clear
-          .aspectRatio(store.aspectRatio, contentMode: .fit)
-          .overlay {
-            ComparisonViewRepresentable(vc: deps.comparisonVC)
-          }
-          .modifier(BlinkingModifier(trigger: store.shotsCount))
+      GeometryReader { proxy in
+        let controlsEdge: Edge.Set = axis == .vertical ? .bottom : .trailing
 
-        AxisStack(axis: axis) {
-          pickers
-            .padding(axis == .vertical ? .bottom : .trailing, 20)
-          bottomControls
-            .padding(axis == .vertical ? .bottom : .trailing, 75)
+        ComparisonLayout(axis: axis) {
+          Color.clear
+            .aspectRatio(store.aspectRatio, contentMode: .fit)
+            .overlay {
+              ComparisonViewRepresentable(vc: deps.comparisonVC)
+            }
+            .modifier(BlinkingModifier(trigger: store.shotsCount))
+
+          AxisStack(axis: axis) {
+            pickers
+              .padding(controlsEdge, 20)
+            bottomControls
+              .padding(controlsEdge, 75)
+          }
+          .padding(
+            controlsEdge,
+            axis == .vertical ? proxy.safeAreaInsets.bottom : proxy.safeAreaInsets.trailing,
+          )
         }
       }
+      .ignoresSafeArea()
 
       VStack {
         SavedBanner(savesCount: store.savesCount)

@@ -58,7 +58,8 @@ struct Screen: Hashable {
 
   var statusBarHidden: Bool {
     switch value {
-    case .image, .list, .comparison: false
+    case .image, .list: false
+    case .comparison: true
     case let .fullscreenPreview(store): store.controlsHidden
     }
   }
