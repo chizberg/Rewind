@@ -321,6 +321,7 @@ func makeComparisonViewDeps(
     },
   )
   vc.sizingOptions = UIHostingControllerSizingOptions.intrinsicContentSize
+  vc.safeAreaRegions = []
   comparisonVC = vc
 
   return ComparisonViewDeps(
