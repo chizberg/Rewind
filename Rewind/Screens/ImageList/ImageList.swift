@@ -73,7 +73,10 @@ struct ImageList: View {
     Button {
       viewStore(.presentImage(image))
     } label: {
-      ImageCardView(image: image)
+      ImageCardView(
+        image: image,
+        backgroundColor: SwiftUI.Color(uiColor: .secondarySystemBackground)
+      )
     }
     .foregroundStyle(.primary)
     .zoomTransitionSource(.image(.listRow(image.cid)))
