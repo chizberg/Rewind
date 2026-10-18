@@ -68,7 +68,7 @@ extension Lab {
 
   // Y of CIE XYZ: the pixel's light weighted by the eye's sensitivity. The weights are the
   // Y row of the sRGB -> XYZ matrix for D65; green dominates because the eye sees it best.
-  private static func luminance(r: Float, g: Float, b: Float) -> Float {
+  static func luminance(r: Float, g: Float, b: Float) -> Float {
     0.212671 * gammaDecode(r) + 0.715160 * gammaDecode(g) + 0.072169 * gammaDecode(b)
   }
 
@@ -109,7 +109,7 @@ extension Lab {
 
   // The sRGB transfer function itself (IEC 61966-2-1): linear light back to the encoded value
   // a byte stores. 0.0031308 is where 0.04045 lands after decoding, so the two branches meet.
-  private static func gammaEncode(_ c: Float) -> Float {
+  static func gammaEncode(_ c: Float) -> Float {
     c <= 0.0031308 ? 12.92 * c : 1.055 * powf(c, 1 / 2.4) - 0.055
   }
 }

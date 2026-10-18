@@ -13,6 +13,8 @@ struct ImageList: View {
 
   @State
   private var scrollPosition = ScrollPosition()
+  @Environment(\.screenGeometry)
+  private var screenGeometry
 
   var body: some View {
     content
@@ -25,8 +27,19 @@ struct ImageList: View {
   private var content: some View {
     if !viewStore.images.isEmpty {
       ScrollView {
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 300))], spacing: 10) {
-          items
+        let columnCount = columnCount
+        let columns = (0..<columnCount).map { column in
+          stride(from: column, to: viewStore.images.count, by: columnCount)
+            .map { viewStore.images[$0] }
+        }
+        HStack(alignment: .top, spacing: spacing) {
+          ForEach(columns.indices, id: \.self) { column in
+            LazyVStack(spacing: spacing) {
+              ForEach(columns[column]) { cell(image: $0) }
+            }
+            .padding(.top, column.isMultiple(of: 2) ? 0 : columnShift)
+            .frame(maxWidth: .infinity, alignment: .top)
+          }
         }
         .padding(.horizontal, 16)
       }
@@ -47,16 +60,23 @@ struct ImageList: View {
     }
   }
 
-  private var items: some View {
-    ForEach(viewStore.images) { image in
-      Button {
-        viewStore(.presentImage(image))
-      } label: {
-        ImageListCell(value: image)
-      }
-      .foregroundStyle(.primary)
-      .zoomTransitionSource(.image(.listRow(image.cid)))
+  private var columnCount: Int {
+    guard let screenGeometry else {
+      assertionFailure("ImageList is shown outside of a screen")
+      return 2
     }
+    let width = screenGeometry.size.width - screenGeometry.safeAreaInsets.horizontal.sum - 32
+    return max(2, Int(((width + spacing) / (maxCardWidth + spacing)).rounded(.up)))
+  }
+
+  private func cell(image: Model.Image) -> some View {
+    Button {
+      viewStore(.presentImage(image))
+    } label: {
+      ImageCardView(image: image)
+    }
+    .foregroundStyle(.primary)
+    .zoomTransitionSource(.image(.listRow(image.cid)))
   }
 
   @ToolbarContentBuilder
@@ -83,6 +103,10 @@ struct ImageList: View {
     }
   }
 }
+
+private let columnShift: CGFloat = 60
+private let spacing: CGFloat = 10
+private let maxCardWidth: CGFloat = 250
 
 struct ToolbarBackButton: View {
   @Environment(\.dismiss)
@@ -165,6 +189,10 @@ private let imageDetailsFactoryMock: ImageDetailsFactory = { _, source in
   ).viewStore
 
   ImageList(viewStore: store)
+    .environment(
+      \.screenGeometry,
+      ScreenGeometry(size: CGSize(width: 400, height: 800), safeAreaInsets: .zero)
+    )
 }
 
 #Preview("empty") {
@@ -181,5 +209,9 @@ private let imageDetailsFactoryMock: ImageDetailsFactory = { _, source in
   ).viewStore
 
   ImageList(viewStore: store)
+    .environment(
+      \.screenGeometry,
+      ScreenGeometry(size: CGSize(width: 400, height: 800), safeAreaInsets: .zero)
+    )
 }
 #endif
