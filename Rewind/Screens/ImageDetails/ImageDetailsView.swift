@@ -56,6 +56,7 @@ struct ImageDetailsView: View {
         }
       }
       .animation(.smooth, value: viewStore.translationState)
+      .animation(.default, value: viewStore.colorizationState.isShowingColorizedImage)
       .coordinateSpace(.named(spaceName))
       .task {
         viewStore(.willBePresented)
@@ -148,6 +149,7 @@ struct ImageDetailsView: View {
             Image(uiImage: colorized)
               .resizable()
               .scaledToFit()
+              .zIndex(1) // 🩼 keeps the removal fade above the original
           }
         }
         .aspectRatio((viewStore.colorizedImage ?? image).size.aspectRatio, contentMode: .fit)
@@ -634,6 +636,19 @@ extension ImageDetailsState {
 
   fileprivate var isColorizing: Bool {
     if case .colorizing = colorizationState { true } else { false }
+  }
+}
+
+extension ImageDetailsState.ColorizationState {
+  fileprivate var isShowingColorizedImage: Bool {
+    switch self {
+    case .available, .colorizing, .detecting, .notAvailable, .none: false
+    case let .ready(_, showing, _):
+      switch showing {
+      case .colorized: true
+      case .original: false
+      }
+    }
   }
 }
 
