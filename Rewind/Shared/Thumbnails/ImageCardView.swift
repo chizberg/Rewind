@@ -57,6 +57,8 @@ struct ImageCardView: View {
       Image(uiImage: loaded)
         .resizable()
         .scaledToFill()
+        // to hide the unreadable gray line at the bottom
+        .scaleEffect(1.08, anchor: .top)
         .task(id: loaded) {
           let style = await ThumbnailTitleStyle.measure(
             loaded,
