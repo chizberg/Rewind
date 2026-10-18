@@ -18,6 +18,7 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
 
     var visibleHeight: CGFloat
     var detent: Detent
+    var fullscreenProgress: CGFloat
 
     fileprivate var offset: CGFloat
   }
@@ -38,6 +39,7 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
     let state = ObservableProperty(initialValue: State(
       visibleHeight: 0,
       detent: .normal,
+      fullscreenProgress: 0,
       offset: 0,
     ))
     _state = state
@@ -114,7 +116,7 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
   func gestureRecognizerShouldBegin(_ recognizer: UIGestureRecognizer) -> Bool {
     if recognizer === pan {
       let translation = pan.translation(in: view)
-      return abs(translation.y) > abs(translation.x)
+      return abs(translation.y).isApproximatelyGreaterOrEqualThan(abs(translation.x))
     }
     return true
   }
@@ -214,6 +216,7 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
     state = State(
       visibleHeight: sheetView.bounds.height - offset,
       detent: detent,
+      fullscreenProgress: (1 - offset / self.offset(for: .normal)).clamp(0...1),
       offset: offset,
     )
   }

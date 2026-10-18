@@ -57,21 +57,20 @@ struct RootView: View {
       }
 
       ViewControllerRepresentable {
-        BottomSheet { _ in
-          UIHostingController(rootView: RegionImageList(
-            store: regionImageListStore,
-            appStore: appStore,
-            mapStore: mapStore,
-            screenGeometry: screenGeometry,
-            zoomSourceViews: zoomSourceViews,
-          ))
+        BottomSheet { state in
+          ThumbnailsBottomSheetWrapper(
+            content: UIHostingController(rootView: RegionImageList(
+              store: regionImageListStore,
+              appStore: appStore,
+              mapStore: mapStore,
+              screenGeometry: screenGeometry,
+              zoomSourceViews: zoomSourceViews,
+            )),
+            state: state,
+          )
         }
       }
       .ignoresSafeArea()
-    }
-    .overlay(alignment: .top) {
-      floatingMenu
-        .padding(.horizontal, 25)
     }
     .navigationTitle("Rewind")
     .navigationBarTitleDisplayMode(.inline)
@@ -192,7 +191,6 @@ private struct RegionImageList: View {
 
   var body: some View {
     ImageList(viewStore: store)
-      .background(Color.systemBackground)
       .environment(\.gradientScheme, appStore.gradientScheme)
       .environment(\.maxRange, mapStore.selectedImageKind.maxRange)
       .environment(\.screenGeometry, screenGeometry)
