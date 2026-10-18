@@ -29,6 +29,7 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
 
   private let pan = UIPanGestureRecognizer()
   private let touchDown = UILongPressGestureRecognizer()
+  private var panStartOffset: CGFloat = 0
 
   init(content: (ObservableVariable<State>) -> UIViewController) {
     let state = ObservableProperty(initialValue: State(
@@ -85,7 +86,7 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
     }
   }
 
-  func setDetent(_ detent: State.Detent, animated: Bool) {
+  func set(detent: State.Detent, animated: Bool) {
     guard touchDown.state != .began, touchDown.state != .changed else { return }
     if animated {
       settle(to: detent, velocity: 0)
@@ -102,7 +103,7 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
   }
 
   @objc
-  private func handleTouchDown(_ recognizer: UILongPressGestureRecognizer) {
+  private func handleTouchDown(recognizer: UILongPressGestureRecognizer) {
     switch recognizer.state {
     case .began:
       if let presentation = sheetView.layer.presentation() {
@@ -119,16 +120,18 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
   }
 
   @objc
-  private func handlePan(_ recognizer: UIPanGestureRecognizer) {
+  private func handlePan(recognizer: UIPanGestureRecognizer) {
     switch recognizer.state {
-    case .began, .changed:
-      let dragged = state.offset + recognizer.translation(in: view).y
-      apply(offset: dragged.clamp(0...offset(for: .minimized)), detent: state.detent)
-      recognizer.setTranslation(.zero, in: view)
+    case .began:
+      panStartOffset = dragged(rubberBanded: state.offset)
+      fallthrough
+    case .changed:
+      let dragged = panStartOffset + recognizer.translation(in: view).y
+      apply(offset: rubberBand(dragged: dragged), detent: state.detent)
     case .ended, .cancelled:
       let velocity = recognizer.velocity(in: view).y
       let current = nearestDetentIndex(to: state.offset)
-      let projected = nearestDetentIndex(to: state.offset + project(velocity))
+      let projected = nearestDetentIndex(to: state.offset + project(velocity: velocity))
       settle(
         to: State.Detent.allCases[projected.clamp(current - 1...current + 1)],
         velocity: velocity,
@@ -175,7 +178,23 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
     return offsets.indices.min { abs(offsets[$0] - offset) < abs(offsets[$1] - offset) } ?? 0
   }
 
-  private func project(_ velocity: CGFloat) -> CGFloat {
+  private func rubberBand(dragged: CGFloat) -> CGFloat {
+    let clamped = dragged.clamp(0...offset(for: .minimized))
+    let height = sheetView.bounds.height
+    let overshoot = abs(dragged - clamped)
+    let resisted = (1 - 1 / (overshoot * 0.55 / height + 1)) * height
+    return clamped + CGFloat(signOf: dragged - clamped, magnitudeOf: resisted)
+  }
+
+  private func dragged(rubberBanded: CGFloat) -> CGFloat {
+    let clamped = rubberBanded.clamp(0...offset(for: .minimized))
+    let height = sheetView.bounds.height
+    let resisted = abs(rubberBanded - clamped)
+    let overshoot = resisted * height / (0.55 * (height - resisted))
+    return clamped + CGFloat(signOf: rubberBanded - clamped, magnitudeOf: overshoot)
+  }
+
+  private func project(velocity: CGFloat) -> CGFloat {
     let rate = UIScrollView.DecelerationRate.normal.rawValue
     return velocity / 1000 * rate / (1 - rate)
   }
@@ -219,7 +238,7 @@ private final class PassthroughView: UIView {
         })
       }
     } updater: { vc in
-      vc.setDetent(detent, animated: true)
+      vc.set(detent: detent, animated: true)
     }
     .ignoresSafeArea()
 
