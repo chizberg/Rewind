@@ -8,7 +8,7 @@
 import SwiftUI
 import VGSL
 
-final class BottomSheet: UIViewController {
+final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
   struct State: Equatable {
     enum Detent: CaseIterable {
       case minimized
@@ -18,6 +18,8 @@ final class BottomSheet: UIViewController {
 
     var visibleHeight: CGFloat
     var detent: Detent
+
+    fileprivate var offset: CGFloat
   }
 
   @ObservableProperty
@@ -25,10 +27,14 @@ final class BottomSheet: UIViewController {
   private let content: UIViewController
   private let sheetView = UIView()
 
+  private let pan = UIPanGestureRecognizer()
+  private let touchDown = UILongPressGestureRecognizer()
+
   init(content: (ObservableVariable<State>) -> UIViewController) {
     let state = ObservableProperty(initialValue: State(
       visibleHeight: 0,
       detent: .normal,
+      offset: 0,
     ))
     _state = state
     self.content = content(state.projectedValue.skipRepeats())
@@ -53,6 +59,16 @@ final class BottomSheet: UIViewController {
     content.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     sheetView.addSubview(content.view)
     content.didMove(toParent: self)
+
+    pan.addTarget(self, action: #selector(handlePan))
+    pan.delegate = self
+    view.addGestureRecognizer(pan)
+
+    touchDown.addTarget(self, action: #selector(handleTouchDown))
+    touchDown.minimumPressDuration = 0
+    touchDown.cancelsTouchesInView = false
+    touchDown.delegate = self
+    view.addGestureRecognizer(touchDown)
   }
 
   override func viewDidLayoutSubviews() {
@@ -70,8 +86,63 @@ final class BottomSheet: UIViewController {
   }
 
   func setDetent(_ detent: State.Detent, animated: Bool) {
+    guard touchDown.state != .began, touchDown.state != .changed else { return }
+    if animated {
+      settle(to: detent, velocity: 0)
+    } else {
+      move(to: detent)
+    }
+  }
+
+  func gestureRecognizer(
+    _: UIGestureRecognizer,
+    shouldRecognizeSimultaneouslyWith _: UIGestureRecognizer,
+  ) -> Bool {
+    true
+  }
+
+  @objc
+  private func handleTouchDown(_ recognizer: UILongPressGestureRecognizer) {
+    switch recognizer.state {
+    case .began:
+      if let presentation = sheetView.layer.presentation() {
+        apply(offset: presentation.affineTransform().ty, detent: state.detent)
+      }
+      sheetView.layer.removeAllAnimations()
+    case .ended, .cancelled:
+      if pan.state == .possible || pan.state == .failed {
+        settle(to: state.detent, velocity: 0)
+      }
+    default:
+      break
+    }
+  }
+
+  @objc
+  private func handlePan(_ recognizer: UIPanGestureRecognizer) {
+    switch recognizer.state {
+    case .began, .changed:
+      let dragged = state.offset + recognizer.translation(in: view).y
+      apply(offset: dragged.clamp(0...offset(for: .minimized)), detent: state.detent)
+      recognizer.setTranslation(.zero, in: view)
+    case .ended, .cancelled:
+      let velocity = recognizer.velocity(in: view).y
+      let current = nearestDetentIndex(to: state.offset)
+      let projected = nearestDetentIndex(to: state.offset + project(velocity))
+      settle(
+        to: State.Detent.allCases[projected.clamp(current - 1...current + 1)],
+        velocity: velocity,
+      )
+    default:
+      break
+    }
+  }
+
+  private func settle(to detent: State.Detent, velocity: CGFloat) {
+    let distance = offset(for: detent) - state.offset
     UIView.animate(
-      springDuration: animated ? 0.5 : 0,
+      springDuration: 0.5,
+      initialSpringVelocity: abs(distance) > 1 ? (velocity / distance).clamp(-30...30) : 0,
       options: .allowUserInteraction,
     ) { [self] in
       move(to: detent)
@@ -79,20 +150,34 @@ final class BottomSheet: UIViewController {
   }
 
   private func move(to detent: State.Detent) {
-    let offset = offset(for: detent)
+    apply(offset: offset(for: detent), detent: detent)
+  }
+
+  private func apply(offset: CGFloat, detent: State.Detent) {
     sheetView.transform = CGAffineTransform(translationX: 0, y: offset)
     state = State(
       visibleHeight: sheetView.bounds.height - offset,
       detent: detent,
+      offset: offset,
     )
   }
 
   private func offset(for detent: State.Detent) -> CGFloat {
     switch detent {
-    case .minimized: sheetView.bounds.height - minimizedHeight
-    case .normal: sheetView.bounds.height - normalHeight
+    case .minimized: sheetView.bounds.height - 58
+    case .normal: sheetView.bounds.height - 235.5
     case .fullscreen: 0
     }
+  }
+
+  private func nearestDetentIndex(to offset: CGFloat) -> Int {
+    let offsets = State.Detent.allCases.map(offset(for:))
+    return offsets.indices.min { abs(offsets[$0] - offset) < abs(offsets[$1] - offset) } ?? 0
+  }
+
+  private func project(_ velocity: CGFloat) -> CGFloat {
+    let rate = UIScrollView.DecelerationRate.normal.rawValue
+    return velocity / 1000 * rate / (1 - rate)
   }
 }
 
@@ -110,12 +195,9 @@ private final class PassthroughView: UIView {
   }
 
   override func point(inside point: CGPoint, with _: UIEvent?) -> Bool {
-    sheetView.frame.contains(point)
+    (sheetView.layer.presentation()?.frame ?? sheetView.frame).contains(point)
   }
 }
-
-private let minimizedHeight: CGFloat = 58
-private let normalHeight: CGFloat = 235.5
 
 #if DEBUG
 #Preview {
