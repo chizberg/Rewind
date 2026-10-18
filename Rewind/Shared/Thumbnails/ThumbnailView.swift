@@ -102,12 +102,19 @@ struct DelayedProgressView: View {
   ZStack {
     Image(.cat).resizable().ignoresSafeArea()
 
-    ThumbnailCardView(
-      card: .image(modified(.mock) {
-        $0.image = $0.image.delayed(delay: 1)
-      }),
-      size: CGSize(width: 200, height: 200),
-    )
+    let image = modified(Model.Image.mock) {
+      $0.image = $0.image.delayed(delay: 1)
+    }
+
+    VStack {
+      ThumbnailCardView(
+        card: .image(image),
+        size: CGSize(width: 200, height: 200),
+      )
+
+      ImageCardView(image: image)
+        .frame(height: 300)
+    }
   }
 }
 
