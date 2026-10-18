@@ -29,7 +29,10 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
 
   private let pan = UIPanGestureRecognizer()
   private let touchDown = UILongPressGestureRecognizer()
-  private var panStartOffset: CGFloat = 0
+  private weak var scrollView: UIScrollView?
+  private var contentOffsetObservation: NSKeyValueObservation?
+
+  private var lockedContentOffsetY: CGFloat?
 
   init(content: (ObservableVariable<State>) -> UIViewController) {
     let state = ObservableProperty(initialValue: State(
@@ -97,9 +100,23 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
 
   func gestureRecognizer(
     _: UIGestureRecognizer,
-    shouldRecognizeSimultaneouslyWith _: UIGestureRecognizer,
+    shouldRecognizeSimultaneouslyWith other: UIGestureRecognizer,
   ) -> Bool {
-    true
+    if scrollView == nil,
+       let scrollView = other.view as? UIScrollView,
+       other === scrollView.panGestureRecognizer,
+       scrollView.isVerticallyScrollable || scrollView.alwaysBounceVertical {
+      track(scrollView: scrollView)
+    }
+    return true
+  }
+
+  func gestureRecognizerShouldBegin(_ recognizer: UIGestureRecognizer) -> Bool {
+    if recognizer === pan {
+      let translation = pan.translation(in: view)
+      return abs(translation.y) > abs(translation.x)
+    }
+    return true
   }
 
   @objc
@@ -111,6 +128,7 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
       }
       sheetView.layer.removeAllAnimations()
     case .ended, .cancelled:
+      lockedContentOffsetY = nil
       if pan.state == .possible || pan.state == .failed {
         settle(to: state.detent, velocity: 0)
       }
@@ -122,23 +140,54 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
   @objc
   private func handlePan(recognizer: UIPanGestureRecognizer) {
     switch recognizer.state {
-    case .began:
-      panStartOffset = dragged(rubberBanded: state.offset)
-      fallthrough
-    case .changed:
-      let dragged = panStartOffset + recognizer.translation(in: view).y
-      apply(offset: rubberBand(dragged: dragged), detent: state.detent)
+    case .began, .changed:
+      let translation = recognizer.translation(in: view).y
+      recognizer.setTranslation(.zero, in: view)
+      guard shouldMoveSheet(translation: translation) else {
+        lockedContentOffsetY = nil
+        return
+      }
+      lockContentOffset()
+      let draggedOffset = state.offset + translation
+      apply(
+        offset: draggedOffset.clamp(offset(for: .fullscreen)...offset(for: .minimized)),
+        detent: state.detent,
+      )
     case .ended, .cancelled:
       let velocity = recognizer.velocity(in: view).y
-      let current = nearestDetentIndex(to: state.offset)
-      let projected = nearestDetentIndex(to: state.offset + project(velocity: velocity))
-      settle(
-        to: State.Detent.allCases[projected.clamp(current - 1...current + 1)],
-        velocity: velocity,
-      )
+      let detent = scrollView != nil && isSheetAtTop ? .fullscreen : detent(releasedWith: velocity)
+      settle(to: detent, velocity: velocity)
     default:
       break
     }
+  }
+
+  private func shouldMoveSheet(translation: CGFloat) -> Bool {
+    guard let scrollView, scrollView.isTracking, isSheetAtTop else { return true }
+    let isContentAtTop = scrollView.contentOffset.y
+      .isApproximatelyLessOrEqualThan(-scrollView.adjustedContentInset.top)
+    return translation.isApproximatelyGreaterThan(0) && isContentAtTop
+  }
+
+  private func track(scrollView: UIScrollView) {
+    self.scrollView = scrollView
+    contentOffsetObservation = scrollView.observe(\.contentOffset) { [weak self] scrollView, _ in
+      MainActor.assumeIsolated {
+        guard let lockedY = self?.lockedContentOffsetY,
+              scrollView.contentOffset.y.isApproximatelyNotEqualTo(lockedY) else { return }
+        scrollView.contentOffset.y = lockedY
+      }
+    }
+  }
+
+  private func lockContentOffset() {
+    guard let scrollView, lockedContentOffsetY == nil else { return }
+    let lockedY = max(
+      scrollView.contentOffset.y,
+      -scrollView.adjustedContentInset.top,
+    )
+    lockedContentOffsetY = lockedY
+    scrollView.contentOffset.y = lockedY
   }
 
   private func settle(to detent: State.Detent, velocity: CGFloat) {
@@ -173,30 +222,21 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
     }
   }
 
-  private func nearestDetentIndex(to offset: CGFloat) -> Int {
-    let offsets = State.Detent.allCases.map(offset(for:))
-    return offsets.indices.min { abs(offsets[$0] - offset) < abs(offsets[$1] - offset) } ?? 0
+  private func detent(releasedWith velocity: CGFloat) -> State.Detent {
+    let detents = State.Detent.allCases
+    if velocity > 500 {
+      return detents.last { offset(for: $0) > state.offset } ?? .minimized
+    }
+    if velocity < -500 {
+      return detents.first { offset(for: $0) < state.offset } ?? .fullscreen
+    }
+    return detents.min {
+      abs(offset(for: $0) - state.offset) < abs(offset(for: $1) - state.offset)
+    } ?? state.detent
   }
 
-  private func rubberBand(dragged: CGFloat) -> CGFloat {
-    let clamped = dragged.clamp(0...offset(for: .minimized))
-    let height = sheetView.bounds.height
-    let overshoot = abs(dragged - clamped)
-    let resisted = (1 - 1 / (overshoot * 0.55 / height + 1)) * height
-    return clamped + CGFloat(signOf: dragged - clamped, magnitudeOf: resisted)
-  }
-
-  private func dragged(rubberBanded: CGFloat) -> CGFloat {
-    let clamped = rubberBanded.clamp(0...offset(for: .minimized))
-    let height = sheetView.bounds.height
-    let resisted = abs(rubberBanded - clamped)
-    let overshoot = resisted * height / (0.55 * (height - resisted))
-    return clamped + CGFloat(signOf: rubberBanded - clamped, magnitudeOf: overshoot)
-  }
-
-  private func project(velocity: CGFloat) -> CGFloat {
-    let rate = UIScrollView.DecelerationRate.normal.rawValue
-    return velocity / 1000 * rate / (1 - rate)
+  private var isSheetAtTop: Bool {
+    state.offset.isApproximatelyEqualTo(offset(for: .fullscreen))
   }
 }
 
@@ -213,8 +253,11 @@ private final class PassthroughView: UIView {
     fatalError("init(coder:) has not been implemented")
   }
 
-  override func point(inside point: CGPoint, with _: UIEvent?) -> Bool {
-    (sheetView.layer.presentation()?.frame ?? sheetView.frame).contains(point)
+  override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+    let modelY = sheetView.transform.ty
+    let presentedY = sheetView.layer.presentation()?.affineTransform().ty ?? modelY
+    let pointInModelSpace = CGPoint(x: point.x, y: point.y + modelY - presentedY)
+    return sheetView.hitTest(convert(pointInModelSpace, to: sheetView), with: event)
   }
 }
 
