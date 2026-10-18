@@ -127,8 +127,8 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
         apply(offset: presentation.affineTransform().ty, detent: state.detent)
       }
       sheetView.layer.removeAllAnimations()
-    case .ended, .cancelled:
       lockedContentOffsetY = nil
+    case .ended, .cancelled:
       if pan.state == .possible || pan.state == .failed {
         settle(to: state.detent, velocity: 0)
       }
@@ -198,6 +198,10 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
       options: .allowUserInteraction,
     ) { [self] in
       move(to: detent)
+    } completion: { [self] finished in
+      guard finished, lockedContentOffsetY != nil, let scrollView else { return }
+      scrollView.setContentOffset(scrollView.contentOffset, animated: false)
+      lockedContentOffsetY = nil
     }
   }
 
