@@ -190,7 +190,6 @@ final class AppGraph {
     )
     navigatorRef = navigator
     floatingMenuStore = makeFloatingMenuStore(
-      appStore: appStore,
       mapStore: mapStore
     )
     self.map = map

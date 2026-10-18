@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 struct ImageRequestFilters: Equatable {
-  enum ImageKind {
+  enum ImageKind: Equatable {
     case photo
     case painting
   }

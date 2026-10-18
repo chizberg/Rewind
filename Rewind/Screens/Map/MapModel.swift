@@ -15,7 +15,7 @@ struct MapState {
   typealias ClusteredImages = [ClusteringCell: Either<Set<Model.Image>, Model.LocalCluster>]
 
   struct ControlsState {
-    var expandedItems: [FloatingMenu.Item]
+    var isTimePickerVisible: Bool
     var minimization: MinimizationState
     var size: CGSize
   }
@@ -47,7 +47,7 @@ enum MapAction {
     enum UI {
       enum Controls {
         case setMinimization(MinimizationState)
-        case setExpandedItems([FloatingMenu.Item])
+        case setTimePickerVisible(Bool)
         case sizeChanged(CGSize)
       }
 
@@ -195,8 +195,8 @@ func makeMapModel(
             switch controls {
             case let .setMinimization(minimization):
               state.controls.minimization = minimization
-            case let .setExpandedItems(items):
-              state.controls.expandedItems = items
+            case let .setTimePickerVisible(isVisible):
+              state.controls.isTimePickerVisible = isVisible
             case let .sizeChanged(size):
               state.controls.size = size
             }
@@ -393,7 +393,7 @@ extension MapState {
       clusters: [],
       clusteredImages: [:],
       controls: ControlsState(
-        expandedItems: [],
+        isTimePickerVisible: false,
         minimization: .normal,
         size: .zero,
       ),

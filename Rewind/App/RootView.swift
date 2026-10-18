@@ -10,13 +10,15 @@ import SwiftUI
 
 struct RootView: View {
   enum Map {
-    struct State {
+    struct State: Equatable {
       var selectedImageKind: ImageRequestFilters.ImageKind
+      var locationAccessGranted: Bool
     }
 
     enum Action {
       case mapViewLoaded
       case controlsSizeChanged(CGSize)
+      case locationButtonTapped
     }
 
     typealias Store = ViewStore<State, Action>
@@ -58,10 +60,9 @@ struct RootView: View {
             appAction: appStore.callAsFunction,
             namespace: rootView,
             hasBottomSafeAreaInset: geometry.safeAreaInsets.bottom > 0,
-            floatingMenu: { floatingMenu }
-          ).readSize {
-            mapStore(.controlsSizeChanged($0))
-          }
+            onSizeChange: { mapStore(.controlsSizeChanged($0)) },
+            floatingMenu: { floatingMenu },
+          )
         }.ignoresSafeArea(edges: .bottom)
       }
     }
@@ -114,18 +115,18 @@ struct RootView: View {
   private var searchAndLocation: some ToolbarContent {
     ToolbarItemGroup(placement: .topBarTrailing) {
       Button {
-        floatingMenuStore(.searchTap)
+        appStore(.search(.present))
       } label: {
         Label("Search", systemImage: "magnifyingglass")
       }
       .zoomTransitionSource(.searchButton, namespace: rootView)
 
       Button {
-        floatingMenuStore(.locationTap)
+        mapStore(.locationButtonTapped)
       } label: {
         Label(
           "My location",
-          systemImage: floatingMenuStore.locationAccessGranted ? "location" : "location.slash",
+          systemImage: mapStore.locationAccessGranted ? "location" : "location.slash",
         )
       }
     }
@@ -157,7 +158,8 @@ func makeRootMapStore(
   mapStore.bimap(
     state: { mapState in
       RootView.Map.State(
-        selectedImageKind: mapState.filters.imageKind
+        selectedImageKind: mapState.filters.imageKind,
+        locationAccessGranted: mapState.locationState.isAccessGranted,
       )
     },
     action: { action in
@@ -166,9 +168,11 @@ func makeRootMapStore(
         .mapViewLoaded
       case let .controlsSizeChanged(size):
         .controls(.sizeChanged(size))
+      case .locationButtonTapped:
+        .locationButtonTapped
       }
     }
-  )
+  ).skipRepeats()
 }
 
 private let screenRadius = DeviceModel.getCurrent().screenRadius()

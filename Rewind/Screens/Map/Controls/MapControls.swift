@@ -20,6 +20,7 @@ struct MapControls<Menu: View>: View {
   var appAction: (AppAction) -> Void
   var namespace: Namespace.ID
   var hasBottomSafeAreaInset: Bool
+  var onSizeChange: (CGSize) -> Void
   @ViewBuilder
   var floatingMenu: Menu
 
@@ -43,6 +44,7 @@ struct MapControls<Menu: View>: View {
           .opacity(store.minimization.isMinimized ? 0.5 : 1)
       }
       .scaleEffect(store.minimization.isMinimized ? 0.9 : 1, anchor: .top)
+      .readSize { onSizeChange($0) }
       .overlay {
         if store.minimization.isMinimized {
           Color.clear
@@ -367,6 +369,7 @@ private let glassCardRadius = max(
       appAction: appStore.callAsFunction,
       namespace: namespace,
       hasBottomSafeAreaInset: false,
+      onSizeChange: { _ in },
       floatingMenu: { Color.blue }
     )
   }.ignoresSafeArea()

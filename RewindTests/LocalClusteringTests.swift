@@ -406,7 +406,7 @@ private func emptyState() -> MapState {
     clusters: [],
     clusteredImages: [:],
     controls: MapState.ControlsState(
-      expandedItems: [],
+      isTimePickerVisible: false,
       minimization: .normal,
       size: .zero,
     ),
