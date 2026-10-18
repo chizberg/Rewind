@@ -15,6 +15,7 @@ final class AppGraph {
   let mapControlsStore: MapControlsStore
   let floatingMenuStore: FloatingMenu.Store
   let rootViewMapStore: RootView.Map.Store
+  let regionImageListStore: ImageListModel.Store
   let appStore: AppModel.Store
   let navigator: Navigator
 
@@ -134,6 +135,16 @@ final class AppGraph {
       )
       return Screen(.image(model.viewStore), id: screenID)
     }
+    regionImageListStore = makeImageListModel(
+      title: "On the map",
+      source: .imageList(.viewAsListButton),
+      images: mapModel.state.currentRegionImages,
+      listUpdates: mapModel.$state.currentRegionImages.skipRepeats().newValues,
+      imageDetailsFactory: makeImageDetailsScreen,
+      sorting: settings.asProperty().sorting,
+      pushScreen: pushScreen,
+      isLastScreen: openedScreens.map(\.isEmpty),
+    ).viewStore
     let searchModelFactory = {
       makeSearchModel(onLocationFound: { location in
         appModelRef?(.search(.dismiss))

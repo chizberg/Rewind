@@ -18,7 +18,7 @@ struct ImageList: View {
 
   var body: some View {
     content
-      .animation(.default, value: viewStore.sorting)
+      .animation(.default, value: viewStore.images)
       .navigationTitle(viewStore.title)
       .toolbar { toolbar }
   }
@@ -80,6 +80,7 @@ struct ImageList: View {
     }
     .foregroundStyle(.primary)
     .zoomTransitionSource(.image(.listRow(image.cid)))
+    .transition(.scale)
   }
 
   @ToolbarContentBuilder

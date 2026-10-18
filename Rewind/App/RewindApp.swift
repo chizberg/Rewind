@@ -20,7 +20,7 @@ struct RewindApp: App {
         graph.navigator.setRoot(
           RootView(
             rawMap: graph.map.value.view,
-            mapControlsStore: graph.mapControlsStore,
+            regionImageListStore: graph.regionImageListStore,
             floatingMenuStore: graph.floatingMenuStore,
             appStore: graph.appStore,
             mapStore: graph.rootViewMapStore,

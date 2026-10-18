@@ -25,7 +25,7 @@ struct RootView: View {
   }
 
   let rawMap: UIView
-  let mapControlsStore: MapControlsStore
+  let regionImageListStore: ImageListModel.Store
   let floatingMenuStore: FloatingMenu.Store
 
   let appStore: AppModel.Store
@@ -33,6 +33,10 @@ struct RootView: View {
 
   @Namespace
   private var rootView
+  @Environment(\.screenGeometry)
+  private var screenGeometry
+  @Environment(\.zoomSourceViews)
+  private var zoomSourceViews
 
   var body: some View {
     content
@@ -52,19 +56,22 @@ struct RootView: View {
         }
       }
 
-      GeometryReader { geometry in
-        VStack {
-          Spacer()
-          MapControls(
-            store: mapControlsStore,
-            appAction: appStore.callAsFunction,
-            namespace: rootView,
-            hasBottomSafeAreaInset: geometry.safeAreaInsets.bottom > 0,
-            onSizeChange: { mapStore(.controlsSizeChanged($0)) },
-            floatingMenu: { floatingMenu },
-          )
-        }.ignoresSafeArea(edges: .bottom)
+      ViewControllerRepresentable {
+        BottomSheet { _ in
+          UIHostingController(rootView: RegionImageList(
+            store: regionImageListStore,
+            appStore: appStore,
+            mapStore: mapStore,
+            screenGeometry: screenGeometry,
+            zoomSourceViews: zoomSourceViews,
+          ))
+        }
       }
+      .ignoresSafeArea()
+    }
+    .overlay(alignment: .top) {
+      floatingMenu
+        .padding(.horizontal, 25)
     }
     .navigationTitle("Rewind")
     .navigationBarTitleDisplayMode(.inline)
@@ -175,6 +182,24 @@ func makeRootMapStore(
   ).skipRepeats()
 }
 
+// A separate view so the stores are read in body and stay live inside the hosting controller
+private struct RegionImageList: View {
+  var store: ImageListModel.Store
+  var appStore: AppModel.Store
+  var mapStore: RootView.Map.Store
+  var screenGeometry: ScreenGeometry?
+  var zoomSourceViews: ZoomSourceViews?
+
+  var body: some View {
+    ImageList(viewStore: store)
+      .background(Color.systemBackground)
+      .environment(\.gradientScheme, appStore.gradientScheme)
+      .environment(\.maxRange, mapStore.selectedImageKind.maxRange)
+      .environment(\.screenGeometry, screenGeometry)
+      .environment(\.zoomSourceViews, zoomSourceViews)
+  }
+}
+
 private let screenRadius = DeviceModel.getCurrent().screenRadius()
 
 extension AppState {
@@ -192,7 +217,7 @@ extension AppState {
 
   RootView(
     rawMap: graph.map.value.view,
-    mapControlsStore: graph.mapControlsStore,
+    regionImageListStore: graph.regionImageListStore,
     floatingMenuStore: graph.floatingMenuStore,
     appStore: graph.appStore,
     mapStore: graph.rootViewMapStore
