@@ -112,8 +112,11 @@ struct DelayedProgressView: View {
         size: CGSize(width: 200, height: 200),
       )
 
-      ImageCardView(image: image)
-        .frame(height: 300)
+      ImageCardView(
+        image: image,
+        backgroundColor: SwiftUI.Color(uiColor: .secondarySystemBackground)
+      )
+      .frame(height: 300)
     }
   }
 }

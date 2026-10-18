@@ -6,15 +6,17 @@
 //
 
 import SwiftUI
+import VGSL
 
 struct ImageCardView: View {
   var image: Model.Image
+  var backgroundColor: SwiftUI.Color
 
   @State
   private var titleStyle: ThumbnailTitleStyle?
 
   var body: some View {
-    MapControlBackground(radius: radius)
+    backgroundColor
       .aspectRatio(3 / 4, contentMode: .fit)
       .overlay {
         imageView
@@ -43,6 +45,7 @@ struct ImageCardView: View {
           .padding(radius - ImageDateView.cardRadius)
       }
       .clipShape(RoundedRectangle(cornerRadius: radius))
+      .contentShape(Rectangle())
       .overlay {
         RoundedRectangle(cornerRadius: radius)
           .strokeBorder(.white.opacity(0.2), lineWidth: 1)
@@ -81,3 +84,18 @@ struct ImageCardView: View {
 }
 
 private let radius = 25.0
+
+#if DEBUG
+#Preview("panorama touch test") {
+  ImageCardView(
+    image: modified(.mock) {
+      $0.image = .panorama
+    },
+    backgroundColor: SwiftUI.Color(uiColor: .secondarySystemBackground),
+  )
+  .frame(height: 300)
+  .onTapGesture {
+    print("foo")
+  }
+}
+#endif

@@ -114,12 +114,9 @@ extension UIImage {
       return true
     }
     guard drawn else { return nil }
-    return stride(from: 0, to: pixels.count, by: 4).map { index in
-      Lab.luminance(
-        r: Float(pixels[index]) / 255,
-        g: Float(pixels[index + 1]) / 255,
-        b: Float(pixels[index + 2]) / 255,
-      )
+    let channel = { (index: Int) -> Float in Float(pixels[index]) / 255 }
+    return stride(from: 0, to: pixels.count, by: 4).map { (index: Int) -> Float in
+      Lab.luminance(r: channel(index), g: channel(index + 1), b: channel(index + 2))
     }
   }
 }
