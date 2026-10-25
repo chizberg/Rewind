@@ -14,14 +14,21 @@ final class ThumbnailsBottomSheetWrapper: UIViewController {
   private var state: BottomSheet.State
   private let cardView = UIView()
   private let fillView = UIView()
+  private let onHidesNavbarChange: (Bool) -> Void
   private let disposePool = AutodisposePool()
+  private var hidesNavbar = false
 
-  init(content: UIViewController, state: ObservableVariable<BottomSheet.State>) {
+  init(
+    content: UIViewController,
+    state: ObservableVariable<BottomSheet.State>,
+    onHidesNavbarChange: @escaping (Bool) -> Void,
+  ) {
     self.content = content
+    self.onHidesNavbarChange = onHidesNavbarChange
     _state = state
     super.init(nibName: nil, bundle: nil)
     state.newValues.addObserver { [weak self] in
-      self?.update(fullscreenProgress: $0.fullscreenProgress)
+      self?.update(state: $0)
     }.dispose(in: disposePool)
   }
 
@@ -34,7 +41,6 @@ final class ThumbnailsBottomSheetWrapper: UIViewController {
     super.viewDidLoad()
     cardView.clipsToBounds = true
     cardView.layer.cornerCurve = .continuous
-    cardView.layer.cornerRadius = 32
     cardView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
     cardView.layer.anchorPoint = CGPoint(x: 0.5, y: 0)
     view.addSubview(cardView)
@@ -51,8 +57,6 @@ final class ThumbnailsBottomSheetWrapper: UIViewController {
 
     addChild(content)
     content.view.backgroundColor = .clear
-    content.view.frame = cardView.bounds
-    content.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     cardView.addSubview(content.view)
     content.didMove(toParent: self)
   }
@@ -61,16 +65,33 @@ final class ThumbnailsBottomSheetWrapper: UIViewController {
     super.viewDidLayoutSubviews()
     cardView.bounds.size = view.bounds.size
     cardView.center = CGPoint(x: view.bounds.midX, y: 0)
-    update(fullscreenProgress: state.fullscreenProgress)
+    content.view.bounds.size = view.bounds.size
+    content.view.center = CGPoint(x: view.bounds.midX, y: view.bounds.midY)
+    update(state: state)
   }
 
-  private func update(fullscreenProgress: CGFloat) {
+  private func update(state: BottomSheet.State) {
     let width = view.bounds.width
     guard width > 0 else { return }
+    let fullscreenProgress = state.fullscreenProgress
+    let offset = view.bounds.height - state.visibleHeight
+    let shift = min(offset, view.window?.safeAreaInsets.top ?? 0)
+    content.view.transform = CGAffineTransform(translationX: 0, y: -shift)
+    content.additionalSafeAreaInsets.top = shift
     let padding = 8 * (1 - fullscreenProgress)
     let scale = (width - padding * 2) / width
     cardView.transform = CGAffineTransform(scaleX: scale, y: scale)
+    let radius: CGFloat = fullscreenProgress.isApproximatelyEqualTo(1) ? 0 : 41
+    if cardView.layer.cornerRadius != radius {
+      UIView.animate(withDuration: 0.25) { [cardView] in
+        cardView.layer.cornerRadius = radius
+      }
+    }
     fillView.alpha = fullscreenProgress
+    if hidesNavbar != (fullscreenProgress > 0.35) {
+      hidesNavbar.toggle()
+      onHidesNavbarChange(hidesNavbar)
+    }
   }
 }
 

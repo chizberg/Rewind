@@ -41,7 +41,7 @@ struct ImageList: View {
             .frame(maxWidth: .infinity, alignment: .top)
           }
         }
-        .padding(.horizontal, 16)
+        .padding(16)
       }
       .scrollPosition($scrollPosition)
       .onChange(of: viewStore.sorting) { _, _ in

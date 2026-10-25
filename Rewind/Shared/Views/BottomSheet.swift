@@ -33,7 +33,7 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
   private weak var scrollView: UIScrollView?
   private var contentOffsetObservation: NSKeyValueObservation?
 
-  private var lockedContentOffsetY: CGFloat?
+  private var lockedScrolledDistance: CGFloat?
 
   init(content: (ObservableVariable<State>) -> UIViewController) {
     let state = ObservableProperty(initialValue: State(
@@ -79,14 +79,9 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
 
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
-    let top = view.safeAreaInsets.top
-    let size = CGSize(
-      width: view.bounds.width,
-      height: view.bounds.height - top
-    )
-    if sheetView.bounds.size != size {
-      sheetView.bounds.size = size
-      sheetView.center = CGPoint(x: size.width / 2, y: top + size.height / 2)
+    if sheetView.bounds.size != view.bounds.size {
+      sheetView.bounds.size = view.bounds.size
+      sheetView.center = CGPoint(x: view.bounds.midX, y: view.bounds.midY)
       move(to: state.detent)
     }
   }
@@ -129,7 +124,7 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
         apply(offset: presentation.affineTransform().ty, detent: state.detent)
       }
       sheetView.layer.removeAllAnimations()
-      lockedContentOffsetY = nil
+      lockedScrolledDistance = nil
     case .ended, .cancelled:
       if pan.state == .possible || pan.state == .failed {
         settle(to: state.detent, velocity: 0)
@@ -146,7 +141,7 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
       let translation = recognizer.translation(in: view).y
       recognizer.setTranslation(.zero, in: view)
       guard shouldMoveSheet(translation: translation) else {
-        lockedContentOffsetY = nil
+        lockedScrolledDistance = nil
         return
       }
       lockContentOffset()
@@ -175,21 +170,19 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
     self.scrollView = scrollView
     contentOffsetObservation = scrollView.observe(\.contentOffset) { [weak self] scrollView, _ in
       MainActor.assumeIsolated {
-        guard let lockedY = self?.lockedContentOffsetY,
-              scrollView.contentOffset.y.isApproximatelyNotEqualTo(lockedY) else { return }
+        guard let lockedDistance = self?.lockedScrolledDistance else { return }
+        let lockedY = lockedDistance - scrollView.adjustedContentInset.top
+        guard scrollView.contentOffset.y.isApproximatelyNotEqualTo(lockedY) else { return }
         scrollView.contentOffset.y = lockedY
       }
     }
   }
 
   private func lockContentOffset() {
-    guard let scrollView, lockedContentOffsetY == nil else { return }
-    let lockedY = max(
-      scrollView.contentOffset.y,
-      -scrollView.adjustedContentInset.top,
-    )
-    lockedContentOffsetY = lockedY
-    scrollView.contentOffset.y = lockedY
+    guard let scrollView, lockedScrolledDistance == nil else { return }
+    let distance = max(scrollView.contentOffset.y + scrollView.adjustedContentInset.top, 0)
+    lockedScrolledDistance = distance
+    scrollView.contentOffset.y = distance - scrollView.adjustedContentInset.top
   }
 
   private func settle(to detent: State.Detent, velocity: CGFloat) {
@@ -201,9 +194,9 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
     ) { [self] in
       move(to: detent)
     } completion: { [self] finished in
-      guard finished, lockedContentOffsetY != nil, let scrollView else { return }
+      guard finished, lockedScrolledDistance != nil, let scrollView else { return }
       scrollView.setContentOffset(scrollView.contentOffset, animated: false)
-      lockedContentOffsetY = nil
+      lockedScrolledDistance = nil
     }
   }
 

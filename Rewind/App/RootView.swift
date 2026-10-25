@@ -37,6 +37,8 @@ struct RootView: View {
   private var screenGeometry
   @Environment(\.zoomSourceViews)
   private var zoomSourceViews
+  @State
+  private var isNavbarHidden = false
 
   var body: some View {
     content
@@ -67,6 +69,9 @@ struct RootView: View {
               zoomSourceViews: zoomSourceViews,
             )),
             state: state,
+            onHidesNavbarChange: { hidesNavbar in
+              withAnimation { isNavbarHidden = hidesNavbar }
+            },
           )
         }
       }
@@ -85,6 +90,7 @@ struct RootView: View {
     .toolbar {
       searchAndLocation.verticalPreferred()
     }
+    .toolbarVisibility(isNavbarHidden ? .hidden : .visible, for: .navigationBar)
     .delayedModifier(
       value: appStore.anyOverlayPresented,
       delay: appStore.anyOverlayPresented ? 0 : 1,
