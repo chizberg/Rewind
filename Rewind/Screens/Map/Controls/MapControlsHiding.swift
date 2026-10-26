@@ -204,7 +204,7 @@ extension View {
       glimpseHeight: 100,
       pullingProgress: $pullingProgress,
       minPullLength: 200,
-      onPull: { print("pulled") },
+      onPull: { debugLog("pulled") },
     )
     .animation(.default, value: offset)
   }

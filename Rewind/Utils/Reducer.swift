@@ -51,6 +51,7 @@ final class Reducer<State, Action> {
     isRunning = true
     reduce(&state, action, { action in newEffects.append(action) }, { newAsyncEffects.append($0) })
     isRunning = false
+    debugLog("\(Self.self) action: \(debugSummary(action))\nstate: \(debugSummary(state))")
 
     for e in newEffects {
       e()

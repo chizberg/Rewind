@@ -41,7 +41,7 @@ final class AppStoreReview {
 
   private func requestAppStoreReview() {
     #if DEBUG
-    print("App Store review requested")
+    debugLog("App Store review requested")
     #else
     guard let scene = UIApplication.shared.activeWindowScene else { return }
     AppStore.requestReview(in: scene)

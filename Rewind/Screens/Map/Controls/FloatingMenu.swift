@@ -257,8 +257,8 @@ private let buttonFgColor = Color.primary.opacity(0.8)
     ),
     reduce: { state, action, _, _ in
       switch action {
-      case .locationTap: print("location tapped")
-      case .searchTap: print("search tapped")
+      case .locationTap: debugLog("location tapped")
+      case .searchTap: debugLog("search tapped")
       case let .setExpandedItems(i): state.expandedItems = i
       case let .setFilters(f): state.filters = f
       case let .setMapType(m): state.mapType = m

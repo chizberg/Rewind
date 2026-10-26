@@ -14,6 +14,13 @@ struct SettingsView: View {
   @Environment(\.dismiss)
   private var dismiss
 
+  #if DEBUG
+  @State
+  private var logsShareVC: Identified<UIViewController>?
+  @State
+  private var logsExportError: String?
+  #endif
+
   var body: some View {
     NavigationStack {
       List {
@@ -59,6 +66,32 @@ struct SettingsView: View {
           }
         }
 
+        #if DEBUG
+        Section {
+          Button("Export logs") {
+            Task {
+              do {
+                let url = try await Task.detached { try exportDebugLogs() }.value
+                logsExportError = nil
+                logsShareVC = Identified(value: UIActivityViewController(
+                  activityItems: [url],
+                  applicationActivities: nil,
+                ))
+              } catch {
+                logsExportError = "Unable to export logs: \(error.localizedDescription)"
+              }
+            }
+          }
+          .foregroundStyle(.primary)
+        } header: {
+          Text("Debug")
+        } footer: {
+          if let logsExportError {
+            Text(logsExportError)
+          }
+        }
+        #endif
+
         Section {
           makeButton("Contact developer", action: .contact)
           makeButton("View source code", action: .openRepo)
@@ -87,6 +120,9 @@ struct SettingsView: View {
           .navigationTitle("Colorization Model")
           .navigationBarTitleDisplayMode(.inline)
       }
+      #if DEBUG
+      .sheet($logsShareVC)
+      #endif
     }
   }
 

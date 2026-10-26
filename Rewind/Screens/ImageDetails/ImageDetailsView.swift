@@ -773,7 +773,7 @@ extension FavoritesModel {
 }
 
 #Preview("text accessory button") {
-  TextAccessoryButton("Translate", action: { print("foo") })
+  TextAccessoryButton("Translate", action: { debugLog("foo") })
 }
 
 #Preview("colorize button", traits: .navigationStack) {
