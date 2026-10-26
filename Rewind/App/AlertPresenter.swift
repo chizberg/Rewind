@@ -118,7 +118,7 @@ extension AlertParams {
           title: "Print value",
           style: .default,
           handler: {
-            print("Alert action tapped")
+            debugLog("Alert action tapped")
           },
         ),
         AlertAction(

@@ -266,6 +266,7 @@ func makeMapModel(
             filters: state.filters,
             mapSize: map.value.size,
           )
+          debugLog("map load: zoom \(params.zoom)")
           asyncEffect(.perform(id: EffectID.loadAnnotations) { anotherAction in
             do {
               let (images, clusters) = try await annotationsRemote.load(params)
@@ -291,6 +292,13 @@ func makeMapModel(
             mapSize: map.size,
             state: &state,
           )
+          debugLog("""
+          map loaded: zoom \(params.zoom) (last \(state.lastLoadedParams?.zoom ?? -1)), \
+          \(images.count) images, \(clusters.count) clusters, +\(toAdd.count) -\(toRemove.count), \
+          state now \(state.clusters.count + state.clusteredImages.values.reduce(0) {
+            $0 + ($1.left?.count ?? 1)
+          }) annotations
+          """)
           state.isLoading = false
           state.lastLoadedParams = params
 
@@ -307,6 +315,9 @@ func makeMapModel(
                 annsToRemove.append(ann as MKAnnotation)
               }
             }
+            debugLog(
+              "map apply: \(annsToRemove.count) of \(toRemove.count) to remove found in store"
+            )
 
             await map.remove(annotations: annsToRemove)
             map.add(annotations: annsToAdd)

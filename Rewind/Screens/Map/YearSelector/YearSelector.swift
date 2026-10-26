@@ -39,6 +39,6 @@ struct YearSelector: View {
   YearSelector(
     yearRange: $yearRange,
   ).onChange(of: yearRange) {
-    print(yearRange)
+    debugLog("\(yearRange)")
   }
 }

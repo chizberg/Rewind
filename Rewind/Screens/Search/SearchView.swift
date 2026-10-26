@@ -153,7 +153,7 @@ private struct SuggestCell: View {
 #Preview {
   @Previewable @State
   var store = makeSearchModel(
-    onLocationFound: { print("woohoo location", $0) },
+    onLocationFound: { debugLog("woohoo location \($0)") },
   ).viewStore.bimap(
     state: { $0 },
     action: { .external($0) },
@@ -169,8 +169,8 @@ private struct SuggestCell: View {
         title: "Belgrade",
         subtitle: "Serbia",
       ),
-      onSelected: { print("selected") },
-      addToQuery: { print("add to query") },
+      onSelected: { debugLog("selected") },
+      addToQuery: { debugLog("add to query") },
     )
   }
 }

@@ -129,7 +129,7 @@ struct DelayedProgressView: View {
     size: CGSize(width: 200, height: 200),
   )
   .onTapGesture {
-    print("foo")
+    debugLog("foo")
   }
 }
 

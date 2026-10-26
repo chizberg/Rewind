@@ -65,6 +65,9 @@ final class RewindMapImpl: RewindMap {
 
   func add(annotations: [MKAnnotation]) {
     map.addAnnotations(annotations)
+    debugLog(
+      "map view: added \(annotations.count), total \(map.annotations.count { !($0 is MKUserLocation) })"
+    )
   }
 
   func remove(annotations: [MKAnnotation]) async {
@@ -102,10 +105,18 @@ final class RewindMapImpl: RewindMap {
   }
 
   private func remove(annotations: [MKAnnotation], completion: @escaping Action) {
+    debugLog("""
+    map view: removing \(annotations.count), \
+    \(Set(annotations.map(ObjectIdentifier.init))
+      .subtracting(map.annotations.map(ObjectIdentifier.init)).count) of them not on map
+    """)
     animateRemoval(
       annotations.compactMap { map.view(for: $0) },
       completion: { [weak self] _ in
         self?.map.removeAnnotations(annotations)
+        debugLog(
+          "map view: removed, total \(self?.map.annotations.count { !($0 is MKUserLocation) } ?? 0)"
+        )
         completion()
       },
     )

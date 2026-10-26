@@ -97,7 +97,7 @@ private let radius = 25.0
   )
   .frame(height: 300)
   .onTapGesture {
-    print("foo")
+    debugLog("foo")
   }
 }
 #endif
