@@ -32,19 +32,27 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
   private let touchDown = UILongPressGestureRecognizer()
   private weak var scrollView: UIScrollView?
   private var contentOffsetObservation: NSKeyValueObservation?
+  private let disposePool = AutodisposePool()
 
   private var lockedScrolledDistance: CGFloat?
+  private var pendingDetent: State.Detent?
 
-  init(content: (ObservableVariable<State>) -> UIViewController) {
+  init(
+    detent: ObservableVariable<State.Detent>,
+    height: CGFloat,
+    content: (ObservableVariable<State>) -> UIViewController,
+  ) {
     let state = ObservableProperty(initialValue: State(
-      visibleHeight: 0,
-      detent: .normal,
-      fullscreenProgress: 0,
-      offset: 0,
+      sheetHeight: height,
+      offset: detent.value.offset(sheetHeight: height),
+      detent: detent.value,
     ))
     _state = state
     self.content = content(state.projectedValue.skipRepeats())
     super.init(nibName: nil, bundle: nil)
+    detent.newValues.delay(0).addObserver { [weak self] in
+      self?.set(detent: $0, animated: true)
+    }.dispose(in: disposePool)
   }
 
   @available(*, unavailable)
@@ -87,7 +95,11 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
   }
 
   func set(detent: State.Detent, animated: Bool) {
-    guard touchDown.state != .began, touchDown.state != .changed else { return }
+    guard detent != state.detent else { return }
+    guard touchDown.state != .began, touchDown.state != .changed else {
+      pendingDetent = detent
+      return
+    }
     if animated {
       settle(to: detent, velocity: 0)
     } else {
@@ -127,7 +139,7 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
       lockedScrolledDistance = nil
     case .ended, .cancelled:
       if pan.state == .possible || pan.state == .failed {
-        settle(to: state.detent, velocity: 0)
+        settle(to: pendingDetent ?? state.detent, velocity: 0)
       }
     default:
       break
@@ -152,7 +164,8 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
       )
     case .ended, .cancelled:
       let velocity = recognizer.velocity(in: view).y
-      let detent = scrollView != nil && isSheetAtTop ? .fullscreen : detent(releasedWith: velocity)
+      let detent = pendingDetent
+        ?? (scrollView != nil && isSheetAtTop ? .fullscreen : detent(releasedWith: velocity))
       settle(to: detent, velocity: velocity)
     default:
       break
@@ -172,7 +185,10 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
       MainActor.assumeIsolated {
         guard let lockedDistance = self?.lockedScrolledDistance else { return }
         let lockedY = lockedDistance - scrollView.adjustedContentInset.top
-        guard scrollView.contentOffset.y.isApproximatelyNotEqualTo(lockedY) else { return }
+        guard scrollView.contentOffset.y.isApproximatelyNotEqualTo(
+          lockedY,
+          withAccuracy: 1 / scrollView.traitCollection.displayScale,
+        ) else { return }
         scrollView.contentOffset.y = lockedY
       }
     }
@@ -186,6 +202,7 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
   }
 
   private func settle(to detent: State.Detent, velocity: CGFloat) {
+    pendingDetent = nil
     let distance = offset(for: detent) - state.offset
     UIView.animate(
       springDuration: 0.5,
@@ -206,20 +223,11 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
 
   private func apply(offset: CGFloat, detent: State.Detent) {
     sheetView.transform = CGAffineTransform(translationX: 0, y: offset)
-    state = State(
-      visibleHeight: sheetView.bounds.height - offset,
-      detent: detent,
-      fullscreenProgress: (1 - offset / self.offset(for: .normal)).clamp(0...1),
-      offset: offset,
-    )
+    state = State(sheetHeight: sheetView.bounds.height, offset: offset, detent: detent)
   }
 
   private func offset(for detent: State.Detent) -> CGFloat {
-    switch detent {
-    case .minimized: sheetView.bounds.height - 58
-    case .normal: sheetView.bounds.height - 235.5
-    case .fullscreen: 0
-    }
+    detent.offset(sheetHeight: sheetView.bounds.height)
   }
 
   private func detent(releasedWith velocity: CGFloat) -> State.Detent {
@@ -237,6 +245,28 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
 
   private var isSheetAtTop: Bool {
     state.offset.isApproximatelyEqualTo(offset(for: .fullscreen))
+  }
+}
+
+extension BottomSheet.State {
+  fileprivate init(sheetHeight: CGFloat, offset: CGFloat, detent: Detent) {
+    let normalOffset = Detent.normal.offset(sheetHeight: sheetHeight)
+    self.init(
+      visibleHeight: sheetHeight - offset,
+      detent: detent,
+      fullscreenProgress: (1 - offset / normalOffset).clamp(0...1),
+      offset: offset,
+    )
+  }
+}
+
+extension BottomSheet.State.Detent {
+  fileprivate func offset(sheetHeight: CGFloat) -> CGFloat {
+    switch self {
+    case .minimized: sheetHeight - 58
+    case .normal: sheetHeight - 235.5
+    case .fullscreen: 0
+    }
   }
 }
 
@@ -269,19 +299,21 @@ private final class PassthroughView: UIView {
   ZStack(alignment: .top) {
     Color.blue.ignoresSafeArea()
 
-    ViewControllerRepresentable {
-      BottomSheet { _ in
-        UIHostingController(rootView: ScrollView {
-          LazyVStack {
-            ForEach(0..<50) { i in
-              Text("Row \(i)")
-                .frame(maxWidth: .infinity, minHeight: 44)
+    GeometryReader { geometry in
+      ViewControllerRepresentable {
+        BottomSheet(detent: .constant(.normal), height: geometry.size.height) { _ in
+          UIHostingController(rootView: ScrollView {
+            LazyVStack {
+              ForEach(0..<50) { i in
+                Text("Row \(i)")
+                  .frame(maxWidth: .infinity, minHeight: 44)
+              }
             }
-          }
-        })
+          })
+        }
+      } updater: { vc in
+        vc.set(detent: detent, animated: true)
       }
-    } updater: { vc in
-      vc.set(detent: detent, animated: true)
     }
     .ignoresSafeArea()
 

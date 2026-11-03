@@ -18,3 +18,9 @@ extension CGRect {
     return corners.reduce(0) { max($0, hypot($1.x - point.x, $1.y - point.y)) }
   }
 }
+
+extension CGSize {
+  func swapped() -> CGSize {
+    CGSize(width: height, height: width)
+  }
+}

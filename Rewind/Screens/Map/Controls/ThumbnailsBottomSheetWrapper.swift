@@ -14,17 +14,15 @@ final class ThumbnailsBottomSheetWrapper: UIViewController {
   private var state: BottomSheet.State
   private let cardView = UIView()
   private let fillView = UIView()
-  private let onHidesNavbarChange: (Bool) -> Void
-  private let disposePool = AutodisposePool()
-  private var hidesNavbar = false
+  private var sheetToolbarTop: CGFloat?
+  private var lastParentTop: CGFloat?
+  let disposePool = AutodisposePool()
 
   init(
     content: UIViewController,
     state: ObservableVariable<BottomSheet.State>,
-    onHidesNavbarChange: @escaping (Bool) -> Void,
   ) {
     self.content = content
-    self.onHidesNavbarChange = onHidesNavbarChange
     _state = state
     super.init(nibName: nil, bundle: nil)
     state.newValues.addObserver { [weak self] in
@@ -70,28 +68,45 @@ final class ThumbnailsBottomSheetWrapper: UIViewController {
     update(state: state)
   }
 
+  override func viewWillTransition(
+    to size: CGSize,
+    with coordinator: any UIViewControllerTransitionCoordinator,
+  ) {
+    super.viewWillTransition(to: size, with: coordinator)
+    sheetToolbarTop = nil
+  }
+
   private func update(state: BottomSheet.State) {
     let width = view.bounds.width
     guard width > 0 else { return }
     let fullscreenProgress = state.fullscreenProgress
     let offset = view.bounds.height - state.visibleHeight
-    let shift = min(offset, view.window?.safeAreaInsets.top ?? 0)
+    let parentInsets = parent?.view.safeAreaInsets ?? .zero
+    let windowInsets = view.window?.safeAreaInsets ?? .zero
+    if state.showsSheetToolbar, parentInsets.top != lastParentTop {
+      sheetToolbarTop = parentInsets.top
+    }
+    lastParentTop = parentInsets.top
+    let top = sheetToolbarTop ?? parentInsets.top
+    let shift = min(offset, top)
     content.view.transform = CGAffineTransform(translationX: 0, y: -shift)
-    content.additionalSafeAreaInsets.top = shift
+    content.additionalSafeAreaInsets = UIEdgeInsets(
+      top: shift,
+      left: (fullscreenProgress - 1) * (parentInsets.left - windowInsets.left),
+      bottom: 0,
+      right: (fullscreenProgress - 1) * (parentInsets.right - windowInsets.right),
+    )
+    content.view.layoutIfNeeded()
     let padding = 8 * (1 - fullscreenProgress)
     let scale = (width - padding * 2) / width
     cardView.transform = CGAffineTransform(scaleX: scale, y: scale)
-    let radius: CGFloat = fullscreenProgress.isApproximatelyEqualTo(1) ? 0 : 41
+    let radius: CGFloat = fullscreenProgress.isApproximatelyEqualTo(1) ? 0 : 38
     if cardView.layer.cornerRadius != radius {
       UIView.animate(withDuration: 0.25) { [cardView] in
         cardView.layer.cornerRadius = radius
       }
     }
     fillView.alpha = fullscreenProgress
-    if hidesNavbar != (fullscreenProgress > 0.35) {
-      hidesNavbar.toggle()
-      onHidesNavbarChange(hidesNavbar)
-    }
   }
 }
 

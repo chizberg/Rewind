@@ -410,6 +410,8 @@ private func emptyState() -> MapState {
       minimization: .normal,
       size: .zero,
     ),
+    sheetDetent: .normal,
+    toolbarKind: .map,
   )
 }
 

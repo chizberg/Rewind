@@ -7,18 +7,23 @@
 
 import MapKit
 import SwiftUI
+import VGSL
 
 struct RootView: View {
   enum Map {
     struct State: Equatable {
       var selectedImageKind: ImageRequestFilters.ImageKind
       var locationAccessGranted: Bool
+      var toolbarKind: MapState.ToolbarKind
+      var sheetDetent: BottomSheet.State.Detent
     }
 
     enum Action {
       case mapViewLoaded
       case controlsSizeChanged(CGSize)
       case locationButtonTapped
+      case sheetStateChanged(BottomSheet.State)
+      case collapseSheet
     }
 
     typealias Store = ViewStore<State, Action>
@@ -33,12 +38,10 @@ struct RootView: View {
 
   @Namespace
   private var rootView
-  @Environment(\.screenGeometry)
-  private var screenGeometry
+  @Environment(\.hostGeometry)
+  private var hostGeometry
   @Environment(\.zoomSourceViews)
   private var zoomSourceViews
-  @State
-  private var isNavbarHidden = false
 
   var body: some View {
     content
@@ -58,26 +61,35 @@ struct RootView: View {
         }
       }
 
-      ViewControllerRepresentable {
-        BottomSheet { state in
-          ThumbnailsBottomSheetWrapper(
-            content: UIHostingController(rootView: RegionImageList(
-              store: regionImageListStore,
-              appStore: appStore,
-              mapStore: mapStore,
-              screenGeometry: screenGeometry,
-              zoomSourceViews: zoomSourceViews,
-            )),
-            state: state,
-            onHidesNavbarChange: { hidesNavbar in
-              withAnimation { isNavbarHidden = hidesNavbar }
-            },
-          )
+      if let hostGeometry {
+        ViewControllerRepresentable {
+          BottomSheet(
+            detent: mapStore.state.ov.map(\.sheetDetent).skipRepeats(),
+            height: hostGeometry.size.height,
+          ) { state in
+            let wrapper = ThumbnailsBottomSheetWrapper(
+              content: UIHostingController(rootView: RegionImageList(
+                store: regionImageListStore,
+                appStore: appStore,
+                mapStore: mapStore,
+                hostGeometry: hostGeometry,
+                zoomSourceViews: zoomSourceViews,
+                namespace: rootView,
+              )),
+              state: state,
+            )
+            state.newValues.addObserver { state in
+              withAnimation {
+                mapStore(.sheetStateChanged(state))
+              }
+            }.dispose(in: wrapper.disposePool)
+            return wrapper
+          }
         }
+        .ignoresSafeArea()
       }
-      .ignoresSafeArea()
     }
-    .navigationTitle("Rewind")
+    .navigationTitle(mapStore.toolbarKind.title)
     .navigationBarTitleDisplayMode(.inline)
     .toolbarRole(.editor)
     .modify { view in
@@ -88,9 +100,8 @@ struct RootView: View {
       }
     }
     .toolbar {
-      searchAndLocation.verticalPreferred()
+      toolbarItems.verticalPreferred()
     }
-    .toolbarVisibility(isNavbarHidden ? .hidden : .visible, for: .navigationBar)
     .delayedModifier(
       value: appStore.anyOverlayPresented,
       delay: appStore.anyOverlayPresented ? 0 : 1,
@@ -124,6 +135,14 @@ struct RootView: View {
     )
   }
 
+  @ToolbarContentBuilder
+  private var toolbarItems: some ToolbarContent {
+    switch mapStore.toolbarKind {
+    case .map: searchAndLocation
+    case .sheet: sheetToolbar
+    }
+  }
+
   private var searchAndLocation: some ToolbarContent {
     ToolbarItemGroup(placement: .topBarTrailing) {
       Button {
@@ -144,6 +163,47 @@ struct RootView: View {
     }
   }
 
+  @ToolbarContentBuilder
+  private var sheetToolbar: some ToolbarContent {
+    ToolbarItem(placement: .topBarLeading) {
+      Button {
+        mapStore(.collapseSheet)
+      } label: {
+        Label("Back", systemImage: "chevron.left")
+      }
+    }
+    if let sorting = regionImageListStore.sorting {
+      ToolbarItem(placement: .topBarTrailing) {
+        SortingMenu(viewStore: regionImageListStore, sorting: sorting)
+      }
+    }
+    if #available(iOS 26, *) {
+      ToolbarSpacer(.fixed, placement: .topBarTrailing)
+    }
+    ToolbarItemGroup(placement: .topBarTrailing) {
+      Button {
+        appStore(.imageList(.presentFavorites(source: .imageList(.favoritesButton))))
+      } label: {
+        Label("Favorites", systemImage: "star")
+          .modify { label in
+            if #available(iOS 26, *) {
+              label
+            } else {
+              label.foregroundStyle(.tint)
+            }
+          }
+      }
+      .zoomTransitionSource(.imageList(.favoritesButton))
+
+      Button {
+        appStore(.settings(.present))
+      } label: {
+        Label("Settings", systemImage: "gearshape")
+      }
+      .zoomTransitionSource(.settingsButton, namespace: rootView)
+    }
+  }
+
   var floatingMenu: FloatingMenu {
     FloatingMenu(
       store: floatingMenuStore
@@ -159,7 +219,7 @@ struct RootView: View {
         RoundedRectangle(cornerRadius: hasOverlays ? screenRadius : 0)
       }
     } else {
-      Color.white
+      SwiftUI.Color.white
     }
   }
 }
@@ -172,6 +232,8 @@ func makeRootMapStore(
       RootView.Map.State(
         selectedImageKind: mapState.filters.imageKind,
         locationAccessGranted: mapState.locationState.isAccessGranted,
+        toolbarKind: mapState.toolbarKind,
+        sheetDetent: mapState.sheetDetent,
       )
     },
     action: { action in
@@ -182,6 +244,10 @@ func makeRootMapStore(
         .controls(.sizeChanged(size))
       case .locationButtonTapped:
         .locationButtonTapped
+      case let .sheetStateChanged(state):
+        .sheet(.stateChanged(state))
+      case .collapseSheet:
+        .sheet(.collapse)
       }
     }
   ).skipRepeats()
@@ -192,15 +258,78 @@ private struct RegionImageList: View {
   var store: ImageListModel.Store
   var appStore: AppModel.Store
   var mapStore: RootView.Map.Store
-  var screenGeometry: ScreenGeometry?
+  var hostGeometry: HostGeometry
   var zoomSourceViews: ZoomSourceViews?
+  var namespace: Namespace.ID
 
   var body: some View {
-    ImageList(viewStore: store)
+    ImageList(viewStore: store, padding: 13)
+      .overlay(alignment: verticalBarEdge == .leading ? .topLeading : .topTrailing) {
+        ZStack {
+          if mapStore.toolbarKind == .map {
+            favoritesAndSettings
+              .padding(15)
+              .transition(.blurReplace)
+          }
+        }
+        .ignoresSafeArea(edges: verticalBarEdge.map { Edge.Set($0) } ?? [])
+      }
       .environment(\.gradientScheme, appStore.gradientScheme)
       .environment(\.maxRange, mapStore.selectedImageKind.maxRange)
-      .environment(\.screenGeometry, screenGeometry)
       .environment(\.zoomSourceViews, zoomSourceViews)
+      .environment(\.hostGeometry, hostGeometry)
+  }
+
+  private var favoritesAndSettings: some View {
+    let isVertical = verticalBarEdge != nil
+    let size = CGSize(width: 52, height: 46)
+    let buttonSize = isVertical ? size.swapped() : size
+    return AxisStack(axis: isVertical ? .vertical : .horizontal, spacing: 0) {
+      Button {
+        appStore(.imageList(.presentFavorites(source: .imageList(.favoritesButton))))
+      } label: {
+        Label("Favorites", systemImage: "star")
+          .labelStyle(.iconOnly)
+          .frame(size: buttonSize)
+      }
+      .accessibilityShowsLargeContentViewer()
+      .zoomTransitionSource(.imageList(.favoritesButton))
+
+      Button {
+        appStore(.settings(.present))
+      } label: {
+        Label("Settings", systemImage: "gearshape")
+          .labelStyle(.iconOnly)
+          .frame(size: buttonSize)
+      }
+      .accessibilityShowsLargeContentViewer()
+      .zoomTransitionSource(.settingsButton, namespace: namespace)
+    }
+    .imageScale(.large)
+    .modify { view in
+      if #available(iOS 26, *) {
+        view.fontWeight(.medium)
+      } else {
+        view
+      }
+    }
+    .dynamicTypeSize(.large)
+    .foregroundStyle(.primary)
+    .padding(isVertical ? .vertical : .horizontal, 2)
+    .blurBackground(in: Capsule())
+  }
+
+  private var verticalBarEdge: Edge? {
+    hostGeometry.verticalBarEdge
+  }
+}
+
+extension MapState.ToolbarKind {
+  fileprivate var title: Text {
+    switch self {
+    case .map: Text("Rewind")
+    case .sheet: Text(verbatim: "")
+    }
   }
 }
 
@@ -225,6 +354,10 @@ extension AppState {
     floatingMenuStore: graph.floatingMenuStore,
     appStore: graph.appStore,
     mapStore: graph.rootViewMapStore
+  )
+  .environment(
+    \.hostGeometry,
+    HostGeometry(size: CGSize(width: 402, height: 874), safeAreaInsets: .zero)
   )
 }
 #endif

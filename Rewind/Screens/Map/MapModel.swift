@@ -20,6 +20,11 @@ struct MapState {
     var size: CGSize
   }
 
+  enum ToolbarKind {
+    case map
+    case sheet
+  }
+
   var mapType: MapType
   var region: Region
   var filters: ImageRequestFilters
@@ -33,6 +38,8 @@ struct MapState {
   var clusteredImages: ClusteredImages
 
   var controls: ControlsState
+  var sheetDetent: BottomSheet.State.Detent
+  var toolbarKind: ToolbarKind
 }
 
 enum MapAction {
@@ -55,7 +62,13 @@ enum MapAction {
       case locationButtonTapped
       case filtersChanged(ImageRequestFilters)
       case mapTypeSelected(MapType)
+      enum Sheet {
+        case stateChanged(BottomSheet.State)
+        case collapse
+      }
+
       case controls(Controls)
+      case sheet(Sheet)
     }
 
     case map(Map)
@@ -200,6 +213,11 @@ func makeMapModel(
             case let .sizeChanged(size):
               state.controls.size = size
             }
+          case let .sheet(.stateChanged(sheet)):
+            state.sheetDetent = sheet.detent
+            state.toolbarKind = sheet.showsSheetToolbar ? .sheet : .map
+          case .sheet(.collapse):
+            state.sheetDetent = .normal
           case .locationButtonTapped:
             let locationZoom = 17
             let mapSize = map.value.size
@@ -397,7 +415,15 @@ extension MapState {
         minimization: .normal,
         size: .zero,
       ),
+      sheetDetent: .normal,
+      toolbarKind: .map,
     )
+  }
+}
+
+extension BottomSheet.State {
+  var showsSheetToolbar: Bool {
+    fullscreenProgress > 0.35
   }
 }
 
