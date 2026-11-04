@@ -397,6 +397,7 @@ private func emptyState() -> MapState {
   MapState(
     mapType: .scheme,
     region: .zero,
+    deferredRegion: nil,
     filters: .default,
     currentRegionImages: [],
     previews: [],

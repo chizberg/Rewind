@@ -27,6 +27,7 @@ struct MapState {
 
   var mapType: MapType
   var region: Region
+  var deferredRegion: Region?
   var filters: ImageRequestFilters
   var currentRegionImages: [Model.Image]
   var previews: [ThumbnailCard]
@@ -64,7 +65,7 @@ enum MapAction {
       case mapTypeSelected(MapType)
       enum Sheet {
         case stateChanged(BottomSheet.State)
-        case collapse
+        case setDetent(BottomSheet.State.Detent)
       }
 
       case controls(Controls)
@@ -214,10 +215,14 @@ func makeMapModel(
               state.controls.size = size
             }
           case let .sheet(.stateChanged(sheet)):
+            if sheet.detent != .fullscreen, let region = state.deferredRegion {
+              state.deferredRegion = nil
+              asyncEffect(.anotherAction(.internal(.regionChanged(region))))
+            }
             state.sheetDetent = sheet.detent
             state.toolbarKind = sheet.showsSheetToolbar ? .sheet : .map
-          case .sheet(.collapse):
-            state.sheetDetent = .normal
+          case let .sheet(.setDetent(detent)):
+            state.sheetDetent = detent
           case .locationButtonTapped:
             let locationZoom = 17
             let mapSize = map.value.size
@@ -271,6 +276,10 @@ func makeMapModel(
       case let .internal(internalAction):
         switch internalAction {
         case let .regionChanged(region):
+          guard state.sheetDetent != .fullscreen else {
+            state.deferredRegion = region
+            return
+          }
           state.region = region
           asyncEffect(.anotherAction(.internal(.loadAnnotations)))
           asyncEffect(.debounced(
@@ -402,6 +411,7 @@ extension MapState {
     MapState(
       mapType: .scheme,
       region: .zero,
+      deferredRegion: nil,
       filters: .default,
       currentRegionImages: [],
       previews: [],
@@ -423,7 +433,7 @@ extension MapState {
 
 extension BottomSheet.State {
   var showsSheetToolbar: Bool {
-    fullscreenProgress > 0.35
+    fullscreenProgress.isApproximatelyGreaterThan(0, withAccuracy: 0.01)
   }
 }
 

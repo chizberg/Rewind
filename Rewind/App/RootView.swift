@@ -23,7 +23,7 @@ struct RootView: View {
       case controlsSizeChanged(CGSize)
       case locationButtonTapped
       case sheetStateChanged(BottomSheet.State)
-      case collapseSheet
+      case setSheetDetent(BottomSheet.State.Detent)
     }
 
     typealias Store = ViewStore<State, Action>
@@ -72,6 +72,9 @@ struct RootView: View {
                 store: regionImageListStore,
                 appStore: appStore,
                 mapStore: mapStore,
+                fullscreenProgress: state.map(\.fullscreenProgress).skipRepeats(),
+                isSheetAtTop: state.map { $0.fullscreenProgress == 1 }.skipRepeats()
+                  .asObservedVariable(),
                 hostGeometry: hostGeometry,
                 zoomSourceViews: zoomSourceViews,
                 namespace: rootView,
@@ -167,7 +170,7 @@ struct RootView: View {
   private var sheetToolbar: some ToolbarContent {
     ToolbarItem(placement: .topBarLeading) {
       Button {
-        mapStore(.collapseSheet)
+        mapStore(.setSheetDetent(.normal))
       } label: {
         Label("Back", systemImage: "chevron.left")
       }
@@ -246,8 +249,8 @@ func makeRootMapStore(
         .locationButtonTapped
       case let .sheetStateChanged(state):
         .sheet(.stateChanged(state))
-      case .collapseSheet:
-        .sheet(.collapse)
+      case let .setSheetDetent(detent):
+        .sheet(.setDetent(detent))
       }
     }
   ).skipRepeats()
@@ -258,12 +261,21 @@ private struct RegionImageList: View {
   var store: ImageListModel.Store
   var appStore: AppModel.Store
   var mapStore: RootView.Map.Store
+  var fullscreenProgress: ObservableVariable<CGFloat>
+  var isSheetAtTop: ObservedVariable<Bool>
   var hostGeometry: HostGeometry
   var zoomSourceViews: ZoomSourceViews?
   var namespace: Namespace.ID
 
   var body: some View {
     ImageList(viewStore: store, padding: 13)
+      .environment(\.sheetFullscreenProgress, fullscreenProgress)
+      .delayedModifier(
+        value: isSheetAtTop.wrappedValue,
+        delay: isSheetAtTop.wrappedValue ? 0.5 : 0,
+      ) { view, isSheetAtTop in
+        view.scrollIndicators(isSheetAtTop ? .automatic : .hidden)
+      }
       .overlay(alignment: verticalBarEdge == .leading ? .topLeading : .topTrailing) {
         ZStack {
           if mapStore.toolbarKind == .map {
@@ -273,6 +285,16 @@ private struct RegionImageList: View {
           }
         }
         .ignoresSafeArea(edges: verticalBarEdge.map { Edge.Set($0) } ?? [])
+      }
+      .overlay {
+        if mapStore.sheetDetent == .minimized {
+          Color.clear
+            .contentShape(Rectangle())
+            .ignoresSafeArea()
+            .onTapGesture {
+              mapStore(.setSheetDetent(.normal))
+            }
+        }
       }
       .environment(\.gradientScheme, appStore.gradientScheme)
       .environment(\.maxRange, mapStore.selectedImageKind.maxRange)

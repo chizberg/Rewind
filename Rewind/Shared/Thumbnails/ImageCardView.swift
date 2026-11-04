@@ -14,9 +14,11 @@ struct ImageCardView: View {
 
   @State
   private var titleStyle: ThumbnailTitleStyle?
+  @Environment(\.sheetFullscreenProgress)
+  private var sheetFullscreenProgress
 
   var body: some View {
-    backgroundColor
+    background
       .aspectRatio(3 / 4, contentMode: .fit)
       .overlay {
         imageView
@@ -52,6 +54,17 @@ struct ImageCardView: View {
       }
   }
 
+  @ViewBuilder
+  private var background: some View {
+    if let sheetFullscreenProgress {
+      ViewRepresentable {
+        SheetCardBackgroundView(fullscreenProgress: sheetFullscreenProgress)
+      }
+    } else {
+      backgroundColor
+    }
+  }
+
   private var imageView: some View {
     RewindAsyncImage(image.image, .medium) { loaded in
       Image(uiImage: loaded)
@@ -85,7 +98,33 @@ struct ImageCardView: View {
   }
 }
 
+private final class SheetCardBackgroundView: UIView {
+  private let fillView = UIView()
+  private let disposePool = AutodisposePool()
+
+  init(fullscreenProgress: ObservableVariable<CGFloat>) {
+    super.init(frame: .zero)
+    backgroundColor = .mapControlBackground
+    fillView.backgroundColor = .secondarySystemBackground
+    fillView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    addSubview(fillView)
+    fullscreenProgress.currentAndNewValues.addObserver { [weak self] in
+      self?.fillView.alpha = $0
+    }.dispose(in: disposePool)
+  }
+
+  @available(*, unavailable)
+  required init?(coder _: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+}
+
 private let radius = 25.0
+
+extension EnvironmentValues {
+  @Entry
+  var sheetFullscreenProgress: ObservableVariable<CGFloat>?
+}
 
 #if DEBUG
 #Preview("panorama touch test") {

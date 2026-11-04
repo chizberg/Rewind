@@ -37,6 +37,10 @@ private struct DelayedContainer<
       .onChange(of: value) {
         let newValue = value
         task?.cancel()
+        guard delay > 0 else {
+          innerValue = newValue
+          return
+        }
         task = Task {
           do {
             try await Task.sleep(for: .seconds(delay))

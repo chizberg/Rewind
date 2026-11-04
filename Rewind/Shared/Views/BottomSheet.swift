@@ -34,7 +34,8 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
   private var contentOffsetObservation: NSKeyValueObservation?
   private let disposePool = AutodisposePool()
 
-  private var lockedScrolledDistance: CGFloat?
+  private var isContentOffsetLocked = false
+  private var isScrollingToTop = false
   private var pendingDetent: State.Detent?
 
   init(
@@ -136,7 +137,9 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
         apply(offset: presentation.affineTransform().ty, detent: state.detent)
       }
       sheetView.layer.removeAllAnimations()
-      lockedScrolledDistance = nil
+      if isContentOffsetLocked {
+        scrollContentToTop(animated: false)
+      }
     case .ended, .cancelled:
       if pan.state == .possible || pan.state == .failed {
         settle(to: pendingDetent ?? state.detent, velocity: 0)
@@ -153,10 +156,9 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
       let translation = recognizer.translation(in: view).y
       recognizer.setTranslation(.zero, in: view)
       guard shouldMoveSheet(translation: translation) else {
-        lockedScrolledDistance = nil
+        isContentOffsetLocked = false
         return
       }
-      lockContentOffset()
       let draggedOffset = state.offset + translation
       apply(
         offset: draggedOffset.clamp(offset(for: .fullscreen)...offset(for: .minimized)),
@@ -181,24 +183,46 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
 
   private func track(scrollView: UIScrollView) {
     self.scrollView = scrollView
-    contentOffsetObservation = scrollView.observe(\.contentOffset) { [weak self] scrollView, _ in
+    contentOffsetObservation = scrollView.observe(
+      \.contentOffset,
+      options: .old,
+    ) { [weak self] scrollView, change in
       MainActor.assumeIsolated {
-        guard let lockedDistance = self?.lockedScrolledDistance else { return }
-        let lockedY = lockedDistance - scrollView.adjustedContentInset.top
-        guard scrollView.contentOffset.y.isApproximatelyNotEqualTo(
-          lockedY,
+        guard let self, self.isContentOffsetLocked else { return }
+        let y = scrollView.contentOffset.y
+        let topY = -scrollView.adjustedContentInset.top
+        if self.isScrollingToTop, !scrollView.isTracking, y > topY, y <= change.oldValue?.y ?? y {
+          return
+        }
+        self.isScrollingToTop = false
+        guard y.isApproximatelyNotEqualTo(
+          topY,
           withAccuracy: 1 / scrollView.traitCollection.displayScale,
         ) else { return }
-        scrollView.contentOffset.y = lockedY
+        scrollView.contentOffset.y = topY
       }
+    }
+    isContentOffsetLocked = false
+    if !isSheetAtTop {
+      lockContentOffset()
     }
   }
 
   private func lockContentOffset() {
-    guard let scrollView, lockedScrolledDistance == nil else { return }
-    let distance = max(scrollView.contentOffset.y + scrollView.adjustedContentInset.top, 0)
-    lockedScrolledDistance = distance
-    scrollView.contentOffset.y = distance - scrollView.adjustedContentInset.top
+    guard !isContentOffsetLocked else { return }
+    isContentOffsetLocked = true
+    scrollContentToTop(animated: true)
+  }
+
+  private func scrollContentToTop(animated: Bool) {
+    guard let scrollView else { return }
+    isScrollingToTop = animated
+    UIView.performWithoutAnimation {
+      scrollView.setContentOffset(
+        CGPoint(x: scrollView.contentOffset.x, y: -scrollView.adjustedContentInset.top),
+        animated: animated,
+      )
+    }
   }
 
   private func settle(to detent: State.Detent, velocity: CGFloat) {
@@ -211,9 +235,9 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
     ) { [self] in
       move(to: detent)
     } completion: { [self] finished in
-      guard finished, lockedScrolledDistance != nil, let scrollView else { return }
+      guard finished, isSheetAtTop, isContentOffsetLocked, let scrollView else { return }
       scrollView.setContentOffset(scrollView.contentOffset, animated: false)
-      lockedScrolledDistance = nil
+      isContentOffsetLocked = false
     }
   }
 
@@ -224,6 +248,9 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
   private func apply(offset: CGFloat, detent: State.Detent) {
     sheetView.transform = CGAffineTransform(translationX: 0, y: offset)
     state = State(sheetHeight: sheetView.bounds.height, offset: offset, detent: detent)
+    if !isSheetAtTop {
+      lockContentOffset()
+    }
   }
 
   private func offset(for detent: State.Detent) -> CGFloat {

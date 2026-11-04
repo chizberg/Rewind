@@ -12,10 +12,14 @@ final class ThumbnailsBottomSheetWrapper: UIViewController {
   private let content: UIViewController
   @ObservableVariable
   private var state: BottomSheet.State
+  private let minimizedScaleView = UIView()
   private let cardView = UIView()
   private let fillView = UIView()
+  private let grabberView = UIView()
   private var sheetToolbarTop: CGFloat?
   private var lastParentTop: CGFloat?
+  private var isMinimized = false
+  private var showsSheetToolbar: Bool
   let disposePool = AutodisposePool()
 
   init(
@@ -24,6 +28,7 @@ final class ThumbnailsBottomSheetWrapper: UIViewController {
   ) {
     self.content = content
     _state = state
+    showsSheetToolbar = state.value.showsSheetToolbar
     super.init(nibName: nil, bundle: nil)
     state.newValues.addObserver { [weak self] in
       self?.update(state: $0)
@@ -41,7 +46,9 @@ final class ThumbnailsBottomSheetWrapper: UIViewController {
     cardView.layer.cornerCurve = .continuous
     cardView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
     cardView.layer.anchorPoint = CGPoint(x: 0.5, y: 0)
-    view.addSubview(cardView)
+    minimizedScaleView.layer.anchorPoint = CGPoint(x: 0.5, y: 0)
+    minimizedScaleView.addSubview(cardView)
+    view.addSubview(minimizedScaleView)
 
     let glassView = UIVisualEffectView(effect: makeGlassEffect())
     glassView.frame = cardView.bounds
@@ -57,10 +64,19 @@ final class ThumbnailsBottomSheetWrapper: UIViewController {
     content.view.backgroundColor = .clear
     cardView.addSubview(content.view)
     content.didMove(toParent: self)
+
+    grabberView.backgroundColor = .label.withAlphaComponent(0.3)
+    grabberView.layer.cornerRadius = 2
+    grabberView.isUserInteractionEnabled = false
+    grabberView.frame = CGRect(x: (cardView.bounds.width - 60) / 2, y: 4.5, width: 60, height: 4)
+    grabberView.autoresizingMask = [.flexibleLeftMargin, .flexibleRightMargin]
+    cardView.addSubview(grabberView)
   }
 
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
+    minimizedScaleView.bounds.size = view.bounds.size
+    minimizedScaleView.center = CGPoint(x: view.bounds.midX, y: 0)
     cardView.bounds.size = view.bounds.size
     cardView.center = CGPoint(x: view.bounds.midX, y: 0)
     content.view.bounds.size = view.bounds.size
@@ -87,6 +103,14 @@ final class ThumbnailsBottomSheetWrapper: UIViewController {
       sheetToolbarTop = parentInsets.top
     }
     lastParentTop = parentInsets.top
+    if state.showsSheetToolbar != showsSheetToolbar {
+      showsSheetToolbar = state.showsSheetToolbar
+      if showsSheetToolbar {
+        fadeOutMapTopBar()
+      } else {
+        fadeInMapTopBar()
+      }
+    }
     let top = sheetToolbarTop ?? parentInsets.top
     let shift = min(offset, top)
     content.view.transform = CGAffineTransform(translationX: 0, y: -shift)
@@ -107,6 +131,68 @@ final class ThumbnailsBottomSheetWrapper: UIViewController {
       }
     }
     fillView.alpha = fullscreenProgress
+    let grabberAlpha: CGFloat = state.fullscreenProgress > 0.35 ? 0 : 1
+    if grabberView.alpha != grabberAlpha {
+      UIView.animate(withDuration: 0.25) { [grabberView] in
+        grabberView.alpha = grabberAlpha
+      }
+    }
+    let isMinimized = state.detent == .minimized
+    content.view.alpha = isMinimized ? 0.5 : 1
+    setMinimizedScale(isMinimized: isMinimized)
+  }
+
+  private func fadeOutMapTopBar() {
+    guard let host = parent?.view else { return }
+    fadeOutSnapshotAboveSheet(in: host, at: 0)
+  }
+
+  private func fadeInMapTopBar() {
+    guard let navigationController else { return }
+    let fadeIn = CABasicAnimation(keyPath: "opacity")
+    fadeIn.fromValue = 0
+    fadeIn.duration = 0.25
+    fadeIn.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+    navigationController.navigationBar.layer.add(fadeIn, forKey: "fadeIn")
+    let host: UIView = navigationController.view
+    fadeOutSnapshotAboveSheet(in: host, at: host.subviews.count)
+  }
+
+  private func fadeOutSnapshotAboveSheet(in host: UIView, at index: Int) {
+    guard let window = view.window,
+          let sheetTop = view.superview?.layer.presentation()?.frame.minY,
+          sheetTop > 0
+    else { return }
+    let rect = CGRect(x: 0, y: 0, width: window.bounds.width, height: sheetTop)
+    guard let snapshot = window.resizableSnapshotView(
+      from: rect,
+      afterScreenUpdates: false,
+      withCapInsets: .zero,
+    ) else { return }
+    snapshot.frame = host.convert(rect, from: window)
+    snapshot.isUserInteractionEnabled = false
+    host.insertSubview(snapshot, at: index)
+    UIView.animate(withDuration: 0.25) {
+      snapshot.alpha = 0
+    } completion: { _ in
+      snapshot.removeFromSuperview()
+    }
+  }
+
+  private func setMinimizedScale(isMinimized: Bool) {
+    guard isMinimized != self.isMinimized else { return }
+    self.isMinimized = isMinimized
+    let scale = isMinimized ? CATransform3DMakeScale(0.9, 0.9, 1) : CATransform3DIdentity
+    let spring = content.view.layer.animation(forKey: "opacity")?.copy() as? CABasicAnimation
+    let animation = spring ?? CABasicAnimation()
+    animation.delegate = nil
+    animation.keyPath = "transform"
+    let currentScale = minimizedScaleView.layer.presentation()?.transform ?? scale
+    animation.fromValue = spring == nil ? scale : currentScale
+    animation.toValue = scale
+    animation.fillMode = .forwards
+    animation.isRemovedOnCompletion = false
+    minimizedScaleView.layer.add(animation, forKey: "minimizedScale")
   }
 }
 

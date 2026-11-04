@@ -230,7 +230,7 @@ struct MapControlBackground: View {
 }
 
 extension UIColor {
-  fileprivate static var mapControlBackground = UIColor(dynamicProvider: { trait in
+  static let mapControlBackground = UIColor(dynamicProvider: { trait in
     switch trait.userInterfaceStyle {
     case .dark: .black.withAlphaComponent(0.3)
     case .light, .unspecified: fallthrough
