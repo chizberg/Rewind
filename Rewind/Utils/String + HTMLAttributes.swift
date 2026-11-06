@@ -16,9 +16,7 @@ extension String {
 
 extension NSAttributedString {
   fileprivate convenience init?(html: String) {
-    guard let data = html.data(using: .utf8) else { return nil }
-
-    guard let mutableAttrStr = try? NSMutableAttributedString(
+    guard let data = html.data(using: .utf8), let mutableAttrStr = try? NSMutableAttributedString(
       data: data,
       options: [
         .documentType: NSAttributedString.DocumentType.html,

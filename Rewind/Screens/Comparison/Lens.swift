@@ -30,7 +30,7 @@ func getAvailableLens(virtualDevice device: AVCaptureDevice) throws -> ([Lens], 
 
   guard
     let wideIndex = device.constituentDevices
-    .firstIndex(where: { $0.deviceType == .builtInWideAngleCamera }),
+      .firstIndex(where: { $0.deviceType == .builtInWideAngleCamera }),
     wideIndex < physicalZoomValues.count
   else {
     throw HandlingError("No wide angle camera found")
