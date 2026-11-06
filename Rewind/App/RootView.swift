@@ -61,12 +61,22 @@ struct RootView: View {
         }
       }
 
-      FloatingMenuOverlay(
-        menu: floatingMenu,
-        isVisible: mapStore.toolbarKind == .map,
-        bottomInset: mapBottomInset,
-        verticalBarEdge: hostGeometry?.verticalBarEdge,
-      )
+      Group {
+        if mapStore.toolbarKind == .map {
+          FloatingMenuOverlay(
+            menu: floatingMenu,
+            bottomInset: mapBottomInset,
+            verticalBarEdge: hostGeometry?.verticalBarEdge,
+          )
+        }
+      }
+      .modify { view in
+        if #available(iOS 26, *) {
+          GlassEffectContainer { view }
+        } else {
+          ZStack { view }
+        }
+      }
 
       if let hostGeometry {
         ViewControllerRepresentable {
@@ -267,35 +277,17 @@ func makeRootMapStore(
 
 private struct FloatingMenuOverlay: View {
   var menu: FloatingMenu
-  var isVisible: Bool
   var bottomInset: ObservedVariable<CGFloat>
   var verticalBarEdge: Edge?
 
   var body: some View {
-    content
+    menu
       .padding(.horizontal, 25)
       .padding(.bottom, bottomInset.wrappedValue + 10)
       .transaction(value: bottomInset.wrappedValue) {
         if $0.animation == nil { $0.disablesAnimations = true }
       }
       .ignoresSafeArea(edges: Edge.Set.bottom.union(verticalBarEdge.map { Edge.Set($0) } ?? []))
-  }
-
-  @ViewBuilder
-  private var content: some View {
-    if #available(iOS 26, *) {
-      GlassEffectContainer {
-        if isVisible {
-          menu
-        }
-      }
-    } else {
-      ZStack {
-        if isVisible {
-          menu
-        }
-      }
-    }
   }
 }
 
