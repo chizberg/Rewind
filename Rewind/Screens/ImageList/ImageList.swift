@@ -11,9 +11,14 @@ import VGSL
 struct ImageList: View {
   var viewStore: ImageListModel.Store
   var padding: CGFloat = 16
+  var placeholders = EmptyListPlaceholder.general
+  var placeholderChange = 0
+  var hint: LocalizedStringResource?
 
   @State
   private var scrollPosition = ScrollPosition()
+  @State
+  private var placeholder: EmptyListPlaceholder?
   @Environment(\.hostGeometry)
   private var hostGeometry
 
@@ -22,6 +27,16 @@ struct ImageList: View {
       .animation(.default, value: viewStore.images)
       .navigationTitle(viewStore.title)
       .toolbar { toolbar }
+      .onAppear {
+        if placeholder == nil {
+          placeholder = placeholders.randomElement()
+        }
+      }
+      .onChange(of: placeholderChange) {
+        withAnimation {
+          placeholder = placeholders.filter { $0.emoji != placeholder?.emoji }.randomElement()
+        }
+      }
   }
 
   @ViewBuilder
@@ -51,13 +66,28 @@ struct ImageList: View {
         }
       }
     } else {
-      ZStack {
-        SwiftUI.Color.clear
-        VStack {
-          Text("💔").font(.largeTitle)
-          Text("Nothing here yet")
+      VStack(spacing: 8) {
+        if let placeholder {
+          VStack(spacing: 8) {
+            Text(verbatim: placeholder.emoji).font(.system(size: 56))
+            Text(placeholder.title).font(.title2.weight(.semibold))
+          }
+          .id(placeholder.emoji)
+          .transition(.blurReplace)
+        }
+        if let hint {
+          Text(hint)
+            .font(.subheadline)
+            .foregroundStyle(.secondary)
+            .transition(.opacity)
         }
       }
+      .multilineTextAlignment(.center)
+      .padding(.horizontal, 32)
+      .animation(.default, value: hint?.key)
+      .frame(maxWidth: .infinity)
+      .frame(height: BottomSheet.normalHeight)
+      .frame(maxHeight: .infinity, alignment: .top)
     }
   }
 
@@ -82,6 +112,9 @@ struct ImageList: View {
     }
     .foregroundStyle(.primary)
     .zoomTransitionSource(.image(.listRow(image.cid)))
+    .scrollTransition(.interactive) { content, phase in
+      content.scaleEffect(1 - 0.1 * abs(phase.value))
+    }
     .transition(.scale)
   }
 

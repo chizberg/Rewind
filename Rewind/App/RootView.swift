@@ -16,6 +16,10 @@ struct RootView: View {
       var locationAccessGranted: Bool
       var toolbarKind: MapState.ToolbarKind
       var sheetDetent: BottomSheet.State.Detent
+      var isLoading: Bool
+      var isYearRangeModified: Bool
+      var isMapZoomedOut: Bool
+      var emptyLoadCount: Int
     }
 
     enum Action {
@@ -197,6 +201,18 @@ struct RootView: View {
         Label("Back", systemImage: "chevron.left")
       }
     }
+    if mapStore.isLoading {
+      ToolbarItem(placement: .topBarTrailing) {
+        ProgressView()
+      }
+      .modify {
+        if #available(iOS 26, *) {
+          $0.sharedBackgroundVisibility(.hidden)
+        } else {
+          $0
+        }
+      }
+    }
     if let sorting = regionImageListStore.sorting {
       ToolbarItem(placement: .topBarTrailing) {
         SortingMenu(viewStore: regionImageListStore, sorting: sorting)
@@ -258,6 +274,10 @@ func makeRootMapStore(
         locationAccessGranted: mapState.locationState.isAccessGranted,
         toolbarKind: mapState.toolbarKind,
         sheetDetent: mapState.sheetDetent,
+        isLoading: mapState.isLoading,
+        isYearRangeModified: mapState.filters.isRangeModified,
+        isMapZoomedOut: mapState.region.span.latitudeDelta > 60,
+        emptyLoadCount: mapState.emptyLoadCount,
       )
     },
     action: { action in
@@ -303,7 +323,7 @@ private struct RegionImageList: View {
   var namespace: Namespace.ID
 
   var body: some View {
-    ImageList(viewStore: store, padding: 13)
+    imageList
       .environment(\.sheetFullscreenProgress, fullscreenProgress)
       .delayedModifier(
         value: isSheetAtTop.wrappedValue,
@@ -315,6 +335,12 @@ private struct RegionImageList: View {
         ZStack {
           if mapStore.toolbarKind == .map {
             favoritesAndSettings
+              .overlay(alignment: verticalBarEdge == .leading ? .topTrailing : .topLeading) {
+                loadingIndicator
+                  .alignmentGuide(.leading) { $0.width + 8 }
+                  .alignmentGuide(.trailing) { _ in -8 }
+              }
+              .animation(.default, value: mapStore.isLoading)
               .padding(15)
               .transition(.blurReplace)
           }
@@ -336,6 +362,38 @@ private struct RegionImageList: View {
       .environment(\.maxRange, mapStore.selectedImageKind.maxRange)
       .environment(\.zoomSourceViews, zoomSourceViews)
       .environment(\.hostGeometry, hostGeometry)
+  }
+
+  private var imageList: some View {
+    ImageList(
+      viewStore: store,
+      padding: 13,
+      placeholders: EmptyListPlaceholder.map,
+      placeholderChange: mapStore.emptyLoadCount,
+      hint: emptyHint,
+    )
+  }
+
+  @ViewBuilder
+  private var loadingIndicator: some View {
+    if mapStore.isLoading {
+      ProgressView()
+        .frame(width: 46, height: 46)
+        .transition(.blurReplace)
+    }
+  }
+
+  private var emptyHint: LocalizedStringResource? {
+    if mapStore.isYearRangeModified {
+      return "Try widening the years"
+    }
+    if mapStore.selectedImageKind == .painting {
+      return "Try switching to photos"
+    }
+    if !mapStore.isMapZoomedOut {
+      return "Try moving the map or zooming out"
+    }
+    return nil
   }
 
   private var favoritesAndSettings: some View {

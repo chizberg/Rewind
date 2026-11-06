@@ -32,6 +32,7 @@ struct MapState {
   var locationState: LocationState
   var isLoading: Bool
   var lastLoadedParams: AnnotationLoadingParams?
+  var emptyLoadCount: Int
 
   var clusters: Set<Model.Cluster>
   var clusteredImages: ClusteredImages
@@ -81,7 +82,7 @@ enum MapAction {
     case loadAnnotations
     case loadingFailed(Error)
     case loaded(AnnotationLoadingParams, [Model.Image], [Model.Cluster])
-    case updateRegionImages
+    case updateRegionImages(afterLoad: Bool)
     case unfoldMapControlsBack
     case clearAnnotations
   }
@@ -283,7 +284,7 @@ func makeMapModel(
           asyncEffect(.anotherAction(.internal(.loadAnnotations)))
           asyncEffect(.debounced(
             id: .updateRegionImages,
-            anotherAction: .internal(.updateRegionImages),
+            anotherAction: .internal(.updateRegionImages(afterLoad: false)),
           ))
         case .loadAnnotations:
           state.isLoading = true
@@ -348,9 +349,9 @@ func makeMapModel(
             await map.remove(annotations: annsToRemove)
             map.add(annotations: annsToAdd)
             await annotationStore.refresh()
-            await anotherAction(.internal(.updateRegionImages))
+            await anotherAction(.internal(.updateRegionImages(afterLoad: true)))
           })
-        case .updateRegionImages:
+        case let .updateRegionImages(afterLoad):
           guard !state.isLoading else { return }
           let annotations = map.value.visibleAnnotations.flatMap {
             if let cluster = $0 as? MKClusterAnnotation {
@@ -373,6 +374,9 @@ func makeMapModel(
             }
           }
           state.currentRegionImages = Array(Set(modelValues)).sorted(by: sorting.value)
+          if afterLoad, state.currentRegionImages.isEmpty {
+            state.emptyLoadCount += 1
+          }
         case .unfoldMapControlsBack:
           guard state.controls.minimization == .minimized(byUser: false) else { return }
           state.controls.minimization = .normal
@@ -383,7 +387,7 @@ func makeMapModel(
           asyncEffect(.perform { anotherAction in
             await annotationStore.clear()
             await map.value.clear()
-            await anotherAction(.internal(.updateRegionImages))
+            await anotherAction(.internal(.updateRegionImages(afterLoad: false)))
           })
         }
       }
@@ -404,6 +408,7 @@ extension MapState {
       locationState: locationState,
       isLoading: false,
       lastLoadedParams: nil,
+      emptyLoadCount: 0,
       clusters: [],
       clusteredImages: [:],
       controls: ControlsState(

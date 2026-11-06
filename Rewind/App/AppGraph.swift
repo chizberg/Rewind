@@ -212,7 +212,7 @@ final class AppGraph {
       mapModelRef?(.external(.newLocationState($0)))
     }.dispose(in: disposePool)
     settings.sorting.asObservableVariable().onChange { _ in
-      mapModelRef?(.internal(.updateRegionImages))
+      mapModelRef?(.internal(.updateRegionImages(afterLoad: false)))
     }.dispose(in: disposePool)
     settings.gradientScheme.asObservableVariable().onChange {
       appModelRef?(.setGradientScheme($0))

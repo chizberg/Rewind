@@ -403,6 +403,7 @@ private func emptyState() -> MapState {
     locationState: LocationState(isAccessGranted: false),
     isLoading: false,
     lastLoadedParams: nil,
+    emptyLoadCount: 0,
     clusters: [],
     clusteredImages: [:],
     controls: MapState.ControlsState(
