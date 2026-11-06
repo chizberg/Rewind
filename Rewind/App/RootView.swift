@@ -20,7 +20,6 @@ struct RootView: View {
 
     enum Action {
       case mapViewLoaded
-      case controlsSizeChanged(CGSize)
       case locationButtonTapped
       case sheetStateChanged(BottomSheet.State)
       case setSheetDetent(BottomSheet.State.Detent)
@@ -35,6 +34,7 @@ struct RootView: View {
 
   let appStore: AppModel.Store
   let mapStore: Map.Store
+  let mapBottomInset: ObservedVariable<CGFloat>
 
   @Namespace
   private var rootView
@@ -61,6 +61,13 @@ struct RootView: View {
         }
       }
 
+      FloatingMenuOverlay(
+        menu: floatingMenu,
+        isVisible: mapStore.toolbarKind == .map,
+        bottomInset: mapBottomInset,
+        verticalBarEdge: hostGeometry?.verticalBarEdge,
+      )
+
       if let hostGeometry {
         ViewControllerRepresentable {
           BottomSheet(
@@ -82,7 +89,11 @@ struct RootView: View {
               state: state,
             )
             state.newValues.addObserver { state in
-              withAnimation {
+              let animation = Animation.interpolatingSpring(
+                BottomSheet.settleSpring,
+                initialVelocity: state.velocity,
+              )
+              withAnimation(UIView.inheritedAnimationDuration > 0 ? animation : nil) {
                 mapStore(.sheetStateChanged(state))
               }
             }.dispose(in: wrapper.disposePool)
@@ -105,6 +116,7 @@ struct RootView: View {
     .toolbar {
       toolbarItems.verticalPreferred()
     }
+    .animation(.default, value: mapStore.toolbarKind)
     .delayedModifier(
       value: appStore.anyOverlayPresented,
       delay: appStore.anyOverlayPresented ? 0 : 1,
@@ -243,8 +255,6 @@ func makeRootMapStore(
       switch action {
       case .mapViewLoaded:
         .mapViewLoaded
-      case let .controlsSizeChanged(size):
-        .controls(.sizeChanged(size))
       case .locationButtonTapped:
         .locationButtonTapped
       case let .sheetStateChanged(state):
@@ -254,6 +264,40 @@ func makeRootMapStore(
       }
     }
   ).skipRepeats()
+}
+
+private struct FloatingMenuOverlay: View {
+  var menu: FloatingMenu
+  var isVisible: Bool
+  var bottomInset: ObservedVariable<CGFloat>
+  var verticalBarEdge: Edge?
+
+  var body: some View {
+    content
+      .padding(.horizontal, 25)
+      .padding(.bottom, bottomInset.wrappedValue + 10)
+      .transaction(value: bottomInset.wrappedValue) {
+        if $0.animation == nil { $0.disablesAnimations = true }
+      }
+      .ignoresSafeArea(edges: Edge.Set.bottom.union(verticalBarEdge.map { Edge.Set($0) } ?? []))
+  }
+
+  @ViewBuilder
+  private var content: some View {
+    if #available(iOS 26, *) {
+      GlassEffectContainer {
+        if isVisible {
+          menu
+        }
+      }
+    } else {
+      ZStack {
+        if isVisible {
+          menu
+        }
+      }
+    }
+  }
 }
 
 // A separate view so the stores are read in body and stay live inside the hosting controller
@@ -285,6 +329,7 @@ private struct RegionImageList: View {
           }
         }
         .ignoresSafeArea(edges: verticalBarEdge.map { Edge.Set($0) } ?? [])
+        .animation(.default, value: mapStore.toolbarKind)
       }
       .overlay {
         if mapStore.sheetDetent == .minimized {
@@ -375,7 +420,8 @@ extension AppState {
     regionImageListStore: graph.regionImageListStore,
     floatingMenuStore: graph.floatingMenuStore,
     appStore: graph.appStore,
-    mapStore: graph.rootViewMapStore
+    mapStore: graph.rootViewMapStore,
+    mapBottomInset: graph.mapBottomInset,
   )
   .environment(
     \.hostGeometry,

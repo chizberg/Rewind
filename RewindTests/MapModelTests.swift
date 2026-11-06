@@ -221,13 +221,15 @@ struct MapModelTests {
     #expect(model.state.controls.minimization == .normal)
 
     let frame = CGRect(origin: .zero, size: env.map.size)
-    let bottomTouch = CGPoint(x: 100, y: frame.height - mapControlsTouchBlockingHeight + 1)
+    let bottomTouch = CGPoint(x: 100, y: frame.height - BottomSheet.normalHeight + 1)
     model(.external(.map(.userDragged(bottomTouch, frame))))
     #expect(model.state.controls.minimization == .minimized(byUser: false))
+    #expect(model.state.sheetDetent == .minimized)
 
     #expect(await eventually(timeout: .seconds(30)) {
       model.state.controls.minimization == .normal
     })
+    #expect(model.state.sheetDetent == .normal)
 
     model(.external(.ui(.controls(.setMinimization(.minimized(byUser: true))))))
     model(.external(.map(.userDragged(bottomTouch, frame))))

@@ -193,9 +193,6 @@ struct MapControls<Menu: View>: View {
   }
 }
 
-let mapControlsTouchBlockingHeight = glassCardHeight +
-  makeBottomPadding(hasBottomSafeAreaInset: true)
-let mapControlsMinimizedOffset = glassCardHeight - glimpseHeight
 let mapControlsAnimation = Animation.interactiveSpring(
   duration: 0.5,
   extraBounce: 0.1,

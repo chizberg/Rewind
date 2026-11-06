@@ -160,10 +160,12 @@ final class ThumbnailsBottomSheetWrapper: UIViewController {
 
   private func fadeOutSnapshotAboveSheet(in host: UIView, at index: Int) {
     guard let window = view.window,
+          let navigationBar = navigationController?.navigationBar,
           let sheetTop = view.superview?.layer.presentation()?.frame.minY,
           sheetTop > 0
     else { return }
-    let rect = CGRect(x: 0, y: 0, width: window.bounds.width, height: sheetTop)
+    let barBottom = navigationBar.convert(navigationBar.bounds, to: window).maxY
+    let rect = CGRect(x: 0, y: 0, width: window.bounds.width, height: min(sheetTop, barBottom))
     guard let snapshot = window.resizableSnapshotView(
       from: rect,
       afterScreenUpdates: false,

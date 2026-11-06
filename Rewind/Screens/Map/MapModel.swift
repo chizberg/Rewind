@@ -17,7 +17,6 @@ struct MapState {
   struct ControlsState {
     var isTimePickerVisible: Bool
     var minimization: MinimizationState
-    var size: CGSize
   }
 
   enum ToolbarKind {
@@ -40,6 +39,7 @@ struct MapState {
 
   var controls: ControlsState
   var sheetDetent: BottomSheet.State.Detent
+  var bottomInset: CGFloat
   var toolbarKind: ToolbarKind
 }
 
@@ -56,7 +56,6 @@ enum MapAction {
       enum Controls {
         case setMinimization(MinimizationState)
         case setTimePickerVisible(Bool)
-        case sizeChanged(CGSize)
       }
 
       case mapViewLoaded
@@ -175,8 +174,9 @@ func makeMapModel(
               asyncEffect(.cancel(debouncedAction: .unfoldControlsBack))
               return
             }
-            if touchPosition.y > mapFrame.height - mapControlsTouchBlockingHeight {
+            if touchPosition.y > mapFrame.height - BottomSheet.normalHeight {
               state.controls.minimization = .minimized(byUser: false)
+              state.sheetDetent = .minimized
               asyncEffect(.debounced(
                 id: .unfoldControlsBack,
                 anotherAction: .internal(.unfoldMapControlsBack),
@@ -211,17 +211,20 @@ func makeMapModel(
               state.controls.minimization = minimization
             case let .setTimePickerVisible(isVisible):
               state.controls.isTimePickerVisible = isVisible
-            case let .sizeChanged(size):
-              state.controls.size = size
             }
           case let .sheet(.stateChanged(sheet)):
             if sheet.detent != .fullscreen, let region = state.deferredRegion {
               state.deferredRegion = nil
               asyncEffect(.anotherAction(.internal(.regionChanged(region))))
             }
-            state.sheetDetent = sheet.detent
+            if state.sheetDetent != sheet.detent {
+              state.sheetDetent = sheet.detent
+              state.controls.minimization = MinimizationState(userSetDetent: sheet.detent)
+            }
+            state.bottomInset = min(sheet.visibleHeight, BottomSheet.normalHeight)
             state.toolbarKind = sheet.showsSheetToolbar ? .sheet : .map
           case let .sheet(.setDetent(detent)):
+            state.controls.minimization = MinimizationState(userSetDetent: detent)
             state.sheetDetent = detent
           case .locationButtonTapped:
             let locationZoom = 17
@@ -376,7 +379,9 @@ func makeMapModel(
           state.currentRegionImages = Array(Set(modelValues)).sorted(by: sorting.value)
           state.previews = makePreviews(images: state.currentRegionImages, limit: 10)
         case .unfoldMapControlsBack:
+          guard state.controls.minimization == .minimized(byUser: false) else { return }
           state.controls.minimization = .normal
+          state.sheetDetent = .normal
         case .clearAnnotations:
           state.clusters = []
           state.clusteredImages = [:]
@@ -423,11 +428,17 @@ extension MapState {
       controls: ControlsState(
         isTimePickerVisible: false,
         minimization: .normal,
-        size: .zero,
       ),
       sheetDetent: .normal,
+      bottomInset: BottomSheet.normalHeight,
       toolbarKind: .map,
     )
+  }
+}
+
+extension MinimizationState {
+  fileprivate init(userSetDetent detent: BottomSheet.State.Detent) {
+    self = detent == .minimized ? .minimized(byUser: true) : .normal
   }
 }
 

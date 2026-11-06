@@ -15,6 +15,7 @@ final class AppGraph {
   let mapControlsStore: MapControlsStore
   let floatingMenuStore: FloatingMenu.Store
   let rootViewMapStore: RootView.Map.Store
+  let mapBottomInset: ObservedVariable<CGFloat>
   let regionImageListStore: ImageListModel.Store
   let appStore: AppModel.Store
   let navigator: Navigator
@@ -89,6 +90,7 @@ final class AppGraph {
     )
     mapControlsStore = mapStore.makeControlsStore()
     rootViewMapStore = makeRootMapStore(mapStore: mapStore)
+    mapBottomInset = mapModel.$state.bottomInset.skipRepeats().asObservedVariable()
     let colorizationModelStore = ColorizationModelStore(
       downloadPerformer: DownloadPerformer(session: .shared),
       manifest: remotes.colorizationManifest,
@@ -218,12 +220,10 @@ final class AppGraph {
     settings.gradientScheme.asObservableVariable().onChange {
       appModelRef?(.setGradientScheme($0))
     }.dispose(in: disposePool)
-    ObservableVariable.combineLatest(
-      mapModel.$state.controls.minimization.skipRepeats(),
-      mapModel.$state.controls.size.skipRepeats()
-    ).newValues.addObserver { minimization, size in
-      let hiddenPart = minimization.isMinimized ? mapControlsMinimizedOffset : 0
-      map.value.updateBottomInset(size.height - hiddenPart)
+    map.future.asSignal().flatMap { [mapModel] _ in
+      mapModel.$state.bottomInset.skipRepeats().currentAndNewValues
+    }.addObserver {
+      map.value.updateBottomInset($0)
     }.dispose(in: disposePool)
     filters.current = mapModel.$state.filters.skipRepeats()
     navigator.screens.newValues.addObserver {

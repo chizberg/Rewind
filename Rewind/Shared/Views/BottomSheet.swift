@@ -9,6 +9,9 @@ import SwiftUI
 import VGSL
 
 final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
+  static let normalHeight: CGFloat = 235.5
+  static let settleSpring = Spring(duration: 0.5)
+
   struct State: Equatable {
     enum Detent: CaseIterable {
       case minimized
@@ -19,6 +22,7 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
     var visibleHeight: CGFloat
     var detent: Detent
     var fullscreenProgress: CGFloat
+    var velocity: CGFloat
 
     fileprivate var offset: CGFloat
   }
@@ -47,6 +51,7 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
       sheetHeight: height,
       offset: detent.value.offset(sheetHeight: height),
       detent: detent.value,
+      velocity: 0,
     ))
     _state = state
     self.content = content(state.projectedValue.skipRepeats())
@@ -91,7 +96,7 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
     if sheetView.bounds.size != view.bounds.size {
       sheetView.bounds.size = view.bounds.size
       sheetView.center = CGPoint(x: view.bounds.midX, y: view.bounds.midY)
-      move(to: state.detent)
+      move(to: state.detent, velocity: 0)
     }
   }
 
@@ -104,7 +109,7 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
     if animated {
       settle(to: detent, velocity: 0)
     } else {
-      move(to: detent)
+      move(to: detent, velocity: 0)
     }
   }
 
@@ -134,7 +139,7 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
     switch recognizer.state {
     case .began:
       if let presentation = sheetView.layer.presentation() {
-        apply(offset: presentation.affineTransform().ty, detent: state.detent)
+        apply(offset: presentation.affineTransform().ty, detent: state.detent, velocity: 0)
       }
       sheetView.layer.removeAllAnimations()
       if isContentOffsetLocked {
@@ -163,6 +168,7 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
       apply(
         offset: draggedOffset.clamp(offset(for: .fullscreen)...offset(for: .minimized)),
         detent: state.detent,
+        velocity: 0,
       )
     case .ended, .cancelled:
       let velocity = recognizer.velocity(in: view).y
@@ -228,12 +234,14 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
   private func settle(to detent: State.Detent, velocity: CGFloat) {
     pendingDetent = nil
     let distance = offset(for: detent) - state.offset
+    let initialVelocity = abs(distance) > 1 ? (velocity / distance).clamp(-30...30) : 0
     UIView.animate(
-      springDuration: 0.5,
-      initialSpringVelocity: abs(distance) > 1 ? (velocity / distance).clamp(-30...30) : 0,
+      springDuration: Self.settleSpring.duration,
+      bounce: Self.settleSpring.bounce,
+      initialSpringVelocity: initialVelocity,
       options: .allowUserInteraction,
     ) { [self] in
-      move(to: detent)
+      move(to: detent, velocity: initialVelocity)
     } completion: { [self] finished in
       guard finished, isSheetAtTop, isContentOffsetLocked, let scrollView else { return }
       scrollView.setContentOffset(scrollView.contentOffset, animated: false)
@@ -241,13 +249,18 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
     }
   }
 
-  private func move(to detent: State.Detent) {
-    apply(offset: offset(for: detent), detent: detent)
+  private func move(to detent: State.Detent, velocity: CGFloat) {
+    apply(offset: offset(for: detent), detent: detent, velocity: velocity)
   }
 
-  private func apply(offset: CGFloat, detent: State.Detent) {
+  private func apply(offset: CGFloat, detent: State.Detent, velocity: CGFloat) {
     sheetView.transform = CGAffineTransform(translationX: 0, y: offset)
-    state = State(sheetHeight: sheetView.bounds.height, offset: offset, detent: detent)
+    state = State(
+      sheetHeight: sheetView.bounds.height,
+      offset: offset,
+      detent: detent,
+      velocity: velocity,
+    )
     if !isSheetAtTop {
       lockContentOffset()
     }
@@ -276,12 +289,13 @@ final class BottomSheet: UIViewController, UIGestureRecognizerDelegate {
 }
 
 extension BottomSheet.State {
-  fileprivate init(sheetHeight: CGFloat, offset: CGFloat, detent: Detent) {
+  fileprivate init(sheetHeight: CGFloat, offset: CGFloat, detent: Detent, velocity: CGFloat) {
     let normalOffset = Detent.normal.offset(sheetHeight: sheetHeight)
     self.init(
       visibleHeight: sheetHeight - offset,
       detent: detent,
       fullscreenProgress: (1 - offset / normalOffset).clamp(0...1),
+      velocity: velocity,
       offset: offset,
     )
   }
@@ -291,7 +305,7 @@ extension BottomSheet.State.Detent {
   fileprivate func offset(sheetHeight: CGFloat) -> CGFloat {
     switch self {
     case .minimized: sheetHeight - 58
-    case .normal: sheetHeight - 235.5
+    case .normal: sheetHeight - BottomSheet.normalHeight
     case .fullscreen: 0
     }
   }

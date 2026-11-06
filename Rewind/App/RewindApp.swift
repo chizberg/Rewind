@@ -24,6 +24,7 @@ struct RewindApp: App {
             floatingMenuStore: graph.floatingMenuStore,
             appStore: graph.appStore,
             mapStore: graph.rootViewMapStore,
+            mapBottomInset: graph.mapBottomInset,
           )
           .environment(\.openURL, OpenURLAction {
             graph.urlOpener($0)

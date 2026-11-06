@@ -409,9 +409,9 @@ private func emptyState() -> MapState {
     controls: MapState.ControlsState(
       isTimePickerVisible: false,
       minimization: .normal,
-      size: .zero,
     ),
     sheetDetent: .normal,
+    bottomInset: 0,
     toolbarKind: .map,
   )
 }
