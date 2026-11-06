@@ -193,7 +193,7 @@ final class RegionImagesSheetController: UIViewController {
     animation.fromValue = spring == nil ? scale : currentScale
     animation.toValue = scale
     animation.fillMode = .forwards
-    animation.isRemovedOnCompletion = false
+    animation.isRemovedOnCompletion = !isMinimized
     minimizedScaleView.layer.add(animation, forKey: "minimizedScale")
   }
 }
