@@ -19,7 +19,7 @@ struct RootView: View {
       var isLoading: Bool
       var isYearRangeModified: Bool
       var isMapZoomedOut: Bool
-      var emptyLoadCount: Int
+      var emptyResultCount: Int
     }
 
     enum Action {
@@ -277,7 +277,7 @@ func makeRootMapStore(
         isLoading: mapState.isLoading,
         isYearRangeModified: mapState.filters.isRangeModified,
         isMapZoomedOut: mapState.region.span.latitudeDelta > 60,
-        emptyLoadCount: mapState.emptyLoadCount,
+        emptyResultCount: mapState.emptyResultCount,
       )
     },
     action: { action in
@@ -368,8 +368,8 @@ private struct RegionImageList: View {
     ImageList(
       viewStore: store,
       padding: 13,
-      placeholders: EmptyListPlaceholder.map,
-      placeholderChange: mapStore.emptyLoadCount,
+      placeholders: placeholders,
+      placeholderChange: mapStore.emptyResultCount,
       hint: emptyHint,
     )
   }
@@ -381,6 +381,10 @@ private struct RegionImageList: View {
         .frame(width: 46, height: 46)
         .transition(.blurReplace)
     }
+  }
+
+  private var placeholders: [EmptyListPlaceholder] {
+    mapStore.isYearRangeModified ? EmptyListPlaceholder.map : EmptyListPlaceholder.general
   }
 
   private var emptyHint: LocalizedStringResource? {

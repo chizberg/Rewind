@@ -133,13 +133,13 @@ struct MapModelTests {
     #expect(await eventually { model.state.currentRegionImages.isEmpty })
   }
 
-  @Test func emptyLoadCountsOnlyLoadsThatEndEmpty() async {
+  @Test func emptyResultCountsOnlyLoadsThatEndEmpty() async {
     let env = TestEnv()
     let model = env.makeModel()
 
     env.remote.response = ([], [])
     model(.external(.map(.regionChanged(region(zoom: 10)))))
-    #expect(await eventually { model.state.emptyLoadCount == 1 })
+    #expect(await eventually { model.state.emptyResultCount == 1 })
 
     env.remote.response = ([img(1, cell: 0, 0, zoom: 10, year: 1900)], [])
     model(.external(.map(.regionChanged(region(
@@ -147,7 +147,7 @@ struct MapModelTests {
       center: Coordinate(latitude: 1, longitude: 1)
     )))))
     #expect(await eventually { model.state.currentRegionImages.map(\.cid) == [1] })
-    #expect(model.state.emptyLoadCount == 1)
+    #expect(model.state.emptyResultCount == 1)
   }
 
   /// The first location fix recenters the map exactly once (zoom 15, not animated); later fixes

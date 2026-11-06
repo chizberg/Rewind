@@ -32,7 +32,7 @@ struct MapState {
   var locationState: LocationState
   var isLoading: Bool
   var lastLoadedParams: AnnotationLoadingParams?
-  var emptyLoadCount: Int
+  var emptyResultCount: Int
 
   var clusters: Set<Model.Cluster>
   var clusteredImages: ClusteredImages
@@ -375,7 +375,7 @@ func makeMapModel(
           }
           state.currentRegionImages = Array(Set(modelValues)).sorted(by: sorting.value)
           if afterLoad, state.currentRegionImages.isEmpty {
-            state.emptyLoadCount += 1
+            state.emptyResultCount += 1
           }
         case .unfoldSheetBack:
           guard state.controls.minimization == .minimized(byUser: false) else { return }
@@ -408,7 +408,7 @@ extension MapState {
       locationState: locationState,
       isLoading: false,
       lastLoadedParams: nil,
-      emptyLoadCount: 0,
+      emptyResultCount: 0,
       clusters: [],
       clusteredImages: [:],
       controls: ControlsState(

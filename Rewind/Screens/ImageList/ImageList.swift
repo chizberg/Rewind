@@ -66,28 +66,28 @@ struct ImageList: View {
         }
       }
     } else {
-      VStack(spacing: 8) {
-        if let placeholder {
-          VStack(spacing: 8) {
-            Text(verbatim: placeholder.emoji).font(.system(size: 56))
-            Text(placeholder.title).font(.title2.weight(.semibold))
+      ScrollView {
+        VStack(spacing: 8) {
+          if let placeholder {
+            VStack(spacing: 8) {
+              Text(verbatim: placeholder.emoji).font(.system(size: 56))
+              Text(placeholder.title).font(.title2.weight(.semibold))
+            }
+            .id(placeholder.emoji)
+            .transition(.blurReplace)
           }
-          .id(placeholder.emoji)
-          .transition(.blurReplace)
+          if let hint {
+            Text(hint)
+              .font(.subheadline)
+              .foregroundStyle(.secondary)
+              .transition(.opacity)
+          }
         }
-        if let hint {
-          Text(hint)
-            .font(.subheadline)
-            .foregroundStyle(.secondary)
-            .transition(.opacity)
-        }
+        .multilineTextAlignment(.center)
+        .padding(.horizontal, 32)
+        .animation(.default, value: hint?.key)
+        .frame(height: BottomSheet.normalHeight)
       }
-      .multilineTextAlignment(.center)
-      .padding(.horizontal, 32)
-      .animation(.default, value: hint?.key)
-      .frame(maxWidth: .infinity)
-      .frame(height: BottomSheet.normalHeight)
-      .frame(maxHeight: .infinity, alignment: .top)
     }
   }
 
