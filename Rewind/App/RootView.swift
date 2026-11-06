@@ -208,7 +208,6 @@ struct RootView: View {
             }
           }
       }
-      .zoomTransitionSource(.imageList(.favoritesButton))
 
       Button {
         appStore(.settings(.present))

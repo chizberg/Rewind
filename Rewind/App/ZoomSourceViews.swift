@@ -58,7 +58,10 @@ struct ZoomSource<Content: View>: View {
             updater: {
               $0.hostedContent = hostedContent
               $0.onFrozenChange = { frozen = $0 }
-              zoomSourceViews.register($0, for: source)
+              if $0.source != source || zoomSourceViews.view(for: source) == nil {
+                $0.source = source
+                zoomSourceViews.register($0, for: source)
+              }
             },
           )
         }
@@ -92,6 +95,8 @@ private struct StillButtonStyle: ButtonStyle {
 }
 
 private class FreezableView: UIView {
+  var source: TransitionSource?
+
   func freeze() {}
   func unfreeze() {}
 }
