@@ -28,7 +28,6 @@ enum AppAction {
 
   enum ImageList {
     case presentFavorites(source: TransitionSource)
-    case presentCurrentRegionImages(source: TransitionSource)
     case present([Model.Image], source: TransitionSource, title: LocalizedStringKey)
   }
 
@@ -81,7 +80,6 @@ func makeAppModel(
   performMapAction: @escaping (MapAction.External) -> Void,
   favoritesModel: FavoritesModel,
   onboardingViewModel: OnboardingViewModel?,
-  currentRegionImages: Variable<[Model.Image]>,
   settings: Property<SettingsState>,
   requestAppStoreReview: @escaping () -> Void,
   pushScreen: @escaping (Screen) -> Void,
@@ -111,18 +109,6 @@ func makeAppModel(
           listUpdates: favoritesModel.$state.newValues,
           imageDetailsFactory: imageDetailsFactory,
           sorting: nil,
-          pushScreen: pushScreen,
-          openedScreens: openedScreens,
-        )
-        effect { pushScreen(screen) }
-      case let .presentCurrentRegionImages(source):
-        let screen = makeImageListScreen(
-          title: "On the map",
-          source: source,
-          images: currentRegionImages.value,
-          listUpdates: .empty,
-          imageDetailsFactory: imageDetailsFactory,
-          sorting: settings.sorting,
           pushScreen: pushScreen,
           openedScreens: openedScreens,
         )

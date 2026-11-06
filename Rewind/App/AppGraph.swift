@@ -12,7 +12,6 @@ import VGSL
 
 @MainActor
 final class AppGraph {
-  let mapControlsStore: MapControlsStore
   let floatingMenuStore: FloatingMenu.Store
   let rootViewMapStore: RootView.Map.Store
   let mapBottomInset: ObservedVariable<CGFloat>
@@ -88,7 +87,6 @@ final class AppGraph {
       state: { $0 },
       action: { .external(.ui($0)) },
     )
-    mapControlsStore = mapStore.makeControlsStore()
     rootViewMapStore = makeRootMapStore(mapStore: mapStore)
     mapBottomInset = mapModel.$state.bottomInset.skipRepeats().asObservedVariable()
     let colorizationModelStore = ColorizationModelStore(
@@ -174,7 +172,6 @@ final class AppGraph {
       performMapAction: { mapModelRef?(.external($0)) },
       favoritesModel: favoritesModel,
       onboardingViewModel: onboardingViewModel,
-      currentRegionImages: Variable { mapModelRef?.state.currentRegionImages ?? [] },
       settings: settings.asProperty(),
       requestAppStoreReview: { storeReview.request() },
       pushScreen: pushScreen,
@@ -215,7 +212,7 @@ final class AppGraph {
       mapModelRef?(.external(.newLocationState($0)))
     }.dispose(in: disposePool)
     settings.sorting.asObservableVariable().onChange { _ in
-      mapModelRef?(.internal(.updatePreviews))
+      mapModelRef?(.internal(.updateRegionImages))
     }.dispose(in: disposePool)
     settings.gradientScheme.asObservableVariable().onChange {
       appModelRef?(.setGradientScheme($0))

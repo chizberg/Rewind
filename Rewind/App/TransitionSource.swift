@@ -9,7 +9,6 @@ import SwiftUI
 
 enum TransitionSource: Hashable {
   enum Image: Hashable {
-    case thumbnail(Int)
     case annotation(Int)
     case listRow(Int)
     case link
@@ -18,8 +17,6 @@ enum TransitionSource: Hashable {
   enum ImageList: Hashable {
     case favoritesButton
     case viewAsListButton
-    case pullUpCard
-    case thumbnail
 
     case clusterAnnotation
     case localCluster(UUID)

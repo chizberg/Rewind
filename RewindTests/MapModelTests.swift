@@ -50,8 +50,8 @@ struct MapModelTests {
     #expect(!env.presentedNonNilAlert) // cancellation is silent
   }
 
-  /// Map loads at zoom 10 and previews assemble; zooming in keeps the old annotations and
-  /// previews until the (suspended) response arrives, then replaces them wholesale; panning
+  /// Map loads at zoom 10 and region images assemble; zooming in keeps the old annotations and
+  /// region images until the (suspended) response arrives, then replaces them wholesale; panning
   /// at the same zoom removes nothing and appends the new images.
   @Test func zoomChangeReplacesAnnotationsPanKeepsThem() async {
     let env = TestEnv()
@@ -66,32 +66,30 @@ struct MapModelTests {
     #expect(env.map.clusterValues == [serverCluster(41)])
     #expect(model.state.lastLoadedParams?.zoom == 10)
 
-    // previews: the 10 newest by date + the view-as-list tail card; region images also
-    // include the server cluster's preview (mock year 1894 → sorts last)
-    #expect(await eventually { model.state.previews.count == 11 })
-    #expect(model.state.previews.last == .viewAsList)
-    #expect(model.state.previews.first?.image?.cid == 12)
-    #expect(model.state.currentRegionImages ==
-      (imagesA + [serverCluster(41).preview]).sorted(by: .dateDescending))
+    // region images include the server cluster's preview (mock year 1894 → sorts last)
+    #expect(await eventually {
+      model.state.currentRegionImages ==
+        (imagesA + [serverCluster(41).preview]).sorted(by: .dateDescending)
+    })
 
-    // zoom in; while the response hangs, annotations and previews stay intact
+    // zoom in; while the response hangs, annotations and region images stay intact
     let imagesB = (0..<3).map { img($0 + 100, cell: $0, 0, zoom: 12, year: 2000 + $0) }
     env.remote.gateNextCall = true
     env.remote.response = (imagesB, [serverCluster(42)])
     model(.external(.map(.regionChanged(region(zoom: 12)))))
     #expect(await eventually { env.remote.loadCount == 2 })
     #expect(model.state.isLoading)
-    await sleep(.milliseconds(250)) // past the updatePreviews debounce: isLoading must gate it
+    await sleep(.milliseconds(250)) // past the updateRegionImages debounce: isLoading must gate it
     #expect(env.map.imageValues == Set(imagesA))
-    #expect(model.state.previews.count == 11)
+    #expect(model.state.currentRegionImages.count == 13)
 
     // the response lands: a zoom change replaces annotations wholesale
     env.remote.openGate()
     #expect(await eventually { env.map.imageValues == Set(imagesB) })
     #expect(env.map.clusterValues == [serverCluster(42)])
     #expect(await eventually {
-      model.state.previews == (imagesB + [serverCluster(42).preview])
-        .sorted(by: .dateDescending).map { .image($0) }
+      model.state.currentRegionImages == (imagesB + [serverCluster(42).preview])
+        .sorted(by: .dateDescending)
     })
 
     // pan at the same zoom: nothing is removed, new images append
@@ -106,7 +104,7 @@ struct MapModelTests {
   }
 
   /// A server cluster whose preview shares its cid with a loose visible image contributes no
-  /// second card: region images and previews dedupe by cid across annotation kinds.
+  /// second entry: region images dedupe by cid across annotation kinds.
   @Test func clusterPreviewSharingCidWithImageDedupes() async {
     let env = TestEnv()
     let model = env.makeModel()
@@ -116,26 +114,23 @@ struct MapModelTests {
     env.remote.response = (images, [serverCluster(2)])
     model(.external(.map(.regionChanged(region(zoom: 10)))))
 
-    #expect(await eventually { !model.state.previews.isEmpty })
+    #expect(await eventually { !model.state.currentRegionImages.isEmpty })
     // 4 model values arrive (3 images + the cluster preview), 3 unique cids remain
-    #expect(Set(model.state.currentRegionImages.map(\.cid)) == [1, 2, 3])
-    #expect(model.state.previews.count == 3)
+    #expect(model.state.currentRegionImages.map(\.cid).sorted() == [1, 2, 3])
   }
 
-  /// An empty reload (here: after a filter change clears the map) replaces stale preview cards
-  /// with the single "no images" card rather than leaving the old strip or an empty one.
-  @Test func emptyLoadShowsNoImagesCard() async {
+  /// An empty reload (here: after a filter change clears the map) clears the stale region images.
+  @Test func emptyLoadClearsRegionImages() async {
     let env = TestEnv()
     let model = env.makeModel()
 
     env.remote.response = ([img(1, cell: 0, 0, zoom: 10, year: 1900)], [])
     model(.external(.map(.regionChanged(region(zoom: 10)))))
-    #expect(await eventually { model.state.previews.map(\.image?.cid) == [1] })
+    #expect(await eventually { model.state.currentRegionImages.map(\.cid) == [1] })
 
     env.remote.response = ([], [])
     model(.external(.ui(.filtersChanged(ImageRequestFilters(imageKind: .painting)))))
-    #expect(await eventually { model.state.previews == [.noImages] })
-    #expect(model.state.currentRegionImages.isEmpty)
+    #expect(await eventually { model.state.currentRegionImages.isEmpty })
   }
 
   /// The first location fix recenters the map exactly once (zoom 15, not animated); later fixes
@@ -231,7 +226,7 @@ struct MapModelTests {
     })
     #expect(model.state.sheetDetent == .normal)
 
-    model(.external(.ui(.controls(.setMinimization(.minimized(byUser: true))))))
+    model(.external(.ui(.sheet(.setDetent(.minimized)))))
     model(.external(.map(.userDragged(bottomTouch, frame))))
     await sleep(.seconds(2.3)) // past the unfold debounce: nothing should fire
     #expect(model.state.controls.minimization == .minimized(byUser: true))

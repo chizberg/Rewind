@@ -400,7 +400,6 @@ private func emptyState() -> MapState {
     deferredRegion: nil,
     filters: .default,
     currentRegionImages: [],
-    previews: [],
     locationState: LocationState(isAccessGranted: false),
     isLoading: false,
     lastLoadedParams: nil,

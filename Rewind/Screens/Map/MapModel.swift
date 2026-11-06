@@ -29,7 +29,6 @@ struct MapState {
   var deferredRegion: Region?
   var filters: ImageRequestFilters
   var currentRegionImages: [Model.Image]
-  var previews: [ThumbnailCard]
   var locationState: LocationState
   var isLoading: Bool
   var lastLoadedParams: AnnotationLoadingParams?
@@ -54,7 +53,6 @@ enum MapAction {
 
     enum UI {
       enum Controls {
-        case setMinimization(MinimizationState)
         case setTimePickerVisible(Bool)
       }
 
@@ -83,7 +81,7 @@ enum MapAction {
     case loadAnnotations
     case loadingFailed(Error)
     case loaded(AnnotationLoadingParams, [Model.Image], [Model.Cluster])
-    case updatePreviews
+    case updateRegionImages
     case unfoldMapControlsBack
     case clearAnnotations
   }
@@ -207,8 +205,6 @@ func makeMapModel(
             effect { applyMapType(mapType) }
           case let .controls(controls):
             switch controls {
-            case let .setMinimization(minimization):
-              state.controls.minimization = minimization
             case let .setTimePickerVisible(isVisible):
               state.controls.isTimePickerVisible = isVisible
             }
@@ -286,8 +282,8 @@ func makeMapModel(
           state.region = region
           asyncEffect(.anotherAction(.internal(.loadAnnotations)))
           asyncEffect(.debounced(
-            id: .updatePreviews,
-            anotherAction: .internal(.updatePreviews),
+            id: .updateRegionImages,
+            anotherAction: .internal(.updateRegionImages),
           ))
         case .loadAnnotations:
           state.isLoading = true
@@ -352,9 +348,9 @@ func makeMapModel(
             await map.remove(annotations: annsToRemove)
             map.add(annotations: annsToAdd)
             await annotationStore.refresh()
-            await anotherAction(.internal(.updatePreviews))
+            await anotherAction(.internal(.updateRegionImages))
           })
-        case .updatePreviews:
+        case .updateRegionImages:
           guard !state.isLoading else { return }
           let annotations = map.value.visibleAnnotations.flatMap {
             if let cluster = $0 as? MKClusterAnnotation {
@@ -377,7 +373,6 @@ func makeMapModel(
             }
           }
           state.currentRegionImages = Array(Set(modelValues)).sorted(by: sorting.value)
-          state.previews = makePreviews(images: state.currentRegionImages, limit: 10)
         case .unfoldMapControlsBack:
           guard state.controls.minimization == .minimized(byUser: false) else { return }
           state.controls.minimization = .normal
@@ -388,25 +383,12 @@ func makeMapModel(
           asyncEffect(.perform { anotherAction in
             await annotationStore.clear()
             await map.value.clear()
-            await anotherAction(.internal(.updatePreviews))
+            await anotherAction(.internal(.updateRegionImages))
           })
         }
       }
     },
   )
-}
-
-private func makePreviews(
-  images: [Model.Image],
-  limit: Int,
-) -> [ThumbnailCard] {
-  if images.isEmpty {
-    [.noImages]
-  } else if images.count > limit {
-    images.prefix(limit).map { .image($0) } + [.viewAsList]
-  } else {
-    images.map { .image($0) }
-  }
 }
 
 extension MapState {
@@ -419,7 +401,6 @@ extension MapState {
       deferredRegion: nil,
       filters: .default,
       currentRegionImages: [],
-      previews: [],
       locationState: locationState,
       isLoading: false,
       lastLoadedParams: nil,
@@ -433,6 +414,15 @@ extension MapState {
       bottomInset: BottomSheet.normalHeight,
       toolbarKind: .map,
     )
+  }
+}
+
+enum MinimizationState: Equatable {
+  case normal
+  case minimized(byUser: Bool = false) // can be minimized automatically or by user
+
+  var isMinimizedByUser: Bool {
+    if case .minimized(byUser: true) = self { true } else { false }
   }
 }
 
@@ -476,21 +466,3 @@ extension AlertParams {
     )
   }
 }
-
-#if DEBUG
-extension MapModel {
-  static func makeMock(
-    stateTransform: (inout MapState) -> Void = { _ in },
-  ) -> MapModel {
-    let initialState = MapState.makeInitial(
-      locationState: LocationState(
-        isAccessGranted: false,
-      ),
-    )
-    return MapModel(
-      initial: modified(initialState, stateTransform),
-      reduce: { _, _, _, _ in },
-    )
-  }
-}
-#endif
