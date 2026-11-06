@@ -13,7 +13,7 @@ struct ImageCardView: View {
   var backgroundColor: SwiftUI.Color
 
   @State
-  private var titleStyle: ThumbnailTitleStyle?
+  private var titleStyle: ImageCardTitleStyle?
   @Environment(\.sheetFullscreenProgress)
   private var sheetFullscreenProgress
 
@@ -73,7 +73,7 @@ struct ImageCardView: View {
         // to hide the unreadable gray line at the bottom
         .scaleEffect(1.08, anchor: .top)
         .task(id: loaded) {
-          let style = await ThumbnailTitleStyle.measure(
+          let style = await ImageCardTitleStyle.measure(
             loaded,
             widthToHeight: 3 / 4,
             captionFraction: 0.3,
@@ -104,7 +104,7 @@ private final class SheetCardBackgroundView: UIView {
 
   init(fullscreenProgress: ObservableVariable<CGFloat>) {
     super.init(frame: .zero)
-    backgroundColor = .mapControlBackground
+    backgroundColor = .imageCardBackground
     fillView.backgroundColor = .secondarySystemBackground
     fillView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     addSubview(fillView)
@@ -142,7 +142,7 @@ extension EnvironmentValues {
 #endif
 
 extension UIColor {
-  static let mapControlBackground = UIColor(dynamicProvider: { trait in
+  fileprivate static let imageCardBackground = UIColor(dynamicProvider: { trait in
     switch trait.userInterfaceStyle {
     case .dark: .black.withAlphaComponent(0.3)
     case .light, .unspecified: fallthrough

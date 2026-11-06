@@ -3,7 +3,7 @@
 //  RewindTests
 //
 //  Scenario tests for the MapModel reducer: each test walks a realistic multi-step flow
-//  (region changes, loads landing or hanging, location fixes, annotation selection, controls)
+//  (region changes, loads landing or hanging, location fixes, annotation selection, sheet)
 //  and checks state and map side effects after every step. Uses a fake RewindMap (no live
 //  MKMapView) and a controllable annotations remote that can suspend a load until released.
 //
@@ -225,9 +225,9 @@ struct MapModelTests {
     #expect(model.state.lastLoadedParams?.filters.imageKind == .painting)
   }
 
-  /// A drag near the bottom edge minimizes the controls and they unfold back after the 2s
+  /// A drag near the bottom edge minimizes the sheet and it unfolds back after the 2s
   /// debounce; once minimized by the user, a drag must not re-arm the auto-unfold.
-  @Test func dragMinimizesControlsAndAutoUnfoldsUnlessUserMinimized() async {
+  @Test func dragMinimizesSheetAndAutoUnfoldsUnlessUserMinimized() async {
     let env = TestEnv()
     let model = env.makeModel()
     #expect(model.state.controls.minimization == .normal)

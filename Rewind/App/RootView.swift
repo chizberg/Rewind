@@ -88,7 +88,7 @@ struct RootView: View {
             detent: mapStore.state.ov.map(\.sheetDetent).skipRepeats(),
             height: hostGeometry.size.height,
           ) { state in
-            let wrapper = ThumbnailsBottomSheetWrapper(
+            let wrapper = RegionImagesSheetController(
               content: UIHostingController(rootView: RegionImageList(
                 store: regionImageListStore,
                 appStore: appStore,

@@ -1,5 +1,5 @@
 //
-//  ThumbnailsBottomSheetWrapper.swift
+//  RegionImagesSheetController.swift
 //  Rewind
 //
 //  Created by Aleksei Sherstnev on 18. 10. 2026.
@@ -8,7 +8,7 @@
 import UIKit
 import VGSL
 
-final class ThumbnailsBottomSheetWrapper: UIViewController {
+final class RegionImagesSheetController: UIViewController {
   private let content: UIViewController
   @ObservableVariable
   private var state: BottomSheet.State

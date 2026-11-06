@@ -83,7 +83,7 @@ enum MapAction {
     case loadingFailed(Error)
     case loaded(AnnotationLoadingParams, [Model.Image], [Model.Cluster])
     case updateRegionImages(afterLoad: Bool)
-    case unfoldMapControlsBack
+    case unfoldSheetBack
     case clearAnnotations
   }
 
@@ -170,15 +170,15 @@ func makeMapModel(
             break
           case let .userDragged(touchPosition, mapFrame):
             guard !state.controls.minimization.isMinimizedByUser else {
-              asyncEffect(.cancel(debouncedAction: .unfoldControlsBack))
+              asyncEffect(.cancel(debouncedAction: .unfoldSheetBack))
               return
             }
             if touchPosition.y > mapFrame.height - BottomSheet.normalHeight {
               state.controls.minimization = .minimized(byUser: false)
               state.sheetDetent = .minimized
               asyncEffect(.debounced(
-                id: .unfoldControlsBack,
-                anotherAction: .internal(.unfoldMapControlsBack),
+                id: .unfoldSheetBack,
+                anotherAction: .internal(.unfoldSheetBack),
               ))
             }
           }
@@ -377,7 +377,7 @@ func makeMapModel(
           if afterLoad, state.currentRegionImages.isEmpty {
             state.emptyLoadCount += 1
           }
-        case .unfoldMapControlsBack:
+        case .unfoldSheetBack:
           guard state.controls.minimization == .minimized(byUser: false) else { return }
           state.controls.minimization = .normal
           state.sheetDetent = .normal
