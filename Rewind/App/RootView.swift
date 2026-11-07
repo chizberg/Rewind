@@ -301,13 +301,16 @@ private struct FloatingMenuOverlay: View {
   var verticalBarEdge: Edge?
 
   var body: some View {
-    menu
-      .padding(.horizontal, 25)
-      .padding(.bottom, bottomInset.wrappedValue + 10)
-      .transaction(value: bottomInset.wrappedValue) {
-        if $0.animation == nil { $0.disablesAnimations = true }
-      }
-      .ignoresSafeArea(edges: Edge.Set.bottom.union(verticalBarEdge.map { Edge.Set($0) } ?? []))
+    VStack(spacing: 0) {
+      Spacer(minLength: 0)
+      menu
+    }
+    .padding(.horizontal, 25)
+    .padding(.bottom, bottomInset.wrappedValue + 10)
+    .transaction(value: bottomInset.wrappedValue) {
+      if $0.animation == nil { $0.disablesAnimations = true }
+    }
+    .ignoresSafeArea(edges: Edge.Set.bottom.union(verticalBarEdge.map { Edge.Set($0) } ?? []))
   }
 }
 
