@@ -67,26 +67,30 @@ struct ImageList: View {
       }
     } else {
       ScrollView {
-        VStack(spacing: 8) {
-          if let placeholder {
-            VStack(spacing: 8) {
-              Text(verbatim: placeholder.emoji).font(.system(size: 56))
-              Text(placeholder.title).font(.title2.weight(.semibold))
+        HStack(spacing: 0) {
+          Spacer(minLength: 0)
+          VStack(spacing: 8) {
+            if let placeholder {
+              VStack(spacing: 8) {
+                Text(verbatim: placeholder.emoji).font(.system(size: 56))
+                Text(placeholder.title).font(.title2.weight(.semibold))
+              }
+              .id(placeholder.emoji)
+              .transition(.blurReplace)
             }
-            .id(placeholder.emoji)
-            .transition(.blurReplace)
+            if let hint {
+              Text(hint)
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .transition(.opacity)
+            }
           }
-          if let hint {
-            Text(hint)
-              .font(.subheadline)
-              .foregroundStyle(.secondary)
-              .transition(.opacity)
-          }
+          .multilineTextAlignment(.center)
+          .padding(.horizontal, 32)
+          .animation(.default, value: hint?.key)
+          .frame(height: BottomSheet.normalHeight)
+          Spacer(minLength: 0)
         }
-        .multilineTextAlignment(.center)
-        .padding(.horizontal, 32)
-        .animation(.default, value: hint?.key)
-        .frame(height: BottomSheet.normalHeight)
       }
     }
   }
