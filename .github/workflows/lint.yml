@@ -8,7 +8,10 @@ jobs:
       - name: Install SwiftLint
         run: brew install swiftlint
       - name: Install SwiftFormat
-        run: brew install swiftformat
+        run: |
+          curl -sSL -o swiftformat.zip https://github.com/nicklockwood/SwiftFormat/releases/download/0.64.6/swiftformat.zip
+          unzip -q swiftformat.zip -d /usr/local/bin
+          rm swiftformat.zip
       - name: Run SwiftLint
         run: swiftlint --strict
       - name: Run SwiftFormat
