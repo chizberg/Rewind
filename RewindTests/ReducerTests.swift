@@ -259,9 +259,9 @@ struct ReducerDebounceTests {
 
   @Test func debouncedActionIdDelays() {
     #expect(DebouncedActionID.regionChanged.delay == 0.1)
-    #expect(DebouncedActionID.updatePreviews.delay == 0.1)
+    #expect(DebouncedActionID.updateRegionImages.delay == 0.1)
     #expect(DebouncedActionID.filtersChanged.delay == 0.1)
-    #expect(DebouncedActionID.unfoldControlsBack.delay == 2)
+    #expect(DebouncedActionID.unfoldSheetBack.delay == 2)
   }
 }
 

@@ -7,8 +7,8 @@
 
 import SwiftUI
 
+@MainActor
 extension PreviewTrait where T == Preview.ViewTraits {
-  @MainActor
   static var navigationStack: Self {
     .modifier(NavigationStackPreview())
   }

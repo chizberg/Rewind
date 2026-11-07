@@ -12,9 +12,10 @@ import VGSL
 
 @MainActor
 final class AppGraph {
-  let mapControlsStore: MapControlsStore
   let floatingMenuStore: FloatingMenu.Store
   let rootViewMapStore: RootView.Map.Store
+  let mapBottomInset: ObservedVariable<CGFloat>
+  let regionImageListStore: ImageListModel.Store
   let appStore: AppModel.Store
   let navigator: Navigator
 
@@ -86,8 +87,8 @@ final class AppGraph {
       state: { $0 },
       action: { .external(.ui($0)) },
     )
-    mapControlsStore = mapStore.makeControlsStore()
     rootViewMapStore = makeRootMapStore(mapStore: mapStore)
+    mapBottomInset = mapModel.$state.bottomInset.skipRepeats().asObservedVariable()
     let colorizationModelStore = ColorizationModelStore(
       downloadPerformer: DownloadPerformer(session: .shared),
       manifest: remotes.colorizationManifest,
@@ -134,6 +135,16 @@ final class AppGraph {
       )
       return Screen(.image(model.viewStore), id: screenID)
     }
+    regionImageListStore = makeImageListModel(
+      title: "On the map",
+      source: .imageList(.viewAsListButton),
+      images: mapModel.state.currentRegionImages,
+      listUpdates: mapModel.$state.currentRegionImages.skipRepeats().newValues,
+      imageDetailsFactory: makeImageDetailsScreen,
+      sorting: settings.asProperty().sorting,
+      pushScreen: pushScreen,
+      isLastScreen: openedScreens.map(\.isEmpty),
+    ).viewStore
     let searchModelFactory = {
       makeSearchModel(onLocationFound: { location in
         appModelRef?(.search(.dismiss))
@@ -161,7 +172,6 @@ final class AppGraph {
       performMapAction: { mapModelRef?(.external($0)) },
       favoritesModel: favoritesModel,
       onboardingViewModel: onboardingViewModel,
-      currentRegionImages: Variable { mapModelRef?.state.currentRegionImages ?? [] },
       settings: settings.asProperty(),
       requestAppStoreReview: { storeReview.request() },
       pushScreen: pushScreen,
@@ -190,7 +200,6 @@ final class AppGraph {
     )
     navigatorRef = navigator
     floatingMenuStore = makeFloatingMenuStore(
-      appStore: appStore,
       mapStore: mapStore
     )
     self.map = map
@@ -203,17 +212,15 @@ final class AppGraph {
       mapModelRef?(.external(.newLocationState($0)))
     }.dispose(in: disposePool)
     settings.sorting.asObservableVariable().onChange { _ in
-      mapModelRef?(.internal(.updatePreviews))
+      mapModelRef?(.internal(.updateRegionImages(afterLoad: false)))
     }.dispose(in: disposePool)
     settings.gradientScheme.asObservableVariable().onChange {
       appModelRef?(.setGradientScheme($0))
     }.dispose(in: disposePool)
-    ObservableVariable.combineLatest(
-      mapModel.$state.controls.minimization.skipRepeats(),
-      mapModel.$state.controls.size.skipRepeats()
-    ).newValues.addObserver { minimization, size in
-      let hiddenPart = minimization.isMinimized ? mapControlsMinimizedOffset : 0
-      map.value.updateBottomInset(size.height - hiddenPart)
+    map.future.asSignal().flatMap { [mapModel] _ in
+      mapModel.$state.bottomInset.skipRepeats().currentAndNewValues
+    }.addObserver {
+      map.value.updateBottomInset($0)
     }.dispose(in: disposePool)
     filters.current = mapModel.$state.filters.skipRepeats()
     navigator.screens.newValues.addObserver {

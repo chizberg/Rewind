@@ -10,17 +10,33 @@ import VGSL
 
 struct ImageList: View {
   var viewStore: ImageListModel.Store
+  var padding: CGFloat = 16
+  var placeholders = EmptyListPlaceholder.general
+  var placeholderChange = 0
+  var hint: LocalizedStringResource?
 
   @State
   private var scrollPosition = ScrollPosition()
-  @Environment(\.screenGeometry)
-  private var screenGeometry
+  @State
+  private var placeholder: EmptyListPlaceholder?
+  @Environment(\.hostGeometry)
+  private var hostGeometry
 
   var body: some View {
     content
-      .animation(.default, value: viewStore.sorting)
+      .animation(.default, value: viewStore.images)
       .navigationTitle(viewStore.title)
       .toolbar { toolbar }
+      .onAppear {
+        if placeholder == nil {
+          placeholder = placeholders.randomElement()
+        }
+      }
+      .onChange(of: placeholderChange) {
+        withAnimation {
+          placeholder = placeholders.filter { $0.emoji != placeholder?.emoji }.randomElement()
+        }
+      }
   }
 
   @ViewBuilder
@@ -37,11 +53,11 @@ struct ImageList: View {
             LazyVStack(spacing: spacing) {
               ForEach(columns[column]) { cell(image: $0) }
             }
-            .padding(.top, column.isMultiple(of: 2) ? 0 : columnShift)
+            .padding(.top, (columnCount - column).isMultiple(of: 2) ? 0 : columnShift)
             .frame(maxWidth: .infinity, alignment: .top)
           }
         }
-        .padding(.horizontal, 16)
+        .padding(padding)
       }
       .scrollPosition($scrollPosition)
       .onChange(of: viewStore.sorting) { _, _ in
@@ -50,22 +66,42 @@ struct ImageList: View {
         }
       }
     } else {
-      ZStack {
-        SwiftUI.Color.clear
-        VStack {
-          Text("💔").font(.largeTitle)
-          Text("Nothing here yet")
+      ScrollView {
+        HStack(spacing: 0) {
+          Spacer(minLength: 0)
+          VStack(spacing: 8) {
+            if let placeholder {
+              VStack(spacing: 8) {
+                Text(verbatim: placeholder.emoji).font(.system(size: 56))
+                Text(placeholder.title).font(.title2.weight(.semibold))
+              }
+              .id(placeholder.emoji)
+              .transition(.blurReplace)
+            }
+            if let hint {
+              Text(hint)
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .transition(.opacity)
+            }
+          }
+          .multilineTextAlignment(.center)
+          .padding(.horizontal, 32)
+          .animation(.default, value: hint?.key)
+          .frame(height: BottomSheet.normalHeight)
+          Spacer(minLength: 0)
         }
       }
     }
   }
 
   private var columnCount: Int {
-    guard let screenGeometry else {
+    guard let hostGeometry else {
       assertionFailure("ImageList is shown outside of a screen")
       return 2
     }
-    let width = screenGeometry.size.width - screenGeometry.safeAreaInsets.horizontal.sum - 32
+    let width = hostGeometry.size.width - hostGeometry.safeAreaInsets.horizontal.sum
+      - padding * 2
     return max(2, Int(((width + spacing) / (maxCardWidth + spacing)).rounded(.up)))
   }
 
@@ -80,30 +116,43 @@ struct ImageList: View {
     }
     .foregroundStyle(.primary)
     .zoomTransitionSource(.image(.listRow(image.cid)))
+    .scrollTransition(.interactive) { content, phase in
+      content.scaleEffect(1 - 0.1 * abs(phase.value))
+    }
+    .transition(.scale)
   }
 
   @ToolbarContentBuilder
   private var toolbar: some ToolbarContent {
     if let sorting = viewStore.sorting {
       ToolbarItem(placement: .topBarTrailing) {
-        Menu(content: {
-          Picker(
-            "Sorting",
-            selection: Binding(
-              get: { sorting },
-              set: { viewStore(.setSorting($0)) },
-            ),
-            content: {
-              ForEach(ImageSorting.allCases) {
-                Label($0.title, systemImage: $0.iconName)
-              }
-            },
-          )
-        }, label: {
-          Image(systemName: "arrow.up.arrow.down")
-        })
+        SortingMenu(viewStore: viewStore, sorting: sorting)
       }
     }
+  }
+}
+
+struct SortingMenu: View {
+  var viewStore: ImageListModel.Store
+  var sorting: ImageSorting
+
+  var body: some View {
+    Menu(content: {
+      Picker(
+        "Sorting",
+        selection: Binding(
+          get: { sorting },
+          set: { viewStore(.setSorting($0)) },
+        ),
+        content: {
+          ForEach(ImageSorting.allCases) {
+            Label($0.title, systemImage: $0.iconName)
+          }
+        },
+      )
+    }, label: {
+      Image(systemName: "arrow.up.arrow.down")
+    })
   }
 }
 
@@ -193,8 +242,8 @@ private let imageDetailsFactoryMock: ImageDetailsFactory = { _, source in
 
   ImageList(viewStore: store)
     .environment(
-      \.screenGeometry,
-      ScreenGeometry(size: CGSize(width: 400, height: 800), safeAreaInsets: .zero)
+      \.hostGeometry,
+      HostGeometry(size: CGSize(width: 400, height: 800), safeAreaInsets: .zero)
     )
 }
 
@@ -213,8 +262,8 @@ private let imageDetailsFactoryMock: ImageDetailsFactory = { _, source in
 
   ImageList(viewStore: store)
     .environment(
-      \.screenGeometry,
-      ScreenGeometry(size: CGSize(width: 400, height: 800), safeAreaInsets: .zero)
+      \.hostGeometry,
+      HostGeometry(size: CGSize(width: 400, height: 800), safeAreaInsets: .zero)
     )
 }
 #endif

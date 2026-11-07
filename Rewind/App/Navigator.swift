@@ -122,14 +122,14 @@ private protocol NavigationScreen: UIViewController {
 @MainActor
 private func makeScreenController(screen: Screen?, content: some View) -> NavigationScreen {
   let zoomSourceViews = ZoomSourceViews()
-  let screenGeometry = ScreenGeometry(size: .zero, safeAreaInsets: .zero)
+  let hostGeometry = HostGeometry(size: .zero, safeAreaInsets: .zero)
   return ScreenHostingController(
     screen: screen,
     zoomSourceViews: zoomSourceViews,
-    screenGeometry: screenGeometry,
+    hostGeometry: hostGeometry,
     content: content
       .environment(\.zoomSourceViews, zoomSourceViews)
-      .environment(\.screenGeometry, screenGeometry),
+      .environment(\.hostGeometry, hostGeometry),
   )
 }
 
@@ -137,23 +137,23 @@ private final class ScreenHostingController<Content: View>: UIHostingController<
   NavigationScreen {
   let screen: Screen?
   let zoomSourceViews: ZoomSourceViews
-  private let screenGeometry: ScreenGeometry
+  private let hostGeometry: HostGeometry
 
   init(
     screen: Screen?,
     zoomSourceViews: ZoomSourceViews,
-    screenGeometry: ScreenGeometry,
+    hostGeometry: HostGeometry,
     content: Content,
   ) {
     self.screen = screen
     self.zoomSourceViews = zoomSourceViews
-    self.screenGeometry = screenGeometry
+    self.hostGeometry = hostGeometry
     super.init(rootView: content)
   }
 
   override func viewWillLayoutSubviews() {
+    hostGeometry.update(from: view)
     super.viewWillLayoutSubviews()
-    screenGeometry.update(from: view)
   }
 
   @available(*, unavailable)

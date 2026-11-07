@@ -98,10 +98,8 @@ final class RewindMapImpl: RewindMap {
   }
 
   func updateBottomInset(_ inset: CGFloat) {
-    UIView.animate(mapControlsAnimation) {
-      map.layoutMargins.bottom = inset
-      map.layoutIfNeeded()
-    }
+    map.layoutMargins.bottom = inset
+    map.layoutIfNeeded()
   }
 
   private func remove(annotations: [MKAnnotation], completion: @escaping Action) {

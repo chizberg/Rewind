@@ -1,5 +1,5 @@
 //
-//  ThumbnailTitleStyle.swift
+//  ImageCardTitleStyle.swift
 //  Rewind
 //
 //  Created by Aleksei Sherstnev on 17. 10. 2026.
@@ -9,7 +9,7 @@ import SwiftUI
 import UIKit
 import VGSLFundamentals
 
-enum ThumbnailTitleStyle: Equatable {
+enum ImageCardTitleStyle: Equatable {
   case plain
   case dimmed(Float)
   case dark
@@ -18,8 +18,8 @@ enum ThumbnailTitleStyle: Equatable {
     _ image: UIImage,
     widthToHeight: CGFloat,
     captionFraction: CGFloat,
-  ) async -> ThumbnailTitleStyle {
-    ThumbnailTitleStyle(
+  ) async -> ImageCardTitleStyle {
+    ImageCardTitleStyle(
       backdrop: image,
       widthToHeight: widthToHeight,
       captionFraction: captionFraction

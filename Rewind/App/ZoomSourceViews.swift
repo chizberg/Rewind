@@ -58,7 +58,10 @@ struct ZoomSource<Content: View>: View {
             updater: {
               $0.hostedContent = hostedContent
               $0.onFrozenChange = { frozen = $0 }
-              zoomSourceViews.register($0, for: source)
+              if $0.source != source || zoomSourceViews.view(for: source) == nil {
+                $0.source = source
+                zoomSourceViews.register($0, for: source)
+              }
             },
           )
         }
@@ -92,6 +95,8 @@ private struct StillButtonStyle: ButtonStyle {
 }
 
 private class FreezableView: UIView {
+  var source: TransitionSource?
+
   func freeze() {}
   func unfreeze() {}
 }
@@ -118,7 +123,7 @@ private final class ZoomSourceView<HostedContent: View>: FreezableView {
   override func freeze() {
     guard host == nil,
           let parent = sequence(first: self as UIResponder, next: \.next)
-          .lazy.compactMap({ $0 as? UIViewController }).first
+            .lazy.compactMap({ $0 as? UIViewController }).first
     else { return }
     let host = UIHostingController(rootView: hostedContent)
     host.view.backgroundColor = .clear

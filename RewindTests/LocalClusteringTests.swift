@@ -397,19 +397,22 @@ private func emptyState() -> MapState {
   MapState(
     mapType: .scheme,
     region: .zero,
+    deferredRegion: nil,
     filters: .default,
     currentRegionImages: [],
-    previews: [],
     locationState: LocationState(isAccessGranted: false),
     isLoading: false,
     lastLoadedParams: nil,
+    emptyResultCount: 0,
     clusters: [],
     clusteredImages: [:],
     controls: MapState.ControlsState(
-      expandedItems: [],
+      isTimePickerVisible: false,
       minimization: .normal,
-      size: .zero,
     ),
+    sheetDetent: .normal,
+    bottomInset: 0,
+    toolbarKind: .map,
   )
 }
 

@@ -15,24 +15,32 @@ struct MapState {
   typealias ClusteredImages = [ClusteringCell: Either<Set<Model.Image>, Model.LocalCluster>]
 
   struct ControlsState {
-    var expandedItems: [FloatingMenu.Item]
+    var isTimePickerVisible: Bool
     var minimization: MinimizationState
-    var size: CGSize
+  }
+
+  enum ToolbarKind {
+    case map
+    case sheet
   }
 
   var mapType: MapType
   var region: Region
+  var deferredRegion: Region?
   var filters: ImageRequestFilters
   var currentRegionImages: [Model.Image]
-  var previews: [ThumbnailCard]
   var locationState: LocationState
   var isLoading: Bool
   var lastLoadedParams: AnnotationLoadingParams?
+  var emptyResultCount: Int
 
   var clusters: Set<Model.Cluster>
   var clusteredImages: ClusteredImages
 
   var controls: ControlsState
+  var sheetDetent: BottomSheet.State.Detent
+  var bottomInset: CGFloat
+  var toolbarKind: ToolbarKind
 }
 
 enum MapAction {
@@ -46,16 +54,20 @@ enum MapAction {
 
     enum UI {
       enum Controls {
-        case setMinimization(MinimizationState)
-        case setExpandedItems([FloatingMenu.Item])
-        case sizeChanged(CGSize)
+        case setTimePickerVisible(Bool)
       }
 
       case mapViewLoaded
       case locationButtonTapped
       case filtersChanged(ImageRequestFilters)
       case mapTypeSelected(MapType)
+      enum Sheet {
+        case stateChanged(BottomSheet.State)
+        case setDetent(BottomSheet.State.Detent)
+      }
+
       case controls(Controls)
+      case sheet(Sheet)
     }
 
     case map(Map)
@@ -70,8 +82,8 @@ enum MapAction {
     case loadAnnotations
     case loadingFailed(Error)
     case loaded(AnnotationLoadingParams, [Model.Image], [Model.Cluster])
-    case updatePreviews
-    case unfoldMapControlsBack
+    case updateRegionImages(afterLoad: Bool)
+    case unfoldSheetBack
     case clearAnnotations
   }
 
@@ -158,14 +170,15 @@ func makeMapModel(
             break
           case let .userDragged(touchPosition, mapFrame):
             guard !state.controls.minimization.isMinimizedByUser else {
-              asyncEffect(.cancel(debouncedAction: .unfoldControlsBack))
+              asyncEffect(.cancel(debouncedAction: .unfoldSheetBack))
               return
             }
-            if touchPosition.y > mapFrame.height - mapControlsTouchBlockingHeight {
+            if touchPosition.y > mapFrame.height - BottomSheet.normalHeight {
               state.controls.minimization = .minimized(byUser: false)
+              state.sheetDetent = .minimized
               asyncEffect(.debounced(
-                id: .unfoldControlsBack,
-                anotherAction: .internal(.unfoldMapControlsBack),
+                id: .unfoldSheetBack,
+                anotherAction: .internal(.unfoldSheetBack),
               ))
             }
           }
@@ -193,13 +206,23 @@ func makeMapModel(
             effect { applyMapType(mapType) }
           case let .controls(controls):
             switch controls {
-            case let .setMinimization(minimization):
-              state.controls.minimization = minimization
-            case let .setExpandedItems(items):
-              state.controls.expandedItems = items
-            case let .sizeChanged(size):
-              state.controls.size = size
+            case let .setTimePickerVisible(isVisible):
+              state.controls.isTimePickerVisible = isVisible
             }
+          case let .sheet(.stateChanged(sheet)):
+            if sheet.detent != .fullscreen, let region = state.deferredRegion {
+              state.deferredRegion = nil
+              asyncEffect(.anotherAction(.internal(.regionChanged(region))))
+            }
+            if state.sheetDetent != sheet.detent {
+              state.sheetDetent = sheet.detent
+              state.controls.minimization = MinimizationState(userSetDetent: sheet.detent)
+            }
+            state.bottomInset = min(sheet.visibleHeight, BottomSheet.normalHeight)
+            state.toolbarKind = sheet.showsSheetToolbar ? .sheet : .map
+          case let .sheet(.setDetent(detent)):
+            state.controls.minimization = MinimizationState(userSetDetent: detent)
+            state.sheetDetent = detent
           case .locationButtonTapped:
             let locationZoom = 17
             let mapSize = map.value.size
@@ -253,11 +276,15 @@ func makeMapModel(
       case let .internal(internalAction):
         switch internalAction {
         case let .regionChanged(region):
+          guard state.sheetDetent != .fullscreen else {
+            state.deferredRegion = region
+            return
+          }
           state.region = region
           asyncEffect(.anotherAction(.internal(.loadAnnotations)))
           asyncEffect(.debounced(
-            id: .updatePreviews,
-            anotherAction: .internal(.updatePreviews),
+            id: .updateRegionImages,
+            anotherAction: .internal(.updateRegionImages(afterLoad: false)),
           ))
         case .loadAnnotations:
           state.isLoading = true
@@ -322,9 +349,9 @@ func makeMapModel(
             await map.remove(annotations: annsToRemove)
             map.add(annotations: annsToAdd)
             await annotationStore.refresh()
-            await anotherAction(.internal(.updatePreviews))
+            await anotherAction(.internal(.updateRegionImages(afterLoad: true)))
           })
-        case .updatePreviews:
+        case let .updateRegionImages(afterLoad):
           guard !state.isLoading else { return }
           let annotations = map.value.visibleAnnotations.flatMap {
             if let cluster = $0 as? MKClusterAnnotation {
@@ -347,34 +374,25 @@ func makeMapModel(
             }
           }
           state.currentRegionImages = Array(Set(modelValues)).sorted(by: sorting.value)
-          state.previews = makePreviews(images: state.currentRegionImages, limit: 10)
-        case .unfoldMapControlsBack:
+          if afterLoad, state.currentRegionImages.isEmpty {
+            state.emptyResultCount += 1
+          }
+        case .unfoldSheetBack:
+          guard state.controls.minimization == .minimized(byUser: false) else { return }
           state.controls.minimization = .normal
+          state.sheetDetent = .normal
         case .clearAnnotations:
           state.clusters = []
           state.clusteredImages = [:]
           asyncEffect(.perform { anotherAction in
             await annotationStore.clear()
             await map.value.clear()
-            await anotherAction(.internal(.updatePreviews))
+            await anotherAction(.internal(.updateRegionImages(afterLoad: false)))
           })
         }
       }
     },
   )
-}
-
-private func makePreviews(
-  images: [Model.Image],
-  limit: Int,
-) -> [ThumbnailCard] {
-  if images.isEmpty {
-    [.noImages]
-  } else if images.count > limit {
-    images.prefix(limit).map { .image($0) } + [.viewAsList]
-  } else {
-    images.map { .image($0) }
-  }
 }
 
 extension MapState {
@@ -384,20 +402,44 @@ extension MapState {
     MapState(
       mapType: .scheme,
       region: .zero,
+      deferredRegion: nil,
       filters: .default,
       currentRegionImages: [],
-      previews: [],
       locationState: locationState,
       isLoading: false,
       lastLoadedParams: nil,
+      emptyResultCount: 0,
       clusters: [],
       clusteredImages: [:],
       controls: ControlsState(
-        expandedItems: [],
+        isTimePickerVisible: false,
         minimization: .normal,
-        size: .zero,
       ),
+      sheetDetent: .normal,
+      bottomInset: BottomSheet.normalHeight,
+      toolbarKind: .map,
     )
+  }
+}
+
+enum MinimizationState: Equatable {
+  case normal
+  case minimized(byUser: Bool = false) // can be minimized automatically or by user
+
+  var isMinimizedByUser: Bool {
+    if case .minimized(byUser: true) = self { true } else { false }
+  }
+}
+
+extension MinimizationState {
+  fileprivate init(userSetDetent detent: BottomSheet.State.Detent) {
+    self = detent == .minimized ? .minimized(byUser: true) : .normal
+  }
+}
+
+extension BottomSheet.State {
+  var showsSheetToolbar: Bool {
+    fullscreenProgress.isApproximatelyGreaterThan(0, withAccuracy: 0.01)
   }
 }
 
@@ -429,21 +471,3 @@ extension AlertParams {
     )
   }
 }
-
-#if DEBUG
-extension MapModel {
-  static func makeMock(
-    stateTransform: (inout MapState) -> Void = { _ in },
-  ) -> MapModel {
-    let initialState = MapState.makeInitial(
-      locationState: LocationState(
-        isAccessGranted: false,
-      ),
-    )
-    return MapModel(
-      initial: modified(initialState, stateTransform),
-      reduce: { _, _, _, _ in },
-    )
-  }
-}
-#endif
