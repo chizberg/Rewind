@@ -50,7 +50,7 @@ final class RegionImagesSheetController: UIViewController {
     minimizedScaleView.addSubview(cardView)
     view.addSubview(minimizedScaleView)
 
-    let glassView = UIVisualEffectView(effect: makeGlassEffect())
+    let glassView = UIVisualEffectView(effect: .makeGlass())
     glassView.frame = cardView.bounds
     glassView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     cardView.addSubview(glassView)
@@ -195,13 +195,5 @@ final class RegionImagesSheetController: UIViewController {
     animation.fillMode = .forwards
     animation.isRemovedOnCompletion = !isMinimized
     minimizedScaleView.layer.add(animation, forKey: "minimizedScale")
-  }
-}
-
-private func makeGlassEffect() -> UIVisualEffect {
-  if #available(iOS 26, *) {
-    UIGlassEffect()
-  } else {
-    UIBlurEffect(style: .systemThinMaterial)
   }
 }
